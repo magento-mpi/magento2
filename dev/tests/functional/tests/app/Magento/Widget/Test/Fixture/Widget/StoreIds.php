@@ -13,7 +13,6 @@ use Mtf\Fixture\FixtureInterface;
 use Magento\Store\Test\Fixture\Store;
 
 /**
- * Class StoreIds
  * Prepare Store
  */
 class StoreIds implements FixtureInterface
@@ -33,13 +32,15 @@ class StoreIds implements FixtureInterface
     protected $data = [];
 
     /**
-     * Return Cms page
+     * Return stores
      *
      * @var Store
      */
-    protected $store = [];
+    protected $stores = [];
 
     /**
+     * Constructor
+     *
      * @param FixtureFactory $fixtureFactory
      * @param array $params
      * @param array $data
@@ -55,7 +56,7 @@ class StoreIds implements FixtureInterface
                 if (!$store->hasData('store_id')) {
                     $store->persist();
                 }
-                $this->store[] = $store;
+                $this->stores[] = $store;
                 $this->data[] = $store->getName();
             }
         } else {
@@ -97,12 +98,12 @@ class StoreIds implements FixtureInterface
     }
 
     /**
-     * Return store
+     * Return stores
      *
      * @return Store
      */
-    public function getStore()
+    public function getStores()
     {
-        return $this->store;
+        return $this->stores;
     }
 }

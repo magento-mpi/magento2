@@ -13,7 +13,6 @@ use Mtf\Fixture\FixtureInterface;
 use Magento\Cms\Test\Fixture\CmsPage;
 
 /**
- * Class PageIds
  * Prepare Cms page
  */
 class PageIds implements FixtureInterface

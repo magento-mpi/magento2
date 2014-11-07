@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<tabs>
+    <order_by_sku_options>
+        <class>\Magento\AdvancedCheckout\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptions</class>
+        <selector>#widget_instace_tabs_properties_section</selector>
+        <strategy>css selector</strategy>
+        <fields />
+    </order_by_sku_options>
+</tabs>

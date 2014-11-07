@@ -14,7 +14,6 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 
 /**
- * Class AssertWidgetAbsentOnFrontendHome
  * Check that created widget does NOT displayed on frontend on Home page
  */
 class AssertWidgetAbsentOnFrontendHome extends AbstractConstraint
@@ -27,7 +26,7 @@ class AssertWidgetAbsentOnFrontendHome extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that created widget displayed on frontend on Home page
+     * Assert that created widget is absent on frontend on Home page
      *
      * @param CmsIndex $cmsIndex
      * @param Widget $widget
@@ -45,9 +44,9 @@ class AssertWidgetAbsentOnFrontendHome extends AbstractConstraint
         $adminCache->getMessagesBlock()->waitSuccessMessage();
 
         $cmsIndex->open();
-        $widgetCode = $widget->getCode();
+        $widgetText = $widget->getParameters()['anchor_text'];
         \PHPUnit_Framework_Assert::assertFalse(
-            $cmsIndex->getCmsPageBlock()->isWidgetVisible($widgetCode),
+            $cmsIndex->getWidgetView()->isWidgetVisible($widget, $widgetText),
             'Widget is present on Home page.'
         );
     }

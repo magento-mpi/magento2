@@ -9,6 +9,8 @@
 namespace Magento\Catalog\Test\Block\Category;
 
 use Mtf\Block\Block;
+use Mtf\Client\Element\Locator;
+use Magento\Widget\Test\Fixture\Widget;
 
 /**
  * Class View
@@ -16,6 +18,13 @@ use Mtf\Block\Block;
  */
 class View extends Block
 {
+    /**
+     * Recently Viewed Products selectors
+     *
+     * @var string
+     */
+    protected $recentlyViewedProducts = './/*[contains(@class,"widget")]//strong[@class="product-item-name"]';
+
     /**
      * Description CSS selector
      *
@@ -41,5 +50,22 @@ class View extends Block
     public function getContent()
     {
         return $this->_rootElement->getText();
+    }
+
+    /**
+     * Get products from Recently Viewed block
+     *
+     * @return array
+     */
+    public function getProductsFromRecentlyViewedBlock()
+    {
+        $products = [];
+        $this->waitForElementVisible($this->recentlyViewedProducts, Locator::SELECTOR_XPATH);
+        $productNames = $this->_rootElement->find($this->recentlyViewedProducts, Locator::SELECTOR_XPATH)
+            ->getElements();
+        foreach ($productNames as $productName) {
+            $products[] = $productName->getText();
+        }
+        return $products;
     }
 }
