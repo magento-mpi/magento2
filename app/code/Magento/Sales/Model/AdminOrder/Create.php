@@ -186,11 +186,6 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $customerBuilder;
 
     /**
-     * @var \Magento\Webapi\Model\DataObjectProcessor
-     */
-    protected $dataProcessor;
-
-    /**
      * Constructor
      *
      * @param \Magento\Framework\ObjectManager $objectManager
@@ -238,7 +233,6 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         \Magento\Framework\Object\Factory $objectFactory,
         \Magento\Customer\Api\AccountManagementInterface $accountManagement,
         \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder,
-        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
         array $data = []
     ) {
         $this->_objectManager = $objectManager;
@@ -262,7 +256,6 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->quoteItemUpdater = $quoteItemUpdater;
         $this->objectFactory = $objectFactory;
         $this->accountManagement = $accountManagement;
-        $this->dataProcessor = $dataProcessor;
 
         parent::__construct($data);
     }

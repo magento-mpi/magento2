@@ -72,11 +72,6 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     protected $filterBuilder;
 
     /**
-     * @var \Magento\Webapi\Model\DataObjectProcessor
-     */
-    protected $dataProcessor;
-
-    /**
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
@@ -90,9 +85,8 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder
-     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
-     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -109,9 +103,8 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Api\AddressRepositoryInterface $addressService,
-        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $criteriaBuilder,
-        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
-        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
+        \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder,
         array $data = []
     ) {
         $this->_customerHelper = $customerHelper;
@@ -122,7 +115,6 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $this->addressService = $addressService;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->filterBuilder = $filterBuilder;
-        $this->dataProcessor = $dataProcessor;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $formFactory, $data);
     }
 
@@ -165,14 +157,14 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $emptyAddressForm = $this->_customerFormFactory->create(
             'customer_address',
             'adminhtml_customer_address',
-            [\Magento\Customer\Api\Data\AddressInterface::KEY_COUNTRY_ID => $defaultCountryId]
+            [\Magento\Customer\Api\Data\AddressInterface::COUNTRY_ID => $defaultCountryId]
         );
         $data = [0 => $emptyAddressForm->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON)];
         foreach ($this->getAddressCollection() as $address) {
             $addressForm = $this->_customerFormFactory->create(
                 'customer_address',
                 'adminhtml_customer_address',
-                $this->dataProcessor->buildOutputDataArray($address, '\Magento\Customer\Api\Data\AddressInterface')
+                \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($address)
             );
             $data[$address->getId()] = $addressForm->outputData(
                 \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
@@ -300,7 +292,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $result = '';
         if ($formatTypeRenderer) {
             $result = $formatTypeRenderer->renderArray(
-                $this->dataProcessor->buildOutputDataArray($address, '\Magento\Customer\Api\Data\AddressInterface')
+                \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($address)
             );
         }
 
