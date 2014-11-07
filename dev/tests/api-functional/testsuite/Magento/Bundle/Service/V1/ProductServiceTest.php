@@ -9,7 +9,7 @@
 namespace Magento\Bundle\Service\V1;
 
 use Magento\Catalog\Service\V1\Data\Product;
-use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Api\AbstractExtensibleObject;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
