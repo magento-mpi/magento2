@@ -48,7 +48,7 @@ class RequestGenerator
         $request = [];
         foreach ($this->getSearchableAttributes() as $attribute) {
             if ($attribute->getIsFilterable()) {
-                if (!in_array($attribute->getAttributeCode(), ['price', 'catagory_ids'])) {
+                if (!in_array($attribute->getAttributeCode(), ['price', 'category_ids'])) {
 
                     $queryName = $attribute->getAttributeCode() . '_query';
 

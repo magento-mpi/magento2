@@ -61,7 +61,7 @@
             <query xsi:type="boolQuery" name="advanced_search_container" boost="1">
                 <queryReference clause="should" ref="sku_query"/>
                 <queryReference clause="should" ref="price_query"/>
-                <queryReference clause="should" ref="category"/>
+                <queryReference clause="should" ref="category_query"/>
             </query>
             <query name="sku_query" xsi:type="filteredQuery">
                 <filterReference clause="must" ref="sku_query_filter"/>
@@ -69,7 +69,7 @@
             <query name="price_query" xsi:type="filteredQuery">
                 <filterReference clause="must" ref="price_query_filter"/>
             </query>
-            <query xsi:type="filteredQuery" name="category">
+            <query name="category_query" xsi:type="filteredQuery">
                 <filterReference clause="must" ref="category_filter"/>
             </query>
         </queries>
