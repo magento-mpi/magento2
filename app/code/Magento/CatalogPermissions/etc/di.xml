@@ -48,7 +48,7 @@
     <type name="Magento\Indexer\Model\Config\Data">
         <plugin name="catalogPermissionsIndexerConfigGet" type="Magento\CatalogPermissions\Model\Indexer\Plugin\IndexerConfigData" />
     </type>
-    <type name="Magento\Customer\Service\V1\CustomerGroupService">
+    <type name="Magento\Customer\Api\GroupRepositoryInterface">
         <plugin name="customerGroupEdit" type="Magento\CatalogPermissions\Model\Indexer\Plugin\CustomerGroupV1" />
     </type>
     <type name="Magento\CatalogPermissions\Model\Indexer\Plugin\CustomerGroupV1">

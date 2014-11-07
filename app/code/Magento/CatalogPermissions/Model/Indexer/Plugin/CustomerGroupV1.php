@@ -32,7 +32,7 @@ class CustomerGroupV1
     }
 
     /**
-     * Invalidate indexer on customer group create
+     * Invalidate indexer on customer group save
      *
      * @param \Magento\Customer\Model\Resource\GroupRepository $subject
      * @param \Closure $proceed
@@ -41,7 +41,7 @@ class CustomerGroupV1
      * @return int
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundCreateGroup(
+    public function afterSave(
         \Magento\Customer\Model\Resource\GroupRepository $subject,
         \Closure $proceed,
         \Magento\Customer\Model\Data\Group $customerGroup
@@ -65,7 +65,23 @@ class CustomerGroupV1
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDeleteGroup(\Magento\Customer\Model\Resource\GroupRepository $subject)
+    public function afterDelete(\Magento\Customer\Model\Resource\GroupRepository $subject)
+    {
+        if ($this->appConfig->isEnabled()) {
+            $this->getIndexer()->invalidate();
+        }
+        return true;
+    }
+
+    /**
+     * Invalidate indexer on customer group delete
+     *
+     * @param \Magento\Customer\Model\Resource\GroupRepository $subject
+     *
+     * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function afterDeleteById(\Magento\Customer\Model\Resource\GroupRepository $subject)
     {
         if ($this->appConfig->isEnabled()) {
             $this->getIndexer()->invalidate();

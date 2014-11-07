@@ -56,10 +56,10 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
         );
         $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(false));
         $this->indexerMock->expects($this->never())->method('getId');
-        $this->customerGroupV1->afterDeleteGroup($customerGroupService);
+        $this->customerGroupV1->afterDelete($customerGroupService);
     }
 
-    public function testAfterDeleteGroupIndexerOn()
+    public function testAfterDeleteIndexerOn()
     {
         $customerGroupService = $this->getMock(
             'Magento\Customer\Model\Resource\GroupRepository',
@@ -71,10 +71,10 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
         $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
         $this->prepareIndexer();
         $this->indexerMock->expects($this->once())->method('invalidate');
-        $this->customerGroupV1->afterDeleteGroup($customerGroupService);
+        $this->customerGroupV1->afterDelete($customerGroupService);
     }
 
-    public function testAroundCreateGroupNoNeedInvalidating()
+    public function testAfterSaveNoNeedInvalidating()
     {
         $customerGroupService = $this->getMock(
             'Magento\Customer\Model\Resource\GroupRepository',
@@ -98,10 +98,10 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
             return 10;
         };
 
-        $this->customerGroupV1->aroundCreateGroup($customerGroupService, $proceedMock, $customerGroupMock);
+        $this->customerGroupV1->afterSave($customerGroupService, $proceedMock, $customerGroupMock);
     }
 
-    public function testAroundCreateGroupInvalidating()
+    public function testAfterSaveInvalidating()
     {
         $customerGroupService = $this->getMock(
             'Magento\Customer\Model\Resource\GroupRepository',
@@ -127,7 +127,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
             return 10;
         };
 
-        $this->customerGroupV1->aroundCreateGroup($customerGroupService, $proceedMock, $customerGroupMock);
+        $this->customerGroupV1->afterSave($customerGroupService, $proceedMock, $customerGroupMock);
     }
 
     protected function prepareIndexer()
