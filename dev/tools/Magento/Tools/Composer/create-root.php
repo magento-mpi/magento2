@@ -11,6 +11,7 @@
 namespace Magento\Tools\Composer\Package;
 
 use \Magento\Tools\Composer\Helper\ReplaceFilter;
+use Magento\Tools\Composer\Helper\VersionCalculator;
 
 require __DIR__ . '/../../../bootstrap.php';
 
@@ -32,34 +33,8 @@ define(
     --set='path->to->node:value' - set a value to the specified node. Use colon to separate node path and value.
         Overrides anything that was before in the template or in default values.
         May be used multiple times to specify multiple values. For example:
-        --set='name:vendor/package' --set='extra->branch-alias->dev-master:2.0-dev'\n"
+        --set=name:vendor/package --set=extra->branch-alias->dev-master:2.0-dev\n"
 );
-$defaults = [
-    'name' => 'magento/project-community-edition',
-    'description' => 'Magento project (Community Edition)',
-    'license' => ['OSL-3.0', 'AFL-3.0'],
-];
-$skeletonDefaults = [
-    'name' => 'magento/skeleton',
-    'description' => 'Magento 2 Skeleton',
-    'type' => 'magento2-component',
-    'require->magento/magento-composer-installer' => '*',
-];
-$productDefaults = [
-    'name' => 'magento/product-community-edition',
-    'description' => 'eCommerce Platform for Growth (Community Edition)',
-    'type' => 'project',
-    'repositories' => [
-        [
-            'type' => 'composer',
-            'url' => 'http://packages.magento.com/'
-        ]
-    ],
-    'version' => '*',
-    'require' => [
-        'magento/skeleton' => 'self.version',
-    ],
-];
 $opt = getopt('', ['type::', 'wildcard', 'source-dir::', 'target-file::', 'set::']);
 
 try {
@@ -75,18 +50,66 @@ try {
     assertLogical(is_file($sourceComposer), "The source composer.json file doesn't exist: {$sourceComposer}");
     $package = new Package(json_decode(file_get_contents($sourceComposer)), $sourceComposer);
 
-    $opt['type'] = isset($opt['type']) ?: 'default';
+    // set defaults
+    $defaults = [
+        'name' => 'magento/project-community-edition',
+        'description' => 'Magento project (Community Edition)',
+        'license' => ['OSL-3.0', 'AFL-3.0'],
+    ];
+    $skeletonDefaults = [
+        'name' => 'magento/skeleton-community-edition',
+        'description' => 'Magento 2 Skeleton',
+        'type' => 'magento2-component',
+        'version' => $package->get('version'),
+        'require' => [
+            'magento/magento-composer-installer' => '*',
+        ]
+    ];
+    $replaceFilter = new ReplaceFilter($source);
+    $useWildcard = isset($opt['wildcard']);
+    $skeletonVersion = VersionCalculator::calculateVersionValue(
+        $package->get('version'),
+        'self.version',
+        $useWildcard
+    );
+    $skeletonName = $skeletonDefaults['name'];
+    $productDefaults = [
+        'name' => 'magento/product-community-edition',
+        'description' => 'eCommerce Platform for Growth (Community Edition)',
+        'type' => 'project',
+        'version' => $package->get('version'),
+        'repositories' => [
+            [
+                'type' => 'composer',
+                'url' => 'http://packages.magento.com/'
+            ]
+        ],
+        'require' => [
+            $skeletonName => $skeletonVersion
+        ],
+    ];
+
+    $opt['type'] = isset($opt['type']) ? $opt['type'] : 'default';
     switch ($opt['type']) {
         case $skeletonOption:
             $defaults = array_merge($defaults, $skeletonDefaults);
-            $targetPackage = createSkeleton($package, $defaults, $opt, $source);
+            $targetPackage = createSkeleton($package, $defaults, $source);
             break;
         case $productOption:
             $defaults = array_merge($defaults, $productDefaults);
-            $targetPackage = createProduct($package, $defaults, $opt, $source);
+            $targetPackage = createProduct($package, $defaults, $source, $useWildcard);
             break;
         default:
-            $targetPackage = createDefault($package, $defaults, $opt, $source);
+            $targetPackage = createDefault($package, $defaults, $source);
+    }
+
+    // override with "set" option
+    if (isset($opt['set'])) {
+        foreach ((array)$opt['set'] as $row) {
+            assertLogical(preg_match('/^(.*?):(.+)$/', $row, $matches), "Unable to parse 'set' value: {$row}");
+            list(, $key, $value) = $matches;
+            $targetPackage->set($key, $value);
+        }
     }
 
     // output
@@ -114,20 +137,14 @@ exit(0);
  *
  * @param Package $package
  * @param array $defaults
- * @param array $opt
  * @param string $source
  * @return Package
  */
-function createDefault($package, $defaults, $opt, $source)
+function createDefault($package, $defaults, $source)
 {
     // defaults
     foreach ($defaults as $key => $value) {
         $package->set($key, $value);
-    }
-
-    // override with "set" option
-    if (isset($opt['set'])) {
-        overrideSetOptions($package, (array)$opt['set']);
     }
 
     // filter the "replace" elements
@@ -142,43 +159,10 @@ function createDefault($package, $defaults, $opt, $source)
  *
  * @param Package $package
  * @param array $defaults
- * @param array $opt
  * @param string $source
  * @return Package
  */
-function createSkeleton($package, $defaults, $opt, $source)
-{
-    // defaults
-    foreach ($defaults as $key => $value) {
-        $package->set($key, $value);
-    }
-
-    // override with "set" option
-    if (isset($opt['set'])) {
-        overrideSetOptions($package, (array)$opt['set']);
-    }
-
-    // filter the "replace" elements
-    $replaceFilter = new ReplaceFilter($source);
-    $replaceFilter->removeMagentoComponentsFromReplace($package);
-
-    // marshaling mapping (for skeleton)
-    $reader = new Reader($source);
-    $package->set('extra->map', $reader->getRootMappingPatterns());
-
-    return $package;
-}
-
-/**
- * Create product package
- *
- * @param Package $package
- * @param array $defaults
- * @param array $opt
- * @param string source
- * @return Package
- */
-function createProduct($package, $defaults, $opt, $source)
+function createSkeleton($package, $defaults, $source)
 {
     $targetPackage = new Package(new \StdClass(), null);
 
@@ -187,42 +171,48 @@ function createProduct($package, $defaults, $opt, $source)
         $targetPackage->set($key, $value);
     }
 
-    // update version
-    $targetPackage->set('version', $package->get('version'));
-
-    // override with "set" option
-    if (isset($opt['set'])) {
-        overrideSetOptions($targetPackage, (array)$opt['set']);
-    }
-
     // filter the "replace" elements
     $replaceFilter = new ReplaceFilter($source);
-    $replaceFilter->removeMissing($package, $isSkeleton);
-    $useWildcard = isset($opt['wildcard']);
-    $components = $replaceFilter->getMagentoComponentsFromReplace($package, $useWildcard);
-    if ($useWildcard) {
-        $rootWildcard = preg_replace('/\.\d+$/', '.*', $package->get('version'));
-        $targetPackage->set('require->magento/skeleton', $rootWildcard);
-    }
-    $targetPackage->set('require', array_merge($targetPackage->get('require'), $components));
+    $replaceFilter->removeMagentoComponentsFromReplace($package);
+    $targetPackage->set('replace', $package->get('replace'));
+    $targetPackage->set('extra->component_paths', $package->get('extra->component_paths'));
+
+    // marshaling mapping (for skeleton)
+    $reader = new Reader($source);
+    $targetPackage->set('extra->map', $reader->getRootMappingPatterns());
+    $targetPackage->set('autoload-dev', $package->get('autoload-dev'));
 
     return $targetPackage;
 }
 
 /**
- * Override with 'set' options
+ * Create product package
  *
  * @param Package $package
- * @param array $setOptions
- * @return void
+ * @param array $defaults
+ * @param string source
+ * @param bool $useWildcard
+ * @return Package
  */
-function overrideSetOptions($package, $setOptions)
+function createProduct($package, $defaults, $source, $useWildcard)
 {
-    foreach ($setOptions as $row) {
-        assertLogical(preg_match('/^(.*?):(.+)$/', $row, $matches), "Unable to parse 'set' value: {$row}");
-        list(, $key, $value) = $matches;
-        $package->set($key, $value);
+    $targetPackage = new Package(new \StdClass(), null);
+
+    // defaults
+    foreach ($defaults as $key => $value) {
+        $targetPackage->set($key, $value);
     }
+
+    // filter the "replace" elements
+    $replaceFilter = new ReplaceFilter($source);
+    $replaceFilter->removeMissing($package);
+    $replaceFilter->moveMagentoComponentsToRequire($package, $useWildcard);
+    foreach ($targetPackage->get('require') as $key => $value) {
+        $package->set("require->{$key}", $value);
+    }
+    $targetPackage->set('require', $package->get('require'));
+
+    return $targetPackage;
 }
 
 /**
