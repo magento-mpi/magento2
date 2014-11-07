@@ -42,14 +42,6 @@ class ConsoleController extends AbstractActionController
     const CMD_MAINTENANCE = 'maintenance';
     /**#@- */
 
-    /**#@+
-     * Additional keys for "info" command
-     */
-    const INFO_LOCALES = 'languages';
-    const INFO_CURRENCIES = 'currencies';
-    const INFO_TIMEZONES = 'timezones';
-    /**#@- */
-
     /**
      * Map of controller actions exposed in CLI
      *
@@ -83,9 +75,9 @@ class ConsoleController extends AbstractActionController
         self::CMD_UPDATE,
         self::CMD_UNINSTALL,
         self::CMD_MAINTENANCE,
-        self::INFO_LOCALES,
-        self::INFO_CURRENCIES,
-        self::INFO_TIMEZONES,
+        UserConfig::KEY_LANGUAGE,
+        UserConfig::KEY_CURRENCY,
+        UserConfig::KEY_TIMEZONE,
     ];
 
     /**
@@ -423,11 +415,11 @@ class ConsoleController extends AbstractActionController
         $type = $this->getRequest()->getParam('type');
         $details = self::getCliConfig();
         switch($type) {
-            case self::INFO_LOCALES:
+            case UserConfig::KEY_LANGUAGE:
                 return $this->arrayToString($this->options->getLocaleList());
-            case self::INFO_CURRENCIES:
+            case UserConfig::KEY_CURRENCY:
                 return $this->arrayToString($this->options->getCurrencyList());
-            case self::INFO_TIMEZONES:
+            case UserConfig::KEY_TIMEZONE:
                 return $this->arrayToString($this->options->getTimezoneList());
             default:
                 if (isset($details[$type])) {
@@ -450,7 +442,7 @@ class ConsoleController extends AbstractActionController
     private function formatCliUsage($text)
     {
         $result = ['required' => [], 'optional' => []];
-        foreach (explode(' ', $text) as  $value) {
+        foreach (explode(' ', $text) as $value) {
             if (empty($value)) {
                 continue;
             }
