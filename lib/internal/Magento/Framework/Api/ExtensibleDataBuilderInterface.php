@@ -47,4 +47,12 @@ interface ExtensibleDataBuilderInterface
      * @return $this
      */
     public function populateWithArray(array $data);
+
+    /**
+     * Populates the fields with data from the prototype.
+     *
+     * @param mixed $prototype
+     * @return $this
+     */
+    public function populate($prototype);
 }

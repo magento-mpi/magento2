@@ -42,7 +42,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
     protected $productResource;
 
     /**
-     * @var \Magento\Framework\Service\Data\AttributeValueBuilder
+     * @var \Magento\Framework\Api\AttributeValueBuilder
      */
     protected $valueBuilder;
 
@@ -89,9 +89,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
             $this->productLinkBuilder->populateWithArray($data);
             if (isset($item['custom_attributes'])) {
                 foreach ($item['custom_attributes'] as $option) {
-                    $this->productLinkBuilder->setCustomAttribute(
-                        $this->valueBuilder->populateWithArray($option)->create()
-                    );
+                    $this->productLinkBuilder->setCustomAttribute($option['attribute_code'], $option['attribute_value']);
                 }
             }
             $output[] = $this->productLinkBuilder->create();
