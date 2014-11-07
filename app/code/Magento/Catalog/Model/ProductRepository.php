@@ -12,7 +12,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Model\Resource\Product\Collection;
 use Magento\Framework\Data\Search\SearchCriteriaInterface;
 use Magento\Framework\Data\Search\SortOrderInterface;
-use \Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use \Magento\Framework\Api\Search\FilterGroup;
 use Magento\Catalog\Api\Data\ProductAttributeInterface;
 
 class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterface
@@ -75,22 +75,23 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     /**
      * @param ProductFactory $productFactory
      * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper
-     * @param \Magento\Catalog\Api\Data\ProductSearchResultsBuilder $searchResultsBuilder
+     * @param \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder
      * @param Resource\Product\CollectionFactory $collectionFactory
-     * @param \Magento\Framework\Data\Search\SearchCriteriaInterfaceBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\SearchCriteriaDataBuilder $searchCriteriaBuilder
      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository
      * @param Resource\Product $resourceModel
-     * @param \Magento\Framework\Data\Search\FilterInterfaceBuilder $filterBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
+     * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface
      */
     public function __construct(
         ProductFactory $productFactory,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper,
         \Magento\Catalog\Service\V1\Data\Product\SearchResultsBuilder $searchResultsBuilder,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory,
-        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository,
         \Magento\Catalog\Model\Resource\Product $resourceModel,
-        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface
     ) {
         $this->productFactory = $productFactory;
@@ -210,7 +211,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
     {
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $collection */
@@ -256,13 +257,11 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     /**
      * Helper function that adds a FilterGroup to the collection.
      *
-     * @param FilterGroup $filterGroup
+     * @param \Magento\Framework\Api\Search\FilterGroup $filterGroup
      * @param Collection $collection
-     * @return void
-     * @throws \Magento\Framework\Exception\InputException
      */
     protected function addFilterGroupToCollection(
-        \Magento\Framework\Service\V1\Data\Search\FilterGroup $filterGroup,
+        \Magento\Framework\Api\Search\FilterGroup $filterGroup,
         Collection $collection
     ) {
         $fields = [];

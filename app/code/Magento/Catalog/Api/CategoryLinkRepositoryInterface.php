@@ -19,9 +19,6 @@ interface CategoryLinkRepositoryInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\StateException
-     *
-     * @see \Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface::assignProduct - previous interface
-     * @see \Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface::updateProduct - previous interface
      */
     public function save(\Magento\Catalog\Api\Data\CategoryProductLinkInterface $productLink);
 
@@ -33,8 +30,6 @@ interface CategoryLinkRepositoryInterface
      *
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\StateException
-     *
-     * @see \Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface::removeProduct - previous interface
      */
     public function delete(\Magento\Catalog\Api\Data\CategoryProductLinkInterface $productLink);
 
@@ -48,8 +43,6 @@ interface CategoryLinkRepositoryInterface
      *
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\StateException
-     *
-     * @see \Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface::removeProduct - previous interface
      */
     public function deleteByIds($categoryId, $productSku);
 }

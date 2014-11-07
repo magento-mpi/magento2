@@ -13,7 +13,7 @@ namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data;
  * @todo remove this interface
  * @see \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterface
  */
-class OptionType extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class OptionType extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     const LABEL = 'label';
     const CODE = 'code';

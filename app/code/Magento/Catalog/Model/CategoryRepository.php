@@ -38,7 +38,7 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     protected $useConfigFields = ['available_sort_by', 'default_sort_by', 'filter_price_range'];
 
     /**
-     * @var \Magento\Catalog\Api\Data\CategoryInterfaceDataBuilder
+     * @var \Magento\Catalog\Api\Data\CategoryDataBuilder
      */
     protected $categoryBuilder;
 
@@ -51,7 +51,7 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
         CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Category $categoryResource,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Api\Data\CategoryInterfaceDataBuilder $dataBuilder
+        \Magento\Catalog\Api\Data\CategoryDataBuilder $dataBuilder
 
     ) {
         $this->categoryFactory = $categoryFactory;

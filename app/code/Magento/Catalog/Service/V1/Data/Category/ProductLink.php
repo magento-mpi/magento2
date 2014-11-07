@@ -13,7 +13,7 @@ namespace Magento\Catalog\Service\V1\Data\Category;
  *
  * Replaced with @see \Magento\Catalog\Api\Data\CategoryProductLinkInterface
  */
-class ProductLink extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class ProductLink extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**#@+
      * Constants defined for keys of array

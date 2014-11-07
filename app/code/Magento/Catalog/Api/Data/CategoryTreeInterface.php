@@ -9,7 +9,7 @@
 
 namespace Magento\Catalog\Api\Data;
 
-interface CategoryTreeInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
+interface CategoryTreeInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**
      * @return int|null

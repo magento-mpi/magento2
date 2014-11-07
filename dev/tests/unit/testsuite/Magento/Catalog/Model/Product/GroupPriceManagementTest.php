@@ -66,7 +66,7 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->priceBuilderMock = $this->getMock(
-            'Magento\Catalog\Api\Data\ProductGroupPriceInterfaceDataBuilder',
+            'Magento\Catalog\Api\Data\ProductGroupPriceDataBuilder',
             array('populateWithArray', 'create'),
             array(),
             '',
@@ -150,7 +150,7 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSuccessDeleteGroupPrice()
+    public function testSuccessRemoveGroupPrice()
     {
         $this->storeManagerMock
             ->expects($this->never())
@@ -167,9 +167,9 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @message Such product doesn't exist
+     * @expectedExceptionMessage No such entity.
      */
-    public function testDeleteGroupPriceFromNonExistingProduct()
+    public function testRemoveGroupPriceFromNonExistingProduct()
     {
         $this->productRepositoryMock->expects($this->once())->method('get')
             ->will($this->throwException(new NoSuchEntityException()));
@@ -180,7 +180,7 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
         $this->groupPriceManagement->remove('product_sku', null, 10);
     }
 
-    public function testSuccessDeleteGroupPriceFromWebsiteLevel()
+    public function testSuccessRemoveGroupPriceFromWebsiteLevel()
     {
         $this->storeManagerMock
             ->expects($this->once())
@@ -254,7 +254,6 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $price = new \Magento\Catalog\Service\V1\Data\Product\GroupPrice($priceBuilder);
         $groupBuilder = $this->getMock(
             '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder',
             array(),
@@ -338,7 +337,9 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array()));
 
         $this->groupServiceMock->expects($this->once())->method('getGroup')->will($this->returnValue($group));
-        $this->productRepositoryMock->expects($this->once())->method('save')->will($this->throwException(new \Exception()));
+        $this->productRepositoryMock->expects($this->once())
+            ->method('save')
+            ->will($this->throwException(new \Exception()));
         $this->groupPriceManagement->add('product_sku', 2, 100);
     }
 }

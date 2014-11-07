@@ -77,6 +77,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Catalog\Model\Resource\Eav\Attribute(
             $contextMock,
             $this->getMock('Magento\Framework\Registry', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Api\MetadataServiceInterface'),
             $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Entity\TypeFactory', array(), array(), '', false),
@@ -90,7 +91,6 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             $this->_eavProcessor,
             $this->getMock('\Magento\Catalog\Helper\Product\Flat\Indexer', array(), array(), '', false),
             $this->getMock('\Magento\Catalog\Model\Attribute\LockValidatorInterface'),
-            $this->getMock('Magento\Framework\Service\Data\MetadataServiceInterface'),
             $resourceMock,
             $this->getMock('\Magento\Framework\Data\Collection\Db', array(), array(), '', false),
             array('id' => 1)

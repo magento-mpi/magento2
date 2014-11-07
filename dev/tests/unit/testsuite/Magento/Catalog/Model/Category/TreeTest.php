@@ -62,7 +62,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         $methods = ['setId', 'setParentId', 'setName', 'setPosition', 'setLevel',
             'setIsActive', 'setProductCount', 'setChildrenData', 'create'];
         $this->treeBuilderMock =
-            $this->getMock('\Magento\Catalog\Api\Data\CategoryTreeInterfaceDataBuilder', $methods, [], '', false);
+            $this->getMock('\Magento\Catalog\Api\Data\CategoryTreeDataBuilder', $methods, [], '', false);
 
         $this->tree = $this->objectManager
             ->getObject(

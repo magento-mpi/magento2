@@ -11,8 +11,8 @@ namespace Magento\Rma\Service\V1;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataConverter;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Service\Config\MetadataConfig;
-use Magento\Framework\Service\SimpleDataObjectConverter;
+use Magento\Framework\Api\Config\MetadataConfig;
+use Magento\Framework\Api\SimpleDataObjectConverter;
 
 class RmaMetadataRead implements RmaMetadataReadInterface
 {
@@ -122,7 +122,7 @@ class RmaMetadataRead implements RmaMetadataReadInterface
      *  Get custom attribute metadata for the given Data object's attribute set
      *
      * @param string|null $dataObjectClassName Data object class name
-     * @return \Magento\Framework\Service\Data\MetadataObjectInterface[]
+     * @return \Magento\Framework\Api\MetadataObjectInterface[]
      */
     public function getCustomAttributesMetadata($dataObjectClassName = self::DATA_OBJECT_CLASS_NAME)
     {

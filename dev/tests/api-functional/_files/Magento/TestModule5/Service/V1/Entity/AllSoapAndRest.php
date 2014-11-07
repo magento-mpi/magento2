@@ -13,7 +13,7 @@ namespace Magento\TestModule5\Service\V1\Entity;
  * Data Object long
  * multi line description.
  */
-class AllSoapAndRest extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class AllSoapAndRest extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     const ID = 'entity_id';
     const NAME = 'name';

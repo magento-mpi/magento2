@@ -14,7 +14,7 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
  * @deprecated
  * @see \Magento\Catalog\Api\Data\AttributeSetInterface
  */
-class AttributeSet extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class AttributeSet extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**
      * table field for id

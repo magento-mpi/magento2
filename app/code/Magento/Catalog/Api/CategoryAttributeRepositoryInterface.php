@@ -11,15 +11,15 @@ namespace Magento\Catalog\Api;
 /**
  * Interface RepositoryInterface must be implemented in new model
  */
-interface CategoryAttributeRepositoryInterface extends \Magento\Framework\Service\Data\MetadataServiceInterface
+interface CategoryAttributeRepositoryInterface extends \Magento\Framework\Api\MetadataServiceInterface
 {
     /**
      * Retrieve all attributes for entity type
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Framework\Data\Search\SearchResultsInterface
      */
-    public function getList(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 
     /**
      * Retrieve specific attribute

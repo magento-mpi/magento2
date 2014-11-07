@@ -8,9 +8,9 @@
 
 namespace Magento\GroupedProduct\Model\Product\Link\ProductEntity;
 
-use Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
-use Magento\Framework\Service\Data\AttributeValue;
-use Magento\Catalog\Model\ProductLink\Converter\ConverterInterface;
+use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
+use \Magento\Framework\Api\AttributeValue;
+use \Magento\Catalog\Model\ProductLink\Converter\ConverterInterface;
 
 class Converter implements ConverterInterface
 {

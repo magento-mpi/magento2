@@ -10,7 +10,7 @@
 
 namespace Magento\Catalog\Api\Data;
 
-interface CategoryInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
+interface CategoryInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**
      * @return int|null

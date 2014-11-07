@@ -32,7 +32,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
     protected $linkInitializer;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder
+     * @var \Magento\Catalog\Api\Data\ProductLinkDataBuilder
      */
     protected $productLinkBuilder;
 
@@ -49,18 +49,18 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
     /**
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param CollectionProvider $collectionProvider
-     * @param Data\ProductLinkInterfaceDataBuilder $productLinkBuilder
+     * @param Data\ProductLinkDataBuilder $productLinkBuilder
      * @param LinksInitializer $linkInitializer
      * @param \Magento\Catalog\Model\Resource\Product $productResource
-     * @param \Magento\Framework\Service\Data\AttributeValueBuilder $valueBuilder
+     * @param \Magento\Framework\Api\AttributeValueBuilder $valueBuilder
      */
     public function __construct(
         \Magento\Catalog\Model\ProductRepository $productRepository,
         CollectionProvider $collectionProvider,
-        \Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder $productLinkBuilder,
+        \Magento\Catalog\Api\Data\ProductLinkDataBuilder $productLinkBuilder,
         LinksInitializer $linkInitializer,
         \Magento\Catalog\Model\Resource\Product $productResource,
-        \Magento\Framework\Service\Data\AttributeValueBuilder $valueBuilder
+        \Magento\Framework\Api\AttributeValueBuilder $valueBuilder
     ) {
         $this->productRepository = $productRepository;
         $this->entityCollectionProvider = $collectionProvider;
@@ -87,10 +87,12 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
                 ProductLinkInterface::POSITION => $item['position'],
             ];
             $this->productLinkBuilder->populateWithArray($data);
-            foreach ($item['custom_attributes'] as $option) {
-                $this->productLinkBuilder->setCustomAttribute(
-                    $this->valueBuilder->populateWithArray($option)->create()
-                );
+            if (isset($item['custom_attributes'])) {
+                foreach ($item['custom_attributes'] as $option) {
+                    $this->productLinkBuilder->setCustomAttribute(
+                        $this->valueBuilder->populateWithArray($option)->create()
+                    );
+                }
             }
             $output[] = $this->productLinkBuilder->create();
         }

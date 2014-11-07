@@ -87,8 +87,8 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->entryBuilderMock = $this->getMock(
-            '\Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterfaceDataBuilder',
-            [],
+            '\Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryDataBuilder',
+            ['populateWithArray', 'create', 'setId', 'setLabel', 'setTypes', 'setIsDisabled', 'setPosition', 'setFile'],
             [],
             '',
             false
