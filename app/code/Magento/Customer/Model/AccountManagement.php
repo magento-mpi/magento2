@@ -801,7 +801,7 @@ class AccountManagement implements AccountManagementInterface
      * @param CustomerInterface $customer
      * @return $this
      */
-    public function sendPasswordResetNotificationEmail($customer)
+    protected function sendPasswordResetNotificationEmail($customer)
     {
         $storeId = $customer->getStoreId();
         if (!$storeId) {
