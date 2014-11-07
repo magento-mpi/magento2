@@ -213,7 +213,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $storeId = 10;
         $quoteId = 22;
         $customerGroupId = 77;
-        $hasCustomerId = true;
         $customerId = 66;
 
         $quoteMock = $this->getMock(
@@ -267,9 +266,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             ->method('setQuoteId')
             ->with($quoteId);
         $this->quote->expects($this->any())
-            ->method('hasCustomerId')
-            ->will($this->returnValue($hasCustomerId));
-        $this->quote->expects($this->any())
             ->method('getCustomerId')
             ->will($this->returnValue($customerId));
         $this->customerServiceMock->expects($this->once())
@@ -298,7 +294,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         $storeId = 10;
         $quoteId = 22;
-        $hasCustomerId = true;
         $customerId = 66;
 
         $quoteMock = $this->getMock(
@@ -338,9 +333,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->quote->expects($this->any())
             ->method('setQuoteId')
             ->with($quoteId);
-        $this->quote->expects($this->any())
-            ->method('hasCustomerId')
-            ->will($this->returnValue($hasCustomerId));
         $this->quote->expects($this->any())
             ->method('getCustomerId')
             ->will($this->returnValue($customerId));
