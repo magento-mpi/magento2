@@ -10,11 +10,11 @@
 <mapping strict="0">
     <fields>
         <page_group>
-            <selector>.page_group_select</selector>
+            <selector>.fieldset-wrapper-title select</selector>
             <input>optgroupselect</input>
         </page_group>
         <for>
-            <selector>.//div[contains(@class,"group_container") and not(contains(@class,"no-display"))]//*[@class="radio for_specific"]</selector>
+            <selector>//div[contains(@class,"group_container") and not(contains(@class,"no-display"))]/table//*[@class="radio for_specific"]</selector>
             <strategy>xpath</strategy>
             <input>checkbox</input>
         </for>

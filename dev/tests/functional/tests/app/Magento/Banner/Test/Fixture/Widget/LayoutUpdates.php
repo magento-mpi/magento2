@@ -25,14 +25,14 @@ class LayoutUpdates extends \Magento\Widget\Test\Fixture\Widget\LayoutUpdates
         $presets = [
             'banner_on_all_pages' => [
                 [
-                    'page_group' => ['Generic Pages', 'All Pages'],
+                    'page_group' => 'Generic Pages/All Pages',
                     'block' => 'Main Content Area',
                     'template' => 'Banner Block Template',
                 ]
             ],
             'for_virtual_product' => [
                 [
-                    'page_group' => ['Products', 'Virtual Product'],
+                    'page_group' => 'Products/Virtual Product',
                     'for' => 'Yes',
                     'entities' => 'catalogProductVirtual::default',
                     'block' => 'Main Content Area',

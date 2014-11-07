@@ -99,13 +99,13 @@ class LayoutUpdates implements FixtureInterface
         $presets = [
             'all_pages' => [
                 [
-                    'page_group' => ['Generic Pages', 'All Pages'],
+                    'page_group' => 'Generic Pages/All Pages',
                     'block' => 'Main Content Area',
                 ]
             ],
             'on_category' => [
                 [
-                    'page_group' => ['Categories', 'Non-Anchor Categories'],
+                    'page_group' => 'Categories/Non-Anchor Categories',
                     'for' => 'Yes',
                     'entities' => 'catalogCategory::default',
                     'block' => 'Main Content Area',
@@ -114,14 +114,14 @@ class LayoutUpdates implements FixtureInterface
             ],
             'for_category_link' => [
                 [
-                    'page_group' => ['Generic Pages', 'All Pages'],
+                    'page_group' => 'Generic Pages/All Pages',
                     'block' => 'Main Content Area',
                     'template' => 'Category Link Block Template'
                 ]
             ],
             'on_product_link' => [
                 [
-                    'page_group' => ['Categories', 'Non-Anchor Categories'],
+                    'page_group' => 'Categories/Non-Anchor Categories',
                     'for' => 'Yes',
                     'entities' => 'catalogCategory::default',
                     'block' => 'Main Content Area',
@@ -130,19 +130,19 @@ class LayoutUpdates implements FixtureInterface
             ],
             'for_compared_products' => [
                 [
-                    'page_group' => ['Generic Pages', 'All Pages'],
+                    'page_group' => 'Generic Pages/All Pages',
                     'block' => 'Main Content Area',
                 ]
             ],
             'for_viewed_products' => [
                 [
-                    'page_group' => ['Generic Pages', 'All Pages'],
+                    'page_group' => 'Generic Pages/All Pages',
                     'block' => 'Main Content Area',
                 ]
             ],
             'for_cms_page_link' => [
                 [
-                    'page_group' => ['Generic Pages', 'All Pages'],
+                    'page_group' => 'Generic Pages/All Pages',
                     'block' => 'Main Content Area',
                     'template' => 'CMS Page Link Block Template',
                 ]

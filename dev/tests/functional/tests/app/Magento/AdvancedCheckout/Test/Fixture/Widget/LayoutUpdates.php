@@ -24,7 +24,7 @@ class LayoutUpdates extends \Magento\Widget\Test\Fixture\Widget\LayoutUpdates
         $presets = [
             'order_by_sku_on_all_pages' => [
                 [
-                    'page_group' => ['Generic Pages', 'All Pages'],
+                    'page_group' => 'Generic Pages/All Pages',
                     'block' => 'Sidebar Main',
                     'template' => 'Order by SKU Template',
                     'entities' => 'catalogCategory::default',
