@@ -29,6 +29,8 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
     protected $configDirectory;
 
     /**
+     * File Iterator
+     *
      * Root directory with read access
      *
      * @var ReadInterface
@@ -44,7 +46,7 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
      * Constructor
      *
      * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Magento\Framework\Config\FileIteratorFactory $iteratorFactory
+     * @param FileIteratorFactory $iteratorFactory
      */
     public function __construct(
         \Magento\Framework\Filesystem $filesystem,
@@ -57,7 +59,11 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Collect files and wrap them into an Iterator object
+     *
+     * @param string $filename
+     * @param string $scope
+     * @return \Magento\Framework\Config\FileIterator
      */
     public function get($filename, $scope)
     {
@@ -65,23 +71,29 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
         $configDir = $this->configDirectory->getAbsolutePath();
 
         $output = [];
-        $files = glob($moduleDir . '/*/*/etc/' . $filename);
-        if (!empty($files)) {
-            foreach ($files as $file) {
-                $output[] = $this->rootDirectory->getRelativePath($file);
-            }
-        }
-        $files = glob($configDir . '/*/' . $filename);
-        if (!empty($files)) {
-            foreach ($files as $file) {
-                $output[] = $this->rootDirectory->getRelativePath($file);
-            }
-        }
-
+        $output = array_merge($output, $this->aggregateFiles(glob($moduleDir . '/*/*/etc/' . $filename)));
+        $output = array_merge($output, $this->aggregateFiles(glob($configDir . '/*/' . $filename)));
         $iterator = $this->iteratorFactory->create(
             $this->rootDirectory,
             $output
         );
         return $iterator;
+    }
+
+    /**
+     * Collect files and wrap them into an Iterator object
+     *
+     * @param array $files
+     * @return array
+     */
+    protected function aggregateFiles($files)
+    {
+        $output = [];
+        if (!empty($files)) {
+            foreach ($files as $file) {
+                $output[] = $this->rootDirectory->getRelativePath($file);
+            }
+        }
+        return $output;
     }
 }
