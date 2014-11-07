@@ -138,6 +138,7 @@ class MoveProductFromCustomerActivityToOrderTest extends Injectable
         } else {
             $this->orderCreateIndex->getConfigureProductBlock()->clickOk();
         }
+        $this->orderCreateIndex->getCreateBlock()->getTemplateBlock()->waitLoader();
 
         return ['products' => [$product]];
     }

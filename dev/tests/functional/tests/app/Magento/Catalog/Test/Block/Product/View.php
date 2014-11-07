@@ -137,6 +137,13 @@ class View extends AbstractConfigureBlock
     protected $addToWishlist = '[data-action="add-to-wishlist"]';
 
     /**
+     * Label for qty option
+     *
+     * @var string
+     */
+    protected $labelForQty = '[for="qty"] span';
+
+    /**
      * Get block price
      *
      * @return \Magento\Catalog\Test\Block\Product\Price
@@ -200,7 +207,9 @@ class View extends AbstractConfigureBlock
      */
     public function setQty($qty)
     {
-        $this->_rootElement->find($this->qty, Locator::SELECTOR_CSS)->setValue($qty);
+        $this->browser->selectWindow();
+        $this->_rootElement->find($this->qty)->keys([$qty]);
+        $this->_rootElement->click();
     }
 
     /**
