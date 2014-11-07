@@ -1170,6 +1170,12 @@ $table = $installer->getConnection()->newTable(
     64,
     array('nullable' => true, 'default' => null),
     'Session ID'
+)->addColumn(
+    'last_visit_at',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+    null,
+    array('nullable' => false),
+    'Last Visit Time'
 )->setComment(
     'Visitor Table'
 );

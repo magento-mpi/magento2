@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <entity_id>
+            <selector>.col.id</selector>
+        </entity_id>
+        <date>
+            <selector>.col.date</selector>
+        </date>
+        <ship_from>
+            <selector>.col.shipping</selector>
+        </ship_from>
+        <status>
+            <selector>.col.status</selector>
+        </status>
+    </fields>
+</mapping>
