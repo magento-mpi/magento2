@@ -70,9 +70,10 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
         $moduleDir = $this->modulesDirectory->getAbsolutePath();
         $configDir = $this->configDirectory->getAbsolutePath();
 
-        $output = [];
-        $output = array_merge($output, $this->aggregateFiles(glob($moduleDir . '/*/*/etc/' . $filename)));
-        $output = array_merge($output, $this->aggregateFiles(glob($configDir . '/*/' . $filename)));
+        $output = $this->aggregateFiles(array_merge(
+            glob($moduleDir . '/*/*/etc/' . $filename),
+            glob($configDir . '/*/' . $filename))
+        );
         $iterator = $this->iteratorFactory->create(
             $this->rootDirectory,
             $output
