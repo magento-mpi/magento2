@@ -112,7 +112,7 @@ foreach ($attributesInfo as $attributeCode => $attributeParams) {
     $installer->addAttribute('customer_address', $attributeCode, $attributeParams);
 }
 
-$vatIdAttribute = $installer->getEavConfig()->getAttribute('customer', 'vat_id');
+$vatIdAttribute = $installer->getEavConfig()->getAttribute('customer_address', 'vat_id');
 $vatIdAttribute->setData(
     'used_in_forms',
     array('adminhtml_customer_address', 'customer_address_edit', 'customer_register_address')
