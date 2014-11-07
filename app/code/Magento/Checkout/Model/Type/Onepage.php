@@ -11,17 +11,17 @@
  */
 namespace Magento\Checkout\Model\Type;
 
-use Magento\Customer\Api\Data\CustomerInterfaceBuilder as CustomerBuilder;
-use Magento\Customer\Api\Data\AddressInterfaceBuilder as AddressBuilder;
-use Magento\Customer\Api\Data\GroupInterface;
 use Magento\Customer\Model\Metadata\Form;
+use Magento\Customer\Api\Data\GroupInterface;
+use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Api\AddressRepositoryInterface;
-use Magento\Customer\Api\CustomerMetadataInterface as CustomerMetadata;
-use Magento\Customer\Api\AddressMetadataInterface as AddressMetadata;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use Magento\Customer\Api\AddressMetadataInterface as AddressMetadata;
+use Magento\Customer\Api\CustomerMetadataInterface as CustomerMetadata;
+use Magento\Customer\Api\Data\AddressInterfaceBuilder as AddressBuilder;
+use Magento\Customer\Api\Data\CustomerInterfaceBuilder as CustomerBuilder;
 
 /**
  * Class Onepage
@@ -121,22 +121,34 @@ class Onepage
      */
     protected $messageManager;
 
-    /** @var \Magento\Customer\Model\Metadata\FormFactory */
+    /**
+     * @var \Magento\Customer\Model\Metadata\FormFactory
+     */
     protected $_formFactory;
 
-    /** @var CustomerBuilder */
+    /**
+     * @var CustomerBuilder
+     */
     protected $_customerBuilder;
 
-    /** @var AddressBuilder */
+    /**
+     * @var AddressBuilder
+     */
     protected $_addressBuilder;
 
-    /** @var \Magento\Framework\Math\Random */
+    /**
+     * @var \Magento\Framework\Math\Random
+     */
     protected $mathRandom;
 
-    /** @var AddressRepositoryInterface */
+    /**
+     * @var AddressRepositoryInterface
+     */
     protected $addressRepository;
 
-    /** @var AccountManagementInterface */
+    /**
+     * @var AccountManagementInterface
+     */
     protected $accountManagement;
 
     /**
@@ -775,28 +787,22 @@ class Onepage
         if ($shipping) {
             if (!$shipping->getSameAsBilling()) {
                 $customerShippingData = $shipping->exportCustomerAddress();
-                $customerShippingData = $this->_addressBuilder->populate(
-                    $customerShippingData
-                )->setDefaultShipping(
-                    true
-                )->create();
+                $customerShippingData = $this->_addressBuilder->populate($customerShippingData)
+                    ->setDefaultShipping(true)
+                    ->create();
                 $shipping->setCustomerAddressData($customerShippingData);
                 // Add shipping address to quote since customer Data Object does not hold address information
                 $quote->addCustomerAddress($customerShippingData);
             } else {
                 $shipping->setCustomerAddressData($customerBillingData);
-                $customerBillingData = $this->_addressBuilder->populate(
-                    $customerBillingData
-                )->setDefaultShipping(
-                    true
-                )->create();
+                $customerBillingData = $this->_addressBuilder->populate($customerBillingData)
+                    ->setDefaultShipping(true)
+                    ->create();
             }
         } else {
-            $customerBillingData = $this->_addressBuilder->populate(
-                $customerBillingData
-            )->setDefaultShipping(
-                true
-            )->create();
+            $customerBillingData = $this->_addressBuilder->populate($customerBillingData)
+                ->setDefaultShipping(true)
+                ->create();
         }
         $billing->setCustomerAddressData($customerBillingData);
 

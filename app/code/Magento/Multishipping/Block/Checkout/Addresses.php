@@ -31,11 +31,6 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     protected $customerRepository;
 
     /**
-     * @var \Magento\Webapi\Model\DataObjectProcessor
-     */
-    protected $dataProcessor;
-
-    /**
      * @var \Magento\Customer\Model\Address\Config
      */
     private $_addressConfig;
@@ -47,7 +42,6 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
      * @param \Magento\Framework\Filter\Object\GridFactory $filterGridFactory
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param AddressConfig $addressConfig
      * @param array $data
      */
@@ -56,14 +50,12 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
         \Magento\Framework\Filter\Object\GridFactory $filterGridFactory,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
-        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
         AddressConfig $addressConfig,
         array $data = []
     ) {
         $this->_filterGridFactory = $filterGridFactory;
         $this->_multishipping = $multishipping;
         $this->customerRepository = $customerRepository;
-        $this->dataProcessor = $dataProcessor;
         $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -137,7 +129,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
             }
             /** @var \Magento\Customer\Api\Data\AddressInterface $address */
             foreach ($addresses as $address) {
-                $arrayData = $this->dataProcessor->buildOutputDataArray(
+                $arrayData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray(
                     $address,
                     '\Magento\Customer\Api\Data\AddressInterface'
                 );

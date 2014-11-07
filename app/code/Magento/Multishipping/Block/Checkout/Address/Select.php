@@ -22,28 +22,20 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     protected $_customerAddressHelper;
 
     /**
-     * @var \Magento\Webapi\Model\DataObjectProcessor
-     */
-    protected $dataProcessor;
-
-    /**
      * Initialize dependencies.
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param CustomerAddressHelper $customerAddressHelper
-     * @param \Magento\Webapi\Model\DataObjectProcessor $dataProcessor
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         CustomerAddressHelper $customerAddressHelper,
-        \Magento\Webapi\Model\DataObjectProcessor $dataProcessor,
         array $data = []
     ) {
         $this->_customerAddressHelper = $customerAddressHelper;
-        $this->dataProcessor = $dataProcessor;
         parent::__construct($context, $multishipping, $data);
     }
 
@@ -91,10 +83,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         $formatTypeRenderer = $this->_customerAddressHelper->getFormatTypeRenderer('html');
         $result = '';
         if ($formatTypeRenderer) {
-            $arrayData = $this->dataProcessor->buildOutputDataArray(
-                $address,
-                '\Magento\Customer\Api\Data\AddressInterface'
-            );
+            $arrayData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($address);
             $result = $formatTypeRenderer->renderArray($arrayData);
         }
         return $result;
