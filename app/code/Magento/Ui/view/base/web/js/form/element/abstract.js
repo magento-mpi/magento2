@@ -221,8 +221,8 @@ define([
          */
         onUpdate: function (value) {            
             this.store(value)
-                .trigger('update')
-                .validate();
+            this.trigger('update');
+            this.validate();
         },
 
         /**

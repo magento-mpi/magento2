@@ -75,7 +75,6 @@ define([
             __super__.initElement.apply(this, arguments);
 
             element.on({
-                'update': this.trigger.bind(this, 'update'),
                 'toggle': this.toggle.bind(this)
             });
 

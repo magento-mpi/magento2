@@ -76,8 +76,8 @@ define([
         updateState: function(area) {
             var active = area === this.name;
 
-            this.trigger('active', active)
-                .active(active);
+            this.trigger('active', active);
+            this.active(active);
                 
             return this;
         },

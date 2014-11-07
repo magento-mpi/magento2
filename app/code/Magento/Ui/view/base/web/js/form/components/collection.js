@@ -36,14 +36,11 @@ define([
         },
 
         initElement: function (elem) {
-            var update = this.trigger.bind(this, 'update');
-
             __super__.initElement.apply(this, arguments);
 
-            elem.on('update', update)
-                .activate();
+            elem.activate();
 
-            update();
+            this.trigger('update');
         },
 
         initChildren: function () {
@@ -52,7 +49,7 @@ define([
                 initial  = this.initialItems = [];
                         
             _.each(children, function(item, index){
-                initial.push(index);
+                initial.push(this.name + '.' + index);
                 this.addChild(index);
             }, this);
 
@@ -77,7 +74,7 @@ define([
 
         hasChanged: function(){
             var initial = this.initialItems,
-                current = this.elems.pluck('index'),
+                current = this.elems.pluck('name'),
                 changed = !utils.identical(initial, current);
 
             return changed || this.elems.some(function(elem){

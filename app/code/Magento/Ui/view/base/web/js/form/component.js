@@ -12,8 +12,10 @@ define([
     'Magento_Ui/js/lib/registry/registry'
 ], function(_, utils, Scope, EventsBus, registry) {
     'use strict';
-    
 
+    /**
+     * Private methods.
+     */
     function loadEach(elems, callback){
         elems.forEach(function(elem, index){
             registry.get(elem, function(elem){
@@ -68,7 +70,9 @@ define([
     function parseSource(source, storages, data){
         var storage;
 
-        source  = utils.template(source, data).split(':');
+        source  = utils.template(source, data);
+        source  = source.split(':');
+
         storage = source.shift();
 
         return {
@@ -77,7 +81,7 @@ define([
         }
     }
 
-    return Scope.extend({
+    var Component = Scope.extend({
         initialize: function(config, additional){
             _.extend(this, config, additional);
 
@@ -86,8 +90,8 @@ define([
 
             this.initObservable()
                 .initRenderer()
-                .getLastPart('parentName', this.name)
-                .getLastPart('parentScope', this.dataScope)
+                .initParts()
+                .initProperties()
                 .initListeners();
         },
 
@@ -102,6 +106,13 @@ define([
 
         initRenderer: function () {
             this.renderer = registry.get('globalStorage').renderer;
+
+            return this;
+        },
+
+        initParts: function(){
+            this.setLastPart('parentName', this.name)
+                .setLastPart('parentScope', this.dataScope);
 
             return this;
         },
@@ -133,26 +144,36 @@ define([
             storage.on('update:' + source, callback);
         },
 
+        initProperties: function () {
+            return this;
+        },
+
         initElement: function(elem){
-            var containers = elem.containers;
-
-            if(containers){
-                containers.push(this);
-            }
+            elem.containers.push(this);
 
             return this;
         },
 
-        getLastPart: function(container, ns){
-            ns = ns.split('.');
+        setLastPart: function(container, ns){
+            var parts = ns.split('.');
 
-            ns.pop();
+            parts.pop();
 
-            this[container] = ns.join('.');
+            this[container] = parts.join('.');
 
             return this;
         },
 
+        getTemplate: function(){
+            return this.template || 'ui/collection';
+        }
+    }, EventsBus);
+    
+
+    /**
+     * Elements manipulation methods.
+     */
+    _.extend(Component.prototype, {
         insert: function(elems, offset){
             var size    = elems.length,
                 _elems  = this._elems,
@@ -184,11 +205,17 @@ define([
             this.elems.remove(elem);
 
             return this;
-        },
+        }
+    });
 
+
+    /**
+     * Elements traversing methods.
+     */
+    _.extend(Component.prototype, {
         delegate: function(name, iterator){
-            var method = this[name],
-                args = _.toArray(arguments),
+            var method  = this[name],
+                args    = _.toArray(arguments),
                 result;
 
             if(typeof method === 'function'){
@@ -205,8 +232,23 @@ define([
             return result;
         },
 
-        getTemplate: function(){
-            return this.template || 'ui/collection';
+        trigger: function(){
+            var args        = _.toArray(arguments),
+                bubble      = EventsBus.trigger.apply(this, args),
+                containers  = this.containers(),
+                result      = [];
+
+            if(bubble){
+                result = containers.map(function(parent){
+                    return parent.trigger.apply(parent, args);
+                });
+            }
+
+            return !result.some(function(value){
+                return value === false;
+            });
         }
-    }, EventsBus);
+    });
+
+    return Component;
 });

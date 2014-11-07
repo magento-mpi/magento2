@@ -59,17 +59,20 @@ define([
          */
         trigger: function(name) {
             var handlers = getEvents(this, name),
+                result = [],
                 args;
 
             if (typeof handlers !== 'undefined') {
                 args = Array.prototype.slice.call(arguments, 1);
 
-                handlers.forEach(function(callback) {
-                    callback.apply(this, args);
+                result = handlers.map(function(callback) {
+                    return callback.apply(this, args);
                 });
             }
 
-            return this;
+            return !result.some(function(value){
+                return value === false;
+            });;
         }
     }
 });

@@ -102,8 +102,6 @@ define([
         initElement: function (elem) {
             __super__.initElement.apply(this, arguments);
 
-            elem.on('update', this.trigger.bind(this, 'update'));
-            
             this.insertToArea(elem)
                 .insertToIndexed(elem);
         },
