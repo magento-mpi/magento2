@@ -84,9 +84,7 @@ try {
                 'url' => 'http://packages.magento.com/'
             ]
         ],
-        'require' => [
-            $skeletonName => $skeletonVersion
-        ],
+        'require->' . $skeletonName => $skeletonVersion,
     ];
 
     $opt['type'] = isset($opt['type']) ? $opt['type'] : 'default';
@@ -180,7 +178,6 @@ function createSkeleton($package, $defaults, $source)
     // marshaling mapping (for skeleton)
     $reader = new Reader($source);
     $targetPackage->set('extra->map', $reader->getRootMappingPatterns());
-    $targetPackage->set('autoload-dev', $package->get('autoload-dev'));
 
     return $targetPackage;
 }
@@ -196,23 +193,23 @@ function createSkeleton($package, $defaults, $source)
  */
 function createProduct($package, $defaults, $source, $useWildcard)
 {
-    $targetPackage = new Package(new \StdClass(), null);
-
     // defaults
     foreach ($defaults as $key => $value) {
-        $targetPackage->set($key, $value);
+        $package->set($key, $value);
     }
 
     // filter the "replace" elements
     $replaceFilter = new ReplaceFilter($source);
     $replaceFilter->removeMissing($package);
     $replaceFilter->moveMagentoComponentsToRequire($package, $useWildcard);
-    foreach ($targetPackage->get('require') as $key => $value) {
-        $package->set("require->{$key}", $value);
+    $package->unsetProperty('replace');
+    $package->unsetProperty('extra->component_paths');
+    $extra = (array)$package->get('extra');
+    if (empty($extra)) {
+        $package->unsetProperty('extra');
     }
-    $targetPackage->set('require', $package->get('require'));
 
-    return $targetPackage;
+    return $package;
 }
 
 /**
