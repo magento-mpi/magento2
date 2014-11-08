@@ -79,7 +79,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $this->customerHelperMock = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
         $this->customerBuilderMock = $this->getMock(
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
-            array('mergeDataObjectWithArray'),
+            array('mergeDataObjectWithArray', 'create'),
             array(),
             '',
             false
@@ -324,6 +324,13 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             $this->customerDataMock,
             array('group_id' => 'defaultCustomerGroupId')
         )->will(
+            $this->returnValue($this->customerBuilderMock)
+        );
+        $this->customerBuilderMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->will(
             $this->returnValue($this->customerDataMock)
         );
 
@@ -386,6 +393,9 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $this->customerBuilderMock->expects($this->once())
             ->method('mergeDataObjectWithArray')
             ->with($this->customerDataMock, array('group_id' => 'customerGroupId'))
+            ->will($this->returnValue($this->customerBuilderMock));
+        $this->customerBuilderMock->expects($this->once())
+            ->method('create')
             ->will($this->returnValue($this->customerDataMock));
         $this->model->dispatch($this->observerMock);
     }

@@ -132,6 +132,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
             $email1
         )->create();
 
+
         $lastname2 = 'Lastname2';
         $middlename2 = 'Middlename2';
         $dataForMerge = array('lastname' => $lastname2, 'middlename' => $middlename2);

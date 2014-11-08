@@ -17,8 +17,8 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
  * Builder for the Customer Service Data Object
  *
  * @method Customer create()
- * @method Customer mergeDataObjectWithArray(ExtensibleObject $dataObject, array $data)
- * @method Customer mergeDataObjects(ExtensibleObject $firstDataObject, ExtensibleObject $secondDataObject)
+ * @method CustomerBuilder mergeDataObjectWithArray(ExtensibleObject $dataObject, array $data)
+ * @method CustomerBuilder mergeDataObjects(ExtensibleObject $firstDataObject, ExtensibleObject $secondDataObject)
  */
 class CustomerBuilder extends ExtensibleObjectBuilder
 {
