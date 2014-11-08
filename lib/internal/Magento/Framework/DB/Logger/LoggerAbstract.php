@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Framework\DB\Logger;
 
 use Magento\Framework\DB\LoggerInterface;
 use Magento\Framework\Debug;
 
-abstract class LoggerAbstract implements  LoggerInterface {
+abstract class LoggerAbstract implements LoggerInterface
+{
 
     /**
      * @var int

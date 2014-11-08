@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Framework\DB\Logger;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
@@ -61,6 +60,9 @@ class File extends LoggerAbstract
         $stream->close();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function logStats($type, $sql, $bind = [], $result = null)
     {
         $this->log($this->getStats($type, $sql, $bind, $result));

@@ -17,12 +17,12 @@ class ConnectionFactoryCacheable extends ConnectionFactory
     private $cache;
 
     /**
-     * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Framework\DB\LoggerInterface $logger
+     * @param \Magento\Framework\App\CacheInterface $cache
      */
     public function __construct(
-        \Magento\Framework\App\CacheInterface $cache,
-        \Magento\Framework\DB\LoggerInterface $logger
+        \Magento\Framework\DB\LoggerInterface $logger,
+        \Magento\Framework\App\CacheInterface $cache
     ) {
         parent::__construct($logger);
         $this->cache = $cache;

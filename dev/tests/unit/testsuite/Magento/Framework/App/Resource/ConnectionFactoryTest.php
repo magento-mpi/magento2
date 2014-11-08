@@ -68,29 +68,4 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->model->create($config);
     }
-
-    public function testCreate()
-    {
-        $this->markTestSkipped('MAGETWO-30176: requires injection of object manager or service locator');
-
-        $adapter = 'Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql';
-        $config = [
-            'active' => 1,
-            'adapter' => $adapter,
-        ];
-
-        $adapterMock = $this->getMock($adapter);
-
-        $connectionMock = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface');
-
-        $adapterMock->expects(
-            $this->once()
-        )->method(
-            'getConnection'
-        )->will(
-            $this->returnValue($connectionMock)
-        );
-
-        $this->assertEquals($connectionMock, $this->model->create($config));
-    }
 }

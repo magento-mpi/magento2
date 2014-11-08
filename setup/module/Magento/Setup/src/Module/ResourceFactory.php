@@ -5,8 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Setup\Module;
 
 use Magento\Framework\App\Resource;
