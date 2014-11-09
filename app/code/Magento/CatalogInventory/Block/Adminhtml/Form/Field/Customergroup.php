@@ -80,7 +80,6 @@ class Customergroup extends \Magento\Framework\View\Element\Html\Select
         if (is_null($this->_customerGroups)) {
             $this->_customerGroups = array();
             foreach ($this->groupRepository->getList($this->searchCriteriaBuilder->create())->getItems() as $item) {
-                /* @var $item \Magento\Customer\Service\V1\Data\CustomerGroup */
                 $this->_customerGroups[$item->getId()] = $item->getCode();
             }
             $notLoggedInGroup = $this->groupManagement->getNotLoggedInGroup();

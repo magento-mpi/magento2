@@ -77,8 +77,8 @@ class Minsaleqty
                     $data[$groupId] = $this->fixQty($qty);
                 }
             }
-            if (count($data) == 1 && array_key_exists($this->getAllCustomerGroupId(), $data)) {
-                return (string) $data[$this->getAllCustomerGroupId()];
+            if (count($data) == 1 && array_key_exists($this->getAllCustomersGroupId(), $data)) {
+                return (string) $data[$this->getAllCustomersGroupId()];
             }
             return serialize($data);
         } else {
@@ -95,7 +95,7 @@ class Minsaleqty
     protected function unserializeValue($value)
     {
         if (is_numeric($value)) {
-            return array($this->getAllCustomerGroupId() => $this->fixQty($value));
+            return array($this->getAllCustomersGroupId() => $this->fixQty($value));
         } elseif (is_string($value) && !empty($value)) {
             return unserialize($value);
         } else {
@@ -189,7 +189,7 @@ class Minsaleqty
             if ($groupId == $customerGroupId) {
                 $result = $qty;
                 break;
-            } elseif ($groupId == $this->getAllCustomerGroupId()) {
+            } elseif ($groupId == $this->getAllCustomersGroupId()) {
                 $result = $qty;
             }
         }
@@ -231,7 +231,7 @@ class Minsaleqty
      *
      * @return int
      */
-    protected function getAllCustomerGroupId()
+    protected function getAllCustomersGroupId()
     {
         return $this->groupManagement->getAllCustomersGroup()->getId();
     }
