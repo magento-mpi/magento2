@@ -90,7 +90,7 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
     public function getCustomerGroupId()
     {
         if ($this->_customerGroupId === null) {
-            return $this->groupManagement->getAllGroup()->getId();
+            return $this->groupManagement->getAllCustomersGroup()->getId();
         }
         return parent::getCustomerGroupId();
     }

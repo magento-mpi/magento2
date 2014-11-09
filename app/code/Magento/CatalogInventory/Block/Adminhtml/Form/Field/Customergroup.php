@@ -111,7 +111,7 @@ class Customergroup extends \Magento\Framework\View\Element\Html\Select
         if (!$this->getOptions()) {
             if ($this->_addGroupAllOption) {
                 $this->addOption(
-                    $this->groupManagement->getAllGroup()->getId(),
+                    $this->groupManagement->getAllCustomersGroup()->getId(),
                     __('ALL GROUPS')
                 );
             }

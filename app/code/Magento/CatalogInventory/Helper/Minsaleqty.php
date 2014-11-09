@@ -233,6 +233,6 @@ class Minsaleqty
      */
     protected function getAllCustomerGroupId()
     {
-        return $this->groupManagement->getAllGroup()->getId();
+        return $this->groupManagement->getAllCustomersGroup()->getId();
     }
 }

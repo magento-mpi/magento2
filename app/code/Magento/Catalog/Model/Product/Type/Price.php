@@ -249,7 +249,7 @@ class Price
      */
     public function getTierPrice($qty, $product)
     {
-        $allGroups = $this->_groupManagement->getAllGroup()->getId();
+        $allGroups = $this->_groupManagement->getAllCustomersGroup()->getId();
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {

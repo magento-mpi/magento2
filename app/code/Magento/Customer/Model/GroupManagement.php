@@ -119,7 +119,7 @@ class GroupManagement implements \Magento\Customer\Api\GroupManagementInterface
     /**
      * {@inheritdoc}
      */
-    public function getAllGroup($storeId = null)
+    public function getAllCustomersGroup($storeId = null)
     {
         return $this->groupBuilder->setId(self::CUST_GROUP_ALL)
             ->create();

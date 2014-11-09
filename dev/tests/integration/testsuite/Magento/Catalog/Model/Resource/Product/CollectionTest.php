@@ -95,7 +95,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         );
         $tierPrice = $this->_collection->getFirstItem()->getDataByKey('tier_price');
         $this->assertEquals($this->_groupManagement->getNotLoggedInGroup()->getId(), current($tierPrice)['cust_group']);
-        $this->assertEquals($this->_groupManagement->getAllGroup()->getId(), next($tierPrice)['cust_group']);
+        $this->assertEquals($this->_groupManagement->getAllCustomersGroup()->getId(), next($tierPrice)['cust_group']);
         $this->assertTrue($this->_collection->getFlag('tier_price_added'));
     }
 

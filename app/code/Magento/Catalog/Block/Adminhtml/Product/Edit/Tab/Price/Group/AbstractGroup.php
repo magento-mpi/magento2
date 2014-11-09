@@ -285,7 +285,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
      */
     public function getDefaultCustomerGroup()
     {
-        return $this->_groupManagement->getAllGroup()->getId();
+        return $this->_groupManagement->getAllCustomersGroup()->getId();
     }
 
     /**

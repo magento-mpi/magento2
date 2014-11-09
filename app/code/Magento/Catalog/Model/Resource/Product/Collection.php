@@ -2070,7 +2070,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         foreach ($adapter->fetchAll($select) as $row) {
             $tierPrices[$row['product_id']][] = array(
                 'website_id' => $row['website_id'],
-                'cust_group' => $row['all_groups'] ? $this->_groupManagement->getAllGroup()->getId() : $row['cust_group'],
+                'cust_group' => $row['all_groups'] ? $this->_groupManagement->getAllCustomersGroup()->getId() : $row['cust_group'],
                 'price_qty' => $row['price_qty'],
                 'price' => $row['price'],
                 'website_price' => $row['price']
