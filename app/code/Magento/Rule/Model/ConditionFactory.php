@@ -28,6 +28,14 @@ class ConditionFactory
      */
     public function __construct(ObjectManager $objectManager)
     {
+        /*
+          it's because of test falling
+          see: \Magento\TestFramework\Workaround\Cleanup\StaticProperties::clearStaticVariables
+        */
+        if (!is_array(self::$conditionModels)) {
+            self::$conditionModels = [];
+        }
+
         $this->objectManager = $objectManager;
     }
 

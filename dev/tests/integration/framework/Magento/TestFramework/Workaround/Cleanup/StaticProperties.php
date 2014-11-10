@@ -84,18 +84,12 @@ class StaticProperties
         foreach ($classes as $class) {
             $reflectionCLass = new \ReflectionClass($class);
             if (self::_isClassCleanable($reflectionCLass)) {
-                $defaultProperties = $reflectionCLass->getDefaultProperties();
                 $staticProperties = $reflectionCLass->getProperties(\ReflectionProperty::IS_STATIC);
                 foreach ($staticProperties as $staticProperty) {
                     $staticProperty->setAccessible(true);
                     $value = $staticProperty->getValue();
                     if (is_object($value) || is_array($value) && is_object(current($value))) {
-                        // if we have default value for static variable - reset to this value
-                        if (isset($defaultProperties[$staticProperty->getName()])) {
-                            $staticProperty->setValue($defaultProperties[$staticProperty->getName()]);
-                        } else {
-                            $staticProperty->setValue(null);
-                        }
+                        $staticProperty->setValue(null);
                     }
                     unset($value);
                 }
