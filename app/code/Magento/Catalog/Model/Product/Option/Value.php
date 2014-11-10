@@ -53,7 +53,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Catalog\Service\V1\Category\MetadataService $metadataService
+     * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService
      * @param \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -62,7 +62,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Catalog\Service\V1\Category\MetadataService $metadataService,
+        \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService,
         \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

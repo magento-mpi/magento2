@@ -10,12 +10,9 @@ namespace Magento\Eav\Api\Data;
 
 interface AttributeOptionLabelInterface
 {
-    /**
-     * Get option label
-     *
-     * @return string
-     */
-    public function getLabel();
+    const LABEL = 'label';
+
+    const STORE_ID = 'store_id';
 
     /**
      * Get store id
@@ -23,4 +20,11 @@ interface AttributeOptionLabelInterface
      * @return int
      */
     public function getStoreId();
+
+    /**
+     * Get option label
+     *
+     * @return string
+     */
+    public function getLabel();
 }
