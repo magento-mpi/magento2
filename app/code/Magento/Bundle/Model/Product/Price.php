@@ -41,11 +41,6 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     protected $_catalogData = null;
 
     /**
-     * @var GroupManagementInterface
-     */
-    protected $groupManagement;
-
-    /**
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -66,15 +61,14 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         \Magento\Catalog\Helper\Data $catalogData
     ) {
         $this->_catalogData = $catalogData;
-        $this->groupManagement = $groupManagement;
         parent::__construct(
             $ruleFactory,
             $storeManager,
             $localeDate,
             $customerSession,
             $eventManager,
-            $groupManagement,
-            $priceCurrency
+            $priceCurrency,
+            $groupManagement
         );
     }
 
@@ -556,7 +550,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      */
     public function getTierPrice($qty, $product)
     {
-        $allCustomersGroupId = $this->groupManagement->getAllCustomersGroup()->getId();
+        $allCustomersGroupId = $this->_groupManagement->getAllCustomersGroup()->getId();
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {
