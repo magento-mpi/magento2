@@ -40,9 +40,9 @@ class StockTest extends \PHPUnit_Framework_TestCase
     protected $stockItemFactory;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $productFactory;
+    protected $productRepository;
 
     protected function setUp()
     {
@@ -65,10 +65,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->productFactory = $this->getMockBuilder('Magento\Catalog\Model\ProductFactory')
-            ->setMethods(['create'])
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->productRepository = $this->getMock('Magento\Catalog\Api\ProductRepositoryInterface');
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManagerHelper->getObject(
@@ -78,7 +75,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
                 'collectionFactory' => $this->collectionFactory,
                 'stockItemService' => $this->stockItemService,
                 'stockItemFactory' => $this->stockItemFactory,
-                'productFactory' => $this->productFactory
+                'productRepository' => $this->productRepository
             ]
         );
     }
@@ -254,8 +251,8 @@ class StockTest extends \PHPUnit_Framework_TestCase
     private function getProductType($productId, $productType)
     {
         $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $product->expects($this->any())->method('load')->with($productId);
         $product->expects($this->any())->method('getTypeId')->will($this->returnValue($productType));
-        $this->productFactory->expects($this->any())->method('create')->will($this->returnValue($product));
+        $this->productRepository->expects($this->any())->method('getById')->with($productId)
+            ->will($this->returnValue($product));
     }
 }

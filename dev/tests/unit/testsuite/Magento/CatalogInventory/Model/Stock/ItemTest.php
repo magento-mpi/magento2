@@ -55,6 +55,11 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\CatalogInventory\Service\V1\StockItemService|\PHPUnit_Framework_MockObject_MockObject */
     protected $stockItemService;
 
+    /**
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $productRepository;
+
     protected function setUp()
     {
         $this->resource = $this->getMock(
@@ -84,10 +89,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->eventManager));
 
         $this->product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
-        $productFactory->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->product));
+        $this->productRepository = $this->getMock('Magento\Catalog\Api\ProductRepositoryInterface');
 
         $this->catalogInventoryMinsaleqty = $this->getMock(
             'Magento\CatalogInventory\Helper\Minsaleqty',
@@ -127,7 +129,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
                 'catalogInventoryMinsaleqty' => $this->catalogInventoryMinsaleqty,
                 'scopeConfig' => $this->scopeConfig,
                 'storeManager' => $this->storeManager,
-                'productFactory' => $productFactory,
+                'productRepository' => $this->productRepository,
                 'resource' => $this->resource,
                 'stockItemRegistry' => $this->stockItemRegistry,
                 'stockItemService' => $this->stockItemService
@@ -142,6 +144,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
     public function testBeforeSave()
     {
+        $productId = 15;
+        $this->item->setProductId($productId);
         $this->item->setData('key', 'value');
 
         $this->eventManager->expects($this->at(0))
@@ -154,6 +158,11 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->stockItemService->expects($this->any())
             ->method('isQty')
             ->will($this->returnValue(true));
+
+        $this->productRepository->expects($this->any())
+            ->method('getById')
+            ->with($productId)
+            ->will($this->returnValue($this->product));
 
         $this->assertEquals($this->item, $this->item->beforeSave());
     }
@@ -175,10 +184,11 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $isSaleable = $productConfig['is_saleable'];
 
         $this->setDataArrayValue('product_id', $productId);
-        $this->product->expects($this->once())
-            ->method('load')
-            ->with($this->equalTo($productId), $this->equalTo(null))
-            ->will($this->returnSelf());
+
+        $this->productRepository->expects($this->any())
+            ->method('getById')
+            ->with($productId)
+            ->will($this->returnValue($this->product));
 
         $this->product->expects($this->once())
             ->method('isComposite')

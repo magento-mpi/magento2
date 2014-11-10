@@ -7,7 +7,9 @@
  */
 namespace Magento\AdvancedCheckout\Model;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\MessageInterface;
 use Magento\AdvancedCheckout\Helper\Data;
 
@@ -116,13 +118,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $_quoteFactory;
 
     /**
-     * Catalog product factory
-     *
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
      * Wishlist factory
      *
      * @var \Magento\Wishlist\Model\WishlistFactory
@@ -177,13 +172,17 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $stockItemService;
 
     /**
+     * @var ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Framework\Message\Factory $messageFactory
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
@@ -192,6 +191,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * @param \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param ProductRepositoryInterface $productRepository
      * @param string $itemFailedStatus
      * @param array $data
      */
@@ -202,7 +202,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         Data $checkoutData,
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
@@ -211,6 +210,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        ProductRepositoryInterface $productRepository,
         $itemFailedStatus = Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
@@ -220,7 +220,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->_checkoutData = $checkoutData;
         $this->_optionFactory = $optionFactory;
         $this->_wishlistFactory = $wishlistFactory;
-        $this->_productFactory = $productFactory;
         $this->_quoteFactory = $quoteFactory;
         $this->_storeManager = $storeManager;
         $this->_localeFormat = $localeFormat;
@@ -230,6 +229,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->productConfiguration = $productConfiguration;
         $this->customerSession = $customerSession;
         $this->stockItemService = $stockItemService;
+        $this->productRepository = $productRepository;
         parent::__construct($data);
     }
 
@@ -440,10 +440,9 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
 
         if (!$product instanceof Product) {
             $productId = $product;
-            $product = $this->_productFactory->create()->setStore($this->getStore())
-                ->setStoreId($this->getStore()->getId())
-                ->load($product);
-            if (!$product->getId()) {
+            try {
+                $product = $this->productRepository->getById($productId, false, $this->getStore()->getId());
+            } catch (NoSuchEntityException $e) {
                 throw new \Magento\Framework\Model\Exception(
                     __('Failed to add a product to cart by id "%1".', $productId)
                 );
@@ -492,10 +491,9 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'));
         }
 
-        $product = $this->_productFactory->create()->setStoreId($this->getStore()->getId())
-            ->load($orderItem->getProductId());
-
-        if (!$product->getId()) {
+        try {
+            $product = $this->productRepository->getById($orderItem->getProductId(), false, $this->getStore()->getId());
+        } catch (NoSuchEntityException $e) {
             throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'));
         }
         $info = $orderItem->getProductOptionByCode('info_buyRequest');
@@ -856,8 +854,11 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     protected function _loadProductBySku($sku)
     {
-        /** @var $product Product */
-        $product = $this->_productFactory->create()->setStore($this->getCurrentStore())->loadByAttribute('sku', $sku);
+        try {
+            $product = $this->productRepository->get($sku, false, $this->getCurrentStore());
+        } catch (NoSuchEntityException $e) {
+            $product = false;
+        }
         return $product;
     }
 
@@ -909,7 +910,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected function _loadProductWithOptionsBySku($sku, $config = array())
     {
         $product = $this->_loadProductBySku($sku);
-        if ($product && $product->getId()) {
+        if ($product) {
             return $product;
         }
 

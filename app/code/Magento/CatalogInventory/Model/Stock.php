@@ -7,6 +7,7 @@
  */
 namespace Magento\CatalogInventory\Model;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\CatalogInventory\Model\Stock\Item;
 
 /**
@@ -62,9 +63,9 @@ class Stock extends \Magento\Framework\Model\AbstractModel
     protected $_collectionFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var ProductRepositoryInterface
      */
-    protected $productFactory;
+    protected $productRepository;
 
     /**
      * @param \Magento\Framework\Model\Context $context
@@ -74,7 +75,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
      * @param Stock\Status $stockStatus
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Stock\ItemFactory $stockItemFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -87,7 +88,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        ProductRepositoryInterface $productRepository,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -99,7 +100,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
         $this->stockStatus = $stockStatus;
         $this->_storeManager = $storeManager;
         $this->_stockItemFactory = $stockItemFactory;
-        $this->productFactory = $productFactory;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -165,9 +166,7 @@ class Stock extends \Magento\Framework\Model\AbstractModel
      */
     protected function getProductType($productId)
     {
-        $product = $this->productFactory->create();
-        $product->load($productId);
-        return $product->getTypeId();
+        return $this->productRepository->getById($productId)->getTypeId();
     }
 
     /**

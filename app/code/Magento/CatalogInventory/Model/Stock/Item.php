@@ -7,6 +7,7 @@
  */
 namespace Magento\CatalogInventory\Model\Stock;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
 
 /**
@@ -222,9 +223,9 @@ class Item extends \Magento\Framework\Model\AbstractModel
     protected $_localeDate;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var ProductRepositoryInterface
      */
-    protected $productFactory;
+    protected $productRepository;
 
     /**
      * @param \Magento\Framework\Model\Context $context
@@ -240,7 +241,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Framework\Math\Division $mathDivision
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -259,7 +260,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Framework\Math\Division $mathDivision,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        ProductRepositoryInterface $productRepository,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -277,7 +278,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         $this->_localeFormat = $localeFormat;
         $this->mathDivision = $mathDivision;
         $this->_localeDate = $localeDate;
-        $this->productFactory = $productFactory;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -879,10 +880,10 @@ class Item extends \Magento\Framework\Model\AbstractModel
     public function beforeSave()
     {
         parent::beforeSave();
-        /** @var \Magento\Catalog\Model\Product $product */
-        $product = $this->productFactory->create();
-        $product->load($this->getProductId());
-        $typeId = $product->getTypeId() ? $product->getTypeId() : $this->getTypeId();
+        $typeId = $this->productRepository->getById($this->getProductId())->getTypeId();
+        if (!$typeId) {
+            $typeId = $this->getTypeId();
+        }
 
         $isQty = $this->stockItemService->isQty($typeId);
 
@@ -1001,9 +1002,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         if (!$this->hasStockQty()) {
             $this->setStockQty(0);
 
-            /** @var Product $product */
-            $product = $this->productFactory->create();
-            $product->load($this->getProductId());
+            $product = $this->productRepository->getById($this->getProductId());
             // prevent possible recursive loop
             if (!$product->isComposite()) {
                 $stockQty = $this->getQty();

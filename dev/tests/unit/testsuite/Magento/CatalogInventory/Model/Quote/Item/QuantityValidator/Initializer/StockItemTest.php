@@ -42,7 +42,7 @@ class StockItemTest extends \PHPUnit_Framework_TestCase
         $this->stockItem = new StockItem($this->configMock, $this->qtyProcessorMock);
         $this->itemMock = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
             ->disableOriginalConstructor()
-            ->setMethods(['getParentItem', 'getProduct'])
+            ->setMethods(['getParentItem', 'getProduct', '__wakeup'])
             ->getMock();
     }
 
@@ -54,11 +54,11 @@ class StockItemTest extends \PHPUnit_Framework_TestCase
 
         $stockItemMock = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Item')
             ->disableOriginalConstructor()
-            ->setMethods(['hasIsChildItem', 'checkQuoteItemQty', 'setProduct'])
+            ->setMethods(['hasIsChildItem', 'checkQuoteItemQty', 'setProduct', '__wakeup'])
             ->getMock();
         $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
-            ->setMethods(['getTypeInstance', 'getForceChildItemQtyChanges', 'getCustomOption', 'getName'])
+            ->setMethods(['getTypeInstance', 'getForceChildItemQtyChanges', 'getCustomOption', 'getName', '__wakeup'])
             ->getMock();
 
         $customOptionMock = $this->getMockBuilder('Magneto\Framework\Object')

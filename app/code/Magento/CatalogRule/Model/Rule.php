@@ -7,6 +7,7 @@
  */
 namespace Magento\CatalogRule\Model;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
 
 /**
@@ -144,6 +145,11 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $dateTime;
 
     /**
+     * @var ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
@@ -158,6 +164,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypesList
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $relatedCacheTypes
@@ -178,6 +185,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypesList,
         \Magento\Framework\Stdlib\DateTime $dateTime,
+        ProductRepositoryInterface $productRepository,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $relatedCacheTypes = array(),
@@ -194,6 +202,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->_cacheTypesList = $cacheTypesList;
         $this->_relatedCacheTypes = $relatedCacheTypes;
         $this->dateTime = $dateTime;
+        $this->productRepository = $productRepository;
         parent::__construct($context, $registry, $formFactory, $localeDate, $resource, $resourceCollection, $data);
     }
 
@@ -348,7 +357,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function applyToProduct($product, $websiteIds = null)
     {
         if (is_numeric($product)) {
-            $product = $this->_productFactory->create()->load($product);
+            $product = $this->productRepository->getById($product);
         }
         if (is_null($websiteIds)) {
             $websiteIds = $this->getWebsiteIds();

@@ -34,12 +34,12 @@ class CartTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $prodFactoryMock;
+    protected $itemServiceMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $stockItemFactoryMock;
+    protected $productRepository;
 
     protected function setUp()
     {
@@ -54,7 +54,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $messageManagerMock =  $this->getMock('Magento\Framework\Message\ManagerInterface');
         $customerSessionMock =  $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
 
-        $this->prodFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
+        $this->productRepository = $this->getMock('Magento\Catalog\Api\ProductRepositoryInterface');
         $optionFactoryMock = $this->getMock('Magento\Catalog\Model\Product\OptionFactory', [], [], '', false);
         $prodTypesConfigMock = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface', [], [], '', false);
         $cartConfigMock =  $this->getMock('Magento\Catalog\Model\Product\CartConfiguration', [], [], '', false);
@@ -74,7 +74,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
             $this->helperMock,
             $optionFactoryMock,
             $wishListFactoryMock,
-            $this->prodFactoryMock,
             $quoteFactoryMock,
             $this->storeManagerMock,
             $this->localeFormatMock,
@@ -82,7 +81,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
             $prodTypesConfigMock,
             $cartConfigMock,
             $customerSessionMock,
-            $this->itemServiceMock
+            $this->itemServiceMock,
+            $this->productRepository
         );
     }
 
@@ -193,17 +193,17 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('setStore', 'loadByAttribute', 'getId', 'getWebsiteIds', 'isComposite', '__wakeup', '__sleep'),
+            array('getId', 'getWebsiteIds', 'isComposite', '__wakeup', '__sleep'),
             array(),
             '',
             false
         );
-        $productMock->expects($this->any())->method('setStore')->will($this->returnValue($productMock));
-        $productMock->expects($this->any())->method('loadByAttribute')->will($this->returnValue($productMock));
         $productMock->expects($this->any())->method('getId')->will($this->returnValue(1));
         $productMock->expects($this->any())->method('getWebsiteIds')->will($this->returnValue(array(1)));
         $productMock->expects($this->any())->method('isComposite')->will($this->returnValue(false));
-        $this->prodFactoryMock->expects($this->any())->method('create')->will($this->returnValue($productMock));
+
+        $this->productRepository->expects($this->any())->method('get')->with($sku)
+            ->will($this->returnValue($productMock));
         $this->helperMock->expects($this->any())->method('getSession')->will($this->returnValue($sessionMock));
         $this->localeFormatMock->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
         $this->storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
