@@ -1,4 +1,4 @@
-category,name,sku,size_pants,description,price,activity_general,style_bottom,material,pattern,climate,color,attribute_set
+category,name,sku,size_pants,description,price,activity_general,style_bottom,material,pattern,climate,color,eco_collection,performance_fabric,erin_recommends,new,sale,special_price,attribute_set
 "Women
 Bottoms
 Pants","Karmen Yoga Pant",WP01,"26
@@ -12,7 +12,7 @@ Warmup",Sweatpants,"CoolTech&trade;
 Organic Cotton",Solid,"Indoor
 Mild","White
 Gray
-Black",Bottom
+Black",1,1,,,,,Bottom
 "Women
 Bottoms
 Pants","Emma Leggings",WP02,"26
@@ -29,7 +29,7 @@ Indoor
 Mild
 Spring","Blue
 Red
-Purple",Bottom
+Purple",,1,,,,,Bottom
 "Women
 Bottoms
 Pants","Ida Workout Parachute Pant",WP03,"26
@@ -47,7 +47,7 @@ Mild
 Spring
 Warm","Black
 Blue
-Purple",Bottom
+Purple",,,,1,,,Bottom
 "Women
 Bottoms
 Pants","Cora Parachute Pant",WP04,"26
@@ -66,7 +66,7 @@ Mild
 Spring
 Warm","White
 Blue
-Black",Bottom
+Black",,,,,,,Bottom
 "Women
 Bottoms
 Pants","Sahara Leggings",WP05,"26
@@ -83,7 +83,7 @@ Organic Cotton",Solid,"Cool
 Indoor
 Spring","Gray
 Blue
-Red",Bottom
+Red",,,1,,,,Bottom
 "Women
 Bottoms
 Pants","Diana Tights",WP06,"26
@@ -102,7 +102,7 @@ Mild
 Spring
 Warm","Black
 Orange
-Blue",Bottom
+Blue",,,1,,,,Bottom
 "Women
 Bottoms
 Pants","Aeon Capri",WP07,"26
@@ -116,7 +116,7 @@ Organic Cotton",Color-Blocked,"Indoor
 Hot
 Mild","Black
 Orange
-Blue",Bottom
+Blue",,1,,,,,Bottom
 "Women
 Bottoms
 Pants","Bardot Capri",WP08,"26
@@ -134,7 +134,7 @@ Hot
 Mild
 Warm","Red
 Black
-Green",Bottom
+Green",,,,,,,Bottom
 "Women
 Bottoms
 Pants","Carina Basic Capri",WP09,"26
@@ -154,7 +154,7 @@ Mild
 Spring
 Warm","Purple
 Black
-Blue",Bottom
+Blue",,,,,,,Bottom
 "Women
 Bottoms
 Pants","Daria Bikram Pant",WP10,"26
@@ -168,7 +168,7 @@ Mild
 Spring
 Warm","Gray
 Black
-White",Bottom
+White",1,,,,,,Bottom
 "Women
 Bottoms
 Pants","Sylvia Capri",WP11,"26
@@ -180,7 +180,7 @@ Yoga",Capri,"Lycra&reg;
 Organic Cotton
 Polyester",Striped,Indoor,"Green
 Blue
-Red",Bottom
+Red",,,,,,,Bottom
 "Women
 Bottoms
 Pants","Deirdre Relaxed-Fit Capri",WP12,"26
@@ -195,7 +195,7 @@ Rayon",Color-Blocked,"Indoor
 Hot
 Mild","Blue
 Gray
-Green",Bottom
+Green",1,1,,,,,Bottom
 "Women
 Bottoms
 Pants","Portia Capri",WP13,"26
@@ -207,7 +207,7 @@ Yoga",Capri,"Organic Cotton",Solid,"Indoor
 Hot
 Mild","Orange
 Blue
-Green",Bottom
+Green",1,,1,,,,Bottom
 "Women
 Bottoms
 Shorts","Fiona Fitness Short",WSH01,"28
@@ -226,7 +226,7 @@ Mild
 Warm
 ","Red
 Green
-Black",Bottom
+Black",1,,,1,,,Bottom
 "Women
 Bottoms
 Shorts","Maxima Drawstring Short",WSH02,"28
@@ -234,7 +234,7 @@ Shorts","Maxima Drawstring Short",WSH02,"28
 30
 31
 32","<p>Even laid-back women like to stay stylish, and that&rsquo;s just what the Maxima Drawstring Short delivers. An elastic waist keeps the fit flexible, on the deck at home or on a trail walk. Sporty tennis flair adds an athletic accent.</p>
-<p>&bull; Light gray run shorts <br />- cotton polyester. <br />&bull; Contrast binding. <br />&bull; 3"" inseam. <br />&bull; Machine wash/dry.</p>",24,"Crosstraining
+<p>&bull; Light gray run shorts <br />- cotton polyester. <br />&bull; Contrast binding. <br />&bull; 3"" inseam. <br />&bull; Machine wash/dry.</p>",28.00,"Crosstraining
 Gym
 Running",Basic,"Cotton
 Polyester",Solid,"Indoor
@@ -242,7 +242,7 @@ Hot
 Mild
 Warm","Gray
 Yellow
-Orange",Bottom
+Orange",,,,,1,24.00,Bottom
 "Women
 Bottoms
 Shorts","Gwen Drawstring Bike Short",WSH03,"28
@@ -259,7 +259,7 @@ Organic Cotton",Solid,"All-weather
 Indoor
 Hot","Gray
 Blue
-Orange",Bottom
+Orange",1,1,,1,,,Bottom
 "Women
 Bottoms
 Shorts","Artemis Running Short",WSH04,"28
@@ -275,7 +275,7 @@ Hot
 Mild
 Warm","Black
 Green
-Orange",Bottom
+Orange",,,,,,,Bottom
 "Women
 Bottoms
 Shorts","Bess Yoga Short",WSH05,"28
@@ -283,7 +283,7 @@ Shorts","Bess Yoga Short",WSH05,"28
 30
 31
 32","<p>Designed for intense physical activity &ndash; think bikram &ndash; our Bess Yoga Short features moisture-wicking, four-way stretch fabric that lets you move in every which way. A vented gusset adds breathability and range of motion.</p>
-<p>&bull; Navy cotton shorts with light bue waist detail.<br />&bull; Front shirred waistband.<br />&bull; Flat-lock, chafe-free side seams.<br />&bull; Vented gusset.<br />&bull; Hidden interior pocket.<br />&bull; Sustainable and recycled fabric.</p>",24,"Gym
+<p>&bull; Navy cotton shorts with light bue waist detail.<br />&bull; Front shirred waistband.<br />&bull; Flat-lock, chafe-free side seams.<br />&bull; Vented gusset.<br />&bull; Hidden interior pocket.<br />&bull; Sustainable and recycled fabric.</p>",28.00,"Gym
 Running
 Yoga",Basic,"Cotton
 CoolTech&trade;
@@ -291,7 +291,7 @@ Mesh",Solid-Highlight,"All-weather
 Hot
 Warm","Blue
 Purple
-Yellow",Bottom
+Yellow",,,,,1,24.00,Bottom
 "Women
 Bottoms
 Shorts","Angel Light Running Short",WSH06,"26
@@ -307,7 +307,7 @@ Polyester",Solid,"All-weather
 Indoor
 Hot","Purple
 Gray
-Orange",Bottom
+Orange",,,,,,,Bottom
 "Women
 Bottoms
 Shorts","Echo Fit Compression Short",WSH07,"26
@@ -327,7 +327,7 @@ Hot
 Mild
 Warm","Black
 Blue
-Purple",Bottom
+Purple",,,,1,,,Bottom
 "Women
 Bottoms
 Shorts","Sybil Running Short",WSH08,"28
@@ -339,7 +339,7 @@ Shorts","Sybil Running Short",WSH08,"28
 Running",Basic,"Cocona&reg; performance fabric
 Cotton
 Mesh",Solid-Highlight,"Indoor
-Hot",Purple,Bottom
+Hot",Purple,,1,,,,,Bottom
 "Women
 Bottoms
 Shorts","Mimi All-Purpose Short",WSH09,"26
@@ -359,7 +359,7 @@ Organic Cotton
 Polyester",Solid-Highlight,"Mild
 Warm","Gray
 Green
-White",Bottom
+White",,,,,,,Bottom
 "Women
 Bottoms
 Shorts","Ana Running Short",WSH10,"26
@@ -373,7 +373,7 @@ Organic Cotton
 Polyester",Solid-Highlight,"All-weather
 Warm","Black
 Orange
-White",Bottom
+White",1,,,,,,Bottom
 "Women
 Bottoms
 Shorts","Ina Compression Short",WSH11,"26
@@ -389,7 +389,7 @@ Spandex",Solid,"All-weather
 Hot
 Warm","Blue
 Red
-Orange",Bottom
+Orange",,1,1,,,,Bottom
 "Women
 Bottoms
 Shorts","Erika Running Short",WSH12,"28
@@ -407,4 +407,4 @@ Spandex","Graphic Print","Hot
 Mild
 Warm","Purple
 Green
-Red",Bottom
+Red",,,1,,,,Bottom

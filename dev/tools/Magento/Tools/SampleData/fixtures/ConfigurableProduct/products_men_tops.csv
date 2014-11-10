@@ -1,4 +1,4 @@
-category,sku,name,size_general,description,price,style_general,activity_general,material,sleeve,collar,pattern,climate,color,attribute_set
+category,sku,name,size_general,description,price,style_general,activity_general,material,sleeve,collar,pattern,climate,color,eco_collection,performance_fabric,erin_recommends,new,sale,special_price,attribute_set
 "Men
 Tops
 Hoodies & Sweatshirts",MH01,"Chaz Kangeroo Hoodie","XS
@@ -6,7 +6,7 @@ S
 M
 L
 XL","<p>Ideal for cold-weather training or work outdoors, the Chaz Hoodie promises superior warmth with every wear. Thick material blocks out the wind as ribbed cuffs and bottom band seal in body heat. An extra-large kangaroo pocket protects your hands from the biting cold.</p>
-<p>&bull; Two-tone gray heather hoodie.<br />&bull; Drawstring-adjustable hood. <br />&bull; Machine wash/dry.</p>",45,,"Gym
+<p>&bull; Two-tone gray heather hoodie.<br />&bull; Drawstring-adjustable hood. <br />&bull; Machine wash/dry.</p>",52.00,,"Gym
 Outdoor
 Running
 Warmup
@@ -17,7 +17,7 @@ Indoor
 Spring
 Windy","Gray
 Black
-Orange",Top
+Orange",1,,,,1,45.00,Top
 "Men
 Tops
 Hoodies & Sweatshirts",MH02,"Teton Pullover Hoodie","XS
@@ -38,7 +38,7 @@ Indoor
 Spring
 Windy","Black
 Purple
-Red",Top
+Red",,,,1,,,Top
 "Men
 Tops
 Hoodies & Sweatshirts",MH03,"Bruno Compete Hoodie","XS
@@ -53,7 +53,7 @@ Indoor
 Spring
 Windy","Black
 Blue
-Green",Top
+Green",1,,1,1,,,Top
 "Men
 Tops
 Hoodies & Sweatshirts",MH04,"Frankie  Sweatshirt","XS
@@ -61,7 +61,7 @@ S
 M
 L
 XL","<p>The Frankie Sweatshirt is your best friend at long afternoon stadium stints or winter trailside campsites. The soft fleece fabric keeps you toasty as moisture-wicking technology kicks in when the sun comes out.</p>
-<p>&bull; Light green crewneck sweatshirt.<br />&bull; Hand pockets.<br />&bull; Relaxed fit.<br />&bull; Machine wash/dry.</p>",50,,"Gym
+<p>&bull; Light green crewneck sweatshirt.<br />&bull; Hand pockets.<br />&bull; Relaxed fit.<br />&bull; Machine wash/dry.</p>",60.00,,"Gym
 Outdoor
 Yoga
 Lounge
@@ -71,7 +71,7 @@ Indoor
 Spring
 Windy","Green
 Yellow
-White",Top
+White",1,1,,,1,50.00,Top
 "Men
 Tops
 Hoodies & Sweatshirts",MH05,"Hollister Backyard Sweatshirt","XS
@@ -89,7 +89,7 @@ Lounge
 Polyester
 Nylon",Long-Sleeve,Crew,Color-Blocked,Cool,"White
 Red
-Green",Top
+Green",,,,,,,Top
 "Men
 Tops
 Hoodies & Sweatshirts",MH06,"Stark Fundamental Hoodie","XS
@@ -108,7 +108,7 @@ Cool
 Indoor
 Spring","Blue
 Black
-Purple",Top
+Purple",,,,,,,Top
 "Men
 Tops
 Hoodies & Sweatshirts",MH07,"Hero Hoodie","XS
@@ -122,7 +122,7 @@ Lounge","Fleece
 Hemp
 Polyester",Long-Sleeve,"Full zip",Color-Blocked,Spring,"Gray
 Green
-Black",Top
+Black",,,,1,,,Top
 "Men
 Tops
 Hoodies & Sweatshirts",MH08,"Oslo Trek Hoodie","XS
@@ -136,7 +136,7 @@ Polyester
 Nylon",Long-Sleeve,"&frac14; zip",Solid,"Windy
 Cool","Brown
 Red
-Purple",Top
+Purple",,,,,,,Top
 "Men
 Tops
 Hoodies & Sweatshirts",MH09,"Abominable Hoodie","XS
@@ -151,7 +151,7 @@ Wool
 Nylon",Long-Sleeve,"Boat Neck",Solid,"Spring
 Windy","Blue
 Red
-Green",Top
+Green",,,1,,,,Top
 "Men
 Tops
 Hoodies & Sweatshirts",MH10,"Mach Street Sweatshirt ","XS
@@ -159,7 +159,7 @@ S
 M
 L
 XL","<p>From hard streets to asphalt track, the Mach Street Sweatshirt holds up to wear and wind and rain. An infusion of performance and stylish comfort, with moisture-wicking LumaTech&trade; fabric, it&rsquo;s bound to become an everyday part of your active lifestyle</p>
-<p>&bull; Navy heather crewneck sweatshirt.<br />&bull; LumaTech&trade; moisture-wicking fabric.<br />&bull; Antimicrobial, odor-resistant.<br />&bull; Zip hand pockets.<br />&bull; Chafe-resistant flatlock seams.<br />&bull; Rib-knit cuffs and hem.</p>",53,,"Gym
+<p>&bull; Navy heather crewneck sweatshirt.<br />&bull; LumaTech&trade; moisture-wicking fabric.<br />&bull; Antimicrobial, odor-resistant.<br />&bull; Zip hand pockets.<br />&bull; Chafe-resistant flatlock seams.<br />&bull; Rib-knit cuffs and hem.</p>",62.00,,"Gym
 Running
 Yoga
 Lounge
@@ -170,7 +170,7 @@ Cool
 Indoor
 Spring","Blue
 Black
-Red",Top
+Red",,1,,,1,53.00,Top
 "Men
 Tops
 Hoodies & Sweatshirts",MH11,"Grayson Crewneck Sweatshirt ","XS
@@ -186,7 +186,7 @@ Indoor
 Spring
 Windy","White
 Red
-Orange",Top
+Orange",,,,,,,Top
 "Men
 Tops
 Hoodies & Sweatshirts",MH12,"Ajax Full-Zip Sweatshirt ","XS
@@ -201,7 +201,7 @@ Indoor
 Spring
 Windy","Green
 Blue
-Red",Top
+Red",,,,,,,Top
 "Men
 Tops
 Hoodies & Sweatshirts",MH13,"Marco Lightweight Active Hoodie","XS
@@ -218,7 +218,7 @@ Indoor
 Spring
 Windy","Blue
 Lavender
-Green",Top
+Green",,1,1,,,,Top
 "Men
 Tops
 Jackets",MJ01,"Beaumont Summit Kit","XS
@@ -226,7 +226,7 @@ S
 M
 L
 XL","<p>The smooth nylon shell around the Beaumont Summit Kit combats wind, reinforced with a cold-fighting brushed fleece layer. The jacket is reversible, giving you a new look for the return trek. Ample pocket space rounds out this hiker&rsquo;s paradise package.</p>
-<p>&bull; Yellow full zip rain jacket.<br />&bull; Full-zip front. <br />&bull; Stand-up collar. <br />&bull; Elasticized cuffs. <br />&bull; Machine wash/dry.</p>",36,"Lightweight
+<p>&bull; Yellow full zip rain jacket.<br />&bull; Full-zip front. <br />&bull; Stand-up collar. <br />&bull; Elasticized cuffs. <br />&bull; Machine wash/dry.</p>",42.00,"Lightweight
 Hooded
 Rain Coat
 Hard Shell
@@ -241,7 +241,7 @@ Rainy
 Spring
 Windy","Yellow
 Orange
-Red",Top
+Red",,1,,,1,36.00,Top
 "Men
 Tops
 Jackets",MJ02,"Hyperion Elements Jacket","XS
@@ -262,7 +262,7 @@ Rainy
 Spring
 Windy","Green
 Orange
-Red",Top
+Red",,1,,1,,,Top
 "Men
 Tops
 Jackets",MJ04,"Kenobi Trail Jacket","XS
@@ -281,10 +281,10 @@ Spring
 Windy
 Wintry","Black
 Blue
-Purple",Top
+Purple",1,,,,,,Top
 "Men
 Tops
-Jackets",MJ07,Orion Two-Tone Fitted Jacket,"XS
+Jackets",MJ07,"Orion Two-Tone Fitted Jacket","XS
 S
 M
 L
@@ -302,7 +302,7 @@ Rainy
 Spring
 Windy","Red
 Yellow
-Black",Top
+Black",,,,,,,Top
 "Men
 Tops
 Jackets",MJ08,"Lando Gym Jacket","XS
@@ -324,7 +324,7 @@ Cool
 Windy
 Wintry","Gray
 Green
-Blue",Top
+Blue",,,1,,,,Top
 "Men
 Tops
 Jackets",MJ09,"Taurus Elements Shell","XS
@@ -346,7 +346,7 @@ Rainy
 Spring
 Windy","Yellow
 Blue
-White",Top
+White",,,,,,,Top
 "Men
 Tops
 Jackets",MJ10,"Mars HeatTech&trade; Pullover","XS
@@ -368,7 +368,7 @@ Rainy
 Spring
 Windy","Red
 Black
-Orange",Top
+Orange",,,,,,,Top
 "Men
 Tops
 Jackets",MJ11,"Typhon Performance Fleece-lined Jacket","XS
@@ -376,7 +376,7 @@ S
 M
 L
 XL","<p>Ironmen and couch warriors both reach for the Typhon Performance Fleece-lined Jacket. After all, no man can resist ultra-soft microfleece lining. Flatlock seams make it ideal for wearing over everything from tanks and tees to high-tech base layers.</p>
-<p>&bull; Black full-zip flight jacket.<br />&bull; Cocona&reg; wicking fiber.<br />&bull; Machine wash/dry.</p>",52,"Insulated
+<p>&bull; Black full-zip flight jacket.<br />&bull; Cocona&reg; wicking fiber.<br />&bull; Machine wash/dry.</p>",60.00,"Insulated
 Heavy Duty
 Hard Shell
 Windbreaker
@@ -389,7 +389,7 @@ Spring
 Windy
 Wintry","Black
 Red
-Green",Top
+Green",,1,,,1,52.00,Top
 "Men
 Tops
 Jackets",MJ06,"Jupiter All-Weather Trainer ","XS
@@ -413,7 +413,7 @@ Mild
 Spring
 Warm","Blue
 Green
-Purple",Top
+Purple",1,,1,,,,Top
 "Men
 Tops
 Jackets",MJ03,"Montana Wind Jacket","XS
@@ -433,7 +433,7 @@ Mild
 Spring
 Windy","Black
 Green
-Red",Top
+Red",,,,1,,,Top
 "Men
 Tops
 Jackets",MJ12,"Proteus Fitness Jackshirt","XS
@@ -454,7 +454,7 @@ Cool
 Indoor
 Spring","Orange
 Blue
-Black",Top
+Black",,,,,,,Top
 "Men
 Tops
 Tees",MS04,"Gobi HeatTec&reg; Tee","XS
@@ -471,7 +471,7 @@ Polyester",Short-Sleeve,Crew,Solid,"All-weather
 Indoor
 Warm","Orange
 Red
-Black",Top
+Black",,1,,1,,,Top
 "Men
 Tops
 Tees",MS05,"Helios EverCool&trade; Tee","XS
@@ -488,7 +488,7 @@ Organic Cotton",Short-Sleeve,Crew,Solid,"All-weather
 Indoor
 Warm","Blue
 Black
-Purple",Top
+Purple",1,1,,,,,Top
 "Men
 Tops
 Tees",MS09,"Ryker LumaTech&trade; Tee (Crew-neck)","XS
@@ -504,7 +504,7 @@ Polyester",Short-Sleeve,Crew,Solid,"All-weather
 Indoor
 Warm","Blue
 Black
-Red",Top
+Red",,,1,,,,Top
 "Men
 Tops
 Tees",MS11,"Atomic Endurance Running Tee (V-neck)","XS
@@ -512,7 +512,7 @@ S
 M
 L
 XL","<p>Reach your limit and keep on going in the Atomic Endurance Running Tee. Built to help any athlete push past the wall with loads of performance features.</p>
-<p>&bull; Lime heathered v-neck tee. <br />&bull; Ultra-lightweight.<br />&bull; Moisture-wicking Cocona&reg; fabric.<br />&bull; Machine wash/dry.</p>",24,Tee,"Gym
+<p>&bull; Lime heathered v-neck tee. <br />&bull; Ultra-lightweight.<br />&bull; Moisture-wicking Cocona&reg; fabric.<br />&bull; Machine wash/dry.</p>",28.00,Tee,"Gym
 Outdoor
 Running
 Yoga","Cocona&reg; performance fabric
@@ -521,7 +521,7 @@ Polyester",Short-Sleeve,Crew,Solid,"All-weather
 Indoor
 Warm","Green
 Blue
-Yellow",Top
+Yellow",,1,,,1,24.00,Top
 "Men
 Tops
 Tees",MS12,"Atomic Endurance Running Tee (Crew-Neck)","XS
@@ -538,7 +538,7 @@ Polyester",Short-Sleeve,Crew,Solid,"All-weather
 Indoor
 Warm","Red
 Blue
-Black",Top
+Black",,,,1,,,Top
 "Men
 Tops
 Tees",MS03,"Balboa Persistence Tee","XS
@@ -554,7 +554,7 @@ Polyester",Short-Sleeve,Crew,Solid,"All-weather
 Indoor
 Warm","Gray
 Orange
-Green",Top
+Green",,1,1,,,,Top
 "Men
 Tops
 Tees",MS06,"Zoltan Gym Tee","XS
@@ -570,7 +570,7 @@ Polyester",Short-Sleeve,Crew,Solid,"All-weather
 Indoor
 Warm","Blue
 Green
-Yellow",Top
+Yellow",,,,1,,,Top
 "Men
 Tops
 Tees",MS01,"Aero Daily Fitness Tee","XS
@@ -585,7 +585,7 @@ Yoga",Polyester,Short-Sleeve,Crew,Solid,"All-weather
 Indoor
 Warm","Brown
 Black
-Yellow",Top
+Yellow",,,,,,,Top
 "Men
 Tops
 Tees",MS02,"Ryker LumaTech&trade; Tee (V-neck)","XS
@@ -593,7 +593,7 @@ S
 M
 L
 XL","<p>Don't be fooled by its classic style; the Ryker LumaTech&trade; Tee embodies the future of performance apparel. Its featherweight blend of fabrics wicks away moisture to keep you cool and dry, whether racking up miles, hitting three pointers or strutting the boardwalk.</p>
-<p>&bull; Relaxed fit. <br />&bull; Short-Sleeve. <br />&bull; Machine wash/dry.</p>",24,Tee,"Gym
+<p>&bull; Relaxed fit. <br />&bull; Short-Sleeve. <br />&bull; Machine wash/dry.</p>",28.00,Tee,"Gym
 Outdoor
 Running
 Yoga","LumaTech&trade;
@@ -602,7 +602,7 @@ Rayon",Short-Sleeve,Crew,Solid,"All-weather
 Indoor
 Warm","Gray
 Black
-Blue",Top
+Blue",,,,,1,24.00,Top
 "Men
 Tops
 Tees",MS10,"Logan  HeatTec&reg; Tee","XS
@@ -618,7 +618,7 @@ HeatTec&reg;",Short-Sleeve,Crew,Solid,"All-weather
 Indoor
 Warm","Blue
 Black
-Red",Top
+Red",,,,,,,Top
 "Men
 Tops
 Tees",MS07,"Deion Long-Sleeve EverCool&trade; Tee","XS
@@ -636,7 +636,7 @@ Cool
 Indoor
 Warm","Green
 White
-Black",Top
+Black",,,,,,,Top
 "Men
 Tops
 Tees",MS08,"Strike Endurance Tee","XS
@@ -653,7 +653,7 @@ Cool
 Indoor
 Warm","Blue
 Black
-Red",Top
+Red",,,1,1,,,Top
 "Men
 Tops
 Tanks",MT01,"Erikssen CoolTech&trade; Fitness Tank","XS
@@ -670,7 +670,7 @@ Polyester",Sleeveless,Crew,Solid,"All-weather
 Indoor
 Warm","Red
 Orange
-Gray",Top
+Gray",,,,,,,Top
 "Men
 Tops
 Tanks",MT02,"Tristan Endurance Tank","XS
@@ -687,7 +687,7 @@ Organic Cotton",Sleeveless,Crew,Solid,"All-weather
 Indoor
 Warm","White
 Gray
-Red",Top
+Red",,,,,,,Top
 "Men
 Tops
 Tanks",MT03,"Primo Endurance Tank","XS
@@ -703,7 +703,7 @@ Polyester",Sleeveless,Scoop-Neck,Solid,"All-weather
 Indoor
 Warm","Blue
 Red
-Yellow",Top
+Yellow",,,,,,,Top
 "Men
 Tops
 Tanks",MT04,"Helios Endurance Tank","XS
@@ -718,7 +718,7 @@ Yoga","Cocona&reg; performance fabric
 Organic Cotton
 Polyester",Sleeveless,Scoop-Neck,Solid,"All-weather
 Indoor
-Warm",Blue,Top
+Warm",Blue,,1,1,1,,,Top
 "Men
 Tops
 Tanks",MT05,"Rocco Gym Tank","XS
@@ -733,7 +733,7 @@ Yoga","Cocona&reg; performance fabric
 Organic Cotton
 Polyester",Sleeveless,Crew,Solid,"All-weather
 Indoor
-Warm",Blue,Top
+Warm",Blue,,1,,,,,Top
 "Men
 Tops
 Tanks",MT06,"Vulcan Weightlifting Tank","XS
@@ -747,7 +747,7 @@ Running
 Yoga","Cocona&reg; performance fabric
 Polyester",Sleeveless,Crew,Solid,"All-weather
 Indoor
-Warm",Black,Top
+Warm",Black,,1,,,,,Top
 "Men
 Tops
 Tanks",MT07,"Argus All-Weather Tank","XS
@@ -761,7 +761,7 @@ Running
 Yoga","Organic Cotton
 Polyester",Sleeveless,Crew,Solid,"All-weather
 Indoor
-Warm",Gray,Top
+Warm",Gray,1,,,,,,Top
 "Men
 Tops
 Tanks",MT08,"Sparta Gym Tank","XS
@@ -774,7 +774,7 @@ Outdoor
 Running
 Yoga",Polyester,Sleeveless,Crew,Solid,"All-weather
 Indoor
-Warm",Green,Top
+Warm",Green,,,1,1,,,Top
 "Men
 Tops
 Tanks",MT09,"Sinbad Fitness Tank","XS
@@ -787,7 +787,7 @@ Outdoor
 Running
 Yoga",Polyester,Sleeveless,Crew,Solid,"All-weather
 Indoor
-Warm",Blue,Top
+Warm",Blue,,,,1,,,Top
 "Men
 Tops
 Tanks",MT10,"Tiberius Gym Tank","XS
@@ -795,14 +795,14 @@ S
 M
 L
 XL","<p>Whether you&rsquo;re classy or just sweaty, the Tiberius Gym Tank helps you look good while you&rsquo;re at it. What&rsquo;s more, its moisture-wicking, quick-drying, anti-microbial and anti-odor construction help ensure you&rsquo;re welcome back to the gym.</p>
-<p>&bull; Yellow scoop neck cotton tank.<br />&bull; Comfortable, relaxed fit.<br />&bull; 55% Hemp / 45% Organic Cotton.<br />&bull; Pesticide- and herbicide-free hemp.</p>",15,Tank,"Gym
+<p>&bull; Yellow scoop neck cotton tank.<br />&bull; Comfortable, relaxed fit.<br />&bull; 55% Hemp / 45% Organic Cotton.<br />&bull; Pesticide- and herbicide-free hemp.</p>",18.00,Tank,"Gym
 Outdoor
 Running
 Yoga","Cocona&reg; performance fabric
 EverCool&trade;
 Organic Cotton",Sleeveless,Crew,Solid,"All-weather
 Indoor
-Warm",Yellow,Top
+Warm",Yellow,,,,,1,15.00,Top
 "Men
 Tops
 Tanks",MT11,"Atlas Fitness Tank","XS
@@ -810,13 +810,13 @@ S
 M
 L
 XL","<p>From weekend warrior to Warrior Pose II, no role can beat the Atlas Fitness Tank, a versatile top for gym and yoga studio. Wicking-weave soft fabric helps prevent uncomfortable chafing.</p>
-<p>&bull; Teal scoop neck cotton tank.<br />&bull; Triblend, soft fabric.<br />&bull; Relaxed fit.</p>",15,Tank,"Gym
+<p>&bull; Teal scoop neck cotton tank.<br />&bull; Triblend, soft fabric.<br />&bull; Relaxed fit.</p>",18.00,Tank,"Gym
 Outdoor
 Running
 Yoga","Organic Cotton
 Polyester",Sleeveless,Crew,Solid,"All-weather
 Indoor
-Warm",Blue,Top
+Warm",Blue,1,,,,1,15.00,Top
 "Men
 Tops
 Tanks",MT12,"Cassius Sparring Tank","XS
@@ -824,10 +824,10 @@ S
 M
 L
 XL","<p>Whether you&rsquo;re up against a partner or the clock, the Cassius Sparring Tank is in your corner, moving effortless with your body. The light and loose feel gives you no reason to give up before the bell or the end of the block.</p>
-<p>&bull; Royal crewneck cotton tank.<br />&bull; Contrast stitching.<br />&bull; Self fabric binding at neckline.<br />&bull; Slim fit.<br />&bull; 96% Merino / 4% LYCRA&reg;.</p>",15,Tank,"Gym
+<p>&bull; Royal crewneck cotton tank.<br />&bull; Contrast stitching.<br />&bull; Self fabric binding at neckline.<br />&bull; Slim fit.<br />&bull; 96% Merino / 4% LYCRA&reg;.</p>",18.00,Tank,"Gym
 Outdoor
 Running
 Yoga","LumaTech&trade;
 Polyester",Sleeveless,Crew,Solid,"All-weather
 Indoor
-Warm",Blue,Top
+Warm",Blue,,,,,1,15.00,Top

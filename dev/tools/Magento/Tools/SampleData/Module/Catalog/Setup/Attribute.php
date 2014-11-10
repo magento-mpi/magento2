@@ -118,6 +118,10 @@ class Attribute implements SetupInterface
                     $attribute = $this->attributeFactory->create();
                 }
 
+                $frontendLabel = explode("\n", $data['frontend_label']);
+                if (count($frontendLabel) > 1) {
+                    $data['frontend_label'] = $frontendLabel;
+                }
                 $data['option'] = $this->getOption($attribute, $data);
                 $data['source_model'] = $this->productHelper->getAttributeSourceModelByInputType(
                     $data['frontend_input']

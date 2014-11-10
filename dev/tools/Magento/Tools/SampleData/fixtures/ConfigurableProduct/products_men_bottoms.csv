@@ -1,4 +1,4 @@
-category,name,sku,size_pants,description,price,activity_general,style_bottom,material,pattern,climate,color,attribute_set
+category,name,sku,size_pants,description,price,activity_general,style_bottom,material,pattern,climate,color,eco_collection,performance_fabric,erin_recommends,new,sale,special_price,attribute_set
 "Men
 Bottoms
 Pants","Caesar Warm-Up Pant",MP01,"32
@@ -15,7 +15,7 @@ Hemp
 Wool",Solid,"Cool
 Spring","Gray
 Black
-Purple",Bottom
+Purple",,,,,,,Bottom
 "Men
 Bottoms
 Pants","Viktor LumaTech&trade; Pant",MP02,"32
@@ -32,7 +32,7 @@ Spandex",Solid,"Cold
 Cool
 Wintry","Gray
 Blue
-Red",Bottom
+Red",,1,,,,,Bottom
 "Men
 Bottoms
 Pants","Geo Insulated Jogging Pant",MP03,"32
@@ -54,7 +54,7 @@ Indoor
 Windy
 Wintry","Blue
 Red
-Green",Bottom
+Green",,,,1,,,Bottom
 "Men
 Bottoms
 Pants","Supernova Sport Pant",MP04,"32
@@ -76,7 +76,7 @@ Spring
 Windy
 Wintry","Gray
 Green
-Black",Bottom
+Black",,,,,,,Bottom
 "Men
 Bottoms
 Pants","Kratos Gym Pant",MP05,"32
@@ -92,7 +92,7 @@ Rayon",Solid,"Spring
 Windy
 Wintry","Blue
 Black
-Green",Bottom
+Green",,,,1,,,Bottom
 "Men
 Bottoms
 Pants","Mithra Warmup Pant",MP06,"32
@@ -113,7 +113,7 @@ Mild
 Windy
 Wintry","Gray
 Orange
-Green",Bottom
+Green",1,,,,,,Bottom
 "Men
 Bottoms
 Pants","Thorpe Track Pant",MP07,"32
@@ -134,7 +134,7 @@ Cool
 Spring
 Wintry","Blue
 Black
-Purple",Bottom
+Purple",,,,1,,,Bottom
 "Men
 Bottoms
 Pants","Zeppelin Yoga Pant",MP08,"32
@@ -157,7 +157,7 @@ Spring
 Windy
 Wintry","Green
 Blue
-Red",Bottom
+Red",,,,1,,,Bottom
 "Men
 Bottoms
 Pants","Livingston All-Purpose Tight",MP09,"32
@@ -180,7 +180,7 @@ Cool
 Windy
 Wintry","Blue
 Red
-Black",Bottom
+Black",,1,1,1,,,Bottom
 "Men
 Bottoms
 Pants","Orestes Yoga Pant ",MP10,"32
@@ -199,7 +199,7 @@ Mild
 Windy
 Wintry","Black
 Blue
-Green",Bottom
+Green",,,1,,,,Bottom
 "Men
 Bottoms
 Pants","Aether Gym Pant ",MP11,"32
@@ -222,7 +222,7 @@ Rainy
 Spring
 Windy","Brown
 Blue
-Green",Bottom
+Green",,1,1,,,,Bottom
 "Men
 Bottoms
 Pants","Cronus Yoga Pant ",MP12,"32
@@ -242,7 +242,7 @@ Spring
 Windy
 Wintry","Black
 Blue
-Red",Bottom
+Red",,,,,,,Bottom
 "Men
 Bottoms
 Shorts","Cobalt CoolTech&trade; Fitness Short",MSH01,"32
@@ -260,28 +260,28 @@ Wool",Solid,"All-weather
 Indoor
 Hot","Blue
 Red
-Black",Bottom
+Black",,,1,,,,Bottom
 "Men
 Bottoms
 Shorts","Apollo Running Short",MSH02,"32
 33
 34
 36","<p>Fleet of foot or slow and steady, you&rsquo;ll be in complete comfort with the Apollo Running Short. Lightweight polyester material lets you move with ease, and mesh side panels promise plenty of ventilation as you work up a sweat. The stretchy elastic waistband delivers a flexible fit.</p>
-<p>&bull; Black shorts with green accents.<br />&bull; Side pockets. <br />&bull; 4"" inseam. <br />&bull; Machine wash/dry.</p>","32.5","Gym
+<p>&bull; Black shorts with green accents.<br />&bull; Side pockets. <br />&bull; 4"" inseam. <br />&bull; Machine wash/dry.</p>",32.5,"Gym
 Outdoor
 Running
 Cross-training","Workout Pants
 Base Layer","Polyester
 Rayon",Solid,"All-weather
 Indoor
-Warm",Black,Bottom
+Warm",Black,,,,,,,Bottom
 "Men
 Bottoms
 Shorts","Meteor Workout Short",MSH03,"32
 33
 34
 36","<p>Step into the Meteor Workout Short for an incredibly lightweight fitness experience. Its breathable construction and an inner brief provide additional comfort and support, while the adjustable waistband offers the perfect fit to take you to the finish.</p>
-<p>&bull; Royal blue shorts with light blue accents.<br />&bull; Interior drawstring waistband. <br />&bull; 7"" inseam. <br />&bull; Machine wash/dry.</p>","32.5","Gym
+<p>&bull; Royal blue shorts with light blue accents.<br />&bull; Interior drawstring waistband. <br />&bull; 7"" inseam. <br />&bull; Machine wash/dry.</p>",32.5,"Gym
 Outdoor
 Running
 Cross-training","Workout Pants
@@ -290,14 +290,14 @@ Polyester",Solid,"All-weather
 Spring
 Warm","Blue
 Green
-Black",Bottom
+Black",,1,,,,,Bottom
 "Men
 Bottoms
 Shorts","Torque Power Short",MSH04,"32
 33
 34
 36","<p>Take a turn in the Torque Power Short and enjoy the smooth, motion-friendly stretch and sweat-wicking, UV-protective material. You'll stay cool, dry and energized miles later.</p>
-<p>&bull; Light gray shorts.<br />&bull; Fitted design. <br />&bull; Elastic waistband. <br />&bull; Flat-seam construction. <br />&bull; 7"" inseam. <br />&bull; Machine wash/dry.</p>","32.5","Gym
+<p>&bull; Light gray shorts.<br />&bull; Fitted design. <br />&bull; Elastic waistband. <br />&bull; Flat-seam construction. <br />&bull; 7"" inseam. <br />&bull; Machine wash/dry.</p>",32.5,"Gym
 Outdoor
 Running
 Cross-training","Workout Pants
@@ -309,7 +309,7 @@ Mild
 Spring
 Warm","Gray
 Purple
-Yellow",Bottom
+Yellow",,,,,,,Bottom
 "Men
 Bottoms
 Shorts","Hawkeye Yoga Short",MSH05,"32
@@ -329,7 +329,7 @@ Striped","Indoor
 Spring
 Warm","Gray
 Blue
-Black",Bottom
+Black",,1,,,,,Bottom
 "Men
 Bottoms
 Shorts","Lono Yoga Short",MSH06,"32
@@ -345,14 +345,14 @@ Indoor
 Hot
 Warm","Gray
 Blue
-Red",Bottom
+Red",,,,1,,,Bottom
 "Men
 Bottoms
 Shorts","Rapha  Sports Short",MSH07,"32
 33
 34
 36","<p>For those about to sweat, we support you with the Rapha Sports Short. The compression-fit liner surrounds your muscles with the stimulation they need to find your high gear, while moisture-wicking performance fabric helps prevents sweat build-up.</p>
-<p>&bull; Black shorts with royal accents.<br />&bull; Compression liner. <br />&bull; Inseam: 8"". <br />&bull; Machine wash/dry.</p>",29,"Running
+<p>&bull; Black shorts with royal accents.<br />&bull; Compression liner. <br />&bull; Inseam: 8"". <br />&bull; Machine wash/dry.</p>",35.00,"Running
 Yoga
 Cross-training","Workout Pants
 Base Layer
@@ -364,14 +364,14 @@ Striped","Indoor
 Spring
 Warm","Black
 Blue
-Purple",Bottom
+Purple",,1,1,,1,29.00,Bottom
 "Men
 Bottoms
 Shorts","Orestes Fitness Short",MSH08,"32
 33
 34
 36","<p>You&rsquo;re out of excuses not to run, lift, or play when you own a pair of the Orestes Fitness Short. You won&rsquo;t complain about the high-performance polyester wicking fabric, reflective safety trim or seamless built-in comfort brief, either.</p>
-<p>&bull; Black shorts with dark gray accents.<br />&bull; Elasticized waistband with interior drawstring.<br />&bull; Ventilating mesh detailing.<br />&bull; 100% polyester and recycled polyester.<br />&bull; Machine wash cold, tumble dry low.</p>",29,"Gym
+<p>&bull; Black shorts with dark gray accents.<br />&bull; Elasticized waistband with interior drawstring.<br />&bull; Ventilating mesh detailing.<br />&bull; 100% polyester and recycled polyester.<br />&bull; Machine wash cold, tumble dry low.</p>",35.00,"Gym
 Outdoor
 Running
 Yoga","Workout Pants
@@ -380,7 +380,7 @@ Polyester",Solid,"All-weather
 Indoor
 Hot","Black
 Green
-Blue",Bottom
+Blue",,,,,1,29.00,Bottom
 "Men
 Bottoms
 Shorts","Troy Yoga Short",MSH09,"32
@@ -398,7 +398,7 @@ Spandex",Solid,"Indoor
 Hot
 Warm","Blue
 Green
-Black",Bottom
+Black",,1,,,,,Bottom
 "Men
 Bottoms
 Shorts","Sol Active Short",MSH10,"32
@@ -414,7 +414,7 @@ Spandex",Solid,"Indoor
 Hot
 Warm","Blue
 Green
-Purple",Bottom
+Purple",,,,1,,,Bottom
 "Men
 Bottoms
 Shorts","Arcadio Gym Short",MSH11,"32
@@ -433,14 +433,14 @@ Hot
 Spring
 Warm","Blue
 Red
-Black",Bottom
+Black",,,,,,,Bottom
 "Men
 Bottoms
 Shorts","Pierce Gym Short",MSH12,"32
 33
 34
 36","<p>The Pierce Gym Short is similar to our Arcadio Gym Short, but designed with a fitted, tapered look. A flat waistband with an adjustable drawstring adds comfort, with zippered pockets for safe, easy storage.</p>
-<p>&bull; Dark red cotton shorts. <br />&bull; 87% Supplex, 13% Lycra.<br />&bull; Adjustable drawstring waistband.<br />&bull; Built-in mesh brief.<br />&bull; Machine wash cold, tumble dry low.</p>",20,"Gym
+<p>&bull; Dark red cotton shorts. <br />&bull; 87% Supplex, 13% Lycra.<br />&bull; Adjustable drawstring waistband.<br />&bull; Built-in mesh brief.<br />&bull; Machine wash cold, tumble dry low.</p>",27.00,"Gym
 Outdoor
 Running","Workout Pants
 Base Layer
@@ -451,4 +451,4 @@ Spandex",Solid,"Indoor
 Hot
 Warm","Red
 Black
-Gray",Bottom
+Gray",,,,,1,20.00,Bottom
