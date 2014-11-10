@@ -30,7 +30,7 @@
             </field>
             <field name="suffix" source="eav"/>
             <field name="company" source="eav" label="Company"/>
-            <field name="street" dataType="text" formElement="input" size="3" source="eav">
+            <field name="street" dataType="text" formElement="input" size="2" source="eav">
                 <constraints>
                     <validate name="required-entry"/>
                 </constraints>

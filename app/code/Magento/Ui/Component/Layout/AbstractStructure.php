@@ -344,6 +344,9 @@ class AbstractStructure extends AbstractView
                         'dataScope' => $i,
                         'config' => $value
                     ];
+                    if (isset($value['validation']['required-entry'])) {
+                        unset($value['validation']['required-entry']);
+                    }
                }
             } else {
                 $itemTemplate['children'][$key]['children'][$key] = [
