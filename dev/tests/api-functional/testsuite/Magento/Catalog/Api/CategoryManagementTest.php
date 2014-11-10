@@ -18,7 +18,7 @@ class CategoryManagementTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/categories';
 
-    const SERVICE_NAME = 'catalogCategoryWriteServiceV1';
+    const SERVICE_NAME = 'catalogCategoryManagementV1';
 
     public function testTree()
     {
@@ -28,7 +28,9 @@ class CategoryManagementTest extends WebapiAbstract
                 'httpMethod' => Config::HTTP_METHOD_GET
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => 'V1',
+                'operation' => self::SERVICE_NAME . 'GetTree'
             ]
         ];
         $result = $this->_webApiCall($serviceInfo);
@@ -51,7 +53,9 @@ class CategoryManagementTest extends WebapiAbstract
                     'httpMethod' => Config::HTTP_METHOD_PUT
                 ],
                 'soap' => [
-                    // @todo fix this configuration after SOAP test framework is functional
+                    'service' => self::SERVICE_NAME,
+                    'serviceVersion' => 'V1',
+                    'operation' => self::SERVICE_NAME . 'Move'
                 ]
             ];
         $this->assertTrue($this->_webApiCall($serviceInfo, $categoryData));

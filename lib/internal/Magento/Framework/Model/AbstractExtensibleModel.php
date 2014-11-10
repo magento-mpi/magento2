@@ -22,6 +22,11 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
     const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
 
     /**
+     * @var
+     */
+    protected $fieldMap;
+
+    /**
      * @var MetadataServiceInterface
      */
     protected $metadataService;
@@ -45,11 +50,15 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         MetadataServiceInterface $metadataService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
+
         array $data = array()
     ) {
         $this->metadataService = $metadataService;
         $data = $this->filterCustomAttributes($data);
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        if (isset($data['id'])) {
+            $this->setId($data['id']);
+        }
     }
 
     /**
@@ -172,5 +181,11 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         }
         $this->customAttributesCodes = $attributeCodes;
         return $attributeCodes;
+    }
+
+    public function setId($value)
+    {
+        parent::setId($value);
+        return $this->setData('id', $value);
     }
 }
