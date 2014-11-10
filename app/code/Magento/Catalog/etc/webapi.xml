@@ -370,25 +370,25 @@
 
     <!-- Category Product Links -->
     <route url="/V1/categories/:categoryId/products" method="GET">
-        <service class="\Magento\Catalog\Api\CategoryLinkManagementInterface" method="getAssignedProducts" />
+        <service class="Magento\Catalog\Api\CategoryLinkManagementInterface" method="getAssignedProducts" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
     <route url="/V1/categories/:categoryId/products" method="POST">
-        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="save" />
+        <service class="Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="save" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
     <route url="/V1/categories/:categoryId/products" method="PUT">
-        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="save" />
+        <service class="Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="save" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>
     </route>
     <route url="/V1/categories/:categoryId/products/:productSku" method="DELETE">
-        <service class="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="deleteByIds" />
+        <service class="Magento\Catalog\Api\CategoryLinkRepositoryInterface" method="deleteByIds" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>

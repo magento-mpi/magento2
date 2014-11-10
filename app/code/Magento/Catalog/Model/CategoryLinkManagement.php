@@ -8,8 +8,6 @@
 
 namespace Magento\Catalog\Model;
 
-use \Magento\Catalog\Api\Data\CategoryProductLinkInterface as ProductLink;
-
 class CategoryLinkManagement implements \Magento\Catalog\Api\CategoryLinkManagementInterface
 {
     /**
@@ -52,9 +50,9 @@ class CategoryLinkManagement implements \Magento\Catalog\Api\CategoryLinkManagem
         foreach ($products->getItems() as $productId => $product) {
             $links[] = $this->productLinkBuilder->populateWithArray(
                 [
-                    ProductLink::SKU => $product->getSku(),
-                    ProductLink::POSITION => $productsPosition[$productId],
-                    ProductLink::CATEGORY_ID => $category->getId()
+                    'sku' => $product->getSku(),
+                    'position' => $productsPosition[$productId],
+                    'category_id' => $category->getId()
                 ]
             )->create();
         }

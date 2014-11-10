@@ -8,36 +8,30 @@
 
 namespace Magento\Catalog\Model;
 
-class CategoryProductLink extends \Magento\Framework\Api\AbstractSimpleObject implements
+class CategoryProductLink extends \Magento\Framework\Api\AbstractExtensibleObject implements
     \Magento\Catalog\Api\Data\CategoryProductLinkInterface
 {
     /**
-     * Get product SKU
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getSku()
     {
-        return $this->_get(self::SKU);
+        return $this->_get('sku');
     }
 
     /**
-     * Get position
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getPosition()
     {
-        return $this->_get(self::POSITION);
+        return $this->_get('position');
     }
 
     /**
-     * Get category id
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getCategoryId()
     {
-        return $this->_get(self::CATEGORY_ID);
+        return $this->_get('category_id');
     }
 }
