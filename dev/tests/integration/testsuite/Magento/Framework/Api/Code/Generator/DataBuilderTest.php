@@ -68,7 +68,9 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
             FakeAddressInterface::STREET => 'Oak rd.',
             FakeAddressInterface::TELEPHONE => '1234567',
             FakeAddressInterface::VAT_ID => '1',
-            'test' => 'xxx'
+            'test' => 'xxx',
+            FakeAddressInterface::DEFAULT_BILLING => false,
+            FakeAddressInterface::DEFAULT_SHIPPING => true,
         ];
 
         /** @var \Magento\Wonderland\Api\Data\FakeAddressInterface $address */
@@ -76,10 +78,11 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
             ->create();
         $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeAddressInterface', $address);
         $this->assertEquals('Johnes', $address->getLastname());
+        $this->assertEquals(true, $address->isDefaultShipping());
+        $this->assertEquals(false, $address->isDefaultBilling());
         $this->assertNull($address->getCustomAttribute('test'));
         $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeRegionInterface', $address->getRegion());
         $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeRegionInterface', $address->getRegions()[0]);
         $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeRegionInterface', $address->getRegions()[1]);
     }
-
 }
