@@ -8,7 +8,7 @@
 namespace Magento\GiftRegistry\Block\Customer;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 
 /**
  * Customer gift registry share block
@@ -39,7 +39,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerRepositoryInterface $customerRepository
-     * @param CustomerAddressServiceInterface $addressService
+     * @param AccountManagementInterface $customerAccount
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Customer\Helper\View $customerView
      * @param array $data
@@ -49,7 +49,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerRepositoryInterface $customerRepository,
-        CustomerAddressServiceInterface $addressService,
+        AccountManagementInterface $customerAccount,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Customer\Helper\View $customerView,
         array $data = array()
@@ -61,7 +61,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
             $customerSession,
             $subscriberFactory,
             $customerRepository,
-            $addressService,
+            $customerAccount,
             $data
         );
     }
@@ -116,7 +116,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = $this->_customerSession->getData('sharing_form', true);
+            $this->_formData = $this->customerSession->getData('sharing_form', true);
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
