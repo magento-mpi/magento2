@@ -317,10 +317,13 @@ class AbstractStructure extends AbstractView
             if (isset($value['visible']) && $value['visible'] === 'false') {
                 continue;
             }
+
             $itemTemplate['children'][$key] = $value;
             $itemTemplate['children'][$key]['config'] = $value;
             $itemTemplate['children'][$key]['type'] = 'group';
-            $itemTemplate['children'][$key]['dataScope'] = $key;
+            if (isset($value['size'])) {
+                $itemTemplate['children'][$key]['dataScope'] = $key;
+            }
             if (isset($value['constraints'])) {
                 if (isset($value['constraints']['validate'])) {
                     $value['validation'] = $value['constraints']['validate'];
