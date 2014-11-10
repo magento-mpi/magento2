@@ -39,13 +39,13 @@ if ($hasSpecialPrice) {
         ]); ?>
         <?php if ($hasSpecialPrice): ?>
             <span class="old-price">
-                    <?php echo $this->renderAmount($oldMinimalPrice, [
-                        'display_label'     => __('Regular Price'),
-                        'price_id'          => $this->getPriceId('old-price-' . $idSuffix),
-                        'include_container' => true,
-                        'skip_adjustments'  => true
-                    ]); ?>
-                </span>
+                <?php echo $this->renderAmount($oldMinimalPrice, [
+                    'display_label'     => __('Regular Price'),
+                    'price_id'          => $this->getPriceId('old-price-' . $idSuffix),
+                    'include_container' => true,
+                    'skip_adjustments'  => true
+                ]); ?>
+            </span>
         <?php endif ?>
     </p>
 <?php else: ?>
@@ -91,13 +91,13 @@ if ($hasSpecialPrice) {
         ]); ?>
         <?php if ($hasSpecialPrice): ?>
             <span class="old-price">
-                    <?php echo $this->renderAmount($oldMinimalPrice, [
-                        'display_label'     => __('Regular Price'),
-                        'price_id'          => $this->getPriceId('old-price-' . $idSuffix),
-                        'include_container' => true,
-                        'skip_adjustments'  => true
-                    ]); ?>
-                </span>
+                <?php echo $this->renderAmount($oldMinimalPrice, [
+                    'display_label'     => __('Regular Price'),
+                    'price_id'          => $this->getPriceId('old-price-' . $idSuffix),
+                    'include_container' => true,
+                    'skip_adjustments'  => true
+                ]); ?>
+            </span>
         <?php endif ?>
     <?php endif ?>
 <?php endif ?>
