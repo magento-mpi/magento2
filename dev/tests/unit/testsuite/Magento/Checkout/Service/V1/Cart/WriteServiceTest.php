@@ -6,12 +6,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Service\V1\Cart;
 
 use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Framework\Exception\CouldNotSaveException;
 
+/**
+ * Class WriteServiceTest
+ */
 class WriteServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -175,7 +177,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $storeId = 345;
         $userId = 50;
 
-        $customerMock = $this->getMock('\Magento\Customer\Model\Customer', [], [], '', false);
+        $customerMock = $this->getMockForAbstractClass(
+            'Magento\Customer\Api\Data\CustomerInterface',
+            [],
+            '',
+            false
+        );
         $this->customerRegistryMock->expects($this->once())
             ->method('retrieve')->with($userId)->will($this->returnValue($customerMock));
 
@@ -196,8 +203,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $customerQuoteMock->expects($this->once())
-            ->method('loadByCustomer')
+        $customerQuoteMock->expects($this->once())->method('loadByCustomer')
             ->with($customerMock)
             ->will($this->returnSelf());
         $this->quoteFactoryMock->expects($this->at(0))->method('create')->willReturn($customerQuoteMock);
@@ -320,7 +326,15 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
         $this->quoteRepositoryMock->expects($this->once())->method('get')->with($cartId)
             ->will($this->returnValue($this->quoteMock));
-        $customerMock = $this->getMock('\Magento\Customer\Model\Customer', [], [], '', false);
+        $customerMock = $this->getMockForAbstractClass(
+            'Magento\Customer\Api\Data\CustomerInterface',
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['getSharedStoreIds']
+        );
         $this->customerRegistryMock->expects($this->once())
             ->method('retrieve')->with($customerId)->will($this->returnValue($customerMock));
 
