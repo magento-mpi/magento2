@@ -423,7 +423,16 @@ class Installer
     {
         $setup = $this->setupFactory->createSetup($this->log);
         $userConfig = new UserConfigurationData($setup);
-        $userConfig->install($data);
+        $configData = $userConfig->getConfigData($data);
+        $args = '';
+        foreach ($configData as $key => $val) {
+            $args .= $key . '{' . $val . '}';
+        }
+        $params = [
+            $this->directoryList->getRoot() . '/dev/shell/setup_user_config_data.php',
+            $args
+        ];
+        $this->exec('-f %s -- %s', $params);
     }
 
     /**

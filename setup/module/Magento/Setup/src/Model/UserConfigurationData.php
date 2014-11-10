@@ -72,30 +72,19 @@ class UserConfigurationData
     }
 
     /**
-     * Installs All Configuration Data
+     * Gets All Configuration Data
      *
      * @param array $data
-     * @return void
+     * @return array
      */
-    public function install($data)
+    public function getConfigData($data)
     {
+        $configData = [];
         foreach (self::$pathDataMap as $path => $key) {
             if (isset($data[$key])) {
-                $this->installData($path, $data[$key]);
+                $configData[$path] = $data[$key];
             }
         }
-    }
-
-    /**
-     * Installs Configuration Data
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return void
-     * @throws \Exception
-     */
-    public function installData($key, $value)
-    {
-        $this->setup->addConfigData($key, $value);
+        return $configData;
     }
 }

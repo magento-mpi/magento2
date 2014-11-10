@@ -131,12 +131,6 @@ class StartController extends AbstractActionController
             ? $source['config']['rewrites']['allowed'] : '';
         $result[UserConfig::KEY_BASE_URL] = isset($source['config']['address']['web'])
             ? $source['config']['address']['web'] : '';
-        $result[UserConfig::KEY_IS_SECURE] = isset($source['config']['https']['front'])
-            ? $source['config']['https']['front'] : '';
-        $result[UserConfig::KEY_BASE_URL_SECURE] = isset($source['config']['address']['web'])
-            ? $source['config']['address']['web'] : '';
-        $result[UserConfig::KEY_IS_SECURE_ADMIN] = isset($source['config']['https']['admin'])
-            ? $source['config']['https']['admin'] : '';
         $result[UserConfig::KEY_LANGUAGE] = isset($source['store']['language'])
             ? $source['store']['language'] : '';
         $result[UserConfig::KEY_TIMEZONE] = isset($source['store']['timezone'])

@@ -35,22 +35,4 @@ class Setup extends \Magento\Framework\Module\Setup\Base
     {
         return $this->getConnection()->getForeignKeyName($priTableName, $priColumnName, $refTableName, $refColumnName);
     }
-
-    /**
-     * Add configuration data to core_config_data table
-     *
-     * @param string $key
-     * @param string $value
-     * @return void
-     */
-    public function addConfigData($key, $value)
-    {
-        $this->getConnection()->insertOnDuplicate(
-            $this->getTable('core_config_data'),
-            array(
-                'path'  => $key,
-                'value' => $value
-            )
-        );
-    }
 }
