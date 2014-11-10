@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Block\Account\Dashboard;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
