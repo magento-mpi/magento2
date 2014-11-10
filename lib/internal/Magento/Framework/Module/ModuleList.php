@@ -110,6 +110,9 @@ class ModuleList implements \Magento\Framework\Module\ModuleListInterface
     public function getNames()
     {
         $this->loadConfigData();
+        if (!$this->configData) {
+            return [];
+        }
         return array_keys($this->configData);
     }
 
@@ -119,6 +122,9 @@ class ModuleList implements \Magento\Framework\Module\ModuleListInterface
     public function has($name)
     {
         $this->loadConfigData();
+        if (!$this->configData) {
+            return false;
+        }
         return !empty($this->configData[$name]);
     }
 
