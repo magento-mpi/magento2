@@ -55,6 +55,7 @@
             <xs:attribute type="textAttributeType" name="default_value" use="optional"/>
             <xs:attribute type="textAttributeType" name="label" use="optional"/>
             <xs:attribute type="textAttributeType" name="description" use="optional"/>
+            <xs:attribute type="xs:integer" name="size" use="optional"/>
             <xs:attribute type="xs:boolean" name="customEntry" use="optional"/>
             <xs:attribute type="xs:boolean" name="unique" use="optional"/>
             <xs:attribute type="xs:boolean" name="visible" use="optional"/>

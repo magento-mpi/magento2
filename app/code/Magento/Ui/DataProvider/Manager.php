@@ -131,6 +131,9 @@ class Manager
                         $filter[$metadata['referencedField']] = $row[$metadata['targetField']];
                     }
                     $row[$name] = $this->getData($name, $filter);
+                    if (empty($row[$name])) {
+                        unset($row[$name]);
+                    }
                 }
             }
             $rows[$item->getId()] = $row;

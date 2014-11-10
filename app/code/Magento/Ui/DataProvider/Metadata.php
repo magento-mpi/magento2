@@ -191,6 +191,7 @@ class Metadata implements \Iterator, \ArrayAccess
             'description' => [],
             'constraints' => [],
             'customEntry' => [],
+            'size' => [],
             'fieldGroup' => []
         ];
 

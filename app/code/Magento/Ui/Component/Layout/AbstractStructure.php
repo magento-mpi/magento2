@@ -261,10 +261,13 @@ class AbstractStructure extends AbstractView
             }
         }
 
-        $this->renderContext->getStorage()->addDataSource($this->getData('name'), [
-            'data' => $preparedData,
-            'config' => $dataSourceConfig,
-        ]);
+        $this->renderContext->getStorage()->addDataSource(
+            $this->getData('name'),
+            [
+                'data' => $preparedData,
+                'config' => $dataSourceConfig,
+            ]
+        );
     }
 
     /**
@@ -334,10 +337,21 @@ class AbstractStructure extends AbstractView
                 }
                 unset($value['constraints']);
             }
-            $itemTemplate['children'][$key]['children'][$key] = [
-                'type' => $value['formElement'],
-                'config' => $value
-            ];
+            if (isset($value['size'])) {
+                $size = (int)$value['size'];
+                for ($i = 0; $i < $size; $i++) {
+                    $itemTemplate['children'][$key]['children'][] = [
+                        'type' => $value['formElement'],
+                        'dataScope' => $i + 1,
+                        'config' => $value
+                    ];
+               }
+            } else {
+                $itemTemplate['children'][$key]['children'][$key] = [
+                    'type' => $value['formElement'],
+                    'config' => $value
+                ];
+            }
         }
 
         $referenceCollectionName = $this->addCollection(
@@ -373,16 +387,19 @@ class AbstractStructure extends AbstractView
             }
             $childBlock->setData('target_form', $this->getDataScope());
             $sortOrder = $childBlock->hasSortOrder() ? $childBlock->getSortOrder() : $this->getNextSortInc();
-            $this->addArea($blockName, [
-                'insertTo' => [
-                    $this->ns . '.sections' => [
-                        'position' => (int)$sortOrder
+            $this->addArea(
+                $blockName,
+                [
+                    'insertTo' => [
+                        $this->ns . '.sections' => [
+                            'position' => (int)$sortOrder
+                        ]
+                    ],
+                    'config' => [
+                        'label' => $childBlock->getTabTitle()
                     ]
-                ],
-                'config' => [
-                    'label' => $childBlock->getTabTitle()
                 ]
-            ]);
+            );
 
             $config = [
                 'label' => $childBlock->getTabTitle()
