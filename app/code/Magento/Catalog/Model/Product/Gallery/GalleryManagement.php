@@ -15,7 +15,6 @@ use \Magento\Catalog\Api\Data\ProductInterface as Product;
 use \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface as ContentInterface;
 use \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface;
 use \Magento\Catalog\Model\Product\Media\Config as MediaConfig;
-use \Magento\Framework\App\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGalleryManagementInterface
