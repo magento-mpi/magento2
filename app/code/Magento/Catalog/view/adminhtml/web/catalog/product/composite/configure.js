@@ -246,6 +246,7 @@ ProductConfigure.prototype = {
      * Do submit configured data through iFrame if needed
      */
     onConfirmBtn: function() {
+        this.clean('current');
         if (jQuery(this.blockForm).valid()) {
             if (this.listTypes[this.current.listType].urlConfirm) {
                 this.submit();
