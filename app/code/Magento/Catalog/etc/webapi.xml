@@ -219,6 +219,8 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
+
+    <!-- Group Price -->
     <route url="/V1/products/:productSku/group-prices/" method="GET">
         <service class="Magento\Catalog\Api\ProductGroupPriceManagementInterface" method="getList"/>
         <resources>
@@ -237,6 +239,7 @@
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
     </route>
+
     <route url="/V1/products/:productSku/group-prices/:customerGroupId/tiers" method="GET">
         <service class="Magento\Catalog\Api\ProductTierPriceManagementInterface" method="getList"/>
         <resources>

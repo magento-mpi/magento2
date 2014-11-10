@@ -10,9 +10,14 @@
 namespace Magento\Catalog\Api\Product;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ProductGroupPriceManagementTest extends WebapiAbstract
 {
+    const SERVICE_NAME = 'catalogProductGroupPriceManagementV1';
+    const SERVICE_VERSION = 'V1';
+    const RESOURCE_PATH = '/V1/products/';
+
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/product_group_prices.php
      */
@@ -21,14 +26,16 @@ class ProductGroupPriceManagementTest extends WebapiAbstract
         $productSku = 'simple_with_group_price';
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/products/' . $productSku . '/group-prices',
-                'httpMethod' => 'GET',
+                'resourcePath' => self::RESOURCE_PATH . $productSku . '/group-prices',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
-            ],
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetList'
+            ]
         ];
-        $groupPriceList = $this->_webApiCall($serviceInfo);
+        $groupPriceList = $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
         $this->assertCount(2, $groupPriceList);
         $this->assertEquals(9, $groupPriceList[0]['value']);
         $this->assertEquals(7, $groupPriceList[1]['value']);
@@ -43,14 +50,14 @@ class ProductGroupPriceManagementTest extends WebapiAbstract
         $customerGroupId = \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/products/$productSku/group-prices/$customerGroupId",
-                'httpMethod' => 'DELETE',
+                'resourcePath' => self::RESOURCE_PATH . $productSku . "/group-prices/" . $customerGroupId,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
             'soap' => [
-                'service' => 'catalogProductGroupPriceServiceV1',
-                'serviceVersion' => 'V1',
-                'operation' => 'catalogProductGroupPriceServiceV1Delete',
-            ],
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Remove'
+            ]
         ];
         $requestData = array('productSku' => $productSku, 'customerGroupId' => $customerGroupId);
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
@@ -65,13 +72,15 @@ class ProductGroupPriceManagementTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/products/' . $productSku . '/group-prices/1/price/10',
-                'httpMethod' => 'POST',
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Add'
             ]
         ];
-        $this->_webApiCall($serviceInfo);
+        $this->_webApiCall($serviceInfo, ['productSku' =>$productSku, 'customerGroupId' => 1, 'price' => 10]);
         $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
         /** @var \Magento\Catalog\Api\ProductGroupPriceManagementInterface $service */
         $service = $objectManager->get('\Magento\Catalog\Api\ProductGroupPriceManagementInterface');
@@ -91,13 +100,16 @@ class ProductGroupPriceManagementTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/products/' . $productSku . '/group-prices/1/price/10',
-                'httpMethod' => 'POST',
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
-            ],
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Add'
+            ]
+
         ];
-        $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
+        $this->_webApiCall($serviceInfo, ['productSku' =>$productSku, 'customerGroupId' => 1, 'price' => 10]);
         $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
         /** @var \Magento\Catalog\Api\ProductGroupPriceManagementInterface $service */
         $service = $objectManager->get('\Magento\Catalog\Api\ProductGroupPriceManagementInterface');
