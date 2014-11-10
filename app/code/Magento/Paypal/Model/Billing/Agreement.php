@@ -255,7 +255,8 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
             $this->setCustomerId($payment->getOrder()->getCustomerId())
                 ->setMethodCode($this->_paymentMethodInstance->getCode())
                 ->setReferenceId($baData['billing_agreement_id'])
-                ->setStatus(self::STATUS_ACTIVE);
+                ->setStatus(self::STATUS_ACTIVE)
+                ->setAgreementLabel($this->_paymentMethodInstance->getTitle());
         }
         return $this;
     }
