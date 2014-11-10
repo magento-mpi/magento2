@@ -1,8 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Ui/etc/data_source.xsd">
     <dataSource name="website" label="Website" dataSet="Magento\Store\Model\Resource\Website\Collection">
         <fields>
             <field name="website_id" dataType="number" visible="false"/>
             <field name="name" dataType="text"/>
         </fields>
-    </datasource>
+    </dataSource>
 </config>
