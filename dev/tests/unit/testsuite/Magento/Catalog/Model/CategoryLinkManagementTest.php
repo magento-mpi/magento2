@@ -61,9 +61,9 @@ class CategoryLinkManagementTest extends \PHPUnit_Framework_TestCase
         $productMock->expects($this->once())->method('getSku')->willReturn($productSku);
         $items = [$productId => $productMock];
         $productLinkArray = [
-            ProductLink::SKU => $productSku,
-            ProductLink::POSITION => 25,
-            ProductLink::CATEGORY_ID => $categoryId
+            'sku' => $productSku,
+            'position' => 25,
+            'category_id' => $categoryId
         ];
         $productsMock = $this->getMock('\Magento\Framework\Data\Collection\Db', [], [], '', false);
         $this->categoryRepositoryMock->expects($this->once())->method('get')->with($categoryId)
