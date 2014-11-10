@@ -341,7 +341,7 @@ class AbstractStructure extends AbstractView
                 for ($i = 0; $i < $size; $i++) {
                     $itemTemplate['children'][$key]['children'][] = [
                         'type' => $value['formElement'],
-                        'dataScope' => $i + 1,
+                        'dataScope' => $i,
                         'config' => $value
                     ];
                }

@@ -123,6 +123,10 @@ class Manager
                 } else {
                     $row[$field['name']] = $item->getData($field['name']);
                 }
+
+                if (isset($field['size'])) {
+                    $row[$field['name']] = explode("\n", $row[$field['name']]);
+                }
             }
             if (!empty($config['children'])) {
                 foreach ($config['children'] as $name => $reference) {
