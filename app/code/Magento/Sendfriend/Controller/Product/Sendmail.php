@@ -8,8 +8,33 @@
  */
 namespace Magento\Sendfriend\Controller\Product;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+
 class Sendmail extends \Magento\Sendfriend\Controller\Product
 {
+    /** @var  \Magento\Catalog\Model\CategoryRepository */
+    protected $categoryRepository;
+
+    /**
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\Sendfriend\Model\Sendfriend $sendFriend
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Model\CategoryRepository $categoryRepository
+     */
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
+        \Magento\Sendfriend\Model\Sendfriend $sendFriend,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Model\CategoryRepository $categoryRepository
+    ) {
+        parent::__construct($context, $coreRegistry, $formKeyValidator, $sendFriend, $productRepository);
+        $this->categoryRepository = $categoryRepository;
+    }
+
     /**
      * Send Email Post Action
      *
@@ -32,9 +57,12 @@ class Sendmail extends \Magento\Sendfriend\Controller\Product
 
         $categoryId = $this->getRequest()->getParam('cat_id', null);
         if ($categoryId) {
-            $category = $this->_objectManager->create('Magento\Catalog\Model\Category')->load($categoryId);
-            $product->setCategory($category);
-            $this->_coreRegistry->register('current_category', $category);
+            try {
+                $category = $this->categoryRepository->get($categoryId);
+                $product->setCategory($category);
+                $this->_coreRegistry->register('current_category', $category);
+            } catch (NoSuchEntityException $noEntityException) {
+            }
         }
 
         $model->setSender($this->getRequest()->getPost('sender'));

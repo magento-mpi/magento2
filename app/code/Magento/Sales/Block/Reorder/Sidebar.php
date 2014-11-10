@@ -141,10 +141,11 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements Identi
      */
     public function isItemAvailableForReorder(\Magento\Sales\Model\Order\Item $orderItem)
     {
-        if ($orderItem->getProduct()) {
+        try {
             return $this->stockItemService->getIsInStock($orderItem->getProduct()->getId());
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $noEntityException) {
+            return false;
         }
-        return false;
     }
 
     /**

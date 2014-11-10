@@ -18,7 +18,7 @@ use Magento\Sales\Model\Resource\Order\Payment\Collection as PaymentCollection;
 use Magento\Sales\Model\Resource\Order\Shipment\Collection as ShipmentCollection;
 use Magento\Sales\Model\Resource\Order\Shipment\Track\Collection as TrackCollection;
 use Magento\Sales\Model\Resource\Order\Status\History\Collection as HistoryCollection;
-
+use Magento\Framework\Exception\NoSuchEntityException;
 /**
  * Order model
  *
@@ -457,9 +457,14 @@ class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterfac
     protected $_orderConfig;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Model\ProductRepository
      */
-    protected $_productFactory;
+    protected $productRepository;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     */
+    protected $productListFactory;
 
     /**
      * @var \Magento\Sales\Model\Resource\Order\Item\CollectionFactory
@@ -533,7 +538,7 @@ class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterfac
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Order\Config $orderConfig
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param Resource\Order\Item\CollectionFactory $orderItemCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param Service\OrderFactory $serviceOrderFactory
@@ -559,7 +564,7 @@ class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterfac
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Config $orderConfig,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory,
@@ -576,11 +581,13 @@ class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterfac
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_orderConfig = $orderConfig;
-        $this->_productFactory = $productFactory;
+        $this->productRepository = $productRepository;
+        $this->productListFactory = $productListFactory;
 
         $this->_orderItemCollectionFactory = $orderItemCollectionFactory;
         $this->_productVisibility = $productVisibility;
@@ -1004,10 +1011,14 @@ class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterfac
             */
 
             foreach ($products as $productId) {
-                $product = $this->_productFactory->create()->setStoreId($this->getStoreId())->load($productId);
-            }
-            if (!$product->getId() || !$ignoreSalable && !$product->isSalable()) {
-                return false;
+                try {
+                    $product = $this->productRepository->getById($productId, false, $this->getStoreId());
+                    if (!$ignoreSalable && !$product->isSalable()) {
+                        throw new NoSuchEntityException;
+                    }
+                } catch (NoSuchEntityException $noEntityException) {
+                    return false;
+                }
             }
         }
 
@@ -1548,7 +1559,7 @@ class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterfac
             $products[] = $item->getProductId();
         }
 
-        $productsCollection = $this->_productFactory->create()->getCollection()->addIdFilter(
+        $productsCollection = $this->productListFactory->create()->addIdFilter(
             $products
         )->setVisibility(
             $this->_productVisibility->getVisibleInSiteIds()

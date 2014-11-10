@@ -239,15 +239,15 @@ class Item extends \Magento\Framework\Model\AbstractModel
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Model\ProductRepository
      */
-    protected $_productFactory;
+    protected $productRepository;
 
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -256,14 +256,14 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_orderFactory = $orderFactory;
-        $this->_productFactory = $productFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_orderFactory = $orderFactory;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -806,13 +806,10 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * Retrieve product
      *
      * @return \Magento\Catalog\Model\Product
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getProduct()
     {
-        if (!$this->getData('product')) {
-            $product = $this->_productFactory->create()->load($this->getProductId());
-            $this->setProduct($product);
-        }
-        return $this->getData('product');
+        return $this->productRepository->getById($this->getProductId());
     }
 }

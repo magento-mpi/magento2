@@ -244,9 +244,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_statusListFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Model\ProductRepository
      */
-    protected $_productFactory;
+    protected $productRepository;
 
     /**
      * @var \Magento\Sales\Model\Quote\PaymentFactory
@@ -313,7 +313,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Framework\Message\Factory $messageFactory
      * @param Status\ListFactory $statusListFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param Quote\PaymentFactory $quotePaymentFactory
      * @param Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
      * @param \Magento\Framework\Object\Copy $objectCopyService
@@ -342,7 +342,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Framework\Message\Factory $messageFactory,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
         \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory,
         \Magento\Framework\Object\Copy $objectCopyService,
@@ -368,7 +368,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->_quoteItemFactory = $quoteItemFactory;
         $this->messageFactory = $messageFactory;
         $this->_statusListFactory = $statusListFactory;
-        $this->_productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->_quotePaymentFactory = $quotePaymentFactory;
         $this->_quotePaymentCollectionFactory = $quotePaymentCollectionFactory;
         $this->_objectCopyService = $objectCopyService;
@@ -1435,7 +1435,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
 
         //We need to create new clear product instance with same $productId
         //to set new option values from $buyRequest
-        $product = $this->_productFactory->create()->setStoreId($this->getStore()->getId())->load($productId);
+        $product = clone $this->productRepository->getById($productId, false, $this->getStore()->getId());
 
         if (!$params) {
             $params = new \Magento\Framework\Object();

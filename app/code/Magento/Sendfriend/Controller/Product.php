@@ -9,6 +9,7 @@ namespace Magento\Sendfriend\Controller;
 
 use Magento\Framework\App\Action\NotFoundException;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Email to a Friend Product Controller
@@ -34,22 +35,28 @@ class Product extends \Magento\Framework\App\Action\Action
      */
     protected $sendFriend;
 
+    /** @var  \Magento\Catalog\Model\ProductRepository */
+    protected $productRepository;
+
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Sendfriend\Model\Sendfriend $sendFriend
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Sendfriend\Model\Sendfriend $sendFriend
+        \Magento\Sendfriend\Model\Sendfriend $sendFriend,
+        \Magento\Catalog\Model\ProductRepository $productRepository
     ) {
+        parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
         $this->_formKeyValidator = $formKeyValidator;
         $this->sendFriend = $sendFriend;
-        parent::__construct($context);
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -103,8 +110,12 @@ class Product extends \Magento\Framework\App\Action\Action
         if (!$productId) {
             return false;
         }
-        $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId);
-        if (!$product->getId() || !$product->isVisibleInCatalog()) {
+        try {
+            $product = $this->productRepository->getById($productId);
+            if (!$product->isVisibleInCatalog()) {
+                throw new NoSuchEntityException;
+            }
+        } catch (NoSuchEntityException $noEntityException) {
             return false;
         }
 
