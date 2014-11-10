@@ -16,9 +16,9 @@ class Generator
     const GENERATION_SKIP = 'skip';
 
     /**
-     * @var \Magento\Framework\Autoload\IncludePath
+     * @var \Magento\Framework\Code\Generator\FileResolver
      */
-    protected $_autoloader;
+    protected $fileResolver;
 
     /**
      * @var \Magento\Framework\Code\Generator\Io
@@ -31,19 +31,19 @@ class Generator
     protected $_generatedEntities;
 
     /**
-     * @param \Magento\Framework\Autoload\IncludePath $autoloader
+     * @param \Magento\Framework\Code\Generator\FileResolver $fileResolver
      * @param Generator\Io $ioObject
      * @param array $generatedEntities
      */
     public function __construct(
-        \Magento\Framework\Autoload\IncludePath $autoloader = null,
+        \Magento\Framework\Code\Generator\FileResolver $fileResolver,
         \Magento\Framework\Code\Generator\Io $ioObject = null,
         array $generatedEntities = array()
     ) {
-        $this->_autoloader = $autoloader ?: new \Magento\Framework\Autoload\IncludePath();
+        $this->fileResolver = $fileResolver;
         $this->_ioObject = $ioObject ?: new \Magento\Framework\Code\Generator\Io(
             new \Magento\Framework\Filesystem\Driver\File(),
-            $this->_autoloader
+            $this->fileResolver
         );
         $this->_generatedEntities = $generatedEntities;
     }
@@ -78,7 +78,7 @@ class Generator
                 $entity = $entityType;
                 $entityName = rtrim(
                     substr($className, 0, -1 * strlen($entitySuffix)),
-                    \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR
+                    '\\'
                 );
                 break;
             }
@@ -88,8 +88,7 @@ class Generator
         }
 
         // check if file already exists
-        $autoloader = $this->_autoloader;
-        if ($autoloader->getFile($className)) {
+        if ($this->fileResolver->getFile($className)) {
             return self::GENERATION_SKIP;
         }
 
