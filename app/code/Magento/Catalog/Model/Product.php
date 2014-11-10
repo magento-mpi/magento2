@@ -235,13 +235,14 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_priceInfo;
 
     /**
-     * @var CategoryRepositoryInterface
+     * @var CategoryRepository
      */
     protected $categoryRepository;
 
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataService
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
@@ -263,7 +264,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param Indexer\Product\Price\Processor $productPriceIndexerProcessor
      * @param Indexer\Product\Eav\Processor $productEavIndexerProcessor
-     * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface
      * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      *
@@ -272,6 +272,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataService,
         \Magento\Framework\StoreManagerInterface $storeManager,
         Product\Url $url,
         Product\Link $productLink,
@@ -293,7 +294,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor,
-        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface,
         CategoryRepositoryInterface $categoryRepository,
         array $data = array()
     ) {
@@ -319,8 +319,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         parent::__construct(
             $context,
             $registry,
+            $metadataService,
             $storeManager,
-            $metadataServiceInterface,
             $resource,
             $resourceCollection,
             $data

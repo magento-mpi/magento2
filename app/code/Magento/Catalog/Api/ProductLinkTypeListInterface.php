@@ -7,13 +7,7 @@
  */
 
 namespace Magento\Catalog\Api;
-/**
- * Implementation: @see \Magento\Catalog\Model\Product\LinkTypeProvider
- * Add method \Magento\Catalog\Model\Product\LinkTypeProvider::getLinkAttributes($type);
- * and delegate logic to @see \Magento\Catalog\Model\Resource\Product\Link::getAttributesByType
- *
- * @see \Magento\Catalog\Service\V1\Product\Link\ReadServiceInterface - previous implementation
- */
+
 interface ProductLinkTypeListInterface
 {
     /**

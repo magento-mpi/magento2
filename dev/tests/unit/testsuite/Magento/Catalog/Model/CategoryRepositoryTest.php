@@ -44,7 +44,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->categoryBuilderMock = $this->getMock(
-            '\Magento\Catalog\Api\Data\CategoryInterfaceDataBuilder',
+            '\Magento\Catalog\Api\Data\CategoryDataBuilder',
             [],
             [],
             '',

@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Api\Data;
 
-interface ProductLinkInterface extends \Magento\Framework\Api\Data\ExtensibleObjectInterface
+interface ProductLinkInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     const PRODUCT_SKU = 'product_sku';
     const LINK_TYPE = 'link_type';

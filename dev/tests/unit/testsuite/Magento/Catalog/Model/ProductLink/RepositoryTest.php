@@ -63,8 +63,9 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testSave()
     {
-        $entityMock = $this->getMock('\Magento\Catalog\Api\Data\ProductLinkInterface');
+        $entityMock = $this->getMock('\Magento\Catalog\Model\ProductLink\Link', [], [], '', false);
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
+
         $linkedProductMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $this->productRepositoryMock->expects($this->exactly(2))->method('get')->will($this->returnValueMap(
             [
@@ -72,14 +73,18 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                 ['linkedProduct', false, $linkedProductMock]
             ]
         ));
+        $customAttributeMock = $this->getMock('\Magento\Framework\Api\AttributeInterface');
+        $customAttributeMock->expects($this->once())->method('getAttributeCode')->willReturn('attribute_code');
+        $customAttributeMock->expects($this->once())->method('getValue')->willReturn('value');
         $entityMock->expects($this->once())->method('getLinkedProductSku')->willReturn('linkedProduct');
         $entityMock->expects($this->once())->method('getProductSku')->willReturn('product');
         $entityMock->expects($this->exactly(2))->method('getLinkType')->willReturn('linkType');
         $entityMock->expects($this->once())->method('__toArray')->willReturn([]);
+        $entityMock->expects($this->once())->method('getCustomAttributes')->willReturn([$customAttributeMock]);
         $linkedProductMock->expects($this->exactly(2))->method('getId')->willReturn(42);
         $this->entityCollectionProviderMock->expects($this->once())->method('getCollection')->willReturn([]);
         $this->linkInitializerMock->expects($this->once())->method('initializeLinks')->with($productMock, [
-            'linkType' => [42 => ['product_id' => 42]]
+            'linkType' => [42 => ['attribute_code' => 'value', 'product_id' => 42]]
         ]);
         $this->assertTrue($this->model->save($entityMock));
     }
@@ -90,7 +95,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveWithException()
     {
-        $entityMock = $this->getMock('\Magento\Catalog\Api\Data\ProductLinkInterface');
+        $entityMock = $this->getMock('\Magento\Catalog\Model\ProductLink\Link', [], [], '', false);
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $linkedProductMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $this->productRepositoryMock->expects($this->exactly(2))->method('get')->will($this->returnValueMap(
@@ -99,6 +104,10 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                 ['linkedProduct', false, $linkedProductMock]
             ]
         ));
+        $customAttributeMock = $this->getMock('\Magento\Framework\Api\AttributeInterface');
+        $customAttributeMock->expects($this->once())->method('getAttributeCode')->willReturn('attribute_code');
+        $customAttributeMock->expects($this->once())->method('getValue')->willReturn('value');
+        $entityMock->expects($this->once())->method('getCustomAttributes')->willReturn([$customAttributeMock]);
         $entityMock->expects($this->once())->method('getLinkedProductSku')->willReturn('linkedProduct');
         $entityMock->expects($this->once())->method('getProductSku')->willReturn('product');
         $entityMock->expects($this->exactly(2))->method('getLinkType')->willReturn('linkType');
@@ -106,7 +115,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $linkedProductMock->expects($this->exactly(2))->method('getId')->willReturn(42);
         $this->entityCollectionProviderMock->expects($this->once())->method('getCollection')->willReturn([]);
         $this->linkInitializerMock->expects($this->once())->method('initializeLinks')->with($productMock, [
-            'linkType' => [42 => ['product_id' => 42]]
+            'linkType' => [42 => ['attribute_code' => 'value', 'product_id' => 42]]
         ]);
         $productMock->expects($this->once())->method('save')->willThrowException(new \Exception);
         $this->model->save($entityMock);
@@ -114,7 +123,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-        $entityMock = $this->getMock('\Magento\Catalog\Api\Data\ProductLinkInterface');
+        $entityMock = $this->getMock('\Magento\Catalog\Model\ProductLink\Link', [], [], '', false);
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $linkedProductMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $this->productRepositoryMock->expects($this->exactly(2))->method('get')->will($this->returnValueMap(
@@ -142,7 +151,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteWithInvalidDataException()
     {
-        $entityMock = $this->getMock('\Magento\Catalog\Api\Data\ProductLinkInterface');
+        $entityMock = $this->getMock('\Magento\Catalog\Model\ProductLink\Link', [], [], '', false);
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $linkedProductMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $this->productRepositoryMock->expects($this->exactly(2))->method('get')->will($this->returnValueMap(
@@ -171,7 +180,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteWithNoSuchEntityException()
     {
-        $entityMock = $this->getMock('\Magento\Catalog\Api\Data\ProductLinkInterface');
+        $entityMock = $this->getMock('\Magento\Catalog\Model\ProductLink\Link', [], [], '', false);
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $linkedProductMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $this->productRepositoryMock->expects($this->exactly(2))->method('get')->will($this->returnValueMap(

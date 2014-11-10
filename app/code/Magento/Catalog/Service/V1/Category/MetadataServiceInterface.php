@@ -14,7 +14,7 @@ use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
  * @deprecated
  * @see \Magento\Catalog\Api\CategoryAttributeMetadataRepositoryInterface
  */
-interface MetadataServiceInterface extends \Magento\Framework\Service\Data\MetadataServiceInterface
+interface MetadataServiceInterface extends \Magento\Framework\Api\MetadataServiceInterface
 {
     /**#@+
      * Predefined constants

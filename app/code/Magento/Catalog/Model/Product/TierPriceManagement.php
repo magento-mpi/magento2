@@ -21,7 +21,7 @@ class TierPriceManagement implements \Magento\Catalog\Api\ProductTierPriceManage
     protected $productRepository;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductTierPriceInterfaceDataBuilder
+     * @var \Magento\Catalog\Api\Data\ProductTierPriceDataBuilder
      */
     protected $priceBuilder;
 
@@ -47,7 +47,7 @@ class TierPriceManagement implements \Magento\Catalog\Api\ProductTierPriceManage
 
     /**
      * @param ProductRepository $productRepository
-     * @param \Magento\Catalog\Api\Data\ProductTierPriceInterfaceDataBuilder $priceBuilder
+     * @param \Magento\Catalog\Api\Data\ProductTierPriceDataBuilder $priceBuilder
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param PriceModifier $priceModifier
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
@@ -55,7 +55,7 @@ class TierPriceManagement implements \Magento\Catalog\Api\ProductTierPriceManage
      */
     public function __construct(
         ProductRepository $productRepository,
-        \Magento\Catalog\Api\Data\ProductTierPriceInterfaceDataBuilder $priceBuilder,
+        \Magento\Catalog\Api\Data\ProductTierPriceDataBuilder $priceBuilder,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,

@@ -29,8 +29,8 @@ class Wishlist extends \Magento\GiftRegistry\Controller\Index
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Catalog\Model\ProductRepository $productRepository
     ) {
-        $this->productRepository = $productRepository;
         parent::__construct($context, $coreRegistry, $formKeyValidator);
+        $this->productRepository = $productRepository;
     }
 
     /**

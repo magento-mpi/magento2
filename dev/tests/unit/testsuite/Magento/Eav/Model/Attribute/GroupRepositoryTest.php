@@ -61,7 +61,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->groupBuilderMock = $this->getMock(
-            '\Magento\Eav\Api\Data\AttributeGroupInterfaceDataBuilder',
+            '\Magento\Eav\Api\Data\AttributeGroupDataBuilder',
             ['setId', 'setName', 'setAttributeSetId', 'create'],
             [],
             '',
@@ -229,7 +229,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testGetList()
     {
         $attributeSetId = 'filter';
-        $searchCriteriaMock = $this->getMock('\Magento\Framework\Data\Search\SearchCriteriaInterface');
+        $searchCriteriaMock = $this->getMock('\Magento\Framework\Api\SearchCriteriaInterface');
         $filterGroupMock = $this->getMock('\Magento\Framework\Data\Search\FilterGroupInterface');
         $filterInterfaceMock = $this->getMock('\Magento\Framework\Data\Search\FilterInterface');
         $attributeSetMock = $this->getMock('\Magento\Eav\Api\Data\AttributeSetInterface');
@@ -282,7 +282,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetListWithInvalidInputException()
     {
-        $searchCriteriaMock = $this->getMock('\Magento\Framework\Data\Search\SearchCriteriaInterface');
+        $searchCriteriaMock = $this->getMock('\Magento\Framework\Api\SearchCriteriaInterface');
         $searchCriteriaMock->expects($this->once())->method('getFilterGroups')->willReturn([]);
         $this->model->getList($searchCriteriaMock);
     }
@@ -294,7 +294,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testGetListWithNoSuchEntityException()
     {
         $attributeSetId = 'filter';
-        $searchCriteriaMock = $this->getMock('\Magento\Framework\Data\Search\SearchCriteriaInterface');
+        $searchCriteriaMock = $this->getMock('\Magento\Framework\Api\SearchCriteriaInterface');
         $filterGroupMock = $this->getMock('\Magento\Framework\Data\Search\FilterGroupInterface');
         $filterInterfaceMock = $this->getMock('\Magento\Framework\Data\Search\FilterInterface');
 

@@ -11,7 +11,7 @@ namespace Magento\Catalog\Api\Data;
 
 interface ProductAttributeMediaGalleryEntryContentInterface
 {
-    const DATA = 'data';
+    const DATA = 'entry_data';
     const MIME_TYPE = 'mime_type';
     const NAME = 'name';
 

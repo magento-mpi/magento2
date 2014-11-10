@@ -78,7 +78,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * {@inheritdoc}
      */
-    public function getList($entityTypeCode, \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
+    public function getList($entityTypeCode, \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
     {
         if (!$entityTypeCode) {
             throw InputException::requiredField('entity_type_code');
@@ -181,16 +181,16 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
     /**
      * Helper function that adds a FilterGroup to the collection.
      *
-     * @param \Magento\Framework\Service\V1\Data\Search\FilterGroup $filterGroup
+     * @param \Magento\Framework\Api\Search\FilterGroup $filterGroup
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Collection $collection
      * @return void
      * @throws \Magento\Framework\Exception\InputException
      */
     private function addFilterGroupToCollection(
-        \Magento\Framework\Service\V1\Data\Search\FilterGroup $filterGroup,
+        \Magento\Framework\Api\Search\FilterGroup $filterGroup,
         Collection $collection
     ) {
-        /** @var \Magento\Framework\Service\V1\Data\Search\FilterGroup $filter */
+        /** @var \Magento\Framework\Api\Search\FilterGroup $filter */
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
             $collection->addFieldToFilter(

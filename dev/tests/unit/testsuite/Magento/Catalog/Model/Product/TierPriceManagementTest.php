@@ -66,7 +66,7 @@ class TierPriceManagementTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->priceBuilderMock = $this->getMock(
-            'Magento\Catalog\Api\Data\ProductTierPriceInterfaceDataBuilder',
+            'Magento\Catalog\Api\Data\ProductTierPriceDataBuilder',
             array('populateWithArray', 'create'),
             array(),
             '',

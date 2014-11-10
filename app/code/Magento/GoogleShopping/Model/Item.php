@@ -80,11 +80,11 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\GoogleShopping\Model\Config $config,
         array $data = array()
     ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_itemFactory = $itemFactory;
         $this->_typeFactory = $typeFactory;
         $this->productRepository = $productRepository;
         $this->_config = $config;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

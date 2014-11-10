@@ -25,7 +25,7 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
     protected $groupFactory;
 
     /**
-     * @var \Magento\Eav\Api\Data\AttributeGroupInterfaceDataBuilder
+     * @var \Magento\Eav\Api\Data\AttributeGroupDataBuilder
      */
     protected $groupBuilder;
 
@@ -48,7 +48,7 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group $groupResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupListFactory
      * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory
-     * @param \Magento\Eav\Api\Data\AttributeGroupInterfaceDataBuilder $groupBuilder
+     * @param \Magento\Eav\Api\Data\AttributeGroupDataBuilder $groupBuilder
      * @param \Magento\Eav\Api\AttributeSetRepositoryInterface $setRepository
      * @param \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
      */
@@ -56,7 +56,7 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
         \Magento\Eav\Model\Resource\Entity\Attribute\Group $groupResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupListFactory,
         \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory,
-        \Magento\Eav\Api\Data\AttributeGroupInterfaceDataBuilder $groupBuilder,
+        \Magento\Eav\Api\Data\AttributeGroupDataBuilder $groupBuilder,
         \Magento\Eav\Api\AttributeSetRepositoryInterface $setRepository,
         \Magento\Framework\Data\Search\SearchResultsInterfaceBuilder $searchResultsBuilder
     ) {
@@ -103,7 +103,7 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
     /**
      * {@inheritdoc}
      */
-    public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria)
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
     {
         $attributeSetId = $this->retrieveAttributeSetIdFromSearchCriteria($searchCriteria);
         if (!$attributeSetId) {
@@ -171,11 +171,11 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
     }
 
     /**
-     * @param \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return null|string
      */
     protected function retrieveAttributeSetIdFromSearchCriteria(
-        \Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria
+        \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
     ) {
         foreach ($searchCriteria->getFilterGroups() as $group) {
             foreach ($group->getFilters() as $filter) {

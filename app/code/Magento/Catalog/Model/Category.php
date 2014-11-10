@@ -177,6 +177,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Resource\Category\Tree $categoryTreeResource
      * @param Resource\Category\TreeFactory $categoryTreeFactory
@@ -190,7 +191,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Indexer\Model\IndexerInterface $productIndexer
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param UrlFinderInterface $urlFinder
-     * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataServiceInterface
      * @param CategoryRepositoryInterface $categoryRepository
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -199,6 +199,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource,
         \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory,
@@ -212,7 +213,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         \Magento\Indexer\Model\IndexerInterface $productIndexer,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         UrlFinderInterface $urlFinder,
-        \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataServiceInterface,
         CategoryRepositoryInterface $categoryRepository,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -234,8 +234,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         parent::__construct(
             $context,
             $registry,
+            $metadataService,
             $storeManager,
-            $metadataServiceInterface,
             $resource,
             $resourceCollection,
             $data

@@ -33,7 +33,7 @@ interface SearchResultsBuilderInterface
     /**
      * Set items
      *
-     * @param \Magento\Framework\Service\Data\AbstractExtensibleObject[] $items
+     * @param \Magento\Framework\Api\ExtensibleObjectBuilder[] $items
      * @return $this
      */
     public function setItems($items);

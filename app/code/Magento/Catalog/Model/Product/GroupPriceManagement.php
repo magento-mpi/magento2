@@ -47,14 +47,14 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
     /**
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Api\Data\ProductGroupPriceInterfaceDataBuilder $groupPriceBuilder
+     * @param \Magento\Catalog\Api\Data\ProductGroupPriceDataBuilder $groupPriceBuilder
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param PriceModifier $priceModifier
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
         \Magento\Catalog\Model\ProductRepository $productRepository,
-        \Magento\Catalog\Api\Data\ProductGroupPriceInterfaceDataBuilder $groupPriceBuilder,
+        \Magento\Catalog\Api\Data\ProductGroupPriceDataBuilder $groupPriceBuilder,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,

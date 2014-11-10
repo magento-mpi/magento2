@@ -80,6 +80,7 @@ class Options extends \Magento\Framework\View\Element\Template
         array $checkoutItems,
         array $data = array()
     ) {
+        parent::__construct($context, $data);
         $this->_coreData = $coreData;
         $this->_giftWrappingData = $giftWrappingData;
         $this->_wrappingCollectionFactory = $wrappingCollectionFactory;
@@ -87,7 +88,6 @@ class Options extends \Magento\Framework\View\Element\Template
         $this->_checkoutCartFactory = $checkoutCartFactory;
         $this->productRepository = $productRepository;
         $this->checkoutItems = $checkoutItems;
-        parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
 

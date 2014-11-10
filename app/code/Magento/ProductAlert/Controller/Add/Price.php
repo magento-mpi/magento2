@@ -9,6 +9,7 @@
 namespace Magento\ProductAlert\Controller\Add;
 
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class Price extends \Magento\ProductAlert\Controller\Add
 {
@@ -17,18 +18,24 @@ class Price extends \Magento\ProductAlert\Controller\Add
      */
     protected $_storeManager;
 
+    /** @var  \Magento\Catalog\Model\ProductRepository */
+    protected $productRepository;
+
     /**
      * @param Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      */
     public function __construct(
         Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\ProductRepository $productRepository
     ) {
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $customerSession);
+        $this->_storeManager = $storeManager;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -64,19 +71,9 @@ class Price extends \Magento\ProductAlert\Controller\Add
             return;
         }
 
-        $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId);
-        if (!$product->getId()) {
-            /* @var $product \Magento\Catalog\Model\Product */
-            $this->messageManager->addError(__('There are not enough parameters.'));
-            if ($this->_isInternal($backUrl)) {
-                $this->getResponse()->setRedirect($backUrl);
-            } else {
-                $this->_redirect('/');
-            }
-            return;
-        }
-
         try {
+            $product = $this->productRepository->getById($productId);
+
             $model = $this->_objectManager->create(
                 'Magento\ProductAlert\Model\Price'
             )->setCustomerId(
@@ -90,6 +87,15 @@ class Price extends \Magento\ProductAlert\Controller\Add
             );
             $model->save();
             $this->messageManager->addSuccess(__('You saved the alert subscription.'));
+        } catch (NoSuchEntityException $noEntityException) {
+            /* @var $product \Magento\Catalog\Model\Product */
+            $this->messageManager->addError(__('There are not enough parameters.'));
+            if ($this->_isInternal($backUrl)) {
+                $this->getResponse()->setRedirect($backUrl);
+            } else {
+                $this->_redirect('/');
+            }
+            return;
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Unable to update the alert subscription.'));
         }

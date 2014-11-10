@@ -57,7 +57,7 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
     protected $filesystem;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterfaceDataBuilder
+     * @var \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryDataBuilder
      */
     protected $entryBuilder;
 
@@ -79,7 +79,7 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
      * @param ContentValidator $contentValidator
      * @param \Magento\Framework\Filesystem $filesystem
      * @param EntryResolver $entryResolver
-     * @param \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterfaceDataBuilder $entryBuilder
+     * @param \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryDataBuilder $entryBuilder
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaGallery
      */
     public function __construct(
@@ -90,7 +90,7 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
         \Magento\Catalog\Model\Product\Gallery\ContentValidator $contentValidator,
         \Magento\Framework\Filesystem $filesystem,
         EntryResolver $entryResolver,
-        \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterfaceDataBuilder $entryBuilder,
+        \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryDataBuilder $entryBuilder,
         \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaGallery
     ) {
         $this->productRepository = $productRepository;

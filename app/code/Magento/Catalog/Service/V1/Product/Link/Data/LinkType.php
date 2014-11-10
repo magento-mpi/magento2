@@ -15,7 +15,7 @@ namespace Magento\Catalog\Service\V1\Product\Link\Data;
  * @deprecated
  * @see \Magento\Catalog\Api\Data\ProductLinkTypeInterface
  */
-class LinkType extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class LinkType extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**#@+
      * Constants for Data Object keys

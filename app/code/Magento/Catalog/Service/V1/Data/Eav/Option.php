@@ -16,7 +16,7 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
  * @see \Magento\Eav\Api\Data\AttributeOptionInterface
  * @codeCoverageIgnore
  */
-class Option extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class Option extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**
      * Constants used as keys into $_data

@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Api\Data;
 
-class ProductLinkSearchResults extends \Magento\Framework\Service\V1\Data\SearchResults
+class ProductLinkSearchResults extends \Magento\Framework\Api\SearchResults
 {
     /**
      * Get items

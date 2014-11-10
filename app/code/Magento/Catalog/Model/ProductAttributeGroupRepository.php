@@ -54,7 +54,7 @@ class ProductAttributeGroupRepository implements \Magento\Catalog\Api\ProductAtt
     /**
      * {@inheritdoc}
      */
-    public function getList(\Magento\Framework\Data\Search\SearchCriteriaInterface $searchCriteria)
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria)
     {
         return $this->groupRepository->getList($searchCriteria);
     }

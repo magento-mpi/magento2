@@ -16,17 +16,17 @@ class TypeList implements \Magento\Catalog\Api\ProductCustomOptionOptionTypeList
     protected $config;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterfaceDataBuilder
+     * @var \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeDataBuilder
      */
     protected $builder;
 
     /**
      * @param Config $config
-     * @param \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterfaceDataBuilder $builder
+     * @param \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeDataBuilder $builder
      */
     public function __construct(
         Config $config,
-        \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterfaceDataBuilder $builder
+        \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeDataBuilder $builder
     ) {
         $this->config = $config;
         $this->builder = $builder;

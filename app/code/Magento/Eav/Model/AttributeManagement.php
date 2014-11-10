@@ -30,7 +30,7 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
     protected $eavConfig;
 
     /**
-     * @var \Magento\Eav\Api\Data\AttributeInterfaceDataBuilder
+     * @var \Magento\Eav\Api\Data\AttributeDataBuilder
      */
     protected $attributeBuilder;
 
@@ -56,7 +56,7 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
 
     /**
      * @param \Magento\Eav\Api\AttributeSetRepositoryInterface $setRepository
-     * @param \Magento\Eav\Api\Data\AttributeInterfaceDataBuilder $attributeBuilder
+     * @param \Magento\Eav\Api\Data\AttributeDataBuilder $attributeBuilder
      * @param Resource\Entity\Attribute\Collection $attributeCollection
      * @param Config $eavConfig
      * @param ConfigFactory $entityTypeFactory
@@ -66,7 +66,7 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
      */
     public function __construct(
         \Magento\Eav\Api\AttributeSetRepositoryInterface $setRepository,
-        \Magento\Eav\Api\Data\AttributeInterfaceDataBuilder $attributeBuilder,
+        \Magento\Eav\Api\Data\AttributeDataBuilder $attributeBuilder,
         \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\ConfigFactory $entityTypeFactory,

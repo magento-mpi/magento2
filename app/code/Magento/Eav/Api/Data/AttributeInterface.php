@@ -8,7 +8,7 @@
  */
 namespace Magento\Eav\Api\Data;
 
-interface AttributeInterface extends \Magento\Framework\Api\Data\ExtensibleDataInterface
+interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     const ATTRIBUTE_ID = 'attribute_id';
 

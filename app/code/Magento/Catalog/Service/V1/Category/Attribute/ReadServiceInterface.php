@@ -37,9 +37,9 @@ interface ReadServiceInterface
     /**
      * Retrieve the list of product attributes
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteria $searchCriteria
      * @return \Magento\Catalog\Service\V1\Data\Product\Attribute\SearchResults containing Data\Eav\Attribute objects
      * @see \Magento\Catalog\Api\CategoryAttributeRepositoryInterface::getList
      */
-    public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
+    public function search(\Magento\Framework\Api\SearchCriteria $searchCriteria);
 }
