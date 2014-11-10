@@ -265,7 +265,7 @@ abstract class AbstractGroupprice extends Price
         foreach ($data as $k => $v) {
             $data[$k]['website_price'] = $v['price'];
             if ($v['all_groups']) {
-                $data[$k]['cust_group'] = $this->_groupManagement->getAllGroup()->getId();
+                $data[$k]['cust_group'] = $this->_groupManagement->getAllCustomersGroup()->getId();
             }
         }
 
@@ -350,7 +350,7 @@ abstract class AbstractGroupprice extends Price
                 array_merge(array($data['website_id'], $data['cust_group']), $this->_getAdditionalUniqueFields($data))
             );
 
-            $useForAllGroups = $data['cust_group'] == $this->_groupManagement->getAllGroup()->getId();
+            $useForAllGroups = $data['cust_group'] == $this->_groupManagement->getAllCustomersGroup()->getId();
             $customerGroupId = !$useForAllGroups ? $data['cust_group'] : 0;
 
             $new[$key] = array_merge(

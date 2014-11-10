@@ -8,7 +8,7 @@
 namespace Magento\GiftRegistry\Block\Customer;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 
 /**
  * Customer giftregistry list block
@@ -40,7 +40,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerRepositoryInterface $customerRepository
-     * @param CustomerAddressServiceInterface $addressService
+     * @param AccountManagementInterface $customerAccount
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
@@ -51,7 +51,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerRepositoryInterface $customerRepository,
-        CustomerAddressServiceInterface $addressService,
+        AccountManagementInterface $customerAccount,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
@@ -65,7 +65,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
             $customerSession,
             $subscriberFactory,
             $customerRepository,
-            $addressService,
+            $customerAccount,
             $data
         );
         $this->currentCustomer = $currentCustomer;

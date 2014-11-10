@@ -24,7 +24,7 @@ class Tier extends Group\AbstractGroup
      */
     protected function _getInitialCustomerGroups()
     {
-        return array($this->_groupManagement->getAllGroup()->getId() => __('ALL GROUPS'));
+        return array($this->_groupManagement->getAllCustomersGroup()->getId() => __('ALL GROUPS'));
     }
 
     /**

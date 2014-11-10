@@ -189,6 +189,17 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         if ($this->getCustomerId() || $this->getParentId()) {
             $customerId = $this->getCustomerId() ?: $this->getParentId();
             $this->_addressBuilder->setCustomerId($customerId);
+            $this->_addressBuilder->setCustomerId($customerId);
+            if ($this->getCustomer()->getDefaultBillingAddress()
+                && ($this->getCustomer()->getDefaultBillingAddress()->getId() == $addressId)
+            ) {
+                $this->_addressBuilder->setDefaultBilling(true);
+            }
+            if ($this->getCustomer()->getDefaultShippingAddress()
+                && ($this->getCustomer()->getDefaultShippingAddress()->getId() == $addressId)
+            ) {
+                $this->_addressBuilder->setDefaultShipping(true);
+            }
         }
 
         $addressDataObject = $this->_addressBuilder->create();

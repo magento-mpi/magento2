@@ -110,7 +110,7 @@ class TierPriceService implements TierPriceServiceInterface
         }
         if (!$found) {
             $mappedCustomerGroupId = 'all' == $customerGroupId
-                ? $this->groupManagement->getAllGroup()->getId()
+                ? $this->groupManagement->getAllCustomersGroup()->getId()
                 : $this->groupRepository->getById($customerGroupId)->getId();
 
             $tierPrices[] = array(

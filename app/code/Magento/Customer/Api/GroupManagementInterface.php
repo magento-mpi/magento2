@@ -51,5 +51,5 @@ interface GroupManagementInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getAllGroup($storeId = null);
+    public function getAllCustomersGroup($storeId = null);
 }

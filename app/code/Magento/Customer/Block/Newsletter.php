@@ -8,7 +8,7 @@
 namespace Magento\Customer\Block;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 
 /**
  * Customer front  newsletter manage block
@@ -27,7 +27,7 @@ class Newsletter extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerRepositoryInterface $customerRepository
-     * @param CustomerAddressServiceInterface $addressService
+     * @param AccountManagementInterface $customerAccount
      * @param array $data
      */
     public function __construct(
@@ -35,7 +35,7 @@ class Newsletter extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerRepositoryInterface $customerRepository,
-        CustomerAddressServiceInterface $addressService,
+        AccountManagementInterface $customerAccount,
         array $data = array()
     ) {
         parent::__construct(
@@ -43,7 +43,7 @@ class Newsletter extends \Magento\Customer\Block\Account\Dashboard
             $customerSession,
             $subscriberFactory,
             $customerRepository,
-            $addressService,
+            $customerAccount,
             $data
         );
         $this->_isScopePrivate = true;

@@ -95,7 +95,7 @@ class GroupManagementTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAllGroup()
     {
-        $allGroup = $this->groupManagement->getAllGroup();
+        $allGroup = $this->groupManagement->getAllCustomersGroup();
         $this->assertEquals(32000, $allGroup->getId());
     }
 

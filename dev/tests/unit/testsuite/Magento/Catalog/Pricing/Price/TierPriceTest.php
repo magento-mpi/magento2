@@ -176,7 +176,13 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->product->expects($this->once())->method('getResource')->will($this->returnValue($productResource));
 
-        $tierPrice = new TierPrice($this->product, $this->quantity, $this->calculator, $this->session, $this->groupManagement);
+        $tierPrice = new TierPrice(
+            $this->product,
+            $this->quantity,
+            $this->calculator,
+            $this->session,
+            $this->groupManagement
+        );
         $group = $this->getMock(
             '\Magento\Customer\Model\Data\Group',
             array(),

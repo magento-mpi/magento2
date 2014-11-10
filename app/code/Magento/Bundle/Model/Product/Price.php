@@ -52,8 +52,8 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param GroupManagementInterface $groupManagement
+     * @param \Magento\Catalog\Helper\Data $catalogData
      */
     public function __construct(
         \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
@@ -62,8 +62,8 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         PriceCurrencyInterface $priceCurrency,
-        \Magento\Catalog\Helper\Data $catalogData,
-        GroupManagementInterface $groupManagement
+        GroupManagementInterface $groupManagement,
+        \Magento\Catalog\Helper\Data $catalogData
     ) {
         $this->_catalogData = $catalogData;
         $this->groupManagement = $groupManagement;
@@ -73,8 +73,8 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
             $localeDate,
             $customerSession,
             $eventManager,
-            $priceCurrency,
-            $groupManagement
+            $groupManagement,
+            $priceCurrency
         );
     }
 
@@ -556,7 +556,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      */
     public function getTierPrice($qty, $product)
     {
-        $allGroupsId = $this->groupManagement->getAllGroup()->getId();
+        $allCustomersGroupId = $this->groupManagement->getAllCustomersGroup()->getId();
         $prices = $product->getData('tier_price');
 
         if (is_null($prices)) {
@@ -575,7 +575,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
                     'price' => $product->getPrice(),
                     'website_price' => $product->getPrice(),
                     'price_qty' => 1,
-                    'cust_group' => $allGroupsId
+                    'cust_group' => $allCustomersGroupId
                 )
             );
         }
@@ -584,10 +584,10 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         if ($qty) {
             $prevQty = 1;
             $prevPrice = 0;
-            $prevGroup = $allGroupsId;
+            $prevGroup = $allCustomersGroupId;
 
             foreach ($prices as $price) {
-                if ($price['cust_group'] != $custGroup && $price['cust_group'] != $allGroupsId) {
+                if ($price['cust_group'] != $custGroup && $price['cust_group'] != $allCustomersGroupId) {
                     // tier not for current customer group nor is for all groups
                     continue;
                 }
@@ -601,8 +601,8 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
                 }
                 if (
                     $price['price_qty'] == $prevQty
-                    && $prevGroup != $allGroupsId
-                    && $price['cust_group'] == $allGroupsId
+                    && $prevGroup != $allCustomersGroupId
+                    && $price['cust_group'] == $allCustomersGroupId
                 ) {
                     // found tier qty is same as current tier qty but current tier group is ALL_GROUPS
                     continue;
@@ -619,7 +619,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         } else {
             $qtyCache = array();
             foreach ($prices as $i => $price) {
-                if ($price['cust_group'] != $custGroup && $price['cust_group'] != $allGroupsId) {
+                if ($price['cust_group'] != $custGroup && $price['cust_group'] != $allCustomersGroupId) {
                     unset($prices[$i]);
                 } else if (isset($qtyCache[$price['price_qty']])) {
                     $j = $qtyCache[$price['price_qty']];

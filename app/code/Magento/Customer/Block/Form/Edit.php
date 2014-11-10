@@ -8,7 +8,7 @@
 namespace Magento\Customer\Block\Form;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 
 /**
  * Customer edit form block
@@ -22,7 +22,7 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerRepositoryInterface $customerRepository
-     * @param CustomerAddressServiceInterface $addressService
+     * @param AccountManagementInterface $customerAccount
      * @param array $data
      */
     public function __construct(
@@ -30,7 +30,7 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerRepositoryInterface $customerRepository,
-        CustomerAddressServiceInterface $addressService,
+        AccountManagementInterface $customerAccount,
         array $data = array()
     ) {
         parent::__construct(
@@ -38,7 +38,7 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
             $customerSession,
             $subscriberFactory,
             $customerRepository,
-            $addressService,
+            $customerAccount,
             $data
         );
         $this->_isScopePrivate = true;
@@ -53,7 +53,7 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $formData = $this->_customerSession->getCustomerFormData(true);
+            $formData = $this->customerSession->getCustomerFormData(true);
             $data = array();
             if ($formData) {
                 $data['data'] = $formData;
@@ -92,6 +92,6 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getChangePassword()
     {
-        return $this->_customerSession->getChangePassword();
+        return $this->customerSession->getChangePassword();
     }
 }
