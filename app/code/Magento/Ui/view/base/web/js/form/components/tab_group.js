@@ -5,8 +5,9 @@
  * @license     {license_link}
  */
 define([
-    './collapsible'
-], function(Collapsible) {
+    './collapsible',
+    'Magento_Ui/js/lib/spinner'
+], function(Collapsible, loader) {
     'use strict';
    
     var __super__ = Collapsible.prototype;
@@ -23,7 +24,8 @@ define([
         initElement: function(elem){
             __super__.initElement.apply(this, arguments);    
 
-            this.initActivation(elem);
+            this.initActivation(elem)
+                .hideLoader();
 
             return this;
         },
@@ -55,6 +57,10 @@ define([
             }
 
             return this;
+        },
+
+        hideLoader: function () {
+            loader.get(this.name).hide();
         },
 
         /**

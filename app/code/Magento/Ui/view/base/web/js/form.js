@@ -6,8 +6,9 @@
  */
 define([
     'Magento_Ui/js/form/component',
+    'Magento_Ui/js/lib/spinner',
     './form/adapter'
-], function (Component, adapter) {
+], function (Component, loader, adapter) {
     'use strict';
 
     var __super__ = Component.prototype;
@@ -31,7 +32,8 @@ define([
             __super__.initialize.apply(this, arguments);
 
             this.initAdapter()
-                .initSelector();
+                .initSelector()
+                .hideLoader();
         },
 
         initObservable: function () {
@@ -50,6 +52,12 @@ define([
                 'save':             this.save,
                 'saveAndContinue':  this.save
             });
+
+            return this;
+        },
+
+        hideLoader: function () {
+            loader.get(this.name).hide();
 
             return this;
         },
