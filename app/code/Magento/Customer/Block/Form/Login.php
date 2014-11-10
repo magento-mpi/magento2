@@ -51,8 +51,8 @@ class Login extends \Magento\Framework\View\Element\Template
     protected $registration;
 
     /**
-     * @param \Magento\Customer\Model\Registration $registration
      * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Customer\Model\Registration $registration
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\Url $customerUrl
      * @param \Magento\Checkout\Helper\Data $checkoutData
@@ -60,8 +60,8 @@ class Login extends \Magento\Framework\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Customer\Model\Registration $registration,
         \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Customer\Model\Registration $registration,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\Url $customerUrl,
         \Magento\Checkout\Helper\Data $checkoutData,

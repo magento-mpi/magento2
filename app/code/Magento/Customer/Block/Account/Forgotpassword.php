@@ -33,6 +33,11 @@ class Forgotpassword extends \Magento\Framework\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * Get login URL
+     *
+     * @return string
+     */
     public function getLoginUrl()
     {
         return $this->customerUrl->getLoginUrl();

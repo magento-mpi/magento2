@@ -98,10 +98,12 @@ class Url
     {
         $params = array();
         $referer = $this->request->getParam(self::REFERER_QUERY_PARAM_NAME);
-        if (!$referer && !$this->scopeConfig->isSetFlag(
+        if (!$referer
+            && !$this->scopeConfig->isSetFlag(
                 self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
                 ScopeInterface::SCOPE_STORE
-            ) && !$this->customerSession->getNoReferer()
+            )
+            && !$this->customerSession->getNoReferer()
         ) {
             $referer = $this->urlBuilder->getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
             $referer = $this->urlEncoder->encode($referer);

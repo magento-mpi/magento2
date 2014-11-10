@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Checkout\Block;
+
 use Magento\Customer\Model\Context;
 
 /**

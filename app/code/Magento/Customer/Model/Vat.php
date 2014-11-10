@@ -269,11 +269,10 @@ class Vat
 
         $isVatNumberValid = $vatValidationResult->getIsValid();
 
-        if (is_string(
-                $customerCountryCode
-            ) && !empty($customerCountryCode) && $customerCountryCode === $this->getMerchantCountryCode(
-                $store
-            ) && $isVatNumberValid
+        if (is_string($customerCountryCode)
+            && !empty($customerCountryCode)
+            && $customerCountryCode === $this->getMerchantCountryCode($store)
+            && $isVatNumberValid
         ) {
             $vatClass = self::VAT_CLASS_DOMESTIC;
         } elseif ($isVatNumberValid) {

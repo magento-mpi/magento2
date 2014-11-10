@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Customer\Block\Account;
+
 use Magento\Customer\Model\Url;
 use Magento\Framework\View\Element\Template;
 
@@ -33,6 +34,11 @@ class Confirmation extends \Magento\Framework\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * Return login URL
+     *
+     * @return string
+     */
     public function getLoginUrl()
     {
         return $this->customerUrl->getLoginUrl();

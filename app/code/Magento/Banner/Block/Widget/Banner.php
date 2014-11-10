@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Banner\Block\Widget;
+
 use Magento\Customer\Model\Context;
 
 /**

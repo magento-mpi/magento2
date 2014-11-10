@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Customer\Block\Account;
+
 use Magento\Customer\Model\Context;
 
 /**

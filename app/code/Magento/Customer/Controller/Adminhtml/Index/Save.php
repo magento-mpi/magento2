@@ -15,6 +15,9 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMeta
 use Magento\Customer\Service\V1\AddressMetadataServiceInterface as AddressMetadata;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Save extends \Magento\Customer\Controller\Adminhtml\Index
 {
     /**
