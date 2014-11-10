@@ -136,7 +136,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $addressRepository;
 
     /**
-     * @var \Magento\Customer\Api\AddressRepositoryInterface
+     * @var \Magento\Customer\Api\Data\AddressInterfaceBuilder
      */
     protected $addressBuilder;
 
@@ -196,10 +196,10 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param Product\Quote\Initializer $quoteInitializer
+     * @param \Magento\Sales\Model\AdminOrder\Product\Quote\Initializer $quoteInitializer
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
-     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressBuilder
+     * @param \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
@@ -223,7 +223,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         Product\Quote\Initializer $quoteInitializer,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
-        \Magento\Customer\Api\AddressRepositoryInterface $addressBuilder,
+        \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
