@@ -41,7 +41,7 @@ class WidgetOptions extends Tab
      */
     public function fillFormTab(array $fields, Element $element = null)
     {
-        foreach ($fields['widgetOptions']['value'] as $key => $field) {
+        foreach ($fields['widgetOptions']['value'] as $field) {
             $path = $this->path . ucfirst($field['type_id']);
             /** @var WidgetOptionsForm $widgetOptionsForm */
             $widgetOptionsForm = $this->blockFactory->create(

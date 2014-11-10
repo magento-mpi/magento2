@@ -35,6 +35,8 @@ interface AddressInterface extends ExtensibleDataInterface
     const PREFIX = 'prefix';
     const SUFFIX = 'suffix';
     const VAT_ID = 'vat_id';
+    const DEFAULT_BILLING = 'default_billing';
+    const DEFAULT_SHIPPING = 'default_shipping';
     /**#@-*/
 
     /**
@@ -148,4 +150,18 @@ interface AddressInterface extends ExtensibleDataInterface
      * @return string|null
      */
     public function getVatId();
+
+    /**
+     * Get if this address is default shipping address.
+     *
+     * @return bool|null
+     */
+    public function isDefaultShipping();
+
+    /**
+     * Get if this address is default billing address
+     *
+     * @return bool|null
+     */
+    public function isDefaultBilling();
 }

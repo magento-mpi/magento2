@@ -24,5 +24,10 @@
             <locator>.page-main-actions</locator>
             <strategy>css selector</strategy>
         </pageActionsBlock>
+        <templateBlock>
+            <class>Magento\Backend\Test\Block\Template</class>
+            <locator>body</locator>
+            <strategy>css selector</strategy>
+        </templateBlock>
     </blocks>
 </page>
