@@ -22,11 +22,6 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
     const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
 
     /**
-     * @var
-     */
-    protected $fieldMap;
-
-    /**
      * @var MetadataServiceInterface
      */
     protected $metadataService;
@@ -50,7 +45,6 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         MetadataServiceInterface $metadataService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-
         array $data = array()
     ) {
         $this->metadataService = $metadataService;

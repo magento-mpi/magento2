@@ -89,7 +89,10 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
             $this->productLinkBuilder->populateWithArray($data);
             if (isset($item['custom_attributes'])) {
                 foreach ($item['custom_attributes'] as $option) {
-                    $this->productLinkBuilder->setCustomAttribute($option['attribute_code'], $option['attribute_value']);
+                    $this->productLinkBuilder->setCustomAttribute(
+                        $option['attribute_code'],
+                        $option['attribute_value']
+                    );
                 }
             }
             $output[] = $this->productLinkBuilder->create();
