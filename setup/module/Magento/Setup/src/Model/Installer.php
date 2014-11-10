@@ -11,9 +11,12 @@ namespace Magento\Setup\Model;
 use Magento\Framework\App\Arguments;
 use Magento\Framework\App\Arguments\Loader;
 use Magento\Setup\Module\Setup\ConfigFactory as DeploymentConfigFactory;
+use Magento\Framework\App\DeploymentConfig\Writer;
 use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Module\SetupFactory;
-use Magento\Setup\Module\ModuleListInterface;
+use Magento\Framework\Module\ModuleList;
+use Magento\Framework\Module\ModuleList\Loader as ModuleLoader;
+use Magento\Framework\Module\ModuleList\DeploymentConfig;
 use Magento\Store\Model\Store;
 use Magento\Framework\Math\Random;
 use Magento\Framework\App\Resource\ConnectionFactory;
@@ -65,6 +68,13 @@ class Installer
     private $deploymentConfigFactory;
 
     /**
+     * Deployment configuration repository
+     *
+     * @var Writer
+     */
+    private $deploymentConfigWriter;
+
+    /**
      * Resource setup factory
      *
      * @var SetupFactory;
@@ -72,11 +82,18 @@ class Installer
     private $setupFactory;
 
     /**
-     * Module Lists
+     * Module list
      *
-     * @var ModuleListInterface
+     * @var ModuleList
      */
     private $moduleList;
+
+    /**
+     * Module list loader
+     *
+     * @var ModuleLoader
+     */
+    private $moduleLoader;
 
     /**
      * List of directories of Magento application
@@ -172,8 +189,10 @@ class Installer
      *
      * @param FilePermissions $filePermissions
      * @param DeploymentConfigFactory $deploymentConfigFactory
+     * @param Writer $deploymentConfigWriter
      * @param SetupFactory $setupFactory
-     * @param ModuleListInterface $moduleList
+     * @param ModuleList $moduleList
+     * @param ModuleLoader $moduleLoader
      * @param DirectoryList $directoryList
      * @param AdminAccountFactory $adminAccountFactory
      * @param LoggerInterface $log
@@ -187,8 +206,10 @@ class Installer
     public function __construct(
         FilePermissions $filePermissions,
         DeploymentConfigFactory $deploymentConfigFactory,
+        Writer $deploymentConfigWriter,
         SetupFactory $setupFactory,
-        ModuleListInterface $moduleList,
+        ModuleList $moduleList,
+        ModuleLoader $moduleLoader,
         DirectoryList $directoryList,
         AdminAccountFactory $adminAccountFactory,
         LoggerInterface $log,
@@ -201,8 +222,10 @@ class Installer
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigFactory = $deploymentConfigFactory;
+        $this->deploymentConfigWriter = $deploymentConfigWriter;
         $this->setupFactory = $setupFactory;
         $this->moduleList = $moduleList;
+        $this->moduleLoader = $moduleLoader;
         $this->directoryList = $directoryList;
         $this->adminAccountFactory = $adminAccountFactory;
         $this->log = $log;
@@ -246,7 +269,8 @@ class Installer
         $script[] = ['Disabling Maintenance Mode:', 'setMaintenanceMode', [0]];
         $script[] = ['Post installation file permissions check...', 'checkApplicationFilePermissions', []];
 
-        $total = count($script) + count($this->moduleList->getModules());
+        $estimatedModules = $this->createModulesDeploymentConfig($request);
+        $total = count($script) + count($estimatedModules->getData());
         $this->progress = new Installer\Progress($total, 0);
 
         $this->log->log('Starting Magento installation:');
@@ -262,6 +286,23 @@ class Installer
         if ($this->progress->getCurrent() != $this->progress->getTotal()) {
             throw new \LogicException('Installation progress did not finish properly.');
         }
+    }
+
+    /**
+     * Creates modules deployment configuration segment
+     *
+     * @param \ArrayObject|array $request
+     * @return DeploymentConfig
+     */
+    private function createModulesDeploymentConfig($request)
+    {
+        // TODO $request is not used for now
+        $result = [];
+        $allModules = $this->moduleLoader->load();
+        foreach (array_keys($allModules) as $module) {
+            $result[$module] = 1;
+        }
+        return new DeploymentConfig($result);
     }
 
     /**
@@ -330,6 +371,8 @@ class Installer
         }
         $config = $this->deploymentConfigFactory->create((array)$data);
         $config->saveToFile();
+        $modules = $this->createModulesDeploymentConfig($data);
+        $this->deploymentConfigWriter->create([$modules]);
         return $config;
     }
 
@@ -340,7 +383,7 @@ class Installer
      */
     public function installSchema()
     {
-        $moduleNames = array_keys($this->moduleList->getModules());
+        $moduleNames = $this->moduleList->getNames();
 
         $this->log->log('Schema creation/updates:');
         foreach ($moduleNames as $moduleName) {
@@ -451,7 +494,7 @@ class Installer
         $this->log->log('File system cleanup:');
         $this->deleteDirContents(DirectoryList::VAR_DIR);
         $this->deleteDirContents(DirectoryList::STATIC_VIEW);
-        $this->deleteLocalXml();
+        $this->deleteDeploymentConfig();
 
         $this->log->logSuccess('Magento uninstallation complete.');
     }
@@ -599,19 +642,21 @@ class Installer
      *
      * @return void
      */
-    private function deleteLocalXml()
+    private function deleteDeploymentConfig()
     {
         $configDir = $this->filesystem->getDirectoryWrite(DirectoryList::CONFIG);
-        $localXml = "{$configDir->getAbsolutePath()}local.xml";
-        if (!$configDir->isFile('local.xml')) {
-            $this->log->log("The file '{$localXml}' doesn't exist - skipping cleanup");
-            return;
-        }
-        try {
-            $this->log->log($localXml);
-            $configDir->delete('local.xml');
-        } catch (FilesystemException $e) {
-            $this->log->log($e->getMessage());
+        foreach (['local.xml', 'config.php'] as $file) {
+            $absolutePath = $configDir->getAbsolutePath($file);
+            if (!$configDir->isFile($file)) {
+                $this->log->log("The file '{$absolutePath}' doesn't exist - skipping cleanup");
+                return;
+            }
+            try {
+                $this->log->log($absolutePath);
+                $configDir->delete($file);
+            } catch (FilesystemException $e) {
+                $this->log->log($e->getMessage());
+            }
         }
     }
 }

@@ -66,7 +66,7 @@ class SetupFactory
     {
         return new SetupModule(
             $log,
-            $this->serviceLocator->get('Magento\Setup\Module\ModuleList'),
+            $this->serviceLocator->get('Magento\Framework\Module\ModuleList'),
             $this->serviceLocator->get('Magento\Setup\Module\Setup\FileResolver'),
             $moduleName,
             $this->getResource()

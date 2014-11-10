@@ -98,7 +98,7 @@ class Setup extends \Magento\Framework\Module\Setup\Base implements \Magento\Fra
         $this->_resourceName = $resourceName;
         $this->_resource = $context->getResource();
         $this->_migrationFactory = $context->getMigrationFactory();
-        $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
+        $this->_moduleConfig = $context->getModuleList()->getOne($moduleName);
         $this->filesystem = $context->getFilesystem();
         $this->modulesDir = $this->filesystem->getDirectoryRead(DirectoryList::MODULES);
     }

@@ -43,9 +43,6 @@ return [
             'preference' => [
                 'Zend\EventManager\EventManagerInterface' => 'EventManager',
                 'Zend\ServiceManager\ServiceLocatorInterface' => 'ServiceManager',
-                'Magento\Framework\Module\DependencyManagerInterface' => 'Magento\Framework\Module\DependencyManager',
-                'Magento\Setup\Module\Resource\ResourceInterface' => 'Magento\Setup\Module\Resource\Resource',
-                'Magento\Setup\Module\ModuleListInterface' => 'Magento\Setup\Module\ModuleList',
                 'Magento\Framework\DB\LoggerInterface' => 'Magento\Framework\DB\Logger\Null',
             ],
             'Magento\Framework\App\Arguments\Loader' => [

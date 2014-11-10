@@ -56,7 +56,6 @@
     <preference for="Magento\Framework\Json\DecoderInterface" type="Magento\Framework\Json\Decoder" />
     <preference for="Magento\Framework\Message\ManagerInterface" type="Magento\Framework\Message\Manager" />
     <preference for="Magento\Framework\App\Config\ValueInterface" type="Magento\Framework\App\Config\Value" />
-    <preference for="Magento\Framework\Module\DependencyManagerInterface" type="Magento\Framework\Module\DependencyManager" />
     <preference for="Magento\Framework\Interception\Chain" type="Magento\Framework\Interception\Chain\Chain" />
     <preference for="Magento\Framework\Module\Output\ConfigInterface" type="Magento\Framework\Module\Output\Config" />
     <preference for="Magento\Framework\View\Design\Theme\CustomizationInterface" type="Magento\Framework\View\Design\Theme\Customization" />
@@ -140,11 +139,6 @@
     <type name="Magento\Framework\App\Arguments\Loader">
         <arguments>
             <argument name="customFile" xsi:type="init_parameter">Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Framework\Module\Declaration\Reader\Filesystem">
-        <arguments>
-            <argument name="allowedModules" xsi:type="init_parameter">Magento\Framework\Module\Declaration\Reader\Filesystem::PARAM_ALLOWED_MODULES</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\App\Cache\Frontend\Factory">
@@ -519,11 +513,6 @@
         </arguments>
     </type>
     <type name="Magento\Framework\View\Layout\ScheduledStructure" shared="false" />
-    <type name="Magento\Framework\Module\ModuleList">
-        <arguments>
-            <argument name="reader" xsi:type="object">Magento\Framework\Module\Declaration\Reader\Filesystem\Proxy</argument>
-        </arguments>
-    </type>
     <type name="Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Container">
         <arguments>
             <argument name="buckets" xsi:type="array">
@@ -531,6 +520,17 @@
                 <item name="rangeBucket" xsi:type="object">Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Range</item>
                 <item name="dynamicBucket" xsi:type="object">Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Dynamic</item>
             </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\App\AreaList">
+        <arguments>
+            <argument name="areas" xsi:type="array">
+                <item name="frontend" xsi:type="array">
+                    <item name="frontName" xsi:type="null" />
+                    <item name="router" xsi:type="string">standard</item>
+                </item>
+            </argument>
+            <argument name="default" xsi:type="string">frontend</argument>
         </arguments>
     </type>
 </config>

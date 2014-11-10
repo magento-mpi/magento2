@@ -27,23 +27,11 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         $filesystem->overridePath(DirectoryList::THEMES, __DIR__ . '/_files/design');
         $filesystem->overridePath(DirectoryList::CONFIG, __DIR__ . '/_files');
 
-        $moduleListMock = $this->getMockBuilder(
-            'Magento\Framework\Module\ModuleListInterface'
-        )->disableOriginalConstructor()->getMock();
-        $moduleListMock->expects(
-            $this->any()
-        )->method(
-            'getModules'
-        )->will(
-            $this->returnValue(
-                array('Magento_Test' => array('name' => 'Magento_Test', 'version' => '1.11.1', 'active' => 'true'))
-            )
-        );
-
-
+        $moduleList = $this->getMockForAbstractClass('Magento\Framework\Module\ModuleListInterface');
+        $moduleList->expects($this->any())->method('getNames')->willReturn(['Magento_Test']);
         $moduleReader = $objectManager->create(
             'Magento\Framework\Module\Dir\Reader',
-            array('moduleList' => $moduleListMock, 'filesystem' => $filesystem)
+            array('moduleList' => $moduleList, 'filesystem' => $filesystem)
         );
         $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/code/Magento/Test/etc');
         $this->_object = $objectManager->create(

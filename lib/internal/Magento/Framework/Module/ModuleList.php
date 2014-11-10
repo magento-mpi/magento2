@@ -1,7 +1,5 @@
 <?php
 /**
- * List of application active application modules.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,60 +7,142 @@
  */
 namespace Magento\Framework\Module;
 
-use Magento\Framework\Config\CacheInterface;
-use Magento\Framework\Module\Declaration\Reader\Filesystem;
+use Magento\Framework\App\DeploymentConfig;
 
+/**
+ * A list of modules in the Magento application
+ *
+ * Encapsulates information about whether modules are enabled or not.
+ * Represents only enabled modules through its interface
+ */
 class ModuleList implements \Magento\Framework\Module\ModuleListInterface
 {
     /**
-     * Configuration data
+     * Deployment configuration
+     *
+     * @var DeploymentConfig
+     */
+    private $config;
+
+    /**
+     * Loader of module information from source code
+     *
+     * @var ModuleList\Loader
+     */
+    private $loader;
+
+    /**
+     * An associative array of modules
+     *
+     * The possible values are 1 (enabled) or 0 (disabled)
+     *
+     * @var int[]
+     */
+    private $configData;
+
+    /**
+     * Enumeration of the enabled module names
+     *
+     * @var string[]
+     */
+    private $enabled;
+
+    /**
+     * Full list of all modules' and their meta-information
      *
      * @var array
      */
-    protected $_data;
+    private $all;
 
     /**
-     * Configuration scope
+     * Constructor
      *
-     * @var string
+     * @param DeploymentConfig $config
+     * @param ModuleList\Loader $loader
      */
-    protected $_scope = 'global';
+    public function __construct(DeploymentConfig $config, ModuleList\Loader $loader)
+    {
+        $this->config = $config;
+        $this->loader = $loader;
+    }
 
     /**
-     * @param Filesystem $reader
-     * @param CacheInterface $cache
-     * @param string $cacheId
+     * {@inheritdoc}
+     *
+     * Note that this triggers loading definitions of all existing modules in the system.
+     * Use this method only when you actually need modules' declared meta-information.
+     *
+     * @see getNames()
      */
-    public function __construct(Filesystem $reader, CacheInterface $cache, $cacheId = 'modules_declaration_cache')
+    public function getAll()
     {
-        $data = $cache->load($this->_scope . '::' . $cacheId);
-        if (!$data) {
-            $data = $reader->read($this->_scope);
-            $cache->save(serialize($data), $this->_scope . '::' . $cacheId);
-        } else {
-            $data = unserialize($data);
+        if (null === $this->enabled) {
+            $this->loadAll();
+            if (empty($this->all)) {
+                return []; // don't record erroneous value into memory
+            }
+            $this->enabled = [];
+            foreach ($this->all as $key => $value) {
+                if ($this->has($key)) {
+                    $this->enabled[$key] = $value;
+                }
+            }
         }
-        $this->_data = $data;
+        return $this->enabled;
     }
 
     /**
-     * Get configuration of all declared active modules
-     *
-     * @return array
+     * {@inheritdoc}
+     * @see has()
      */
-    public function getModules()
+    public function getOne($name)
     {
-        return $this->_data;
+        $this->getAll();
+        if (!isset($this->enabled[$name])) {
+            return null;
+        }
+        return $this->enabled[$name];
     }
 
     /**
-     * Get module configuration
-     *
-     * @param string $moduleName
-     * @return array|null
+     * {@inheritdoc}
      */
-    public function getModule($moduleName)
+    public function getNames()
     {
-        return isset($this->_data[$moduleName]) ? $this->_data[$moduleName] : null;
+        $this->loadConfigData();
+        return array_keys($this->configData);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function has($name)
+    {
+        $this->loadConfigData();
+        return !empty($this->configData[$name]);
+    }
+
+    /**
+     * Loads configuration data only
+     *
+     * @return void
+     */
+    private function loadConfigData()
+    {
+        if (null === $this->configData) {
+            $this->configData = $this->config->getSegment(ModuleList\DeploymentConfig::CONFIG_KEY);
+        }
+    }
+
+    /**
+     * Loads full definition of all modules
+     *
+     * @return void
+     */
+    private function loadAll()
+    {
+        if (null === $this->all) {
+            $this->all = $this->loader->load();
+        }
     }
 }

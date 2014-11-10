@@ -20,6 +20,16 @@ use Magento\Framework\Filesystem\DriverPool;
 class ObjectManagerFactory
 {
     /**
+     * Initialization parameter for a custom deployment configuration file
+     */
+    const INIT_PARAM_DEPLOYMENT_CONFIG_FILE = 'MAGE_CONFIG_FILE';
+
+    /**
+     * Initialization parameter for custom deployment configuration data
+     */
+    const INIT_PARAM_DEPLOYMENT_CONFIG = 'MAGE_CONFIG';
+
+    /**
      * Locator class name
      *
      * @var string
@@ -82,6 +92,7 @@ class ObjectManagerFactory
         );
 
         $appArguments = $this->createAppArguments($this->directoryList, $arguments);
+        $deploymentConfig = $this->createDeploymentConfig($this->directoryList, $arguments);
 
         $definitionFactory = new \Magento\Framework\ObjectManager\DefinitionFactory(
             $this->driverPool->getDriver(DriverPool::FILE),
@@ -124,6 +135,7 @@ class ObjectManagerFactory
 
         $sharedInstances = [
             'Magento\Framework\App\Arguments' => $appArguments,
+            'Magento\Framework\App\DeploymentConfig' => $deploymentConfig,
             'Magento\Framework\App\Filesystem\DirectoryList' => $this->directoryList,
             'Magento\Framework\Filesystem\DirectoryList' => $this->directoryList,
             'Magento\Framework\Filesystem\DriverPool' => $this->driverPool,
@@ -172,6 +184,25 @@ class ObjectManagerFactory
                 ) ? $arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE] : null
             )
         );
+    }
+
+    /**
+     * Creates deployment configuration object
+     *
+     * @param DirectoryList $directoryList
+     * @param array $arguments
+     * @return DeploymentConfig
+     */
+    private function createDeploymentConfig(DirectoryList $directoryList, array $arguments)
+    {
+        $customFile = isset($arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE])
+            ? $arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE]
+            : null;
+        $customData = isset($arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG])
+            ? $arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG]
+            : [];
+        $loader = new DeploymentConfig\Reader($directoryList, $customFile);
+        return new DeploymentConfig($loader, $customData);
     }
 
     /**
