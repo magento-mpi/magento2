@@ -23,12 +23,10 @@ class VersionCalculator
      */
     public static function calculateVersionValue($rootVersion, $value, $useWildcard)
     {
-        $rootWildcard = preg_replace('/\.\d+$/', '.*', $rootVersion);
         if ($value === 'self.version' && $useWildcard) {
-            $newValue = $rootWildcard;
+            return preg_replace('/\.\d+$/', '.*', $rootVersion);
         } else {
-            $newValue = $value;
+            return $value;
         }
-        return $newValue;
     }
 }
