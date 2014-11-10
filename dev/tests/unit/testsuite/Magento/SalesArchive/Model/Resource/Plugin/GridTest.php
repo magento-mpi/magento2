@@ -48,7 +48,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $value = '15';
         $field = null;
         $callable = function ($value, $field) {
-            return false;
+            return true;
         };
 
         $this->archiveSource->expects($this->once())
@@ -66,20 +66,21 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->method('refreshByOrderId')
             ->with($value)
             ->willReturn(true);
-        $this->plugin->aroundRefresh($grid, $callable, $value, $field);
+        $this->assertTrue($this->plugin->aroundRefresh($grid, $callable, $value, $field));
     }
 
     public function testAroundRefreshOrderNotInArchive()
     {
         $grid = $this->getMock('Magento\Sales\Model\Resource\Order\Grid', [], [], '', false);
         $callable = function ($value, $field) {
-            return false;
+            return true;
         };
         $value = '15';
         $field = null;
 
         $this->archiveSource->expects($this->once())
             ->method('isOrderInArchive')
+            ->with($value)
             ->will(
                 $this->returnValue(false)
             );
@@ -89,7 +90,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $this->gridPoolSource->expects($this->never())
             ->method('refreshByOrderId');
-
-        $this->plugin->aroundRefresh($grid, $callable, $value, $field);
+        $this->assertTrue($this->plugin->aroundRefresh($grid, $callable, $value, $field));
     }
 }
