@@ -68,6 +68,9 @@ class IndexBuilder
      */
     protected $loadedProducts;
 
+    /**
+     * @var int
+     */
     protected $batchCount;
 
     /**
@@ -92,7 +95,7 @@ class IndexBuilder
         \Magento\Framework\Stdlib\DateTime $dateFormat,
         \Magento\Framework\Stdlib\DateTime\DateTime $dateTime,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        $batchCount = 0
+        $batchCount = 1000
     ) {
         $this->resource = $resource;
         $this->storeManager = $storeManager;
@@ -103,7 +106,7 @@ class IndexBuilder
         $this->dateFormat = $dateFormat;
         $this->dateTime = $dateTime;
         $this->productFactory = $productFactory;
-        $this->batchCount = $batchCount > 0 ? $batchCount : 1000;
+        $this->batchCount = $batchCount;
     }
 
     /**

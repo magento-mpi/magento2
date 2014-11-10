@@ -47,7 +47,7 @@ class BatchIndexTest extends \PHPUnit_Framework_TestCase
          */
         $indexerBuilder = Bootstrap::getObjectManager()->create(
             'Magento\CatalogRule\Model\Indexer\IndexBuilder',
-            ["batchCount" => $batchCount]
+            ['batchCount' => $batchCount]
         );
 
         $indexerBuilder->reindexFull();
