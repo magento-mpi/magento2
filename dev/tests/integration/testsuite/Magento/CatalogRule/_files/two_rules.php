@@ -16,8 +16,8 @@ $rule->loadPost([
     'stop_rules_processing' => 0,
     'website_ids' => [1],
     'customer_group_ids' => [0, 1],
-    'discount_amount' => 1,
-    'simple_action' => 'by_fixed',
+    'discount_amount' => 5,
+    'simple_action' => 'by_percent',
     'from_date' => '',
     'to_date' => '',
     'conditions' => [

@@ -18,8 +18,6 @@ class IndexBuilder
 {
     const SECONDS_IN_DAY = 86400;
 
-    const BATCH_COUNT = 1000;
-
     /**
      * @var \Magento\Framework\App\Resource
      */
@@ -70,6 +68,8 @@ class IndexBuilder
      */
     protected $loadedProducts;
 
+    protected $batchCount;
+
     /**
      * @param RuleCollectionFactory $ruleCollectionFactory
      * @param PriceCurrencyInterface $priceCurrency
@@ -80,6 +80,7 @@ class IndexBuilder
      * @param \Magento\Framework\Stdlib\DateTime $dateFormat
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param int $batchCount
      */
     public function __construct(
         RuleCollectionFactory $ruleCollectionFactory,
@@ -90,7 +91,8 @@ class IndexBuilder
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Stdlib\DateTime $dateFormat,
         \Magento\Framework\Stdlib\DateTime\DateTime $dateTime,
-        \Magento\Catalog\Model\ProductFactory $productFactory
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        $batchCount = 0
     ) {
         $this->resource = $resource;
         $this->storeManager = $storeManager;
@@ -101,6 +103,7 @@ class IndexBuilder
         $this->dateFormat = $dateFormat;
         $this->dateTime = $dateTime;
         $this->productFactory = $productFactory;
+        $this->batchCount = $batchCount > 0 ? $batchCount : 1000;
     }
 
     /**
@@ -258,7 +261,7 @@ class IndexBuilder
                         'sub_discount_amount' => $subActionAmount
                     );
 
-                    if (count($rows) == $this->getBatchCount()) {
+                    if (count($rows) == $this->batchCount) {
                         $write->insertMultiple($this->getTable('catalogrule_product'), $rows);
                         $rows = array();
                     }
@@ -378,7 +381,7 @@ class IndexBuilder
                         'sub_discount_amount' => $subActionAmount
                     );
 
-                    if (count($rows) == $this->getBatchCount()) {
+                    if (count($rows) == $this->batchCount) {
                         $write->insertMultiple($this->getTable('catalogrule_product'), $rows);
                         $rows = array();
                     }
@@ -427,7 +430,7 @@ class IndexBuilder
 
                 if ($prevKey && $prevKey != $productKey) {
                     $stopFlags = array();
-                    if (count($dayPrices) > $this->getBatchCount()) {
+                    if (count($dayPrices) > $this->batchCount) {
                         $this->saveRuleProductPrices($dayPrices);
                         $dayPrices = array();
                     }
@@ -691,13 +694,5 @@ class IndexBuilder
     protected function logException($e)
     {
         $this->logger->logException($e);
-    }
-
-    /**
-     * @return int
-     */
-    public function getBatchCount()
-    {
-        return self::BATCH_COUNT;
     }
 }
