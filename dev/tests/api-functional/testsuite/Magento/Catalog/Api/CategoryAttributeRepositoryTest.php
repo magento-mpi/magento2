@@ -12,7 +12,7 @@ use \Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class CategoryAttributeRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductAttributeReadServiceV1';
+    const SERVICE_NAME = 'catalogCategoryAttributeRepositoryV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/categories/attributes';
 
@@ -94,7 +94,7 @@ class CategoryAttributeRepositoryTest extends \Magento\TestFramework\TestCase\We
                 'operation' => self::SERVICE_NAME . 'Get'
             ],
         ];
-        return $this->_webApiCall($serviceInfo);
+        return $this->_webApiCall($serviceInfo, ['attributeCode' => $attributeCode]);
     }
 }
  
