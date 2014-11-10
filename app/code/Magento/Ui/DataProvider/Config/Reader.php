@@ -21,7 +21,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = ['/config/datasource' => 'name'];
+    protected $_idAttributes = ['/config/dataSource' => 'name'];
 
     /**
      * @param FileResolver $fileResolver

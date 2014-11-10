@@ -84,16 +84,18 @@ class Converter implements ConverterInterface
     {
         $data = [];
         $output = $this->toArray($source);
-        foreach ($output['config']['datasource'] as $datasource) {
-            $data[$datasource['@attributes']['name']] = [
-                'name' => $datasource['@attributes']['name'],
-                'label' => $datasource['@attributes']['label'],
-                'compositeLabel' => isset($datasource['@attributes']['compositeLabel']) ? $datasource['@attributes']['compositeLabel'] : '',
-                'previewElements' => isset($datasource['@attributes']['previewElements']) ? $datasource['@attributes']['previewElements'] : '',
-                'dataset' => $datasource['@attributes']['dataset'],
+        foreach ($output['config']['dataSource'] as $dataSource) {
+            $data[$dataSource['@attributes']['name']] = [
+                'name' => $dataSource['@attributes']['name'],
+                'label' => $dataSource['@attributes']['label'],
+                'compositeLabel' => isset($dataSource['@attributes']['compositeLabel'])
+                    ? $dataSource['@attributes']['compositeLabel'] : '',
+                'previewElements' => isset($dataSource['@attributes']['previewElements'])
+                    ? $dataSource['@attributes']['previewElements'] : '',
+                'dataSet' => $dataSource['@attributes']['dataSet'],
             ];
             $fields = [];
-            foreach ($datasource['fields']['field'] as $field) {
+            foreach ($dataSource['fields']['field'] as $field) {
                 foreach ($field['@attributes'] as $key => $value) {
                     $fields[$field['@attributes']['name']][$key] = $value;
                 }
@@ -119,7 +121,8 @@ class Converter implements ConverterInterface
                     foreach ($field['constraints']['filter'] as $filter) {
                         $filterValues['on'] = isset($filter['@attributes']['on']) ? $filter['@attributes']['on'] : null;
                         $filterValues['by'] = isset($filter['@attributes']['by']) ? $filter['@attributes']['by'] : null;
-                        $filterValues['value'] = isset($filter['@attributes']['value']) ? $filter['@attributes']['value'] : null;
+                        $filterValues['value'] = isset($filter['@attributes']['value'])
+                            ? $filter['@attributes']['value'] : null;
                         $fields[$field['@attributes']['name']]['constraints']['filter'][] = $filterValues;
                     }
                 }
@@ -132,10 +135,10 @@ class Converter implements ConverterInterface
                     }
                 }
             }
-            $data[$datasource['@attributes']['name']]['fields'] = $fields;
-            if (!empty($datasource['references'])) {
-                foreach ($datasource['references'] as $reference) {
-                    $data[$reference['@attributes']['target']]['children'][$datasource['@attributes']['name']][] = [
+            $data[$dataSource['@attributes']['name']]['fields'] = $fields;
+            if (!empty($dataSource['references'])) {
+                foreach ($dataSource['references'] as $reference) {
+                    $data[$reference['@attributes']['target']]['children'][$dataSource['@attributes']['name']][] = [
                         'targetField' => $reference['@attributes']['targetField'],
                         'referencedField' => $reference['@attributes']['referencedField']
                     ];

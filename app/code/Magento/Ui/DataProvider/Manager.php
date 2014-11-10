@@ -68,7 +68,7 @@ class Manager
         if (!isset($this->cache[$collectionHash])) {
             $config = $this->config->getDataSource($dataSource);
             /** @var \Magento\Framework\Data\Collection\Db $collection */
-            $collection = $this->objectManager->create($config['dataset']);
+            $collection = $this->objectManager->create($config['dataSet']);
 
             foreach ($config['fields'] as $field) {
                 if (isset($field['source']) && $field['source'] == 'eav') {

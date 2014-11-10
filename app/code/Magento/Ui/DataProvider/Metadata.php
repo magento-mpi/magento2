@@ -72,7 +72,7 @@ class Metadata implements \Iterator, \ArrayAccess
         if (isset($this->config['children'])) {
             $this->config['fields'][self::CHILD_DATA_SOURCES] = array_keys($config['children']);
         }
-        $this->dataSet = $objectManager->get($this->config['dataset']);
+        $this->dataSet = $objectManager->get($this->config['dataSet']);
         $this->manager = $manager;
         $this->universalFactory = $universalFactory;
         $this->initAttributes();

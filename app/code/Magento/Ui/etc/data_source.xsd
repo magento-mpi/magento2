@@ -11,60 +11,60 @@
     <xs:element name="config">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="datasource" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element ref="dataSource" minOccurs="1" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
     <!-- -->
-    <xs:element name="datasource">
+    <xs:element name="dataSource">
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="fields" minOccurs="0" maxOccurs="1"/>
                 <xs:element ref="references" minOccurs="0" maxOccurs="1"/>
             </xs:sequence>
-            <xs:attribute type="required_attribute" name="name" use="required"/>
-            <xs:attribute type="text_attribute" name="label" use="required"/>
-            <xs:attribute type="xs:string" name="dataset" use="required"/>
-            <xs:attribute type="text_attribute" name="compositeLabel" use="optional"/>
-            <xs:attribute type="text_attribute" name="previewElements" use="optional"/>
+            <xs:attribute type="referenceAttributeType" name="name" use="required"/>
+            <xs:attribute type="textAttributeType" name="label" use="required"/>
+            <xs:attribute type="xs:string" name="dataSet" use="required"/>
+            <xs:attribute type="textAttributeType" name="compositeLabel" use="optional"/>
+            <xs:attribute type="textAttributeType" name="previewElements" use="optional"/>
         </xs:complexType>
     </xs:element>
     <!-- -->
     <xs:element name="fields">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="field" maxOccurs="unbounded" minOccurs="1"/>
+                <xs:element ref="field" maxOccurs="unbounded" minOccurs="0"/>
             </xs:sequence>
-            <xs:attribute type="required_attribute" name="entityType" use="optional"/>
+            <xs:attribute type="referenceAttributeType" name="entityType" use="optional"/>
         </xs:complexType>
     </xs:element>
     <!-- -->
     <xs:element name="field">
         <xs:complexType>
             <xs:choice maxOccurs="unbounded">
-                <xs:element name="reference" maxOccurs="1" minOccurs="0" type="field_reference"/>
-                <xs:element name="constraints" maxOccurs="unbounded" minOccurs="0" type="field_constraints"/>
+                <xs:element type="fieldReferenceType" name="reference" maxOccurs="1" minOccurs="0"/>
+                <xs:element type="fieldConstraintsType" name="constraints" maxOccurs="unbounded" minOccurs="0"/>
             </xs:choice>
-            <xs:attribute type="required_attribute" name="name" use="required"/>
-            <xs:attribute type="text_attribute" name="dataType" use="optional"/>
-            <xs:attribute type="text_attribute" name="formElement" use="optional"/>
-            <xs:attribute type="text_attribute" name="displayArea" use="optional"/>
-            <xs:attribute type="text_attribute" name="fieldGroup" use="optional"/>
-            <xs:attribute type="text_attribute" name="source" use="optional"/>
-            <xs:attribute type="text_attribute" name="optionProvider" use="optional"/>
-            <xs:attribute type="text_attribute" name="default_value" use="optional"/>
-            <xs:attribute type="text_attribute" name="label" use="optional"/>
-            <xs:attribute type="text_attribute" name="description" use="optional"/>
+            <xs:attribute type="referenceAttributeType" name="name" use="required"/>
+            <xs:attribute type="textAttributeType" name="dataType" use="optional"/>
+            <xs:attribute type="textAttributeType" name="formElement" use="optional"/>
+            <xs:attribute type="textAttributeType" name="displayArea" use="optional"/>
+            <xs:attribute type="textAttributeType" name="fieldGroup" use="optional"/>
+            <xs:attribute type="textAttributeType" name="source" use="optional"/>
+            <xs:attribute type="textAttributeType" name="optionProvider" use="optional"/>
+            <xs:attribute type="textAttributeType" name="default_value" use="optional"/>
+            <xs:attribute type="textAttributeType" name="label" use="optional"/>
+            <xs:attribute type="textAttributeType" name="description" use="optional"/>
             <xs:attribute type="xs:boolean" name="customEntry" use="optional"/>
             <xs:attribute type="xs:boolean" name="unique" use="optional"/>
-            <xs:attribute type="visible_attribute" name="visible" use="optional"/>
+            <xs:attribute type="xs:boolean" name="visible" use="optional"/>
         </xs:complexType>
     </xs:element>
     <!-- -->
     <xs:element name="references">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="reference" maxOccurs="unbounded" minOccurs="1" type="reference"/>
+                <xs:element type="reference" name="reference" maxOccurs="unbounded" minOccurs="1"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -72,32 +72,32 @@
     <xs:complexType name="reference">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute type="required_attribute" name="target" use="required"/>
-                <xs:attribute type="required_attribute" name="referencedField" use="required"/>
-                <xs:attribute type="required_attribute" name="targetField" use="required"/>
+                <xs:attribute type="referenceAttributeType" name="target" use="required"/>
+                <xs:attribute type="referenceAttributeType" name="referencedField" use="required"/>
+                <xs:attribute type="referenceAttributeType" name="targetField" use="required"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
     <!-- -->
-    <xs:complexType name="field_reference">
+    <xs:complexType name="fieldReferenceType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
-                <xs:attribute type="required_attribute" name="target" use="required"/>
-                <xs:attribute type="required_attribute" name="referencedField" use="required"/>
-                <xs:attribute type="required_attribute" name="targetField" use="required"/>
-                <xs:attribute type="required_attribute" name="neededField" use="required"/>
+                <xs:attribute type="referenceAttributeType" name="target" use="required"/>
+                <xs:attribute type="referenceAttributeType" name="referencedField" use="required"/>
+                <xs:attribute type="referenceAttributeType" name="targetField" use="required"/>
+                <xs:attribute type="referenceAttributeType" name="neededField" use="required"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
     <!-- -->
-    <xs:complexType name="field_constraints">
+    <xs:complexType name="fieldConstraintsType">
         <xs:choice maxOccurs="unbounded">
-            <xs:element name="validate" maxOccurs="unbounded" minOccurs="0" type="field_validate"/>
-            <xs:element name="filter" maxOccurs="unbounded" minOccurs="0" type="field_filter"/>
-            <xs:element name="readonly" maxOccurs="unbounded" minOccurs="0" type="field_readonly"/>
+            <xs:element type="constraintValidateType" name="validate" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="constraintFilterType" name="filter" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="constraintReadonlyType" name="readonly" maxOccurs="unbounded" minOccurs="0"/>
         </xs:choice>
     </xs:complexType>
-    <xs:complexType name="field_validate">
+    <xs:complexType name="constraintValidateType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
                 <xs:attribute type="xs:string" name="name" use="required"/>
@@ -105,7 +105,7 @@
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
-    <xs:complexType name="field_filter">
+    <xs:complexType name="constraintFilterType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
                 <xs:attribute type="xs:string" name="on" use="required"/>
@@ -114,7 +114,7 @@
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
-    <xs:complexType name="field_readonly">
+    <xs:complexType name="constraintReadonlyType">
         <xs:simpleContent>
             <xs:extension base="xs:string">
                 <xs:attribute type="xs:string" name="on" use="required"/>
@@ -123,16 +123,7 @@
         </xs:simpleContent>
     </xs:complexType>
     <!-- -->
-    <xs:simpleType name="visible_attribute">
-        <xs:annotation>
-            <xs:documentation>The value should only be {true|false}.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:boolean">
-            <xs:pattern value="true|false" />
-        </xs:restriction>
-    </xs:simpleType>
-    <!-- -->
-    <xs:simpleType name="text_attribute">
+    <xs:simpleType name="textAttributeType">
         <xs:annotation>
             <xs:documentation>Any text value</xs:documentation>
         </xs:annotation>
@@ -141,9 +132,9 @@
         </xs:restriction>
     </xs:simpleType>
     <!-- -->
-    <xs:simpleType name="required_attribute">
+    <xs:simpleType name="referenceAttributeType">
         <xs:annotation>
-            <xs:documentation>The value should only be {[a-z_-]+}.</xs:documentation>
+            <xs:documentation>The value should only be {[a-z_-]+} since it is used as a reference to a database field.</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
             <xs:pattern value="[a-z_-]+" />
