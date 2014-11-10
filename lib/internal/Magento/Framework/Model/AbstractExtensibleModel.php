@@ -177,6 +177,12 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         return $attributeCodes;
     }
 
+    /**
+     * Identifier setter
+     *
+     * @param mixed $value
+     * @return $this
+     */
     public function setId($value)
     {
         parent::setId($value);
