@@ -29,6 +29,6 @@ class MassDelete extends \Magento\Search\Controller\Adminhtml\Term
                 $this->messageManager->addError($e->getMessage());
             }
         }
-        $this->_redirect('catalog/*/index');
+        $this->_redirect('search/*/index');
     }
 }
