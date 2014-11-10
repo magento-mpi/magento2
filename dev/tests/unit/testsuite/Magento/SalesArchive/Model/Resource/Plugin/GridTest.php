@@ -53,18 +53,20 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $this->archiveSource->expects($this->once())
             ->method('isOrderInArchive')
+            ->with($value)
             ->will(
                 $this->returnValue(true)
             );
 
         $this->archiveSource->expects($this->once())
-            ->method('removeOrdersFromArchiveById');
+            ->method('removeOrdersFromArchiveById')
+            ->with([$value]);
 
         $this->gridPoolSource->expects($this->once())
             ->method('refreshByOrderId')
+            ->with($value)
             ->willReturn(true);
-
-        $this->assertTrue($this->plugin->aroundRefresh($grid, $callable, $value, $field));
+        $this->plugin->aroundRefresh($grid, $callable, $value, $field);
     }
 
     public function testAroundRefreshOrderNotInArchive()
@@ -88,6 +90,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->gridPoolSource->expects($this->never())
             ->method('refreshByOrderId');
 
-        $this->assertFalse($this->plugin->aroundRefresh($grid, $callable, $value, $field));
+        $this->plugin->aroundRefresh($grid, $callable, $value, $field);
     }
 }

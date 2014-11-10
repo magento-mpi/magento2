@@ -360,9 +360,9 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if (!empty($orderIds)) {
             $this->beginTransaction();
             try {
-                $conditionalField = 'order_id';
                 foreach ($this->_tables as $entity => $value) {
-                    if ($entity === \Magento\SalesArchive\Model\ArchivalList::ORDER) {
+                    $conditionalField = 'order_id';
+                    if ($entity == \Magento\SalesArchive\Model\ArchivalList::ORDER) {
                         $conditionalField = 'entity_id';
                     }
 
