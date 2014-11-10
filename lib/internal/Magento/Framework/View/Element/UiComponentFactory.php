@@ -104,9 +104,8 @@ class UiComponentFactory extends Object
      */
     public function createUiComponent($componentName, $handleName, array $arguments = [])
     {
-        $this->renderContext->setNamespace($handleName);
-
         if (!$this->layout) {
+            $this->renderContext->setNamespace($handleName);
             $this->layout = $this->layoutFactory->create();
             $this->renderContext->setLayout($this->layout);
             $this->layout->getUpdate()->addHandle('ui_components');

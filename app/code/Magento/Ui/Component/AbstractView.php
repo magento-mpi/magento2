@@ -126,7 +126,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
     public function update(array $data = [])
     {
         if (!empty($data)) {
-            $this->_data = array_merge($this->_data, $data);
+            $this->_data = array_merge_recursive($this->_data, $data);
         }
     }
 

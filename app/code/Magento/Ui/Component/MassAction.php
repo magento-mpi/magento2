@@ -43,6 +43,6 @@ class MassAction extends AbstractView
      */
     protected function getDefaultConfiguration()
     {
-        return  ['actions' => []];
+        return ['actions' => []];
     }
 }
