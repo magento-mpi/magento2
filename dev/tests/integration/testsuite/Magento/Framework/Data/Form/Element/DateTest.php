@@ -57,13 +57,13 @@ class DateTest extends \PHPUnit_Framework_TestCase
                     'time_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
                     'value' => '1397832240'
                 ),
-                '4/18/14 2:44 PM'
+                '4/18/14 7:44 AM'
             ),
             array(
                 array('time_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
                     'value' => '1397832240'
                 ),
-                '2:44 PM'
+                '7:44 AM'
             ),
             array(
                 array('date_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
