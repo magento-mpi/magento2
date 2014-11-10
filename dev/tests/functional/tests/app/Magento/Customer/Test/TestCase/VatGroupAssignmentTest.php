@@ -30,6 +30,7 @@ class VatGroupAssignmentTest extends Functional
      */
     protected function setUp()
     {
+        $this->markTestIncomplete('Bug: MAGETWO-30455');
         Factory::getApp()->magentoBackendLoginUser();
         $this->vatFixture = Factory::getFixtureFactory()->getMagentoCustomerVatGroup();
     }
