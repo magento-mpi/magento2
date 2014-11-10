@@ -21,6 +21,7 @@ define([
         name:  '{index}_input',
         type: 'input',
         parent: '{parentName}',
+        dataScope: '{customEntry}',
         config: {
             hidden: true,
             label: '{label}',

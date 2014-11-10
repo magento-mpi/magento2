@@ -167,14 +167,15 @@ define([
          */
         hide: function(){
             this.setHidden(true)
-                .value('');
+                .setPreview('');
         },
 
         /**
          * Calls 'setHidden' passing false to it
          */
         show: function(value){
-            this.setHidden(false);
+            this.setHidden(false)
+                .setPreview(this.value())
         },
 
         /**
