@@ -53,23 +53,26 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('date_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+                array(
+                    'date_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
                     'time_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
-                    'value' => '1397832240'
+                    'value' => time()
                 ),
-                '4/18/14 7:44 AM'
+                date('m/d/y g:i A', time())
             ),
             array(
-                array('time_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
-                    'value' => '1397832240'
+                array(
+                    'time_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+                    'value' => time()
                 ),
-                '7:44 AM'
+                date('g:i A', time())
             ),
             array(
-                array('date_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
-                    'value' => '1397832240'
+                array(
+                    'date_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+                    'value' => time()
                 ),
-                '4/18/14'
+                date('m/d/y', time())
             )
         );
     }
