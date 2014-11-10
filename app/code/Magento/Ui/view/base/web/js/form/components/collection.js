@@ -78,7 +78,7 @@ define([
                 changed = !utils.identical(initial, current);
 
             return changed || this.elems.some(function(elem){
-                elem.delegate('hasChanged', 'some');
+                return elem.delegate('hasChanged', 'some');
             });
         },
 
@@ -93,11 +93,9 @@ define([
 
         _removeChild: function(elem) {
             var isActive = elem.active(),
-                data     = this.provider.data,
                 first;
 
-            this.remove(elem);
-            data.remove(elem.dataScope);
+            elem.destroy();
 
             first = this.elems()[0];
 

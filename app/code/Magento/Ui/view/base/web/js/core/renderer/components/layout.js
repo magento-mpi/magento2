@@ -224,6 +224,11 @@ define([
             }
 
             return this;
+        },
+
+        clear: function(name){
+            this.registry.remove(name);
+            registry.remove(name);
         }
     });
 

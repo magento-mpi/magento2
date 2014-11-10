@@ -205,6 +205,24 @@ define([
             this.elems.remove(elem);
 
             return this;
+        },
+
+        destroy: function(){
+            var containers  = this.containers(),
+                children    = this.elems(),
+                data        = this.provider.data,
+                layout      = this.renderer.layout; 
+
+            containers.forEach(function(parent){
+                parent.remove(this);
+            }, this);
+
+            children.forEach(function(child){ 
+                child.destroy();
+            });
+
+            layout.clear(this.name);
+            data.remove(this.dataScope);
         }
     });
 
