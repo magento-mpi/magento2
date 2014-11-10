@@ -354,6 +354,7 @@ class AbstractStructure extends AbstractView
             } else {
                 $itemTemplate['children'][$key]['children'][$key] = [
                     'type' => $value['formElement'],
+                    'dataScope' => $key,
                     'config' => $value
                 ];
             }
