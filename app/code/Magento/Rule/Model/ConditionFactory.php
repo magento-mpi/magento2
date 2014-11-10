@@ -28,10 +28,7 @@ class ConditionFactory
      */
     public function __construct(ObjectManager $objectManager)
     {
-        /*
-          it's because of test falling
-          see: \Magento\TestFramework\Workaround\Cleanup\StaticProperties::clearStaticVariables
-        */
+        // @TODO: remove this check after resolve issue MAGETWO-30499
         if (!is_array(self::$conditionModels)) {
             self::$conditionModels = [];
         }

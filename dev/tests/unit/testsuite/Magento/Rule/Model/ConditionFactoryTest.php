@@ -121,4 +121,37 @@ class ConditionFactoryTest extends \PHPUnit_Framework_TestCase
             4 => ['test4', $this->never()],
         ];
     }
+
+    /**
+     * @TODO: remove this test after resolve issue MAGETWO-30499
+     */
+    public function testExceptingToInitializeStaticVarConditionModelsAsArray()
+    {
+        // clear static vars
+        $reflectionCLass = new \ReflectionClass('Magento\Rule\Model\ConditionFactory');
+        $staticProperties = $reflectionCLass->getProperties(\ReflectionProperty::IS_STATIC);
+
+        foreach ($staticProperties as $staticProperty) {
+            $staticProperty->setAccessible(true);
+            $value = $staticProperty->getValue();
+            if (is_object($value) || is_array($value) && is_object(current($value))) {
+                $staticProperty->setValue(null);
+            }
+        }
+
+        // recreate object
+        $this->conditionFactory = $this->objectManagerHelper->getObject(
+            'Magento\Rule\Model\ConditionFactory',
+            [
+                'objectManager' => $this->objectManagerMock
+            ]
+        );
+
+        $this->objectManagerMock->expects($this->once())
+            ->method('create')
+            ->with('test2')
+            ->willReturn(new \stdClass());
+
+        $this->conditionFactory->create('test2');
+    }
 }
