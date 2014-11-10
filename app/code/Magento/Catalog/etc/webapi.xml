@@ -350,7 +350,7 @@
         </resources>
     </route>
     <route url="/V1/products/:productSku/links/:type" method="POST">
-        <service class="Magento\Catalog\Api\ProductLinkRepositoryInterface" method="save"/>
+        <service class="Magento\Catalog\Api\ProductLinkManagementInterface" method="setProductLinks"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>
