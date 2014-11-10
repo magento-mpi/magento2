@@ -87,13 +87,11 @@ class FileResolver implements \Magento\Framework\Config\FileResolverInterface
      * @param array $files
      * @return array
      */
-    protected function aggregateFiles($files)
+    protected function aggregateFiles(array $files)
     {
         $output = [];
-        if (!empty($files)) {
-            foreach ($files as $file) {
-                $output[] = $this->rootDirectory->getRelativePath($file);
-            }
+        foreach ($files as $file) {
+            $output[] = $this->rootDirectory->getRelativePath($file);
         }
         return $output;
     }
