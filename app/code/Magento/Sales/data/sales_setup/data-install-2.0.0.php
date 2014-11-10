@@ -6,13 +6,12 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Sales\Model\Resource\Setup */
-$installer = $this;
+/** @var $this \Magento\Sales\Model\Resource\Setup */
 
 /**
  * Install eav entity types to the eav/entity_type table
  */
-$installer->installEntities();
+$this->installEntities();
 
 /**
  * Install order statuses from config
@@ -32,7 +31,7 @@ $statuses = array(
 foreach ($statuses as $code => $info) {
     $data[] = array('status' => $code, 'label' => $info);
 }
-$installer->getConnection()->insertArray($installer->getTable('sales_order_status'), array('status', 'label'), $data);
+$this->getConnection()->insertArray($this->getTable('sales_order_status'), array('status', 'label'), $data);
 
 /**
  * Install order states from config
@@ -91,8 +90,34 @@ foreach ($states as $code => $info) {
         }
     }
 }
-$installer->getConnection()->insertArray(
-    $installer->getTable('sales_order_status_state'),
+$this->getConnection()->insertArray(
+    $this->getTable('sales_order_status_state'),
     array('status', 'state', 'is_default'),
     $data
 );
+
+$entitiesToAlter = array('quote_address', 'order_address');
+
+$attributes = array(
+    'vat_id' => array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT),
+    'vat_is_valid' => array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT),
+    'vat_request_id' => array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT),
+    'vat_request_date' => array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT),
+    'vat_request_success' => array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT)
+);
+
+foreach ($entitiesToAlter as $entityName) {
+    foreach ($attributes as $attributeCode => $attributeParams) {
+        $this->addAttribute($entityName, $attributeCode, $attributeParams);
+    }
+}
+
+/** Update visibility for states */
+$states = array('new', 'processing', 'complete', 'closed', 'canceled', 'holded', 'payment_review');
+foreach ($states as $state) {
+    $this->getConnection()->update(
+        $this->getTable('sales_order_status_state'),
+        array('visible_on_front' => 1),
+        array('state = ?' => $state)
+    );
+}
