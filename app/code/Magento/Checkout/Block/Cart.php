@@ -133,7 +133,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
                 'wishlist/general/active',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             ) && $this->httpContext->getValue(
-                    Context::CONTEXT_AUTH
+                Context::CONTEXT_AUTH
             );
             $this->setIsWishlistActive($isActive);
         }
