@@ -48,7 +48,9 @@ class AssertProductAttributeIsFilterable extends AbstractConstraint
         Browser $browser
     ) {
         $catalogProductIndex->open()->getProductGrid()->searchAndOpen(['sku' => $product->getSku()]);
-        $catalogProductEdit->getProductForm()->getCustomAttributeBlock($attribute)->setValue();
+        $productForm = $catalogProductEdit->getProductForm();
+        $productForm->fill($product);
+        $productForm->save($product);
 
         $categories = $product->getDataFieldConfig('category_ids')['source']->getCategories();
         $browser->open($_ENV['app_frontend_url'] . reset($categories)->getUrlKey() . '.html');

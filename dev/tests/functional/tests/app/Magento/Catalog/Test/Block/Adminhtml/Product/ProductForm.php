@@ -18,7 +18,8 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Edit;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\AttributeBlock;
 
 /**
  * Product form on backend product page.
@@ -101,34 +102,6 @@ class ProductForm extends FormTabs
      * @var string
      */
     protected $tabsTitle = '#product_info_tabs-basic [data-role="title"]';
-
-    /**
-     * Selector for 'New Attribute' button.
-     *
-     * @var string
-     */
-    protected $newAttributeButton = '[id^="create_attribute"]';
-
-    /**
-     * New attribute form selector.
-     *
-     * @var string
-     */
-    protected $newAttributeForm = '#create_new_attribute';
-
-    /**
-     * Custom product attribute locator.
-     *
-     * @var string
-     */
-    protected $customProductAttribute = '#attribute-%s-container';
-
-    /**
-     * Magento loader.
-     *
-     * @var string
-     */
-    protected $loader = '[data-role="loader"]';
 
     /**
      * Mage error selector.
@@ -333,79 +306,6 @@ class ProductForm extends FormTabs
     {
         $tabName = strtolower($tabName);
         $this->_rootElement->find(sprintf($this->customTab, $tabName), Locator::SELECTOR_XPATH)->click();
-    }
-
-    /**
-     * Click on 'New Attribute' button.
-     *
-     * @return void
-     */
-    public function addNewAttribute()
-    {
-        $this->_rootElement->find($this->attributeSearch)->click();
-        $this->_rootElement->find($this->newAttributeButton)->click();
-    }
-
-    /**
-     * Fill product attribute form.
-     *
-     * @param CatalogProductAttribute $productAttribute
-     * @return void
-     */
-    public function fillAttributeForm(CatalogProductAttribute $productAttribute)
-    {
-        $browser = $this->browser;
-        $element = $this->newAttributeForm;
-        $loader = $this->loader;
-
-        $attributeForm = $this->getAttributeForm();
-        $attributeForm->fill($productAttribute);
-
-        $this->_rootElement->waitUntil(
-            function () use ($browser, $element) {
-                return $browser->find($element)->isVisible() == false ? true : null;
-            }
-        );
-
-        $this->_rootElement->waitUntil(
-            function () use ($browser, $loader) {
-                return $browser->find($loader)->isVisible() == false ? true : null;
-            }
-        );
-    }
-
-    /**
-     * Get Attribute Form.
-     *
-     * @return Edit
-     */
-    public function getAttributeForm()
-    {
-        /** @var Edit $attributeForm */
-        $attributeForm = $this->blockFactory->create(
-            'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Edit',
-            ['element' => $this->browser->find('body')]
-        );
-        return $attributeForm;
-    }
-
-    /**
-     * Get product custom attribute block.
-     *
-     * @param CatalogProductAttribute $attribute
-     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\AttributeBlock
-     */
-    public function getCustomAttributeBlock(CatalogProductAttribute $attribute)
-    {
-        return $this->blockFactory->create(
-            'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\AttributeBlock',
-            [
-                'element' => $this->_rootElement->find(
-                    sprintf($this->customProductAttribute, $attribute->getAttributeCode())
-                ),
-                'config' => ['attribute' => $attribute]
-            ]
-        );
     }
 
     /**

@@ -40,14 +40,14 @@ class CreateProductAttributeEntityFromProductPageTest extends Injectable
     protected $catalogProductEdit;
 
     /**
-     * CatalogProductAttributeIndex page.
+     * Product attribute index page.
      *
      * @var CatalogProductAttributeIndex
      */
     protected $catalogProductAttributeIndex;
 
     /**
-     * CatalogProductAttributeNew page.
+     * New product attribute page.
      *
      * @var CatalogProductAttributeNew
      */
@@ -102,34 +102,45 @@ class CreateProductAttributeEntityFromProductPageTest extends Injectable
      *
      * @param CatalogProductSimple $product
      * @param CatalogProductAttribute $attribute
-     * @return void
+     * @param FixtureFactory $fixtureFactory
+     * @return CatalogProductSimple $product
      */
-    public function test(CatalogProductSimple $product, CatalogProductAttribute $attribute)
-    {
+    public function test(
+        CatalogProductSimple $product,
+        CatalogProductAttribute $attribute,
+        FixtureFactory $fixtureFactory
+    ) {
         // Steps:
         $this->catalogProductIndex->open();
         $this->catalogProductIndex->getProductGrid()->searchAndOpen(['sku' => $product->getSku()]);
         $productForm = $this->catalogProductEdit->getProductForm();
-        $productForm->addNewAttribute();
-        $productForm->fillAttributeForm($attribute);
-        $productForm->getCustomAttributeBlock($attribute)->setValue();
+        $productWithAttribute = $fixtureFactory->createByCode(
+            'catalogProductSimple',
+            ['data' => ['custom_attribute' => $attribute]]
+        );
+        $productForm->fill($productWithAttribute);
         $this->catalogProductEdit->getFormPageActions()->save($product);
+
+        $data = $product->getData();
+        $data['custom_attribute'] = $attribute;
+        $product = $fixtureFactory->createByCode('catalogProductSimple',['data' => $data]);
 
         // Prepare data for tearDown:
         $this->attribute = $attribute;
+        return ['product' => $product];
     }
 
-    /**
-     * Delete attribute after test.
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        $filter = ['attribute_code' => $this->attribute->getAttributeCode()];
-        if ($this->catalogProductAttributeIndex->open()->getGrid()->isRowVisible($filter)) {
-            $this->catalogProductAttributeIndex->open()->getGrid()->searchAndOpen($filter);
-            $this->catalogProductAttributeNew->getPageActions()->delete();
-        }
-    }
+//    /**
+//     * Delete attribute after test.
+//     *
+//     * @return void
+//     */
+//    public function tearDown()
+//    {
+//        $filter = ['attribute_code' => $this->attribute->getAttributeCode()];
+//        if ($this->catalogProductAttributeIndex->open()->getGrid()->isRowVisible($filter)) {
+//            $this->catalogProductAttributeIndex->getGrid()->searchAndOpen($filter);
+//            $this->catalogProductAttributeNew->getPageActions()->delete();
+//        }
+//    }
 }

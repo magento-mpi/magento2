@@ -18,7 +18,7 @@ use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Tab\Options\Opti
 class Options extends Element
 {
     /**
-     * 'Add Option' button
+     * 'Add Option' button.
      *
      * @var string
      */
@@ -34,7 +34,7 @@ class Options extends Element
     /**
      * Set value.
      *
-     * @param array|string $preset
+     * @param array $preset
      */
     public function setValue($preset)
     {
@@ -47,7 +47,7 @@ class Options extends Element
     /**
      * Get value.
      *
-     * @return string|void
+     * @return string
      */
     public function getValue()
     {

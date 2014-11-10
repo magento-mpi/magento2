@@ -13,6 +13,7 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
+use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Catalog Product Attribute form.
@@ -33,6 +34,9 @@ class AttributeForm extends FormTabs
      * @param Element $element
      * @return array
      * @throws \Exception
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getData(FixtureInterface $fixture = null, Element $element = null)
     {

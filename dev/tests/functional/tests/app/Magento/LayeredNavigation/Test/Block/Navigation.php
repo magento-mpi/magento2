@@ -8,6 +8,7 @@
 namespace Magento\LayeredNavigation\Test\Block;
 
 use Mtf\Block\Block;
+use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -88,7 +89,7 @@ class Navigation extends Block
     /**
      * Get array of available options.
      *
-     * @return array
+     * @return Element[]
      */
     public function getAvailableOptions()
     {

@@ -98,7 +98,7 @@ class Form extends ParentForm
     /**
      * Get form fields.
      *
-     * @return \Mtf\Client\Element[]
+     * @return Element[]
      */
     public function getFormFields()
     {

@@ -59,6 +59,6 @@ class AssertProductAttributeUsedSortOnFrontend extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Attribute present in sort dropdown on search results page on frontend.';
+        return 'Attribute is present in sort dropdown on search results page on frontend.';
     }
 }

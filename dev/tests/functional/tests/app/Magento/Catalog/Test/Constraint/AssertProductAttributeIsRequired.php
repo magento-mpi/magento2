@@ -32,7 +32,7 @@ class AssertProductAttributeIsRequired extends AbstractConstraint
      * @param CatalogProductIndex $catalogProductIndex
      * @param CatalogProductEdit $catalogProductEdit
      * @param CatalogProductAttribute $attribute
-     * @param InjectableFixture|null $product
+     * @param InjectableFixture $product
      * @return void
      */
     public function processAssert(
@@ -42,8 +42,9 @@ class AssertProductAttributeIsRequired extends AbstractConstraint
         InjectableFixture $product
     ) {
         $catalogProductIndex->open()->getProductGrid()->searchAndOpen(['sku' => $product->getSku()]);
-        $catalogProductEdit->getProductForm()->getCustomAttributeBlock($attribute)->setValue();
-        $catalogProductEdit->getFormPageActions()->save();
+        $productForm = $catalogProductEdit->getProductForm();
+        $productForm->fill($product);
+        $productForm->save($product);
         $failedAttributes = $catalogProductEdit->getProductForm()->getRequireNoticeAttributes();
 
         \PHPUnit_Framework_Assert::assertEmpty($failedAttributes, 'JS error notice is visible on product edit page.');

@@ -61,14 +61,12 @@ class AssertProductAttributeIsUnique extends AbstractConstraint
         }
         $productSimple->persist();
 
-        $productForm = $catalogProductEdit->getProductForm();
         $catalogProductIndex->open()->getProductGrid()->searchAndOpen(['sku' => $productSimple->getSku()]);
-        $productForm->getCustomAttributeBlock($attribute)->setAttributeValue();
+        $productForm = $catalogProductEdit->getProductForm();
+        $productForm->fill($productSimple);
+        $productForm->save($productSimple);
 
-        \PHPUnit_Framework_Assert::assertTrue(
-            $productForm->getCustomAttributeBlock($attribute)->getRequireNotice(),
-            'Attribute is not unique.'
-        );
+        \PHPUnit_Framework_Assert::assertTrue($productForm->getRequireNoticeAttributes(), 'Attribute is not unique.');
     }
 
     /**

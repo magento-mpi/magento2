@@ -11,11 +11,12 @@ namespace Magento\Catalog\Test\Block\Product;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Mtf\Block\Block;
 
 /**
- * Product additional information block on the product page..
+ * Product additional information block on the product page.
  */
-class Additional extends \Mtf\Block\Block
+class Additional extends Block
 {
     /**
      * Custom attribute selector.

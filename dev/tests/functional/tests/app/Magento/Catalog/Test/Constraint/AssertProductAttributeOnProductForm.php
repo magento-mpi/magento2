@@ -42,9 +42,11 @@ class AssertProductAttributeOnProductForm extends AbstractConstraint
         CatalogProductAttribute $attribute
     ) {
         $catalogProductIndex->open()->getProductGrid()->searchAndOpen(['sku' => $product->getSku()]);
-        $attributeForm = $catalogProductEdit->getProductForm()->getCustomAttributeBlock($attribute);
 
-        \PHPUnit_Framework_Assert::assertTrue($attributeForm->isVisible(), 'Attribute is not visible on product page.');
+        \PHPUnit_Framework_Assert::assertTrue(
+            $catalogProductEdit->getProductForm()->checkAttributeLabel($attribute),
+            'Attribute is not visible on product page.'
+        );
     }
 
     /**

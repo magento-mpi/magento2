@@ -347,7 +347,7 @@ class CatalogProductAttribute extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'source' => '\Magento\Catalog\Test\Fixture\CatalogProductAttribute\Options',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductAttribute\Options',
     ];
 
     protected $default_value_text = [

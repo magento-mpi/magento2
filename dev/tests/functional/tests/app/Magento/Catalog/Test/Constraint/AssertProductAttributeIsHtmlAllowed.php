@@ -29,7 +29,7 @@ class AssertProductAttributeIsHtmlAllowed extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Check whether html tags are using in an attribute value.
+     * Check whether html tags are using in attribute value.
      *
      * @param InjectableFixture $product
      * @param CatalogProductAttribute $attribute
@@ -51,8 +51,9 @@ class AssertProductAttributeIsHtmlAllowed extends AbstractConstraint
         Browser $browser
     ) {
         $catalogProductIndex->open()->getProductGrid()->searchAndOpen(['sku' => $product->getSku()]);
-        $catalogProductEdit->getProductForm()->getCustomAttributeBlock($attribute)->setValue();
-        $catalogProductEdit->getFormPageActions()->save($product);
+        $productForm = $catalogProductEdit->getProductForm();
+        $productForm->fill($product);
+        $productForm->save($product);
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
 
         \PHPUnit_Framework_Assert::assertTrue(

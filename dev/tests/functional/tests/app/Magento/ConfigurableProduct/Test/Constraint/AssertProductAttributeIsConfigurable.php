@@ -16,8 +16,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config as TabVariation;
 
 /**
- * Class AssertProductAttributeIsConfigurable
- * Assert check whether the attribute is used to create a configurable products
+ * Assert check whether the attribute is used to create a configurable products.
  */
 class AssertProductAttributeIsConfigurable extends AbstractConstraint
 {

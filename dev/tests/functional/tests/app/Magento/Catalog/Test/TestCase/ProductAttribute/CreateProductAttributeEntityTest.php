@@ -10,6 +10,7 @@ namespace Magento\Catalog\Test\TestCase\ProductAttribute;
 
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Catalog\Test\Constraint\AssertProductAttributeSaveMessage;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 use Mtf\Fixture\FixtureFactory;
@@ -199,7 +200,7 @@ class CreateProductAttributeEntityTest extends Injectable
     {
         $filter = ['attribute_code' => $this->attribute->getAttributeCode()];
         if ($this->attributeIndex->open()->getGrid()->isRowVisible($filter)) {
-            $this->attributeIndex->open()->getGrid()->searchAndOpen($filter);
+            $this->attributeIndex->getGrid()->searchAndOpen($filter);
             $this->attributeNew->getPageActions()->delete();
         }
     }

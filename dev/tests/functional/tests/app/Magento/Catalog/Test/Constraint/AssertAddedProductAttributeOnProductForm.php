@@ -9,9 +9,7 @@
 namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\Fixture\InjectableFixture;
-use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
