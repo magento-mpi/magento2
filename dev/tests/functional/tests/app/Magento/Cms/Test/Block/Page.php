@@ -9,6 +9,7 @@
 namespace Magento\Cms\Test\Block;
 
 use Mtf\Block\Block;
+use Mtf\Client\Element\Locator;
 
 /**
  * Cms Page block for the content on the frontend.
@@ -28,6 +29,13 @@ class Page extends Block
      * @var string
      */
     protected $cmsPageTitle = ".page-title";
+
+    /**
+     * Cms page text locator
+     *
+     * @var string
+     */
+    protected $textSelector = "//div[contains(.,'%s')]";
 
     /**
      * Get page content text
@@ -57,11 +65,12 @@ class Page extends Block
      */
     public function waitUntilTextIsVisible($text)
     {
-        $browser = $this->_rootElement;
+        $text = sprintf($this->textSelector, $text);
+        $browser = $this->browser;
         $this->_rootElement->waitUntil(
             function () use ($browser, $text) {
-                $blockText = $browser->find($text);
-                return $blockText->isVisible() == false ? true : null;
+                $blockText = $browser->find($text, Locator::SELECTOR_XPATH);
+                return $blockText->isVisible() == true ? false : null;
             }
         );
     }

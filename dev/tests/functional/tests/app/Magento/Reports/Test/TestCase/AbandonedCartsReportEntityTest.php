@@ -104,6 +104,7 @@ class AbandonedCartsReportEntityTest extends Injectable
         )->run();
         $this->addProductsToCart($products);
         $this->cmsIndex->getLinksBlock()->openLink("Log Out");
+        $this->cmsIndex->getCmsPageBlock()->waitUntilTextIsVisible('Home Page');
 
         return ['products' => $products];
     }

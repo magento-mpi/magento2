@@ -40,6 +40,7 @@ class LoginUser extends Ui
             if ($adminHeaderPanel->isVisible()) {
                 return;
             }
+            $loginForm->waitForElementVisible('input#username');
             $loginForm->fill($fixture);
             $loginForm->submit();
             $loginPage->waitForHeaderBlock();
