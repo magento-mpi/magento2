@@ -27,6 +27,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $subjectMock;
 
     /**
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $indexerRegistryMock;
+
+    /**
      * @var Product
      */
     protected $model;
@@ -56,14 +61,19 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
         $this->configMock->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
-        $this->model = new Product($this->indexerMock, $this->configMock);
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
+
+        $this->model = new Product($this->indexerRegistryMock, $this->configMock);
     }
 
     public function testAfterSaveNonScheduled()
     {
-        $this->indexerMock->expects($this->exactly(2))->method('getId')->will($this->returnValue(1));
         $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(false));
         $this->indexerMock->expects($this->once())->method('reindexList')->with(array(1));
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
 
         $this->subjectMock->expects($this->once())->method('getId')->will($this->returnValue(1));
 
@@ -72,9 +82,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterSaveScheduled()
     {
-        $this->indexerMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(true));
         $this->indexerMock->expects($this->never())->method('reindexList');
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
 
         $this->subjectMock->expects($this->once())->method('getId')->will($this->returnValue(1));
 
@@ -83,9 +96,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterDeleteNonScheduled()
     {
-        $this->indexerMock->expects($this->exactly(2))->method('getId')->will($this->returnValue(1));
         $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(false));
         $this->indexerMock->expects($this->once())->method('reindexList')->with(array(1));
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
 
         $this->subjectMock->expects($this->once())->method('getId')->will($this->returnValue(1));
 
@@ -94,9 +110,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterDeleteScheduled()
     {
-        $this->indexerMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(true));
         $this->indexerMock->expects($this->never())->method('reindexList');
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
 
         $this->subjectMock->expects($this->once())->method('getId')->will($this->returnValue(1));
 
