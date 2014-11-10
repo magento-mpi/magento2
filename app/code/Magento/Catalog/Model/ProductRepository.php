@@ -122,6 +122,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
             }
             $this->resourceModel->load($product, $productId);
             $this->instances[$sku] = $product;
+            $this->instancesById[$product->getId()] = $product;
         }
         return $this->instances[$sku];
     }
@@ -138,13 +139,14 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
                 $product->setData('_edit_mode', true);
             }
             if ($storeId !== null) {
-                $product->setStoreId($storeId);
+                $product->setData('store_id', $storeId);
             }
             $this->resourceModel->load($product, $productId);
             if (!$product->getId()) {
                 throw new NoSuchEntityException('Requested product doesn\'t exist');
             }
             $this->instancesById[$productId] = $product;
+            $this->instances[$product->getSku()] = $product;
         }
         return $this->instancesById[$productId];
     }

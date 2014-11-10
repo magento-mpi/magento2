@@ -281,7 +281,9 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
                 $product = $this->productRepository->getById($this->getProductId());
             } catch (\Magento\Framework\Exception\NoSuchEntityException $noEntityException) {
                 throw new \Magento\Framework\Model\Exception(
-                    __('Please correct the product for adding the item to the quote.')
+                    __('Please correct the product for adding the item to the quote.'),
+                    0,
+                    $noEntityException
                 );
             }
             $this->setProduct($product);
