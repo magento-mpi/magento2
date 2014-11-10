@@ -165,11 +165,11 @@ class History extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
         switch ($this->getValue()) {
             case self::ORDERED:
                 $select->from(
-                    array('item' => $this->getResource()->getTable('sales_flat_order_item')),
+                    array('item' => $this->getResource()->getTable('sales_order_item')),
                     array(new \Zend_Db_Expr(1))
                 );
                 $select->joinInner(
-                    array('sales_order' => $this->getResource()->getTable('sales_flat_order')),
+                    array('sales_order' => $this->getResource()->getTable('sales_order')),
                     'item.order_id = sales_order.entity_id',
                     array()
                 );
