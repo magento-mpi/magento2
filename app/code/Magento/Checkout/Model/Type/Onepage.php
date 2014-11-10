@@ -177,13 +177,13 @@ class Onepage
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param AccountManagementInterface $accountService
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param CustomerBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param AddressRepositoryInterface $customerAddressService
+     * @param AccountManagementInterface $accountManagement
      * @param OrderSender $orderSender
      * @param CustomerRepositoryInterface $customerRepository
      */
