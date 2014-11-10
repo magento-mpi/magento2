@@ -15,6 +15,7 @@ interface ProductLinkInterface extends \Magento\Framework\Api\ExtensibleDataInte
     const LINKED_PRODUCT_SKU = 'linked_product_sku';
     const LINKED_PRODUCT_TYPE = 'linked_product_type';
     const POSITION = 'position';
+    const CUSTOM_ATTRIBUTES = 'custom_attributes';
 
     /**
      * Get product SKU
