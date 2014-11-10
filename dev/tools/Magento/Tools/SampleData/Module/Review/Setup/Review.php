@@ -75,47 +75,17 @@ class Review implements SetupInterface
     {
         echo 'Installing product reviews' . PHP_EOL;
 
-        $review = $this->reviewFactory->create();
         $fixtureFile = 'Review/products_reviews.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
         $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
         foreach ($csvReader as $row) {
-            $productId = $this->getProductIdBySku($row['sku']);
-            if (!$productId) {
+            if (!$this->getProductIdBySku($row['sku'])) {
                 continue;
             }
-            /** @var $review \Magento\Review\Model\Review */
-            $review->unsetData();
-            $review->setEntityId(
-                $review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE)
-            )->setEntityPkValue(
-                $productId
-            )->setNickname(
-                $row['reviewer']
-            )->setTitle(
-                $row['title']
-            )->setDetail(
-                $row['review']
-            )->setCreatedAt(
-                $row['date']
-            )->setStatusId(
-                \Magento\Review\Model\Review::STATUS_APPROVED
-            )->setStoreId(
-                1
-            )->setStores(
-                array(1)
-            )->save();
-
-            $this->ratingFactory->create(
-            )->setRatingId(
-                1
-            )->setReviewId(
-                $review->getId()
-            )->addOptionVote(
-                $row['rating'],
-                $productId
-            );
+            $review = $this->prepareReview($row);
+            $review->save();
+            $this->setReviewRating($review, $row);
             echo '.';
         }
         echo PHP_EOL;
@@ -127,7 +97,7 @@ class Review implements SetupInterface
      * @param string $sku
      * @return int|null
      */
-    protected function getProductIdBySku($sku)
+    public function getProductIdBySku($sku)
     {
         if (empty($this->productIds)) {
             foreach ($this->productCollection as $product) {
@@ -138,5 +108,53 @@ class Review implements SetupInterface
             return $this->productIds[$sku];
         }
         return null;
+    }
+
+    /**
+     * @param array $row
+     * @return \Magento\Review\Model\Review
+     */
+    public function prepareReview($row)
+    {
+        $review = $this->reviewFactory->create();
+        /** @var $review \Magento\Review\Model\Review */
+        $review->unsetData();
+        $review->setEntityId(
+            $review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE)
+        )->setEntityPkValue(
+            $this->getProductIdBySku($row['sku'])
+        )->setNickname(
+            $row['reviewer']
+        )->setTitle(
+            $row['title']
+        )->setDetail(
+            $row['review']
+        )->setStatusId(
+            \Magento\Review\Model\Review::STATUS_APPROVED
+        )->setStoreId(
+            1
+        )->setStores(
+            array(1)
+        );
+
+        return $review;
+    }
+
+    /**
+     * @param \Magento\Review\Model\Review $review
+     * @param array $row
+     * @return void
+     */
+    public function setReviewRating(\Magento\Review\Model\Review $review, $row)
+    {
+        $this->ratingFactory->create(
+        )->setRatingId(
+            1
+        )->setReviewId(
+            $review->getId()
+        )->addOptionVote(
+            $row['rating'],
+            $this->getProductIdBySku($row['sku'])
+        );
     }
 }
