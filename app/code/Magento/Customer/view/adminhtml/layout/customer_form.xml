@@ -10,8 +10,6 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <referenceBlock name="form">
         <arguments>
-            <argument name="save_mca" xsi:type="string">customer\index\save</argument>
-            <argument name="validate_mca" xsi:type="string">customer\index\validate</argument>
             <argument name="meta" xsi:type="array">
                 <item name="defaults" xsi:type="array">
                     <item name="visible" xsi:type="boolean">true</item>
@@ -20,7 +18,15 @@
             <argument name="label" xsi:type="string">Customer Information</argument>
             <argument name="name" xsi:type="string">customer_form</argument>
             <argument name="data_sources" xsi:type="array">
-                <item name="customer_info" xsi:type="string">account</item>
+                <item name="customer_info" xsi:type="array">
+                    <item name="name" xsi:type="string">account</item>
+                    <item name="submit_url" xsi:type="url" path="customer/index/save">
+                        <param name="_current">1</param>
+                    </item>
+                    <item name="validate_url" xsi:type="url" path="customer/index/validate">
+                        <param name="_current">1</param>
+                    </item>
+                </item>
             </argument>
 
             <argument name="layout" xsi:type="array">

@@ -101,8 +101,8 @@ class AbstractStructure extends AbstractView
         $this->initGroups();
         $this->initElements();
 
-        foreach ($this->getDataSources() as $name => $dataSource) {
-            $this->processDataSource($dataSource);
+        foreach ($this->getDataSources() as $name => $dataSourceConfig) {
+            $this->processDataSource($dataSourceConfig);
         }
 
         $this->processChildBLocks();
@@ -206,12 +206,13 @@ class AbstractStructure extends AbstractView
     }
 
     /**
-     * @param string $dataSource
+     * @param array $dataSourceConfig
      * @return void
      */
-    protected function processDataSource($dataSource)
+    protected function processDataSource(array $dataSourceConfig)
     {
         $id = $this->renderContext->getRequestParam('id');
+        $dataSource = $dataSourceConfig['name'];
 
         $meta = $this->dataManager->getMetadata($dataSource);
 
@@ -259,7 +260,11 @@ class AbstractStructure extends AbstractView
                 $preparedData[$dataSource][$key] = $value;
             }
         }
-        $this->renderContext->getStorage()->addData($this->getData('name'), $preparedData);
+
+        $this->renderContext->getStorage()->addDataSource($this->getData('name'), [
+            'data' => $preparedData,
+            'config' => $dataSourceConfig,
+        ]);
     }
 
     /**

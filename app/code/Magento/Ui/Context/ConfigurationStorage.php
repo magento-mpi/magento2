@@ -125,39 +125,39 @@ class ConfigurationStorage implements ConfigStorageInterface
     /**
      * @inheritdoc
      */
-    public function addData($key, array $data)
+    public function addDataSource($name, array $dataSource)
     {
-        if (!isset($this->dataStorage[$key])) {
-            $this->dataStorage[$key] = $data;
+        if (!isset($this->dataStorage[$name])) {
+            $this->dataStorage[$name] = $dataSource;
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function removeData($key)
+    public function removeDataSource($name)
     {
-        unset($this->dataStorage[$key]);
+        unset($this->dataStorage[$name]);
     }
 
     /**
      * @inheritdoc
      */
-    public function getData($key = null)
+    public function getDataSource($name = null)
     {
-        if ($key === null) {
+        if ($name === null) {
             return $this->dataStorage;
         }
-        return isset($this->dataStorage[$key]) ? $this->dataStorage[$key] : null;
+        return isset($this->dataStorage[$name]) ? $this->dataStorage[$name] : null;
     }
 
     /**
      * @inheritdoc
      */
-    public function updateData($key, array $data)
+    public function updateDataSource($name, array $dataSource)
     {
-        if (isset($this->dataStorage[$key])) {
-            $this->dataStorage[$key] = $data;
+        if (isset($this->dataStorage[$name])) {
+            $this->dataStorage[$name] = $dataSource;
         }
     }
 

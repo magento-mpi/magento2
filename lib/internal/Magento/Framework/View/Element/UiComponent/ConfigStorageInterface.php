@@ -56,36 +56,36 @@ interface ConfigStorageInterface
     /**
      * Add data in storage
      *
-     * @param string $key
-     * @param array $data
+     * @param string $name
+     * @param array $dataSource
      * @return void
      */
-    public function addData($key, array $data);
+    public function addDataSource($name, array $dataSource);
 
     /**
      * Remove data in storage
      *
-     * @param string $key
+     * @param string $name
      * @return void
      */
-    public function removeData($key);
+    public function removeDataSource($name);
 
     /**
      * Get data from storage
      *
-     * @param string|null $key
+     * @param string|null $name
      * @return array|null
      */
-    public function getData($key = null);
+    public function getDataSource($name = null);
 
     /**
      * Update data in storage
      *
-     * @param string $key
-     * @param array $data
+     * @param string $name
+     * @param array $dataSource
      * @return void
      */
-    public function updateData($key, array $data);
+    public function updateDataSource($name, array $dataSource);
 
     /**
      * Add meta data

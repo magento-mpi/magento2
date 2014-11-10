@@ -80,25 +80,34 @@ class ConfigurationStorageTest extends \PHPUnit_Framework_TestCase
 
     public function testAddGetData()
     {
-        $configuration = ['key' => 'value'];
         $name = 'myName';
-        $this->configurationStorage->addData($name, $configuration);
-        $this->assertEquals([$name => $configuration], $this->configurationStorage->getData(null));
-        $this->assertEquals(null, $this->configurationStorage->getData('someKey'));
-        $this->assertEquals($configuration, $this->configurationStorage->getData($name));
+        $dataSource = [
+            'data' => ['key' => 'value'],
+            'config' => ['key' => 'value'],
+        ];
+        $this->configurationStorage->addDataSource($name, $dataSource);
+        $this->assertEquals([$name => $dataSource], $this->configurationStorage->getDataSource(null));
+        $this->assertEquals(null, $this->configurationStorage->getDataSource('someKey'));
+        $this->assertEquals($dataSource, $this->configurationStorage->getDataSource($name));
     }
 
     public function testUpdateRemoveData()
     {
-        $configuration = ['key' => 'value'];
+        $dataSource = [
+            'data' => ['key' => 'value'],
+            'config' => ['key' => 'value']
+        ];
         $key = 'myKey';
-        $this->configurationStorage->addData($key, $configuration);
-        $this->assertEquals($configuration, $this->configurationStorage->getData($key));
-        $data = ['key1' => 'value1'];
-        $this->configurationStorage->updateData($key, $data);
-        $this->assertEquals($data, $this->configurationStorage->getData($key));
-        $this->configurationStorage->removeData($key);
-        $this->assertEquals(null, $this->configurationStorage->getData($key));
+        $this->configurationStorage->addDataSource($key, $dataSource);
+        $this->assertEquals($dataSource, $this->configurationStorage->getDataSource($key));
+        $dataSource = [
+            'data' => ['key1' => 'value1'],
+            'config' => ['key1' => 'value1']
+        ];
+        $this->configurationStorage->updateDataSource($key, $dataSource);
+        $this->assertEquals($dataSource, $this->configurationStorage->getDataSource($key));
+        $this->configurationStorage->removeDataSource($key);
+        $this->assertEquals(null, $this->configurationStorage->getDataSource($key));
     }
 
     public function testAddGetMeta()
