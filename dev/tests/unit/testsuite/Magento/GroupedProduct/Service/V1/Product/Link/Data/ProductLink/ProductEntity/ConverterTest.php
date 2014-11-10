@@ -14,9 +14,7 @@ use Magento\GroupedProduct\Model\Product\Link\ProductEntity\Converter;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers \Magento\GroupedProduct\Service\V1\Product\Link\Data\ProductLink\ProductEntity\Converter::convert
-     */
+
     public function testConvert()
     {
         $productMock = $this->getMock(
