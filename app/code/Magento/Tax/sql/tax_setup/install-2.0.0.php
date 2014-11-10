@@ -459,7 +459,7 @@ $table = $this->getConnection()->newTable(
     'taxable_item_type',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => true),
+    array('nullable' => false),
     'Type of the taxable item'
 )->addIndex(
     $this->getIdxName('sales_order_tax_item', array('item_id')),
