@@ -31,6 +31,20 @@ class Compiler implements \Magento\Framework\AppInterface
         $this->configLoader = $configLoader;
     }
 
+    /**
+     * Returns array of
+     * ['class-name'] => [
+     *      0 => [
+     *          0 => , // string: Parameter name
+     *          1 => , // string|null: Parameter type
+     *          2 => , // bool: whether this param is required
+     *          3 => , // mixed: default value
+     *      ]
+     * ]
+     *
+     * @param string $path
+     * @return array
+     */
     protected function getClasses($path)
     {
         $rdi = new \RecursiveDirectoryIterator(realpath($path));
@@ -54,13 +68,18 @@ class Compiler implements \Magento\Framework\AppInterface
                     } catch (\ReflectionException $e) {
                         $this->_log->add(Log::COMPILATION_ERROR, $className, $e->getMessage());
                     }
-                    $processedClasses[$className] = 1;
                 }
             }
         }
         return $definitions;
     }
 
+    /**
+     * @param $classes
+     * @param \Magento\Framework\ObjectManager\Config $config
+     * @return array|mixed
+     * @throws \ReflectionException
+     */
     protected function getConfigForScope($classes, $config)
     {
         $arguments = array();
@@ -162,7 +181,7 @@ class Compiler implements \Magento\Framework\AppInterface
     }
 
     /**
-     * @param $config
+     * @param \Magento\Framework\ObjectManager\Config $config
      * @param $class
      * @param $constructor
      * @param $arguments
@@ -171,6 +190,16 @@ class Compiler implements \Magento\Framework\AppInterface
     protected function processConstructor($config, $class, $constructor, $arguments)
     {
         $configuredArguments = $config->getArguments($class);
+        $configuredArguments = array_map(
+            function ($type) {
+                if (isset($type['instance'])) {
+                    $type['instance'] = ltrim($type['instance'], '\\');
+                }
+
+                return $type;
+            },
+            $configuredArguments
+        );
         if ($constructor) {
             foreach ($constructor as $parameter) {
                 $argument = ['__val__' => null];
