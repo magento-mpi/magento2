@@ -80,8 +80,8 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             ->setCity('CityM')
             ->setFirstname('John')
             ->setLastname('Smith')
-            ->setDefaultShipping(1)
-            ->setDefaultBilling(1);
+            ->setDefaultShipping(true)
+            ->setDefaultBilling(true);
         $address = $this->addressBuilder->create();
 
         $this->addressBuilder->setId('2')
