@@ -4,5 +4,5 @@
             <field name="website_id" dataType="number" visible="false"/>
             <field name="name" dataType="text"/>
         </fields>
-    </dataSource>
+    </datasource>
 </config>
