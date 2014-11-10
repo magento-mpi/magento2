@@ -12,7 +12,7 @@ interface AttributeSetInterface
     /**
      * Get attribute set ID
      *
-     * @return int
+     * @return int|null
      */
     public function getAttributeSetId();
 
@@ -33,7 +33,7 @@ interface AttributeSetInterface
     /**
      * Get attribute set entity type id
      *
-     * @return int
+     * @return int|null
      */
     public function getEntityTypeId();
 }

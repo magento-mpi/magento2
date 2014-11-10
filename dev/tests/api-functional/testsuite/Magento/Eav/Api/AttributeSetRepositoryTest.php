@@ -27,8 +27,9 @@ class AttributeSetRepositoryTest extends WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ),
             'soap' => array(
-                // @todo fix SOAP configuration after SOAP tests are functional
-                'operation' => '',
+                'service' => 'eavAttributeSetRepositoryV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'eavAttributeSetRepositoryV1Get',
             ),
         );
         $arguments = array(
@@ -55,8 +56,9 @@ class AttributeSetRepositoryTest extends WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ),
             'soap' => array(
-                // @todo fix SOAP configuration after SOAP tests are functional
-                'operation' => '',
+                'service' => 'eavAttributeSetRepositoryV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'eavAttributeSetRepositoryV1Get',
             ),
         );
         $arguments = array(
@@ -78,8 +80,9 @@ class AttributeSetRepositoryTest extends WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ),
             'soap' => array(
-                // @todo fix SOAP configuration after SOAP tests are functional
-                'operation' => '',
+                'service' => 'eavAttributeSetRepositoryV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'eavAttributeSetRepositoryV1Save',
             ),
         );
 
@@ -120,8 +123,9 @@ class AttributeSetRepositoryTest extends WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ),
             'soap' => array(
-                // @todo fix SOAP configuration after SOAP tests are functional
-                'operation' => '',
+                'service' => 'eavAttributeSetRepositoryV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'eavAttributeSetRepositoryV1DeleteById',
             ),
         );
 
@@ -145,8 +149,9 @@ class AttributeSetRepositoryTest extends WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ),
             'soap' => array(
-                // @todo fix SOAP configuration after SOAP tests are functional
-                'operation' => '',
+                'service' => 'eavAttributeSetRepositoryV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'eavAttributeSetRepositoryV1DeleteById',
             ),
         );
 
@@ -184,10 +189,11 @@ class AttributeSetRepositoryTest extends WebapiAbstract
                 'resourcePath' => '/V1/products/attribute-sets/sets/list',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
-            'soap' => [
-                // @todo fix SOAP configuration after SOAP tests are functional
-                'operation' => '',
-            ],
+            'soap' => array(
+                'service' => 'eavAttributeSetRepositoryV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'eavAttributeSetRepositoryV1GetList',
+            ),
         ];
 
         $response = $this->_webApiCall($serviceInfo, $searchCriteria);
