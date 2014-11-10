@@ -43,41 +43,41 @@ interface EavAttributeInterface extends \Magento\Eav\Api\Data\AttributeInterface
     /**
      * Enable WYSIWYG flag
      *
-     * @return bool
+     * @return bool|null
      */
     public function getIsWysiwygEnabled();
 
     /**
      * Whether the HTML tags are allowed on the frontend
      *
-     * @return bool
+     * @return bool|null
      */
     public function getIsHtmlAllowedOnFront();
 
     /**
      * Whether it is used for sorting in product listing
      *
-     * @return bool
+     * @return bool|null
      */
     public function getUsedForSortBy();
     /**
      * Whether it used in layered navigation
      *
-     * @return bool
+     * @return bool|null
      */
     public function getIsFilterable();
 
     /**
      * Whether it is used in search results layered navigation
      *
-     * @return bool
+     * @return bool|null
      */
     public function getIsFilterableInSearch();
 
     /**
      * Get position
      *
-     * @return int
+     * @return int|null
      */
     public function getPosition();
 
@@ -93,66 +93,66 @@ interface EavAttributeInterface extends \Magento\Eav\Api\Data\AttributeInterface
      *  - 'bundle',
      *  - 'downloadable'
      *
-     * @return string[]
+     * @return string[]|null
      */
     public function getApplyTo();
 
     /**
      * Whether the attribute can be used for configurable products
      *
-     * @return string
+     * @return string|null
      */
     public function getIsConfigurable();
     /**
      * Whether the attribute can be used in Quick Search
      *
-     * @return string
+     * @return string|null
      */
     public function getIsSearchable();
     /**
      * Whether the attribute can be used in Advanced Search
      *
-     * @return string
+     * @return string|null
      */
     public function getIsVisibleInAdvancedSearch();
 
     /**
      * Whether the attribute can be compared on the frontend
      *
-     * @return string
+     * @return string|null
      */
     public function getIsComparable();
 
     /**
      * Whether the attribute can be used for promo rules
      *
-     * @return string
+     * @return string|null
      */
     public function getIsUsedForPromoRules();
     /**
      * Whether the attribute is visible on the frontend
      *
-     * @return string
+     * @return string|null
      */
     public function getIsVisibleOnFront();
     /**
      * Whether the attribute can be used in product listing
      *
-     * @return string
+     * @return string|null
      */
     public function getUsedInProductListing();
 
     /**
      * Whether attribute is visible on frontend.
      *
-     * @return bool
+     * @return bool|null
      */
     public function getIsVisible();
 
     /**
      * Retrieve attribute scope
      *
-     * @return string
+     * @return string|null
      */
     public function getScope();
 }

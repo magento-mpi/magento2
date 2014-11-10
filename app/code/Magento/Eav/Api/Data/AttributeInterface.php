@@ -47,112 +47,112 @@ interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterf
     /**
      * Retrieve id of the attribute.
      *
-     * @return string
+     * @return string|null
      */
     public function getAttributeId();
 
     /**
      * Retrieve code of the attribute.
      *
-     * @return string
+     * @return string|null
      */
     public function getAttributeCode();
 
     /**
      * Frontend HTML for input element.
      *
-     * @return string
+     * @return string|null
      */
     public function getFrontendInput();
 
     /**
      * Retrieve entity type id
      *
-     * @return string
+     * @return string|null
      */
     public function getEntityTypeId();
 
     /**
      * Whether attribute is required.
      *
-     * @return bool
+     * @return bool|null
      */
     public function getIsRequired();
 
     /**
      * Return options of the attribute (key => value pairs for select)
      *
-     * @return \Magento\Eav\Api\Data\AttributeOptionInterface[]
+     * @return \Magento\Eav\Api\Data\AttributeOptionInterface[]|null
      */
     public function getOptions();
 
     /**
      * Whether current attribute has been defined by a user.
      *
-     * @return bool
+     * @return bool|null
      */
     public function getIsUserDefined();
 
     /**
      * Get label which supposed to be displayed on frontend.
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function getFrontendLabel();
 
     /**
      * Return frontend label for each store
      *
-     * @return \Magento\Eav\Api\Data\AttributeFrontendLabelInterface[]
+     * @return \Magento\Eav\Api\Data\AttributeFrontendLabelInterface[]|null
      */
     public function getStoreFrontendLabels();
 
     /**
      * Get the note attribute for the element.
      *
-     * @return string
+     * @return string|null
      */
     public function getNote();
 
     /**
      * Get backend type.
      *
-     * @return string
+     * @return string|null
      */
     public function getBackendType();
 
     /**
      * Get backend model
      *
-     * @return string
+     * @return string|null
      */
     public function getBackendModel();
 
     /**
      * Get source model
      *
-     * @return string
+     * @return string|null
      */
     public function getSourceModel();
 
     /**
      * Get default value for the element.
      *
-     * @return string
+     * @return string|null
      */
     public function getDefaultValue();
 
     /**
      * Whether this is a unique attribute
      *
-     * @return string
+     * @return string|null
      */
     public function getIsUnique();
 
     /**
      * Retrieve frontend class of attribute
      *
-     * @return string
+     * @return string|null
      */
     public function getFrontendClass();
 

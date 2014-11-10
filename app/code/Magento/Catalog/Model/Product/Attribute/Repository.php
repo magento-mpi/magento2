@@ -180,7 +180,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
             $this->attributeBuilder->setBackendModel(
                 $this->productHelper->getAttributeBackendModelByInputType($attribute->getFrontendInput())
             );
-            $attributeData->setEntityTypeId(
+            $this->attributeBuilder->setEntityTypeId(
                 $this->eavConfig
                 ->getEntityType(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE)
                     ->getId()
