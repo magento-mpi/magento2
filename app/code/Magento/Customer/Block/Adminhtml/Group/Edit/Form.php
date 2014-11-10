@@ -99,6 +99,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $name->setDisabled(true);
         }
 
+        // Set the correct product default tax class id
+        $defaultCustomerTaxClass = $this->_scopeConfig->getValue(
+            'tax/classes/default_customer_tax_class',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+
         $fieldset->addField(
             'tax_class_id',
             'select',
@@ -108,9 +114,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'title' => __('Tax Class'),
                 'class' => 'required-entry',
                 'required' => true,
-                'values' => $this->_taxCustomer->toOptionArray(false)
+                'values' => $this->_taxCustomer->toOptionArray(true),
+                'value' => $defaultCustomerTaxClass
             )
         );
+
 
         if (!is_null($customerGroup->getId())) {
             // If edit add id
@@ -126,7 +134,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 array(
                     'id' => $customerGroup->getId(),
                     'customer_group_code' => $customerGroup->getCode(),
-                    'tax_class_id' => $customerGroup->getTaxClassId()
+                    'tax_class_id' => $defaultCustomerTaxClass
                 )
             );
         }

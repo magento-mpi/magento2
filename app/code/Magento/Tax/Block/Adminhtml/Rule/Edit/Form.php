@@ -256,7 +256,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         if (!empty($configValue)) {
             return $configValue;
         }
-        $taxClasses = $this->customerTaxClassSource->getAllOptions(false);
+        $taxClasses = $this->customerTaxClassSource->getAllOptions(true);
         if (!empty($taxClasses)) {
             $firstClass = array_shift($taxClasses);
             return isset($firstClass['value']) ? $firstClass['value'] : null;
@@ -276,7 +276,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         if (!empty($configValue)) {
             return $configValue;
         }
-        $taxClasses = $this->productTaxClassSource->getAllOptions(false);
+        $taxClasses = $this->productTaxClassSource->getAllOptions(true);
         if (!empty($taxClasses)) {
             $firstClass = array_shift($taxClasses);
             return isset($firstClass['value']) ? $firstClass['value'] : null;

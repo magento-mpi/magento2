@@ -54,7 +54,7 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * @param bool $withEmpty
      * @return array
      */
-    public function getAllOptions($withEmpty = false)
+    public function getAllOptions($withEmpty = true)
     {
         if (!$this->_options) {
             $filter = $this->filterBuilder
