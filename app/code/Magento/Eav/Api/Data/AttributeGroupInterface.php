@@ -22,21 +22,21 @@ interface AttributeGroupInterface
     /**
      * Retrieve id
      *
-     * @return string
+     * @return string|null
      */
     public function getAttributeGroupId();
 
     /**
      * Retrieve name
      *
-     * @return string
+     * @return string|null
      */
     public function getAttributeGroupName();
 
     /**
      * Retrieve attribute set id
      *
-     * @return int
+     * @return int|null
      */
     public function getAttributeSetId();
 }

@@ -12,7 +12,7 @@ use \Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductAttributeReadServiceV1';
+    const SERVICE_NAME = 'catalogProductAttributeGroupRepositoryV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/attribute-sets';
 
@@ -45,10 +45,10 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'catalogProductAttributeGroupWriteServiceV1Delete'
+                'operation' => self::SERVICE_NAME . 'DeleteById'
             ]
         ];
-        $this->assertTrue($this->_webApiCall($serviceInfo));
+        $this->assertTrue($this->_webApiCall($serviceInfo, ['groupId' => $group->getId()]));
     }
 
     /**
@@ -116,6 +116,11 @@ class ProductAttributeGroupRepositoryTest extends \Magento\TestFramework\TestCas
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/groups/list",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetList'
             ],
         ];
 
