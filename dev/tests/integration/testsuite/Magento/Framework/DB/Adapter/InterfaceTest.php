@@ -35,7 +35,6 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestSkipped('MAGETWO-30176: setup can not change schema now');
         $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\Module\Setup',
             array(
@@ -44,9 +43,9 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->_connection = $installer->getConnection();
-        $this->_tableName = $installer->getTable('table_two_column_idx');
-        $this->_oneColumnIdxName = $installer->getIdxName($this->_tableName, array('column1'));
-        $this->_twoColumnIdxName = $installer->getIdxName($this->_tableName, array('column1', 'column2'));
+        $this->_tableName = $this->_connection->getTableName('table_two_column_idx');
+        $this->_oneColumnIdxName = $this->_connection->getIndexName($this->_tableName, array('column1'));
+        $this->_twoColumnIdxName = $this->_connection->getIndexName($this->_tableName, array('column1', 'column2'));
 
         $table = $this->_connection->newTable(
             $this->_tableName
@@ -77,7 +76,6 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        return;
         $this->_connection->dropTable($this->_tableName);
         $this->_connection->resetDdlCache($this->_tableName);
         $this->_connection = null;
