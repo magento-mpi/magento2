@@ -85,9 +85,9 @@ class Observer
     protected $_customerAccountService;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Model\ProductRepository
      */
-    protected $_productFactory;
+    protected $productRepository;
 
     /**
      * @var \Magento\Framework\Stdlib\DateTime\DateTimeFactory
@@ -120,7 +120,7 @@ class Observer
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
@@ -133,7 +133,7 @@ class Observer
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
@@ -145,7 +145,7 @@ class Observer
         $this->_storeManager = $storeManager;
         $this->_priceColFactory = $priceColFactory;
         $this->_customerAccountService = $customerAccountService;
-        $this->_productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->_dateFactory = $dateFactory;
         $this->_stockColFactory = $stockColFactory;
         $this->_transportBuilder = $transportBuilder;
@@ -221,15 +221,12 @@ class Observer
                         $customer = $previousCustomer;
                     }
 
-                    /** @var \Magento\Catalog\Model\Product $product */
-                    $product = $this->_productFactory->create()->setStoreId(
+                    $product = $this->productRepository->getById(
+                        $alert->getProductId(),
+                        false,
                         $website->getDefaultStore()->getId()
-                    )->load(
-                        $alert->getProductId()
                     );
-                    if (!$product) {
-                        continue;
-                    }
+
                     $product->setCustomerGroupId($customer->getGroupId());
                     if ($alert->getPrice() > $product->getFinalPrice()) {
                         $productPrice = $product->getFinalPrice();
@@ -312,15 +309,11 @@ class Observer
                         $customer = $previousCustomer;
                     }
 
-                    $product = $this->_productFactory->create()->setStoreId(
+                    $product = $this->productRepository->getById(
+                        $alert->getProductId(),
+                        false,
                         $website->getDefaultStore()->getId()
-                    )->load(
-                        $alert->getProductId()
                     );
-                    /* @var $product \Magento\Catalog\Model\Product */
-                    if (!$product) {
-                        continue;
-                    }
 
                     $product->setCustomerGroupId($customer->getGroupId());
 

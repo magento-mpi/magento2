@@ -15,14 +15,22 @@ class DownloadPaymentCustomOption extends \Magento\Framework\App\Action\Action
      */
     protected $download;
 
+    /** @var \Magento\Catalog\Model\ProductRepository */
+    protected $productRepository;
+
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Sales\Model\Download $download
+     * @param \Magento\Catalog\Model\ProductRepository $productRepository
      */
-    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Sales\Model\Download $download)
-    {
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Sales\Model\Download $download,
+        \Magento\Catalog\Model\ProductRepository $productRepository
+    ) {
         parent::__construct($context);
         $this->download = $download;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -38,11 +46,7 @@ class DownloadPaymentCustomOption extends \Magento\Framework\App\Action\Action
         if (!isset($buyRequest['options'][$optionId])) {
             throw new \Exception();
         }
-        /** @var \Magento\Catalog\Model\Product $product */
-        $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($buyRequest['product']);
-        if (!$product->getId()) {
-            throw new \Exception();
-        }
+        $product = $this->productRepository->getById($buyRequest['product']);
         $option = $product->getOptionById($optionId);
         if (!$option || !$option->getId() || $option->getType() != 'file') {
             throw new \Exception();
