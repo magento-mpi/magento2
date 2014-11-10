@@ -148,8 +148,14 @@ define([
             return this;
         },
 
+        initContainer: function(parent){
+            this.containers.push(parent);
+
+            return this;
+        },
+
         initElement: function(elem){
-            elem.containers.push(this);
+            elem.initContainer(this);
 
             return this;
         },

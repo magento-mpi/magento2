@@ -177,7 +177,6 @@ class AbstractStructure extends AbstractView
     protected function initGroups()
     {
         $this->structure['groups'] = [
-            'type' => $this->ns,
             'children' => []
         ];
     }
