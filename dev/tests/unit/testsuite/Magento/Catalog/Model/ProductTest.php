@@ -314,6 +314,20 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testPriceReindexCallback()
     {
+        $this->model = $this->objectManagerHelper->getObject(
+            'Magento\Catalog\Model\Product',
+            [
+                'catalogProductType' => $this->productTypeInstanceMock,
+                'categoryIndexer' => $this->categoryIndexerMock,
+                'productFlatIndexerProcessor' => $this->productFlatProcessor,
+                'productPriceIndexerProcessor' => $this->productPriceProcessor,
+                'catalogProductOption' => $this->optionInstanceMock,
+                'resource' => $this->resource,
+                'registry' => $this->registry,
+                'categoryFactory' => $this->categoryFactory,
+                'data' => []
+            ]
+        );
         $this->productPriceProcessor->expects($this->once())->method('reindexRow');
         $this->assertNull($this->model->priceReindexCallback());
     }
