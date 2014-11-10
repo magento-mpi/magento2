@@ -223,12 +223,12 @@ define([
                 parent.remove(this);
             }, this);
 
+            data.remove(this.dataScope);
+            layout.clear(this.name);
+            
             children.forEach(function(child){ 
                 child.destroy();
             });
-
-            layout.clear(this.name);
-            data.remove(this.dataScope);
         }
     });
 
