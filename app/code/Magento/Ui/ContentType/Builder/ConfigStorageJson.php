@@ -29,11 +29,13 @@ class ConfigStorageJson implements ConfigStorageBuilderInterface
             'config' => []
         ];
         $result['meta'] = $storage->getMeta($parentName);
+        $dataSource = $storage->getDataSource($parentName);
+        $data = isset($dataSource['data']) ? $dataSource['data'] : null;
         if ($parentName !== null) {
             $rootComponent = $storage->getComponentsData($parentName);
             $result['name'] = $rootComponent->getName();
             $result['parent_name'] = $rootComponent->getParentName();
-            $result['data'] = $storage->getData($parentName);
+            $result['data'] = $data;
             $result['config']['components'][$rootComponent->getName()] = $rootComponent->getData();
         } else {
             $components = $storage->getComponentsData();
@@ -43,9 +45,8 @@ class ConfigStorageJson implements ConfigStorageBuilderInterface
                     $result['config']['components'][$name] = $component->getData();
                 }
             }
-            $result['data'] = $storage->getData();
+            $result['data'] = $data;
         }
-
         $result['config'] += $storage->getGlobalData();
         $result['dump']['extenders'] = [];
 
@@ -61,14 +62,9 @@ class ConfigStorageJson implements ConfigStorageBuilderInterface
     public function toJsonNew(ConfigStorageInterface $storage)
     {
         $result = [];
-        foreach ($storage->getData() as $key => $data) {
-            $result['providers'][$key] = [
-                'path' => "Magento_Ui/js/form/provider",
-                'data' => $data,
-                'config' => [
-                    'submit_url' => '/backend/customer/index/save/id/1'
-                ]
-            ];
+        foreach ($storage->getDataSource() as $name => $dataSource) {
+            $dataSource['path'] = 'Magento_Ui/js/form/provider/provider';
+            $result['providers'][$name] = $dataSource;
         }
         $result['renderer']= [
             'types' => $storage->getComponents(),

@@ -23,6 +23,9 @@ class ConfigStorageJsonTest extends \PHPUnit_Framework_TestCase
         $name = 'name';
         $data = [];
         $parentName = 'parentName';
+        $dataSource = [
+            'data' => null
+        ];
         $result = [
             'config' => ['components' => [$name => $data], 'globalData' => ['globalData']],
             'meta' => null,
@@ -41,7 +44,7 @@ class ConfigStorageJsonTest extends \PHPUnit_Framework_TestCase
         );
         $storageMock = $this->getMock(
             'Magento\Ui\Context\ConfigurationStorage',
-            ['getComponentsData', 'getGlobalData', 'getMeta', 'getData'],
+            ['getComponentsData', 'getGlobalData', 'getMeta', 'getDataSource'],
             [],
             '',
             false
@@ -57,6 +60,7 @@ class ConfigStorageJsonTest extends \PHPUnit_Framework_TestCase
             ->method('getData')
             ->willReturn($data);
         $storageMock->expects($this->once())->method('getGlobalData')->willReturn($result['config']);
+        $storageMock->expects($this->once())->method('getDataSource')->will($this->returnValue($dataSource));
 
         $this->assertEquals(json_encode($result), $this->builder->toJson($storageMock, $parentName));
     }
@@ -65,16 +69,19 @@ class ConfigStorageJsonTest extends \PHPUnit_Framework_TestCase
     {
         $this->builder = new ConfigStorageJson();
         $data = [];
+        $dataSource = [
+            'data' => $data
+        ];
         $result = [
             'config' => ['components' => ['name' => $data], 'globalData' => ['globalData']],
             'meta' => null,
-            'data' => null,
+            'data' => [],
             'dump' => ['extenders' => []]
         ];
         $componentsMock = $this->getMock('Magento\Ui\Context\Configuration', ['getData'], [], '', false);
         $storageMock = $this->getMock(
             'Magento\Ui\Context\ConfigurationStorage',
-            ['getComponentsData', 'getGlobalData', 'getMeta', 'getData'],
+            ['getComponentsData', 'getGlobalData', 'getMeta', 'getDataSource'],
             [],
             '',
             false
@@ -84,7 +91,7 @@ class ConfigStorageJsonTest extends \PHPUnit_Framework_TestCase
         $componentsMock->expects($this->any())->method('getData')->willReturn($data);
 
         $storageMock->expects($this->once())->method('getMeta')->will($this->returnValue($result['meta']));
-        $storageMock->expects($this->once())->method('getData')->will($this->returnValue($result['data']));
+        $storageMock->expects($this->once())->method('getDataSource')->will($this->returnValue($dataSource));
         $storageMock->expects($this->once())->method('getGlobalData')->willReturn($result['config']);
 
         $this->assertEquals(json_encode($result), $this->builder->toJson($storageMock));

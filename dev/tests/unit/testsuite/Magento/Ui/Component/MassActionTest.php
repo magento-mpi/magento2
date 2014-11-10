@@ -42,6 +42,16 @@ class MassActionTest extends \PHPUnit_Framework_TestCase
     protected $configBuilderMock;
 
     /**
+     * @var \Magento\Ui\DataProvider\Factory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $dataProviderFactoryMock;
+
+    /**
+     * @var \Magento\Ui\DataProvider\Manager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $dataProviderManagerMock;
+
+    /**
      * @var MassAction
      */
     protected $view;
@@ -87,13 +97,29 @@ class MassActionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->dataProviderFactoryMock = $this->getMock(
+            'Magento\Ui\DataProvider\Factory',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->dataProviderManagerMock = $this->getMock(
+            'Magento\Ui\DataProvider\Manager',
+            [],
+            [],
+            '',
+            false
+        );
 
         $this->view = new MassAction(
             $this->contextMock,
             $this->renderContextMock,
             $this->contentTypeFactoryMock,
             $this->configFactoryMock,
-            $this->configBuilderMock
+            $this->configBuilderMock,
+            $this->dataProviderFactoryMock,
+            $this->dataProviderManagerMock
         );
     }
 

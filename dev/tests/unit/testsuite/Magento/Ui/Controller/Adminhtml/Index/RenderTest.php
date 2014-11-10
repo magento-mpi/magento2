@@ -73,9 +73,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
             ->method('appendBody')
             ->with($renderedData);
 
-        $viewMock = $this->getMockBuilder('Magento\Ui\Form\Field')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $viewMock = $this->getMock('Magento\Ui\Form\Field', ['render'], [], '', false);
         $viewMock->expects($this->once())
             ->method('render')
             ->willReturn($renderedData);

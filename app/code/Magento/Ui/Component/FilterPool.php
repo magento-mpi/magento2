@@ -28,7 +28,7 @@ class FilterPool extends AbstractView
      *
      * @var FilterPoolProvider
      */
-    protected $filterPool;
+    protected $filterPoolProvider;
 
     /**
      * Constructor
@@ -38,9 +38,9 @@ class FilterPool extends AbstractView
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigFactory $configFactory
      * @param ConfigBuilderInterface $configBuilder
-     * @param FilterPoolProvider $filterPool
      * @param DataProviderFactory $dataProviderFactory
      * @param Manager $dataProviderManager
+     * @param FilterPoolProvider $filterPoolProvider
      * @param array $data
      */
     public function __construct(
@@ -49,12 +49,12 @@ class FilterPool extends AbstractView
         ContentTypeFactory $contentTypeFactory,
         ConfigFactory $configFactory,
         ConfigBuilderInterface $configBuilder,
-        FilterPoolProvider $filterPool,
         DataProviderFactory $dataProviderFactory,
         Manager $dataProviderManager,
+        FilterPoolProvider $filterPoolProvider,
         array $data = []
     ) {
-        $this->filterPool = $filterPool;
+        $this->filterPoolProvider = $filterPoolProvider;
         parent::__construct(
             $context,
             $renderContext,

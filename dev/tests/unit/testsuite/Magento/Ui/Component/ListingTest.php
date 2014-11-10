@@ -254,7 +254,7 @@ class ListingTest extends \PHPUnit_Framework_TestCase
             ->method('getItems')
             ->willReturn([$item]);
 
-        $row = $this->getMock('Magento\Ui\DataProvider\Row\Store', [], [], '', false);
+        $row = $this->getMock('Magento\Ui\DataProvider\Row\Store', ['getData'], [], '', false);
         $this->rowPool->expects($this->once())
             ->method('get')
             ->with('someClass')

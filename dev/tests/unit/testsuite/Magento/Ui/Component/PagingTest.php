@@ -38,14 +38,29 @@ class PagingTest extends \PHPUnit_Framework_TestCase
     protected $renderContextMock;
 
     /**
-     * @var ConfigFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $configurationFactoryMock;
-
-    /**
      * @var ContentTypeFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $contentTypeFactoryMock;
+
+    /**
+     * @var ConfigFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $configFactoryMock;
+
+    /**
+     * @var ConfigBuilderInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $configBuilderMock;
+
+    /**
+     * @var \Magento\Ui\DataProvider\Factory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $dataProviderFactoryMock;
+
+    /**
+     * @var \Magento\Ui\DataProvider\Manager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $dataProviderManagerMock;
 
     /**
      * @var Repository|\PHPUnit_Framework_MockObject_MockObject
@@ -54,13 +69,6 @@ class PagingTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->configurationFactoryMock = $this->getMock(
-            'Magento\Framework\View\Element\UiComponent\ConfigFactory',
-            ['create'],
-            [],
-            '',
-            false
-        );
         $this->renderContextMock = $this->getMock(
             'Magento\Framework\View\Element\UiComponent\Context',
             ['getNamespace', 'getStorage', 'getRequestParam'],
@@ -82,12 +90,42 @@ class PagingTest extends \PHPUnit_Framework_TestCase
         $this->assetRepoMock = $this->getMock('Magento\Framework\View\Asset\Repository', [], [], '', false);
         $this->contextMock->expects($this->any())->method('getAssetRepository')->willReturn($this->assetRepoMock);
 
+        $this->configFactoryMock = $this->getMock(
+            'Magento\Framework\View\Element\UiComponent\ConfigFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
+        $this->configBuilderMock = $this->getMockForAbstractClass(
+            'Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface',
+            [],
+            '',
+            false
+        );
+        $this->dataProviderFactoryMock = $this->getMock(
+            'Magento\Ui\DataProvider\Factory',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->dataProviderManagerMock = $this->getMock(
+            'Magento\Ui\DataProvider\Manager',
+            [],
+            [],
+            '',
+            false
+        );
+
         $this->view = new \Magento\Ui\Component\Paging(
             $this->contextMock,
             $this->renderContextMock,
             $this->contentTypeFactoryMock,
-            $this->configurationFactoryMock,
-            $this->configurationBuilderMock
+            $this->configFactoryMock,
+            $this->configBuilderMock,
+            $this->dataProviderFactoryMock,
+            $this->dataProviderManagerMock
         );
     }
 
@@ -100,7 +138,7 @@ class PagingTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\Element\UiComponent\ConfigInterface'
         );
         $this->renderContextMock->expects($this->any())->method('getNamespace')->willReturn($nameSpace);
-        $this->configurationFactoryMock->expects($this->once())->method('create')->willReturn($configurationMock);
+        $this->configFactoryMock->expects($this->once())->method('create')->willReturn($configurationMock);
 
         $storageMock = $this->getMockForAbstractClass(
             'Magento\Framework\View\Element\UiComponent\ConfigStorageInterface'

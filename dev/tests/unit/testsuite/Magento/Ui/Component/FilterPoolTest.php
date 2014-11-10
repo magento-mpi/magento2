@@ -53,19 +53,19 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $configBuilderMock;
 
     /**
-     * @var \Magento\Backend\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Ui\DataProvider\Factory|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $dataHelperMock;
+    protected $dataProviderFactoryMock;
+
+    /**
+     * @var \Magento\Ui\DataProvider\Manager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $dataProviderManagerMock;
 
     /**
      * @var FilterPoolProvider|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filterPoolProviderMock;
-
-    /**
-     * @var \Magento\Ui\DataProvider\Factory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $dataProviderFactoryMock;
 
     /**
      * @var FilterPool
@@ -113,9 +113,16 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->dataHelperMock = $this->getMock(
-            'Magento\Backend\Helper\Data',
-            ['prepareFilterString'],
+        $this->dataProviderFactoryMock = $this->getMock(
+            'Magento\Ui\DataProvider\Factory',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->dataProviderManagerMock = $this->getMock(
+            'Magento\Ui\DataProvider\Manager',
+            [],
             [],
             '',
             false
@@ -127,13 +134,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->dataProviderFactoryMock = $this->getMock(
-            'Magento\Ui\DataProvider\Factory',
-            [],
-            [],
-            '',
-            false
-        );
 
         $this->filterPool = new FilterPool(
             $this->contextMock,
@@ -141,9 +141,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             $this->contentTypeFactoryMock,
             $this->configFactoryMock,
             $this->configBuilderMock,
-            $this->dataHelperMock,
-            $this->filterPoolProviderMock,
-            $this->dataProviderFactoryMock
+            $this->dataProviderFactoryMock,
+            $this->dataProviderManagerMock,
+            $this->filterPoolProviderMock
         );
     }
 
@@ -160,7 +160,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
          */
         $configurationMock = $this->getMockForAbstractClass(
             'Magento\Framework\View\Element\UiComponent\ConfigInterface',
-            [],
+            ['getParentName'],
             '',
             false
         );
@@ -194,11 +194,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->configFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($configurationMock));
-
-        $this->renderContextMock->expects($this->any())
-            ->method('getStorage')
-            ->will($this->returnValue($configStorageMock));
-
         $this->renderContextMock->expects($this->any())
             ->method('getStorage')
             ->will($this->returnValue($configStorageMock));
@@ -223,9 +218,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $configStorageMock->expects($this->any())
             ->method('getMeta')
             ->will($this->returnValue($meta));
-        $this->dataHelperMock->expects($this->once())
-            ->method('prepareFilterString')
-            ->will($this->returnValue($filters));
         $this->renderContextMock->expects($this->once())
             ->method('getRequestParam')
             ->with(static::FILTER_VAR);
@@ -255,8 +247,29 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testGetFields()
+    public function _testGetFields()
     {
+        /** @var \Magento\Ui\Component\FilterPool|\PHPUnit_Framework_MockObject_MockObject $filterPool */
+        $filterPool = $this->getMock(
+            'Magento\Ui\Component\FilterPool',
+            ['getParentName'],
+            [
+                $this->contextMock,
+                $this->renderContextMock,
+                $this->contentTypeFactoryMock,
+                $this->configFactoryMock,
+                $this->configBuilderMock,
+                $this->dataProviderFactoryMock,
+                $this->dataProviderManagerMock,
+                $this->filterPoolProviderMock
+            ],
+            '',
+            false
+        );
+        $filterPool->expects($this->any())
+            ->method('getParentName')
+            ->willReturn('parent');
+
         $result = [
             'field-1' => ['filterable' => 1],
             'field-4' => ['filterable' => 1]
@@ -299,7 +312,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->method('getMeta')
             ->will($this->returnValue($meta));
 
-        $this->assertEquals($result, $this->filterPool->getFields());
+        $this->assertEquals($result, $filterPool->getFields());
     }
 
     /**
@@ -307,7 +320,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testGetActiveFilters()
+    public function _testGetActiveFilters()
     {
         $result = [
             'field-1' => [
