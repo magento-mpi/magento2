@@ -360,26 +360,18 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if (!empty($orderIds)) {
             $this->beginTransaction();
             try {
-                $this->removeFromArchive(
-                    \Magento\SalesArchive\Model\ArchivalList::ORDER,
-                    'entity_id',
-                    $orderIds
-                );
-                $this->removeFromArchive(
-                    \Magento\SalesArchive\Model\ArchivalList::INVOICE,
-                    'order_id',
-                    $orderIds
-                );
-                $this->removeFromArchive(
-                    \Magento\SalesArchive\Model\ArchivalList::SHIPMENT,
-                    'order_id',
-                    $orderIds
-                );
-                $this->removeFromArchive(
-                    \Magento\SalesArchive\Model\ArchivalList::CREDITMEMO,
-                    'order_id',
-                    $orderIds
-                );
+                $conditionalField = 'order_id';
+                foreach ($this->_tables as $entity => $value) {
+                    if ($entity === \Magento\SalesArchive\Model\ArchivalList::ORDER) {
+                        $conditionalField = 'entity_id';
+                    }
+
+                    $this->removeFromArchive(
+                        $entity,
+                        $conditionalField,
+                        $orderIds
+                    );
+                }
                 $this->commit();
             } catch (\Exception $e) {
                 $this->rollBack();

@@ -10,8 +10,6 @@ namespace Magento\SalesArchive\Model\Resource\Plugin;
 use Magento\TestFramework\Helper\ObjectManager;
 
 /**
- * Plugin Grid Test
- *
  * Class GridTest
  */
 class GridTest extends \PHPUnit_Framework_TestCase
@@ -25,7 +23,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     protected $archiveSource;
     /**
-     * @var \Magento\SalesArchive\Model\Resource\Plugin\Grid|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\SalesArchive\Model\Resource\Plugin\Grid
      */
     protected $plugin;
 

@@ -9,8 +9,6 @@
 namespace Magento\SalesArchive\Model\Resource;
 
 /**
- * Tests for resource Archive
- *
  * Class ArchiveTest
  */
 class ArchiveTest extends \PHPUnit_Framework_TestCase

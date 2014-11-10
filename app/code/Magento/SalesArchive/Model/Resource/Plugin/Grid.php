@@ -50,7 +50,7 @@ class Grid
     ) {
         if ($this->archive->isOrderInArchive($value)) {
             $this->archive->removeOrdersFromArchiveById([$value]);
-            return $this->gridPool->refreshByOrderId($value);
+            $this->gridPool->refreshByOrderId($value);
         }
 
         return $proceed($value, $field);
