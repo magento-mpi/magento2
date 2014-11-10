@@ -14,10 +14,10 @@ define([
     'use strict';
 
     function getNodeName(parent, node, name) {
-        var parentName = node.parentName || (parent && parent.name);
+        var parentName = parent && parent.name;
 
         if (typeof name !== 'string') {
-            name = node.name;
+            name = node.name || name;
         }
 
         if (parentName) {
@@ -32,14 +32,18 @@ define([
     }
 
     function getDataScope(parent, node){
-        var dataScope   = node.dataScope || '',
+        var dataScope   = node.dataScope,
             parentScope = parent && parent.dataScope;
 
-        return parentScope ?
-                ( dataScope ?
+        return notEmpty(parentScope) ?
+                ( notEmpty(dataScope) ?
                     (parentScope + '.' + dataScope) :
                     parentScope ) :
-                dataScope;
+                (dataScope || '');
+    }
+
+    function notEmpty(value){
+        return !_.isUndefined(value) && value !== '';
     }
 
     function mergeNode(node, config){
