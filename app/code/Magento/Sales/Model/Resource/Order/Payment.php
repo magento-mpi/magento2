@@ -39,6 +39,6 @@ class Payment extends SalesResource
      */
     protected function _construct()
     {
-        $this->_init('sales_flat_order_payment', 'entity_id');
+        $this->_init('sales_order_payment', 'entity_id');
     }
 }
