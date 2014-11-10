@@ -34,10 +34,10 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Concatenate all customer name parts into full customer name.
      *
-     * @param \Magento\Customer\Service\V1\Data\Customer $customerData
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customerData
      * @return string
      */
-    public function getCustomerName(\Magento\Customer\Service\V1\Data\Customer $customerData)
+    public function getCustomerName(\Magento\Customer\Api\Data\CustomerInterface $customerData)
     {
         $name = '';
         $prefixMetadata = $this->_customerMetadataService->getAttributeMetadata('prefix');
