@@ -86,7 +86,8 @@ class ReplaceFilter
      */
     public function removeMagentoComponentsFromReplace(Package $package)
     {
-        foreach ($package->get('replace') as $key => $value) {
+        $keys = array_keys((array)$package->get('replace'));
+        foreach ($keys as $key) {
             if ($this->matchMagentoComponent($key) && $package->get("replace->{$key}")) {
                 $package->unsetProperty("replace->{$key}");
             }
