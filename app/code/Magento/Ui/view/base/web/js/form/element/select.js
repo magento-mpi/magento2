@@ -37,6 +37,13 @@ define([
         }
     };
 
+    /**
+     * Parses incoming options, considers options with undefined value property
+     *     as caption
+     *  
+     * @param  {Array} nodes
+     * @return {Object}
+     */
     function parseOptions(nodes){
         var caption;
 
@@ -56,6 +63,12 @@ define([
         };
     }
 
+    /**
+     * Recursively loops over data to find non-undefined, non-array value
+     * 
+     * @param  {Array} data
+     * @return {*} - first non-undefined value in array
+     */
     function findFirst(data){
         var value;
 
@@ -77,6 +90,7 @@ define([
         /**
          * Extends instance with defaults, extends config with formatted values
          *     and options, and invokes initialize method of AbstractElement class.
+         *     If instance's 'customEntry' property is set to true, calls 'initInput'
          */
         initialize: function (config) {
             _.extend(this, defaults);
@@ -90,6 +104,12 @@ define([
             }
         },
 
+        /**
+         * Calls 'initObservable' of parent, initializes 'options' and 'initialOptions'
+         *     properties, calls 'setOptions' passing options to it
+         *     
+         * @return {Object} - reference to instance
+         */
         initObservable: function(){
             __super__.initObservable.apply(this, arguments);
 
@@ -101,6 +121,12 @@ define([
             return this;
         },
 
+        /**
+         * Parses options and merges the result with instance
+         * 
+         * @param  {Object} config
+         * @return {Object} - reference to instance
+         */
         initOptions: function(config){
             var result = parseOptions(config.options);
 
@@ -109,6 +135,11 @@ define([
             return this;
         },
 
+        /**
+         * Creates input from template, renders it via renderer
+         * 
+         * @return {Object} - reference to instance
+         */
         initInput: function(){
             var node = utils.template(inputNode, this);
 
@@ -119,6 +150,12 @@ define([
             return this;
         },
 
+        /**
+         * Calls 'getInitialValue' of parent and if the result of it is not empty
+         *     string, returs it, else returnes caption or first found option's value
+         *     
+         * @return {Number|String}
+         */
         getInititalValue: function(){
             var value = __super__.getInititalValue.apply(this, arguments);
 
@@ -130,6 +167,13 @@ define([
             }
         },
 
+        /**
+         * Filters 'initialOptions' property by 'field' and 'value' passed,
+         *     calls 'setOptions' passing the result to it 
+         * 
+         * @param  {String} field
+         * @param  {*} value
+         */
         filter: function(field, value){
             var source = this.initialOptions,
                 result;
@@ -141,6 +185,13 @@ define([
             this.setOptions(result);
         },
 
+        /**
+         * Sets 'data' to 'options' observable array, if instance has 
+         *     'customEntry' property set to true, calls 'setHidden' method
+         *     passing !options.length as a parameter
+         * 
+         * @param {Array} data
+         */
         setOptions: function(data){
             var size = data.length;
 
@@ -153,8 +204,15 @@ define([
             return this;
         },
 
+        /**
+         * Processes preview for option by it's value, and sets the result
+         *     to 'preview' observable
+         * 
+         * @param {String} value
+         * @return {Object} - reference to instance
+         */
         setPreview: function(value){
-            var option  = _.indexBy(this.options(), 'value')[value],
+            var option  = this.options.indexBy('value')[value],
                 preview = '';
 
             if(option){

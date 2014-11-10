@@ -6,7 +6,7 @@
  */
 define([
     'underscore',
-    './component'
+    'Magento_Ui/js/form/component'
 ], function(_, Component) {
     'use strict';
 
@@ -18,12 +18,21 @@ define([
     var __super__ = Component.prototype;
 
     return Component.extend({
+
+        /**
+         * Merges 'defaults' to instance, calls 'initialize' of parent
+         */
         initialize: function() {
             _.extend(this, defaults);
 
             __super__.initialize.apply(this, arguments);
         },
 
+        /**
+         * Initializes 'opened' observable, calls 'initObservable' of parent
+         * 
+         * @return {Object} - reference to instance
+         */
         initObservable: function(){
             __super__.initObservable.apply(this, arguments);
 
@@ -32,6 +41,11 @@ define([
             return this;
         },
 
+        /**
+         * Toggles 'active' observable, triggers 'active' event
+         * 
+         * @return {Object} - reference to instance
+         */
         toggle: function() {
             var opened = this.opened,
                 active = opened(!opened());
@@ -41,6 +55,9 @@ define([
             return this;
         },
 
+        /**
+         * Invokes 'toggle' method if instance has 'collapsible' property set to true
+         */
         onClick: function(){
             if(this.collapsible){
                 this.toggle();

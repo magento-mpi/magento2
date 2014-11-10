@@ -13,8 +13,8 @@ define([
     'use strict';
 
     function load(config, name){
-        require([config.path], function(callback){
-            callback(config, name);
+        require([config.path], function(constr){
+            registry.set(name, new constr(config));
         });
     }
 

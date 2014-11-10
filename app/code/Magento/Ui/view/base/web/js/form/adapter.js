@@ -1,7 +1,15 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 define([
     'jquery',
     'underscore'
 ], function($, _){
+    'use strict';
+
     var buttons = {
         'reset':            '#reset',
         'save':             "#save",

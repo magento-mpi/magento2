@@ -6,19 +6,19 @@
  */
 define([
     'underscore',
-    '../storage/index',
-    './component',
+    './storages',
+    'Magento_Ui/js/lib/registry/registry',
     'Magento_Ui/js/lib/class',
     'Magento_Ui/js/lib/events',
     'mage/utils'
-], function(_, storages, Component, Class, EventsBus, utils){
+], function(_, storages, registry, Class, EventsBus, utils){
     'use strict';
     
     var defaults = {
         stores: ['meta', 'data', 'params']
     };
 
-    var Provider = Class.extend({
+    return Class.extend({
         /**
          * Initializes DataProvider instance.
          * @param {Object} settings - Settings to initialize object with.
@@ -51,6 +51,9 @@ define([
             return this;
         },
 
+        /**
+         * Assembles data and submits it using 'utils.submit' method
+         */
         save: function(){
             var data = this.data.get();
             
@@ -60,8 +63,4 @@ define([
             });
         }
     }, EventsBus);
-
-    return Component({
-        constr: Provider
-    });
 });

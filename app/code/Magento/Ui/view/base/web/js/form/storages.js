@@ -5,7 +5,7 @@
  * @license     {license_link}
  */
 /**
- * Assembles storages returning storage mapping
+ * Assembles storages for form provider
  */
 define([
     'Magento_Ui/js/lib/storage/storage'

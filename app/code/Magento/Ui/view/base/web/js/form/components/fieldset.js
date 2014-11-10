@@ -6,7 +6,7 @@
  */
 define([
     'underscore',
-    '../collapsible'
+    './collapsible'
 ], function(_, Collapsible) {
     'use strict';
     

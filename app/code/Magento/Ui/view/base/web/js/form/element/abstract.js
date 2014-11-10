@@ -34,7 +34,9 @@ define([
     return Component.extend({
 
         /**
-         * Invokes initialize method of parent class.
+         * Invokes initialize method of parent class, contains initialization
+         *     logic
+         *     
          * @param {Object} config - form element configuration
          */
         initialize: function () {
@@ -63,23 +65,17 @@ define([
 
             this.initialValue = value;
 
-            this.observe([
-                    'error',
-                    'disabled',
-                    'focused',
-                    'preview',
-                    'hidden'
-                ])
+            this.observe('error disabled focused preview hidden')
                 .observe({
                     'value':    value,
                     'required': rules['required-entry']
-                });        
+                });
 
             return this;
         },
 
         /**
-         * Initializes properties of instance
+         * Initializes regular properties of instance
          * 
          * @return {Object} - reference to instance
          */
@@ -166,15 +162,28 @@ define([
             return this.preview();
         },
 
+        /**
+         * Calls 'setHidden' passing true to it, sets 'value' property to ''  
+         */
         hide: function(){
             this.setHidden(true)
                 .value('');
         },
 
+        /**
+         * Calls 'setHidden' passing false to it
+         */
         show: function(value){
             this.setHidden(false);
         },
 
+        /**
+         * Sets 'value' as 'hidden' propertie's value, triggers 'toggle' event,
+         *     sets instance's hidden identifier in params storage based on
+         *     'value'
+         * 
+         * @param {Object} value - reference to instance
+         */
         setHidden: function(value){
             var params = this.provider.params;
 
@@ -238,7 +247,7 @@ define([
         /**
          * Validates itself by it's validation rules using validator object.
          * If validation of a rule did not pass, writes it's message to
-         *     errors array.
+         *     'error' observable property.
          *     
          * @return {Boolean} - true, if element is valid
          */

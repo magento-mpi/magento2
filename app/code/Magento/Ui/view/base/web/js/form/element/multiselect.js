@@ -30,14 +30,6 @@ define([
             __super__.initialize.apply(this, arguments);
         },
 
-        formatInitialValue: function() {
-            this.initialValue = this.initialValue || [];
-
-            this.value(this.initialValue);
-
-            return this;
-        },
-
         /**
          * Defines if value has changed
          * @return {Boolean}
