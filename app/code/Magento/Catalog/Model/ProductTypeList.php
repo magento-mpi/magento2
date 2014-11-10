@@ -24,9 +24,9 @@ class ProductTypeList implements ProductTypeListInterface
     /**
      * Product type factory
      *
-     * @var \Magento\Catalog\Api\Data\ProductTypeInterfaceFactory
+     * @var \Magento\Catalog\Api\Data\ProductTypeDataBuilder
      */
-    private $productTypeFactory;
+    private $productTypeBuilder;
 
     /**
      * List of product types
@@ -37,14 +37,14 @@ class ProductTypeList implements ProductTypeListInterface
 
     /**
      * @param ConfigInterface $productTypeConfig
-     * @param \Magento\Catalog\Api\Data\ProductTypeInterfaceFactory $productTypeFactory
+     * @param \Magento\Catalog\Api\Data\ProductTypeDataBuilder $productTypeBuilder
      */
     public function __construct(
         ConfigInterface $productTypeConfig,
-        \Magento\Catalog\Api\Data\ProductTypeInterfaceFactory $productTypeFactory
+        \Magento\Catalog\Api\Data\ProductTypeDataBuilder $productTypeBuilder
     ) {
         $this->productTypeConfig = $productTypeConfig;
-        $this->productTypeFactory = $productTypeFactory;
+        $this->productTypeBuilder = $productTypeBuilder;
     }
 
     /**
@@ -55,10 +55,12 @@ class ProductTypeList implements ProductTypeListInterface
         if (is_null($this->productTypes)) {
             $productTypes = array();
             foreach ($this->productTypeConfig->getAll() as $productTypeData) {
-                $productTypes[] = $this->productTypeFactory->create(array(
-                    'key' => $productTypeData['name'],
-                    'value' => $productTypeData['label']
-                ));
+                $productTypes[] = $this->productTypeBuilder->populateWithArray(
+                    [
+                        'name' => $productTypeData['name'],
+                        'label' => $productTypeData['label']
+                    ]
+                )->create();
             }
             $this->productTypes = $productTypes;
         }
