@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_layout.xsd">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/layout_generic.xsd">
     <block class="Magento\Framework\View\Element\Text" name="block1" ifconfig="not_exists">
         <block class="Magento\Framework\View\Element\Text" name="block2"/>
     </block>

@@ -34,8 +34,7 @@ class AssertProductAttributeAbsenceForExport extends AbstractConstraint
      * @param ImportExport $export
      * @return void
      */
-    public function processAssert
-    (
+    public function processAssert(
         AdminExportIndex $exportIndex,
         CatalogProductAttribute $attribute,
         ImportExport $export

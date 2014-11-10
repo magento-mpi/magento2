@@ -8,30 +8,32 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="checkout.onepage.billing">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">Magento_CustomerCustomAttributes::checkout/onepage/billing.phtml</argument>
-        </action>
-        <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes" cacheable="false">
-            <action method="setFormCode">
-                <argument name="code" xsi:type="string">checkout_register</argument>
-            </action>
-        </block>
-        <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes" cacheable="false">
-            <action method="setFormCode">
-                <argument name="code" xsi:type="string">customer_register_address</argument>
-            </action>
-        </block>
-    </referenceBlock>
-    <referenceBlock name="checkout.onepage.shipping">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">Magento_CustomerCustomAttributes::checkout/onepage/shipping.phtml</argument>
-        </action>
-        <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes" cacheable="false">
-            <action method="setFormCode">
-                <argument name="code" xsi:type="string">customer_register_address</argument>
-            </action>
-        </block>
-    </referenceBlock>
     <update handle="customer_form_template_handle"/>
+    <body>
+        <referenceBlock name="checkout.onepage.billing">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Magento_CustomerCustomAttributes::checkout/onepage/billing.phtml</argument>
+            </action>
+            <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_customer_user_defined_attributes" cacheable="false">
+                <action method="setFormCode">
+                    <argument name="code" xsi:type="string">checkout_register</argument>
+                </action>
+            </block>
+            <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_billing_address_user_defined_attributes" cacheable="false">
+                <action method="setFormCode">
+                    <argument name="code" xsi:type="string">customer_register_address</argument>
+                </action>
+            </block>
+        </referenceBlock>
+        <referenceBlock name="checkout.onepage.shipping">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Magento_CustomerCustomAttributes::checkout/onepage/shipping.phtml</argument>
+            </action>
+            <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_shipping_address_user_defined_attributes" cacheable="false">
+                <action method="setFormCode">
+                    <argument name="code" xsi:type="string">customer_register_address</argument>
+                </action>
+            </block>
+        </referenceBlock>
+    </body>
 </page>

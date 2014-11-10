@@ -84,9 +84,9 @@ class Bootstrap
      *
      * @return string
      */
-    public function getAppInstallDir()
+    public function getAppTempDir()
     {
-        return $this->_bootstrap->getApplication()->getInstallDir();
+        return $this->_bootstrap->getApplication()->getTempDir();
     }
 
     /**
@@ -97,16 +97,6 @@ class Bootstrap
     public function getAppInitParams()
     {
         return $this->_bootstrap->getApplication()->getInitParams();
-    }
-
-    /**
-     * Retrieve the database vendor name used by the bootstrap
-     *
-     * @return string
-     */
-    public function getDbVendorName()
-    {
-        return $this->_bootstrap->getDbVendorName();
     }
 
     /**

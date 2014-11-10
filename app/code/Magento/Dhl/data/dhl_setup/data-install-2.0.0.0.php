@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\Dhl\Model\Resource\Setup $this */
+/** @var $this \Magento\Dhl\Model\Resource\Setup */
 $days = $this->getLocaleLists()->getTranslationList('days');
 
 $days = array_keys($days['format']['wide']);

@@ -8,6 +8,9 @@
 
 namespace Magento\Framework\View\Page;
 
+use Magento\Framework\App;
+use Magento\Framework\View;
+
 /**
  * An API for page configuration
  *
@@ -95,6 +98,11 @@ class Config
     protected $favicon;
 
     /**
+     * @var \Magento\Framework\View\Layout\BuilderInterface
+     */
+    protected $builder;
+
+    /**
      * @var array
      */
     protected $includes;
@@ -118,15 +126,47 @@ class Config
      * @param \Magento\Framework\View\Page\FaviconInterface $favicon
      */
     public function __construct(
-        \Magento\Framework\View\Asset\Repository $assetRepo,
-        \Magento\Framework\View\Asset\GroupedCollection $pageAssets,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\View\Page\FaviconInterface $favicon
+        View\Asset\Repository $assetRepo,
+        View\Asset\GroupedCollection $pageAssets,
+        App\Config\ScopeConfigInterface $scopeConfig,
+        View\Page\FaviconInterface $favicon
     ) {
         $this->assetRepo = $assetRepo;
         $this->pageAssets = $pageAssets;
         $this->scopeConfig = $scopeConfig;
         $this->favicon = $favicon;
+    }
+
+    /**
+     * @param View\Layout\BuilderInterface $builder
+     * @return $this
+     */
+    public function setBuilder(View\Layout\BuilderInterface $builder)
+    {
+        $this->builder = $builder;
+        return $this;
+    }
+
+    /**
+     * Build page config from page configurations
+     * @return void
+     */
+    protected function build()
+    {
+        if (!empty($this->builder)) {
+            $this->builder->build();
+        }
+    }
+
+    /**
+     * TODO Will be eliminated in MAGETWO-28359
+     *
+     * @deprecated
+     * @return void
+     */
+    public function publicBuild()
+    {
+        $this->build();
     }
 
     /**
@@ -137,6 +177,7 @@ class Config
      */
     public function setTitle($title)
     {
+        $this->build();
         $this->title = $this->scopeConfig->getValue(
             'design/head/title_prefix',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -172,6 +213,7 @@ class Config
      */
     public function getTitle()
     {
+        $this->build();
         if (empty($this->title)) {
             $this->title = $this->getDefaultTitle();
         }
@@ -185,6 +227,7 @@ class Config
      */
     public function getShortTitle()
     {
+        $this->build();
         if (!empty($this->titleChunks)) {
             return reset($this->titleChunks);
         } else {
@@ -212,6 +255,7 @@ class Config
      */
     public function setMetadata($name, $content)
     {
+        $this->build();
         $this->metadata[$name] = $content;
     }
 
@@ -220,6 +264,7 @@ class Config
      */
     public function getMetadata()
     {
+        $this->build();
         return $this->metadata;
     }
 
@@ -239,6 +284,7 @@ class Config
      */
     public function getContentType()
     {
+        $this->build();
         if (empty($this->metadata['content_type'])) {
             $this->metadata['content_type'] = $this->getMediaType() . '; charset=' . $this->getCharset();
         }
@@ -261,6 +307,7 @@ class Config
      */
     public function getMediaType()
     {
+        $this->build();
         if (empty($this->metadata['media_type'])) {
             $this->metadata['media_type'] = $this->scopeConfig->getValue(
                 'design/head/default_media_type',
@@ -286,6 +333,7 @@ class Config
      */
     public function getCharset()
     {
+        $this->build();
         if (empty($this->metadata['charset'])) {
             $this->metadata['charset'] = $this->scopeConfig->getValue(
                 'design/head/default_charset',
@@ -311,6 +359,7 @@ class Config
      */
     public function getDescription()
     {
+        $this->build();
         if (empty($this->metadata['description'])) {
             $this->metadata['description'] = $this->scopeConfig->getValue(
                 'design/head/default_description',
@@ -336,6 +385,7 @@ class Config
      */
     public function getKeywords()
     {
+        $this->build();
         if (empty($this->metadata['keywords'])) {
             $this->metadata['keywords'] = $this->scopeConfig->getValue(
                 'design/head/default_keywords',
@@ -361,6 +411,7 @@ class Config
      */
     public function getRobots()
     {
+        $this->build();
         if (empty($this->metadata['robots'])) {
             $this->metadata['robots'] = $this->scopeConfig->getValue(
                 'design/search_engine_robots/default_robots',
@@ -375,6 +426,7 @@ class Config
      */
     public function getAssetCollection()
     {
+        $this->build();
         return $this->pageAssets;
     }
 
@@ -460,6 +512,7 @@ class Config
      */
     public function setElementAttribute($elementType, $attribute, $value)
     {
+        $this->build();
         if (array_search($elementType, $this->allowedTypes) === false) {
             throw new \Magento\Framework\Exception($elementType . ' isn\'t allowed');
         }
@@ -476,6 +529,7 @@ class Config
      */
     public function getElementAttribute($elementType, $attribute)
     {
+        $this->build();
         return isset($this->elements[$elementType][$attribute]) ? $this->elements[$elementType][$attribute] : null;
     }
 
@@ -485,6 +539,7 @@ class Config
      */
     public function getElementAttributes($elementType)
     {
+        $this->build();
         return isset($this->elements[$elementType]) ? $this->elements[$elementType] : [];
     }
 
@@ -493,7 +548,6 @@ class Config
      *
      * @param string $handle
      * @return $this
-     * @throws \UnexpectedValueException
      */
     public function setPageLayout($handle)
     {

@@ -225,4 +225,19 @@ class Observer
 
         return $this;
     }
+
+    /**
+     * Add HTTP header to response that allows browsers accept third-party cookies
+     *
+     * @param \Magento\Framework\Event\Observer $observer
+     * @return $this
+     */
+    public function addPrivacyHeader(\Magento\Framework\Event\Observer $observer)
+    {
+        $response = $observer->getEvent()->getData('response');
+        if ($response instanceof \Magento\Framework\App\Response\Http) {
+            $response->setHeader("P3P", 'CP="CAO PSA OUR"', true);
+        }
+        return $this;
+    }
 }

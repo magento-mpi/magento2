@@ -8,7 +8,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceContainer name="checkout.cart.items">
-        <block class="Magento\GiftCardAccount\Block\Checkout\Cart\Giftcardaccount" template="cart/block.phtml" name="checkout.cart.giftcardaccount" as="giftcards" after="checkout.cart.coupon"/>
-    </referenceContainer>
+    <body>
+        <referenceContainer name="checkout.cart.items">
+            <block class="Magento\GiftCardAccount\Block\Checkout\Cart\Giftcardaccount" template="cart/block.phtml" name="checkout.cart.giftcardaccount" as="giftcards" after="checkout.cart.coupon"/>
+        </referenceContainer>
+    </body>
 </page>

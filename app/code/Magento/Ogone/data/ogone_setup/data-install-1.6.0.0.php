@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 
-$installer = $this;
 /* @var $installer \Magento\Framework\Module\Setup */
+$installer = $this;
 
 $data = array();
 $statuses = array(

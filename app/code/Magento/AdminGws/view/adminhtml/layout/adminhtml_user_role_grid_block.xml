@@ -8,14 +8,16 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="permission.role.grid.columnSet">
-        <block class="Magento\Backend\Block\Widget\Grid\Column" as="gws">
-            <arguments>
-                <argument name="header" xsi:type="string" translate="true">Allowed Scopes</argument>
-                <argument name="sortable" xsi:type="string">0</argument>
-                <argument name="filter" xsi:type="string">0</argument>
-                <argument name="renderer" xsi:type="string">Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer\Gws</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
+    <body>
+        <referenceBlock name="permission.role.grid.columnSet">
+            <block class="Magento\Backend\Block\Widget\Grid\Column" as="gws">
+                <arguments>
+                    <argument name="header" xsi:type="string" translate="true">Allowed Scopes</argument>
+                    <argument name="sortable" xsi:type="string">0</argument>
+                    <argument name="filter" xsi:type="string">0</argument>
+                    <argument name="renderer" xsi:type="string">Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer\Gws</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
 </page>

@@ -9,12 +9,14 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="customer_account"/>
-    <referenceBlock name="page.main.title">
-        <action method="setPageTitle">
-            <argument translate="true" name="title" xsi:type="string">My Credit Card profiles</argument>
-        </action>
-    </referenceBlock>
-    <referenceContainer name="content">
-        <block class="Magento\Pbridge\Block\Payment\Profile" name="pbridge.payment.profile" template="payment/profile.phtml" cacheable="false"/>
-    </referenceContainer>
+    <body>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">My Credit Card profiles</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Magento\Pbridge\Block\Payment\Profile" name="pbridge.payment.profile" template="payment/profile.phtml" cacheable="false"/>
+        </referenceContainer>
+    </body>
 </page>

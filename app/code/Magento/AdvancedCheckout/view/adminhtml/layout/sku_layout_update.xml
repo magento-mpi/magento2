@@ -9,10 +9,12 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="adminhtml_sku_errors_block"/>
-    <referenceBlock name="data">
-        <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku" name="additional_area" template="Magento_Sales::order/create/abstract.phtml">
-            <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku\Add"/>
-        </block>
-        <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku\Errors" name="errors"/>
-    </referenceBlock>
+    <body>
+        <referenceBlock name="data">
+            <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku" name="additional_area" template="Magento_Sales::order/create/abstract.phtml">
+                <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku\Add"/>
+            </block>
+            <block class="Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku\Errors" name="errors"/>
+        </referenceBlock>
+    </body>
 </page>
