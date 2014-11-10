@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Block\Product\ProductList;
 
-use Magento\Catalog\Model\CategoryRepository;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Resource\Product\Collection;
 use Magento\Catalog\Model\Resource\Product\CollectionFactory;
 
@@ -28,7 +28,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
     protected $_layerFactory;
 
     /**
-     * @var CategoryRepository
+     * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -38,7 +38,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Catalog\Model\LayerFactory $layerFactory
      * @param CollectionFactory $productCollectionFactory
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      */
     public function __construct(
@@ -47,7 +47,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Catalog\Model\LayerFactory $layerFactory,
         CollectionFactory $productCollectionFactory,
-        CategoryRepository $categoryRepository,
+        CategoryRepositoryInterface $categoryRepository,
         array $data = array()
     ) {
         $this->_layerFactory = $layerFactory;

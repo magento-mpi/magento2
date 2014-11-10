@@ -9,9 +9,9 @@
 namespace Magento\Catalog\Block\Product;
 
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Category;
-use Magento\Catalog\Model\CategoryRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Block\IdentityInterface;
 
@@ -47,7 +47,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
     protected $_postDataHelper;
 
     /**
-     * @var CategoryRepository
+     * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -55,14 +55,14 @@ class ListProduct extends AbstractProduct implements IdentityInterface
      * @param Context $context
      * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param \Magento\Catalog\Model\Layer $catalogLayer
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Catalog\Model\Layer $catalogLayer,
-        CategoryRepository $categoryRepository,
+        CategoryRepositoryInterface $categoryRepository,
         array $data = array()
     ) {
         $this->_catalogLayer = $catalogLayer;

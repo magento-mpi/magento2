@@ -7,6 +7,8 @@
  */
 namespace Magento\ConfigurableProduct\Model\Product\Type;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
+
 /**
  * Configurable product type implementation
  *
@@ -154,6 +156,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Logger $logger
+     * @param ProductRepositoryInterface $productRepository
      * @param \Magento\ConfigurableProduct\Model\Resource\Product\Type\ConfigurableFactory $typeConfigurableFactory
      * @param \Magento\Eav\Model\EntityFactory $entityFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory
@@ -177,6 +180,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Logger $logger,
+        ProductRepositoryInterface $productRepository,
         \Magento\ConfigurableProduct\Model\Resource\Product\Type\ConfigurableFactory $typeConfigurableFactory,
         \Magento\Eav\Model\EntityFactory $entityFactory,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory,
@@ -206,7 +210,8 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
             $fileStorageDb,
             $filesystem,
             $coreRegistry,
-            $logger
+            $logger,
+            $productRepository
         );
     }
 

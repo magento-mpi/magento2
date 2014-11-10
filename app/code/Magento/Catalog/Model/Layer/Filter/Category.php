@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Model\Layer\Filter;
 
-use Magento\Catalog\Model\CategoryRepository;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
@@ -47,7 +47,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected $_coreRegistry;
 
     /**
-     * @var CategoryRepository
+     * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -59,7 +59,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      */
     public function __construct(
@@ -68,7 +68,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Registry $coreRegistry,
-        CategoryRepository $categoryRepository,
+        CategoryRepositoryInterface $categoryRepository,
         array $data = array()
     ) {
         $this->_escaper = $escaper;

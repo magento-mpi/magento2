@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Block\Product\ProductList;
 
-use Magento\Catalog\Model\CategoryRepository;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 
 /**
  * Catalog product random items block
@@ -31,7 +31,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
     protected $_layerFactory;
 
     /**
-     * @var CategoryRepository
+     * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -41,7 +41,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Catalog\Model\LayerFactory $layerFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      */
     public function __construct(
@@ -50,7 +50,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Catalog\Model\LayerFactory $layerFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        CategoryRepository $categoryRepository,
+        CategoryRepositoryInterface $categoryRepository,
         array $data = array()
     ) {
         $this->_layerFactory = $layerFactory;

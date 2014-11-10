@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Controller\Product;
 
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Core\App\Action\FormKeyValidator;
 use Magento\Framework\Controller\Result;
 use Magento\Framework\View\Result\PageFactory;
@@ -89,7 +89,7 @@ class Compare extends \Magento\Framework\App\Action\Action
     protected $resultPageFactory;
 
     /**
-     * @var ProductRepository
+     * @var ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -107,7 +107,7 @@ class Compare extends \Magento\Framework\App\Action\Action
      * @param FormKeyValidator $formKeyValidator
      * @param \Magento\Framework\Controller\Result\RedirectFactory $resultRedirectFactory
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -121,7 +121,7 @@ class Compare extends \Magento\Framework\App\Action\Action
         FormKeyValidator $formKeyValidator,
         Result\RedirectFactory $resultRedirectFactory,
         PageFactory $resultPageFactory,
-        ProductRepository $productRepository
+        ProductRepositoryInterface $productRepository
     ) {
         $this->_storeManager = $storeManager;
         $this->_compareItemFactory = $compareItemFactory;

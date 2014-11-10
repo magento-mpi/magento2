@@ -104,7 +104,7 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
      * TODO: MAGETWO-30203 $storeId is temporary solution
      *
      * @param int $categoryId
-     * @param int $storeId
+     * @param int|null $storeId
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @return \Magento\Catalog\Api\Data\CategoryInterface
      */

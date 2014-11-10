@@ -7,8 +7,8 @@
  */
 namespace Magento\Catalog\Block\Product;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
-use Magento\Catalog\Model\ProductRepository;
 use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
 
 /**
@@ -59,7 +59,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
     protected $taxCalculationService;
 
     /**
-     * @var ProductRepository
+     * @var ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -73,7 +73,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Customer\Model\Session $customerSession
      * @param TaxCalculationServiceInterface $taxCalculationService
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      * @param array $data
      */
     public function __construct(
@@ -86,7 +86,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Customer\Model\Session $customerSession,
         TaxCalculationServiceInterface $taxCalculationService,
-        ProductRepository $productRepository,
+        ProductRepositoryInterface $productRepository,
         array $data = array()
     ) {
         $this->_productHelper = $productHelper;

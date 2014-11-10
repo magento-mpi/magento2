@@ -7,6 +7,7 @@
  */
 namespace Magento\Catalog\Model;
 
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Framework\Profiler;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
@@ -169,7 +170,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected $urlFinder;
 
     /**
-     * @var CategoryRepository
+     * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -190,7 +191,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param UrlFinderInterface $urlFinder
      * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataServiceInterface
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -212,7 +213,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         UrlFinderInterface $urlFinder,
         \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataServiceInterface,
-        CategoryRepository $categoryRepository,
+        CategoryRepositoryInterface $categoryRepository,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()

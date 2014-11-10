@@ -7,6 +7,8 @@
  */
 namespace Magento\Downloadable\Model\Product;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
+
 /**
  * Downloadable product type model
  *
@@ -66,6 +68,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Logger $logger
+     * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Downloadable\Model\Resource\SampleFactory $sampleResFactory
      * @param \Magento\Downloadable\Model\Resource\Link $linkResource
@@ -85,6 +88,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Logger $logger,
+        ProductRepositoryInterface $productRepository,
         \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Downloadable\Model\Resource\SampleFactory $sampleResFactory,
         \Magento\Downloadable\Model\Resource\Link $linkResource,
@@ -110,7 +114,8 @@ class Type extends \Magento\Catalog\Model\Product\Type\Virtual
             $fileStorageDb,
             $filesystem,
             $coreRegistry,
-            $logger
+            $logger,
+            $productRepository
         );
     }
 

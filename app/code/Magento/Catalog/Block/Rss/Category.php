@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Block\Rss;
 
-use Magento\Catalog\Model\CategoryRepository;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Framework\App\Rss\DataProviderInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
@@ -48,7 +48,7 @@ class Category extends \Magento\Framework\View\Element\AbstractBlock implements 
     protected $rssUrlBuilder;
 
     /**
-     * @var CategoryRepository
+     * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -61,7 +61,7 @@ class Category extends \Magento\Framework\View\Element\AbstractBlock implements 
      * @param \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      */
     public function __construct(
@@ -73,7 +73,7 @@ class Category extends \Magento\Framework\View\Element\AbstractBlock implements 
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Customer\Model\Session $customerSession,
-        CategoryRepository $categoryRepository,
+        CategoryRepositoryInterface $categoryRepository,
         array $data = array()
     ) {
         $this->imageHelper = $imageHelper;

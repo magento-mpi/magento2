@@ -7,7 +7,7 @@
  */
 namespace Magento\Solr\Model\Layer\Category\Filter;
 
-use Magento\Catalog\Model\CategoryRepository;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 
 /**
  * Layer category filter
@@ -30,7 +30,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      */
     public function __construct(
@@ -40,7 +40,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        CategoryRepository $categoryRepository,
+        CategoryRepositoryInterface $categoryRepository,
         array $data = array()
     ) {
         $this->_scopeConfig = $scopeConfig;

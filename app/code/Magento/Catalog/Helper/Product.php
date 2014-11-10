@@ -7,9 +7,9 @@
  */
 namespace Magento\Catalog\Helper;
 
-use Magento\Catalog\Model\CategoryRepository;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product as ModelProduct;
-use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\Store;
 
@@ -90,12 +90,12 @@ class Product extends \Magento\Core\Helper\Url
     protected $_reindexPriceIndexerData;
 
     /**
-     * @var ProductRepository
+     * @var ProductRepositoryInterface
      */
     protected $productRepository;
 
     /**
-     * @var CategoryRepository
+     * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -110,8 +110,8 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig
      * @param string $typeSwitcherLabel
      * @param array $reindexPriceIndexerData
-     * @param ProductRepository $productRepository
-     * @param CategoryRepository $categoryRepository
+     * @param ProductRepositoryInterface $productRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -124,8 +124,8 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\Framework\App\Config\ScopeConfigInterface $coreConfig,
         $typeSwitcherLabel,
         $reindexPriceIndexerData,
-        ProductRepository $productRepository,
-        CategoryRepository $categoryRepository
+        ProductRepositoryInterface $productRepository,
+        CategoryRepositoryInterface $categoryRepository
     ) {
         $this->_catalogSession = $catalogSession;
         $this->_typeSwitcherLabel = $typeSwitcherLabel;

@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Helper\Product;
 
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\ViewInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -54,7 +54,7 @@ class Composite extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_converter;
 
     /**
-     * @var ProductRepository
+     * @var ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -65,7 +65,7 @@ class Composite extends \Magento\Framework\App\Helper\AbstractHelper
      * @param Registry $coreRegistry
      * @param ViewInterface $view
      * @param Converter $converter
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      */
     public function __construct(
         Context $context,
@@ -74,7 +74,7 @@ class Composite extends \Magento\Framework\App\Helper\AbstractHelper
         Registry $coreRegistry,
         ViewInterface $view,
         Converter $converter,
-        ProductRepository $productRepository
+        ProductRepositoryInterface $productRepository
     ) {
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;

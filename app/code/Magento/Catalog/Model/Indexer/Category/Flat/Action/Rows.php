@@ -7,13 +7,13 @@
  */
 namespace Magento\Catalog\Model\Indexer\Category\Flat\Action;
 
-use Magento\Catalog\Model\CategoryRepository;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
 {
     /**
-     * @var CategoryRepository
+     * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -21,13 +21,13 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
-        CategoryRepository $categoryRepository
+        CategoryRepositoryInterface $categoryRepository
     ) {
         $this->categoryRepository = $categoryRepository;
         parent::__construct($resource, $storeManager, $resourceHelper);

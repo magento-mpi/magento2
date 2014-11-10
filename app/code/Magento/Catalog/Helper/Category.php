@@ -9,7 +9,7 @@ namespace Magento\Catalog\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Catalog\Model\Category as ModelCategory;
-use Magento\Catalog\Model\CategoryRepository;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\Store;
 
@@ -60,7 +60,7 @@ class Category extends AbstractHelper
     protected $_dataCollectionFactory;
 
     /**
-     * @var CategoryRepository
+     * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -70,7 +70,7 @@ class Category extends AbstractHelper
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Data\CollectionFactory $dataCollectionFactory
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -78,7 +78,7 @@ class Category extends AbstractHelper
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Data\CollectionFactory $dataCollectionFactory,
-        CategoryRepository $categoryRepository
+        CategoryRepositoryInterface $categoryRepository
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_storeManager = $storeManager;

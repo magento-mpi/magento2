@@ -7,10 +7,12 @@
  */
 namespace Magento\Catalog\Model;
 
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Object\IdentityInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
+
 /**
  * Catalog product model
  *
@@ -233,7 +235,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_priceInfo;
 
     /**
-     * @var CategoryRepository
+     * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -262,7 +264,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param Indexer\Product\Price\Processor $productPriceIndexerProcessor
      * @param Indexer\Product\Eav\Processor $productEavIndexerProcessor
      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -292,7 +294,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface,
-        CategoryRepository $categoryRepository,
+        CategoryRepositoryInterface $categoryRepository,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;

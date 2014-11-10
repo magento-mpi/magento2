@@ -7,6 +7,7 @@
  */
 namespace Magento\Catalog\Model;
 
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
@@ -81,7 +82,7 @@ class Layer extends \Magento\Framework\Object
     protected $collectionFilter;
 
     /**
-     * @var CategoryRepository
+     * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -92,7 +93,7 @@ class Layer extends \Magento\Framework\Object
      * @param Resource\Product $catalogProduct
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Registry $registry
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      */
     public function __construct(
@@ -102,7 +103,7 @@ class Layer extends \Magento\Framework\Object
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Registry $registry,
-        CategoryRepository $categoryRepository,
+        CategoryRepositoryInterface $categoryRepository,
         array $data = array()
     ) {
         $this->_layerStateFactory = $layerStateFactory;

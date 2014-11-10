@@ -7,6 +7,7 @@
  */
 namespace Magento\Bundle\Model\Product;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
@@ -135,6 +136,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Logger $logger
+     * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Bundle\Model\SelectionFactory $bundleModelSelection
@@ -159,6 +161,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Logger $logger,
+        ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Bundle\Model\SelectionFactory $bundleModelSelection,
@@ -190,7 +193,8 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
             $fileStorageDb,
             $filesystem,
             $coreRegistry,
-            $logger
+            $logger,
+            $productRepository
         );
     }
 

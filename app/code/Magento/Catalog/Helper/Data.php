@@ -7,8 +7,8 @@
  */
 namespace Magento\Catalog\Helper;
 
-use Magento\Catalog\Model\CategoryRepository;
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
@@ -167,12 +167,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $priceCurrency;
 
     /**
-     * @var ProductRepository
+     * @var ProductRepositoryInterface
      */
     protected $productRepository;
 
     /**
-     * @var CategoryRepository
+     * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -195,8 +195,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
      * @param PriceCurrencyInterface $priceCurrency
-     * @param ProductRepository $productRepository
-     * @param CategoryRepository $categoryRepository
+     * @param ProductRepositoryInterface $productRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -217,8 +217,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
         PriceCurrencyInterface $priceCurrency,
-        ProductRepository $productRepository,
-        CategoryRepository $categoryRepository
+        ProductRepositoryInterface $productRepository,
+        CategoryRepositoryInterface $categoryRepository
     ) {
         $this->_storeManager = $storeManager;
         $this->_catalogSession = $catalogSession;

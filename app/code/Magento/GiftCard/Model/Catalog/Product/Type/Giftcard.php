@@ -7,6 +7,7 @@
  */
 namespace Magento\GiftCard\Model\Catalog\Product\Type;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
@@ -69,7 +70,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -88,7 +89,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Logger $logger,
-        \Magento\Catalog\Helper\Data $catalogData,
+        ProductRepositoryInterface $productRepository,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -108,7 +109,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
             $fileStorageDb,
             $filesystem,
             $coreRegistry,
-            $logger
+            $logger,
+            $productRepository
         );
     }
 

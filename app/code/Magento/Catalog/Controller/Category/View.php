@@ -8,7 +8,7 @@
  */
 namespace Magento\Catalog\Controller\Category;
 
-use Magento\Catalog\Model\CategoryRepository;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Result\PageFactory;
 
@@ -51,7 +51,7 @@ class View extends \Magento\Framework\App\Action\Action
     protected $resultPageFactory;
 
     /**
-     * @var CategoryRepository
+     * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -65,7 +65,7 @@ class View extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     * @param CategoryRepository $categoryRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -75,7 +75,7 @@ class View extends \Magento\Framework\App\Action\Action
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         PageFactory $resultPageFactory,
-        CategoryRepository $categoryRepository
+        CategoryRepositoryInterface $categoryRepository
     ) {
         $this->_storeManager = $storeManager;
         $this->_catalogDesign = $catalogDesign;

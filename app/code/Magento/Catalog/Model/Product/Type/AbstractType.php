@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Product\Type;
 
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
@@ -159,7 +159,7 @@ abstract class AbstractType
     protected $_productFactory;
 
     /**
-     * @var ProductRepository
+     * @var ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -176,7 +176,7 @@ abstract class AbstractType
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Logger $logger
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -189,7 +189,7 @@ abstract class AbstractType
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Logger $logger,
-        ProductRepository $productRepository
+        ProductRepositoryInterface $productRepository
     ) {
         $this->_productFactory = $productFactory;
         $this->_catalogProductOption = $catalogProductOption;
