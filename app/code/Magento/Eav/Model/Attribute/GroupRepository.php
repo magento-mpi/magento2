@@ -101,7 +101,9 @@ class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterf
         if (!$attributeSetId) {
             throw InputException::requiredField('attribute_set_id');
         }
-        if (!$this->setRepository->get($attributeSetId)->getAttributeSetId()) {
+        try {
+            $this->setRepository->get($attributeSetId);
+        } catch (\Exception $exception) {
             throw NoSuchEntityException::singleField('attributeSetId', $attributeSetId);
         }
 

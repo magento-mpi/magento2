@@ -87,9 +87,7 @@ class AttributeSetRepository implements AttributeSetRepositoryInterface
         /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $collection */
         $collection = $this->collectionFactory->create();
 
-        /**
-         * The only possible/meaningful search criteria for attribute set is entity type code
-         */
+        /** The only possible/meaningful search criteria for attribute set is entity type code */
         $entityTypeCode = $this->getEntityTypeCode($searchCriteria);
 
         if (!is_null($entityTypeCode)) {

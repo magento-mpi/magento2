@@ -27,11 +27,6 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $groupBuilderMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $setRepositoryMock;
 
     /**
@@ -60,17 +55,13 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->groupBuilderMock = $this->getMock(
-            '\Magento\Eav\Api\Data\AttributeGroupDataBuilder',
-            ['setId', 'setName', 'setAttributeSetId', 'create'],
-            [],
-            '',
-            false
-        );
         $this->setRepositoryMock = $this->getMock('\Magento\Eav\Api\AttributeSetRepositoryInterface');
         $this->searchResultsBuilderMock = $this->getMock(
             '\Magento\Eav\Api\Data\AttributeGroupSearchResultsDataBuilder',
-            ['setSearchCriteria', 'setItems', 'setTotalCount', 'create']
+            ['setSearchCriteria', 'setItems', 'setTotalCount', 'create'],
+            [],
+            '',
+            false
         );
         $this->groupListFactoryMock = $this->getMock(
             '\Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory',
@@ -87,9 +78,8 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
                 'groupResource' => $this->groupResourceMock,
                 'groupListFactory' => $this->groupListFactoryMock,
                 'groupFactory' => $this->groupFactoryMock,
-                'groupBuilder' => $this->groupBuilderMock,
                 'setRepository' => $this->setRepositoryMock,
-                'searchResultsBuilder' => $this->searchResultsBuilderMock,
+                'searchResultsBuilder' => $this->searchResultsBuilderMock
             ]
         );
     }
@@ -229,18 +219,11 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $attributeSetId = 'filter';
         $searchCriteriaMock = $this->getMock('\Magento\Framework\Api\SearchCriteriaInterface');
-        $filterGroupMock = $this->getMock('\Magento\Framework\Api\Search\FilterGroup');
-        $filterInterfaceMock = $this->getMock('\Magento\Framework\Api\Filter');
+        $filterGroupMock = $this->getMock('\Magento\Framework\Api\Search\FilterGroup', [], [], '', false);
+        $filterInterfaceMock = $this->getMock('\Magento\Framework\Api\Filter', [], [], '', false);
         $attributeSetMock = $this->getMock('\Magento\Eav\Api\Data\AttributeSetInterface');
-        $groupMock = $this->getMock(
-            '\Magento\Eav\Model\Entity\Attribute\Group',
-            ['getAttributeGroupName', 'getAttributeGroupId'],
-            [],
-            '',
-            false
-        );
-        $groupMock->expects($this->once())->method('getAttributeGroupId')->willReturn('10');
-        $groupMock->expects($this->once())->method('getAttributeGroupName')->willReturn('attributeGroup');
+        $groupMock = $this->getMock('\Magento\Eav\Model\Entity\Attribute\Group', [], [], '', false);
+
         $groupCollectionMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Collection\AbstractCollection',
             ['setAttributeSetFilter', 'setSortOrder', 'getItems', 'getSize'],
@@ -255,21 +238,18 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
         $filterInterfaceMock->expects($this->once())->method('getField')->willReturn('attribute_set_id');
         $filterInterfaceMock->expects($this->once())->method('getValue')->willReturn($attributeSetId);
 
-        $this->setRepositoryMock->expects($this->once())->method('get')->with($attributeSetId)
+        $this->setRepositoryMock->expects($this->once())
+            ->method('get')
+            ->with($attributeSetId)
             ->willReturn($attributeSetMock);
-        $attributeSetMock->expects($this->any())->method('getId')->willReturn(10);
         $this->groupListFactoryMock->expects($this->once())->method('create')->willReturn($groupCollectionMock);
 
         $groupCollectionMock->expects($this->once())->method('setAttributeSetFilter')->with($attributeSetId);
         $groupCollectionMock->expects($this->once())->method('setSortOrder');
         $groupCollectionMock->expects($this->once())->method('getSize')->willReturn(1);
 
-        $this->groupBuilderMock->expects($this->once())->method('setId')->with('10');
-        $this->groupBuilderMock->expects($this->once())->method('setName')->with('attributeGroup');
-        $this->groupBuilderMock->expects($this->once())->method('create')->willReturn('groups');
-
         $this->searchResultsBuilderMock->expects($this->once())->method('setSearchCriteria')->with($searchCriteriaMock);
-        $this->searchResultsBuilderMock->expects($this->once())->method('setItems')->with(['groups']);
+        $this->searchResultsBuilderMock->expects($this->once())->method('setItems')->with([$groupMock]);
         $this->searchResultsBuilderMock->expects($this->once())->method('setTotalCount')->with(1);
         $this->searchResultsBuilderMock->expects($this->once())->method('create')->willReturnSelf();
         $this->assertEquals($this->searchResultsBuilderMock, $this->model->getList($searchCriteriaMock));
@@ -294,10 +274,9 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $attributeSetId = 'filter';
         $searchCriteriaMock = $this->getMock('\Magento\Framework\Api\SearchCriteriaInterface');
-        $filterGroupMock = $this->getMock('\Magento\Framework\Api\Search\FilterGroup');
-        $filterInterfaceMock = $this->getMock('\Magento\Framework\Api\Filter');
+        $filterGroupMock = $this->getMock('\Magento\Framework\Api\Search\FilterGroup', [], [], '', false);
+        $filterInterfaceMock = $this->getMock('\Magento\Framework\Api\Filter', [], [], '', false);
 
-        $attributeSetMock = $this->getMock('\Magento\Eav\Api\Data\AttributeSetInterface');
         $searchCriteriaMock->expects($this->once())->method('getFilterGroups')->willReturn([$filterGroupMock]);
 
         $filterGroupMock->expects($this->once())->method('getFilters')->willReturn([$filterInterfaceMock]);
@@ -305,9 +284,10 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
         $filterInterfaceMock->expects($this->once())->method('getValue')->willReturn($attributeSetId);
 
         $searchCriteriaMock->expects($this->once())->method('getFilterGroups')->willReturn([]);
-        $this->setRepositoryMock->expects($this->once())->method('get')->with($attributeSetId)
-            ->willReturn($attributeSetMock);
-        $attributeSetMock->expects($this->any())->method('getId')->willReturn(false);
+        $this->setRepositoryMock->expects($this->once())
+            ->method('get')
+            ->with($attributeSetId)
+            ->willThrowException(new \Exception());
         $this->model->getList($searchCriteriaMock);
     }
 
