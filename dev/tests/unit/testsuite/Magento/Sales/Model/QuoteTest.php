@@ -66,7 +66,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerGroupServiceMock;
+    protected $groupRepositoryMock;
 
     /**
      * @var \Magento\Sales\Model\Quote
@@ -92,6 +92,31 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Framework\App\Config | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $scopeConfig;
+
+    /**
+     * @var \Magento\Customer\Api\AddressRepositoryInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $addressRepositoryMock;
+
+    /**
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $criteriaBuilderMock;
+
+    /**
+     * @var \Magento\Framework\Api\FilterBuilder | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $filterBuilderMock;
+
+    /**
+     * @var \Magento\Customer\Api\Data\AddressInterfaceBuilder | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $addressBuilderMock;
+
+    /**
+     * @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $customerBuilderMock;
 
     protected function setUp()
     {
@@ -154,7 +179,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->addressConverterMock = $this->getMockBuilder('Magento\Customer\Model\Address\Converter')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->customerGroupServiceMock = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerGroupService')
+        $this->groupRepositoryMock = $this->getMockBuilder('Magento\Customer\Api\GroupRepositoryInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->contextMock->expects($this->any())
@@ -170,6 +195,30 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->scopeConfig = $this->getMockBuilder('Magento\Framework\App\Config')
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->addressRepositoryMock = $this->getMockForAbstractClass('Magento\Customer\Api\AddressRepositoryInterface',
+            [],
+            '',
+            false
+        );
+
+        $this->criteriaBuilderMock = $this->getMockBuilder('Magento\Framework\Api\SearchCriteriaBuilder')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->filterBuilderMock = $this->getMockBuilder('Magento\Framework\Api\FilterBuilder')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->addressBuilderMock = $this->getMockBuilder('Magento\Customer\Api\Data\AddressInterfaceBuilder')
+            ->disableOriginalConstructor()
+            ->setMethods(['mergeDataObjectWithArray'])
+            ->getMock();
+
+        $this->customerBuilderMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterfaceBuilder')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->quote = (
         new ObjectManager(
             $this
@@ -183,8 +232,13 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
                     'context' => $this->contextMock,
                     'customerFactory' => $this->customerFactoryMock,
                     'addressConverter' => $this->addressConverterMock,
-                    'customerGroupService' => $this->customerGroupServiceMock,
+                    'groupRepository' => $this->groupRepositoryMock,
                     'objectFactory' => $this->objectFactoryMock,
+                    'addressRepository' => $this->addressRepositoryMock,
+                    'criteriaBuilder' => $this->criteriaBuilderMock,
+                    'filterBuilder' => $this->filterBuilderMock,
+                    'addressBuilder' => $this->addressBuilderMock,
+                    'customerBuilder' => $this->customerBuilderMock,
                     'quoteItemCollectionFactory' => $this->quoteItemCollectionFactoryMock,
                     'scopeConfig' => $this->scopeConfig
                 ]
@@ -416,46 +470,31 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         $customerId = 1;
 
-        $addressItemMock = $this->getMockBuilder('Magento\Customer\Service\V1\Data\Address')
+        $addressMock = $this->getMockBuilder('Magento\Customer\Api\Data\AddressInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $addresses = [$addressItemMock];
+        $addresses = [$addressMock];
 
-        $addressModelMock = $this->getMockBuilder('Magento\Customer\Model\Address')
-            ->disableOriginalConstructor()
-            ->getMock();
 
-        $this->addressConverterMock->expects($this->once())
-            ->method('createAddressModel')
-            ->with($addressItemMock)
-            ->will($this->returnValue($addressModelMock));
-
-        $addressCollectionMock = $this->getMockBuilder('Magento\Customer\Model\Resource\Address\Collection')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $addressCollectionMock->expects($this->once())
-            ->method('removeAllItems');
-
+        $this->addressRepositoryMock->expects($this->once())
+            ->method('delete')
+            ->with($addressMock);
         $customerMock = $this->getMockBuilder('Magento\Customer\Model\Customer')
             ->disableOriginalConstructor()
             ->getMock();
-        $customerMock->expects($this->once())
-            ->method('load')
-            ->with($customerId);
-        $customerMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(false));
-        $customerMock->expects($this->once())
-            ->method('getAddressesCollection')
-            ->will($this->returnValue($addressCollectionMock));
-        $customerMock->expects($this->once())
-            ->method('addAddress')
-            ->with($addressModelMock);
-
         $this->customerFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($customerMock));
+        $customerMock->expects($this->once())
+            ->method('load')
+            ->with($customerId);
+        $customerMock->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(false));
         $this->quote->setCustomerId($customerId);
+        $this->addressBuilderMock->expects($this->once())
+            ->method('mergeDataObjectWithArray')
+            ->with($addressMock, [\Magento\Customer\Api\Data\AddressInterface::CUSTOMER_ID => null]);
 
         $result = $this->quote->setCustomerAddressData($addresses);
         $this->assertInstanceOf('Magento\Sales\Model\Quote', $result);
@@ -465,19 +504,14 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         $groupId = 1;
         $taxClassId = 1;
-
-        $customerGroupMock = $this->getMockBuilder('Magento\Customer\Service\V1\Data\CustomerGroup')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $customerGroupMock->expects($this->once())
+        $groupMock = $this->getMockForAbstractClass('Magento\Customer\Api\Data\GroupInterface', [], '', false);
+        $groupMock->expects($this->once())
             ->method('getTaxClassId')
-            ->will($this->returnValue($taxClassId));
-
-        $this->customerGroupServiceMock->expects($this->once())
-            ->method('getGroup')
+            ->willReturn($taxClassId);
+        $this->groupRepositoryMock->expects($this->once())
+            ->method('get')
             ->with($groupId)
-            ->will($this->returnValue($customerGroupMock));
-
+            ->will($this->returnValue($groupMock));
         $this->quote->setData('customer_group_id', $groupId);
         $result = $this->quote->getCustomerTaxClassId();
         $this->assertEquals($taxClassId, $result);
