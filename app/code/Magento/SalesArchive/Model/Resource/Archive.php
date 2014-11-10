@@ -21,19 +21,19 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected $_tables = array(
         \Magento\SalesArchive\Model\ArchivalList::ORDER => array(
-            'sales_order_grid',
+            'sales_flat_order_grid',
             'magento_sales_order_grid_archive'
         ),
         \Magento\SalesArchive\Model\ArchivalList::INVOICE => array(
-            'sales_invoice_grid',
+            'sales_flat_invoice_grid',
             'magento_sales_invoice_grid_archive'
         ),
         \Magento\SalesArchive\Model\ArchivalList::SHIPMENT => array(
-            'sales_shipment_grid',
+            'sales_flat_shipment_grid',
             'magento_sales_shipment_grid_archive'
         ),
         \Magento\SalesArchive\Model\ArchivalList::CREDITMEMO => array(
-            'sales_creditmemo_grid',
+            'sales_flat_creditmemo_grid',
             'magento_sales_creditmemo_grid_archive'
         )
     );
@@ -122,6 +122,17 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
             return false;
         }
         return $this->getTable($this->_tables[$archiveEntity][0]);
+    }
+
+    /**
+     * Checks if order already in archive
+     *
+     * @param int $id order id
+     * @return bool
+     */
+    public function isOrderInArchive($id)
+    {
+        return !empty($this->getIdsInArchive(\Magento\SalesArchive\Model\ArchivalList::ORDER, [$id]));
     }
 
     /**
@@ -329,6 +340,54 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $adapter->delete($sourceTable, $condition);
         return $this;
+    }
+
+    /**
+     * Removes orders from archive and restore in orders grid tables,
+     * returns restored order ids
+     *
+     * @param array $orderIds
+     * @throws \Exception
+     * @return array
+     */
+    public function removeOrdersFromArchiveById($orderIds)
+    {
+        $orderIds = $this->getIdsInArchive(
+            \Magento\SalesArchive\Model\ArchivalList::ORDER,
+            $orderIds
+        );
+
+        if (!empty($orderIds)) {
+            $this->beginTransaction();
+            try {
+                $this->removeFromArchive(
+                    \Magento\SalesArchive\Model\ArchivalList::ORDER,
+                    'entity_id',
+                    $orderIds
+                );
+                $this->removeFromArchive(
+                    \Magento\SalesArchive\Model\ArchivalList::INVOICE,
+                    'order_id',
+                    $orderIds
+                );
+                $this->removeFromArchive(
+                    \Magento\SalesArchive\Model\ArchivalList::SHIPMENT,
+                    'order_id',
+                    $orderIds
+                );
+                $this->removeFromArchive(
+                    \Magento\SalesArchive\Model\ArchivalList::CREDITMEMO,
+                    'order_id',
+                    $orderIds
+                );
+                $this->commit();
+            } catch (\Exception $e) {
+                $this->rollBack();
+                throw $e;
+            }
+        }
+
+        return $orderIds;
     }
 
     /**
