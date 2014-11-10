@@ -35,7 +35,9 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
         \Magento\SalesArchive\Model\ArchivalList::CREDITMEMO => array(
             'sales_creditmemo_grid',
             'magento_sales_creditmemo_grid_archive'
-        )
+        ),
+        'magento_sales_shipment_grid_archive' => 'sales_creditmemo_grid',
+
     );
 
     /**
@@ -352,31 +354,31 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function removeOrdersFromArchiveById($orderIds)
     {
-        $orderIds = $this->getIdsInArchive(
-            \Magento\SalesArchive\Model\ArchivalList::ORDER,
-            $orderIds
-        );
+        $this->beginTransaction();
+        try {
+            foreach ($this->_archivalList->getEntityNames() as $entity) {
+                $conditionalField = 'order_id';
+                if ($entity === \Magento\SalesArchive\Model\ArchivalList::ORDER) {
+                    $conditionalField = 'entity_id';
+                }
 
-        if (!empty($orderIds)) {
-            $this->beginTransaction();
-            try {
-                foreach ($this->_tables as $entity => $value) {
-                    $conditionalField = 'order_id';
-                    if ($entity == \Magento\SalesArchive\Model\ArchivalList::ORDER) {
-                        $conditionalField = 'entity_id';
-                    }
+                $entityIds = $this->getIdsInArchive(
+                    $entity,
+                    $orderIds
+                );
 
+                if (!empty($entityIds)) {
                     $this->removeFromArchive(
                         $entity,
                         $conditionalField,
                         $orderIds
                     );
                 }
-                $this->commit();
-            } catch (\Exception $e) {
-                $this->rollBack();
-                throw $e;
             }
+            $this->commit();
+        } catch (\Exception $e) {
+            $this->rollBack();
+            throw $e;
         }
 
         return $orderIds;
