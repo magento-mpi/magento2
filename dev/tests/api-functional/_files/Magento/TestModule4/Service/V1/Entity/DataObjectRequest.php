@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule4\Service\V1\Entity;
 
-class DataObjectRequest extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class DataObjectRequest extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**
      * @return string

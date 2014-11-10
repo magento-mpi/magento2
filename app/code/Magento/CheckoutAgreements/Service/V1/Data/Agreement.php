@@ -7,7 +7,7 @@
  */
 namespace Magento\CheckoutAgreements\Service\V1\Data;
 
-use \Magento\Framework\Service\Data\AbstractExtensibleObject;
+use \Magento\Framework\Api\AbstractExtensibleObject;
 
 /**
  * Checkout agreement data object.

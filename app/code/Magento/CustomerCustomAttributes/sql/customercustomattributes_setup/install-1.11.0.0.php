@@ -24,11 +24,11 @@ $table = $installer->getConnection()->newTable(
     $installer->getFkName(
         'magento_customercustomattributes_sales_flat_order',
         'entity_id',
-        'sales_flat_order',
+        'sales_order',
         'entity_id'
     ),
     'entity_id',
-    $installer->getTable('sales_flat_order'),
+    $installer->getTable('sales_order'),
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
@@ -52,11 +52,11 @@ $table = $installer->getConnection()->newTable(
     $installer->getFkName(
         'magento_customercustomattributes_sales_flat_order_address',
         'entity_id',
-        'sales_flat_order_address',
+        'sales_order_address',
         'entity_id'
     ),
     'entity_id',
-    $installer->getTable('sales_flat_order_address'),
+    $installer->getTable('sales_order_address'),
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
@@ -80,11 +80,11 @@ $table = $installer->getConnection()->newTable(
     $installer->getFkName(
         'magento_customercustomattributes_sales_flat_quote',
         'entity_id',
-        'sales_flat_quote',
+        'sales_quote',
         'entity_id'
     ),
     'entity_id',
-    $installer->getTable('sales_flat_quote'),
+    $installer->getTable('sales_quote'),
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
@@ -108,11 +108,11 @@ $table = $installer->getConnection()->newTable(
     $installer->getFkName(
         'magento_customercustomattributes_sales_flat_quote_address',
         'entity_id',
-        'sales_flat_quote_address',
+        'sales_quote_address',
         'address_id'
     ),
     'entity_id',
-    $installer->getTable('sales_flat_quote_address'),
+    $installer->getTable('sales_quote_address'),
     'address_id',
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE

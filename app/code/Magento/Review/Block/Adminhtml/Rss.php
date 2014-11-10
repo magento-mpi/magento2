@@ -104,4 +104,12 @@ class Rss extends \Magento\Backend\Block\AbstractBlock implements DataProviderIn
     {
         return array();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isAuthRequired()
+    {
+        return true;
+    }
 }
