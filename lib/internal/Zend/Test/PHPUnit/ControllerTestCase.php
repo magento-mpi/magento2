@@ -1149,10 +1149,10 @@ abstract class Zend_Test_PHPUnit_ControllerTestCase extends PHPUnit_Framework_Te
         }
         return $this->_query;
     }
-    
+
     /**
      * URL Helper
-     * 
+     *
      * @param array $urlOptions
      * @param string $name
      * @param bool $reset
@@ -1170,7 +1170,7 @@ abstract class Zend_Test_PHPUnit_ControllerTestCase extends PHPUnit_Framework_Te
         }
         return $router->assemble($urlOptions, $name, $reset, $encode);
     }
-    
+
     public function urlizeOptions($urlOptions, $actionControllerModuleOnly = true)
     {
         $ccToDash = new Zend_Filter_Word_CamelCaseToDash();

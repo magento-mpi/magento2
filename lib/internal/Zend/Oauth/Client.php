@@ -263,7 +263,7 @@ class Zend_Oauth_Client extends Zend_Http_Client
             $this->setRawData($raw, 'application/x-www-form-urlencoded');
             $this->paramsPost = array();
         } elseif ($requestScheme == Zend_Oauth::REQUEST_SCHEME_QUERYSTRING) {
-            $params = $this->paramsGet;            
+            $params = $this->paramsGet;
             $query = $this->getUri()->getQuery();
             if ($query) {
                 $queryParts = explode('&', $this->getUri()->getQuery());
@@ -292,27 +292,20 @@ class Zend_Oauth_Client extends Zend_Http_Client
 
     /**
      * Collect all signable parameters into a single array across query string
-     * and POST body. These are returned as a properly formatted single
-     * query string.
+     * and POST body. Don't include POST parameters if content type is multipart POST.
      *
-     * @return string
+     * @return array
      */
     protected function _getSignableParametersAsQueryString()
     {
         $params = array();
-            if (!empty($this->paramsGet)) {
-                $params = array_merge($params, $this->paramsGet);
-                $query  = $this->getToken()->toQueryString(
-                    $this->getUri(true), $this->_config, $params
-                );
-            }
-            if (!empty($this->paramsPost)) {
-                $params = array_merge($params, $this->paramsPost);
-                $query  = $this->getToken()->toQueryString(
-                    $this->getUri(true), $this->_config, $params
-                );
-            }
-            return $params;
+        if (!empty($this->paramsGet)) {
+            $params = array_merge($params, $this->paramsGet);
+        }
+        if ($this->enctype != self::ENC_FORMDATA && !empty($this->paramsPost)) {
+            $params = array_merge($params, $this->paramsPost);
+        }
+        return $params;
     }
 
     /**

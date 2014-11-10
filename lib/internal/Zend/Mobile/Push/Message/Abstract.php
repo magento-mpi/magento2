@@ -79,7 +79,7 @@ abstract class Zend_Mobile_Push_Message_Abstract implements Zend_Mobile_Push_Mes
 
     /**
      * Get Message ID
-     * 
+     *
      * @return scalar
      */
     public function getId()

@@ -175,7 +175,7 @@ class Zend_Controller_Router_Route_Chain extends Zend_Controller_Router_Route_Ab
             }
         }
     }
-    
+
     /**
      * Return a single parameter of route's defaults
      *

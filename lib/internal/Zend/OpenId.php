@@ -124,11 +124,11 @@ class Zend_OpenId
         }
 
         $url .= $port;
-        if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) { 
+        if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
             // IIS with Microsoft Rewrite Module
             $url .= $_SERVER['HTTP_X_ORIGINAL_URL'];
         } elseif (isset($_SERVER['HTTP_X_REWRITE_URL'])) {
-            // IIS with ISAPI_Rewrite 
+            // IIS with ISAPI_Rewrite
             $url .= $_SERVER['HTTP_X_REWRITE_URL'];
         } elseif (isset($_SERVER['REQUEST_URI'])) {
             $query = strpos($_SERVER['REQUEST_URI'], '?');
@@ -529,7 +529,7 @@ class Zend_OpenId
 //        #require_once "Zend/Crypt/Hmac.php";
 //        return Zend_Crypt_Hmac::compute($secret, $macFunc, $data, Zend_Crypt_Hmac::BINARY);
         if (function_exists('hash_hmac')) {
-            return hash_hmac($macFunc, $data, $secret, 1);
+            return hash_hmac($macFunc, $data, $secret, true);
         } else {
             if (Zend_OpenId::strlen($secret) > 64) {
                 $secret = self::digest($macFunc, $secret);

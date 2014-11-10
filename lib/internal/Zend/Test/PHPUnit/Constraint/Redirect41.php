@@ -61,7 +61,7 @@ class Zend_Test_PHPUnit_Constraint_Redirect extends PHPUnit_Framework_Constraint
      * @var string
      */
     protected $_match             = null;
-    
+
     /**
      * What is actual redirect
      */

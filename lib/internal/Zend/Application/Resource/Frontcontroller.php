@@ -46,6 +46,7 @@ class Zend_Application_Resource_Frontcontroller extends Zend_Application_Resourc
      * Initialize Front Controller
      *
      * @return Zend_Controller_Front
+     * @throws Zend_Application_Exception
      */
     public function init()
     {
@@ -143,7 +144,7 @@ class Zend_Application_Resource_Frontcontroller extends Zend_Application_Resourc
                     if (!isset($value['params'])) {
                         $value['params'] = array();
                     }
-                    
+
                     $dispatchClass = $value['class'];
                     if(!class_exists($dispatchClass)) {
                         #require_once 'Zend/Application/Exception.php';

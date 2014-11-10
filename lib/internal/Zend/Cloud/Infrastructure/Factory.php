@@ -12,7 +12,7 @@
 
 /**
  * Factory for infrastructure adapters
- * 
+ *
  * @package    Zend_Cloud
  * @subpackage Infrastructure
  * @copyright  Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
