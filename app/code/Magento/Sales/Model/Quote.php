@@ -305,7 +305,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $objectFactory;
 
     /**
-     * @var \Magento\Customer\Api\Data\AddressInterfaceInterfaceBuilder
+     * @var \Magento\Customer\Api\Data\AddressInterfaceBuilder
      */
     protected $addressBuilder;
 
@@ -341,6 +341,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
+     * @param \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder
+     * @param \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -372,7 +374,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        \Magento\Customer\Api\Data\AddressInterfaceInterfaceBuilder $addressBuilder,
+        \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder,
         \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -720,7 +722,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         $this->addressBuilder->mergeDataObjectWithArray(
             $address,
-            [\Magento\Customer\Api\Data\AddressInterface::KEY_CUSTOMER_ID => $this->getCustomer()->getId()]
+            [\Magento\Customer\Api\Data\AddressInterface::CUSTOMER_ID => $this->getCustomer()->getId()]
         );
 
         return $this;
