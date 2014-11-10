@@ -8,10 +8,10 @@
  */
 namespace Magento\Catalog\Model;
 
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Catalog\Model\Resource\Product\Collection;
-use Magento\Framework\Data\Search\SearchCriteriaInterface;
-use Magento\Framework\Data\Search\SortOrderInterface;
+use \Magento\Framework\Exception\NoSuchEntityException;
+use \Magento\Catalog\Model\Resource\Product\Collection;
+use \Magento\Framework\Api\SearchCriteriaInterface;
+use \Magento\Framework\Api\SortOrder;
 
 class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterface
 {
@@ -66,11 +66,6 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     protected $metadataService;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductDataBuilder
-     */
-    protected $productDataBuilder;
-
-    /**
      * @param ProductFactory $productFactory
      * @param \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper
      * @param \Magento\Catalog\Api\Data\ProductSearchResultsDataBuilder $searchResultsBuilder
@@ -80,7 +75,6 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
      * @param Resource\Product $resourceModel
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface
-     * @param \Magento\Catalog\Api\Data\ProductDataBuilder $productDataBuilder
      */
     public function __construct(
         ProductFactory $productFactory,
@@ -91,8 +85,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository,
         \Magento\Catalog\Model\Resource\Product $resourceModel,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface,
-        \Magento\Catalog\Api\Data\ProductDataBuilder $productDataBuilder
+        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataServiceInterface
     ) {
         $this->productFactory = $productFactory;
         $this->collectionFactory = $collectionFactory;
@@ -103,7 +96,6 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         $this->attributeRepository = $attributeRepository;
         $this->filterBuilder = $filterBuilder;
         $this->metadataService = $metadataServiceInterface;
-        $this->productDataBuilder = $productDataBuilder;
     }
 
     /**
@@ -213,7 +205,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $collection);
         }
-        /** @var SortOrderInterface $sortOrder */
+        /** @var SortOrder $sortOrder */
         foreach ((array)$searchCriteria->getSortOrders() as $sortOrder) {
             $field = $sortOrder->getField();
             $collection->addOrder(
@@ -225,13 +217,8 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         $collection->setPageSize($searchCriteria->getPageSize());
         $collection->load();
 
-        $products = [];
-        foreach ($collection->getItems() as $item) {
-            $products[] = $this->productDataBuilder->populate($item)->create();
-        }
-
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
-        $this->searchResultsBuilder->setItems($products);
+        $this->searchResultsBuilder->setItems($collection->getItems());
         $this->searchResultsBuilder->setTotalCount($collection->getSize());
         return $this->searchResultsBuilder->create();
     }

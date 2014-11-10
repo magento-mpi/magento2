@@ -106,7 +106,7 @@ class AttributeRepository implements \Magento\Eav\Api\AttributeRepositoryInterfa
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $attributeCollection);
         }
-        /** @var \Magento\Framework\Data\Search\SortOrderInterface $sortOrder */
+        /** @var \Magento\Framework\Api\SortOrder $sortOrder */
         foreach ((array)$searchCriteria->getSortOrders() as $sortOrder) {
             $attributeCollection->addOrder(
                 $sortOrder->getField(),

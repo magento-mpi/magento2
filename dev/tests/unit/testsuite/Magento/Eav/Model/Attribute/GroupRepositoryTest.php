@@ -69,7 +69,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
         );
         $this->setRepositoryMock = $this->getMock('\Magento\Eav\Api\AttributeSetRepositoryInterface');
         $this->searchResultsBuilderMock = $this->getMock(
-            '\Magento\Framework\Data\Search\SearchResultsInterfaceBuilder',
+            '\Magento\Eav\Api\Data\AttributeGroupSearchResultsDataBuilder',
             ['setSearchCriteria', 'setItems', 'setTotalCount', 'create']
         );
         $this->groupListFactoryMock = $this->getMock(
@@ -101,9 +101,8 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
         $attributeSetMock = $this->getMock('\Magento\Eav\Api\Data\AttributeSetInterface');
 
         $groupMock->expects($this->once())->method('getAttributeSetId')->willReturn($attributeSetId);
-        $groupMock->expects($this->once())->method('getId')->willReturn(null);
 
-        $attributeSetMock->expects($this->any())->method('getId')->willReturn(10);
+        $attributeSetMock->expects($this->any())->method('getAttributeSetId')->willReturn(10);
         $this->setRepositoryMock->expects($this->once())
             ->method('get')
             ->with($attributeSetId)
@@ -122,9 +121,9 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
         $attributeSetMock = $this->getMock('\Magento\Eav\Api\Data\AttributeSetInterface');
 
         $groupMock->expects($this->exactly(2))->method('getAttributeSetId')->willReturn($attributeSetId);
-        $groupMock->expects($this->exactly(2))->method('getId')->willReturn($groupId);
+        $groupMock->expects($this->exactly(2))->method('getAttributeGroupId')->willReturn($groupId);
 
-        $attributeSetMock->expects($this->any())->method('getId')->willReturn(10);
+        $attributeSetMock->expects($this->any())->method('getAttributeSetId')->willReturn(10);
         $this->setRepositoryMock->expects($this->once())
             ->method('get')
             ->with($attributeSetId)
@@ -171,8 +170,8 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
         $existingGroupMock = $this->getMock('\Magento\Eav\Model\Entity\Attribute\Group', [], [], '', false);
         $attributeSetMock = $this->getMock('\Magento\Eav\Api\Data\AttributeSetInterface');
         $groupMock->expects($this->any())->method('getAttributeSetId')->willReturn($attributeSetId);
-        $groupMock->expects($this->any())->method('getId')->willReturn($groupId);
-        $attributeSetMock->expects($this->any())->method('getId')->willReturn(10);
+        $groupMock->expects($this->any())->method('getAttributeGroupId')->willReturn($groupId);
+        $attributeSetMock->expects($this->any())->method('getAttributeSetId')->willReturn(10);
         $this->setRepositoryMock->expects($this->once())->method('get')->with($attributeSetId)
             ->willReturn($attributeSetMock);
         $this->groupFactoryMock->expects($this->once())->method('create')->willReturn($existingGroupMock);
@@ -194,8 +193,8 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
         $existingGroupMock = $this->getMock('\Magento\Eav\Model\Entity\Attribute\Group', [], [], '', false);
         $attributeSetMock = $this->getMock('\Magento\Eav\Api\Data\AttributeSetInterface');
         $groupMock->expects($this->any())->method('getAttributeSetId')->willReturn($attributeSetId);
-        $groupMock->expects($this->any())->method('getId')->willReturn($groupId);
-        $attributeSetMock->expects($this->any())->method('getId')->willReturn(10);
+        $groupMock->expects($this->any())->method('getAttributeGroupId')->willReturn($groupId);
+        $attributeSetMock->expects($this->any())->method('getAttributeSetId')->willReturn(10);
         $this->setRepositoryMock->expects($this->once())->method('get')->with($attributeSetId)
             ->willReturn($attributeSetMock);
         $this->groupFactoryMock->expects($this->once())->method('create')->willReturn($existingGroupMock);
@@ -216,8 +215,8 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
         $existingGroupMock = $this->getMock('\Magento\Eav\Model\Entity\Attribute\Group', [], [], '', false);
         $attributeSetMock = $this->getMock('\Magento\Eav\Api\Data\AttributeSetInterface');
         $groupMock->expects($this->any())->method('getAttributeSetId')->willReturn($attributeSetId);
-        $groupMock->expects($this->any())->method('getId')->willReturn($groupId);
-        $attributeSetMock->expects($this->any())->method('getId')->willReturn(10);
+        $groupMock->expects($this->any())->method('getAttributeGroupId')->willReturn($groupId);
+        $attributeSetMock->expects($this->any())->method('getAttributeSetId')->willReturn(10);
         $this->setRepositoryMock->expects($this->once())->method('get')->with($attributeSetId)
             ->willReturn($attributeSetMock);
         $this->groupFactoryMock->expects($this->once())->method('create')->willReturn($existingGroupMock);
@@ -230,17 +229,17 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $attributeSetId = 'filter';
         $searchCriteriaMock = $this->getMock('\Magento\Framework\Api\SearchCriteriaInterface');
-        $filterGroupMock = $this->getMock('\Magento\Framework\Data\Search\FilterGroupInterface');
-        $filterInterfaceMock = $this->getMock('\Magento\Framework\Data\Search\FilterInterface');
+        $filterGroupMock = $this->getMock('\Magento\Framework\Api\Search\FilterGroup');
+        $filterInterfaceMock = $this->getMock('\Magento\Framework\Api\Filter');
         $attributeSetMock = $this->getMock('\Magento\Eav\Api\Data\AttributeSetInterface');
         $groupMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\Group',
-            ['getAttributeGroupName', 'getId'],
+            ['getAttributeGroupName', 'getAttributeGroupId'],
             [],
             '',
             false
         );
-        $groupMock->expects($this->once())->method('getId')->willReturn('10');
+        $groupMock->expects($this->once())->method('getAttributeGroupId')->willReturn('10');
         $groupMock->expects($this->once())->method('getAttributeGroupName')->willReturn('attributeGroup');
         $groupCollectionMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Collection\AbstractCollection',
@@ -295,8 +294,8 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $attributeSetId = 'filter';
         $searchCriteriaMock = $this->getMock('\Magento\Framework\Api\SearchCriteriaInterface');
-        $filterGroupMock = $this->getMock('\Magento\Framework\Data\Search\FilterGroupInterface');
-        $filterInterfaceMock = $this->getMock('\Magento\Framework\Data\Search\FilterInterface');
+        $filterGroupMock = $this->getMock('\Magento\Framework\Api\Search\FilterGroup');
+        $filterInterfaceMock = $this->getMock('\Magento\Framework\Api\Filter');
 
         $attributeSetMock = $this->getMock('\Magento\Eav\Api\Data\AttributeSetInterface');
         $searchCriteriaMock->expects($this->once())->method('getFilterGroups')->willReturn([$filterGroupMock]);

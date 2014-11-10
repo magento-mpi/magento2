@@ -46,32 +46,24 @@ class AttributeSetRepository implements AttributeSetRepositoryInterface
     private $searchResultsBuilder;
 
     /**
-     * @var \Magento\Eav\Api\Data\AttributeSetDataBuilder
-     */
-    private $setBuilder;
-
-    /**
      * @param AttributeSetResource $attributeSetResource
      * @param AttributeSetFactory $attributeSetFactory
      * @param CollectionFactory $collectionFactory
      * @param Config $eavConfig
      * @param \Magento\Eav\Api\Data\AttributeSetSearchResultsDataBuilder $searchResultBuilder
-     * @param \Magento\Eav\Api\Data\AttributeSetDataBuilder $setBuilder
      */
     public function __construct(
         AttributeSetResource $attributeSetResource,
         AttributeSetFactory $attributeSetFactory,
         CollectionFactory $collectionFactory,
         EavConfig $eavConfig,
-        \Magento\Eav\Api\Data\AttributeSetSearchResultsDataBuilder $searchResultBuilder,
-        \Magento\Eav\Api\Data\AttributeSetDataBuilder $setBuilder
+        \Magento\Eav\Api\Data\AttributeSetSearchResultsDataBuilder $searchResultBuilder
     ) {
         $this->attributeSetResource = $attributeSetResource;
         $this->attributeSetFactory = $attributeSetFactory;
         $this->collectionFactory = $collectionFactory;
         $this->eavConfig = $eavConfig;
         $this->searchResultsBuilder = $searchResultBuilder;
-        $this->setBuilder = $setBuilder;
     }
 
     /**
@@ -107,13 +99,8 @@ class AttributeSetRepository implements AttributeSetRepositoryInterface
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
 
-        $sets = [];
-        foreach ($collection->getItems() as $item) {
-            $sets[] = $this->setBuilder->populate($item)->create();
-        }
-
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
-        $this->searchResultsBuilder->setItems($sets);
+        $this->searchResultsBuilder->setItems($collection->getItems());
         $this->searchResultsBuilder->setTotalCount($collection->getSize());
         return $this->searchResultsBuilder->create();
     }

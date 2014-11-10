@@ -66,13 +66,13 @@ class AttributeSetRepositoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
-        $this->resultBuilderMock = $this->getMock('Magento\Framework\Data\Search\SearchResultsBuilderInterface');
+        $this->resultBuilderMock = $this->getMock('\Magento\Eav\Api\Data\AttributeSetSearchResultsDataBuilder');
         $this->model = new AttributeSetRepository(
             $this->resourceMock,
             $this->setFactoryMock,
             $this->collectionFactoryMock,
-            $this->eavConfigMock//,
-            //$this->resultBuilderMock
+            $this->eavConfigMock,
+            $this->resultBuilderMock
         );
     }
 

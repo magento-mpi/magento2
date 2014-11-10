@@ -79,7 +79,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             $this->getMock(
                 'Magento\Catalog\Api\Data\ProductAttributeDataBuilder',
                 [
-                    'populateWithArray',
+                    'populate',
                     'setAttributeId',
                     '__wakeup'
                 ],
@@ -107,7 +107,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Framework\Api\FilterBuilder', [], [], '', false);
         $this->searchResultMock =
             $this->getMock(
-                'Magento\Framework\Data\Search\SearchResultsInterface',
+                '\Magento\Framework\Api\SearchResultsInterface',
                 [
                     'getItems',
                     'getSearchCriteria',
@@ -225,11 +225,9 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $attributeMock = $this->getMock('Magento\Catalog\Model\Resource\Eav\Attribute', [], [], '', false);
         $existingModelMock = $this->getMock('Magento\Catalog\Model\Resource\Eav\Attribute', [], [], '', false);
-        $data = [];
-        $attributeMock->expects($this->once())->method('getData')->willReturn($data);
         $this->attributeBuilderMock->expects($this->once())
-            ->method('populateWithArray')
-            ->with($data)
+            ->method('populate')
+            ->with($attributeMock)
             ->willReturn($this->attributeBuilderMock);
         $attributeMock->expects($this->once())->method('getAttributeId')->willReturn('12');
         $attributeCode = 'test attribute code';
@@ -254,11 +252,9 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     public function testSaveInputExceptionRequiredField()
     {
         $attributeMock = $this->getMock('Magento\Catalog\Model\Resource\Eav\Attribute', [], [], '', false);
-        $data = [];
-        $attributeMock->expects($this->once())->method('getData')->willReturn($data);
         $this->attributeBuilderMock->expects($this->once())
-            ->method('populateWithArray')
-            ->with($data)
+            ->method('populate')
+            ->with($attributeMock)
             ->willReturn($this->attributeBuilderMock);
         $attributeMock->expects($this->once())->method('getAttributeId')->willReturn(null);
         $this->attributeBuilderMock->expects($this->once())->method('setAttributeId')->with(null)->willReturnSelf();
@@ -274,11 +270,9 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     public function testSaveInputExceptionInvalidFieldValue()
     {
         $attributeMock = $this->getMock('Magento\Catalog\Model\Resource\Eav\Attribute', [], [], '', false);
-        $data = [];
-        $attributeMock->expects($this->once())->method('getData')->willReturn($data);
         $this->attributeBuilderMock->expects($this->once())
-            ->method('populateWithArray')
-            ->with($data)
+            ->method('populate')
+            ->with($attributeMock)
             ->willReturn($this->attributeBuilderMock);
         $attributeMock->expects($this->once())->method('getAttributeId')->willReturn(null);
         $this->attributeBuilderMock->expects($this->once())->method('setAttributeId')->with(null)->willReturnSelf();
