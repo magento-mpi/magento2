@@ -227,7 +227,7 @@ class Layer extends \Magento\Framework\Object
             }
         } else {
             throw new \Magento\Framework\Model\Exception(
-                __('The category must be an instance of \Magento\Catalog\Model\Category or integer.')
+                __('Must be category model instance or its id.')
             );
         }
 
