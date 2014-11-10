@@ -87,6 +87,20 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $paypalConfigMock = $this->getMock('Magento\Paypal\Model\Config', [], [], '', false);
+
+        $customerBuilder = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerDataBuilder')
+            ->setMethods(['populateWithArray', 'setEmail', 'setPrefix', 'setFirstname', 'setMiddlename', 'setLastname', 'setSuffix', 'create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $customerBuilder->expects($this->any())
+            ->method('populateWithArray')
+            ->will($this->returnSelf());
+        $customerData = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
+            ->getMock();
+        $customerBuilder->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($customerData));
+
         $this->checkoutModel = $this->objectManager->getObject(
             'Magento\Paypal\Model\Express\Checkout',
             [
@@ -98,7 +112,8 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
                 'customerAccountService' => $this->customerAccountServiceMock,
                 'serviceQuoteFactory'    => $this->quoteFactoryMock,
                 'addressBuilderFactory'  => $this->addressBuilderFactoryMock,
-                'objectCopyService'      => $this->objectCopyServiceMock
+                'objectCopyService'      => $this->objectCopyServiceMock,
+                'customerBuilder'        => $customerBuilder
             ]
         );
         parent::setUp();

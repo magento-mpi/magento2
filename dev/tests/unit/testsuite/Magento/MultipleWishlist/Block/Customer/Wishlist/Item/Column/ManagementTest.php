@@ -49,8 +49,8 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
 
         $this->dataCustomerMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId', '__wakeup'))
-            ->getMock();
+            ->setMethods(array('getId'))
+            ->getMockForAbstractClass();
 
         $this->wishlistHelperMock = $this->getMockBuilder('Magento\MultipleWishlist\Helper\Data')
             ->disableOriginalConstructor()
