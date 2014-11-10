@@ -150,8 +150,7 @@ class Reader
     {
         $result = [];
 
-        $excludes = $this->getExcludePaths();
-        $excludes = array_merge($excludes, $this->getSkipMappingPaths());
+        $excludes = array_merge($this->getExcludePaths(), $this->getSkipMappingPaths());
         $directory = new \RecursiveDirectoryIterator($this->rootDir, \RecursiveDirectoryIterator::SKIP_DOTS);
         $directory = new ExcludeFilter($directory, $excludes);
         $paths = new \RecursiveIteratorIterator($directory, \RecursiveIteratorIterator::SELF_FIRST);
