@@ -93,7 +93,7 @@ class View extends \Magento\Rma\Block\Form
      * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
     protected $currentCustomer;
-    
+
     /**
      * Eav configuration model
      *
@@ -117,7 +117,7 @@ class View extends \Magento\Rma\Block\Form
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\Registry $registry
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(

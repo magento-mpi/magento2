@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule5\Service\V1\Entity;
 
-use Magento\Framework\Service\Data\AbstractSimpleObjectBuilder;
+use Magento\Framework\Api\AbstractSimpleObjectBuilder;
 
 /**
  * Some Data Object short description.

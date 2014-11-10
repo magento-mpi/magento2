@@ -6,11 +6,11 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require __DIR__ . '/../../../../app/autoload.php';
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(array(
-    __DIR__,
-    realpath(__DIR__ . '/../../../tests/static/framework')
-));
+$vendorDir = require __DIR__ . '/../../../../app/etc/vendor_path.php';
+$vendorAutoload = __DIR__ . "/../../../../{$vendorDir}/autoload.php";
+if (file_exists($vendorAutoload)) {
+    require_once $vendorAutoload;
+}
 
 define(
     'USAGE',

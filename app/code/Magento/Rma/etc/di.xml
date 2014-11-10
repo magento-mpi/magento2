@@ -63,7 +63,7 @@
             <argument name="attributeMetadataDataProvider" xsi:type="object">Magento\Rma\Service\V1\Data\Eav\AttributeMetadataDataProvider</argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Rma\Service\Config\RmaMetadataConfig" type="Magento\Framework\Service\Config\MetadataConfig">
+    <virtualType name="Magento\Rma\Service\Config\RmaMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
         <arguments>
             <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
         </arguments>

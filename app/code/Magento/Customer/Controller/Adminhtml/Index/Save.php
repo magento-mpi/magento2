@@ -11,9 +11,7 @@ namespace Magento\Customer\Controller\Adminhtml\Index;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
-use Magento\Customer\Service\V1\AddressMetadataServiceInterface as AddressMetadata;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerMetadataService as CustomerMetadata;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -126,7 +124,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 $addressData = $this->_extractData(
                     $this->getRequest(),
                     'adminhtml_customer_address',
-                    AddressMetadata::ENTITY_TYPE_ADDRESS,
+                    \Magento\Customer\Api\AddressMetadataInterface::ENTITY_TYPE_ADDRESS,
                     array(),
                     $scope
                 );
@@ -157,6 +155,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
      *
      * @return void
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function execute()
     {
@@ -174,7 +173,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 if ($isExistingCustomer) {
                     $savedCustomerData = $this->_customerAccountService->getCustomer($customerId);
                     $customerData = array_merge(
-                        \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($savedCustomerData),
+                        \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($savedCustomerData),
                         $customerData
                     );
                 }
