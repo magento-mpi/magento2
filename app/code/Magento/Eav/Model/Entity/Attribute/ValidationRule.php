@@ -8,8 +8,8 @@
  */
 namespace Magento\Eav\Model\Entity\Attribute;
 
-class ValidationRule extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Eav\Api\Data\AttributeValidationRuleInterface
+class ValidationRule extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Eav\Api\Data\AttributeValidationRuleInterface
 {
     /**
      * {@inheritdoc}
