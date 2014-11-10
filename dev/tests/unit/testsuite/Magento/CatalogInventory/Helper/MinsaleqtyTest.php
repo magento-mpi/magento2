@@ -37,7 +37,7 @@ class MinsaleqtyTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('unique_hash'));
 
         $groupManagement = $this->getMockBuilder('Magento\Customer\Api\GroupManagementInterface')
-            ->setMethods(['getAllGroup'])
+            ->setMethods(['getAllCustomersGroup'])
             ->getMockForAbstractClass();
 
         $allGroup = $this->getMockBuilder('Magento\Customer\Api\Data\GroupInterface')
@@ -49,7 +49,7 @@ class MinsaleqtyTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(32000));
 
         $groupManagement->expects($this->any())
-            ->method('getAllGroup')
+            ->method('getAllCustomersGroup')
             ->will($this->returnValue($allGroup));
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);

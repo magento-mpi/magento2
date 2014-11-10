@@ -281,7 +281,7 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $group->expects($this->once())->method('getId')->willReturn(GroupManagement::CUST_GROUP_ALL);
-        $this->groupManagementMock->expects($this->once())->method('getAllGroup')
+        $this->groupManagementMock->expects($this->once())->method('getAllCustomersGroup')
             ->will($this->returnValue($group));
         $this->service->set('product_sku', 'all', $price);
     }

@@ -96,7 +96,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         $group->expects($this->any())
             ->method('getId')
             ->willReturn(\Magento\Customer\Model\GroupManagement::CUST_GROUP_ALL);
-        $this->groupManagement->expects($this->any())->method('getAllGroup')
+        $this->groupManagement->expects($this->any())->method('getAllCustomersGroup')
             ->will($this->returnValue($group));
         $this->assertEquals($expectedResult, $this->model->getTierPriceList());
         $this->assertEquals(count($expectedResult), $this->model->getTierPriceCount());

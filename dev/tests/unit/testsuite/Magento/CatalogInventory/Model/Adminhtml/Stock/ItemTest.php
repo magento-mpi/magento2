@@ -29,7 +29,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $groupManagement = $this->getMockBuilder('Magento\Customer\Api\GroupManagementInterface')
-            ->setMethods(['getAllGroup'])
+            ->setMethods(['getAllCustomersGroup'])
             ->getMockForAbstractClass();
 
         $allGroup = $this->getMockBuilder('Magento\Customer\Api\Data\GroupInterface')
@@ -41,7 +41,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(32000));
 
         $groupManagement->expects($this->any())
-            ->method('getAllGroup')
+            ->method('getAllCustomersGroup')
             ->will($this->returnValue($allGroup));
 
         $this->_model = $objectHelper->getObject(

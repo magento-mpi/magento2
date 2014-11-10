@@ -117,7 +117,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $group->expects($this->any())->method('getId')->willReturn(GroupManagement::CUST_GROUP_ALL);
-        $this->groupManagement->expects($this->any())->method('getAllGroup')
+        $this->groupManagement->expects($this->any())->method('getAllCustomersGroup')
             ->will($this->returnValue($group));
         $this->assertEquals($expectedValue, $this->model->getValue());
     }
@@ -191,7 +191,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $group->expects($this->once())->method('getId')->willReturn(GroupManagement::CUST_GROUP_ALL);
-        $this->groupManagement->expects($this->once())->method('getAllGroup')
+        $this->groupManagement->expects($this->once())->method('getAllCustomersGroup')
             ->will($this->returnValue($group));
         $this->assertFalse($tierPrice->getValue());
     }
@@ -226,7 +226,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $group->expects($this->any())->method('getId')->willReturn(GroupManagement::CUST_GROUP_ALL);
-        $this->groupManagement->expects($this->any())->method('getAllGroup')
+        $this->groupManagement->expects($this->any())->method('getAllCustomersGroup')
             ->will($this->returnValue($group));
         $this->assertEquals($expectedResult, $this->model->getTierPriceList());
         $this->assertEquals(count($expectedResult), $this->model->getTierPriceCount());
