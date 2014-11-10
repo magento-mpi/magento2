@@ -298,7 +298,7 @@ class Observer
             foreach ($collection as $alert) {
                 try {
                     if (!$previousCustomer || $previousCustomer->getId() != $alert->getCustomerId()) {
-                        $customer = $this->_customerAccountService->getCustomer($alert->getCustomerId());
+                        $customer = $this->customerRepository->getById($alert->getCustomerId());
                         if ($previousCustomer) {
                             $email->send();
                         }
