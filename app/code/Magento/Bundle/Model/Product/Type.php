@@ -126,7 +126,6 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $priceCurrency;
 
     /**
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
@@ -151,7 +150,6 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
@@ -184,7 +182,6 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $this->_bundleModelSelection = $bundleModelSelection;
         $this->priceCurrency = $priceCurrency;
         parent::__construct(
-            $productFactory,
             $catalogProductOption,
             $eavConfig,
             $catalogProductType,

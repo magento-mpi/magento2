@@ -152,13 +152,6 @@ abstract class AbstractType
     protected $_catalogProductOption;
 
     /**
-     * Product factory
-     *
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
      * @var ProductRepositoryInterface
      */
     protected $productRepository;
@@ -166,7 +159,6 @@ abstract class AbstractType
     /**
      * Construct
      *
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
@@ -179,7 +171,6 @@ abstract class AbstractType
      * @param ProductRepositoryInterface $productRepository
      */
     public function __construct(
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
@@ -191,7 +182,6 @@ abstract class AbstractType
         \Magento\Framework\Logger $logger,
         ProductRepositoryInterface $productRepository
     ) {
-        $this->_productFactory = $productFactory;
         $this->_catalogProductOption = $catalogProductOption;
         $this->_eavConfig = $eavConfig;
         $this->_catalogProductType = $catalogProductType;
