@@ -85,19 +85,28 @@ class DataBuilder extends EntityAbstract
      */
     protected function _getDefaultConstructorDefinition()
     {
-            $constructorDefinition = [
+        $constructorDefinition = [
                 'name' => '__construct',
                 'parameters' => [
-                    ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
+                    ['name' => 'objectFactory', 'type' => '\Magento\Framework\Api\ObjectFactory'],
                     ['name' => 'metadataService', 'type' => '\Magento\Framework\Api\MetadataServiceInterface'],
+                    ['name' => 'attributeValueBuilder', 'type' => '\Magento\Framework\Api\AttributeDataBuilder'],
+                    ['name' => 'objectProcessor', 'type' => '\Magento\Framework\Reflection\DataObjectProcessor'],
+                    ['name' => 'typeProcessor', 'type' => '\Magento\Framework\Reflection\TypeProcessor'],
+                    ['name' => 'dataBuilderFactory', 'type' => '\Magento\Framework\Serialization\DataBuilderFactory'],
                     ['name' => 'objectManagerConfig', 'type' => '\Magento\Framework\ObjectManager\Config'],
+                    [
+                        'name' => 'modelClassInterface',
+                        'type' => 'string',
+                        'defaultValue' => $this->_getNullDefaultValue()
+                    ]
                 ],
                 'docblock' => [
                     'shortDescription' => 'Initialize the builder',
                     'tags' => [
                         [
                             'name' => 'param',
-                            'description' => '\Magento\Framework\ObjectManager $objectManager'
+                            'description' => '\Magento\Framework\Api\ObjectFactory $objectFactory'
                         ],
                         [
                             'name' => 'param',
@@ -105,11 +114,32 @@ class DataBuilder extends EntityAbstract
                         ],
                         [
                             'name' => 'param',
+                            'description' => '\Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder'
+                        ],
+                        [
+                            'name' => 'param',
+                            'description' => '\Magento\Framework\Reflection\DataObjectProcessor $objectProcessor'
+                        ],
+                        [
+                            'name' => 'param',
+                            'description' => '\Magento\Framework\Reflection\TypeProcessor $typeProcessor'
+                        ],
+                        [
+                            'name' => 'param',
+                            'description' => '\Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory'
+                        ],
+                        [
+                            'name' => 'param',
                             'description' => '\Magento\Framework\ObjectManager\Config $objectManagerConfig'
+                        ],
+                        [
+                            'name' => 'param',
+                            'description' => 'string|null $modelClassInterface'
                         ]
                     ]
                 ],
-            'body' => "parent::__construct(\$objectManager, \$metadataService, \$objectManagerConfig, "
+            'body' => "parent::__construct(\$objectFactory, \$metadataService, \$attributeValueBuilder, "
+                . "\$objectProcessor, \$typeProcessor, \$dataBuilderFactory, \$objectManagerConfig, "
                 . "'{$this->_getSourceClassName()}');"
         ];
         return $constructorDefinition;
@@ -174,7 +204,7 @@ class DataBuilder extends EntityAbstract
             'parameters' => [
                 ['name' => lcfirst($propertyName)]
             ],
-            'body' => "\$this->set('{$fieldName}', \$" . lcfirst($propertyName) . ");"
+            'body' => "\$this->_set('{$fieldName}', \$" . lcfirst($propertyName) . ");"
                 . PHP_EOL . "return \$this;",
             'docblock' => [
                 'tags' => [
@@ -223,7 +253,7 @@ class DataBuilder extends EntityAbstract
             ->addProperties($this->_getClassProperties())
             ->addMethods($this->_getClassMethods())
             ->setClassDocBlock($this->_getClassDocBlock())
-            ->setExtendedClass('\Magento\Framework\Api\CompositeExtensibleDataBuilder');
+            ->setExtendedClass('\Magento\Framework\Api\Builder');
         return $this->_getGeneratedCode();
     }
 

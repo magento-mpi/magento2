@@ -13,7 +13,6 @@ use Magento\Framework\ObjectManager\Code\Generator\Factory;
 use Magento\Framework\ObjectManager\Code\Generator\Proxy;
 use Magento\Framework\Interception\Code\Generator\Interceptor;
 use Magento\Framework\Exception;
-use Magento\Framework\Api\Code\Generator\Builder;
 use Magento\Framework\Api\Code\Generator\DataBuilder;
 use Magento\Framework\Api\Code\Generator\Mapper;
 use Magento\Framework\ObjectManager\Code\Generator\Repository;
@@ -87,8 +86,6 @@ $generator = new Generator(
             'Magento\Framework\ObjectManager\Code\Generator\Factory',
         Interceptor::ENTITY_TYPE =>
             'Magento\Framework\Interception\Code\Generator\Interceptor',
-        Builder::ENTITY_TYPE =>
-            'Magento\Framework\Api\Code\Generator\Builder',
         Mapper::ENTITY_TYPE =>
             'Magento\Framework\Api\Code\Generator\Mapper',
         Repository::ENTITY_TYPE =>

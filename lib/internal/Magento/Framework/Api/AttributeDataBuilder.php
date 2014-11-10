@@ -10,7 +10,7 @@ namespace Magento\Framework\Api;
 /**
  * Custom Attribute Data object builder
  */
-class AttributeDataBuilder extends CompositeExtensibleDataBuilder
+class AttributeDataBuilder extends Builder
 {
     /**
      * Set attribute code
@@ -20,7 +20,7 @@ class AttributeDataBuilder extends CompositeExtensibleDataBuilder
      */
     public function setAttributeCode($attributeCode)
     {
-        return $this->set(AttributeInterface::ATTRIBUTE_CODE, $attributeCode);
+        return $this->_set(AttributeInterface::ATTRIBUTE_CODE, $attributeCode);
     }
 
     /**
@@ -31,26 +31,36 @@ class AttributeDataBuilder extends CompositeExtensibleDataBuilder
      */
     public function setValue($value)
     {
-        return $this->set(AttributeInterface::VALUE, $value);
+        return $this->_set(AttributeInterface::VALUE, $value);
     }
 
     /**
-     * Initialize the builder
-     *
-     * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param ObjectFactory $objectFactory
+     * @param MetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
+     * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
+     * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
      * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
+     * @param string $modelClassInterface
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
-        \Magento\Framework\ObjectManager\Config $objectManagerConfig
+        ObjectFactory $objectFactory,
+        MetadataServiceInterface $metadataService,
+        \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor,
+        \Magento\Framework\Reflection\TypeProcessor $typeProcessor,
+        \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory,
+        \Magento\Framework\ObjectManager\Config $objectManagerConfig,
+        $modelClassInterface = 'Magento\Framework\Api\AttributeInterface'
     ) {
         parent::__construct(
-            $objectManager,
+            $objectFactory,
             $metadataService,
+            $this,
+            $objectProcessor,
+            $typeProcessor,
+            $dataBuilderFactory,
             $objectManagerConfig,
-            'Magento\Framework\Api\AttributeInterface'
+            $modelClassInterface
         );
     }
 }

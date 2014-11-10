@@ -8,8 +8,9 @@
 
 namespace Magento\Framework\Api;
 
-use Magento\Framework\ObjectManager\Config as ObjectManagerConfig;
-
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Builder
 {
     /**#@+
@@ -70,7 +71,7 @@ class Builder
     protected $dataBuilderFactory;
 
     /**
-     * @var ObjectManagerConfig
+     * @var \Magento\Framework\ObjectManager\Config
      */
     protected $objectManagerConfig;
 
@@ -81,8 +82,8 @@ class Builder
      * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
      * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
      * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
-     * @param ObjectManagerConfig $objectManagerConfig
-     * @param $modelClassInterface
+     * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
+     * @param string $modelClassInterface
      */
     public function __construct(
         ObjectFactory $objectFactory,
@@ -91,8 +92,8 @@ class Builder
         \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor,
         \Magento\Framework\Reflection\TypeProcessor $typeProcessor,
         \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory,
-        ObjectManagerConfig $objectManagerConfig,
-        $modelClassInterface
+        \Magento\Framework\ObjectManager\Config $objectManagerConfig,
+        $modelClassInterface = null
     ) {
         $this->objectFactory = $objectFactory;
         $this->metadataService = $metadataService;
@@ -162,7 +163,7 @@ class Builder
         } else {
             $dataObjectType = $this->_getDataObjectType();
             $dataObject = $this->objectFactory
-               ->create($dataObjectType, ['builder' => $this]);
+                ->create($dataObjectType, ['builder' => $this]);
         }
         $this->data = array();
         return $dataObject;
@@ -206,11 +207,13 @@ class Builder
      *
      * @param ExtensibleDataInterface $firstDataObject
      * @param ExtensibleDataInterface $secondDataObject
-     * @return AbstractSimpleObject
+     * @return $this
      * @throws \LogicException
      */
-    public function mergeDataObjects(ExtensibleDataInterface $firstDataObject, ExtensibleDataInterface $secondDataObject)
-    {
+    public function mergeDataObjects(
+        ExtensibleDataInterface $firstDataObject,
+        ExtensibleDataInterface $secondDataObject
+    ) {
         $objectType = $this->_getDataObjectType();
         if (get_class($firstDataObject) != $objectType || get_class($secondDataObject) != $objectType) {
             throw new \LogicException('Wrong prototype object given. It can only be of "' . $objectType . '" type.');
@@ -219,7 +222,7 @@ class Builder
         $secondObjectArray = $this->objectProcessor->buildOutputDataArray($secondDataObject, $objectType);
         $this->_setDataValues($firstObjectArray);
         $this->_setDataValues($secondObjectArray);
-        return $this->create();
+        return $this;
     }
 
     /**
@@ -228,7 +231,7 @@ class Builder
      *
      * @param ExtensibleDataInterface $dataObject
      * @param array $data
-     * @return AbstractSimpleObject
+     * @return $this
      * @throws \LogicException
      */
     public function mergeDataObjectWithArray(ExtensibleDataInterface $dataObject, array $data)
@@ -240,7 +243,7 @@ class Builder
         $dataArray = $this->objectProcessor->buildOutputDataArray($dataObject, $objectType);
         $this->_setDataValues($dataArray);
         $this->_setDataValues($data);
-        return $this->create();
+        return $this;
     }
 
 

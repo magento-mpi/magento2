@@ -15,7 +15,6 @@ use Magento\Framework\ObjectManager\Definition\Runtime;
 use Magento\Framework\ObjectManager\Relations;
 use Magento\Framework\ObjectManager\Code\Generator;
 use Magento\Framework\Interception\Code\Generator as InterceptionGenerator;
-use Magento\Framework\Api\Code\Generator\Builder as BuilderGenerator;
 use Magento\Framework\Api\Code\Generator\DataBuilder as DataBuilderGenerator;
 use Magento\Framework\Api\Code\Generator\Mapper as MapperGenerator;
 use Magento\Framework\ObjectManager\Code\Generator\Converter as ConverterGenerator;
@@ -124,8 +123,6 @@ class DefinitionFactory
                         => '\Magento\Framework\Interception\Code\Generator\Interceptor',
                     DataBuilderGenerator::ENTITY_TYPE
                         => '\Magento\Framework\Api\Code\Generator\DataBuilder',
-                    BuilderGenerator::ENTITY_TYPE
-                        => '\Magento\Framework\Api\Code\Generator\Builder',
                     MapperGenerator::ENTITY_TYPE
                         => '\Magento\Framework\Api\Code\Generator\Mapper',
                     SearchResults::ENTITY_TYPE
