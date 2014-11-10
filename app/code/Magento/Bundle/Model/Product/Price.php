@@ -52,8 +52,8 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param GroupManagementInterface $groupManagement
+     * @param \Magento\Catalog\Helper\Data $catalogData
      */
     public function __construct(
         \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
@@ -62,8 +62,8 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         PriceCurrencyInterface $priceCurrency,
-        \Magento\Catalog\Helper\Data $catalogData,
-        GroupManagementInterface $groupManagement
+        GroupManagementInterface $groupManagement,
+        \Magento\Catalog\Helper\Data $catalogData
     ) {
         $this->_catalogData = $catalogData;
         $this->groupManagement = $groupManagement;
@@ -73,8 +73,8 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
             $localeDate,
             $customerSession,
             $eventManager,
-            $priceCurrency,
-            $groupManagement
+            $groupManagement,
+            $priceCurrency
         );
     }
 
