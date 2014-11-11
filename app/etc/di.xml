@@ -401,6 +401,15 @@
     <type name="Magento\Framework\View\Layout\GeneratorPool">
         <arguments>
             <argument name="generators" xsi:type="array">
+                <item name="block" xsi:type="object">Magento\Framework\View\Layout\Generator\Block</item>
+                <item name="container" xsi:type="object">Magento\Framework\View\Layout\Generator\Container</item>
+                <item name="ui_component" xsi:type="object">Magento\Framework\View\Layout\Generator\UiComponent</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="pageLayoutGeneratorPool" type="Magento\Framework\View\Layout\GeneratorPool">
+        <arguments>
+            <argument name="generators" xsi:type="array">
                 <item name="head" xsi:type="object">Magento\Framework\View\Page\Config\Generator\Head</item>
                 <item name="body" xsi:type="object">Magento\Framework\View\Page\Config\Generator\Body</item>
                 <item name="block" xsi:type="object">Magento\Framework\View\Layout\Generator\Block</item>
@@ -408,10 +417,11 @@
                 <item name="ui_component" xsi:type="object">Magento\Framework\View\Layout\Generator\UiComponent</item>
             </argument>
         </arguments>
-    </type>
+    </virtualType>
     <type name="Magento\Framework\View\Result\Page">
         <arguments>
             <argument name="layoutReaderPool" xsi:type="object">pageConfigRenderPool</argument>
+            <argument name="generatorPool" xsi:type="object">pageLayoutGeneratorPool</argument>
             <argument name="template" xsi:type="string">Magento_Theme::root.phtml</argument>
         </arguments>
     </type>
