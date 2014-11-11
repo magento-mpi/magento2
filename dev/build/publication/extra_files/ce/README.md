@@ -1,4 +1,4 @@
-![Build Status](https://travis-ci.org/magento/magento2.svg?branch=master)](https://travis-ci.org/magento/magento2)
+[![Build Status](https://travis-ci.org/magento/magento2.svg?branch=master)](https://travis-ci.org/magento/magento2)
 
 Welcome to Magento 2 installation! We're glad you chose to install Magento 2, a cutting edge, feature-rich eCommerce solution that gets results.
 
