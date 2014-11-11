@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogSearch\Model\Resource\Fulltext;
+namespace Magento\CatalogSearch\Model\Resource;
 
-use Magento\Catalog\Model\Resource\Product\CollectionFactory;
+use Magento\CatalogSearch\Model\Resource\Product\CollectionFactory;
 use Magento\CatalogSearch\Model\Resource\EngineInterface;
 use Magento\Framework\Model\Resource\Db\AbstractDb;
 
@@ -26,18 +26,18 @@ class Engine extends AbstractDb implements EngineInterface
     protected $_catalogProductVisibility;
 
     /**
-     * Catalog search fulltext coll factory
+     * Product Collection Factory
      *
-     * @var \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory
+     * @var \Magento\CatalogSearch\Model\Resource\Product\CollectionFactory
      */
-    protected $_catalogSearchFulltextCollectionFactory;
+    protected $productCollectionFactory;
 
     /**
-     * Catalog search advanced coll factory
+     * Array of product collection factory names
      *
-     * @var \Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory
+     * @var array
      */
-    protected $_catalogSearchAdvancedCollectionFactory;
+    protected $productFactoryNames;
 
     /**
      * @var \Magento\CatalogSearch\Model\Resource\Advanced
@@ -45,7 +45,7 @@ class Engine extends AbstractDb implements EngineInterface
     protected $_searchResource;
 
     /**
-     * @var \Magento\CatalogSearch\Model\Resource\Advanced
+     * @var \Magento\CatalogSearch\Model\Resource\Advanced\Collection
      */
     protected $_searchResourceCollection;
 
@@ -67,8 +67,7 @@ class Engine extends AbstractDb implements EngineInterface
      * Construct
      *
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $catalogSearchAdvancedCollectionFactory
-     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $catalogSearchFulltextCollectionFactory
+     * @param \Magento\CatalogSearch\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\CatalogSearch\Model\Resource\Advanced $searchResource
      * @param \Magento\CatalogSearch\Model\Resource\Advanced\Collection $searchResourceCollection
@@ -77,16 +76,14 @@ class Engine extends AbstractDb implements EngineInterface
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        CollectionFactory $catalogSearchAdvancedCollectionFactory,
-        CollectionFactory $catalogSearchFulltextCollectionFactory,
+        CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\CatalogSearch\Model\Resource\Advanced $searchResource,
         \Magento\CatalogSearch\Model\Resource\Advanced\Collection $searchResourceCollection,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\Search\Model\Resource\Helper $resourceHelper
     ) {
-        $this->_catalogSearchAdvancedCollectionFactory = $catalogSearchAdvancedCollectionFactory;
-        $this->_catalogSearchFulltextCollectionFactory = $catalogSearchFulltextCollectionFactory;
+        $this->productCollectionFactory = $productCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_searchResource = $searchResource;
         $this->_searchResourceCollection = $searchResourceCollection;
@@ -225,21 +222,25 @@ class Engine extends AbstractDb implements EngineInterface
     /**
      * Retrieve fulltext search result data collection
      *
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getResultCollection()
     {
-        return $this->_catalogSearchFulltextCollectionFactory->create();
+        return $this->productCollectionFactory->create(
+            \Magento\CatalogSearch\Model\Resource\Product\CollectionFactory::PRODUCT_COLLECTION_FULLTEXT
+        );
     }
 
     /**
      * Retrieve advanced search result data collection
      *
-     * @return \Magento\CatalogSearch\Model\Resource\Advanced\Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getAdvancedResultCollection()
     {
-        return $this->_catalogSearchAdvancedCollectionFactory->create();
+        return $this->productCollectionFactory->create(
+            \Magento\CatalogSearch\Model\Resource\Product\CollectionFactory::PRODUCT_COLLECTION_ADVANCED
+        );
     }
 
     /**
