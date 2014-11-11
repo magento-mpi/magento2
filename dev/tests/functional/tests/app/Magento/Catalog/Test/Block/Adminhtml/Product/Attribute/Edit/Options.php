@@ -38,9 +38,11 @@ class Options extends Element
      */
     public function setValue($preset)
     {
-        foreach ($preset as $options) {
-            $this->find($this->addOption)->click();
-            $this->getFormInstance()->fillOptions($options);
+        foreach ($preset as $option) {
+            if (isset($option['admin'])) {
+                $this->find($this->addOption)->click();
+                $this->getFormInstance()->fillOptions($option);
+            }
         }
     }
 

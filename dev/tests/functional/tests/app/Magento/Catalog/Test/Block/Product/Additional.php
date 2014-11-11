@@ -54,12 +54,22 @@ class Additional extends Block
      * Check if attribute value contains tag.
      *
      * @param CatalogProductAttribute $attribute
-     * @param string $tag
      * @return bool
      */
-    public function hasHtmlTagInAttributeValue(CatalogProductAttribute $attribute, $tag)
+    public function hasHtmlTagInAttributeValue(CatalogProductAttribute $attribute)
     {
         $element = $this->getProductAttributes()[$attribute->getFrontendLabel()];
-        return $element->find($tag)->isVisible();
+        return $this->checkHtmlTagStructure($element)->isVisible();
+    }
+
+    /**
+     * Find <b><i> </i></b> tag structure in element.
+     *
+     * @param Element $element
+     * @return Element
+     */
+    protected function checkHtmlTagStructure(Element $element)
+    {
+        return $element->find('b i');
     }
 }

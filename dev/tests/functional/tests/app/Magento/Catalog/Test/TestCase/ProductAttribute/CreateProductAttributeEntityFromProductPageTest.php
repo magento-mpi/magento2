@@ -20,8 +20,20 @@ use Mtf\TestCase\Injectable;
 /**
  * Test Flow:
  *
+ * Preconditions:
+ * 1. Create Product.
+ *
+ * Steps:
+ * 1. Log in to Backend.
+ * 2. Navigate to Products>Catalog.
+ * 3. Open product created in preconditions.
+ * 4. Click add new attribute.
+ * 5. Fill out fields data according to data set.
+ * 6. Save Product Attribute.
+ * 7. Perform appropriate assertions.
+ *
  * @group Product_Attributes_(MX)
- * @ZephyrId
+ * @ZephyrId MAGETWO-30528
  */
 class CreateProductAttributeEntityFromProductPageTest extends Injectable
 {
@@ -61,7 +73,14 @@ class CreateProductAttributeEntityFromProductPageTest extends Injectable
     protected $attribute;
 
     /**
-     * Prepare product for test.
+     * FixtureFactory object.
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
+     * Prepare data for test.
      *
      * @param FixtureFactory $fixtureFactory
      * @return array
@@ -73,6 +92,7 @@ class CreateProductAttributeEntityFromProductPageTest extends Injectable
             ['dataSet' => 'product_with_category_with_anchor']
         );
         $product->persist();
+        $this->fixtureFactory = $fixtureFactory;
         return ['product' => $product];
     }
 
@@ -102,45 +122,52 @@ class CreateProductAttributeEntityFromProductPageTest extends Injectable
      *
      * @param CatalogProductSimple $product
      * @param CatalogProductAttribute $attribute
-     * @param FixtureFactory $fixtureFactory
      * @return CatalogProductSimple $product
      */
-    public function test(
-        CatalogProductSimple $product,
-        CatalogProductAttribute $attribute,
-        FixtureFactory $fixtureFactory
-    ) {
+    public function test(CatalogProductSimple $product, CatalogProductAttribute $attribute)
+    {
         // Steps:
         $this->catalogProductIndex->open();
         $this->catalogProductIndex->getProductGrid()->searchAndOpen(['sku' => $product->getSku()]);
         $productForm = $this->catalogProductEdit->getProductForm();
-        $productWithAttribute = $fixtureFactory->createByCode(
-            'catalogProductSimple',
-            ['data' => ['custom_attribute' => $attribute]]
-        );
-        $productForm->fill($productWithAttribute);
-        $this->catalogProductEdit->getFormPageActions()->save($product);
+        $productForm->addNewAttribute();
+        $productForm->fillAttributeForm($attribute);
 
-        $data = $product->getData();
-        $data['custom_attribute'] = $attribute;
-        $product = $fixtureFactory->createByCode('catalogProductSimple',['data' => $data]);
+        // Prepare for assertions:
+        $this->setDefaultAttributeValue($attribute);
+        $this->catalogProductEdit->getFormPageActions()->save();
 
         // Prepare data for tearDown:
         $this->attribute = $attribute;
         return ['product' => $product];
     }
 
-//    /**
-//     * Delete attribute after test.
-//     *
-//     * @return void
-//     */
-//    public function tearDown()
-//    {
-//        $filter = ['attribute_code' => $this->attribute->getAttributeCode()];
-//        if ($this->catalogProductAttributeIndex->open()->getGrid()->isRowVisible($filter)) {
-//            $this->catalogProductAttributeIndex->getGrid()->searchAndOpen($filter);
-//            $this->catalogProductAttributeNew->getPageActions()->delete();
-//        }
-//    }
+    /**
+     * Delete attribute after test.
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $filter = ['attribute_code' => $this->attribute->getAttributeCode()];
+        if ($this->catalogProductAttributeIndex->open()->getGrid()->isRowVisible($filter)) {
+            $this->catalogProductAttributeIndex->getGrid()->searchAndOpen($filter);
+            $this->catalogProductAttributeNew->getPageActions()->delete();
+        }
+    }
+
+    /**
+     * Set Custom Attribute Value.
+     *
+     * @param CatalogProductAttribute $attribute
+     * @return void
+     */
+    protected function setDefaultAttributeValue(CatalogProductAttribute $attribute)
+    {
+        $product = $this->fixtureFactory->createByCode(
+            'catalogProductSimple',
+            ['data' => ['custom_attribute' => $attribute]]
+        );
+        $this->catalogProductEdit->getProductForm()->fill($product);
+    }
 }

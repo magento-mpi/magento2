@@ -9,8 +9,6 @@
 namespace Magento\Catalog\Test\Constraint;
 
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Constraint\AbstractConstraint;
@@ -32,8 +30,6 @@ class AssertProductAttributeIsFilterable extends AbstractConstraint
      * Check whether the attribute filter is displayed on the frontend in Layered navigation.
      *
      * @param CatalogCategoryView $catalogCategoryView
-     * @param CatalogProductIndex $catalogProductIndex
-     * @param CatalogProductEdit $catalogProductEdit
      * @param InjectableFixture $product
      * @param CatalogProductAttribute $attribute
      * @param Browser $browser
@@ -41,17 +37,10 @@ class AssertProductAttributeIsFilterable extends AbstractConstraint
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
-        CatalogProductIndex $catalogProductIndex,
-        CatalogProductEdit $catalogProductEdit,
         InjectableFixture $product,
         CatalogProductAttribute $attribute,
         Browser $browser
     ) {
-        $catalogProductIndex->open()->getProductGrid()->searchAndOpen(['sku' => $product->getSku()]);
-        $productForm = $catalogProductEdit->getProductForm();
-        $productForm->fill($product);
-        $productForm->save($product);
-
         $categories = $product->getDataFieldConfig('category_ids')['source']->getCategories();
         $browser->open($_ENV['app_frontend_url'] . reset($categories)->getUrlKey() . '.html');
         $label = $attribute->hasData('manage_frontend_label')

@@ -9,8 +9,6 @@
 namespace Magento\Catalog\Test\Constraint;
 
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Constraint\AbstractConstraint;
@@ -30,13 +28,11 @@ class AssertProductAttributeIsHtmlAllowed extends AbstractConstraint
 
     /**
      * Check whether html tags are using in attribute value.
+     * Checked tag structure <b><i>atttribute_default_value</i></b>
      *
      * @param InjectableFixture $product
      * @param CatalogProductAttribute $attribute
      * @param CatalogProductView $catalogProductView
-     * @param CatalogProductIndex $catalogProductIndex
-     * @param CatalogProductEdit $catalogProductEdit
-     * @param string $tagToCheck
      * @param Browser $browser
      * @throws \Exception
      * @return void
@@ -45,19 +41,12 @@ class AssertProductAttributeIsHtmlAllowed extends AbstractConstraint
         InjectableFixture $product,
         CatalogProductAttribute $attribute,
         CatalogProductView $catalogProductView,
-        CatalogProductIndex $catalogProductIndex,
-        CatalogProductEdit $catalogProductEdit,
-        $tagToCheck,
         Browser $browser
     ) {
-        $catalogProductIndex->open()->getProductGrid()->searchAndOpen(['sku' => $product->getSku()]);
-        $productForm = $catalogProductEdit->getProductForm();
-        $productForm->fill($product);
-        $productForm->save($product);
         $browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
 
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogProductView->getAdditionalInformationBlock()->hasHtmlTagInAttributeValue($attribute, $tagToCheck),
+            $catalogProductView->getAdditionalInformationBlock()->hasHtmlTagInAttributeValue($attribute),
             'Attribute is not visible with HTML tags on frontend.'
         );
     }

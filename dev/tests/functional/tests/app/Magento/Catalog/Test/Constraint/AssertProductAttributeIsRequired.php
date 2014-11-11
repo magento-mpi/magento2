@@ -43,11 +43,14 @@ class AssertProductAttributeIsRequired extends AbstractConstraint
     ) {
         $catalogProductIndex->open()->getProductGrid()->searchAndOpen(['sku' => $product->getSku()]);
         $productForm = $catalogProductEdit->getProductForm();
-        $productForm->fill($product);
-        $productForm->save($product);
-        $failedAttributes = $catalogProductEdit->getProductForm()->getRequireNoticeAttributes();
+        $productForm->getAttributeElement($attribute)->resetValue();
+        $catalogProductEdit->getFormPageActions()->save();
+        $failedAttributes = $productForm->getRequireNoticeAttributes();
 
-        \PHPUnit_Framework_Assert::assertEmpty($failedAttributes, 'JS error notice is visible on product edit page.');
+        \PHPUnit_Framework_Assert::assertTrue(
+            in_array($attribute->getFrontendLabel(), array_keys($failedAttributes)),
+            'JS error notice is not visible on product edit page.'
+        );
     }
 
     /**
@@ -57,6 +60,6 @@ class AssertProductAttributeIsRequired extends AbstractConstraint
      */
     public function toString()
     {
-        return '"This is a required field" notice is not visible on product edit page.';
+        return '"This is a required field" notice is visible on product edit page.';
     }
 }

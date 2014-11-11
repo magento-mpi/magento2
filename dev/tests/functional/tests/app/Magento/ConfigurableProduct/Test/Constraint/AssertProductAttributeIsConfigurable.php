@@ -8,7 +8,6 @@
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
@@ -28,18 +27,16 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
     protected $severeness = 'high';
 
     /**
-     * Assert check whether the attribute is used to create a configurable products
+     * Assert check whether the attribute is used to create a configurable products.
      *
      * @param CatalogProductAttribute $productAttribute
      * @param CatalogProductAttribute $attribute
      * @param CatalogProductIndex $productGrid
-     * @param FixtureFactory $fixtureFactory
      * @param CatalogProductNew $newProductPage
      */
     public function processAssert(
         CatalogProductAttribute $attribute,
         CatalogProductIndex $productGrid,
-        FixtureFactory $fixtureFactory,
         CatalogProductNew $newProductPage,
         CatalogProductAttribute $productAttribute = null
     ) {
@@ -59,7 +56,7 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
     }
 
     /**
-     * Attribute label present on the product page in variations section
+     * Attribute label present on the product page in variations section.
      *
      * @return string
      */

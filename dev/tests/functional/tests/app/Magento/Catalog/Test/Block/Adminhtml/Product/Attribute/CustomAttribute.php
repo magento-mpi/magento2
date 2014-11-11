@@ -51,16 +51,16 @@ class CustomAttribute extends Element
     ];
 
     /**
-     * Set custom attribute value.
+     * Set attribute value.
      *
-     * @param array $data
+     * @param array|string $data
      * @return void
      */
     public function setValue($data)
     {
         $this->_eventManager->dispatchEvent(['set_value'], [__METHOD__, $this->getAbsoluteSelector()]);
-        $value = $data['value'];
-        $this->find($this->inputSelector, Locator::SELECTOR_CSS, $this->typeReference[$data['type']])->setValue($value);
+        $element = $this->typeReference[$data['type']];
+        $this->find($this->inputSelector, Locator::SELECTOR_CSS, $element)->setValue($data['value']);
     }
 
     /**
@@ -71,10 +71,7 @@ class CustomAttribute extends Element
     public function getValue()
     {
         $this->_eventManager->dispatchEvent(['get_value'], [__METHOD__, $this->getAbsoluteSelector()]);
-        $criteria = new \PHPUnit_Extensions_Selenium2TestCase_ElementCriteria('css selector');
-        $criteria->value($this->inputSelector);
-        $input = $this->_getWrappedElement()->element($criteria);
-        $inputType = $this->getElementByClass($input->attribute('class'));
+        $inputType = $this->getElementByClass($this->getElementClass());
         return $this->find($this->inputSelector, Locator::SELECTOR_CSS, $inputType)->getValue();
     }
 
@@ -87,11 +84,35 @@ class CustomAttribute extends Element
     protected function getElementByClass($class)
     {
         $element = null;
-        foreach ($this->classReference as $reference) {
-            if (strpos($class, $reference !== false)) {
+        foreach ($this->classReference as $key => $reference) {
+            if (strpos($class, $key) !== false) {
                 $element = $this->typeReference[$reference];
             }
         }
         return $element;
+    }
+
+    /**
+     * Get element class.
+     *
+     * @return string
+     */
+    protected function getElementClass()
+    {
+        $criteria = new \PHPUnit_Extensions_Selenium2TestCase_ElementCriteria('css selector');
+        $criteria->value($this->inputSelector);
+        $input = $this->_getWrappedElement()->element($criteria);
+        return $input->attribute('class');
+    }
+
+    /**
+     * Reset attribute value.
+     *
+     * @return void.
+     */
+    public function resetValue()
+    {
+        $inputType = $this->getElementByClass($this->getElementClass());
+        $this->find($this->inputSelector, Locator::SELECTOR_CSS, $inputType)->setValue('');
     }
 }

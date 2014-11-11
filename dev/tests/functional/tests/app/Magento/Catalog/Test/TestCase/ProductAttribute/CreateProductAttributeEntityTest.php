@@ -11,6 +11,8 @@ namespace Magento\Catalog\Test\TestCase\ProductAttribute;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Catalog\Test\Constraint\AssertProductAttributeSaveMessage;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 use Mtf\Fixture\FixtureFactory;
@@ -86,6 +88,20 @@ class CreateProductAttributeEntityTest extends Injectable
     protected $fixtureFactory;
 
     /**
+     * Catalog Product Index page.
+     *
+     * @var CatalogProductIndex
+     */
+    protected $catalogProductIndex;
+
+    /**
+     * Catalog Product Edit page.
+     *
+     * @var CatalogProductEdit
+     */
+    protected $catalogProductEdit;
+
+    /**
      * Injection data.
      *
      * @param CatalogProductAttributeIndex $attributeIndex
@@ -93,6 +109,8 @@ class CreateProductAttributeEntityTest extends Injectable
      * @param AdminCache $adminCache
      * @param CatalogProductSetIndex $catalogProductSetIndex
      * @param CatalogProductSetEdit $catalogProductSetEdit
+     * @param CatalogProductIndex $catalogProductIndex
+     * @param CatalogProductEdit $catalogProductEdit
      * @param FixtureFactory $fixtureFactory
      * @return void
      */
@@ -102,6 +120,8 @@ class CreateProductAttributeEntityTest extends Injectable
         AdminCache $adminCache,
         CatalogProductSetIndex $catalogProductSetIndex,
         CatalogProductSetEdit $catalogProductSetEdit,
+        CatalogProductIndex $catalogProductIndex,
+        CatalogProductEdit $catalogProductEdit,
         FixtureFactory $fixtureFactory
     ) {
         $this->attributeIndex = $attributeIndex;
@@ -110,10 +130,12 @@ class CreateProductAttributeEntityTest extends Injectable
         $this->catalogProductSetIndex = $catalogProductSetIndex;
         $this->catalogProductSetEdit = $catalogProductSetEdit;
         $this->fixtureFactory = $fixtureFactory;
+        $this->catalogProductIndex = $catalogProductIndex;
+        $this->catalogProductEdit = $catalogProductEdit;
     }
 
     /**
-     * Run CreateProductAttributeEntity test
+     * Run CreateProductAttributeEntity test.
      *
      * @param CatalogProductAttribute $productAttribute
      * @param CatalogProductAttributeIndex $attributeIndex
@@ -142,7 +164,8 @@ class CreateProductAttributeEntityTest extends Injectable
         // Move attribute to default attribute set and create product for asserts:
         $this->attribute = $productAttribute;
         $this->moveAttributeToAttributeSet($productAttribute, $productTemplate);
-        $product = $this->createProductForAsserts($productTemplate);
+        $this->catalogProductSetEdit->getPageActions()->save();
+        $product = $this->createProductForAsserts($productTemplate, $productAttribute);
 
         return ['attribute' => $productAttribute, 'product' => $product];
     }
@@ -171,11 +194,11 @@ class CreateProductAttributeEntityTest extends Injectable
      * Create product for asserts.
      *
      * @param CatalogAttributeSet $productTemplate
+     * @param CatalogProductAttribute $attribute
      * @return CatalogProductSimple
      */
-    protected function createProductForAsserts(CatalogAttributeSet $productTemplate)
+    protected function createProductForAsserts(CatalogAttributeSet $productTemplate, CatalogProductAttribute $attribute)
     {
-        $this->catalogProductSetEdit->getPageActions()->save();
 
         $product = $this->fixtureFactory->createByCode(
             'catalogProductSimple',
@@ -183,11 +206,11 @@ class CreateProductAttributeEntityTest extends Injectable
                 'dataSet' => 'product_with_category_with_anchor',
                 'data' => [
                     'attribute_set_id' => ['attribute_set' => $productTemplate],
+                    'custom_attribute' => $attribute
                 ],
             ]
         );
         $product->persist();
-
         return $product;
     }
 

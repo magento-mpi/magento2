@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
-use Magento\Webapi\Exception;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
@@ -51,7 +50,6 @@ class CustomAttribute implements FixtureInterface
      * Get default value of custom attribute considering to it's type.
      *
      * @param CatalogProductAttribute $attribute
-     * @throws \Exception
      * @return string
      */
     protected function getDefaultAttributeValue(CatalogProductAttribute $attribute)
@@ -79,7 +77,6 @@ class CustomAttribute implements FixtureInterface
                 continue;
             }
         }
-        throw new \Exception("Default value must be set.");
     }
 
     /**
