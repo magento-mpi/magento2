@@ -43,7 +43,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
         }
 
         if (isset($customerData['disable_auto_group_change'])) {
-            $customerData['disable_auto_group_change'] = empty($customerData['disable_auto_group_change']) ? '0' : '1';
+            $customerData['disable_auto_group_change'] = (int)$customerData['disable_auto_group_change'];
         }
 
         return $customerData;
