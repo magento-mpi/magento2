@@ -6,10 +6,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\GroupedProduct\Api;
+namespace Magento\Catalog\Api;
 
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\GroupedProduct\Model\Resource\Product\Link;
+use \Magento\Catalog\Model\Product\Link;
 
 class ProductLinkTypeListTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -30,21 +30,14 @@ class ProductLinkTypeListTest extends \Magento\TestFramework\TestCase\WebapiAbst
                 'operation' => self::SERVICE_NAME . 'GetItems'
             ]
         ];
-
         $actual = $this->_webApiCall($serviceInfo);
-
-        /**
-         * Validate that product type links provided by Magento_GroupedProduct module are present
-         */
-        $expectedItems = ['name' => 'associated', 'code' => Link::LINK_TYPE_GROUPED];
+        $expectedItems = ['name' => 'related', 'code' => Link::LINK_TYPE_RELATED];
         $this->assertContains($expectedItems, $actual);
-
     }
 
     public function testGetItemAttributes()
     {
-        $linkType = 'associated';
-
+        $linkType = 'related';
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . 'links/' . $linkType . '/attributes',
@@ -56,13 +49,8 @@ class ProductLinkTypeListTest extends \Magento\TestFramework\TestCase\WebapiAbst
                 'operation' => self::SERVICE_NAME . 'GetItemAttributes'
             ]
         ];
-
         $actual = $this->_webApiCall($serviceInfo, ['type' => $linkType]);
-
-        $expected = [
-            ['code' => 'position', 'type' => 'int'],
-            ['code' => 'qty', 'type' => 'decimal'],
-        ];
+        $expected = [['code' => 'position', 'type' => 'int']];
         $this->assertEquals($expected, $actual);
     }
 }

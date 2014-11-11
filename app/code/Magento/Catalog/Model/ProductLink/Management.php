@@ -91,7 +91,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
                 foreach ($item['custom_attributes'] as $option) {
                     $this->productLinkBuilder->setCustomAttribute(
                         $option['attribute_code'],
-                        $option['attribute_value']
+                        $option['value']
                     );
                 }
             }

@@ -9,7 +9,7 @@
 namespace Magento\GroupedProduct\Api;
 
 use \Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Catalog\Api\Data\ProductLinkInterface;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class ProductLinkRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -18,24 +18,29 @@ class ProductLinkRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAb
     const RESOURCE_PATH = '/V1/products/';
 
     /**
+     * @var \Magento\Framework\ObjectManager
+     */
+    protected $objectManager;
+
+    protected function setUp()
+    {
+        $this->objectManager = Bootstrap::getObjectManager();
+    }
+    /**
      * @magentoApiDataFixture Magento/Catalog/_files/products_new.php
      * @magentoApiDataFixture Magento/GroupedProduct/_files/product_grouped.php
      */
     public function testSave()
     {
-        $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
-        $repository = $objectManager->get('Magento\Catalog\Api\ProductRepositoryInterface');
-        $product = $repository->get('simple');
-
         $productSku = 'grouped-product';
         $linkType = 'associated';
         $productData = [
-            ProductLinkInterface::PRODUCT_SKU => $productSku,
-            ProductLinkInterface::LINK_TYPE => $linkType,
-            ProductLinkInterface::LINKED_PRODUCT_SKU => 'simple',
-            ProductLinkInterface::LINKED_PRODUCT_TYPE => 'simple',
-            ProductLinkInterface::POSITION => 3,
-            ProductLinkInterface::CUSTOM_ATTRIBUTES => [
+            'product_sku' => $productSku,
+            'link_type' => $linkType,
+            'linked_product_type' => 'simple',
+            'linked_product_sku' => 'simple',
+            'position' => 3,
+            'custom_attributes' => [
                 'qty' => ['attribute_code' => 'qty', 'value' => (float) 300.0000]
             ]
         ];
@@ -43,7 +48,7 @@ class ProductLinkRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAb
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType,
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
@@ -51,16 +56,14 @@ class ProductLinkRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAb
                 'operation' => self::SERVICE_NAME . 'Save'
             ]
         ];
-
-        /** @var \Magento\Catalog\Api\ProductLinkManagementInterface $service */
-        $service = $objectManager->get('Magento\Catalog\Api\ProductLinkManagementInterface');
-
         $this->_webApiCall($serviceInfo, ['entity' => $productData]);
 
-        $actual = $service->getLinkedItemsByType($productSku, $linkType);
+        /** @var \Magento\Catalog\Model\ProductLink\Management $linkManagement */
+        $linkManagement = $this->objectManager->get('\Magento\Catalog\Api\ProductLinkManagementInterface');
+        $actual = $linkManagement->getLinkedItemsByType($productSku, $linkType);
         array_walk($actual, function (&$item){
-                $item = $item->__toArray();
-            });
+            $item = $item->__toArray();
+        });
         $this->assertEquals($productData, $actual[2]);
     }
 }

@@ -24,12 +24,12 @@ class LinkTypeProvider implements \Magento\Catalog\Api\ProductLinkTypeListInterf
     protected $linkTypes;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductLinkTypeInterfaceBuilder
+     * @var \Magento\Catalog\Api\Data\ProductLinkTypeDataBuilder
      */
     protected $linkTypeBuilder;
 
     /**
-     * @var \Magento\Catalog\Api\Data\ProductLinkAttributeInterfaceBuilder
+     * @var \Magento\Catalog\Api\Data\ProductLinkAttributeDataBuilder
      */
     protected $linkAttributeBuilder;
 
@@ -39,14 +39,14 @@ class LinkTypeProvider implements \Magento\Catalog\Api\ProductLinkTypeListInterf
     protected $linkFactory;
 
     /**
-     * @param \Magento\Catalog\Api\Data\ProductLinkTypeInterfaceBuilder $linkTypeBuilder
-     * @param \Magento\Catalog\Api\Data\ProductLinkAttributeInterfaceBuilder $linkAttributeBuilder
+     * @param \Magento\Catalog\Api\Data\ProductLinkTypeDataBuilder $linkTypeBuilder
+     * @param \Magento\Catalog\Api\Data\ProductLinkAttributeDataBuilder $linkAttributeBuilder
      * @param LinkFactory $linkFactory
      * @param array $linkTypes
      */
     public function __construct(
-        \Magento\Catalog\Api\Data\ProductLinkTypeInterfaceBuilder $linkTypeBuilder,
-        \Magento\Catalog\Api\Data\ProductLinkAttributeInterfaceBuilder $linkAttributeBuilder,
+        \Magento\Catalog\Api\Data\ProductLinkTypeDataBuilder $linkTypeBuilder,
+        \Magento\Catalog\Api\Data\ProductLinkAttributeDataBuilder $linkAttributeBuilder,
         \Magento\Catalog\Model\Product\LinkFactory $linkFactory,
         array $linkTypes = array()
     ) {
@@ -73,9 +73,8 @@ class LinkTypeProvider implements \Magento\Catalog\Api\ProductLinkTypeListInterf
     {
         $output = [];
         foreach ($this->getLinkTypes() as $type => $typeCode) {
-            $data = [LinkType::KEY => $type, LinkType::VALUE => $typeCode];
             $output[] = $this->linkTypeBuilder
-                ->populateWithArray($data)
+                ->populateWithArray(['name' => $type, 'code' => $typeCode])
                 ->create();
         }
         return $output;
@@ -94,10 +93,7 @@ class LinkTypeProvider implements \Magento\Catalog\Api\ProductLinkTypeListInterf
         $link = $this->linkFactory->create(['data' => ['link_type_id' => $typeId]]);
         $attributes = $link->getAttributes();
         foreach ($attributes as $item) {
-            $data = [
-                LinkAttribute::KEY => $item['code'],
-                LinkAttribute::VALUE => $item['type'],
-            ];
+            $data = ['code' => $item['code'], 'type' => $item['type']];
             $output[] = $this->linkAttributeBuilder->populateWithArray($data)->create();
         }
         return $output;

@@ -40,12 +40,12 @@ class LinkTypeProviderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->linkTypeBuilderMock = $this->getMock(
-            '\Magento\Catalog\Api\Data\ProductLinkTypeInterfaceBuilder',
+            'Magento\Catalog\Api\Data\ProductLinkTypeDataBuilder',
             ['create', 'populateWithArray']
         );
         $this->linkAttributeBuilderMock = $this->getMock(
-            '\Magento\Catalog\Api\Data\ProductLinkAttributeInterfaceBuilder',
-            ['populateWithArray'], [], '', false, false
+            'Magento\Catalog\Api\Data\ProductLinkAttributeDataBuilder',
+            ['populateWithArray', 'create'], [], '', false, false
         );
         $this->linkFactoryMock = $this->getMock(
             '\Magento\Catalog\Model\Product\LinkFactory',
@@ -73,7 +73,7 @@ class LinkTypeProviderTest extends \PHPUnit_Framework_TestCase
         $expectedResult = [];
         $objectMocks = [];
         foreach ($this->linkTypes as $type => $typeCode) {
-            $value = [LinkType::KEY => $type, LinkType::VALUE => $typeCode];
+            $value = ['name' => $type, 'code' => $typeCode];
             $objectMock = $this->getMock('\Magento\Framework\Object', ['create'], [], '', false);
             $objectMock->expects($this->once())->method('create')->willReturn($value);
             $objectMocks[] = $objectMock;
@@ -101,11 +101,11 @@ class LinkTypeProviderTest extends \PHPUnit_Framework_TestCase
             ['code' => 'test_code_1', 'type' => 'test_type_1']
         ];
         $expectedResult = [
-            [LinkAttribute::KEY => $attributes[0]['code'], LinkAttribute::VALUE => $attributes[0]['type']]
+            ['attribute_code' => $attributes[0]['code'], 'value' => $attributes[0]['type']]
         ];
         $objectMock = $this->getMock('\Magento\Framework\Object', ['create'], [], '', false);
         $objectMock->expects($this->once())->method('create')->willReturn(
-            [LinkAttribute::KEY => $attributes[0]['code'], LinkAttribute::VALUE => $attributes[0]['type']]
+            ['attribute_code' => $attributes[0]['code'], 'value' => $attributes[0]['type']]
         );
         $linkMock = $this->getMock('\Magento\Catalog\Model\Product\Link', ['getAttributes'], [], '', false);
         $linkMock->expects($this->once())->method('getAttributes')->willReturn($attributes);
