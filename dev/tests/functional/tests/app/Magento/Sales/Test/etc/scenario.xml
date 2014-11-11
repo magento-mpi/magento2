@@ -90,4 +90,41 @@
             </method>
         </methods>
     </scenario>
+    <scenario name="MoveRecentlyViewedProductsOnOrderPageTest" module="Magento_Sales">
+        <methods>
+            <method name="test">
+                <steps>
+                    <first>createProducts</first>
+                    <step name="createProducts" module="Magento_Catalog">
+                        <next>createCustomer</next>
+                    </step>
+                    <step name="createCustomer" module="Magento_Customer">
+                        <arguments>
+                            <items name="customer">
+                                <item name="dataSet">default</item>
+                            </items>
+                        </arguments>
+                        <next>loginCustomerOnFrontend</next>
+                    </step>
+                    <step name="loginCustomerOnFrontend" module="Magento_Customer">
+                        <next>openProductsOnFrontend</next>
+                    </step>
+                    <step name="openProductsOnFrontend" module="Magento_Catalog">
+                        <next>openCustomerOnBackend</next>
+                    </step>
+                    <step name="openCustomerOnBackend" module="Magento_Customer">
+                        <next>createOrderFromCustomerAccount</next>
+                    </step>
+                    <step name="createOrderFromCustomerAccount" module="Magento_Customer">
+                        <next>addRecentlyViewedProductsToCart</next>
+                    </step>
+                    <step name="addRecentlyViewedProductsToCart" module="Magento_Sales">
+                        <next>configureProducts</next>
+                    </step>
+                    <step name="configureProducts" module="Magento_Sales">
+                    </step>
+                </steps>
+            </method>
+        </methods>
+    </scenario>
 </scenarios>

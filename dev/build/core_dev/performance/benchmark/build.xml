@@ -69,7 +69,7 @@
              username="${env.webnode_login}"
              password="${env.webnode_password}"
              trust="yes"
-             command="php -f ${env.magento_dir}/dev/shell/install.php -- --license_agreement_accepted 'yes' --locale 'en_US' --timezone 'America/Los_Angeles' --default_currency 'USD' --db_host '${env.mysql_host}' --db_name '${env.mysql_database}' --db_user '${env.mysql_user}' --db_pass '${env.mysql_password}' --use_secure 'no' --use_secure_admin 'no' --use_rewrites 'yes' --admin_lastname 'Admin' --admin_firstname 'Admin' --admin_email 'admin@example.com' --admin_no_form_key 'yes' --url 'http://${env.base_url}' --secure_base_url 'http://${env.secure_base_url}' --backend_frontname 'backend' --admin_username 'admin' --admin_password '123123q' 2>&amp;1"/>
+             command="php -f ${env.magento_dir}/setup/index.php install --language='en_US' --timezone='America/Los_Angeles' --currency='USD' --db_host='${env.mysql_host}' --db_name='${env.mysql_database}' --db_user='${env.mysql_user}' --db_pass='${env.mysql_password}' --use_secure='0' --use_secure_admin='0' --use_rewrites='1' --admin_lastname='Admin' --admin_firstname='Admin' --admin_email='admin@example.com' --admin_use_security_key='0' --base_url='http://${env.base_url}' --base_url_secure='http://${env.secure_base_url}' --backend_frontname='backend' --admin_username='admin' --admin_password='123123q' 2>&amp;1"/>
     </target>
 
     <target name="install-magento" depends="_bootstrap,_prepare-magento,_prepare-magento-ee,_remote-create-database" description="Install/Repair Magento Application on defined fixture configuration">

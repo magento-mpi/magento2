@@ -56,7 +56,7 @@ class Refunded extends AbstractReport
     protected function _aggregateByOrderCreatedAt($from, $to)
     {
         $table = $this->getTable('sales_refunded_aggregated_order');
-        $sourceTable = $this->getTable('sales_flat_order');
+        $sourceTable = $this->getTable('sales_order');
         $adapter = $this->_getWriteAdapter();
         $adapter->beginTransaction();
 
@@ -143,8 +143,8 @@ class Refunded extends AbstractReport
     protected function _aggregateByRefundCreatedAt($from, $to)
     {
         $table = $this->getTable('sales_refunded_aggregated');
-        $sourceTable = $this->getTable('sales_flat_creditmemo');
-        $orderTable = $this->getTable('sales_flat_order');
+        $sourceTable = $this->getTable('sales_creditmemo');
+        $orderTable = $this->getTable('sales_order');
         $adapter = $this->_getWriteAdapter();
         $adapter->beginTransaction();
 

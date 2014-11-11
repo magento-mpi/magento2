@@ -9,7 +9,6 @@
 namespace Magento\Invitation\Test\Block\Adminhtml\Invitation;
 
 /**
- * Class Grid.
  * Invitations grid on backend.
  */
 class Grid extends \Magento\Backend\Test\Block\Widget\Grid
@@ -27,6 +26,9 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      * @var array
      */
     protected $filters = [
+        'id' => [
+            'selector' => 'input[name="magento_invitation_id"]',
+        ],
         'email' => [
             'selector' => 'input[name="email"]',
         ],

@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule5\Service\V1\Entity;
 
-use Magento\Framework\Service\Data\AbstractSimpleObjectBuilder;
+use Magento\Framework\Api\AbstractSimpleObjectBuilder;
 
 /**
  * Some Data Object short description.
@@ -17,18 +17,13 @@ use Magento\Framework\Service\Data\AbstractSimpleObjectBuilder;
  */
 class AllSoapAndRestBuilder extends AbstractSimpleObjectBuilder
 {
-    const ID = 'id';
-    const NAME = 'name';
-    const ENABLED = 'enabled';
-    const HAS_ORDERS = 'orders';
-
     /**
      * @param int $id
      * @return AllSoapAndRestBuilder
      */
-    public function setId($id)
+    public function setEntityId($id)
     {
-        return $this->_set(self::ID, $id);
+        return $this->_set(AllSoapAndRest::ID, $id);
     }
 
     /**
@@ -37,7 +32,7 @@ class AllSoapAndRestBuilder extends AbstractSimpleObjectBuilder
      */
     public function setName($name)
     {
-        return $this->_set(self::NAME, $name);
+        return $this->_set(AllSoapAndRest::NAME, $name);
     }
 
     /**
@@ -48,7 +43,7 @@ class AllSoapAndRestBuilder extends AbstractSimpleObjectBuilder
      */
     public function setIsEnabled($isEnabled)
     {
-        return $this->_set(self::ENABLED, $isEnabled);
+        return $this->_set(AllSoapAndRest::ENABLED, $isEnabled);
     }
 
     /**
@@ -59,6 +54,6 @@ class AllSoapAndRestBuilder extends AbstractSimpleObjectBuilder
      */
     public function setHasOrders($hasOrders)
     {
-        return $this->_set(self::HAS_ORDERS, $hasOrders);
+        return $this->_set(AllSoapAndRest::HAS_ORDERS, $hasOrders);
     }
 }

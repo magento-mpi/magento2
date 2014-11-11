@@ -8,7 +8,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="invoice_totals">
-        <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Item" name="giftcardaccount" template="Magento_GiftCardAccount::sales/invoice/totals/giftcardaccount.phtml"/>
-    </referenceBlock>
+    <body>
+        <referenceBlock name="invoice_totals">
+            <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Item" name="giftcardaccount" template="Magento_GiftCardAccount::sales/invoice/totals/giftcardaccount.phtml"/>
+        </referenceBlock>
+    </body>
 </page>

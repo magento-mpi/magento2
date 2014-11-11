@@ -38,7 +38,7 @@ interface AllSoapAndRestInterface
     /**
      * Retrieve a list of items.
      *
-     * @param \Magento\Framework\Service\V1\Data\Filter[] $filters
+     * @param \Magento\Framework\Api\Filter[] $filters
      * @param string $sortOrder
      * @return \Magento\TestModule1\Service\V2\Entity\Item[]
      */

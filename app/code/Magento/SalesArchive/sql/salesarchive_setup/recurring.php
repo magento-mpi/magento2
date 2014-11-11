@@ -8,6 +8,6 @@
 
 use Magento\SalesArchive\Model\Resource\Synchronizer;
 
-/* @var $this \Magento\Setup\Module\Setup */
+/* @var $this Magento\Setup\Module\SetupModule */
 $synchronizer = new Synchronizer($this);
 $synchronizer->syncArchiveStructure();

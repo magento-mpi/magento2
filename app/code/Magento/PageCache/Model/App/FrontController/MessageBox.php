@@ -8,7 +8,6 @@
 namespace Magento\PageCache\Model\App\FrontController;
 
 use Magento\Framework\App\FrontController;
-use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
 use Magento\Framework\Stdlib\CookieManager;
 
@@ -84,12 +83,12 @@ class MessageBox
      * Set Cookie for msg box when it displays first
      *
      * @param FrontController $subject
-     * @param ResponseInterface $response
+     * @param \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface $result
      *
-     * @return ResponseInterface
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDispatch(FrontController $subject, ResponseInterface $response)
+    public function afterDispatch(FrontController $subject, $result)
     {
         if ($this->request->isPost() && $this->messageManager->hasMessages()) {
             $publicCookieMetadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
@@ -98,6 +97,6 @@ class MessageBox
                 ->setHttpOnly(false);
             $this->cookieManager->setPublicCookie(self::COOKIE_NAME, 1, $publicCookieMetadata);
         }
-        return $response;
+        return $result;
     }
 }

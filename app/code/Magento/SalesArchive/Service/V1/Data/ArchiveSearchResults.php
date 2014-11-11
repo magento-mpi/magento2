@@ -8,7 +8,7 @@
 
 namespace Magento\SalesArchive\Service\V1\Data;
 
-class ArchiveSearchResults extends \Magento\Framework\Service\V1\Data\SearchResults
+class ArchiveSearchResults extends \Magento\Framework\Api\SearchResults
 {
     /**
      * Returns array of items

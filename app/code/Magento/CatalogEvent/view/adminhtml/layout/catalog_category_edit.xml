@@ -8,9 +8,11 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="category.edit">
-        <block class="Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit\Buttons" name="event.buttons">
-            <action method="addButtons"/>
-        </block>
-    </referenceBlock>
+    <body>
+        <referenceBlock name="category.edit">
+            <block class="Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit\Buttons" name="event.buttons">
+                <action method="addButtons"/>
+            </block>
+        </referenceBlock>
+    </body>
 </page>

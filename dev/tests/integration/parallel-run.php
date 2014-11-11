@@ -67,6 +67,8 @@ for ($i = 0; $i < $maxInstances; ++$i) {
 }
 
 require realpath(__DIR__ . '/../../../') . '/app/bootstrap.php';
+$includePath = new \Magento\Framework\Autoload\IncludePath();
+spl_autoload_register([$includePath, 'load']);
 $parser = new \Magento\Framework\Xml\Parser();
 $parser->load('phpunit.xml.dist');
 $config = $parser->xmlToArray();
@@ -78,8 +80,8 @@ foreach ($config['phpunit']['_value']['testsuites'] as $testsuite) {
     }
 }
 
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(__DIR__ . '/testsuite');
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(__DIR__ . '/framework');
+$includePath->addIncludePath(__DIR__ . '/testsuite');
+$includePath->addIncludePath(__DIR__ . '/framework');
 
 $pathToTests = $argv[1];
 $testCases = array();
