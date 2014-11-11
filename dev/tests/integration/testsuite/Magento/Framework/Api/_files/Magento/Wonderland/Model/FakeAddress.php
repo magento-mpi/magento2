@@ -182,4 +182,24 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
     {
         return $this->getData(self::VAT_ID);
     }
+
+    /**
+     * Get if this address is default shipping address.
+     *
+     * @return bool|null
+     */
+    public function isDefaultShipping()
+    {
+        return $this->getData(self::DEFAULT_SHIPPING);
+    }
+
+    /**
+     * Get if this address is default billing address
+     *
+     * @return bool|null
+     */
+    public function isDefaultBilling()
+    {
+        return $this->getData(self::DEFAULT_BILLING);
+    }
 }
