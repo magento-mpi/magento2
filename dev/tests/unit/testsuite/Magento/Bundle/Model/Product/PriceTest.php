@@ -85,8 +85,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             $this->customerSessionMock,
             $this->eventManagerMock,
             $this->priceCurrency,
-            $this->catalogHelperMock,
-            $this->groupManagement
+            $this->groupManagement,
+            $this->catalogHelperMock
         );
     }
 

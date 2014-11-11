@@ -89,7 +89,8 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $paypalConfigMock = $this->getMock('Magento\Paypal\Model\Config', [], [], '', false);
 
         $customerBuilder = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerDataBuilder')
-            ->setMethods(['populateWithArray', 'setEmail', 'setPrefix', 'setFirstname', 'setMiddlename', 'setLastname', 'setSuffix', 'create'])
+            ->setMethods(['populateWithArray', 'setEmail', 'setPrefix', 'setFirstname', 'setMiddlename', 'setLastname',
+                    'setSuffix', 'create'])
             ->disableOriginalConstructor()
             ->getMock();
         $customerBuilder->expects($this->any())
