@@ -11,6 +11,8 @@ namespace Magento\Eav\Api;
 interface AttributeManagementInterface
 {
     /**
+     * Assign attribute to attribute set
+     *
      * @param string $entityTypeCode
      * @param int $attributeSetId
      * @param int $attributeGroupId

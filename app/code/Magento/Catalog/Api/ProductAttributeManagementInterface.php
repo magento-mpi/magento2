@@ -11,6 +11,8 @@ namespace Magento\Catalog\Api;
 interface ProductAttributeManagementInterface 
 {
     /**
+     * Assign attribute to attribute set
+     *
      * @param int $attributeSetId
      * @param int $attributeGroupId
      * @param string $attributeCode

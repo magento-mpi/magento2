@@ -22,7 +22,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->attrManagementMock = $this->getMock('\Magento\Eav\Api\AttributeManagementInterface', [], [], '', false);
+        $this->attrManagementMock = $this->getMock('\Magento\Eav\Api\AttributeManagementInterface');
         $this->model = new \Magento\Catalog\Model\Product\Attribute\Management($this->attrManagementMock);
     }
 
