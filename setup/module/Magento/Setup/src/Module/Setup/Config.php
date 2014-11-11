@@ -62,28 +62,18 @@ class Config
     protected $configDirectory;
 
     /**
-     * @var Arguments
-     */
-    private $arguments;
-
-    /**
      * Default Constructor
      *
      * @param Filesystem $fileSystem
-     * @param Arguments $arguments
      * @param string[] $data
      */
-    public function __construct(Filesystem $fileSystem, Arguments $arguments, $data = [])
+    public function __construct(Filesystem $fileSystem, $data = [])
     {
         $this->configDirectory = $fileSystem->getDirectoryWrite(DirectoryList::CONFIG);
 
         if ($data) {
             $this->update($data);
         }
-        $this->arguments = $arguments;
-        $config = $this->arguments->get();
-        $data = $this->convertFromConfigData($config);
-        $this->update($data);
     }
 
     /**
@@ -124,6 +114,22 @@ class Config
     }
 
     /**
+     * Load data from application configuration
+     *
+     * @param Arguments $arguments
+     */
+    public function loadFromApplication(Arguments $arguments)
+    {
+        $config = $arguments->get();
+        $connection = $arguments->getConnection(\Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION);
+        if ($connection) {
+            $config['connection'] = $connection;
+        }
+        $data = $this->convertFromConfigData($config);
+        $this->update($data);
+    }
+
+    /**
      * Exports data to a deployment configuration file
      *
      * @return void
@@ -152,25 +158,23 @@ class Config
      */
     private function convertFromConfigData(array $source)
     {
-        $result = array();
-        $connection = $this->arguments->getConnection(\Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION);
-        if ($connection) {
-            if (isset($connection['host']) && !is_array($connection['host'])) {
-                $result[self::KEY_DB_HOST] = $connection['host'];
-            }
-            if (isset($connection['dbname']) && !is_array($connection['dbname'])) {
-                $result[self::KEY_DB_NAME] = $connection['dbname'];
-            }
-            if (isset($connection['username']) && !is_array($connection['username'])) {
-                $result[self::KEY_DB_USER] = $connection['username'];
-            }
-            if (isset($connection['password']) && !is_array($connection['password'])) {
-                $result[self::KEY_DB_PASS] = $connection['password'];
-            }
-            if (isset($connection['initStatements']) && !is_array($connection['initStatements']) ) {
-                $result[self::KEY_DB_INIT_STATEMENTS] = $connection['initStatements'];
-            }
+        $result = [];
+        if (isset($source['connection']['host']) && !is_array($source['connection']['host'])) {
+            $result[self::KEY_DB_HOST] = $source['connection']['host'];
         }
+        if (isset($source['connection']['dbname']) && !is_array($source['connection']['dbname'])) {
+            $result[self::KEY_DB_NAME] = $source['connection']['dbname'];
+        }
+        if (isset($source['connection']['username']) && !is_array($source['connection']['username'])) {
+            $result[self::KEY_DB_USER] = $source['connection']['username'];
+        }
+        if (isset($source['connection']['password']) && !is_array($source['connection']['password'])) {
+            $result[self::KEY_DB_PASS] = $source['connection']['password'];
+        }
+        if (isset($source['connection']['initStatements']) && !is_array($source['connection']['initStatements']) ) {
+            $result[self::KEY_DB_INIT_STATEMENTS] = $source['connection']['initStatements'];
+        }
+
         if (isset($source['db.table_prefix']) && !is_array($source['db.table_prefix'])) {
             $result[self::KEY_DB_PREFIX] = $source['db.table_prefix'];
         }

@@ -8,7 +8,8 @@
 
 namespace Magento\Framework\Module\Setup;
 
-class BaseTest extends \PHPUnit_Framework_TestCase {
+class BaseTest extends \PHPUnit_Framework_TestCase
+{
     const CONNECTION_NAME = 'connection';
 
     /**

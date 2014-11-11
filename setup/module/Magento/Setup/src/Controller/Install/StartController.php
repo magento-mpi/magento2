@@ -85,6 +85,11 @@ class StartController extends AbstractActionController
             );
             $this->installer->install($data);
             $config = $this->deploymentConfigFactory->create();
+            $arguments = new \Magento\Framework\App\Arguments(
+                [],
+                $this->serviceLocator->get('Magento\Framework\App\Arguments\Loader')
+            );
+            $config->loadFromApplication($arguments);
             $this->json->setVariable('key', $config->get(Config::KEY_ENCRYPTION_KEY));
             $this->json->setVariable('success', true);
             $this->json->setVariable('messages', $this->installer->getMessages());
