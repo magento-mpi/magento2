@@ -9,10 +9,8 @@ namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
 class Import
 {
-    /**
-     * @var \Magento\Indexer\Model\IndexerFactory
-     */
-    protected $indexerFactory;
+    /** @var \Magento\Indexer\Model\IndexerRegistry */
+    protected $indexerRegistry;
 
     /**
      * @var \Magento\CatalogPermissions\App\ConfigInterface
@@ -21,14 +19,14 @@ class Import
 
     /**
      * @param \Magento\CatalogPermissions\App\ConfigInterface $config
-     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      */
     public function __construct(
         \Magento\CatalogPermissions\App\ConfigInterface $config,
-        \Magento\Indexer\Model\IndexerFactory $indexerFactory
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
     ) {
         $this->config = $config;
-        $this->indexerFactory = $indexerFactory;
+        $this->indexerRegistry = $indexerRegistry;
     }
 
     /**
@@ -42,15 +40,8 @@ class Import
     public function afterImportSource(\Magento\ImportExport\Model\Import $subject, $import)
     {
         if ($this->config->isEnabled()) {
-            $categoryIndex = $this->indexerFactory->create()->load(
-                \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID
-            );
-            $categoryIndex->invalidate();
-
-            $productIndex = $this->indexerFactory->create()->load(
-                \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID
-            );
-            $productIndex->invalidate();
+            $this->indexerRegistry->get(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)->invalidate();
+            $this->indexerRegistry->get(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID)->invalidate();
         }
         return $import;
     }

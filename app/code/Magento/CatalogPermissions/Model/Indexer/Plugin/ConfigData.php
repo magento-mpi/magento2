@@ -17,10 +17,8 @@ class ConfigData
      */
     protected $coreCache;
 
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $indexer;
+    /** @var \Magento\Indexer\Model\IndexerRegistry */
+    protected $indexerRegistry;
 
     /**
      * @var \Magento\CatalogPermissions\App\ConfigInterface
@@ -40,35 +38,22 @@ class ConfigData
     /**
      * @param CacheInterface $coreCache
      * @param ConfigInterface $appConfig
-     * @param \Magento\Indexer\Model\IndexerInterface $indexer
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      * @param \Magento\Backend\Model\Config\Loader $configLoader
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         CacheInterface $coreCache,
         ConfigInterface $appConfig,
-        \Magento\Indexer\Model\IndexerInterface $indexer,
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         \Magento\Backend\Model\Config\Loader $configLoader,
         \Magento\Framework\StoreManagerInterface $storeManager
     ) {
-        $this->indexer = $indexer;
+        $this->indexerRegistry = $indexerRegistry;
         $this->appConfig = $appConfig;
         $this->coreCache = $coreCache;
         $this->configLoader = $configLoader;
         $this->storeManager = $storeManager;
-    }
-
-    /**
-     * Return own indexer object
-     *
-     * @return \Magento\Indexer\Model\IndexerInterface
-     */
-    protected function getIndexer()
-    {
-        if (!$this->indexer->getId()) {
-            $this->indexer->load(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID);
-        }
-        return $this->indexer;
     }
 
     /**
@@ -113,7 +98,7 @@ class ConfigData
         $newConfig = $this->getConfig($subject, false);
         if ($this->checkForValidating($oldConfig, $newConfig) && $this->appConfig->isEnabled()) {
             $this->coreCache->clean(array(\Magento\Catalog\Model\Category::CACHE_TAG));
-            $this->getIndexer()->invalidate();
+            $this->indexerRegistry->get(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)->invalidate();
         }
 
         return $result;

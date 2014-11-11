@@ -38,6 +38,11 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $_fileUploaderFactory;
 
     /**
+     * @var \Magento\Framework\Logger
+     */
+    protected $_logger;
+
+    /**
      * Construct
      *
      * @param \Magento\Framework\Logger $logger
@@ -51,7 +56,7 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     ) {
         $this->_filesystem = $filesystem;
         $this->_fileUploaderFactory = $fileUploaderFactory;
-        parent::__construct($logger);
+        $this->_logger = $logger;
     }
 
     /**
