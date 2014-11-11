@@ -65,7 +65,7 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
         if ($category) {
             $title = $category->getMetaTitle();
             if ($title) {
-                $this->pageConfig->setTitle($title);
+                $this->pageConfig->getTitle->set($title);
             }
             $description = $category->getMetaDescription();
             if ($description) {

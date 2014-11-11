@@ -53,7 +53,7 @@ class Edit extends \Magento\GiftRegistry\Controller\Index
             } else {
                 $pageTitle = __('Create Gift Registry');
             }
-            $this->_view->getPage()->getConfig()->setTitle($pageTitle);
+            $this->_view->getPage()->getConfig()->getTitle->set($pageTitle);
             $this->_view->renderLayout();
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
