@@ -61,7 +61,7 @@ class ResetPasswordButton implements ButtonProviderInterface
             $data = [
                 'label' => __('Reset Password'),
                 'class' => 'reset reset-password',
-                'onclick' => 'setLocation(\'' . $this->getResetPasswordUrl() . '\')',
+                'on_click' => 'setLocation(\'' . $this->getResetPasswordUrl() . '\')',
                 'sort_order' => 30
             ];
         }

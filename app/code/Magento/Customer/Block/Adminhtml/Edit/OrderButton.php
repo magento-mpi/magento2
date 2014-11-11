@@ -66,7 +66,7 @@ class OrderButton implements ButtonProviderInterface
         if ($customerId && $this->authorization->isAllowed('Magento_Sales::create')) {
             $data = [
                 'label' => __('Create Order'),
-                'onclick' => 'setLocation(\'' . $this->getCreateOrderUrl() . '\')',
+                'on_click' => 'setLocation(\'' . $this->getCreateOrderUrl() . '\')',
                 'class' => 'add',
                 'sort_order' => 60
             ];

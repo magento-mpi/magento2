@@ -8,6 +8,7 @@
 namespace Magento\Ui\Component;
 
 use Magento\Framework\View\Element\UiElementFactory;
+use Magento\Ui\Component\Control\ButtonProviderInterface;
 use Magento\Ui\DataProvider\Manager;
 use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\UiComponent\Context;
@@ -16,6 +17,7 @@ use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
 use Magento\Ui\Component\Control\ActionPool;
+use Magento\Ui\Component\Control\ButtonProviderFactory;
 
 /**
  * Class Form
@@ -55,6 +57,11 @@ class Form extends AbstractView
     protected $actionPool;
 
     /**
+     * @var ButtonProviderFactory
+     */
+    protected $buttonProviderFactory;
+
+    /**
      * Constructor
      *
      * @param TemplateContext $context
@@ -80,11 +87,13 @@ class Form extends AbstractView
         ElementRendererBuilder $elementRendererBuilder,
         UiElementFactory $factory,
         ActionPool $actionPool,
+        ButtonProviderFactory $buttonProviderFactory,
         array $data = []
     ) {
         $this->elementRendererBuilder = $elementRendererBuilder;
         $this->factory = $factory;
         $this->actionPool = $actionPool;
+        $this->buttonProviderFactory = $buttonProviderFactory;
         parent::__construct(
             $context,
             $renderContext,
@@ -108,7 +117,8 @@ class Form extends AbstractView
         $buttons = $this->getData('buttons');
         if ($buttons) {
             foreach ($buttons as $buttonId => $buttonClass) {
-                $button = \Magento\Framework\App\ObjectManager::getInstance()->get($buttonClass);
+                /** @var ButtonProviderInterface $button */
+                $button = $this->buttonProviderFactory->create($buttonClass);
                 $buttonData = $button->getButtonData();
                 if ($buttonData) {
                     $this->actionPool->add($buttonId, $buttonData, $this);

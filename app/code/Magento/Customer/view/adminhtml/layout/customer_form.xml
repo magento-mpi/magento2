@@ -53,9 +53,9 @@
                     <item name="back" xsi:type="string">Magento\Customer\Block\Adminhtml\Edit\BackButton</item>
                     <item name="delete" xsi:type="string">Magento\Customer\Block\Adminhtml\Edit\DeleteButton</item>
                     <item name="invalidateToken" xsi:type="string">Magento\Customer\Block\Adminhtml\Edit\InvalidateTokenButton</item>
+                    <item name="resetPassword" xsi:type="string">Magento\Customer\Block\Adminhtml\Edit\ResetPasswordButton</item>
                     <item name="order" xsi:type="string">Magento\Customer\Block\Adminhtml\Edit\OrderButton</item>
                     <item name="reset" xsi:type="string">Magento\Customer\Block\Adminhtml\Edit\ResetButton</item>
-                    <item name="resetPassword" xsi:type="string">Magento\Customer\Block\Adminhtml\Edit\ResetPasswordButton</item>
                     <item name="save" xsi:type="string">Magento\Customer\Block\Adminhtml\Edit\SaveButton</item>
                 </argument>
             </arguments>

@@ -41,17 +41,6 @@ class Button extends Template
     }
 
     /**
-     * Retrieve onclick handler
-     *
-     * @return string
-     */
-    public function getOnClick()
-    {
-        $url = $this->hasData('url') ? $this->getData('url') : $this->getUrl();
-        return sprintf("setLocation('%s');", $url);
-    }
-
-    /**
      * Retrieve attributes html
      *
      * @return string

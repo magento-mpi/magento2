@@ -38,7 +38,7 @@ class ResetButton implements ButtonProviderInterface
         return [
             'label' => __('Reset'),
             'class' => 'reset',
-            'onclick' => 'setLocation(window.location.href)',
+            'on_click' => 'setLocation(window.location.href)',
             'sort_order' => 50
         ];
     }

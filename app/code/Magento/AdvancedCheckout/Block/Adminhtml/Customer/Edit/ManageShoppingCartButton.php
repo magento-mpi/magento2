@@ -80,7 +80,7 @@ class ManageShoppingCartButton implements ButtonProviderInterface
         ) {
             $data =  [
                 'label' => __('Manage Shopping Cart'),
-                'onclick' => 'setLocation(\'' . $this->getManageShoppingCartUrl() . '\')'
+                'on_click' => 'setLocation(\'' . $this->getManageShoppingCartUrl() . '\')'
             ];
         }
         return $data;

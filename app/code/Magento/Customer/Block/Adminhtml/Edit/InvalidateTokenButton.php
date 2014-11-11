@@ -62,7 +62,7 @@ class InvalidateTokenButton implements ButtonProviderInterface
             $data = [
                 'label' => __('Force Sign-In'),
                 'class' => 'invalidate-token',
-                'onclick' => 'deleteConfirm(\'' . $deleteConfirmMsg . '\', \'' . $this->getInvalidateTokenUrl() . '\')',
+                'on_click' => 'deleteConfirm(\'' . $deleteConfirmMsg . '\', \'' . $this->getInvalidateTokenUrl() . '\')',
                 'sort_order' => 70
             ];
         }
