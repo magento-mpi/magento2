@@ -42,6 +42,7 @@
             <xs:choice maxOccurs="unbounded">
                 <xs:element type="fieldReferenceType" name="reference" maxOccurs="1" minOccurs="0"/>
                 <xs:element type="fieldConstraintsType" name="constraints" maxOccurs="unbounded" minOccurs="0"/>
+                <xs:element type="fieldTooltipType" name="tooltip" maxOccurs="unbounded" minOccurs="0"/>
             </xs:choice>
             <xs:attribute type="referenceAttributeType" name="name" use="required"/>
             <xs:attribute type="textAttributeType" name="dataType" use="optional"/>
@@ -120,6 +121,13 @@
                 <xs:attribute type="xs:string" name="value" use="optional"/>
             </xs:extension>
         </xs:simpleContent>
+    </xs:complexType>
+    <!-- -->
+    <xs:complexType name="fieldTooltipType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="link" maxOccurs="1" minOccurs="1"/>
+            <xs:element type="xs:string" name="description" maxOccurs="1" minOccurs="1"/>
+        </xs:sequence>
     </xs:complexType>
     <!-- -->
     <xs:simpleType name="textAttributeType">

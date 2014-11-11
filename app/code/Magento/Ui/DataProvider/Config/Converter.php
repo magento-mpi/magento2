@@ -32,41 +32,48 @@ class Converter implements ConverterInterface
     /**
      * Transform Xml to array
      *
-     * @param string $source
+     * @param \DOMNode $source
      * @return array
      */
-    protected function toArray($source)
+    protected function toArray(\DOMNode $source)
     {
-        /** @var $source \DOMDocument */
-        $result = array();
+        $result = [];
         if ($source->hasAttributes()) {
-            $attrs = $source->attributes;
-            foreach ($attrs as $attr) {
+            foreach ($source->attributes as $attr) {
                 $result['@attributes'][$attr->name] = $attr->value;
             }
         }
 
-        if ($source->hasChildNodes()) {
-            $children = $source->childNodes;
-            $groups = array();
-            foreach ($children as $child) {
-                if ($child->nodeType == XML_TEXT_NODE || $child->nodeType == XML_COMMENT_NODE) {
-                    continue;
-                }
-                if (in_array($child->nodeName, ['validate', 'filter', 'readonly'])) {
-                    if (!isset($result[$child->nodeName])) {
-                        $result[$child->nodeName] = [];
+        if (!$source->hasChildNodes()) {
+            if (empty($result)) {
+                $result = $source->nodeValue;
+            }
+        } else {
+            if ($source->hasChildNodes()) {
+                $groups = [];
+                foreach ($source->childNodes as $child) {
+                    if ($child->nodeType == XML_TEXT_NODE || $child->nodeType == XML_COMMENT_NODE) {
+                        continue;
                     }
-                    $result[$child->nodeName][] = $this->toArray($child);
-                } else {
-                    if (isset($result[$child->nodeName])) {
-                        if (!isset($groups[$child->nodeName])) {
-                            $result[$child->nodeName] = [$result[$child->nodeName]];
-                            $groups[$child->nodeName] = 1;
-                        }
-                        $result[$child->nodeName][] = $this->toArray($child);
+                    if ($this->isTextNode($child)) {
+                        $result[$child->nodeName] = $this->getTextNode($child)->data;
                     } else {
-                        $result[$child->nodeName] = $this->toArray($child);
+                        if (in_array($child->nodeName, ['validate', 'filter', 'readonly'])) {
+                            if (!isset($result[$child->nodeName])) {
+                                $result[$child->nodeName] = [];
+                            }
+                            $result[$child->nodeName][] = $this->toArray($child);
+                        } else {
+                            if (isset($result[$child->nodeName])) {
+                                if (!isset($groups[$child->nodeName])) {
+                                    $result[$child->nodeName] = [$result[$child->nodeName]];
+                                    $groups[$child->nodeName] = 1;
+                                }
+                                $result[$child->nodeName][] = $this->toArray($child);
+                            } else {
+                                $result[$child->nodeName] = $this->toArray($child);
+                            }
+                        }
                     }
                 }
             }
@@ -105,7 +112,12 @@ class Converter implements ConverterInterface
                         ];
                     }
                 }
-
+                if (isset($field['tooltip'])) {
+                    $fields[$field['@attributes']['name']]['tooltip'] = [
+                        'link' => $field['tooltip']['link'],
+                        'description' => $field['tooltip']['description']
+                    ];
+                }
                 if (isset($field['constraints']['validate'])) {
                     foreach ($field['constraints']['validate'] as $rule) {
                         $fields[$field['@attributes']['name']]['constraints']['validate'][$rule['@attributes']['name']] =
@@ -142,5 +154,45 @@ class Converter implements ConverterInterface
             }
         }
         return $data;
+    }
+
+    /**
+     * @param \DOMNode $node
+     * @return bool
+     */
+    protected function isTextNode(\DOMNode $node)
+    {
+        $result = true;
+        if (!$node instanceof \DOMText) {
+            if ($node->hasChildNodes()) {
+                foreach ($node->childNodes as $child) {
+                    if ($child->nodeType != XML_TEXT_NODE) {
+                        $result = false;
+                        break;
+                    }
+                }
+            } else {
+                $result = false;
+            }
+
+        }
+        return $result;
+    }
+
+    /**
+     * @param \DOMNode $node
+     * @return \DOMText
+     */
+    protected function getTextNode(\DOMNode $node)
+    {
+        if ($node instanceof \DOMText) {
+            return $node;
+        }
+        foreach ($node->childNodes as $child) {
+            if ($child->nodeType == XML_TEXT_NODE) {
+                return $child;
+            }
+        }
+        return false;
     }
 }
