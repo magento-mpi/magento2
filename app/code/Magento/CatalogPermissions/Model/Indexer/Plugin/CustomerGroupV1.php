@@ -34,17 +34,16 @@ class CustomerGroupV1
     /**
      * Invalidate indexer on customer group save
      *
-     * @param \Magento\Customer\Model\Resource\GroupRepository $subject
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $subject
      * @param \Closure $proceed
-     * @param \Magento\Customer\Model\Data\Group $customerGroup
-     *
+     * @param \Magento\Customer\Api\Data\GroupInterface $customerGroup
      * @return int
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterSave(
-        \Magento\Customer\Model\Resource\GroupRepository $subject,
+        \Magento\Customer\Api\GroupRepositoryInterface $subject,
         \Closure $proceed,
-        \Magento\Customer\Model\Data\Group $customerGroup
+        \Magento\Customer\Api\Data\GroupInterface $customerGroup
     ) {
         $needInvalidating = !$customerGroup->getId();
 
@@ -60,38 +59,29 @@ class CustomerGroupV1
     /**
      * Invalidate indexer on customer group delete
      *
-     * @param \Magento\Customer\Model\Resource\GroupRepository $subject
-     *
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $subject
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDelete(\Magento\Customer\Model\Resource\GroupRepository $subject)
+    public function afterDelete(\Magento\Customer\Api\GroupRepositoryInterface $subject)
     {
-        if ($this->appConfig->isEnabled()) {
-            $this->getIndexer()->invalidate();
-        }
-        return true;
+        return $this->invalidateIndexer();
     }
 
     /**
      * Invalidate indexer on customer group delete
      *
-     * @param \Magento\Customer\Model\Resource\GroupRepository $subject
-     *
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $subject
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDeleteById(\Magento\Customer\Model\Resource\GroupRepository $subject)
+    public function afterDeleteById(\Magento\Customer\Api\GroupRepositoryInterface $subject)
     {
-        if ($this->appConfig->isEnabled()) {
-            $this->getIndexer()->invalidate();
-        }
-        return true;
+        return $this->invalidateIndexer();
     }
 
     /**
      * Return own indexer object
-     *
      * @return \Magento\Indexer\Model\IndexerInterface
      */
     protected function getIndexer()
@@ -100,5 +90,18 @@ class CustomerGroupV1
             $this->indexer->load(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID);
         }
         return $this->indexer;
+    }
+
+    /**
+     * Invalidate indexer
+     *
+     * @return bool
+     */
+    protected function invalidateIndexer()
+    {
+        if ($this->appConfig->isEnabled()) {
+            $this->getIndexer()->invalidate();
+        }
+        return true;
     }
 }
