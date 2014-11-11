@@ -20,6 +20,7 @@ define([
         required:           false,
         disabled:           false,
         tmpPath:            'ui/form/element/',
+        tooltipTpl:         'ui/form/element/helper/tooltip',
         input_type:         'input',
         placeholder:        null,
         noticeid:           null,

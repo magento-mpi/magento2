@@ -39,7 +39,9 @@ define([
          * @return {Boolean}
          */
         getInititalValue: function(){
-            return !!__super__.getInititalValue.apply(this, arguments);
+            var value = __super__.getInititalValue.apply(this, arguments);
+
+            return !!+value;
         },
 
         /**

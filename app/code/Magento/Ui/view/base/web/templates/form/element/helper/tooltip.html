@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 -->
-<div class="tooltip">
-    <span class="help">
-        <a data-bind="attr: { href: href, onclick: onclick, title: title }" class="link-store-scope">
-            <span data-bind="text: $t('What is this?')"></span>
-        </a>
-    </span>
+ <div class="field-tooltip">
+    <a class="field-tooltip-action action-help" targte="_blank" tabindex="1" data-bind="attr: {href: tooltip.link}">
+    </a>
+    <div class="field-tooltip-content">
+        <!-- ko text: tooltip.description --><!-- /ko -->
+    </div>
 </div>

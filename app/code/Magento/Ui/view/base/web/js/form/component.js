@@ -214,19 +214,17 @@ define([
         },
 
         destroy: function(){
-            var containers  = this.containers(),
-                children    = this.elems(),
-                data        = this.provider.data,
-                layout      = this.renderer.layout; 
+            var data    = this.provider.data,
+                layout  = this.renderer.layout; 
 
-            containers.forEach(function(parent){
+            this.containers.each(function(parent){
                 parent.remove(this);
             }, this);
 
             data.remove(this.dataScope);
             layout.clear(this.name);
-            
-            children.forEach(function(child){ 
+
+            this.elems.each(function(child){ 
                 child.destroy();
             });
         }
@@ -257,20 +255,23 @@ define([
         },
 
         trigger: function(){
-            var args        = _.toArray(arguments),
-                bubble      = EventsBus.trigger.apply(this, args),
-                containers  = this.containers(),
-                result      = [];
+            var args    = _.toArray(arguments),
+                bubble  = EventsBus.trigger.apply(this, args),
+                result;
 
-            if(bubble){
-                result = containers.map(function(parent){
-                    return parent.trigger.apply(parent, args);
-                });
+            if(!bubble){
+                return false; 
             }
 
-            return !result.some(function(value){
-                return value === false;
+            this.containers.each(function(parent) {
+                result = parent.trigger.apply(parent, args);
+                
+                if (result === false) {
+                    bubble = false;
+                }
             });
+
+            return !!bubble;
         }
     });
 

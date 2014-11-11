@@ -59,20 +59,22 @@ define([
          */
         trigger: function(name) {
             var handlers = getEvents(this, name),
-                result = [],
+                bubble   = true,
                 args;
 
-            if (typeof handlers !== 'undefined') {
-                args = Array.prototype.slice.call(arguments, 1);
+            if (_.isUndefined(handlers)) {
+                return true;
+            }  
 
-                result = handlers.map(function(callback) {
-                    return callback.apply(this, args);
-                });
-            }
+            args = Array.prototype.slice.call(arguments, 1);
 
-            return !result.some(function(value){
-                return value === false;
-            });;
+            handlers.forEach(function(callback) {                    
+                if (callback.apply(this, args) === false) {
+                    bubble = false;
+                }
+            });
+
+            return !!bubble;
         }
     }
 });
