@@ -206,5 +206,5 @@ define([
         }
     });
     
-    return $.mage.catalogSearch;
+    return $.mage.quickSearch;
 });
