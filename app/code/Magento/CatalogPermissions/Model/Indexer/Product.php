@@ -17,13 +17,13 @@ class Product extends Category
     /**
      * @param Category\Action\FullFactory $fullActionFactory
      * @param Product\Action\RowsFactory $rowsActionFactory
-     * @param \Magento\Indexer\Model\IndexerInterface $indexer
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      */
     public function __construct(
         Category\Action\FullFactory $fullActionFactory,
         Product\Action\RowsFactory $rowsActionFactory,
-        \Magento\Indexer\Model\IndexerInterface $indexer
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
     ) {
-        parent::__construct($fullActionFactory, $rowsActionFactory, $indexer);
+        parent::__construct($fullActionFactory, $rowsActionFactory, $indexerRegistry);
     }
 }
