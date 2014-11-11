@@ -119,7 +119,7 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
      * Post request for creating sales rule
      *
      * @param FixtureInterface $fixture
-     * @return void
+     * @return array
      * @throws \Exception
      */
     public function persist(FixtureInterface $fixture = null)
@@ -148,6 +148,13 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception("Sales rule entity creating by curl handler was not successful! Response: $response");
         }
+
+        preg_match('`<tr.*title=".*sales_rule\/promo_quote\/edit\/id\/([\d]+)`ims', $response, $matches);
+        if (empty($matches)) {
+            throw new \Exception('Cannot find Sales Rule id');
+        }
+
+        return ['id' => $matches[1]];
     }
 
     /**
