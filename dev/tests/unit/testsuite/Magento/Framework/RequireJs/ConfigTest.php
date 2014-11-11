@@ -89,10 +89,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $expected = <<<expected
 (function(require){
-require.config({
-    "baseUrl": ""
-});
-
+require.config({"baseUrl":""});
 (function() {
 relative/file_one.js content
 require.config(config);
@@ -125,10 +122,7 @@ expected;
             ->method('getBaseUrl')
             ->will($this->returnValue('http://base.url/'));
         $expected = <<<expected
-require.config({
-    "baseUrl": "http://base.url/area/theme/locale"
-});
-
+require.config({"baseUrl":"http://base.url/area/theme/locale"});
 expected;
         $actual = $this->object->getBaseConfig();
         $this->assertSame($expected, $actual);

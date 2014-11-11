@@ -134,7 +134,7 @@ config;
         $config = array(
             'baseUrl' => $this->staticContext->getBaseUrl() . $this->staticContext->getPath()
         );
-        $config = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-        return "require.config($config);\n";
+        $config = json_encode($config, JSON_UNESCAPED_SLASHES);
+        return "require.config($config);";
     }
 }
