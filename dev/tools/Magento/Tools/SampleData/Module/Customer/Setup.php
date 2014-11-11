@@ -33,18 +33,26 @@ class Setup implements SetupInterface
     protected $postInstaller;
 
     /**
+     * @var \Magento\Framework\Module\ModuleListInterface
+     */
+    protected $moduleList;
+
+    /**
      * @param Setup\Customer $customerSetup
      * @param Setup\Review $reviewSetup
      * @param PostInstaller $postInstaller
+     * @param \Magento\Framework\Module\ModuleListInterface
      */
     public function __construct(
         Setup\Customer $customerSetup,
         Setup\Review $reviewSetup,
-        PostInstaller $postInstaller
+        PostInstaller $postInstaller,
+        \Magento\Framework\Module\ModuleListInterface $moduleList
     ) {
         $this->customerSetup = $customerSetup;
         $this->reviewSetup = $reviewSetup;
         $this->postInstaller = $postInstaller;
+        $this->moduleList = $moduleList;
     }
 
     /**
@@ -53,6 +61,8 @@ class Setup implements SetupInterface
     public function run()
     {
         $this->customerSetup->run();
-        $this->postInstaller->addSetupResource($this->reviewSetup);
+        if($this->moduleList->getModule('Magento_Review')) {
+            $this->postInstaller->addSetupResource($this->reviewSetup);
+        }
     }
 }

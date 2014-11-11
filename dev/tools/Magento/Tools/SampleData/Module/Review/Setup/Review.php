@@ -79,6 +79,9 @@ class Review implements SetupInterface
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
         $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
+        $ratingId = ['1', '2', '3'];
+        $storeId = ['1'];
+        $this->assignRatingsToWebsite($ratingId, $storeId);
         foreach ($csvReader as $row) {
             if (!$this->getProductIdBySku($row['sku'])) {
                 continue;
@@ -147,14 +150,51 @@ class Review implements SetupInterface
      */
     public function setReviewRating(\Magento\Review\Model\Review $review, $row)
     {
-        $this->ratingFactory->create(
-        )->setRatingId(
-            1
-        )->setReviewId(
-            $review->getId()
-        )->addOptionVote(
-            $row['rating'],
-            $this->getProductIdBySku($row['sku'])
-        );
+        $ratings = unserialize($row['rating']);
+        foreach ($ratings as $ratingId => $ratingOption) {
+            $rating = $this->ratingFactory->create()->load($ratingId);
+            $optionId = $this->getOptionId($rating->getOptions(), $ratingOption);
+            $rating->setReviewId(
+                $review->getId()
+            )->addOptionVote(
+                $optionId,
+                $this->getProductIdBySku($row['sku'])
+            );
+        }
+    }
+
+    /**
+     * @param array $allRatings
+     * @param array $stores
+     * @return void
+     */
+    public function assignRatingsToWebsite($allRatings = [], $stores = ['1'])
+    {
+        $rating = $this->ratingFactory->create();
+        $stores[] = '0';
+        foreach ($allRatings as $ratingCode) {
+            $rating->setId(
+                $ratingCode
+            )->setStores(
+                $stores
+            )->setEntityId(
+                1
+            )->save();
+        }
+    }
+
+    /**
+     * @param array $options
+     * @param string $value
+     * @return null|string
+     */
+    public function getOptionId($options, $value)
+    {
+        foreach ($options as $option) {
+            if ($option->getValue() == $value) {
+                return $option->getOptionId();
+            }
+        }
+        return null;
     }
 }
