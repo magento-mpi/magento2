@@ -19,7 +19,7 @@ class Grid extends AbstractGrid
     /**
      * @var string
      */
-    protected $gridTableName = 'sales_flat_order_grid';
+    protected $gridTableName = 'sales_order_grid';
 
     /**
      * Refresh grid row
