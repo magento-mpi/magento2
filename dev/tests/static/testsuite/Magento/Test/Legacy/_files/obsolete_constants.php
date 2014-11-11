@@ -667,4 +667,7 @@ return array(
     ['SSH2', 'Magento\Framework\Filesystem'],
     ['HTTP', 'Magento\Framework\Filesystem', '\Magento\Framework\Filesystem\DriverPool::HTTP'],
     ['HTTPS', 'Magento\Framework\Filesystem', '\Magento\Framework\Filesystem\DriverPool::HTTPS'],
+    ['DEBUG_CONNECT', 'Magento\Framework\DB\Adapter\Pdo\Mysql', 'Magento\Framework\DB\LoggerInterface::TYPE_CONNECT'],
+    ['DEBUG_TRANSACTION', 'Magento\Framework\DB\Adapter\Pdo\Mysql', 'Magento\Framework\DB\LoggerInterface::TYPE_TRANSACTION'],
+    ['DEBUG_QUERY', 'Magento\Framework\DB\Adapter\Pdo\Mysql', 'Magento\Framework\DB\LoggerInterface::TYPE_QUERY'],
 );
