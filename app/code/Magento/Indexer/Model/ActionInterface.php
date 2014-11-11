@@ -22,7 +22,7 @@ interface ActionInterface
      * @param int[] $ids
      * @return void
      */
-    public function executeList($ids);
+    public function executeList(array $ids);
 
     /**
      * Execute partial indexation by ID
