@@ -73,6 +73,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Eav\Api\Data\AttributeOptionDataBuilder $optionDataBuilder
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
@@ -90,6 +91,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Eav\Api\Data\AttributeOptionDataBuilder $optionDataBuilder,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
@@ -107,6 +109,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
             $storeManager,
             $resourceHelper,
             $universalFactory,
+            $optionDataBuilder,
             $resource,
             $resourceCollection,
             $data

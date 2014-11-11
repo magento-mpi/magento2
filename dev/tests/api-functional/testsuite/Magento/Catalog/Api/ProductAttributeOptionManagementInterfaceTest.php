@@ -5,16 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Eav\Api;
+namespace Magento\Catalog\Api;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Eav\Api\Data\AttributeOptionInterface;
 use Magento\Eav\Api\Data\AttributeOptionLabelInterface;
 
-class AttributeOptionManagementInterfaceTest extends WebapiAbstract
+class ProductAttributeOptionManagementInterfaceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'eavApiAttributeOptionManagementInterfaceV1';
+    const SERVICE_NAME = 'catalogProductAttributeOptionManagementV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/attributes';
 
@@ -40,15 +40,11 @@ class AttributeOptionManagementInterfaceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Options'
+                'operation' => self::SERVICE_NAME . 'getItems'
             ],
         ];
 
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $response = $this->_webApiCall($serviceInfo, array('id' => $testAttributeCode));
-        } else {
-            $response = $this->_webApiCall($serviceInfo);
-        }
+        $response = $this->_webApiCall($serviceInfo, array('attributeCode' => $testAttributeCode));
 
         $this->assertTrue(is_array($response));
         $this->assertEquals($expectedOptions, $response);
@@ -68,7 +64,7 @@ class AttributeOptionManagementInterfaceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'addOption'
+                'operation' => self::SERVICE_NAME . 'add'
             ]
         ];
 
@@ -94,6 +90,12 @@ class AttributeOptionManagementInterfaceTest extends WebapiAbstract
         );
 
         $this->assertTrue($response);
+        $updatedData = $this->getAttributeOptions($testAttributeCode);
+        $lastOption = array_pop($updatedData);
+        $this->assertEquals(
+            $optionData[AttributeOptionInterface::STORE_LABELS][0][AttributeOptionLabelInterface::LABEL],
+            $lastOption['label']
+        );
     }
 
     /**
@@ -103,10 +105,11 @@ class AttributeOptionManagementInterfaceTest extends WebapiAbstract
     {
         $attributeCode = 'select_attribute';
         //get option Id
-        $attributeData = $this->getAttributeInfo($attributeCode);
-        $this->assertArrayHasKey(1, $attributeData['options']);
-        $this->assertNotEmpty($attributeData['options'][1]['value']);
-        $optionId = $attributeData['options'][1]['value'];
+        $initialOptions = $this->getAttributeOptions($attributeCode);
+        $this->assertGreaterThan(0, count($initialOptions));
+        $lastOption = array_pop($initialOptions);
+        $this->assertNotEmpty($lastOption['value']);
+        $optionId = $lastOption['value'];
 
         $serviceInfo = [
             'rest' => [
@@ -116,7 +119,7 @@ class AttributeOptionManagementInterfaceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'removeOption',
+                'operation' => self::SERVICE_NAME . 'delete',
             ]
         ];
         $this->assertTrue($this->_webApiCall(
@@ -126,31 +129,29 @@ class AttributeOptionManagementInterfaceTest extends WebapiAbstract
                 'optionId' => $optionId,
             ]
         ));
-        $attributeData = $this->getAttributeInfo($attributeCode);
-        $this->assertTrue(is_array($attributeData['options']));
-        $this->assertArrayNotHasKey(1, $attributeData['options']);
+        $updatedOptions = $this->getAttributeOptions($attributeCode);
+        $this->assertLessThan(count($initialOptions), count($updatedOptions));
+        $this->assertNotEquals($lastOption, array_pop($updatedOptions));
     }
 
     /**
-     * Retrieve attribute info
-     *
-     * @param  string $id
-     * @return mixed
+     * @param $testAttributeCode
+     * @return array|bool|float|int|string
      */
-    private function getAttributeInfo($id)
+    private function getAttributeOptions($testAttributeCode)
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $id,
+                'resourcePath' => self::RESOURCE_PATH . '/' . $testAttributeCode . '/options',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Info'
+                'operation' => self::SERVICE_NAME . 'getItems'
             ],
         ];
-        return $this->_webApiCall($serviceInfo, array('id' => $id));
+        return $this->_webApiCall($serviceInfo, array('attributeCode' => $testAttributeCode));
     }
 
 }

@@ -98,6 +98,11 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractExtens
     protected $_universalFactory;
 
     /**
+     * @var \Magento\Eav\Api\Data\AttributeOptionDataBuilder
+     */
+    protected $optionDataBuilder;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
@@ -107,6 +112,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractExtens
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Eav\Api\Data\AttributeOptionDataBuilder $optionDataBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -121,6 +127,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractExtens
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Eav\Api\Data\AttributeOptionDataBuilder $optionDataBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -132,6 +139,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractExtens
         $this->_storeManager = $storeManager;
         $this->_resourceHelper = $resourceHelper;
         $this->_universalFactory = $universalFactory;
+        $this->optionDataBuilder = $optionDataBuilder;
     }
 
     /**
@@ -925,9 +933,25 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractExtens
     {
         $options = $this->getData(self::OPTIONS);
         if (!$options) {
-            return $this->usesSource() ? $this->getSource()->getAllOptions() : array();
+            $options = $this->usesSource() ? $this->getSource()->getAllOptions() : array();
         }
-        return $options;
+
+        return $this->convertToObjects($options);
+    }
+
+    /**
+     * Convert option values from arrays to data objects
+     *
+     * @param array $options
+     * @return \Magento\Eav\Api\Data\AttributeOptionInterface[]
+     */
+    protected function convertToObjects(array $options)
+    {
+        $dataObjects = [];
+        foreach ($options as $option) {
+            $dataObjects[] = $this->optionDataBuilder->populateWithArray($option)->create();
+        }
+        return $dataObjects;
     }
 
     /**
