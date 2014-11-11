@@ -72,6 +72,12 @@
             <resource ref="Magento_Catalog::attributes_attributes" />
         </resources>
     </route>
+    <route url="/V1/categories/attributes/:attributeCode/options" method="GET">
+        <service class="Magento\Catalog\Api\CategoryAttributeOptionManagementInterface" method="getItems" />
+        <resources>
+            <resource ref="Magento_Catalog::attributes_attributes" />
+        </resources>
+    </route>
     <route url="/V1/products/attributes" method="POST">
         <service class="Magento\Catalog\Api\ProductAttributeRepositoryInterface" method="save"/>
         <resources>

@@ -19,7 +19,7 @@
     <preference for="Magento\Catalog\Service\V1\Category\ProductLinks\ReadServiceInterface" type="Magento\Catalog\Service\V1\Category\ProductLinks\ReadService" />
     <preference for="Magento\Catalog\Service\V1\Category\ProductLinks\WriteServiceInterface" type="Magento\Catalog\Service\V1\Category\ProductLinks\WriteService" />
     <preference for="Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface" type="Magento\Catalog\Service\V1\Product\Attribute\ReadService" />
-    <preference for="Magento\Catalog\Service\V1\Category\Attribute\ReadServiceInterface" type="Magento\Catalog\Service\V1\Category\Attribute\ReadService" />
+    <preference for="Magento\Catalog\Api\CategoryAttributeOptionManagementInterface" type="Magento\Catalog\Model\Category\Attribute\OptionManagement" />
     <preference for="Magento\Catalog\Service\V1\Product\Attribute\WriteServiceInterface" type="Magento\Catalog\Service\V1\Product\Attribute\WriteService" />
     <preference for="Magento\Catalog\Service\V1\Category\WriteServiceInterface" type="Magento\Catalog\Service\V1\Category\WriteService" />
     <preference for="Magento\Catalog\Service\V1\Product\Attribute\OptionServiceInterface" type="Magento\Catalog\Service\V1\Product\Attribute\OptionService" />
