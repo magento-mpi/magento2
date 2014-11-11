@@ -12,7 +12,6 @@ use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
- * Class WidgetGrid
  * Widget grid on the Widget Instance Index page
  */
 class WidgetGrid extends AbstractGrid
@@ -23,6 +22,13 @@ class WidgetGrid extends AbstractGrid
      * @var string
      */
     protected $editLink = 'tbody tr td.col-title';
+
+    /**
+     * First row selector
+     *
+     * @var string
+     */
+    protected $firstRowSelector = '//tr[./td[contains(@class, "col-title")]][1]';
 
     /**
      * Filters array mapping
