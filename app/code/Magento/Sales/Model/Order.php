@@ -579,9 +579,9 @@ class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterfac
         \Magento\Sales\Model\Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory,
         PriceCurrencyInterface $priceCurrency,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
