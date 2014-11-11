@@ -91,6 +91,7 @@ interface UiComponentInterface extends BlockInterface
      * Set elements
      *
      * @param array $elements
+     * @return mixed
      */
     public function setElements(array $elements);
 

@@ -43,8 +43,8 @@ class UiElementFactory
      *
      * @param $elementName
      * @param array $data
+     * @return bool|BlockInterface
      * @throws \Exception
-     * @return ElementInterface
      */
     public function create($elementName, array $data = [])
     {

@@ -46,6 +46,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements T
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(

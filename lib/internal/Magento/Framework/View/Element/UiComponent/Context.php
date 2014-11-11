@@ -219,6 +219,7 @@ class Context extends Registry
 
     /**
      * @param LayoutInterface $layout
+     * @return void
      */
     public function setLayout(LayoutInterface $layout)
     {

@@ -103,7 +103,7 @@ class ActionPoolTest extends \PHPUnit_Framework_TestCase
         $this->itemFactoryMock->expects($this->any())->method('create')->willReturn($this->items[$this->key]);
         $this->items[$this->key]->expects($this->any())->method('setData')->with($data)->willReturnSelf();
 
-       $this->contextMock->expects($this->any())->method('getPageLayout')->willReturn($this->layoutMock);
+        $this->contextMock->expects($this->any())->method('getPageLayout')->willReturn($this->layoutMock);
         $toolbarContainerMock =$this->getMock(
             'Magento\Backend\Block\Widget\Button\Toolbar\Container',
             [],
