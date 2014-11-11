@@ -8,6 +8,7 @@
  */
 namespace Magento\CatalogSearch\Model\Layer;
 
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Layer;
 use Magento\Catalog\Model\Resource;
 use Magento\Framework\Object;
@@ -21,6 +22,7 @@ class Advanced extends \Magento\Catalog\Model\Layer
      * @param Resource\Product $catalogProduct
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Registry $registry
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      */
     public function __construct(
@@ -30,6 +32,7 @@ class Advanced extends \Magento\Catalog\Model\Layer
         Resource\Product $catalogProduct,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Registry $registry,
+        CategoryRepositoryInterface $categoryRepository,
         array $data = array()
     ) {
         parent::__construct(
@@ -39,6 +42,7 @@ class Advanced extends \Magento\Catalog\Model\Layer
             $catalogProduct,
             $storeManager,
             $registry,
+            $categoryRepository,
             $data
         );
     }
