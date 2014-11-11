@@ -12,7 +12,7 @@
 <project name="Core Deployment Builds" basedir="../../../" default="publication_ce">
     <import file="../core_dev/unit/build.xml"/>
 
-    <target name="prepare_publication_ce" depends="_server_info" description="Community Edition source code preparation">
+    <target name="prepare_publication_ce" depends="_server_info, _composer_install" description="Community Edition source code preparation">
         <fail message="Bamboo variable 'publication_target_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_publication_target_dir}" arg2="" trim="true"/></condition>
         </fail>
@@ -40,7 +40,7 @@
         </exec>
     </target>
 
-    <target name="_prepare_packages" depends="_server_info" description="Prepare repositories of the product and components packages">
+    <target name="_prepare_packages" depends="_server_info, _composer_install" description="Prepare repositories of the product and components packages">
         <fail message="Bamboo variable 'publication_target_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_publication_target_dir}" arg2="" trim="true"/></condition>
         </fail>
@@ -76,7 +76,7 @@
         </exec>
     </target>
 
-    <target name="publication_ce" depends="prepare_publication_ce" description="Community Edition source code population to the public repository">
+    <target name="publication_ce" depends="prepare_publication_ce, _composer_install" description="Community Edition source code population to the public repository">
         <fail message="Bamboo variable 'target_satis_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_target_satis_dir}" arg2="" trim="true"/></condition>
         </fail>
