@@ -8,7 +8,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="form">
-        <block class="Magento\Checkout\Block\Adminhtml\CartTab" name="reviews" />
-    </referenceBlock>
+    <body>
+        <referenceBlock name="form">
+            <block class="Magento\Checkout\Block\Adminhtml\CartTab" name="cart" />
+        </referenceBlock>
+    </body>
 </page>
