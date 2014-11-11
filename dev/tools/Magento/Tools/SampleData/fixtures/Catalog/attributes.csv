@@ -29,7 +29,8 @@ Travel
 Urban
 Warmup
 Yoga",,activity_bags,1,,0,,,0,1,0,0,1,1,0,,1,1,1,0,0,Bag
-Style,multiselect,0,"Backpack
+"Style Bags
+Style",multiselect,0,"Backpack
 Luggage
 Duffel
 Messenger
@@ -112,7 +113,8 @@ Girls
 Unisex",,gender,1,,0,,,0,1,0,0,,1,0,,1,1,1,0,0,"Gear
 Sprite Stasis Ball
 Sprite Yoga Strap"
-Category,multiselect,0,"Cardio
+"Category Gear
+Category",multiselect,0,"Cardio
 Electronic
 Exercise
 Fashion
