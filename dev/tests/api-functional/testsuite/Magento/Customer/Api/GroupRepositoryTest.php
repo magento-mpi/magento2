@@ -152,7 +152,7 @@ class GroupRepositoryTest extends WebapiAbstract
         $groupId = $this->_webApiCall($serviceInfo, $requestData)[CustomerGroup::ID];
         $this->assertNotNull($groupId);
 
-        $newGroup = $this->groupRepository->get($groupId);
+        $newGroup = $this->groupRepository->getById($groupId);
         $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
         $this->assertEquals($groupData[CustomerGroup::CODE], $newGroup->getCode(), 'The group code does not match.');
         $this->assertEquals(
