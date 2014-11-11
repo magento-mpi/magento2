@@ -8,7 +8,7 @@
 var config = {
     map: {
         '*': {
-            addToCart: 'Magento_Catalog/js/msrp'
+            addToCart: 'Magento_Msrp/js/msrp'
         }
     }
 };
