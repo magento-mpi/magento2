@@ -37,11 +37,15 @@ class AssertCustomerCustomAttributeErrorSaveMessage extends AbstractConstraint
      */
     public function processAssert(CustomerAttributeNew $customerAttributeNew)
     {
-        \PHPUnit_Framework_Assert::assertEquals(
-            self::ERROR_SAVE_MESSAGE,
-            $customerAttributeNew->getMessagesBlock()->getErrorMessages(),
-            'Wrong error message is displayed.'
-        );
+        $elements = $customerAttributeNew->getCustomerCustomAttributesForm()->getRequireNoticeProperties();
+        foreach ($elements as $element) {
+            $errorMessage = explode("\n", $element->getText());
+            \PHPUnit_Framework_Assert::assertEquals(
+                self::ERROR_SAVE_MESSAGE,
+                $errorMessage[1],
+                'Wrong error message is displayed.'
+            );
+        }
     }
 
     /**
