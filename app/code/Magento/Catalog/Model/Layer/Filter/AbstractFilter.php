@@ -287,6 +287,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object
      * Get filter text label
      *
      * @return string
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getName()
     {
@@ -351,5 +352,27 @@ abstract class AbstractFilter extends \Magento\Framework\Object
     public function getClearLinkText()
     {
         return false;
+    }
+
+    /**
+     * Get option text from frontend model by option id
+     *
+     * @param   int $optionId
+     * @return  string|bool
+     */
+    protected function getOptionText($optionId)
+    {
+        return $this->getAttributeModel()->getFrontend()->getOption($optionId);
+    }
+
+    /**
+     * Check whether specified attribute can be used in LN
+     *
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @return bool
+     */
+    protected function isAttributeFilterable($attribute)
+    {
+        return $attribute->getIsFilterable();
     }
 }

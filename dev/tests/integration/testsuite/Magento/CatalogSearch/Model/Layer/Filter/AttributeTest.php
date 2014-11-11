@@ -5,17 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Layer\Filter;
+namespace Magento\CatalogSearch\Model\Layer\Filter;
 
 /**
- * Test class for \Magento\Catalog\Model\Layer\Filter\Attribute.
+ * Test class for \Magento\CatalogSearch\Model\Layer\Filter\Attribute.
  *
  * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/_files/attribute_with_option.php
  */
 class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Model\Layer\Filter\Attribute
+     * @var \Magento\CatalogSearch\Model\Layer\Filter\Attribute
      */
     protected $_model;
 
@@ -46,10 +46,9 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->_layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Layer\Category');
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Filter\Attribute', array('layer' => $this->_layer));
-        $this->_model->setData(array(
-            'attribute_model' => $attribute,
-        ));
+            ->create('Magento\CatalogSearch\Model\Layer\Filter\Attribute', array('layer' => $this->_layer));
+        $this->_model->setAttributeModel($attribute);
+        $this->_model->setRequestVar('attribute');
     }
 
     public function testOptionIdNotEmpty()
@@ -87,12 +86,19 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($this->_model->getLayer()->getState()->getFilters());
     }
 
+    /**
+     * @depends testApply
+     */
     public function testGetItems()
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $request = $objectManager->get('Magento\TestFramework\Request');
+        $request->setParam('attribute', $this->_attributeOptionId);
+        $this->_model->apply($request);
         $items = $this->_model->getItems();
 
         $this->assertInternalType('array', $items);
-        $this->assertEquals(1, count($items));
+        $this->assertCount(1, $items);
 
         /** @var $item \Magento\Catalog\Model\Layer\Filter\Item */
         $item = $items[0];

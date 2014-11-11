@@ -5,17 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Layer\Filter;
+namespace Magento\CatalogSearch\Model\Layer\Filter;
 
 /**
- * Test class for \Magento\Catalog\Model\Layer\Filter\Price.
+ * Test class for \Magento\CatalogSearch\Model\Layer\Filter\Price.
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Model\Layer\Filter\Price
+     * @var \Magento\CatalogSearch\Model\Layer\Filter\Price
      */
     protected $_model;
 
@@ -29,7 +29,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             ->get('\Magento\Catalog\Model\Layer\Category');
         $layer->setCurrentCategory($category);
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Filter\Price', array('layer' => $layer));
+            ->create('Magento\CatalogSearch\Model\Layer\Filter\Price', ['layer' => $layer]);
     }
 
     public function testApplyNothing()
@@ -39,14 +39,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
-        $this->_model->apply(
-            $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\View\LayoutInterface'
-            )->createBlock(
-                'Magento\Framework\View\Element\Text'
-            )
-        );
+        $this->_model->apply($request);
 
         $this->assertEmpty($this->_model->getData('price_range'));
     }
@@ -59,14 +52,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('price', 'non-numeric');
-        $this->_model->apply(
-            $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\View\LayoutInterface'
-            )->createBlock(
-                'Magento\Framework\View\Element\Text'
-            )
-        );
+        $this->_model->apply($request);
 
         $this->assertEmpty($this->_model->getData('price_range'));
     }
@@ -81,14 +67,9 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('price', '10-20');
-        $this->_model->apply(
-            $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\View\LayoutInterface'
-            )->createBlock(
-                'Magento\Framework\View\Element\Text'
-            )
-        );
+        $this->_model->apply($request);
+
+        $this->assertEquals([10, 20], $this->_model->getData('interval'));
     }
 
     public function testGetSetCustomerGroupId()
@@ -111,6 +92,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $currencyRate = 42;
         $this->_model->setCurrencyRate($currencyRate);
 
-        $this->assertEquals($currencyRate, $this->_model->getData('currency_rate'));
+        $this->assertEquals($currencyRate, $this->_model->getCurrencyRate());
     }
 }

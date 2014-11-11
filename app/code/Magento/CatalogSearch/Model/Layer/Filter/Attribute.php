@@ -7,16 +7,51 @@
  */
 namespace Magento\CatalogSearch\Model\Layer\Filter;
 
+use Magento\Catalog\Model\Layer\Filter\AbstractFilter;
+
 /**
  * Layer attribute filter
  */
-class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
+class Attribute extends AbstractFilter
 {
+
+    /**
+     * @var \Magento\Framework\Filter\StripTags
+     */
+    private $tagFilter;
+
+    /**
+     * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
+     * @param \Magento\Framework\Filter\StripTags $tagFilter
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
+        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
+        \Magento\Framework\Filter\StripTags $tagFilter,
+        array $data = []
+    ) {
+        parent::__construct(
+            $filterItemFactory,
+            $storeManager,
+            $layer,
+            $itemDataBuilder,
+            $data
+        );
+        $this->tagFilter = $tagFilter;
+    }
+
     /**
      * Apply attribute option filter to product collection
      *
-     * @param   \Magento\Framework\App\RequestInterface $request
-     * @return  $this
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return $this
+     * @throws \Magento\Framework\Model\Exception
      */
     public function apply(\Magento\Framework\App\RequestInterface $request)
     {
@@ -28,7 +63,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         /** @var \Magento\CatalogSearch\Model\Resource\Fulltext\Collection $productCollection */
         $productCollection = $this->getLayer()->getProductCollection();
         $productCollection->addFieldToFilter($attribute->getAttributeCode(), $attributeValue);
-        $label = $this->_getOptionText($attributeValue);
+        $label = $this->getOptionText($attributeValue);
         $this->getLayer()->getState()->addFilter($this->_createItem($label, $attributeValue));
         return $this;
     }
@@ -37,11 +72,11 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      * Get data array for building attribute filter items
      *
      * @return array
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getItemsData()
     {
         $attribute = $this->getAttributeModel();
-        $this->_requestVar = $attribute->getAttributeCode();
         /** @var \Magento\CatalogSearch\Model\Resource\Fulltext\Collection $productCollection */
         $productCollection = $this->getLayer()->getProductCollection();
         $optionsFacetedData = $productCollection->getFacetedData($attribute->getAttributeCode());
@@ -52,8 +87,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
                 continue;
             }
             // Check filter type
-            if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS &&
-                empty($optionsFacetedData[$option['value']]['count'])) {
+            if ($this->isAttributeFilterable($attribute) && empty($optionsFacetedData[$option['value']]['count'])) {
                 continue;
             }
             $this->itemDataBuilder->addItemData(

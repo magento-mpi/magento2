@@ -16,7 +16,6 @@ namespace Magento\Catalog\Model\Layer\Filter;
 
 class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
-    const MIN_RANGE_POWER = 10;
 
     /**
      * Resource instance
@@ -100,17 +99,6 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         }
 
         return $this;
-    }
-
-    /**
-     * Retrieve price aggreagation data cache key
-     *
-     * @return string
-     */
-    protected function _getCacheKey()
-    {
-        $key = $this->getLayer()->getStateKey() . '_ATTR_' . $this->getAttributeModel()->getAttributeCode();
-        return $key;
     }
 
     /**

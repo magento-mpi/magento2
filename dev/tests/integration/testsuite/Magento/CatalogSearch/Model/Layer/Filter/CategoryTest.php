@@ -5,17 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Layer\Filter;
+namespace Magento\CatalogSearch\Model\Layer\Filter;
 
 /**
- * Test class for \Magento\Catalog\Model\Layer\Filter\Category.
+ * Test class for \Magento\CatalogSearch\Model\Layer\Filter\Category.
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Model\Layer\Filter\Category
+     * @var \Magento\CatalogSearch\Model\Layer\Filter\Category
      */
     protected $_model;
 
@@ -35,7 +35,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
                 'data' => array('current_category' => $this->_category)
             ));
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Filter\Category', array('layer' => $layer));
+            ->create('Magento\CatalogSearch\Model\Layer\Filter\Category', array('layer' => $layer));
+        $this->_model->setRequestVar('cat');
     }
 
     public function testGetResetValue()
@@ -64,14 +65,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('cat', 3);
-        $this->_model->apply(
-            $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\View\LayoutInterface'
-            )->createBlock(
-                'Magento\Framework\View\Element\Text'
-            )
-        );
+        $this->_model->apply($request);
 
         /** @var $category \Magento\Catalog\Model\Category */
         $category = $objectManager->get('Magento\Framework\Registry')->registry('current_category_filter');
@@ -84,7 +78,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testApply
      */
-    public function testGetResetValueApplied(\Magento\Catalog\Model\Layer\Filter\Category $modelApplied)
+    public function testGetResetValueApplied(\Magento\CatalogSearch\Model\Layer\Filter\Category $modelApplied)
     {
         $this->assertEquals(2, $modelApplied->getResetValue());
     }
@@ -96,8 +90,10 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testApply
+     * @param Category $modelApplied
+     * @throws \Magento\Framework\Model\Exception
      */
-    public function testGetItems(\Magento\Catalog\Model\Layer\Filter\Category $modelApplied)
+    public function testGetItems(\Magento\CatalogSearch\Model\Layer\Filter\Category $modelApplied)
     {
         $items = $modelApplied->getItems();
 
