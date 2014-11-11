@@ -48,7 +48,6 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->setProductId(1)
             ->setTypeId(\Magento\Catalog\Model\Product\Type::DEFAULT_TYPE)
-            ->setStockId(\Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID)
             ->setQty(null);
         $this->_model->save();
 
@@ -72,7 +71,6 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->setProductId(1)
             ->setTypeId(\Magento\Catalog\Model\Product\Type::DEFAULT_TYPE)
-            ->setStockId(\Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID)
             ->setQty(1);
         $this->_model->save();
         $this->assertEquals(0, $this->_model->getStockStatusChangedAuto());
