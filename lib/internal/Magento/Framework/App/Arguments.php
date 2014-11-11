@@ -7,6 +7,9 @@
  */
 namespace Magento\Framework\App;
 
+use Magento\Framework\App\DeploymentConfig\DbConfig;
+use Magento\Framework\App\DeploymentConfig\ResourceConfig;
+
 class Arguments
 {
     /**
@@ -37,7 +40,6 @@ class Arguments
     public function __construct(array $parameters, \Magento\Framework\App\Arguments\Loader $loader)
     {
         $this->_loader = $loader;
-        $this->_parameters = $parameters;
         $this->_data = array_replace_recursive($this->_parseParams($loader->load()), $parameters);
     }
 
@@ -47,13 +49,14 @@ class Arguments
      */
     protected function _parseParams(array $input)
     {
-        $stack = $input;
-        unset($stack['resource']);
-        unset($stack['connection']);
-        unset($stack['cache']);
-        $output = $this->_flattenParams($stack);
-        $output['connection'] = isset($input['connection']) ? $input['connection'] : array();
-        $output['resource'] = isset($input['resource']) ? $input['resource'] : array();
+        $output = array();
+        $output['connection'] = isset($input[DbConfig::CONFIG_KEY]['connection']) ?
+            $input[DbConfig::CONFIG_KEY]['connection'] : array();
+        $output['resource'] = isset($input[ResourceConfig::CONFIG_KEY]) ? $input[ResourceConfig::CONFIG_KEY] : array();
+        unset($input[DbConfig::CONFIG_KEY]['connection']);
+        unset($input[ResourceConfig::CONFIG_KEY]);
+
+        $output = array_merge($output, $this->_flattenParams($input));
         $output['cache'] = isset($input['cache']) ? $input['cache'] : array();
         return $output;
     }
@@ -119,7 +122,7 @@ class Arguments
      */
     public function getResources()
     {
-        return $this->_data['resource'];
+        return isset($this->_data['resource']) ? $this->_data['resource'] : array();
     }
 
     /**
@@ -161,12 +164,12 @@ class Arguments
     }
 
     /**
-     * Reload local.xml
+     * Reload config.php
      *
      * @return void
      */
     public function reload()
     {
-        $this->_data = array_replace_recursive($this->_parseParams($this->_loader->load()), $this->_parameters);
+        $this->_data = array_replace_recursive($this->_parseParams($this->_loader->load()), $parameters);
     }
 }

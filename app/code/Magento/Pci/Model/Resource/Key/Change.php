@@ -106,7 +106,7 @@ class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
 
         // prepare new key, encryptor and new file contents
-        $file = 'local.xml';
+        $file = 'config.php';
 
         if (!$this->_directory->isWritable($file)) {
             throw new \Exception(__('File %1 is not writeable.', $file));
@@ -118,12 +118,12 @@ class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
         $this->_encryptor->setNewKey($key);
         $contents = preg_replace(
-            '/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s',
-            '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>',
+            "/'key' => '(.+?)'/s",
+            "'key' => '" . $this->_encryptor->exportKeys() . "'",
             $contents
         );
 
-        // update database and local.xml
+        // update database and config.php
         $this->beginTransaction();
         try {
             $this->_reEncryptSystemConfigurationValues();

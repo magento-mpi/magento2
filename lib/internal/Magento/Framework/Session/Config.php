@@ -23,12 +23,12 @@ class Config implements ConfigInterface
     /**
      * Configuration path for session save method
      */
-    const PARAM_SESSION_SAVE_METHOD = 'session_save';
+    const PARAM_SESSION_SAVE_METHOD = 'session.save';
 
     /**
      * Configuration path for session save path
      */
-    const PARAM_SESSION_SAVE_PATH = 'session_save_path';
+    const PARAM_SESSION_SAVE_PATH = 'session.save_path';
 
     /**
      * Configuration path for session cache limiter

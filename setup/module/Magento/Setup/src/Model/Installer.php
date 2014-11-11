@@ -10,7 +10,6 @@ namespace Magento\Setup\Model;
 
 use Magento\Framework\App\Arguments;
 use Magento\Framework\App\Arguments\Loader;
-use Magento\Setup\Module\Setup\ConfigFactory as DeploymentConfigFactory;
 use Magento\Framework\App\DeploymentConfig\Writer;
 use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Module\SetupFactory;
@@ -29,6 +28,12 @@ use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\FilesystemException;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Magento\Setup\Mvc\Bootstrap\InitParamListener;
+use Magento\Framework\App\DeploymentConfig\BackendConfig;
+use Magento\Framework\App\DeploymentConfig\DbConfig;
+use Magento\Framework\App\DeploymentConfig\EncryptConfig;
+use Magento\Framework\App\DeploymentConfig\InstallConfig;
+use Magento\Framework\App\DeploymentConfig\SessionConfig;
+use Magento\Framework\App\DeploymentConfig\ResourceConfig;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -52,6 +57,8 @@ class Installer
     const PROGRESS_LOG_RENDER = '[Progress: %d / %d]';
     const PROGRESS_LOG_REGEX = '/\[Progress: (\d+) \/ (\d+)\]/s';
     /**#@- */
+
+    const INFO_MESSAGE = 'message';
 
     /**
      * File permissions checker
@@ -166,11 +173,11 @@ class Installer
     private $filesystem;
 
     /**
-     * Informational messages that may appear during installation routine
+     * Installation information
      *
      * @var array
      */
-    private $messages = array();
+    private $installInfo = array();
 
     /**
      * A materialized string of initialization parameters to pass on any script that's run externally by this model
@@ -188,7 +195,6 @@ class Installer
      * Constructor
      *
      * @param FilePermissions $filePermissions
-     * @param DeploymentConfigFactory $deploymentConfigFactory
      * @param Writer $deploymentConfigWriter
      * @param SetupFactory $setupFactory
      * @param ModuleList $moduleList
@@ -205,7 +211,6 @@ class Installer
      */
     public function __construct(
         FilePermissions $filePermissions,
-        DeploymentConfigFactory $deploymentConfigFactory,
         Writer $deploymentConfigWriter,
         SetupFactory $setupFactory,
         ModuleList $moduleList,
@@ -221,7 +226,6 @@ class Installer
         Loader $configLoader
     ) {
         $this->filePermissions = $filePermissions;
-        $this->deploymentConfigFactory = $deploymentConfigFactory;
         $this->deploymentConfigWriter = $deploymentConfigWriter;
         $this->setupFactory = $setupFactory;
         $this->moduleList = $moduleList;
@@ -237,6 +241,7 @@ class Installer
         $this->filesystem = $filesystem;
         $this->execParams = urldecode(http_build_query($serviceManager->get(InitParamListener::BOOTSTRAP_PARAM)));
         $this->configLoader = $configLoader;
+        $this->installInfo[self::INFO_MESSAGE] = array();
     }
 
     /**
@@ -306,6 +311,40 @@ class Installer
     }
 
     /**
+     * Creates other deploymnet configuration segments
+     *
+     * @param \ArrayObject|array $data
+     * @return array
+     */
+    private function createDeploymentConfigs($data)
+    {
+        $backendConfigData = array(BackendConfig::KEY_FRONTNAME => $data[BackendConfig::KEY_BACKEND_FRONTNAME]);
+        $cryptConfigData = array(EncryptConfig::KEY_ENCRYPTION_KEY => $data[EncryptConfig::KEY_ENCRYPTION_KEY]);
+        $dbConfigData = array(
+            DbConfig::KEY_HOST => $data[DbConfig::KEY_DB_HOST],
+            DbConfig::KEY_INIT_STATEMENTS =>
+                isset($data[DbConfig::KEY_DB_INIT_STATEMENTS]) ? $data[DbConfig::KEY_DB_INIT_STATEMENTS] : null,
+            DbConfig::KEY_MODEL => isset($data[DbConfig::KEY_DB_MODEL]) ? $data[DbConfig::KEY_DB_MODEL] : null,
+            DbConfig::KEY_NAME => $data[DbConfig::KEY_DB_NAME],
+            DbConfig::KEY_PASS => isset($data[DbConfig::KEY_DB_PASS]) ? $data[DbConfig::KEY_DB_PASS] : null,
+            DbConfig::KEY_PREFIX => isset($data[DbConfig::KEY_DB_PREFIX]) ? $data[DbConfig::KEY_DB_PREFIX] : null,
+            DbConfig::KEY_USER => $data[DbConfig::KEY_DB_USER],
+        );
+        $sessionConfigData = array(SessionConfig::KEY_SAVE =>
+            isset($data[SessionConfig::KEY_SESSION_SAVE]) ? $data[SessionConfig::KEY_SESSION_SAVE] : null);
+        $installConfigData = array(InstallConfig::KEY_DATE => $data[InstallConfig::KEY_DATE]);
+
+        return array(
+            new BackendConfig($backendConfigData),
+            new EncryptConfig($cryptConfigData),
+            new DbConfig($dbConfigData),
+            new SessionConfig($sessionConfigData),
+            new InstallConfig($installConfigData),
+            new ResourceConfig()
+        );
+    }
+
+    /**
      * Logs progress
      *
      * @return void
@@ -353,7 +392,7 @@ class Installer
                 $errorMsg .= '\'' . $result . '\' ';
             }
             $this->log->log($errorMsg);
-            $this->messages[] = $errorMsg;
+            $this->installInfo[self::INFO_MESSAGE][] = $errorMsg;
         }
     }
 
@@ -361,19 +400,20 @@ class Installer
      * Installs deployment configuration
      *
      * @param \ArrayObject|array $data
-     * @return Config
+     * @return void
      */
     public function installDeploymentConfig($data)
     {
-        $data[Config::KEY_DATE] = date('r');
-        if (empty($data[Config::KEY_ENCRYPTION_KEY])) {
-            $data[Config::KEY_ENCRYPTION_KEY] = md5($this->random->getRandomString(10));
+        $data[InstallConfig::KEY_DATE] = date('r');
+        if (empty($data[EncryptConfig::KEY_ENCRYPTION_KEY])) {
+            $data[EncryptConfig::KEY_ENCRYPTION_KEY] = md5($this->random->getRandomString(10));
         }
-        $config = $this->deploymentConfigFactory->create((array)$data);
-        $config->saveToFile();
+        $this->installInfo[EncryptConfig::KEY_ENCRYPTION_KEY] = $data[EncryptConfig::KEY_ENCRYPTION_KEY];
+
+        $configs = $this->createDeploymentConfigs($data);
         $modules = $this->createModulesDeploymentConfig($data);
-        $this->deploymentConfigWriter->create([$modules]);
-        return $config;
+        $configs[] = $modules;
+        $this->deploymentConfigWriter->create($configs);
     }
 
     /**
@@ -573,7 +613,6 @@ class Installer
             'username' => $dbUser,
             'password' => $dbPass,
             'active' => true,
-            'adapter' => '\Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql'
         ]);
 
         if (!$connection) {
@@ -587,9 +626,9 @@ class Installer
      *
      * @return array
      */
-    public function getMessages()
+    public function getInstallInfo()
     {
-        return $this->messages;
+        return $this->installInfo;
     }
 
 
@@ -600,8 +639,8 @@ class Installer
      */
     private function cleanupDb()
     {
-        // stops cleanup if app/etc/local.xml does not exist
-        if (!$this->filesystem->getDirectoryWrite(DirectoryList::CONFIG)->isFile('local.xml')) {
+        // stops cleanup if app/etc/config.php does not exist
+        if (!$this->filesystem->getDirectoryWrite(DirectoryList::CONFIG)->isFile('config.php')) {
             $this->log->log('No database connection defined - skipping database cleanup');
             return;
         }
@@ -654,18 +693,17 @@ class Installer
     private function deleteDeploymentConfig()
     {
         $configDir = $this->filesystem->getDirectoryWrite(DirectoryList::CONFIG);
-        foreach (['local.xml', 'config.php'] as $file) {
-            $absolutePath = $configDir->getAbsolutePath($file);
-            if (!$configDir->isFile($file)) {
-                $this->log->log("The file '{$absolutePath}' doesn't exist - skipping cleanup");
-                return;
-            }
-            try {
-                $this->log->log($absolutePath);
-                $configDir->delete($file);
-            } catch (FilesystemException $e) {
-                $this->log->log($e->getMessage());
-            }
+        $file = 'config.php';
+        $absolutePath = $configDir->getAbsolutePath($file);
+        if (!$configDir->isFile($file)) {
+            $this->log->log("The file '{$absolutePath}' doesn't exist - skipping cleanup");
+            return;
+        }
+        try {
+            $this->log->log($absolutePath);
+            $configDir->delete($file);
+        } catch (FilesystemException $e) {
+            $this->log->log($e->getMessage());
         }
     }
 }

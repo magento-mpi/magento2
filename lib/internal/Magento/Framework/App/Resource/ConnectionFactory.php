@@ -17,10 +17,16 @@ class ConnectionFactory
     private $logger;
 
     /**
+     * @var string
+     */
+    private $adapterClass = 'Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql';
+
+    /**
      * @param \Magento\Framework\DB\LoggerInterface $logger
      */
-    public function __construct(\Magento\Framework\DB\LoggerInterface $logger)
-    {
+    public function __construct(
+        \Magento\Framework\DB\LoggerInterface $logger
+    ) {
         $this->logger = $logger;
     }
 
@@ -37,13 +43,7 @@ class ConnectionFactory
             return null;
         }
 
-        if (!isset($connectionConfig['adapter'])) {
-            throw new \InvalidArgumentException('Adapter is not set for connection');
-        }
-
-        $adapterClass = $connectionConfig['adapter'];
-
-        $adapterInstance = new $adapterClass(
+        $adapterInstance = new $this->adapterClass(
             $this->logger,
             new \Magento\Framework\Stdlib\String,
             new \Magento\Framework\Stdlib\DateTime,
@@ -51,7 +51,7 @@ class ConnectionFactory
         );
 
         if (!$adapterInstance instanceof ConnectionAdapterInterface) {
-            throw new \InvalidArgumentException("Trying to create wrong connection adapter '$adapterClass'");
+            throw new \InvalidArgumentException("Trying to create wrong connection adapter '$this->adapterClass'");
         }
 
         return $adapterInstance->getConnection();

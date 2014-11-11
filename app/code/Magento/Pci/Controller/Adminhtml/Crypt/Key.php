@@ -29,11 +29,11 @@ class Key extends \Magento\Backend\App\Action
         )->getDirectoryWrite(
             DirectoryList::CONFIG
         );
-        if (!$configDirectory->isWritable('local.xml')) {
+        if (!$configDirectory->isWritable('config.php')) {
             $this->messageManager->addError(
                 __(
                     'To enable a key change this file must be writable: %1.',
-                    $configDirectory->getAbsolutePath('local.xml')
+                    $configDirectory->getAbsolutePath('config.php')
                 )
             );
             return false;

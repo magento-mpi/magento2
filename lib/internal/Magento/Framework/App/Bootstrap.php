@@ -312,12 +312,9 @@ class Bootstrap
     private function isInstalled()
     {
         $this->initObjectManager();
-        /** @var \Magento\Framework\Filesystem $fileSystem  */
-        $fileSystem = $this->objectManager->get('Magento\Framework\Filesystem');
-        $configDir = $fileSystem->getDirectoryRead(DirectoryList::CONFIG);
         /** @var \Magento\Framework\App\DeploymentConfig $deploymentConfig */
         $deploymentConfig = $this->objectManager->get('Magento\Framework\App\DeploymentConfig');
-        return $configDir->isExist('local.xml') && $deploymentConfig->isAvailable();
+        return $deploymentConfig->isAvailable();
     }
 
     /**

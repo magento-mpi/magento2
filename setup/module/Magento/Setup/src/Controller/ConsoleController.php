@@ -19,6 +19,10 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Magento\Setup\Model\UserConfigurationData as UserConfig;
 use Magento\Setup\Model\AdminAccount;
 use Magento\Framework\App\MaintenanceMode;
+use Magento\Framework\App\DeploymentConfig\BackendConfig;
+use Magento\Framework\App\DeploymentConfig\EncryptConfig;
+use Magento\Framework\App\DeploymentConfig\DbConfig;
+use Magento\Framework\App\DeploymentConfig\SessionConfig;
 
 /**
  * Controller that handles all setup commands via command line interface.
@@ -151,16 +155,16 @@ class ConsoleController extends AbstractActionController
      */
     private static function getCliConfig()
     {
-        $deployConfig = '--' . Config::KEY_DB_HOST . '='
-            . ' --' . Config::KEY_DB_NAME . '='
-            . ' --' . Config::KEY_DB_USER . '='
-            . ' --' . Config::KEY_BACKEND_FRONTNAME . '='
-            . ' [--' . Config::KEY_DB_PASS . '=]'
-            . ' [--' . Config::KEY_DB_PREFIX . '=]'
-            . ' [--' . Config::KEY_DB_MODEL . '=]'
-            . ' [--' . Config::KEY_DB_INIT_STATEMENTS . '=]'
-            . ' [--' . Config::KEY_SESSION_SAVE . '=]'
-            . ' [--' . Config::KEY_ENCRYPTION_KEY . '=]';
+        $deployConfig = '--' . DbConfig::KEY_DB_HOST . '='
+            . ' --' . DbConfig::KEY_DB_NAME . '='
+            . ' --' . DbConfig::KEY_DB_USER . '='
+            . ' --' . BackendConfig::KEY_BACKEND_FRONTNAME . '='
+            . ' [--' . DbConfig::KEY_DB_PASS . '=]'
+            . ' [--' . DbConfig::KEY_DB_PREFIX . '=]'
+            . ' [--' . DbConfig::KEY_DB_MODEL . '=]'
+            . ' [--' . DbConfig::KEY_DB_INIT_STATEMENTS . '=]'
+            . ' [--' . SessionConfig::KEY_SESSION_SAVE . '=]'
+            . ' [--' . EncryptConfig::KEY_ENCRYPTION_KEY . '=]';
         $userConfig = '[--' . UserConfig::KEY_BASE_URL . '=]'
             . ' [--' . UserConfig::KEY_LANGUAGE . '=]'
             . ' [--' . UserConfig::KEY_TIMEZONE . '=]'
@@ -297,7 +301,7 @@ class ConsoleController extends AbstractActionController
     }
 
     /**
-     * Creates the local.xml file
+     * Creates the config.php file
      *
      * @return void
      * @throws \Exception
