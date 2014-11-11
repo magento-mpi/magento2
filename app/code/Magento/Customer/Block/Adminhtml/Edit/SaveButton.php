@@ -65,7 +65,7 @@ class SaveButton implements ButtonProviderInterface
     public function getButtonData()
     {
         $customerId = $this->getCustomerId();
-        $canModify = $customerId && $this->customerAccountService->canModify($this->getCustomerId());
+        $canModify = !$customerId || $this->customerAccountService->canModify($this->getCustomerId());
         $data = [];
         if ($canModify) {
             $data = [
