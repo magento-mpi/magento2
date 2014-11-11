@@ -8,6 +8,8 @@
 
 namespace Magento\SalesArchive\Model\Resource;
 
+use Magento\SalesArchive\Model\ArchivalList;
+
 /**
  * Class ArchiveTest
  */
@@ -111,6 +113,16 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    private function getEntityNames()
+    {
+        return [
+            ArchivalList::ORDER,
+            ArchivalList::INVOICE,
+            ArchivalList::SHIPMENT,
+            ArchivalList::CREDITMEMO
+        ];
+    }
+
     public function testRemoveOrdersFromArchiveById()
     {
         $ids = [100021, 100023, 100054];
@@ -118,30 +130,45 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
         $order = 'order_id';
 
         $this->resourceArchiveMock->expects($this->once())
-            ->method('getIdsInArchive')
-            ->with($this->equalTo(\Magento\SalesArchive\Model\ArchivalList::ORDER), $this->equalTo($ids))
-            ->will($this->returnValue($ids));
-        $this->resourceArchiveMock->expects($this->once())
             ->method('beginTransaction')
             ->will($this->returnSelf());
-
+        $this->archivalListMock->expects($this->once())
+            ->method('getEntityNames')
+            ->will($this->returnValue($this->getEntityNames()));
+        $this->resourceArchiveMock->expects($this->at(1))
+            ->method('getIdsInArchive')
+            ->with(ArchivalList::ORDER, $this->equalTo($ids))
+            ->will($this->returnValue($ids));
         $this->resourceArchiveMock->expects($this->at(2))
             ->method('removeFromArchive')
-            ->with($this->equalTo(\Magento\SalesArchive\Model\ArchivalList::ORDER), $entity, $this->equalTo($ids))
+            ->with($this->equalTo(ArchivalList::ORDER), $entity, $this->equalTo($ids))
             ->will($this->returnSelf());
         $this->resourceArchiveMock->expects($this->at(3))
-            ->method('removeFromArchive')
-            ->with($this->equalTo(\Magento\SalesArchive\Model\ArchivalList::INVOICE), $order, $this->equalTo($ids))
-            ->will($this->returnSelf());
+            ->method('getIdsInArchive')
+            ->with(ArchivalList::INVOICE, $this->equalTo($ids))
+            ->will($this->returnValue($ids));
         $this->resourceArchiveMock->expects($this->at(4))
             ->method('removeFromArchive')
-            ->with($this->equalTo(\Magento\SalesArchive\Model\ArchivalList::SHIPMENT), $order, $this->equalTo($ids))
+            ->with($this->equalTo(ArchivalList::INVOICE), $order, $this->equalTo($ids))
             ->will($this->returnSelf());
         $this->resourceArchiveMock->expects($this->at(5))
-            ->method('removeFromArchive')
-            ->with($this->equalTo(\Magento\SalesArchive\Model\ArchivalList::CREDITMEMO), $order, $this->equalTo($ids))
-            ->will($this->returnSelf());
+            ->method('getIdsInArchive')
+            ->with(ArchivalList::SHIPMENT, $this->equalTo($ids))
+            ->will($this->returnValue($ids));
         $this->resourceArchiveMock->expects($this->at(6))
+            ->method('removeFromArchive')
+            ->with($this->equalTo(ArchivalList::SHIPMENT), $order, $this->equalTo($ids))
+            ->will($this->returnSelf());
+        $this->resourceArchiveMock->expects($this->at(7))
+            ->method('getIdsInArchive')
+            ->with(ArchivalList::CREDITMEMO, $this->equalTo($ids))
+            ->will($this->returnValue($ids));
+        $this->resourceArchiveMock->expects($this->at(8))
+            ->method('removeFromArchive')
+            ->with($this->equalTo(ArchivalList::CREDITMEMO), $order, $this->equalTo($ids))
+            ->will($this->returnSelf());
+
+        $this->resourceArchiveMock->expects($this->at(9))
             ->method('commit')
             ->will($this->returnSelf());
         $result = $this->resourceArchiveMock->removeOrdersFromArchiveById($ids);
@@ -156,6 +183,9 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
         $ids = [100021, 100023, 100054];
         $entity = 'entity_id';
 
+        $this->archivalListMock->expects($this->once())
+            ->method('getEntityNames')
+            ->will($this->returnValue($this->getEntityNames()));
         $this->resourceArchiveMock->expects($this->once())
             ->method('getIdsInArchive')
             ->with($this->equalTo(\Magento\SalesArchive\Model\ArchivalList::ORDER), $this->equalTo($ids))
