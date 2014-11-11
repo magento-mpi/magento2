@@ -13,7 +13,6 @@ interface ProductLinkInterface extends \Magento\Framework\Api\ExtensibleDataInte
     /**
      * Get product SKU
      *
-     * @identifier
      * @return string
      */
     public function getProductSku();
@@ -21,7 +20,6 @@ interface ProductLinkInterface extends \Magento\Framework\Api\ExtensibleDataInte
     /**
      * Get link type
      *
-     * @identifier
      * @return string
      */
     public function getLinkType();
@@ -29,7 +27,6 @@ interface ProductLinkInterface extends \Magento\Framework\Api\ExtensibleDataInte
     /**
      * Get linked product sku
      *
-     * @identifier
      * @return string
      */
     public function getLinkedProductSku();
