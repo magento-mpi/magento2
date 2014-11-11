@@ -25,9 +25,9 @@ class DepersonalizePlugin
     protected $customerSession;
 
     /**
-     * @var \Magento\Customer\Model\Customer
+     * @var \Magento\Customer\Model\CustomerFactory
      */
-    protected $customer;
+    protected $customerFactory;
 
     /**
      * @var \Magento\Framework\App\RequestInterface
@@ -79,7 +79,7 @@ class DepersonalizePlugin
     ) {
         $this->session = $session;
         $this->customerSession = $customerSession;
-        $this->customer = $customerFactory->create();
+        $this->customerFactory = $customerFactory;
         $this->request = $request;
         $this->moduleManager = $moduleManager;
         $this->visitor = $visitor;
@@ -124,8 +124,7 @@ class DepersonalizePlugin
             $this->customerSession->clearStorage();
             $this->session->setData(\Magento\Framework\Data\Form\FormKey::FORM_KEY, $this->formKey);
             $this->customerSession->setCustomerGroupId($this->customerGroupId);
-            $this->customer->setGroupId($this->customerGroupId);
-            $this->customerSession->setCustomer($this->customer);
+            $this->customerSession->setCustomer($this->customerFactory->create()->setGroupId($this->customerGroupId));
         }
         return $result;
     }

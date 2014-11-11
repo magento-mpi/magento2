@@ -11,7 +11,9 @@ namespace Magento\VersionsCms\Test\Fixture;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Cms Hierarchy fixture
+ * Cms Hierarchy fixture.
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CmsHierarchy extends InjectableFixture
 {

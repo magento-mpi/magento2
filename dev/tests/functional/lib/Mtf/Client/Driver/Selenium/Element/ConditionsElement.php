@@ -36,6 +36,8 @@ use Mtf\ObjectManager;
  *     [Subtotal|is|100]
  *     {Product attribute combination|NOT FOUND|ANY:[[Attribute Set|is|Default][Attribute Set|is|Default]]}
  * ]}
+ *
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class ConditionsElement extends AbstractElement
 {

@@ -72,7 +72,7 @@ class Curl extends AbstractCurl
             unset($data['page_id']);
         }
         if ($fixture->hasData('store_ids')) {
-            $data['store_ids'][0] = $fixture->getDataFieldConfig('store_ids')['source']->getStore()[0]->getStoreId();
+            $data['store_ids'][0] = $fixture->getDataFieldConfig('store_ids')['source']->getStores()[0]->getStoreId();
         }
         unset($data['code']);
         unset($data['theme_id']);

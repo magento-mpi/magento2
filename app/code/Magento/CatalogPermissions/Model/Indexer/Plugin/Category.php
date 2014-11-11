@@ -12,10 +12,8 @@ use Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\
 
 class Category
 {
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $indexer;
+    /** @var \Magento\Indexer\Model\IndexerRegistry */
+    protected $indexerRegistry;
 
     /**
      * @var \Magento\CatalogPermissions\App\ConfigInterface
@@ -33,34 +31,21 @@ class Category
     protected $permissionFactory;
 
     /**
-     * @param \Magento\Indexer\Model\IndexerInterface $indexer
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      * @param \Magento\CatalogPermissions\App\ConfigInterface $appConfig
      * @param \Magento\Framework\AuthorizationInterface $authorization
      * @param \Magento\CatalogPermissions\Model\PermissionFactory $permissionFactory
      */
     public function __construct(
-        \Magento\Indexer\Model\IndexerInterface $indexer,
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         \Magento\CatalogPermissions\App\ConfigInterface $appConfig,
         \Magento\Framework\AuthorizationInterface $authorization,
         \Magento\CatalogPermissions\Model\PermissionFactory $permissionFactory
     ) {
-        $this->indexer = $indexer;
+        $this->indexerRegistry = $indexerRegistry;
         $this->appConfig = $appConfig;
         $this->authorization = $authorization;
         $this->permissionFactory = $permissionFactory;
-    }
-
-    /**
-     * Return own indexer object
-     *
-     * @return \Magento\Indexer\Model\IndexerInterface
-     */
-    protected function getIndexer()
-    {
-        if (!$this->indexer->getId()) {
-            $this->indexer->load(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID);
-        }
-        return $this->indexer;
     }
 
     /**
@@ -75,8 +60,9 @@ class Category
             if ($this->authorization->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions')) {
                 $this->savePermission($subject);
             }
-            if (!$this->getIndexer()->isScheduled()) {
-                $this->getIndexer()->reindexRow($subject->getId());
+            $indexer = $this->indexerRegistry->get(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID);
+            if (!$indexer->isScheduled()) {
+                $indexer->reindexRow($subject->getId());
             }
         }
 
@@ -100,8 +86,11 @@ class Category
     ) {
         $oldParentId = $subject->getParentId();
         $closure($parentId, $afterCategoryId);
-        if ($this->appConfig->isEnabled() && !$this->getIndexer()->isScheduled()) {
-            $this->getIndexer()->reindexList(array($subject->getId(), $oldParentId));
+        if ($this->appConfig->isEnabled()) {
+            $indexer = $this->indexerRegistry->get(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID);
+            if (!$indexer->isScheduled()) {
+                $indexer->reindexList(array($subject->getId(), $oldParentId));
+            }
         }
 
         return $subject;
