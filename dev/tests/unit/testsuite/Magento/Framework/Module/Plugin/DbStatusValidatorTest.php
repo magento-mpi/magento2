@@ -122,7 +122,8 @@ class DbStatusValidatorTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider aroundDispatchExceptionDataProvider
      * @expectedException \Magento\Framework\Module\Exception
-     * @expectedExceptionMessage Looks like database is outdated. Please, use setup tool to perform update
+     * @expectedExceptionMessage Please update your database: first run "composer install" from the Magento
+     * root/ and root/setup directories. Then run "php –f index.php update" from the Magento root/setup directory.
      */
     public function testAroundDispatchException(array $schemaValueMap, array $dataValueMap)
     {

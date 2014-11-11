@@ -35,7 +35,10 @@ class DbStatusValidatorTest extends \Magento\TestFramework\TestCase\AbstractCont
                 /* This triggers plugin to be executed */
                 $this->dispatch('index/index');
             } catch (\Magento\Framework\Module\Exception $e) {
-                if ($e->getMessage() != 'Looks like database is outdated. Please, use setup tool to perform update') {
+                if ($e->getMessage() != 'Please update your database: first run "composer install" from the Magento ' .
+                    'root/ and root/setup directories. Then run "php –f index.php update" from the Magento ' .
+                    'root/setup directory.'
+                ) {
                     $failureMessage = "DB status validation doesn't work properly. Caught exception message is '"
                         . $e->getMessage() ."'";
                 }

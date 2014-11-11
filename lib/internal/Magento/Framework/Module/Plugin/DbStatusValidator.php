@@ -68,7 +68,8 @@ class DbStatusValidator
         if (!$this->cache->load('db_is_up_to_date')) {
             if (!$this->isDbUpToDate()) {
                 throw new \Magento\Framework\Module\Exception(
-                    'Looks like database is outdated. Please, use setup tool to perform update'
+                    'Please update your database: first run "composer install" from the Magento root/ and root/setup '.
+                    'directories. Then run "php –f index.php update" from the Magento root/setup directory.'
                 );
             } else {
                 $this->cache->save('true', 'db_is_up_to_date');
