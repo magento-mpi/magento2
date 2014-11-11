@@ -7,9 +7,6 @@
  */
 namespace Magento\Catalog\Model\Product;
 
-use Magento\Catalog\Api\Data\ProductLinkTypeInterface as LinkType;
-use Magento\Catalog\Api\Data\ProductLinkAttributeInterface as LinkAttribute;
-
 class LinkTypeProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**

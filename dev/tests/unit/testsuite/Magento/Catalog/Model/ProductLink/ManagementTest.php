@@ -7,8 +7,6 @@
  */
 namespace Magento\Catalog\Model\ProductLink;
 
-use Magento\Catalog\Api\Data\ProductLinkInterface;
-
 class ManagementTest extends \PHPUnit_Framework_TestCase
 {
     /**

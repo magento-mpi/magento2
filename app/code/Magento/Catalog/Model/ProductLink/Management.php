@@ -12,7 +12,6 @@ use Magento\Catalog\Api\Data;
 use Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks as LinksInitializer;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Catalog\Api\Data\ProductLinkInterface as ProductLinkInterface;
 
 class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
 {
