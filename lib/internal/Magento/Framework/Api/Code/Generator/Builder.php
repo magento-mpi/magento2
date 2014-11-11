@@ -60,7 +60,7 @@ class Builder extends EntityAbstract
                     $method->isDestructor()) &&
                 !in_array(
                     $method->getName(),
-                    array('__sleep', '__wakeup', '__clone')
+                    array('__sleep', '__wakeup', '__clone', 'getCustomAttributes', 'getCustomAttribute')
                 ) &&
                 $method->class !== 'Magento\Framework\Api\AbstractExtensibleObject'
             ) {
