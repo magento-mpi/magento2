@@ -8,7 +8,7 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 /**
  * @magentoAppArea adminhtml
@@ -21,8 +21,8 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Registry */
     protected $registry;
 
-    /** @var CustomerAccountServiceInterface */
-    protected $customerAccountService;
+    /** @var CustomerRepositoryInterface */
+    protected $customerRepositoryInterface;
 
     /** @var \Magento\Backend\Model\Session */
     protected $backendSession;
@@ -33,8 +33,8 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->registry = $objectManager->get('Magento\Framework\Registry');
-        $this->customerAccountService = $objectManager->get(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        $this->customerRepositoryInterface = $objectManager->get(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
         $this->backendSession = $objectManager->get('Magento\Backend\Model\Session');
         $this->layout = $objectManager->create(
@@ -71,7 +71,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
     public function testToHtmlEmptyGlobalShareAndSessionData()
     {
         $this->registry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
-        $customer = $this->customerAccountService->getCustomer(1);
+        $customer = $this->customerRepositoryInterface->getById(1);
         $this->backendSession->setCustomerData(array('account' => $customer->__toArray()));
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\View\Accordion');
 
