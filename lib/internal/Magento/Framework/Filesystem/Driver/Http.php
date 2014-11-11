@@ -18,11 +18,15 @@ use Magento\Framework\Filesystem\FilesystemException;
 class Http extends File
 {
     /**
+     * Scheme distinguisher
+     *
      * @var string
      */
     protected $scheme = 'http';
 
     /**
+     * Checks if path exists
+     *
      * @param string $path
      * @return bool
      * @throws FilesystemException
@@ -124,7 +128,7 @@ class Http extends File
      */
     public function fileOpen($path, $mode)
     {
-        $urlProp = parse_url($this->getScheme() . $path);
+        $urlProp = $this->parseUrl($this->getScheme() . $path);
 
         if (false === $urlProp) {
             throw new FilesystemException(__('Please correct the download URL.'));
@@ -132,6 +136,7 @@ class Http extends File
 
         $hostname = $urlProp['host'];
         $port = 80;
+
         if (isset($urlProp['port'])) {
             $port = (int)$urlProp['port'];
         }
@@ -199,6 +204,8 @@ class Http extends File
     }
 
     /**
+     * Get absolute path
+     *
      * @param string $basePath
      * @param string $path
      * @param string|null $scheme
@@ -219,5 +226,16 @@ class Http extends File
     {
         $scheme = $scheme ?: $this->scheme;
         return $scheme ? $scheme . '://' : '';
+    }
+
+    /**
+     * Parse a http url
+     *
+     * @param string $path
+     * @return array
+     */
+    protected function parseUrl($path)
+    {
+        return parse_url($path);
     }
 }
