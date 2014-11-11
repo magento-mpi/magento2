@@ -10,7 +10,6 @@ namespace Magento\Catalog\Api;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Catalog\Api\Data\ProductLinkInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class ProductLinkManagementInterfaceTest extends WebapiAbstract
