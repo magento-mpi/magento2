@@ -13,7 +13,7 @@
     <ul class="tab-nav-items items" data-bind="visible: opened">
         <!-- ko foreach: elems -->
             <li class="tab-nav-item" tabindex="2" data-bind="css: { 'ui-state-active': active, 'ui-tabs-loading': loading }, click: activate, keyboard: { 13: activate }">
-                <a class="tab-nav-item-link" href="#" data-bind="text: label, css: { changed: changed }"></a>
+                <a class="tab-nav-item-link" href="#" data-bind="text: label, css: { changed: changed }, attr: { id: 'tab_' + index }"></a>
             </li>
         <!-- /ko -->
     </ul>

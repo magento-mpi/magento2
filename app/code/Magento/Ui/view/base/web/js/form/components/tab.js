@@ -26,7 +26,7 @@ define([
             _.extend(this, defaults);
 
             __super__.initialize.apply(this, arguments);
-
+            console.log(this.index)
             this.pushParams();
         },
 
