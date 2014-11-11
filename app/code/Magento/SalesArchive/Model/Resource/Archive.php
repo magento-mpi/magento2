@@ -132,7 +132,8 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function isOrderInArchive($id)
     {
-        return !empty($this->getIdsInArchive(\Magento\SalesArchive\Model\ArchivalList::ORDER, [$id]));
+        $ids = $this->getIdsInArchive(\Magento\SalesArchive\Model\ArchivalList::ORDER, [$id]);
+        return !empty($ids);
     }
 
     /**
