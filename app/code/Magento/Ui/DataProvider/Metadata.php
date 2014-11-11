@@ -98,6 +98,9 @@ class Metadata implements \Iterator, \ArrayAccess
         return reset($this->config['fields']);
     }
 
+    /**
+     * @return void
+     */
     protected function initAttributes()
     {
         if (empty($this->attributes)) {
