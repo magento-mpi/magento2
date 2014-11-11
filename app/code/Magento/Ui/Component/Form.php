@@ -15,8 +15,7 @@ use Magento\Framework\View\Element\UiComponent\ConfigFactory;
 use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
-use Magento\Ui\DataProvider\Metadata;
-use Magento\Webapi\Exception;
+use Magento\Ui\Component\Control\ActionPool;
 
 /**
  * Class Form
@@ -51,6 +50,11 @@ class Form extends AbstractView
     protected $factory;
 
     /**
+     * @var ActionPool
+     */
+    protected $actionPool;
+
+    /**
      * Constructor
      *
      * @param TemplateContext $context
@@ -62,6 +66,7 @@ class Form extends AbstractView
      * @param Manager $dataProviderManager
      * @param ElementRendererBuilder $elementRendererBuilder
      * @param UiElementFactory $factory
+     * @param ActionPool $actionPool
      * @param array $data
      */
     public function __construct(
@@ -74,10 +79,12 @@ class Form extends AbstractView
         Manager $dataProviderManager,
         ElementRendererBuilder $elementRendererBuilder,
         UiElementFactory $factory,
+        ActionPool $actionPool,
         array $data = []
     ) {
         $this->elementRendererBuilder = $elementRendererBuilder;
         $this->factory = $factory;
+        $this->actionPool = $actionPool;
         parent::__construct(
             $context,
             $renderContext,
@@ -98,6 +105,16 @@ class Form extends AbstractView
     public function prepare()
     {
         $this->registerComponents();
+        $buttons = $this->getData('buttons');
+        if ($buttons) {
+            foreach ($buttons as $buttonId => $buttonClass) {
+                $button = \Magento\Framework\App\ObjectManager::getInstance()->get($buttonClass);
+                $buttonData = $button->getButtonData();
+                if ($buttonData) {
+                    $this->actionPool->add($buttonId, $buttonData, $this);
+                }
+            }
+        }
 
         $layoutSettings = (array) $this->getData('layout');
         $data = [

@@ -61,30 +61,6 @@ class ActionPool implements ActionPoolInterface
         $this->toolbarBlock = $this->context->getPageLayout()->getBlock(static::ACTIONS_PAGE_TOOLBAR);
     }
 
-
-    /**
-     * Create button container
-     *
-     * @param string $key
-     * @param UiComponentInterface $view
-     * @return \Magento\Ui\Component\Control\Container
-     */
-    protected function createContainer($key, UiComponentInterface $view)
-    {
-        $container = $this->context->getPageLayout()->createBlock(
-            'Magento\Ui\Component\Control\Container',
-            'container-' . $key,
-            [
-                'data' => [
-                    'button_item' => $this->items[$key],
-                    'context' => $view
-                ]
-            ]
-        );
-
-        return $container;
-    }
-
     /**
      * Add button
      *
@@ -128,5 +104,27 @@ class ActionPool implements ActionPoolInterface
         if (isset($this->items[$key])) {
             $this->items[$key]->setData($data);
         }
+    }
+
+    /**
+     * Create button container
+     *
+     * @param string $key
+     * @param UiComponentInterface $view
+     * @return \Magento\Ui\Component\Control\Container
+     */
+    protected function createContainer($key, UiComponentInterface $view)
+    {
+        $container = $this->context->getPageLayout()->createBlock(
+            'Magento\Ui\Component\Control\Container',
+            'container-' . $key,
+            [
+                'data' => [
+                    'button_item' => $this->items[$key],
+                    'context' => $view
+                ]
+            ]
+        );
+        return $container;
     }
 }

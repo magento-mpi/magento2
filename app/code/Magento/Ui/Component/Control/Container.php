@@ -46,12 +46,12 @@ class Container extends AbstractBlock
         $item = $this->getButtonItem();
         $data = $item->getData();
 
+        $contextPrefixName = $this->getData('context') ? ($this->getData('context')->getNameInLayout() . '-') : '';
         $block = $this->createButton(
-            $this->getData('context')->getNameInLayout() . '-' . $item->getId() . '-button',
+            $contextPrefixName . $item->getId() . '-button',
             isset($data['class_name']) ? $data['class_name'] : null
         );
         $block->setData($data);
-
         return $block->toHtml();
     }
 }

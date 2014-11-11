@@ -40,6 +40,7 @@
                     <filter on="{parentScope}.country_id" by="country_id" />
                 </constraints>
             </field>
+            <field name="region" source="eav" formElement="input" visible="false"/>
             <field name="postcode" source="eav">
                 <constraints>
                     <validate name="required-entry"/>
