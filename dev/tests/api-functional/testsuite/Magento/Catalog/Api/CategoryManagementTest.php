@@ -20,11 +20,16 @@ class CategoryManagementTest extends WebapiAbstract
 
     const SERVICE_NAME = 'catalogCategoryManagementV1';
 
-    public function testTree()
+    /**
+     * @dataProvider treeDataProvider
+     * @magentoApiDataFixture Magento/Catalog/_files/category_tree.php
+     */
+    public function testTree($rootCategoryId, $depth, $expectedLevel, $expectedId)
     {
+        $requestData = ['rootCategoryId' => $rootCategoryId, 'depth' => $depth];
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
                 'httpMethod' => Config::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -33,9 +38,23 @@ class CategoryManagementTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'GetTree'
             ]
         ];
-        $result = $this->_webApiCall($serviceInfo);
+        $result = $this->_webApiCall($serviceInfo, $requestData);
 
-        $this->assertEquals(0, $result['parent_id']);
+        for($i = 0; $i < $expectedLevel; $i++) {
+            $result = $result['children_data'][0];
+        }
+        $this->assertEquals($expectedId, $result['id']);
+        $this->assertEmpty($result['children_data']);
+    }
+
+    public function treeDataProvider()
+    {
+        return array(
+            [2, 100, 3, 402],
+            [2, null, 3, 402],
+            [400, 1, 1, 401],
+            [401, 0, 0, 401],
+        );
     }
 
     /**

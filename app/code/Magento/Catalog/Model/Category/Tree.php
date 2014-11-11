@@ -38,7 +38,7 @@ class Tree
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection
-     * @param \Magento\Catalog\Api\Data\CategoryTreeDataBuilder $treeBuilderFactory
+     * @param \Magento\Catalog\Api\Data\CategoryTreeDataBuilder $treeBuilder
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
@@ -113,6 +113,8 @@ class Tree
      */
     public function getTree($node, $depth = null, $currentLevel = 0)
     {
+        /** @var \Magento\Catalog\Api\Data\CategoryTreeInterface[] $children */
+        $children = $this->getChildren($node, $depth, $currentLevel);
         $this->treeBuilder->setId($node->getId())
             ->setParentId($node->getParentId())
             ->setName($node->getName())
@@ -120,8 +122,18 @@ class Tree
             ->setLevel($node->getLevel())
             ->setIsActive($node->getIsActive())
             ->setProductCount($node->getProductCount())
-            ->setChildrenData([]);
+        ->setChildrenData($children);
+        return $this->treeBuilder->create();
+    }
 
+    /**
+     * @param \Magento\Framework\Data\Tree\Node $node
+     * @param int $depth
+     * @param int $currentLevel
+     * @return \Magento\Catalog\Api\Data\CategoryTreeInterface[]|[]
+     */
+    protected function getChildren($node, $depth, $currentLevel)
+    {
         if ($node->hasChildren()) {
             $children = array();
             foreach ($node->getChildren() as $child) {
@@ -130,8 +142,8 @@ class Tree
                 }
                 $children[] = $this->getTree($child, $depth, $currentLevel + 1);
             }
-            $this->treeBuilder->setChildrenData($children);
+            return $children;
         }
-        return $this->treeBuilder->create();
+        return [];
     }
 }

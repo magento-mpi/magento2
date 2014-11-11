@@ -25,7 +25,7 @@ class CategoryRepositoryTest extends WebapiAbstract
     public function testGet()
     {
         $expected = [
-            'parent_id' => 3,
+            'parent_id' => 2,
             'path' => '1/2/3',
             'position' => 1,
             'level' => 2,

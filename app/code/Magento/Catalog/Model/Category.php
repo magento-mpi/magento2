@@ -641,6 +641,10 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
      */
     public function getParentId()
     {
+        $parentId = $this->getData('parent_id');
+        if (isset($parentId)) {
+            return $parentId;
+        }
         $parentIds = $this->getParentIds();
         return intval(array_pop($parentIds));
     }

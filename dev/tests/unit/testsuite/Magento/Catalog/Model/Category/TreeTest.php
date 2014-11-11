@@ -40,6 +40,11 @@ class TreeTest extends \PHPUnit_Framework_TestCase
      */
     protected $tree;
 
+    /**
+     * @var \Magento\Catalog\Model\Category\Tree
+     */
+    protected $node;
+
     public function setUp()
     {
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -152,7 +157,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->treeBuilderMock->expects($this->any())->method('setProductCount')->with(4)
             ->will($this->returnSelf());
-        $this->treeBuilderMock->expects($this->any())->method('setChildren')->will($this->returnSelf());
+        $this->treeBuilderMock->expects($this->any())->method('setChildrenData')->will($this->returnSelf());
         $this->treeBuilderMock->expects($this->any())->method('create')->will($this->returnValue([]));
 
         $node = $this->getMockBuilder('Magento\Framework\Data\Tree\Node')->disableOriginalConstructor()
@@ -181,5 +186,53 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         $node->expects($this->any())->method('getIsActive')->will($this->returnValue(true));
         $node->expects($this->any())->method('getProductCount')->will($this->returnValue(4));
         $this->tree->getTree($node, $depth, $currentLevel);
+    }
+
+    public function testGetTreeWhenChildrenAreNotExist()
+    {
+        $currentLevel = 1;
+        $this->treeBuilderMock->expects($this->once())->method('setId')->with($this->equalTo($currentLevel))
+            ->will($this->returnSelf());
+        $this->treeBuilderMock->expects($this->once())->method('setParentId')->with($this->equalTo($currentLevel - 1))
+            ->will($this->returnSelf());
+        $this->treeBuilderMock->expects($this->once())->method('setName')->with($this->equalTo('Name' . $currentLevel))
+            ->will($this->returnSelf());
+        $this->treeBuilderMock->expects($this->once())->method('setPosition')->with($this->equalTo($currentLevel))
+            ->will($this->returnSelf());
+        $this->treeBuilderMock->expects($this->once())->method('setLevel')->with($this->equalTo($currentLevel))
+            ->will($this->returnSelf());
+        $this->treeBuilderMock->expects($this->once())->method('setIsActive')->with($this->equalTo(true))
+            ->will($this->returnSelf());
+        $this->treeBuilderMock->expects($this->once())->method('setProductCount')->with(4)
+            ->will($this->returnSelf());
+        $this->treeBuilderMock->expects($this->once())->method('setChildrenData')->will($this->returnSelf());
+        $this->treeBuilderMock->expects($this->once())->method('create')->will($this->returnValue([]));
+
+        $node = $this->getMockBuilder('Magento\Framework\Data\Tree\Node')->disableOriginalConstructor()
+            ->setMethods(
+                [
+                    'hasChildren',
+                    'getChildren',
+                    'getId',
+                    'getParentId',
+                    'getName',
+                    'getPosition',
+                    'getLevel',
+                    'getIsActive',
+                    'getProductCount'
+                ]
+            )
+            ->getMock();
+        $node->expects($this->any())->method('hasChildren')->will($this->returnValue(false));
+        $node->expects($this->never())->method('getChildren');
+
+        $node->expects($this->once())->method('getId')->will($this->returnValue($currentLevel));
+        $node->expects($this->once())->method('getParentId')->will($this->returnValue($currentLevel - 1));
+        $node->expects($this->once())->method('getName')->will($this->returnValue('Name' . $currentLevel));
+        $node->expects($this->once())->method('getPosition')->will($this->returnValue($currentLevel));
+        $node->expects($this->once())->method('getLevel')->will($this->returnValue($currentLevel));
+        $node->expects($this->once())->method('getIsActive')->will($this->returnValue(true));
+        $node->expects($this->once())->method('getProductCount')->will($this->returnValue(4));
+        $this->tree->getTree($node);
     }
 }
