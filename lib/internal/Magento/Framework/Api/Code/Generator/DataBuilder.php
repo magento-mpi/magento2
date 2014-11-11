@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Api\Code\Generator;
 
-use Magento\Framework\Autoload\IncludePath;
+use \Magento\Framework\Code\Generator\FileResolver;
 use Magento\Framework\Code\Generator\CodeGenerator;
 use Magento\Framework\Code\Generator\EntityAbstract;
 use Magento\Framework\Code\Generator\Io;
@@ -50,21 +50,21 @@ class DataBuilder extends EntityAbstract
      * @param string|null $resultClassName
      * @param Io|null $ioObject
      * @param CodeGenerator\CodeGeneratorInterface|null $classGenerator
-     * @param IncludePath|null $autoLoader
+     * @param FileResolver|null $fileResolver
      */
     public function __construct(
         $sourceClassName = null,
         $resultClassName = null,
         Io $ioObject = null,
         CodeGenerator\CodeGeneratorInterface $classGenerator = null,
-        IncludePath $autoLoader = null
+        FileResolver $fileResolver = null
     ) {
         parent::__construct(
             $sourceClassName,
             $resultClassName,
             $ioObject,
             $classGenerator,
-            $autoLoader
+            $fileResolver
         );
     }
 
@@ -85,30 +85,30 @@ class DataBuilder extends EntityAbstract
      */
     protected function _getDefaultConstructorDefinition()
     {
-            $constructorDefinition = [
-                'name' => '__construct',
-                'parameters' => [
-                    ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
-                    ['name' => 'metadataService', 'type' => '\Magento\Framework\Api\MetadataServiceInterface'],
-                    ['name' => 'objectManagerConfig', 'type' => '\Magento\Framework\ObjectManager\Config'],
-                ],
-                'docblock' => [
-                    'shortDescription' => 'Initialize the builder',
-                    'tags' => [
-                        [
-                            'name' => 'param',
-                            'description' => '\Magento\Framework\ObjectManager $objectManager'
-                        ],
-                        [
-                            'name' => 'param',
-                            'description' => '\Magento\Framework\Api\MetadataServiceInterface $metadataService'
-                        ],
-                        [
-                            'name' => 'param',
-                            'description' => '\Magento\Framework\ObjectManager\Config $objectManagerConfig'
-                        ]
+        $constructorDefinition = [
+            'name' => '__construct',
+            'parameters' => [
+                ['name' => 'objectManager', 'type' => '\Magento\Framework\ObjectManager'],
+                ['name' => 'metadataService', 'type' => '\Magento\Framework\Api\MetadataServiceInterface'],
+                ['name' => 'objectManagerConfig', 'type' => '\Magento\Framework\ObjectManager\Config'],
+            ],
+            'docblock' => [
+                'shortDescription' => 'Initialize the builder',
+                'tags' => [
+                    [
+                        'name' => 'param',
+                        'description' => '\Magento\Framework\ObjectManager $objectManager'
+                    ],
+                    [
+                        'name' => 'param',
+                        'description' => '\Magento\Framework\Api\MetadataServiceInterface $metadataService'
+                    ],
+                    [
+                        'name' => 'param',
+                        'description' => '\Magento\Framework\ObjectManager\Config $objectManagerConfig'
                     ]
-                ],
+                ]
+            ],
             'body' => "parent::__construct(\$objectManager, \$metadataService, \$objectManagerConfig, "
                 . "'{$this->_getSourceClassName()}');"
         ];
@@ -146,7 +146,7 @@ class DataBuilder extends EntityAbstract
      */
     protected function canUseMethodForGeneration($method)
     {
-        $isGetter = (substr($method->getName(), 0, 3) == 'get');
+        $isGetter = substr($method->getName(), 0, 3) == 'get' || substr($method->getName(), 0, 2) == 'is';
         $isSuitableMethodType = !($method->isConstructor() || $method->isFinal()
             || $method->isStatic() || $method->isDestructor());
         $isMagicMethod = in_array($method->getName(), array('__sleep', '__wakeup', '__clone'));
@@ -162,7 +162,11 @@ class DataBuilder extends EntityAbstract
      */
     protected function _getMethodInfo(\ReflectionMethod $method)
     {
-        $propertyName = substr($method->getName(), 3);
+        if (substr($method->getName(), 0, 2) == 'is') {
+            $propertyName = substr($method->getName(), 2);
+        } else {
+            $propertyName = substr($method->getName(), 3);
+        }
         $returnType = (new ClassReflection($this->_getSourceClassName()))
             ->getMethod($method->getName())
             ->getDocBlock()
