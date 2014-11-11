@@ -104,7 +104,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Retrieve method model object
      *
      * @param string $code
-     * @return MethodInterface|false
+     * @throws \Magento\Framework\Model\Exception
+     * @return MethodInterface
      */
     public function getMethodInstance($code)
     {
@@ -112,7 +113,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $this->getMethodModelConfigName($code),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        return $class ? $this->_methodFactory->create($class) : false;
+        return $this->_methodFactory->create($class);
     }
 
     /**
@@ -270,9 +271,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             if (isset($data['title'])) {
                 $methods[$code] = $data['title'];
             } else {
-                if ($this->getMethodInstance($code)) {
-                    $methods[$code] = $this->getMethodInstance($code)->getConfigData('title', $store);
-                }
+                $methods[$code] = $this->getMethodInstance($code)->getConfigData('title', $store);
             }
             if ($asLabelValue && $withGroups && isset($data['group'])) {
                 $groupRelations[$code] = $data['group'];

@@ -90,8 +90,6 @@ abstract class AbstractAgreement extends \Magento\Framework\Model\AbstractModel
     {
         if (is_null($this->_paymentMethodInstance)) {
             $this->_paymentMethodInstance = $this->_paymentData->getMethodInstance($this->getMethodCode());
-        }
-        if ($this->_paymentMethodInstance) {
             $this->_paymentMethodInstance->setStore($this->getStoreId());
         }
         return $this->_paymentMethodInstance;

@@ -34,7 +34,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     {
         $this->contextMock = $this->getMock('Magento\Framework\Model\Context', [], [], '', false);
         $this->registryMock = $this->getMock('Magento\Framework\Registry');
-        $this->paymentHelperMock = $this->getMock('Magento\Payment\Helper\Data', [], [], '', false);
+        $this->paymentHelperMock = $this->getMock('Magento\Payment\Helper\Data', ['getMethodInstance'], [], '', false);
         $this->encryptorInterfaceMock = $this->getMock(
             'Magento\Framework\Encryption\EncryptorInterface',
             [],
@@ -84,14 +84,6 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             ['cc_number', 'cc_number_enc'],
             ['cc_cid', 'cc_cid_enc']
         ];
-    }
-
-    /**
-     * @expectedException \Magento\Framework\Model\Exception
-     */
-    public function testGetMethodInstanceException()
-    {
-        $this->info->getMethodInstance();
     }
 
     public function testGetMethodInstanceSubstitution()

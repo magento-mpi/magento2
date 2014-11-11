@@ -79,27 +79,25 @@ class Info extends \Magento\Framework\Model\AbstractModel
     /**
      * Retrieve payment method model object
      *
-     * @return MethodInterface
+     * @return \Magento\Payment\Model\MethodInterface
      * @throws \Magento\Framework\Model\Exception
      */
     public function getMethodInstance()
     {
         if (!$this->hasMethodInstance()) {
-            if ($this->getMethod()) {
-                $instance = $this->_paymentData->getMethodInstance($this->getMethod());
-                if (!$instance) {
-                    $instance = $this->_paymentData->getMethodInstance(
-                        Method\Substitution::CODE
-                    );
-                }
-                $instance->setInfoInstance($this);
-                $this->setMethodInstance($instance);
-                return $instance;
-            }
-            throw new \Magento\Framework\Model\Exception(__('The payment method you requested is not available.'));
+            $method = $this->getMethod() ? $this->getMethod() : Method\Substitution::CODE;
+            $instance = $this->_paymentData->getMethodInstance($method);
+            $instance->setInfoInstance($this);
+            $this->setMethodInstance($instance);
+            return $instance;
         }
 
-        return $this->_getData('method_instance');
+        $methodInstance = $this->_getData('method_instance');
+        if ($methodInstance && ($methodInstance instanceof MethodInterface)) {
+            return $methodInstance;
+        }
+
+        throw new \Magento\Framework\Model\Exception(__('The payment method you requested is not available.'));
     }
 
     /**

@@ -586,7 +586,7 @@ class Multishipping extends \Magento\Framework\Object
 
         /** @var $paymentMethod \Magento\Payment\Model\Method\AbstractMethod */
         $paymentMethod = $quote->getPayment()->getMethodInstance();
-        if (!empty($paymentMethod) && !$paymentMethod->isAvailable($quote)) {
+        if (!$paymentMethod->isAvailable($quote)) {
             throw new \Magento\Framework\Model\Exception(__('Please specify a payment method.'));
         }
 
