@@ -36,8 +36,6 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'sales_creditmemo_grid',
             'magento_sales_creditmemo_grid_archive'
         ),
-        'magento_sales_shipment_grid_archive' => 'sales_creditmemo_grid',
-
     );
 
     /**

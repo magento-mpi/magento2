@@ -113,7 +113,7 @@ class CreditMemoSalesArchiveEntityTest extends Injectable
      */
     public function test(OrderInjectable $order, array $data)
     {
-        $this->markTestIncomplete('MAGETWO-28867');
+        //$this->markTestIncomplete('MAGETWO-28867');
         // Preconditions
         $order->persist();
         $this->objectManager->create('Magento\Sales\Test\TestStep\CreateInvoiceStep', ['order' => $order])->run();
