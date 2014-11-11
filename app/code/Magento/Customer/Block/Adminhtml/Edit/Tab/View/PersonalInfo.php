@@ -8,7 +8,8 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Model\AccountManagement;
 use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
@@ -25,19 +26,14 @@ class PersonalInfo extends \Magento\Backend\Block\Template
     protected $customer;
 
     /**
-     * @var CustomerAccountServiceInterface
+     * @var AccountManagementInterface
      */
-    protected $accountService;
+    protected $accountManagement;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     * @var \Magento\Customer\Service\V1\GroupRepositoryInterface
      */
-    protected $addressService;
-
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
-     */
-    protected $groupService;
+    protected $groupRepository;
 
     /**
      * @var \Magento\Customer\Api\Data\CustomerDataBuilder
@@ -63,9 +59,8 @@ class PersonalInfo extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param CustomerAccountServiceInterface $accountService
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
+     * @param AccountManagementInterface $accountService
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
@@ -74,9 +69,8 @@ class PersonalInfo extends \Magento\Backend\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        CustomerAccountServiceInterface $accountService,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
+        AccountManagementInterface $accountService,
+        \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Framework\Stdlib\DateTime $dateTime,
@@ -84,9 +78,8 @@ class PersonalInfo extends \Magento\Backend\Block\Template
         array $data = array()
     ) {
         $this->coreRegistry = $registry;
-        $this->accountService = $accountService;
-        $this->addressService = $addressService;
-        $this->groupService = $groupService;
+        $this->accountManagement = $accountService;
+        $this->groupRepository = $groupRepository;
         $this->customerBuilder = $customerBuilder;
         $this->addressHelper = $addressHelper;
         $this->dateTime = $dateTime;
@@ -159,12 +152,12 @@ class PersonalInfo extends \Magento\Backend\Block\Template
     public function getIsConfirmedStatus()
     {
         $id = $this->getCustomerId();
-        switch ($this->accountService->getConfirmationStatus($id)) {
-            case CustomerAccountServiceInterface::ACCOUNT_CONFIRMED:
+        switch ($this->accountManagement->getConfirmationStatus($id)) {
+            case AccountManagement::ACCOUNT_CONFIRMED:
                 return __('Confirmed');
-            case CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED:
+            case AccountManagement::ACCOUNT_CONFIRMATION_REQUIRED:
                 return __('Confirmation Required');
-            case CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED:
+            case AccountManagement::ACCOUNT_CONFIRMATION_NOT_REQUIRED:
                 return __('Confirmation Not Required');
         }
         return __('Indeterminate');
@@ -186,7 +179,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
     public function getBillingAddressHtml()
     {
         try {
-            $address = $this->addressService->getAddress($this->getCustomer()->getDefaultBilling());
+            $address = $this->accountManagement->getDefaultBillingAddress($this->getCustomer()->getId());
         } catch (NoSuchEntityException $e) {
             return __('The customer does not have default billing address.');
         }
@@ -219,7 +212,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
     private function getGroup($groupId)
     {
         try {
-            $group = $this->groupService->getGroup($groupId);
+            $group = $this->groupRepository->getById($groupId);
         } catch (NoSuchEntityException $e) {
             $group = null;
         }
