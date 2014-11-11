@@ -6,16 +6,16 @@
  */
 define([
     'underscore',
+    './client',
     './storages',
     'Magento_Ui/js/lib/registry/registry',
     'Magento_Ui/js/lib/class',
     'Magento_Ui/js/lib/events',
-    'mage/utils'
-], function(_, storages, registry, Class, EventsBus, utils){
+], function(_, Client, storages, registry, Class, EventsBus){
     'use strict';
     
     var defaults = {
-        stores: ['meta', 'data', 'params']
+        stores: ['data', 'params']
     };
 
     return Class.extend({
@@ -26,7 +26,8 @@ define([
         initialize: function(settings) {
             _.extend(this, defaults, settings, settings.config || {});
 
-            this.initStorages();
+            this.initStorages()
+                .initClient();
         },
 
         /**
@@ -51,16 +52,26 @@ define([
             return this;
         },
 
+        initClient: function(){
+            this.client = new Client({
+                urls: {
+                    beforeSave: this.validate_url,
+                    save: this.submit_url
+                } 
+            });
+
+            return this;
+        },
+
         /**
          * Assembles data and submits it using 'utils.submit' method
          */
         save: function(){
             var data = this.data.get();
             
-            utils.submit({
-                url: this.submit_url,
-                data: data
-            });
+            this.client.save(data);
+
+            return this;
         }
     }, EventsBus);
 });
