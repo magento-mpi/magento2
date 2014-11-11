@@ -19,6 +19,8 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
      */
     protected $objectManager;
 
+    const SERVICE_NAME = 'catalogProductCustomOptionRepositoryV1';
+
     /**
      * @var \Magento\Catalog\Model\ProductFactory
      */
@@ -48,7 +50,9 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => 'V1',
+                'operation' => self::SERVICE_NAME . 'DeleteByIdentifier'
             ]
         ];
         $this->assertTrue($this->_webApiCall($serviceInfo, ['productSku' => $sku, 'optionId' => $optionId]));
@@ -76,7 +80,9 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => 'V1',
+                'operation' => self::SERVICE_NAME . 'Get'
             ]
         ];
         $option = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId]);
@@ -99,7 +105,9 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => 'V1',
+                'operation' => self::SERVICE_NAME . 'GetList'
             ]
         ];
         $options = $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
@@ -129,7 +137,7 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
      * @magentoAppIsolation enabled
      * @dataProvider optionDataProvider
      */
-    public function testAdd($optionData)
+    public function testSave($optionData)
     {
         $productSku = 'simple';
 
@@ -141,7 +149,9 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => 'V1',
+                'operation' => self::SERVICE_NAME . 'Save'
             ]
         ];
 
@@ -187,10 +197,17 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => 'V1',
+                'operation' => self::SERVICE_NAME . 'Save'
             ]
         ];
-        $this->setExpectedException('Exception', '', 400);
+
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->setExpectedException('SoapFault', 'Could not save product option');
+        } else {
+            $this->setExpectedException('Exception', '', 400);
+        }
         $this->_webApiCall($serviceInfo, ['option' => $optionDataPost]);
     }
 
@@ -240,13 +257,22 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => 'V1',
+                'operation' => self::SERVICE_NAME . 'Save'
             ]
         ];
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $optionDataPost['option_id'] = $optionId ;
+            $updatedOption = $this->_webApiCall(
+                $serviceInfo, [ 'id' => $optionId, 'option' => $optionDataPost]
+            );
+        } else {
+            $updatedOption = $this->_webApiCall(
+                $serviceInfo, ['option' => $optionDataPost]
+            );
+        }
 
-        $updatedOption = $this->_webApiCall(
-            $serviceInfo, ['option' => $optionDataPost]
-        );
         unset($updatedOption['values']);
         $optionDataPost['option_id'] = $option->getOptionId();
         $this->assertEquals($optionDataPost, $updatedOption);
@@ -263,7 +289,7 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
     {
         $productId = 1;
         $fixtureOption = null;
-        $value1 = [
+        $valueData = [
             'price' => 100500,
             'price_type' => 'fixed',
             'sku' => 'new option sku ' . $optionType,
@@ -285,7 +311,7 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
         $values = [];
         foreach($option->getValues() as $key => $value)
         {
-            $values[$key] = [
+            $values[] = [
                 'price' => $value->getPrice(),
                 'price_type' => $value->getPriceType(),
                 'sku' => $value->getSku(),
@@ -293,7 +319,7 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
                 'sort_order' => $value->getSortOrder()
         ];
         }
-        $values[] = $value1;
+        $values[] = $valueData;
         $data = array(
             'product_sku' => $option->getProductSku(),
             'title' => $option->getTitle(),
@@ -309,16 +335,26 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => 'V1',
+                'operation' => self::SERVICE_NAME . 'Save'
             ]
         ];
-        $valueObject = $this->_webApiCall(
-            $serviceInfo, ['option' => $data]
-        );
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $data['option_id'] = $fixtureOption->getId() ;
+            $valueObject = $this->_webApiCall(
+                $serviceInfo, [ 'option_id' => $fixtureOption->getId(), 'option' => $data]
+            );
+        } else {
+            $valueObject = $this->_webApiCall(
+                $serviceInfo, ['option' => $data]
+            );
+        }
+
         $values = end($valueObject['values']);
-        $this->assertEquals($value1['price'], $values['price']);
-        $this->assertEquals($value1['price_type'], $values['price_type']);
-        $this->assertEquals($value1['sku'], $values['sku']);
+        $this->assertEquals($valueData['price'], $values['price']);
+        $this->assertEquals($valueData['price_type'], $values['price_type']);
+        $this->assertEquals($valueData['sku'], $values['sku']);
         $this->assertEquals('New Option Title', $values['title']);
         $this->assertEquals(100, $values['sort_order']);
     }

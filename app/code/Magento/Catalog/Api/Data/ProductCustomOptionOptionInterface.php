@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Api\Data;
 
-interface ProductCustomOptionOptionInterface
+interface ProductCustomOptionOptionInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**
      * Get product SKU
@@ -94,7 +94,7 @@ interface ProductCustomOptionOptionInterface
     public function getImageSizeY();
 
     /**
-     * @return  \Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface[]|null
+     * @return \Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface[]|null
      */
     public function getValues();
 }
