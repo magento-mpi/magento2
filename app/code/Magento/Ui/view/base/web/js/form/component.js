@@ -217,16 +217,18 @@ define([
             var data    = this.provider.data,
                 layout  = this.renderer.layout; 
 
+            this.off();
+
             this.containers.each(function(parent){
                 parent.remove(this);
             }, this);
 
-            data.remove(this.dataScope);
-            layout.clear(this.name);
-
-            this.elems.each(function(child){ 
+            this.elems().forEach(function(child){ 
                 child.destroy();
             });
+
+            data.remove(this.dataScope);
+            layout.clear(this.name);
         }
     });
 
