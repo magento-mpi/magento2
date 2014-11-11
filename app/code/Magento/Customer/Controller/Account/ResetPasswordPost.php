@@ -11,23 +11,30 @@ namespace Magento\Customer\Controller\Account;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 class ResetPasswordPost extends \Magento\Customer\Controller\Account
 {
     /** @var AccountManagementInterface */
     protected $accountManagement;
 
+    /** @var CustomerRepositoryInterface */
+    protected $customerRepository;
+
     /**
      * @param Context $context
      * @param Session $customerSession
      * @param AccountManagementInterface $accountManagement
+     * @param CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         Context $context,
         Session $customerSession,
-        AccountManagementInterface $accountManagement
+        AccountManagementInterface $accountManagement,
+        CustomerRepositoryInterface $customerRepository
     ) {
         $this->accountManagement = $accountManagement;
+        $this->customerRepository = $customerRepository;
         parent::__construct($context, $customerSession);
     }
 
@@ -56,7 +63,8 @@ class ResetPasswordPost extends \Magento\Customer\Controller\Account
         }
 
         try {
-            $this->accountManagement->resetPassword($customerId, $resetPasswordToken, $password);
+            $customerEmail = $this->customerRepository->getById($customerId)->getEmail();
+            $this->accountManagement->resetPassword($customerEmail, $resetPasswordToken, $password);
             $this->messageManager->addSuccess(__('Your password has been updated.'));
             $this->_redirect('*/*/login');
             return;
