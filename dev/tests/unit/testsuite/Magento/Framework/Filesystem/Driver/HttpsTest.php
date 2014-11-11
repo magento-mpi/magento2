@@ -14,7 +14,7 @@ class HttpsTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        require_once __DIR__ . '/../_files/https_mock.php';
+        require_once __DIR__ . '/../_files/http_mock.php';
         self::$fSockOpen = true;
     }
 
