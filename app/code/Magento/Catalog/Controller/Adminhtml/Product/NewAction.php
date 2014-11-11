@@ -68,7 +68,6 @@ class NewAction extends \Magento\Catalog\Controller\Adminhtml\Product
             $product->addData($productData);
         }
 
-
         $this->_eventManager->dispatch('catalog_product_new_action', array('product' => $product));
 
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */

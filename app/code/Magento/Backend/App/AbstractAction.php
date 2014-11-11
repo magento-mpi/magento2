@@ -79,11 +79,6 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
     protected $_formKeyValidator;
 
     /**
-     * @var \Magento\Framework\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      */
     public function __construct(Action\Context $context)
@@ -94,7 +89,6 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
         $this->_helper = $context->getHelper();
         $this->_backendUrl = $context->getBackendUrl();
         $this->_formKeyValidator = $context->getFormKeyValidator();
-        $this->_title = $context->getTitle();
         $this->_localeResolver = $context->getLocaleResolver();
         $this->_canUseBaseUrl = $context->getCanUseBaseUrl();
         $this->_session = $context->getSession();
