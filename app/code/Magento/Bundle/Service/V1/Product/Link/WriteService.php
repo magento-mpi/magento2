@@ -8,7 +8,7 @@
 
 namespace Magento\Bundle\Service\V1\Product\Link;
 
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Bundle\Model\Option;
@@ -19,7 +19,7 @@ use Magento\Webapi\Exception;
 class WriteService implements WriteServiceInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -44,14 +44,14 @@ class WriteService implements WriteServiceInterface
     protected $optionCollection;
 
     /**
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Bundle\Model\SelectionFactory $bundleSelection
      * @param \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory
      * @param \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection,
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
-        ProductRepository $productRepository,
+        ProductRepositoryInterface $productRepository,
         \Magento\Bundle\Model\SelectionFactory $bundleSelection,
         \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory,
         \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection,

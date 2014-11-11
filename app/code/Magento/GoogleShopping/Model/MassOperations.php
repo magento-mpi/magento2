@@ -48,7 +48,7 @@ class MassOperations
     /**
      * Product factory
      *
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -69,7 +69,7 @@ class MassOperations
     /**
      * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\GoogleShopping\Model\ItemFactory $itemFactory
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\Notification\NotifierInterface $notifier
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Logger $logger
@@ -80,7 +80,7 @@ class MassOperations
     public function __construct(
         \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\GoogleShopping\Model\ItemFactory $itemFactory,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Notification\NotifierInterface $notifier,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Logger $logger,

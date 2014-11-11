@@ -12,14 +12,14 @@ use Magento\Bundle\Service\V1\Data\Product\LinkConverter;
 use Magento\Bundle\Service\V1\Data\Product\OptionConverter;
 use Magento\Bundle\Service\V1\Product\Link\ReadService as LinkReadService;
 use Magento\Catalog\Model\Product;
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Webapi\Exception;
 
 class ReadService implements ReadServiceInterface
 {
     /**
-     * @var ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     private $productRepository;
 
@@ -39,13 +39,13 @@ class ReadService implements ReadServiceInterface
 
     /**
      * @param OptionConverter $optionConverter
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      * @param Type $type
      * @param LinkConverter $linkConverter
      */
     public function __construct(
         OptionConverter $optionConverter,
-        ProductRepository $productRepository,
+        ProductRepositoryInterface $productRepository,
         Type $type,
         LinkConverter $linkConverter
     ) {

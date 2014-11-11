@@ -13,7 +13,7 @@ use \Magento\Framework\Model\Exception;
 class Wishlist extends \Magento\GiftRegistry\Controller\Index
 {
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -21,13 +21,13 @@ class Wishlist extends \Magento\GiftRegistry\Controller\Index
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Catalog\Model\ProductRepository $productRepository
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
     ) {
         parent::__construct($context, $coreRegistry, $formKeyValidator);
         $this->productRepository = $productRepository;

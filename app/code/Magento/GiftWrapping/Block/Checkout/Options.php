@@ -37,7 +37,7 @@ class Options extends \Magento\Framework\View\Element\Template
     protected $_checkoutCartFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -65,7 +65,7 @@ class Options extends \Magento\Framework\View\Element\Template
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Checkout\Model\CartFactory $checkoutCartFactory
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param array $checkoutItems
      * @param array $data
      */
@@ -76,7 +76,7 @@ class Options extends \Magento\Framework\View\Element\Template
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Model\CartFactory $checkoutCartFactory,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         array $checkoutItems,
         array $data = array()
     ) {

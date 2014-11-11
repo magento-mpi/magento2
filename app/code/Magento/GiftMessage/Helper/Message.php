@@ -35,7 +35,7 @@ class Message extends \Magento\Core\Helper\Data
     protected $_innerCache = array();
 
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -67,7 +67,7 @@ class Message extends \Magento\Core\Helper\Data
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
      * @param \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory
      * @param \Magento\Framework\Escaper $escaper
@@ -80,7 +80,7 @@ class Message extends \Magento\Core\Helper\Data
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\State $appState,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory,
         \Magento\Framework\Escaper $escaper,

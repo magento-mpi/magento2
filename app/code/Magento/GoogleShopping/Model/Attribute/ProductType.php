@@ -17,7 +17,7 @@ class ProductType extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribu
     /**
      * Category factory
      *
-     * @var \Magento\Catalog\Model\CategoryRepository
+     * @var \Magento\Catalog\Api\CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -29,7 +29,7 @@ class ProductType extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribu
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
      * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
-     * @param \Magento\Catalog\Model\CategoryRepository $categoryRepository
+     * @param \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -41,7 +41,7 @@ class ProductType extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribu
         \Magento\GoogleShopping\Helper\Product $gsProduct,
         \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
-        \Magento\Catalog\Model\CategoryRepository $categoryRepository,
+        \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

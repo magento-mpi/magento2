@@ -37,18 +37,18 @@ class Save extends \Magento\Framework\Object
     protected $_messageFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
     /**
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\GiftMessage\Model\MessageFactory $messageFactory
      * @param \Magento\Backend\Model\Session\Quote $session
      * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      */
     public function __construct(
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\GiftMessage\Model\MessageFactory $messageFactory,
         \Magento\Backend\Model\Session\Quote $session,
         \Magento\GiftMessage\Helper\Message $giftMessageMessage

@@ -28,7 +28,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Catalog product model
      *
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -60,7 +60,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
@@ -69,7 +69,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,

@@ -18,13 +18,13 @@ class CategoryLinkRepository implements \Magento\Catalog\Api\CategoryLinkReposit
     protected $categoryRepository;
 
     /**
-     * @var ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
     /**
-     * @param CategoryRepository $categoryRepository
-     * @param ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      */
     public function __construct(
         \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository,

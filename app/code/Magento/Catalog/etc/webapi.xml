@@ -280,7 +280,7 @@
         </resources>
     </route>
     <route url="/V1/categories/:id" method="PUT">
-        <service class="Magento\Catalog\Model\CategoryRepository" method="save" />
+        <service class="Magento\Catalog\Api\CategoryRepositoryInterface" method="save" />
         <resources>
             <resource ref="Magento_Catalog::categories" />
         </resources>

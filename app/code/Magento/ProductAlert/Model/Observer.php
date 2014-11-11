@@ -85,7 +85,7 @@ class Observer
     protected $_customerAccountService;
 
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -120,7 +120,7 @@ class Observer
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
@@ -133,7 +133,7 @@ class Observer
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\ProductAlert\Model\Resource\Stock\CollectionFactory $stockColFactory,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,

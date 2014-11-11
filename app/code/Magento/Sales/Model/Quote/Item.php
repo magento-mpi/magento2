@@ -182,7 +182,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository,
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
@@ -198,7 +198,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
         \Magento\Framework\Locale\FormatInterface $localeFormat,

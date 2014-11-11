@@ -58,7 +58,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     protected $_productFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -92,7 +92,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Eav\Model\Config $config,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         \Magento\Framework\Locale\FormatInterface $localeFormat,

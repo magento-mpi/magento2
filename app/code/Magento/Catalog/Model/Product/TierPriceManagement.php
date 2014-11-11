@@ -9,14 +9,14 @@
 
 namespace Magento\Catalog\Model\Product;
 
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
 
 class TierPriceManagement implements \Magento\Catalog\Api\ProductTierPriceManagementInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -46,7 +46,7 @@ class TierPriceManagement implements \Magento\Catalog\Api\ProductTierPriceManage
     protected $customerGroupService;
 
     /**
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Catalog\Api\Data\ProductTierPriceDataBuilder $priceBuilder
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param PriceModifier $priceModifier
@@ -54,7 +54,7 @@ class TierPriceManagement implements \Magento\Catalog\Api\ProductTierPriceManage
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      */
     public function __construct(
-        ProductRepository $productRepository,
+        ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Api\Data\ProductTierPriceDataBuilder $priceBuilder,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,

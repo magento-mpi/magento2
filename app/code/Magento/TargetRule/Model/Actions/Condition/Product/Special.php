@@ -28,7 +28,7 @@ class Special extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Eav\Model\Config $config,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         \Magento\Framework\Locale\FormatInterface $localeFormat,

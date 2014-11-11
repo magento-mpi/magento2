@@ -54,7 +54,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
     /**
      * Product factory
      *
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -63,7 +63,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\GoogleShopping\Model\Service\ItemFactory $itemFactory
      * @param \Magento\GoogleShopping\Model\TypeFactory $typeFactory
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\GoogleShopping\Model\Resource\Item $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\GoogleShopping\Model\Config $config
@@ -74,7 +74,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\GoogleShopping\Model\Service\ItemFactory $itemFactory,
         \Magento\GoogleShopping\Model\TypeFactory $typeFactory,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\GoogleShopping\Model\Resource\Item $resource,
         \Magento\Framework\Data\Collection\Db $resourceCollection,
         \Magento\GoogleShopping\Model\Config $config,

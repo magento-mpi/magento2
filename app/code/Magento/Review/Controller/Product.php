@@ -43,7 +43,7 @@ class Product extends \Magento\Framework\App\Action\Action
     /**
      * Catalog catgory model
      *
-     * @var \Magento\Catalog\Model\CategoryRepository
+     * @var \Magento\Catalog\Api\CategoryRepositoryInterface
      */
     protected $categoryRepository;
 
@@ -57,7 +57,7 @@ class Product extends \Magento\Framework\App\Action\Action
     /**
      * Catalog product model
      *
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -100,9 +100,9 @@ class Product extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Catalog\Model\CategoryRepository $categoryRepository
+     * @param \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Catalog\Model\Design $catalogDesign
@@ -114,9 +114,9 @@ class Product extends \Magento\Framework\App\Action\Action
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Catalog\Model\CategoryRepository $categoryRepository,
+        \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository,
         \Magento\Framework\Logger $logger,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Catalog\Model\Design $catalogDesign,

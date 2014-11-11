@@ -12,7 +12,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 class Sendmail extends \Magento\Sendfriend\Controller\Product
 {
-    /** @var  \Magento\Catalog\Model\CategoryRepository */
+    /** @var  \Magento\Catalog\Api\CategoryRepositoryInterface */
     protected $categoryRepository;
 
     /**
@@ -20,16 +20,16 @@ class Sendmail extends \Magento\Sendfriend\Controller\Product
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Sendfriend\Model\Sendfriend $sendFriend
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
-     * @param \Magento\Catalog\Model\CategoryRepository $categoryRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
+     * @param \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Sendfriend\Model\Sendfriend $sendFriend,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
-        \Magento\Catalog\Model\CategoryRepository $categoryRepository
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+        \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository
     ) {
         parent::__construct($context, $coreRegistry, $formKeyValidator, $sendFriend, $productRepository);
         $this->categoryRepository = $categoryRepository;

@@ -34,7 +34,7 @@ class Form extends \Magento\Framework\View\Element\Template
     /**
      * Catalog product model
      *
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -77,7 +77,7 @@ class Form extends \Magento\Framework\View\Element\Template
      * @param \Magento\Framework\Session\Generic $reviewSession
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\App\Http\Context $httpContext
@@ -89,7 +89,7 @@ class Form extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Session\Generic $reviewSession,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\App\Http\Context $httpContext,

@@ -13,7 +13,7 @@ use Magento\Bundle\Service\V1\Data\Product\Option;
 use Magento\Bundle\Service\V1\Product\Link\WriteService as LinkWriteService;
 use Magento\Bundle\Service\V1\Data\Product\OptionConverter;
 use Magento\Catalog\Model\Product;
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\StoreManagerInterface;
@@ -22,7 +22,7 @@ use Magento\Webapi\Exception;
 class WriteService implements WriteServiceInterface
 {
     /**
-     * @var ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     private $productRepository;
     /**
@@ -44,14 +44,14 @@ class WriteService implements WriteServiceInterface
     private $linkWriteService;
 
     /**
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      * @param Type $type
      * @param OptionConverter $optionConverter
      * @param StoreManagerInterface $storeManager
      * @param LinkWriteService $linkWriteService
      */
     public function __construct(
-        ProductRepository $productRepository,
+        ProductRepositoryInterface $productRepository,
         Type $type,
         OptionConverter $optionConverter,
         StoreManagerInterface $storeManager,

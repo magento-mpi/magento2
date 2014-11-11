@@ -244,7 +244,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_statusListFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -313,7 +313,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Framework\Message\Factory $messageFactory
      * @param Status\ListFactory $statusListFactory
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param Quote\PaymentFactory $quotePaymentFactory
      * @param Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
      * @param \Magento\Framework\Object\Copy $objectCopyService
@@ -342,7 +342,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Framework\Message\Factory $messageFactory,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
         \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory,
         \Magento\Framework\Object\Copy $objectCopyService,

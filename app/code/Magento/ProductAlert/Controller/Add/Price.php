@@ -18,20 +18,20 @@ class Price extends \Magento\ProductAlert\Controller\Add
      */
     protected $_storeManager;
 
-    /** @var  \Magento\Catalog\Model\ProductRepository */
+    /** @var  \Magento\Catalog\Api\ProductRepositoryInterface */
     protected $productRepository;
 
     /**
      * @param Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      */
     public function __construct(
         Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\ProductRepository $productRepository
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
     ) {
         parent::__construct($context, $customerSession);
         $this->_storeManager = $storeManager;

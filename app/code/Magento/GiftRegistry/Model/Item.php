@@ -31,7 +31,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -68,7 +68,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param Item\OptionFactory $optionFactory
      * @param \Magento\Catalog\Model\Resource\Url $resourceUrl
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
@@ -79,7 +79,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
         \Magento\Catalog\Model\Resource\Url $resourceUrl,
         \Magento\Framework\Message\ManagerInterface $messageManager,

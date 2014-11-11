@@ -12,18 +12,18 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 class Stock extends \Magento\ProductAlert\Controller\Unsubscribe
 {
-    /** @var  \Magento\Catalog\Model\ProductRepository */
+    /** @var  \Magento\Catalog\Api\ProductRepositoryInterface */
     protected $productRepository;
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Catalog\Model\ProductRepository $productRepository
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
     ) {
         parent::__construct($context, $customerSession);
         $this->productRepository = $productRepository;

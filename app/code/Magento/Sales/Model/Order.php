@@ -457,7 +457,7 @@ class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterfac
     protected $_orderConfig;
 
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -538,7 +538,7 @@ class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterfac
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Order\Config $orderConfig
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param Resource\Order\Item\CollectionFactory $orderItemCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param Service\OrderFactory $serviceOrderFactory
@@ -564,7 +564,7 @@ class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterfac
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Config $orderConfig,
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory,
