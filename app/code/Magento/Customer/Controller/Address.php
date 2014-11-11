@@ -27,11 +27,6 @@ class Address extends \Magento\Framework\App\Action\Action
     protected $_formKeyValidator;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
-     */
-    protected $_addressService;
-
-    /**
      * @var \Magento\Customer\Api\AddressRepositoryInterface
      */
     protected $_addressRepository;
@@ -70,7 +65,6 @@ class Address extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder
      * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
@@ -87,7 +81,6 @@ class Address extends \Magento\Framework\App\Action\Action
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder,
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
@@ -98,7 +91,6 @@ class Address extends \Magento\Framework\App\Action\Action
     ) {
         $this->_customerSession = $customerSession;
         $this->_formKeyValidator = $formKeyValidator;
-        $this->_addressService = $addressService;
         $this->_formFactory = $formFactory;
         $this->_regionBuilder = $regionBuilder;
         $this->_addressBuilder = $addressBuilder;
