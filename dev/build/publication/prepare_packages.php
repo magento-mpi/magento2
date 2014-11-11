@@ -69,6 +69,41 @@ try {
     $sourceSkeletonDir = __DIR__ . '/_tmp_sekelton_source';
     execVerbose("git clone %s %s", $sourceDir, $sourceSkeletonDir);
 
+    //prepare product repo
+    execVerbose("git clone $productTargetRepo $productTargetDir");
+    $dir = dir($productTargetDir);
+    while (false !== ($file = $dir->read())) {
+        if (in_array($file, ['.', '..', '.git', '.gitignore'])) {
+            continue;
+        }
+        execVerbose("$gitProductCmd rm -r $file");
+    }
+
+    //create product directory
+    $readmeFile = $sourceSkeletonDir . '/README.md';
+    if (is_file($readmeFile)) {
+        copy($readmeFile, $productTargetDir . '/README.md');
+    }
+
+    //create product root composer.json
+    $targetComposerJson = $productTargetDir . '/composer.json';
+    execVerbose(
+        'php -f ' . __DIR__
+        . '/../../tools/Magento/Tools/Composer/create-root.php -- --type=product --source-dir=%s --target-file=%s',
+        $sourceSkeletonDir,
+        $targetComposerJson
+    );
+
+    //create skeleton root composer.json
+    $targetComposerJson = $sourceSkeletonDir . '/composer.json';
+    execVerbose(
+        'php -f ' . __DIR__
+        . '/../../tools/Magento/Tools/Composer/create-root.php -- --type=skeleton --source-dir=%s --target-file=%s',
+        $sourceSkeletonDir,
+        $targetComposerJson
+    );
+    $rootJson = json_decode(file_get_contents($targetComposerJson));
+
     // init satis repo
     execVerbose("git clone $satisTargetRepo $satisTargetDir");
 
@@ -77,6 +112,7 @@ try {
         'php -f ' . __DIR__ . '/../../tools/Magento/Tools/Composer/archiver.php -- '
         . "--dir=$sourceSkeletonDir --output=$satisTargetDir/_packages"
     );
+
     //remove product zip package if exist
     execVerbose("rm -f $satisTargetDir/_packages/magento_product-*");
 
@@ -94,40 +130,6 @@ try {
     execVerbose(
         'php -f ' . __DIR__ . '/../../tools/Magento/Tools/Composer/create-skeleton.php -- '
         . "--source=$sourceSkeletonDir --destination=$skeletonTargetDir"
-    );
-    //create skeleton root composer.json
-    $targetComposerJson = $skeletonTargetDir . '/composer.json';
-    execVerbose(
-        'php -f ' . __DIR__
-        . '/../../tools/Magento/Tools/Composer/create-root.php -- --type=skeleton --source-dir=%s --target-file=%s',
-        $sourceSkeletonDir,
-        $targetComposerJson
-    );
-    $rootJson = json_decode(file_get_contents($targetComposerJson));
-
-    //prepare product repo
-    execVerbose("git clone $productTargetRepo $productTargetDir");
-    $dir = dir($productTargetDir);
-    while (false !== ($file = $dir->read())) {
-        if (in_array($file, ['.', '..', '.git', '.gitignore'])) {
-            continue;
-        }
-        execVerbose("$gitProductCmd rm -r $file");
-    }
-
-    //create product directory
-    $readmeFile = $sourceSkeletonDir . '/README.md';
-    if (is_file($readmeFile)) {
-        copy($readmeFile, $productTargetDir . '/README.md');
-    }
-
-    //create skeleton root composer.json
-    $targetComposerJson = $productTargetDir . '/composer.json';
-    execVerbose(
-        'php -f ' . __DIR__
-        . '/../../tools/Magento/Tools/Composer/create-root.php -- --type=product --source-dir=%s --target-file=%s',
-        $sourceSkeletonDir,
-        $targetComposerJson
     );
 
     // commit changes to satis repo

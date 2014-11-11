@@ -178,6 +178,7 @@ class Reader
         $skips = [];
         $skips[] = $this->rootDir . '/.gitignore';
         $skips[] = $this->rootDir . '/README.md';
+        $skips[] = $this->rootDir . '/composer.json';
 
         return $skips;
     }
@@ -220,7 +221,6 @@ class Reader
         $excludes[] = $this->rootDir . '/.idea';
         $excludes[] = $this->rootDir . '/.git';
         $excludes[] = $this->rootDir . '/app/etc/vendor_path.php';
-        $excludes[] = $this->rootDir . '/composer.json';
 
         return $excludes;
     }
