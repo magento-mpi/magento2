@@ -94,7 +94,7 @@ class Confirm extends \Magento\Customer\Controller\Account
 
             // log in and send greeting email
             $customerEmail = $this->customerRepository->getById($customerId)->getEmail();
-            $customer = $this->customerAccountManagement->activateCustomer($customerEmail, $key);
+            $customer = $this->customerAccountManagement->activate($customerEmail, $key);
             $this->_getSession()->setCustomerDataAsLoggedIn($customer);
 
             $this->messageManager->addSuccess($this->getSuccessMessage());
