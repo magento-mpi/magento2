@@ -86,25 +86,6 @@ class Metadata implements \Iterator, \ArrayAccess
         return $this->config['label'];
     }
 
-    /**
-     * Comma separated list of fields which concatenated and form label
-     *
-     * @return string
-     */
-    public function getCompositeLabel()
-    {
-        return isset($this->config['compositeLabel']) ? $this->config['compositeLabel'] : '';
-    }
-
-    /**
-     * Comma separated list of fields to be displayed in form preview area
-     *
-     * @return string
-     */
-    public function getPreviewElements()
-    {
-        return isset($this->config['previewElements']) ? $this->config['previewElements'] : '';
-    }
 
     /**
      * Reset the Collection to the first element

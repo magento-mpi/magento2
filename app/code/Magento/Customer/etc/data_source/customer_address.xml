@@ -2,8 +2,6 @@
         xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Ui/etc/data_source.xsd">
     <dataSource name="customer_address"
                 label="Customer Address"
-                compositeLabel="prefix,firstname"
-                previewElements="prefix,firstname,lastname,postcode,city,region_id"
                 dataSet="Magento\Customer\Model\Resource\Address\Collection">
         <fields>
             <field name="parent_id" dataType="number" visible="false"/>

@@ -88,10 +88,6 @@ class Converter implements ConverterInterface
             $data[$dataSource['@attributes']['name']] = [
                 'name' => $dataSource['@attributes']['name'],
                 'label' => $dataSource['@attributes']['label'],
-                'compositeLabel' => isset($dataSource['@attributes']['compositeLabel'])
-                    ? $dataSource['@attributes']['compositeLabel'] : '',
-                'previewElements' => isset($dataSource['@attributes']['previewElements'])
-                    ? $dataSource['@attributes']['previewElements'] : '',
                 'dataSet' => $dataSource['@attributes']['dataSet'],
             ];
             $fields = [];

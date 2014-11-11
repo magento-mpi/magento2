@@ -307,23 +307,22 @@ class AbstractStructure extends AbstractView
                 'label' => __('New ' . $childMeta->getLabel())
             ]
         ];
-        if ($previewElements = $childMeta->getPreviewElements()) {
-            $itemTemplate['config']['previewParts'] = explode(',', $previewElements);
-        }
-        if ($compositeLabel = $childMeta->getCompositeLabel()) {
-            $itemTemplate['config']['labelParts'] = explode(',', $compositeLabel);
-        }
+        
         foreach ($childMeta as $key => $value) {
             if (isset($value['visible']) && $value['visible'] === 'false') {
                 continue;
             }
 
-            $itemTemplate['children'][$key] = $value;
-            $itemTemplate['children'][$key]['config'] = $value;
-            $itemTemplate['children'][$key]['type'] = 'group';
+            $itemTemplate['children'][$key] = [
+                'config' => [
+                   'displayArea' => $value['displayArea'] 
+                ]
+            ];
+            
             if (isset($value['size'])) {
                 $itemTemplate['children'][$key]['dataScope'] = $key;
             }
+
             if (isset($value['constraints'])) {
                 if (isset($value['constraints']['validate'])) {
                     $value['validation'] = $value['constraints']['validate'];
@@ -339,6 +338,7 @@ class AbstractStructure extends AbstractView
                 }
                 unset($value['constraints']);
             }
+            
             if (isset($value['size'])) {
                 $size = (int)$value['size'];
                 for ($i = 0; $i < $size; $i++) {
@@ -354,8 +354,8 @@ class AbstractStructure extends AbstractView
             } else {
                 $itemTemplate['children'][$key]['children'][$key] = [
                     'type' => $value['formElement'],
-                    'dataScope' => $key,
-                    'config' => $value
+                    'config' => $value,
+                    'dataScope' => $key
                 ];
             }
         }
