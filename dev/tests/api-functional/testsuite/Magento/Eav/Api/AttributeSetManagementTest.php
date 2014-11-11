@@ -168,7 +168,7 @@ class AttributeSetManagementTest extends WebapiAbstract
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage An attribute set with the "Default" name already exists.
+     * @expectedExceptionMessage An attribute set with the \"Default\" name already exists.
      */
     public function testCreateThrowsExceptionIfAttributeSetWithGivenNameAlreadyExists()
     {
