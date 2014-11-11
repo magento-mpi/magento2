@@ -48,6 +48,7 @@ class Writer
      * Will overwrite a file, if it exists.
      *
      * @param SegmentInterface[] $segments
+     * @return void
      */
     public function create($segments)
     {
@@ -62,6 +63,7 @@ class Writer
      * Update data in the configuration file using specified segment object
      *
      * @param SegmentInterface $segment
+     * @return void
      */
     public function update(SegmentInterface $segment)
     {
@@ -75,6 +77,7 @@ class Writer
      * Persists the data into file
      *
      * @param array $data
+     * @return void
      */
     private function write($data)
     {
