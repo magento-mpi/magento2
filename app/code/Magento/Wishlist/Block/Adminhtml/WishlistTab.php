@@ -10,14 +10,14 @@ namespace Magento\Wishlist\Block\Adminhtml;
 use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Registry;
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Ui\Component\Layout\Tabs\TabInterface;
+use Magento\Ui\Component\Layout\Tabs\TabWrapper;
 
 /**
  * Class WishlistTab
  *
  * @package Magento\Wishlist\Block\Adminhtml
  */
-class WishlistTab extends \Magento\Ui\Component\Layout\Tabs\TabWrapper implements TabInterface
+class WishlistTab extends TabWrapper
 {
     /**
      * Core registry
@@ -25,6 +25,11 @@ class WishlistTab extends \Magento\Ui\Component\Layout\Tabs\TabWrapper implement
      * @var Registry
      */
     protected $coreRegistry = null;
+
+    /**
+     * @var bool
+     */
+    protected $isAjaxLoaded = true;
 
     /**
      * Constructor
@@ -58,26 +63,6 @@ class WishlistTab extends \Magento\Ui\Component\Layout\Tabs\TabWrapper implement
     }
 
     /**
-     * Return Tab title
-     *
-     * @return string
-     */
-    public function getTabTitle()
-    {
-        return __('Wishlist');
-    }
-
-    /**
-     * Tab class getter
-     *
-     * @return string
-     */
-    public function getTabClass()
-    {
-        return '';
-    }
-
-    /**
      * Return URL link to Tab content
      *
      * @return string
@@ -85,25 +70,5 @@ class WishlistTab extends \Magento\Ui\Component\Layout\Tabs\TabWrapper implement
     public function getTabUrl()
     {
         return $this->getUrl('customer/*/wishlist', array('_current' => true));
-    }
-
-    /**
-     * Tab should be loaded trough Ajax call
-     *
-     * @return bool
-     */
-    public function isAjaxLoaded()
-    {
-        return true;
-    }
-
-    /**
-     * Tab is hidden
-     *
-     * @return boolean
-     */
-    public function isHidden()
-    {
-        return false;
     }
 }

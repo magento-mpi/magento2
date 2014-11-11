@@ -85,6 +85,16 @@ class RecurringPayment extends PaymentGrid implements TabInterface
     }
 
     /**
+     * Tab class getter
+     *
+     * @return string
+     */
+    public function getTabClass()
+    {
+        return '';
+    }
+
+    /**
      * Can show tab in tabs
      *
      * @return bool
@@ -127,6 +137,16 @@ class RecurringPayment extends PaymentGrid implements TabInterface
     }
 
     /**
+     * Tab should be loaded trough Ajax call
+     *
+     * @return bool
+     */
+    public function isAjaxLoaded()
+    {
+        return false;
+    }
+
+    /**
      * Defines after which tab, this tab should be rendered
      *
      * @return string
@@ -147,16 +167,6 @@ class RecurringPayment extends PaymentGrid implements TabInterface
     }
 
     /**
-     * Tab class getter
-     *
-     * @return string
-     */
-    public function getTabClass()
-    {
-        return '';
-    }
-
-    /**
      * Return URL link to Tab content
      *
      * @return string
@@ -164,15 +174,5 @@ class RecurringPayment extends PaymentGrid implements TabInterface
     public function getTabUrl()
     {
         return '';
-    }
-
-    /**
-     * Tab should be loaded trough Ajax call
-     *
-     * @return bool
-     */
-    public function isAjaxLoaded()
-    {
-        return false;
     }
 }
