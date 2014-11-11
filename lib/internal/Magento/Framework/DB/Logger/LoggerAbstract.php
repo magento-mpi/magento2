@@ -56,14 +56,14 @@ abstract class LoggerAbstract implements LoggerInterface
     /**
      * Get formatted statistics message
      *
-     * @param int $type Type of query
+     * @param string $type Type of query
      * @param string $sql
      * @param array $bind
      * @param \Zend_Db_Statement_Pdo|null $result
      * @return string
      * @throws \Zend_Db_Statement_Exception
      */
-    protected function getStats($type, $sql, $bind = [], $result = null)
+    public function getStats($type, $sql, $bind = [], $result = null)
     {
         $message = '## ' . getmypid() . ' ## ';
         $nl   = "\n";
@@ -99,16 +99,5 @@ abstract class LoggerAbstract implements LoggerInterface
         $message .= $nl;
 
         return $message;
-    }
-
-    /**
-     * Get formatted exception message
-     *
-     * @param \Exception $e
-     * @return string
-     */
-    protected function getExceptionMessage(\Exception $e)
-    {
-        return "EXCEPTION \n$e\n\n";
     }
 }

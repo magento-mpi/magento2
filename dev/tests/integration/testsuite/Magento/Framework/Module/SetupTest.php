@@ -22,12 +22,6 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSetTable()
-    {
-        $this->_model->setTable('test_name', 'test_real_name');
-        $this->assertEquals('test_real_name', $this->_model->getTable('test_name'));
-    }
-
     public function testApplyAllDataUpdates()
     {
         /* reset data version */

@@ -73,6 +73,6 @@ class File extends LoggerAbstract
      */
     public function logException(\Exception $e)
     {
-        $this->log($this->getExceptionMessage($e));
+        $this->log("EXCEPTION \n$e\n\n");
     }
 }

@@ -33,16 +33,6 @@ class Mysql extends Db implements ConnectionAdapterInterface
     protected $_connectionConfig;
 
     /**
-     * @var string
-     */
-    protected $_initStatements;
-
-    /**
-     * @var boolean
-     */
-    protected $_isActive;
-
-    /**
      * @param \Magento\Framework\DB\LoggerInterface $logger
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
@@ -59,32 +49,29 @@ class Mysql extends Db implements ConnectionAdapterInterface
         $this->dateTime = $dateTime;
         $this->_connectionConfig = $this->getValidConfig($config);
 
-        $this->_initStatements = $this->_connectionConfig['initStatements'];
-        $this->_isActive = !($this->_connectionConfig['active'] === 'false'
-            || $this->_connectionConfig['active'] === '0' || $this->_connectionConfig['active'] === false);
         parent::__construct();
     }
 
     /**
      * Get connection
      *
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface|null
+     * @return \Magento\Framework\DB\Adapter\Pdo\Mysql|null
      */
     public function getConnection()
     {
-        if (!$this->_isActive) {
+        if (!$this->_connectionConfig['active']) {
             return null;
         }
 
         $connection = $this->_getDbAdapterInstance();
-        if (!empty($this->_initStatements) && $connection) {
-            $connection->query($this->_initStatements);
+        if (!empty($this->_connectionConfig['initStatements']) && $connection) {
+            $connection->query($this->_connectionConfig['initStatements']);
         }
 
         $profiler = $connection->getProfiler();
         if ($profiler instanceof \Magento\Framework\DB\Profiler) {
-            $profiler->setType($this->_connectionConfig['host']);
-            $profiler->setHost($this->_connectionConfig['type']);
+            $profiler->setType($this->_connectionConfig['type']);
+            $profiler->setHost($this->_connectionConfig['host']);
         }
 
         return $connection;
@@ -132,6 +119,13 @@ class Mysql extends Db implements ConnectionAdapterInterface
                 throw new \InvalidArgumentException("MySQL adapter: Missing required configuration option '$name'");
             }
         }
+
+        $config['active'] = !(
+            $config['active'] === 'false'
+            || $config['active'] === false
+            || $config['active'] === '0'
+        );
+
         return $config;
     }
 }

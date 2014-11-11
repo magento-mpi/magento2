@@ -15,9 +15,9 @@ interface LoggerInterface
     /**#@+
      * Types of connections to be logged
      */
-    const TYPE_CONNECT     = 0;
-    const TYPE_TRANSACTION = 1;
-    const TYPE_QUERY       = 2;
+    const TYPE_CONNECT     = 'connect';
+    const TYPE_TRANSACTION = 'transaction';
+    const TYPE_QUERY       = 'query';
     /**#@-*/
 
     /**
@@ -34,10 +34,10 @@ interface LoggerInterface
     public function startTimer();
 
     /**
-     * @param int $type
+     * @param string $type
      * @param string $sql
      * @param array $bind
-     * @param null $result
+     * @param \Zend_Db_Statement_Pdo|null $result
      * @return void
      */
     public function logStats($type, $sql, $bind = [], $result = null);
