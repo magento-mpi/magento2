@@ -19,6 +19,7 @@ return [
         'Magento_Review' => 'Magento\Tools\SampleData\Module\Review\Setup',
         'Magento_Tax' => 'Magento\Tools\SampleData\Module\Tax\Setup',
         'Magento_Customer' => 'Magento\Tools\SampleData\Module\Customer\Setup',
-        'Magento_Sales' => 'Magento\Tools\SampleData\Module\Sales\Setup'
+        'Magento_Sales' => 'Magento\Tools\SampleData\Module\Sales\Setup',
+        'Magento_OfflineShipping' => 'Magento\Tools\SampleData\Module\OfflineShipping\Setup',
     ],
 ];
