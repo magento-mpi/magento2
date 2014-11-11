@@ -464,7 +464,7 @@ class Onepage
             }
         }
 
-        $address->save();
+        $this->getQuote()->save();
 
         $this->getCheckout()->setStepData(
             'billing',

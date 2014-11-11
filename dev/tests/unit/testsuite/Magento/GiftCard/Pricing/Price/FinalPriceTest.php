@@ -16,11 +16,6 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $priceInfoMock;
-
-    /**
      * @var \Magento\Catalog\Pricing\Price\BasePrice|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $basePriceMock;
@@ -56,14 +51,6 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->priceInfoMock = $this->getMock(
-            'Magento\Framework\Pricing\PriceInfo\Base',
-            [],
-            [],
-            '',
-            false
-        );
-
         $this->basePriceMock = $this->getMock(
             'Magento\Catalog\Pricing\Price\BasePrice',
             [],
@@ -72,11 +59,6 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->priceInfoMock->expects($this->once())
-            ->method('getPrice')
-            ->with($this->equalTo(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_CODE))
-            ->will($this->returnValue($this->basePriceMock));
-
         $this->calculatorMock = $this->getMock(
             'Magento\Framework\Pricing\Adjustment\Calculator',
             [],
@@ -84,10 +66,6 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
-        $this->saleableMock->expects($this->once())
-            ->method('getPriceInfo')
-            ->will($this->returnValue($this->priceInfoMock));
 
         $this->model = new \Magento\GiftCard\Pricing\Price\FinalPrice($this->saleableMock, 1, $this->calculatorMock);
     }
