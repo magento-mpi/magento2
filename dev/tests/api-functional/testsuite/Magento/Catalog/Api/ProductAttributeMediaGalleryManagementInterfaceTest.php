@@ -47,9 +47,9 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
                 'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ),
             'soap' => array(
-                'service' => 'catalogProductAttributeMediaWriteServiceV1',
+                'service' => 'catalogProductAttributeMediaGalleryManagementV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'catalogProductAttributeMediaWriteServiceV1Create',
+                'operation' => 'catalogProductAttributeMediaGalleryManagementV1Create',
             ),
         );
         $this->updateServiceInfo = array(
@@ -58,9 +58,9 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ),
             'soap' => array(
-                'service' => 'catalogProductAttributeMediaWriteServiceV1',
+                'service' => 'catalogProductAttributeMediaGalleryManagementV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'catalogProductAttributeMediaWriteServiceV1Update',
+                'operation' => 'catalogProductAttributeMediaGalleryManagementV1Update',
             ),
         );
         $this->deleteServiceInfo = array(
@@ -68,9 +68,9 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ),
             'soap' => array(
-                'service' => 'catalogProductAttributeMediaWriteServiceV1',
+                'service' => 'catalogProductAttributeMediaGalleryManagementV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'catalogProductAttributeMediaWriteServiceV1Delete',
+                'operation' => 'catalogProductAttributeMediaGalleryManagementV1Remove',
             ),
         );
         $this->testImagePath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'test_image.jpg';
@@ -574,9 +574,9 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ),
             'soap' => array(
-                'service' => 'catalogProductAttributeMediaReadServiceV1',
+                'service' => 'catalogProductAttributeMediaGalleryManagementV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'catalogProductAttributeMediaReadServiceV1Info',
+                'operation' => 'catalogProductAttributeMediaGalleryManagementV1Get',
             ),
         );
         $requestData = [
@@ -604,9 +604,9 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
-                'service' => 'catalogProductAttributeMediaReadServiceV1',
+                'service' => 'catalogProductAttributeMediaGalleryManagementV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'catalogProductAttributeMediaReadServiceV1GetList'
+                'operation' => 'catalogProductAttributeMediaGalleryManagementV1GetList'
             ]
         ];
 
@@ -633,9 +633,9 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
-                'service' => 'catalogProductAttributeMediaReadServiceV1',
+                'service' => 'catalogProductAttributeMediaGalleryManagementV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'catalogProductAttributeMediaReadServiceV1GetList'
+                'operation' => 'catalogProductAttributeMediaGalleryManagementV1GetList'
             ]
         ];
 
