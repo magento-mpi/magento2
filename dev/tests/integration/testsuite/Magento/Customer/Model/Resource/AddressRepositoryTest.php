@@ -10,6 +10,7 @@ namespace Magento\Customer\Model\Resource;
 
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Customer\Api\AddressRepositoryInterface;
 
 /**
  * Integration test for service layer \Magento\Customer\Model\Resource\AddressRepository
@@ -57,7 +58,6 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             ->setCompany('CompanyName');
         $address = $this->_addressBuilder->create();
 
-        /* XXX: would it be better to have a clear method for this? */
         $this->_addressBuilder
             ->setId(2)
             ->setCountryId('US')
