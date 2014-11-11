@@ -58,7 +58,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
      */
     protected function _prepareLayout()
     {
-        $this->pageConfig->setTitle(__('Change Billing Address') . ' - ' . $this->pageConfig->getDefaultTitle());
+        $this->pageConfig->getTitle->set(__('Change Billing Address') . ' - ' . $this->pageConfig->getDefaultTitle());
         return parent::_prepareLayout();
     }
 

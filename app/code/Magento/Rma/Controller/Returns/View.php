@@ -34,7 +34,7 @@ class View extends \Magento\Rma\Controller\Returns
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
         $layout->initMessages();
-        $this->_view->getPage()->getConfig()->setTitle(
+        $this->_view->getPage()->getConfig()->getTitle->set(
             __('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId())
         );
 
