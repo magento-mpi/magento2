@@ -68,7 +68,7 @@ class ConditionFactoryTest extends \PHPUnit_Framework_TestCase
 
         $cloned = $this->conditionFactory->create('clone');
 
-        $this->assertNotEquals(spl_object_hash($cloned), spl_object_hash($origin));
+        $this->assertNotSame($cloned, $origin);
     }
 
     /**
