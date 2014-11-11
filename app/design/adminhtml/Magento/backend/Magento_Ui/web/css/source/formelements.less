@@ -15,9 +15,77 @@
 @field-note--color: #303030;
 @field-control--color: #303030;
 @field-date-icon--color: #514943;
+@field-tooltip-icon--color: #ffffff;
+@field-tooltip-icon--background: @field-date-icon--color;
 @field-error--color: #555555;
 @field-error--background: #FFF8D6;
 @field-error--border-color: #E22626;
+
+.field-tooltip {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 5px;
+    .field-choice & {
+        margin-top: 10px
+    }
+    position: relative;
+    z-index: 1;
+    width:0;
+    overflow: visible;
+    margin-left: 18px;
+    &-action {
+        cursor: pointer;
+        &:before {
+            content: "?";
+            font-weight: 500;
+            font-size: 18px;
+            display: inline-block;
+            overflow: hidden;
+            height: 22px;
+            border-radius: 11px;
+            line-height: 22px;
+            width: 22px;
+            text-align: center;
+            color: @field-tooltip-icon--color;
+            background-color: @field-tooltip-icon--background;
+        }
+        span {
+            .visually-hidden();
+        }
+    }
+    .control-text:focus + &-content,
+    &:hover &-content {
+        display: block;
+    }
+    &-content {
+        display: none;
+        position: absolute;
+        width: 320px;
+        background: #fff8d7;
+        padding: 15px 25px;
+        right: -48px;
+        border: 1px solid #adadad;
+        border-radius: 1px;
+        bottom: 42px;
+        @_shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.3);
+        .css(box-shadow, @_shadow);
+&:after,
+&:before {
+    content: "";
+    display: block;
+    .arrow(down,16px,#adadad);
+    position: absolute;
+    right: 20px;
+    top: 100%;
+    z-index: 3;
+}
+&:after {
+    border-top-color: #fff8d7;
+    margin-top: -1px;
+    z-index: 4;
+}
+    }
+}
 
 .form__field {
     &.field-error {
@@ -504,7 +572,9 @@
             white-space: nowrap;
         }
         &-addon {
-            display: flex;
+            display: inline-flex;
+            max-width: 380px;
+            width: 100%;
             flex-flow: row nowrap;
             position: relative;
             z-index: 1;

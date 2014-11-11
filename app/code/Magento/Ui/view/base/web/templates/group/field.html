@@ -7,31 +7,38 @@
  */
 -->
 <div class="field form__field" data-bind="css: {'required': element.required, 'field-disabled': element.disabled }">
-    
+
     <!-- ko if: element.label -->
     <label class="label" data-bind="attr: { for: element.uid }, css: {'dublicated': element.label === $parent.label}">
         <span data-bind="text: element.label"></span>
     </label>
     <!-- /ko -->
-    
+
     <div class="control">
         <!-- ko ifnot: element.hasAddons() -->
             <!-- ko template: element.getTemplate() --><!-- /ko -->
         <!-- /ko -->
-        
+
         <!-- ko if: element.hasAddons() -->
             <div class="control-addon">
                 <!-- ko template: element.getTemplate() --><!-- /ko -->
-                
+
                 <!-- ko if: element.addbefore -->
                     <label class="control-before" data-bind="attr: { for: element.uid }"><span data-bind="text: element.addbefore"></span></label>
                 <!-- /ko -->
-                
+
                 <!-- ko if: element.addafter -->
                     <label class="control-after" data-bind="attr: { for: element.uid }"><span data-bind="text: element.addafter"></span></label>
                 <!-- /ko -->
             </div>
         <!-- /ko -->
+
+        <div class="field-tooltip">
+            <a class="field-tooltip-action action-help" tabindex="1">
+                <span data-bind="text: $t('What is this?')"></span>
+            </a>
+            <div class="field-tooltip-content" data-bind="text: $t('Some text here')"></div>
+        </div>
 
         <!-- ko if: element.notice -->
             <div class="note" data-bind="attr: { id: element.getNoticeId() }"><span data-bind="text: element.notice"></span></div>
