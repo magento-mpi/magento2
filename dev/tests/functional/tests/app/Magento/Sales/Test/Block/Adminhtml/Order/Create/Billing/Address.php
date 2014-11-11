@@ -9,6 +9,7 @@
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create\Billing;
 
 use \Mtf\Block\Form;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class BillingAddress
@@ -17,6 +18,13 @@ use \Mtf\Block\Form;
  */
 class Address extends Form
 {
+    /**
+     * Backend abstract block
+     *
+     * @var string
+     */
+    protected $templateBlock = './ancestor::body';
+
     /**
      * Selector for existing customer addresses dropdown
      *
@@ -31,6 +39,20 @@ class Address extends Form
      */
     public function getExistingAddresses()
     {
+        $this->getTemplateBlock()->waitLoader();
         return explode("\n", $this->_rootElement->find($this->existingAddressSelector)->getText());
+    }
+
+    /**
+     * Get backend abstract block
+     *
+     * @return \Magento\Backend\Test\Block\Template
+     */
+    protected function getTemplateBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Backend\Test\Block\Template',
+            ['element' => $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)]
+        );
     }
 }
