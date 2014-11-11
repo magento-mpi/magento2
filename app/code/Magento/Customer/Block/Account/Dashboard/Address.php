@@ -115,7 +115,7 @@ class Address extends \Magento\Framework\View\Element\Template
         } else {
             return $this->_urlBuilder->getUrl(
                 'customer/address/edit',
-                array('id' => $this->getCustomer()->getDefaultShipping())
+                array('id' => $this->currentCustomerAddress->getDefaultShippingAddress()->getId())
             );
         }
     }
@@ -130,7 +130,7 @@ class Address extends \Magento\Framework\View\Element\Template
         } else {
             return $this->_urlBuilder->getUrl(
                 'customer/address/edit',
-                array('id' => $this->getCustomer()->getDefaultBilling())
+                array('id' => $this->currentCustomerAddress->getDefaultBillingAddress()->getId())
             );
         }
     }

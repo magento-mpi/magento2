@@ -35,7 +35,7 @@ class CurrentCustomerTest extends \PHPUnit_Framework_TestCase
     protected $customerDataMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerServiceMock;
 
@@ -86,7 +86,7 @@ class CurrentCustomerTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->customerServiceMock = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface',
+            'Magento\Customer\Api\CustomerRepositoryInterface',
             array(),
             array(),
             '',
@@ -174,7 +174,7 @@ class CurrentCustomerTest extends \PHPUnit_Framework_TestCase
         $this->customerServiceMock->expects(
             $this->once()
         )->method(
-                'getCustomer'
+            'getById'
             )->with(
                 $this->equalTo($this->customerId)
             )->will(

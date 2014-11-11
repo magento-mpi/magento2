@@ -8,6 +8,7 @@
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -22,7 +23,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected $_customerSession;
 
     /**
-     * @var \Magento\Framework\Module\Manager
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
@@ -42,6 +43,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $this->_customerSession->unsCustomerId();
+        /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
+        $customerRegistry = $this->objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        //Cleanup customer from registry
+        $customerRegistry->remove(1);
     }
 
     /**
@@ -52,10 +57,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $objectManager = Bootstrap::getObjectManager();
         $layout = $objectManager->get('Magento\Framework\View\LayoutInterface');
         $layout->setIsCacheable(false);
-        /** @var CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = $objectManager
-            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        $customer = $customerAccountService->getCustomer(1);
+        /** @var CustomerRepositoryInterface $customerRepository */
+        $customerRepository = $objectManager
+            ->get('Magento\Customer\Api\CustomerRepositoryInterface');
+        $customer = $customerRepository->getById(1);
         $this->_customerSession->setCustomerId(1);
         $object = $this->_block->getCustomer();
         $this->assertEquals($customer, $object);
