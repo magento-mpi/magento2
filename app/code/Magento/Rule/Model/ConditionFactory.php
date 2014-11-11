@@ -21,24 +21,19 @@ class ConditionFactory
      *
      * @var array
      */
-    private static $conditionModels = [];
+    private $conditionModels = [];
 
     /**
      * @param ObjectManager $objectManager
      */
     public function __construct(ObjectManager $objectManager)
     {
-        // @TODO: remove this check after resolve issue MAGETWO-30499
-        if (!is_array(self::$conditionModels)) {
-            self::$conditionModels = [];
-        }
-
         $this->objectManager = $objectManager;
     }
 
     /**
      * Create new object for each requested model.
-     * If model is requested first time, store it at static array.
+     * If model is requested first time, store it at array.
      * It's made by performance reasons to avoid initialization of same models each time when rules are being processed.
      *
      * @param string $type
@@ -50,10 +45,10 @@ class ConditionFactory
      */
     public function create($type)
     {
-        if (!array_key_exists($type, self::$conditionModels)) {
-            self::$conditionModels[$type] = $this->objectManager->create($type);
+        if (!array_key_exists($type, $this->conditionModels)) {
+            $this->conditionModels[$type] = $this->objectManager->create($type);
         }
 
-        return clone self::$conditionModels[$type];
+        return clone $this->conditionModels[$type];
     }
 }

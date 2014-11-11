@@ -40,11 +40,6 @@ class ConditionFactoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testConditionFactoryClassHasStaticArray()
-    {
-        $this->assertClassHasStaticAttribute('conditionModels', 'Magento\Rule\Model\ConditionFactory');
-    }
-
     public function testExceptingToCallMethodCreateInObjectManager()
     {
         $type = 'type';
@@ -69,89 +64,5 @@ class ConditionFactoryTest extends \PHPUnit_Framework_TestCase
         $cloned = $this->conditionFactory->create('clone');
 
         $this->assertNotSame($cloned, $origin);
-    }
-
-    /**
-     * @dataProvider dataProviderForExceptingToCallMethodCreateInObjectManagerForSameTypeOnlyOnce
-     *
-     * @param $type
-     * @param $expects
-     *
-     */
-    public function testExceptingToCallMethodCreateInObjectManagerForSameTypeOnlyOnce($type, $expects)
-    {
-        $this->objectManagerMock->expects($expects)
-            ->method('create')
-            ->with($type)
-            ->willReturn(new \stdClass());
-
-        $this->conditionFactory->create($type);
-    }
-
-    public function dataProviderForExceptingToCallMethodCreateInObjectManagerForSameTypeOnlyOnce()
-    {
-        return [
-            1 => ['test', $this->once()],
-            2 => ['test', $this->never()],
-        ];
-    }
-
-    /**
-     * @dataProvider dataProviderForExceptingToCallMethodCreateInObjectManagerEachTimePerType
-     *
-     * @param $type
-     * @param $expects
-     */
-    public function testExceptingToCallMethodCreateInObjectManagerEachTimePerType($type, $expects)
-    {
-        $this->objectManagerMock->expects($expects)
-            ->method('create')
-            ->with($type)
-            ->willReturn(new \stdClass());
-
-        $this->conditionFactory->create($type);
-    }
-
-    public function dataProviderForExceptingToCallMethodCreateInObjectManagerEachTimePerType()
-    {
-        return [
-            1 => ['test2', $this->once()],
-            2 => ['test3', $this->once()],
-            3 => ['test4', $this->once()],
-            4 => ['test4', $this->never()],
-        ];
-    }
-
-    /**
-     * @TODO: remove this test after resolve issue MAGETWO-30499
-     */
-    public function testExceptingToInitializeStaticVarConditionModelsAsArray()
-    {
-        // clear static vars
-        $reflectionCLass = new \ReflectionClass('Magento\Rule\Model\ConditionFactory');
-        $staticProperties = $reflectionCLass->getProperties(\ReflectionProperty::IS_STATIC);
-
-        foreach ($staticProperties as $staticProperty) {
-            $staticProperty->setAccessible(true);
-            $value = $staticProperty->getValue();
-            if (is_object($value) || is_array($value) && is_object(current($value))) {
-                $staticProperty->setValue(null);
-            }
-        }
-
-        // recreate object
-        $this->conditionFactory = $this->objectManagerHelper->getObject(
-            'Magento\Rule\Model\ConditionFactory',
-            [
-                'objectManager' => $this->objectManagerMock
-            ]
-        );
-
-        $this->objectManagerMock->expects($this->once())
-            ->method('create')
-            ->with('test2')
-            ->willReturn(new \stdClass());
-
-        $this->conditionFactory->create('test2');
     }
 }
