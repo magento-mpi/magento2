@@ -2826,5 +2826,4 @@ return array(
     ['Magento\Framework\Filesystem\WrapperInterface'],
     ['Magento\Install'],
     ['Magento\Install\Model\Resource\Resource', 'Magento\Framework\Module\Resource'],
-    ['Magento\Catalog\Service\V1\Product\ProductLoader', 'Magento\Catalog\Model\ProductRepository'],
 );
