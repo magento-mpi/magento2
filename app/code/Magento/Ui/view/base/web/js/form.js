@@ -55,15 +55,15 @@ define([
 
             return this;
         },
-
-        hideLoader: function () {
-            loader.get(this.name).hide();
+        
+        initSelector: function(){
+            this.selector = '[data-form-part='+ this.namespace +']';
 
             return this;
         },
 
-        initSelector: function(){
-            this.selector = '[data-form-part='+ this.namespace +']';
+        hideLoader: function () {
+            loader.get(this.name).hide();
 
             return this;
         },

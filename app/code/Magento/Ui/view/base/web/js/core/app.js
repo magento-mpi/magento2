@@ -7,9 +7,8 @@
 define([
     'underscore',
     './renderer/renderer',
-    './router',
     'Magento_Ui/js/lib/registry/registry'
-], function (_, Renderer, Router, registry) {
+], function (_, Renderer, registry) {
     'use strict';
 
     function load(config, name){
@@ -24,7 +23,6 @@ define([
 
             this.register()
                 .initRenderer(data.renderer)
-                .initRouter()
                 .initProviders(data.providers)
                 .register();
         },
@@ -34,13 +32,7 @@ define([
 
             return this;
         },
-
-        initRouter: function(){
-            this.router = new Router();
-
-            return this;
-        },
-
+        
         initProviders: function(providers){
             _.each(providers, load);  
 

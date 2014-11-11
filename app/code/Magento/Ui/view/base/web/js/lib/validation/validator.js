@@ -9,6 +9,21 @@ define([
 ], function (rules) {
     'use strict';    
 
+    function validate(rule, value, params){
+        var isValid   = true,
+            rule      = rules[rule],
+            message   = true,
+            validator;
+
+        if (rule) {
+            validator = rule[0];
+            isValid   = validator(value, params);
+            message   = rule[1];
+        }
+
+        return !isValid ? message : '';
+    }
+
     return {
 
         /**
@@ -19,18 +34,18 @@ define([
          * @return {Boolean} - true, if value is valid, false otherwise
          */
         validate: function (rule, value, params) {
-            var isValid   = true,
-                rule      = rules[rule],
-                message   = true,
-                validator;
+            var msg = '';
 
-            if (rule) {
-                validator = rule[0];
-                isValid   = validator(value, params);
-                message   = rule[1];
+            if(_.isObject(rule)){
+                _.some(rule, function(params, rule){
+                    return !!(msg = validate(rule, value, params));
+                });
+            }
+            else{
+                msg = validate.apply(null, arguments);
             }
 
-            return !isValid ? message : '';
+            return msg;
         },
 
         /**

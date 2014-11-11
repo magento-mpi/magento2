@@ -46,7 +46,6 @@ define([
             __super__.initialize.apply(this, arguments);
 
             this.initTemplate()
-                .setNoticeId()
                 .store(this.value())
                 .setHidden(this.hidden());
         },
@@ -131,16 +130,12 @@ define([
         },
 
         /**
-         * Sets notice id for element
+         * Defines notice id for the element.
          * 
-         * @return {Object} - reference to instance
+         * @returns {String} Notice id.
          */
-        setNoticeId: function () {
-            if (this.notice) {
-                this.noticeId = 'notice-' + this.uid;
-            }
-
-            return this;
+        getNoticeId: function () {
+            return 'notice-' + this.uid;
         },
 
         /**
@@ -169,6 +164,8 @@ define([
         hide: function(){
             this.setHidden(true)
                 .setPreview('');
+
+            return this;
         },
 
         /**
@@ -176,7 +173,9 @@ define([
          */
         show: function(value){
             this.setHidden(false)
-                .setPreview(this.value())
+                .setPreview(this.value());
+
+            return this;
         },
 
         /**
@@ -254,27 +253,21 @@ define([
          * @return {Boolean} - true, if element is valid
          */
         validate: function () {
-            var value       = this.value(),
-                params      = this.provider.params,
-                errorMsg    = '';
+            var value   = this.value(),
+                params  = this.provider.params,
+                msg;
 
             if(this.hidden()){
                 return false;
             }
 
-            _.some(this.validation, function (params, rule) {
-                errorMsg = validator.validate(rule, value, params);
+            msg = validator.validate(this.validation, value);
 
-                return !!errorMsg;
-            }, this);
-
-            if(errorMsg && !params.get('invalid')){
+            if(msg && !params.get('invalid')){
                 params.set('invalid', this);
             }
 
-            this.error(errorMsg);
-
-            return !!errorMsg;
+            return !!this.error(msg);
         }
     });
 });

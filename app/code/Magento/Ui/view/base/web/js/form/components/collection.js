@@ -22,8 +22,8 @@ define([
     var childTemplate = {
         template:   "{name}.{itemTemplate}",
         parent:     "{name}",
-        name:       "{childName}",
-        dataScope:  "{childName}"
+        name:       "{childIndex}",
+        dataScope:  "{childIndex}"
     };
 
     return Component.extend({
@@ -66,7 +66,7 @@ define([
                 initial  = this.initialItems = [];
                         
             _.each(children, function(item, index){
-                initial.push(this.name + '.' + index);
+                initial.push(index);
                 this.addChild(index);
             }, this);
 
@@ -80,19 +80,17 @@ define([
          * @param {String|Object} index
          */
         addChild: function(index) {
-            var setIndex = _.isObject(index) || _.isUndefined(index);
-
-            if (setIndex) {
-                index = 'new_' + this.lastIndex++;
-            }
-
-            this.childName = index;
+            this.childIndex = !_.isString(index) ?
+                ('new_' + this.lastIndex++) :
+                index;
 
             this.renderer.render({
                 layout: [
                     utils.template(childTemplate, this)
                 ]
             });
+
+            return this;
         },
 
         /**
@@ -103,7 +101,7 @@ define([
          */
         hasChanged: function(){
             var initial = this.initialItems,
-                current = this.elems.pluck('name'),
+                current = this.elems.pluck('index'),
                 changed = !utils.identical(initial, current);
 
             return changed || this.elems.some(function(elem){

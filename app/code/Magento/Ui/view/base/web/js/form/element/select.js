@@ -115,9 +115,9 @@ define([
             __super__.initObservable.apply(this, arguments);
 
             this.initialOptions = this.options;
-            this.observe('options');
 
-            this.setOptions(this.options());
+            this.observe('options')
+                .setOptions(this.options());
 
             return this;
         },
@@ -142,10 +142,10 @@ define([
          * @return {Object} - reference to instance
          */
         initInput: function(){
-            var node = utils.template(inputNode, this);
-
             this.renderer.render({
-                layout: [node]
+                layout: [
+                    utils.template(inputNode, this)
+                ]
             });
 
             return this;
