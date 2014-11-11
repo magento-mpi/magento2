@@ -123,20 +123,20 @@
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
-    <route url="/V1/products/attribute-sets/:entityTypeCode/:attributeSetId/attributes" method="GET">
-        <service class="Magento\Eav\Api\AttributeManagementInterface" method="getAttributes"/>
+    <route url="/V1/products/attribute-sets/:attributeSetId/attributes" method="GET">
+        <service class="Magento\Catalog\Api\ProductAttributeManagementInterface" method="getAttributes"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
     <route url="/V1/products/attribute-sets/attributes" method="POST">
-        <service class="Magento\Eav\Api\AttributeManagementInterface" method="assign"/>
+        <service class="Magento\Catalog\Api\ProductAttributeManagementInterface" method="assign"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
     <route url="/V1/products/attribute-sets/:attributeSetId/attributes/:attributeCode" method="DELETE">
-        <service class="Magento\Eav\Api\AttributeManagementInterface" method="unassign"/>
+        <service class="Magento\Catalog\Api\ProductAttributeManagementInterface" method="unassign"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>

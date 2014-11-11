@@ -17,14 +17,14 @@ interface AttributeOptionLabelInterface
     /**
      * Get store id
      *
-     * @return int
+     * @return int|null
      */
     public function getStoreId();
 
     /**
      * Get option label
      *
-     * @return string
+     * @return string|null
      */
     public function getLabel();
 }

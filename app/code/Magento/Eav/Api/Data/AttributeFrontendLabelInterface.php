@@ -13,14 +13,14 @@ interface AttributeFrontendLabelInterface
     /**
      * Return store id
      *
-     * @return int
+     * @return int|null
      */
     public function getStoreId();
 
     /**
      * Return label
      *
-     * @return string
+     * @return string|null
      */
     public function getLabel();
 }

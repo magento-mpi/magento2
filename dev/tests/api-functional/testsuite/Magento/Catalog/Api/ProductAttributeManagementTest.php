@@ -14,18 +14,17 @@ use \Magento\TestFramework\Helper\Bootstrap;
 
 class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductAttributeReadServiceV1';
+    const SERVICE_NAME = 'catalogProductAttributeManagementV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/attribute-sets';
 
     public function testGetAttributes()
     {
         $attributeSetId = \Magento\Catalog\Api\Data\ProductAttributeInterface::DEFAULT_ATTRIBUTE_SET_ID;
-        $entityTypeCode = \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE;
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $entityTypeCode . '/' . $attributeSetId . '/attributes',
+                'resourcePath' => self::RESOURCE_PATH . '/' . $attributeSetId . '/attributes',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ],
             'soap' => [
@@ -34,12 +33,15 @@ class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\Web
                 'operation' => self::SERVICE_NAME . 'GetAttributes'
             ],
         ];
-        $attributes = $this->_webApiCall($serviceInfo);
+        $attributes = $this->_webApiCall($serviceInfo, ['attributeSetId' => $attributeSetId]);
 
         $this->assertTrue(count($attributes) > 0);
         $this->assertArrayHasKey('attribute_code', $attributes[0]);
         $this->assertArrayHasKey('attribute_id', $attributes[0]);
         $this->assertArrayHasKey('frontend_label', $attributes[0]);
+        $this->assertNotNull($attributes[0]['attribute_code']);
+        $this->assertNotNull($attributes[0]['attribute_id']);
+        $this->assertNotNull($attributes[0]['frontend_label']);
     }
 
     public function testAssignAttribute()
@@ -127,7 +129,7 @@ class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\Web
         /** @var \Magento\Eav\Model\AttributeManagement $attributeManagement */
         $attributeManagement = Bootstrap::getObjectManager()->get('\Magento\Eav\Model\AttributeManagement');
         $attributeManagement->assign(
-            $payload['entityTypeCode'],
+            \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE,
             $payload['attributeSetId'],
             $payload['attributeGroupId'],
             $payload['attributeCode'],
@@ -146,17 +148,23 @@ class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\Web
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetAttributes'
+                'operation' => self::SERVICE_NAME . 'Unassign'
             ],
         ];
-        $this->assertTrue($this->_webApiCall($serviceInfo));
+        $this->assertTrue($this->_webApiCall(
+                $serviceInfo,
+                [
+                    'attributeSetId' => $payload['attributeSetId'],
+                    'attributeCode' => $payload['attributeCode']
+                ]
+            )
+        );
     }
 
     protected function getAttributeData()
     {
         return [
             'attributeSetId' => \Magento\Catalog\Api\Data\ProductAttributeInterface::DEFAULT_ATTRIBUTE_SET_ID,
-            'entityTypeCode' => \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE,
             'attributeGroupId' => 8,
             'attributeCode' => 'cost',
             'sortOrder' => 3
