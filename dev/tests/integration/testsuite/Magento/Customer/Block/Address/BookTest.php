@@ -92,7 +92,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($this->_block->getAdditionalAddresses());
         $this->assertCount(1, $this->_block->getAdditionalAddresses());
         $this->assertInstanceOf(
-            '\Magento\Customer\Service\V1\Data\Address',
+            '\Magento\Customer\Api\Data\AddressInterface',
             $this->_block->getAdditionalAddresses()[0]
         );
         $this->assertEquals(2, $this->_block->getAdditionalAddresses()[0]->getId());
@@ -123,11 +123,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
     {
         $expected = "John Smith<br/>\nCompanyName<br />\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>" .
             "\nUnited States<br/>\nT: 3468676\n\n";
-        $address = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
-        )->getAddress(
-            1
-        );
+        $address = Bootstrap::getObjectManager()->get('Magento\Customer\Api\AddressRepositoryInterface')->getById(1);
         $html = $this->_block->getAddressHtml($address);
         $this->assertEquals($expected, $html);
     }
@@ -142,11 +138,11 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomer()
     {
-        /** @var CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        /** @var CustomerRepositoryInterface $customerRepository */
+        $customerRepository = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
-        $customer = $customerAccountService->getCustomer(1);
+        $customer = $customerRepository->getById(1);
 
         $this->currentCustomer->setCustomerId(1);
         $object = $this->_block->getCustomer();
@@ -200,7 +196,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAddressById()
     {
-        $this->assertInstanceOf('\Magento\Customer\Service\V1\Data\Address', $this->_block->getAddressById(1));
+        $this->assertInstanceOf('\Magento\Customer\Api\Data\AddressInterface', $this->_block->getAddressById(1));
         $this->assertNull($this->_block->getAddressById(5));
     }
 }
