@@ -62,9 +62,9 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
     protected $viewMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\AccountManagementInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerAccountServiceMock;
+    protected $customerAccountManagementMock;
 
     /**
      * List of actions that are allowed for not authorized users
@@ -145,8 +145,8 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
         );
         $this->redirectMock = $this->getMockForAbstractClass('Magento\Framework\App\Response\RedirectInterface');
         $this->viewMock = $this->getMockForAbstractClass('Magento\Framework\App\ViewInterface');
-        $this->customerAccountServiceMock =
-            $this->getMockForAbstractClass('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->customerAccountManagementMock =
+            $this->getMockForAbstractClass('Magento\Customer\Api\AccountManagementInterface');
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->object = $objectManager->getObject(
@@ -161,7 +161,7 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
                 'customerHelperData' => $this->customerHelperMock,
                 'redirect' => $this->redirectMock,
                 'view' => $this->viewMock,
-                'customerAccountService' => $this->customerAccountServiceMock,
+                'customerAccountManagement' => $this->customerAccountManagementMock,
             )
         );
     }
