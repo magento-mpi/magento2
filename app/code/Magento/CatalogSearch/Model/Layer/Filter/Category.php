@@ -73,7 +73,7 @@ class Category extends AbstractFilter
 
         $category = $this->dataProvider->getCategory();
 
-        $this->getLayer()->getProductCollection()->addFieldToFilter('category_ids', $category->getId());
+        $this->getLayer()->getProductCollection()->addCategoryFilter($category);
 
         if ($request->getParam('id') != $category->getId() && $this->dataProvider->isValid()) {
             $this->getLayer()->getState()->addFilter($this->_createItem($category->getName(), $categoryId));
