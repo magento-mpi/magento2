@@ -8,6 +8,7 @@
 namespace Magento\Rma\Block\Adminhtml\Customer\Edit\Tab;
 
 use Magento\Ui\Component\Layout\Tabs\TabInterface;
+
 /**
  * Order RMA Grid
  */

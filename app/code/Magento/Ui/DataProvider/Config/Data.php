@@ -24,6 +24,10 @@ class Data extends \Magento\Framework\Config\Data
         parent::__construct($reader, $cache, 'data_source');
     }
 
+    /**
+     * @param string $name
+     * @return array|mixed|null
+     */
     public function getDataSource($name)
     {
         return $this->get($name);

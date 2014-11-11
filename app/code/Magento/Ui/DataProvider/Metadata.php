@@ -60,6 +60,7 @@ class Metadata implements \Iterator, \ArrayAccess
     /**
      * @param ObjectManager $objectManager
      * @param Manager $manager
+     * @param UniversalFactory $universalFactory
      * @param array $config
      */
     public function __construct(
@@ -150,10 +151,12 @@ class Metadata implements \Iterator, \ArrayAccess
                     ];
                 }
             }
-        } else if (isset($this->config['fields'][$this->key()]['optionProvider'])) {
-            list($source, $method) = explode('::', $this->config['fields'][$this->key()]['optionProvider']);
-            $sourceModel = $this->universalFactory->create($source);
-            $options = $sourceModel->$method();
+        } else {
+            if (isset($this->config['fields'][$this->key()]['optionProvider'])) {
+                list($source, $method) = explode('::', $this->config['fields'][$this->key()]['optionProvider']);
+                $sourceModel = $this->universalFactory->create($source);
+                $options = $sourceModel->$method();
+            }
         }
 
         $attributeCodes = [
@@ -283,5 +286,4 @@ class Metadata implements \Iterator, \ArrayAccess
     {
         return isset($this->config['fields'][$offset]) ? $this->config['fields'][$offset] : null;
     }
-
-} 
+}

@@ -41,7 +41,7 @@ class UiElementFactory
     /**
      * Create data provider
      *
-     * @param $elementName
+     * @param string $elementName
      * @param array $data
      * @return bool|BlockInterface
      * @throws \Exception

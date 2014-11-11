@@ -32,7 +32,7 @@ class Converter implements ConverterInterface
     /**
      * Transform Xml to array
      *
-     * @param $source
+     * @param string $source
      * @return array
      */
     protected function toArray($source)
@@ -144,4 +144,3 @@ class Converter implements ConverterInterface
         return $data;
     }
 }
-

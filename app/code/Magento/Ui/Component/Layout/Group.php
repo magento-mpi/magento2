@@ -14,6 +14,9 @@ use Magento\Ui\Component\AbstractView;
  */
 class Group extends AbstractView
 {
+    /**
+     * @return string
+     */
     public function getIsRequired()
     {
         return $this->getData('required') ? 'required' : '';

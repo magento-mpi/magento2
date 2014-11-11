@@ -223,6 +223,9 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements T
         return $this;
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         if ($this->canShowTab()) {

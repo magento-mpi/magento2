@@ -62,8 +62,8 @@ class Multiselect extends AbstractElement
             $html .= '<input type="hidden" name="' . parent::getName() . '" value="" />';
         }
         $html .= '<select id="' . $this->getHtmlId() . '" name="' . $this->getName() . '" ' . $this->serialize(
-                $this->getHtmlAttributes()
-            ) . $this->_getUiId() . ' multiple="multiple">' . "\n";
+            $this->getHtmlAttributes()
+        ) . $this->_getUiId() . ' multiple="multiple">' . "\n";
 
         $value = $this->getValue();
         if (!is_array($value)) {

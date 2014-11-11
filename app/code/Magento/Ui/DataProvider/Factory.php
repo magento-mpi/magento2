@@ -32,9 +32,9 @@ class Factory
     /**
      * Create data provider
      *
-     * @param $providerClass
+     * @param string $providerClass
      * @param array $arguments
-     * @return DataProviderInterface
+     * @return mixed
      */
     public function create($providerClass, array $arguments = [])
     {

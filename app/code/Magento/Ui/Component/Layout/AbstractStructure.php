@@ -272,6 +272,7 @@ class AbstractStructure extends AbstractView
     /**
      * @param string $dataSource
      * @param string $childName
+     * @return void
      */
     protected function processChildDataSource($dataSource, $childName)
     {
@@ -307,7 +308,7 @@ class AbstractStructure extends AbstractView
                 'label' => __('New ' . $childMeta->getLabel())
             ]
         ];
-        
+
         foreach ($childMeta as $key => $value) {
             if (isset($value['visible']) && $value['visible'] === 'false') {
                 continue;
@@ -315,10 +316,10 @@ class AbstractStructure extends AbstractView
 
             $itemTemplate['children'][$key] = [
                 'config' => [
-                   'displayArea' => $value['displayArea'] 
+                    'displayArea' => $value['displayArea']
                 ]
             ];
-            
+
             if (isset($value['size'])) {
                 $itemTemplate['children'][$key]['dataScope'] = $key;
             }
@@ -338,7 +339,7 @@ class AbstractStructure extends AbstractView
                 }
                 unset($value['constraints']);
             }
-            
+
             if (isset($value['size'])) {
                 $size = (int)$value['size'];
                 for ($i = 0; $i < $size; $i++) {
@@ -350,7 +351,7 @@ class AbstractStructure extends AbstractView
                     if (isset($value['validation']['required-entry'])) {
                         unset($value['validation']['required-entry']);
                     }
-               }
+                }
             } else {
                 $itemTemplate['children'][$key]['children'][$key] = [
                     'type' => $value['formElement'],
@@ -379,6 +380,7 @@ class AbstractStructure extends AbstractView
 
     /**
      * @throws \Exception
+     * @return void
      */
     protected function processChildBlocks()
     {
@@ -435,6 +437,7 @@ class AbstractStructure extends AbstractView
     /**
      * @param string $areaName
      * @param string $itemName
+     * @return void
      */
     protected function addToArea($areaName, $itemName)
     {
@@ -459,6 +462,7 @@ class AbstractStructure extends AbstractView
     /**
      * @param string $groupName
      * @param string $itemName
+     * @return void
      */
     protected function addToGroup($groupName, $itemName)
     {
@@ -529,6 +533,7 @@ class AbstractStructure extends AbstractView
      * @param string $collectionName
      * @param string $templateName
      * @param array $template
+     * @return void
      */
     protected function addTemplateToCollection($collectionName, $templateName, $template)
     {

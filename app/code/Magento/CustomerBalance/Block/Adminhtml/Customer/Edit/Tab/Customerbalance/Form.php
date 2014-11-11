@@ -121,7 +121,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             );
             $field->setRenderer($renderer);
         }
-var_dump($this->getData('target_form'));
+        var_dump($this->getData('target_form'));
         $fieldset->addField(
             'comment',
             'text',

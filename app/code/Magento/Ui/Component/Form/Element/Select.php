@@ -15,7 +15,7 @@ class Select extends AbstractFormElement
     /**
      * Check if option value
      *
-     * @param $optionValue
+     * @param string $optionValue
      * @return bool
      */
     public function getIsSelected($optionValue)

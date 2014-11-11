@@ -93,7 +93,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigFactory $configFactory
      * @param ConfigBuilderInterface $configBuilder
-     * DataProviderFactory $dataProviderFactory
+     * @param DataProviderFactory $dataProviderFactory
      * @param Manager $dataProviderManager
      * @param array $data
      */
@@ -277,6 +277,9 @@ abstract class AbstractView extends Template implements UiComponentInterface
     /**
      * Set component configuration
      *
+     * @param null $configData
+     * @param null $name
+     * @param null $parentName
      * @return void
      */
     public function prepareConfiguration($configData = null, $name = null, $parentName = null)
@@ -325,6 +328,7 @@ abstract class AbstractView extends Template implements UiComponentInterface
      * Set elements for the render
      *
      * @param ElementRendererInterface[] $elements
+     * @return mixed|void
      */
     public function setElements(array $elements)
     {

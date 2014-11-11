@@ -52,16 +52,23 @@ class Manager
     /**
      * Returns Data Source metadata
      *
-     * @param $dataSource
+     * @param string $dataSource
      * @return \Magento\Ui\DataProvider\Metadata
      */
     public function getMetadata($dataSource)
     {
-        return $this->metadataFactory->create([
-            'config' => $this->config->getDataSource($dataSource)
-        ]);
+        return $this->metadataFactory->create(
+            [
+                'config' => $this->config->getDataSource($dataSource)
+            ]
+        );
     }
 
+    /**
+     * @param string $dataSource
+     * @param array $filters
+     * @return mixed
+     */
     public function getCollectionData($dataSource, array $filters = [])
     {
         $collectionHash = md5($dataSource . serialize($filters));
@@ -105,14 +112,16 @@ class Manager
             $row = [];
             foreach ($fields as $field) {
                 if (isset($field['source']) && $field['source'] == 'lookup') {
-                    $lookupCollection = $this->getCollectionData($field['reference']['target'],
-                        [$field['reference']['targetField']=> $item->getData($field['reference']['referencedField'])]
+                    $lookupCollection = $this->getCollectionData(
+                        $field['reference']['target'],
+                        [$field['reference']['targetField'] => $item->getData($field['reference']['referencedField'])]
                     );
                     $lookup = reset($lookupCollection);
                     $row[$field['name']] = $lookup[$field['reference']['neededField']];
                 } elseif (isset($field['source']) && $field['source'] == 'reference') {
-                    $lookupCollection = $this->getCollectionData($field['reference']['target'],
-                        [$field['reference']['targetField']=> $item->getData($field['reference']['referencedField'])]
+                    $lookupCollection = $this->getCollectionData(
+                        $field['reference']['target'],
+                        [$field['reference']['targetField'] => $item->getData($field['reference']['referencedField'])]
                     );
                     $lookup = reset($lookupCollection);
                     $isReferenced = isset($lookup[$field['reference']['neededField']])

@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Ui\Component;
+
 use Magento\Framework\View\Element\UiComponentInterface;
 
 /**
