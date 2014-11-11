@@ -24,8 +24,9 @@ class ProductMediaAttributeManagementTest extends WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ),
             'soap' => array(
-                // @todo fix SOAP configuration after SOAP tests are functional
-                'operation' => 'catalogProductAttributeMediaReadServiceV1Types'
+                'service' => 'catalogProductMediaAttributeManagementV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'catalogProductMediaAttributeManagementV1GetList',
             ),
         );
 
