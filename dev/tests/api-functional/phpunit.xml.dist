@@ -62,7 +62,7 @@
         <!-- Semicolon-separated 'glob' patterns, that match module declaration XML configuration files -->
         <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/*/module.xml;etc/test/module.xml"/>
         <!-- Whether to cleanup the application before running tests or not -->
-        <const name="TESTS_CLEANUP" value="disabled"/>
+        <const name="TESTS_CLEANUP" value="enabled"/>
         <!--Defines if Magento should be installed before tests execution-->
         <const name="TESTS_MAGENTO_INSTALLATION" value="disabled"/>
         <!-- Magento mode for tests execution. Possible values are "default", "developer" and "production". -->
