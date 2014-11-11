@@ -18,20 +18,12 @@ class OptionManagement implements \Magento\Catalog\Api\ProductAttributeOptionMan
     protected $eavOptionManagement;
 
     /**
-     * @var \Magento\Framework\App\RequestInterface
-     */
-    protected $request;
-
-    /**
      * @param \Magento\Eav\Api\AttributeOptionManagementInterface $eavOptionManagement
-     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
-        \Magento\Eav\Api\AttributeOptionManagementInterface $eavOptionManagement,
-        \Magento\Framework\App\RequestInterface $request
+        \Magento\Eav\Api\AttributeOptionManagementInterface $eavOptionManagement
     ) {
         $this->eavOptionManagement = $eavOptionManagement;
-        $this->request = $request;
     }
 
     /**
