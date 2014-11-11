@@ -9,7 +9,7 @@ namespace Magento\Catalog\Model\Layer\Filter\DataProvider;
 
 use Magento\Catalog\Model\Layer\Filter\AbstractFilter;
 
-class DecimalDataProvider
+class Decimal
 {
     const MIN_RANGE_POWER = 10;
 
@@ -110,7 +110,7 @@ class DecimalDataProvider
      *
      * @param int $range
      * @param AbstractFilter $filter
-     * @return int
+     * @return mixed
      */
     public function getRangeItemCounts($range, AbstractFilter $filter)
     {
@@ -123,9 +123,17 @@ class DecimalDataProvider
     }
 
     /**
+     * @param int $range
+     */
+    public function setRange($range)
+    {
+        $this->range = $range;
+    }
+
+    /**
      * @return \Magento\Catalog\Model\Resource\Layer\Filter\Decimal
      */
-    private function getResource()
+    public function getResource()
     {
         return $this->resource;
     }

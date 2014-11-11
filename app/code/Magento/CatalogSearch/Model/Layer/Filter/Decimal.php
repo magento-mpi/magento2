@@ -25,18 +25,12 @@ class Decimal extends AbstractFilter
     private $resource;
 
     /**
-     * @var \Magento\Catalog\Model\Layer\Filter\DataProvider\DecimalDataProvider
-     */
-    private $dataProvider;
-
-    /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Catalog\Model\Layer\Filter\DataProvider\DecimalDataProvider $dataProviderFactory
      * @param array $data
      */
     public function __construct(
@@ -46,7 +40,6 @@ class Decimal extends AbstractFilter
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        \Magento\Catalog\Model\Layer\Filter\DataProvider\DecimalDataProviderFactory $dataProviderFactory,
         array $data = array()
     ) {
         parent::__construct(
@@ -58,7 +51,6 @@ class Decimal extends AbstractFilter
         );
         $this->resource = $filterDecimalFactory->create();
         $this->priceCurrency = $priceCurrency;
-        $this->dataProvider = $dataProviderFactory->create(['layer' => $this->getLayer()]);
     }
 
     /**

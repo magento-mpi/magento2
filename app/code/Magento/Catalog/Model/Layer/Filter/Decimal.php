@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog Layer Decimal Attribute Filter Model
  *
@@ -30,6 +29,11 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected $priceCurrency;
 
     /**
+     * @var DataProvider\Decimal
+     */
+    private $dataProvider;
+
+    /**
      * @param ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
@@ -43,24 +47,14 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
-        \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Catalog\Model\Layer\Filter\DataProvider\DecimalFactory $dataProviderFactory,
         array $data = array()
     ) {
-        $this->_resource = $filterDecimalFactory->create();
         $this->_requestVar = 'decimal';
         $this->priceCurrency = $priceCurrency;
         parent::__construct($filterItemFactory, $storeManager, $layer, $itemDataBuilder, $data);
-    }
-
-    /**
-     * Retrieve resource instance
-     *
-     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Decimal
-     */
-    protected function _getResource()
-    {
-        return $this->_resource;
+        $this->dataProvider = $dataProviderFactory->create(['layer' => $this->getLayer()]);
     }
 
     /**
@@ -88,14 +82,14 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 
         list($index, $range) = $filter;
         if ((int)$index && (int)$range) {
-            $this->setRange((int)$range);
+            $this->dataProvider->setRange((int)$range);
 
-            $this->_getResource()->applyFilterToCollection($this, $range, $index);
+            $this->dataProvider->getResource()->applyFilterToCollection($this, $range, $index);
             $this->getLayer()->getState()->addFilter(
                 $this->_createItem($this->_renderItemLabel($range, $index), $filter)
             );
 
-            $this->_items = array();
+            $this->_items = [];
         }
 
         return $this;
@@ -116,85 +110,14 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     }
 
     /**
-     * Retrieve maximum value from layer products set
-     *
-     * @return float
-     */
-    public function getMaxValue()
-    {
-        $max = $this->getData('max_value');
-        if (is_null($max)) {
-            list($min, $max) = $this->_getResource()->getMinMax($this);
-            $this->setData('max_value', $max);
-            $this->setData('min_value', $min);
-        }
-        return $max;
-    }
-
-    /**
-     * Retrieve minimal value from layer products set
-     *
-     * @return float
-     */
-    public function getMinValue()
-    {
-        $min = $this->getData('min_value');
-        if (is_null($min)) {
-            list($min, $max) = $this->_getResource()->getMinMax($this);
-            $this->setData('max_value', $max);
-            $this->setData('min_value', $min);
-        }
-        return $min;
-    }
-
-    /**
-     * Retrieve range for building filter steps
-     *
-     * @return int
-     */
-    public function getRange()
-    {
-        $range = $this->getData('range');
-        if (!$range) {
-            $maxValue = $this->getMaxValue();
-            $index = 1;
-            do {
-                $range = pow(10, strlen(floor($maxValue)) - $index);
-                $items = $this->getRangeItemCounts($range);
-                $index++;
-            } while ($range > self::MIN_RANGE_POWER && count($items) < 2);
-            $this->setData('range', $range);
-        }
-
-        return $range;
-    }
-
-    /**
-     * Retrieve information about products count in range
-     *
-     * @param int $range
-     * @return int
-     */
-    public function getRangeItemCounts($range)
-    {
-        $rangeKey = 'range_item_counts_' . $range;
-        $items = $this->getData($rangeKey);
-        if (is_null($items)) {
-            $items = $this->_getResource()->getCount($this, $range);
-            $this->setData($rangeKey, $items);
-        }
-        return $items;
-    }
-
-    /**
      * Retrieve data for build decimal filter items
      *
      * @return array
      */
     protected function _getItemsData()
     {
-        $range = $this->getRange();
-        $dbRanges = $this->getRangeItemCounts($range);
+        $range = $this->dataProvider->getRange($this);
+        $dbRanges = $this->dataProvider->getRangeItemCounts($range, $this);
 
         foreach ($dbRanges as $index => $count) {
             $this->itemDataBuilder->addItemData(

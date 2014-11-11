@@ -10,7 +10,7 @@ namespace Magento\Catalog\Model\Layer\Filter;
 /**
  * Layer category filter abstract model
  */
-abstract class AbstractFilter extends \Magento\Framework\Object
+abstract class AbstractFilter extends \Magento\Framework\Object implements FilterInterface
 {
     /**
      * Request variable name with filter value
