@@ -7,7 +7,7 @@
  */
 namespace Magento\Paypal\Model\Resource\Billing\Agreement;
 
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Customer\Api\CustomerMetadataInterface;
 
 /**
  * Billing agreements resource collection
@@ -89,7 +89,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         $adapter = $this->getConnection();
         $firstNameMetadata = $this->_eavHelper->getAttributeMetadata(
-            CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
+            CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
             'firstname'
         );
         $joinExpr = 'firstname.entity_id = main_table.customer_id AND ' . $adapter->quoteInto(
@@ -107,7 +107,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         );
 
         $lastNameMetadata = $this->_eavHelper->getAttributeMetadata(
-            CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
+            CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
             'lastname'
         );
         $joinExpr = 'lastname.entity_id = main_table.customer_id AND ' . $adapter->quoteInto(

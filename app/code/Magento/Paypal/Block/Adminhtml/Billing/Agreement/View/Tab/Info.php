@@ -7,17 +7,12 @@
  */
 namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement\View\Tab;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Backend\Block\Template\Context;
-use Magento\Framework\Registry;
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Backend\Block\Widget\Tab\TabInterface;
-use Magento\Backend\Block\Template;
 
 /**
  * Adminhtml billing agreement info tab
  */
-class Info extends Template implements TabInterface
+class Info extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var string
@@ -37,14 +32,13 @@ class Info extends Template implements TabInterface
     protected $_customerRepository;
 
     /**
-     * @param Context $context
-     * @param Registry $registry
-     * @param CustomerRepositoryInterface $customerRepository
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
     public function __construct(
-        Context $context,
-        Registry $registry,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Framework\Registry $registry,
         CustomerRepositoryInterface $customerRepository,
         array $data = array()
     ) {
@@ -113,7 +107,6 @@ class Info extends Template implements TabInterface
         $this->setUpdatedAt(
             $agreement->getUpdatedAt() ? $this->formatDate($agreement->getUpdatedAt(), 'short', true) : __('N/A')
         );
-
         return parent::_toHtml();
     }
 }
