@@ -54,16 +54,25 @@ $qtyDisabled = !$this->hasProductUrl() ||
             </div>
         </td>
         <td data-th="<?php echo $this->escapeHtml(__('Price')); ?>" class="col price">
-            <?php if ($helper->displayPriceIncludingTax() || $helper->displayBothPrices()): ?>
-                <?php $priceIncludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), true); ?>
-                <span class="price-including-tax" data-label="<?php echo $this->escapeHtml(__('Incl. Tax')); ?>"><span
-                        class="cart-price"><?php echo $this->convertPrice($priceIncludingTax, true); ?></span></span>
-            <?php endif; ?>
-            <?php if ($helper->displayPriceExcludingTax() || $helper->displayBothPrices()): ?>
-                <?php $priceExcludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), false); ?>
-                <span class="price-excluding-tax" data-label="<?php echo $this->escapeHtml(__('Excl. Tax')); ?>"><span
-                        class="cart-price"><?php echo $this->convertPrice($priceExcludingTax, true); ?></span></span>
-            <?php endif; ?>
+            <?php if ($this->canApplyMsrp()): ?>
+                <span class="msrp notice"><?php echo __('See price before order confirmation.'); ?></span>
+                    <?php $helpLinkId = 'cart-msrp-help-' . $_item->getProduct()->getId(); ?>
+                    <a href="#" class="action help map" id="<?php echo($helpLinkId); ?>" data-mage-init='{"addToCart":{"helpLinkId": "#<?php echo $helpLinkId;?>","productName": "<?php echo $_item->getProduct()->getName(); ?>","showAddToCart": false}}'>
+                        <span><?php echo __("What's this?"); ?></span>
+                    </a>
+                </span>
+            <?php else: ?>
+                <?php if ($helper->displayPriceIncludingTax() || $helper->displayBothPrices()): ?>
+                    <?php $priceIncludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), true); ?>
+                    <span class="price-including-tax" data-label="<?php echo $this->escapeHtml(__('Incl. Tax')); ?>"><span
+                            class="cart-price"><?php echo $this->convertPrice($priceIncludingTax, true); ?></span></span>
+                <?php endif; ?>
+                <?php if ($helper->displayPriceExcludingTax() || $helper->displayBothPrices()): ?>
+                    <?php $priceExcludingTax = $this->helper('Magento\Catalog\Helper\Data')->getTaxPrice($_item->getProduct(), $_item->getBasePrice(), false); ?>
+                    <span class="price-excluding-tax" data-label="<?php echo $this->escapeHtml(__('Excl. Tax')); ?>"><span
+                            class="cart-price"><?php echo $this->convertPrice($priceExcludingTax, true); ?></span></span>
+                <?php endif; ?>
+            <?php endif ?>
         </td>
         <td data-th="<?php echo $this->escapeHtml(__('Qty')); ?>" class="col qty">
             <?php $validateItemQuantityCheck = false; ?>
