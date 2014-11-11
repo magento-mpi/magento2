@@ -38,7 +38,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
     /**
      * @var AccountManagementInterface
      */
-    protected $customerAccount;
+    protected $customerAccountManagement;
 
     /**
      * Constructor
@@ -47,7 +47,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerRepositoryInterface $customerRepository
-     * @param AccountManagementInterface $customerAccount
+     * @param AccountManagementInterface $customerAccountManagement
      * @param array $data
      */
     public function __construct(
@@ -55,13 +55,13 @@ class Dashboard extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerRepositoryInterface $customerRepository,
-        AccountManagementInterface $customerAccount,
+        AccountManagementInterface $customerAccountManagement,
         array $data = array()
     ) {
         $this->customerSession = $customerSession;
         $this->subscriberFactory = $subscriberFactory;
         $this->customerRepository = $customerRepository;
-        $this->customerAccount = $customerAccount;
+        $this->customerAccountManagement = $customerAccountManagement;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -189,11 +189,11 @@ class Dashboard extends \Magento\Framework\View\Element\Template
         $addresses = array();
         $customerId = $this->getCustomer()->getId();
 
-        if ($defaultBilling = $this->customerAccount->getDefaultBillingAddress($customerId)) {
+        if ($defaultBilling = $this->customerAccountManagement->getDefaultBillingAddress($customerId)) {
             $addresses[] = $defaultBilling;
         }
 
-        if ($defaultShipping = $this->customerAccount->getDefaultShippingAddress($customerId)) {
+        if ($defaultShipping = $this->customerAccountManagement->getDefaultShippingAddress($customerId)) {
             if ($defaultBilling) {
                 if ($defaultBilling->getId() != $defaultShipping->getId()) {
                     $addresses[] = $defaultShipping;
