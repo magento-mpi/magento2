@@ -24,7 +24,7 @@ class WriteService implements WriteServiceInterface
     protected $quoteRepository;
 
     /**
-     * Product loader.
+     * Product repository.
      *
      * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */

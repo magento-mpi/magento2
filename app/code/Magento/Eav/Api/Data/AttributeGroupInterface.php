@@ -8,9 +8,6 @@
  */
 namespace Magento\Eav\Api\Data;
 
-/**
- * Interface AttributeGroupInterface must be implemented in \Magento\Eav\Model\Entity\Attribute\Group
- */
 interface AttributeGroupInterface
 {
     const GROUP_ID = 'attribute_group_id';
