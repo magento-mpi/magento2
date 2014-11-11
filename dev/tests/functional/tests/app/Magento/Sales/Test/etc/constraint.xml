@@ -144,4 +144,16 @@
     <assertOrderStatusNotAssigned module="Magento_Sales">
         <severeness>low</severeness>
     </assertOrderStatusNotAssigned>
+    <assertSalesPrintOrderBillingAddress module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertSalesPrintOrderBillingAddress>
+    <assertSalesPrintOrderGrandTotal module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertSalesPrintOrderGrandTotal>
+    <assertSalesPrintOrderPaymentMethod module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertSalesPrintOrderPaymentMethod>
+    <assertSalesPrintOrderProducts module="Magento_Sales">
+        <severeness>low</severeness>
+    </assertSalesPrintOrderProducts>
 </constraint>
