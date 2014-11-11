@@ -221,7 +221,7 @@ class Product extends \Magento\Framework\App\Action\Action
         try {
             $product = $this->productRepository->getById($productId);
             if (!$product->isVisibleInCatalog() || !$product->isVisibleInSiteVisibility()) {
-                throw new NoSuchEntityException;
+                throw new NoSuchEntityException();
             }
         } catch (NoSuchEntityException $noEntityException) {
             return false;

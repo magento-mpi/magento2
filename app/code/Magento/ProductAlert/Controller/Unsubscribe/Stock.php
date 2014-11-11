@@ -44,7 +44,7 @@ class Stock extends \Magento\ProductAlert\Controller\Unsubscribe
         try {
             $product = $this->productRepository->getById($productId);
             if (!$product->isVisibleInCatalog()) {
-                throw new NoSuchEntityException;
+                throw new NoSuchEntityException();
             }
 
             $model = $this->_objectManager->create(
