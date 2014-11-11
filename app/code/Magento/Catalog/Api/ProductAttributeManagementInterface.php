@@ -8,7 +8,7 @@
  */
 namespace Magento\Catalog\Api;
 
-interface ProductAttributeManagementInterface 
+interface ProductAttributeManagementInterface
 {
     /**
      * Assign attribute to attribute set
