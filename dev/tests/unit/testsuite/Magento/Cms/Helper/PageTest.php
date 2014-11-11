@@ -308,6 +308,9 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->pageMock->expects($this->any())
             ->method('getCustomPageLayout')
             ->willReturn($customPageLayout);
+        $this->resultPageMock->expects($this->any())
+            ->method('getConfig')
+            ->willReturn($this->pageConfigMock);
         $this->pageConfigMock->expects($this->any())
             ->method('setPageLayout')
             ->with($handle)
@@ -318,7 +321,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $this->resultPageMock->expects($this->any())
             ->method('initLayout')
             ->willReturnSelf();
-        $this->viewMock->expects($this->any())
+        $this->resultPageMock->expects($this->any())
             ->method('getLayout')
             ->willReturn($this->layoutMock);
         $this->layoutMock->expects($this->any())
