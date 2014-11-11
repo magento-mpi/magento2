@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
-class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
+class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Indexer\Model\IndexerInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -20,9 +20,9 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
     protected $appConfigMock;
 
     /**
-     * @var \Magento\CatalogPermissions\Model\Indexer\Plugin\CustomerGroupV1
+     * @var \Magento\CatalogPermissions\Model\Indexer\Plugin\GroupRepository
      */
-    protected $customerGroupV1;
+    protected $groupRepositoryPlugin;
 
     protected function setUp()
     {
@@ -42,7 +42,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->customerGroupV1 = new CustomerGroupV1($this->indexerMock, $this->appConfigMock);
+        $this->groupRepositoryPlugin = new \Magento\CatalogPermissions\Model\Indexer\Plugin\GroupRepository($this->indexerMock, $this->appConfigMock);
     }
 
     public function testAfterDeleteGroupIndexerOff()
@@ -56,7 +56,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
         );
         $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(false));
         $this->indexerMock->expects($this->never())->method('getId');
-        $this->customerGroupV1->afterDelete($customerGroupService);
+        $this->groupRepositoryPlugin->afterDelete($customerGroupService);
     }
 
     public function testAfterDeleteIndexerOn()
@@ -71,7 +71,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
         $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
         $this->prepareIndexer();
         $this->indexerMock->expects($this->once())->method('invalidate');
-        $this->customerGroupV1->afterDelete($customerGroupService);
+        $this->groupRepositoryPlugin->afterDelete($customerGroupService);
     }
 
     public function testAfterSaveNoNeedInvalidating()
@@ -98,7 +98,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
             return 10;
         };
 
-        $this->customerGroupV1->afterSave($customerGroupService, $proceedMock, $customerGroupMock);
+        $this->groupRepositoryPlugin->aroundSave($customerGroupService, $proceedMock, $customerGroupMock);
     }
 
     public function testAfterSaveInvalidating()
@@ -127,7 +127,7 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
             return 10;
         };
 
-        $this->customerGroupV1->afterSave($customerGroupService, $proceedMock, $customerGroupMock);
+        $this->groupRepositoryPlugin->aroundSave($customerGroupService, $proceedMock, $customerGroupMock);
     }
 
     protected function prepareIndexer()

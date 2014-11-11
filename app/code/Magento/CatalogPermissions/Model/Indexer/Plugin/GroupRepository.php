@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
-class CustomerGroupV1
+class GroupRepository
 {
     /**
      * @var \Magento\Indexer\Model\IndexerInterface
@@ -40,7 +40,7 @@ class CustomerGroupV1
      * @return int
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterSave(
+    public function aroundSave(
         \Magento\Customer\Api\GroupRepositoryInterface $subject,
         \Closure $proceed,
         \Magento\Customer\Api\Data\GroupInterface $customerGroup
