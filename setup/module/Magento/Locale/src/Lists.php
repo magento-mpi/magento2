@@ -8,52 +8,25 @@
 
 namespace Magento\Locale;
 
+use Zend_Locale;
+
 class Lists
 {
     /**
-     * @var Data\Country
+     * Zend locale object
+     *
+     * @var Zend_Locale
      */
-    protected $country;
+    protected $zendLocale;
 
     /**
-     * @var Data\Currency
+     * Constructor
+     *
+     * @param Zend_Locale $zendLocale
      */
-    protected $currency;
-
-    /**
-     * @var Data\Language
-     */
-    protected $language;
-
-    /**
-     * @var Data\Locale
-     */
-    protected $locale;
-
-    /**
-     * @var Data\Timezone
-     */
-    protected $timezone;
-
-    /**
-     * @param Data\Country $country
-     * @param Data\Currency $currency
-     * @param Data\Language $language
-     * @param Data\Timezone $timezone
-     * @param Data\Locale $locale
-     */
-    public function __construct(
-        Data\Country $country,
-        Data\Currency $currency,
-        Data\Language $language,
-        Data\Timezone $timezone,
-        Data\Locale $locale
-    ) {
-        $this->country = $country;
-        $this->currency = $currency;
-        $this->language = $language;
-        $this->timezone = $timezone;
-        $this->locale = $locale;
+    public function __construct(Zend_Locale $zendLocale)
+    {
+        $this->zendLocale = $zendLocale;
     }
 
     /**
@@ -63,8 +36,9 @@ class Lists
      */
     public function getTimezoneList()
     {
+        $timeZone  = $this->zendLocale->getTranslationList('WindowsToTimezone');
         $list = [];
-        foreach ($this->timezone->getData() as $code => $value) {
+        foreach ($timeZone as $code => $value) {
             $list[$code] = $value . ' (' . $code . ')';
         }
         asort($list);
@@ -78,8 +52,9 @@ class Lists
      */
     public function getCurrencyList()
     {
-        $list = $this->currency->getData();
-        foreach ($this->currency->getData() as $code => $value) {
+        $currencies = $this->zendLocale->getTranslationList('NameToCurrency');
+        $list = [];
+        foreach ($currencies as $code => $value) {
             $list[$code] = $value . ' (' . $code . ')';
         }
         asort($list);
@@ -93,17 +68,17 @@ class Lists
      */
     public function getLocaleList()
     {
-        $languages = $this->language->getData();
-        $countries = $this->country->getData();
-
+        $languages = $this->zendLocale->getTranslationList('Language');
+        $countries = $this->zendLocale->getTranslationList('Territory');
+        $locale = $this->zendLocale->getLocaleList();
         $list = [];
-        foreach ($this->locale->getData() as $code) {
-            if (strstr($code, '_')) {
-                $data = explode('_', $code);
+        foreach ($locale as $key => $value) {
+            if (strstr($key, '_')) {
+                $data = explode('_', $key);
                 if (!isset($languages[$data[0]]) || !isset($countries[$data[1]])) {
                     continue;
                 }
-                $list[$code] = $languages[$data[0]] . ' (' . $countries[$data[1]] . ')';
+                $list[$key] = $languages[$data[0]] . ' (' . $countries[$data[1]] . ')';
             }
         }
         asort($list);
