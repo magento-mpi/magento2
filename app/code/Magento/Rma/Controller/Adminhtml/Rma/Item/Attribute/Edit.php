@@ -20,8 +20,7 @@ class Edit extends \Magento\Rma\Controller\Adminhtml\Rma\Item\Attribute
         /* @var $attributeObject \Magento\Rma\Model\Item\Attribute */
         $attributeId = $this->getRequest()->getParam('attribute_id');
         $attributeObject = $this->_initAttribute()->setEntityTypeId($this->_getEntityType()->getId());
-
-        $this->_title->add(__('Returns Attributes'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Returns Attributes'));
 
         if ($attributeId) {
             $attributeObject->load($attributeId);
@@ -36,9 +35,9 @@ class Edit extends \Magento\Rma\Controller\Adminhtml\Rma\Item\Attribute
                 return;
             }
 
-            $this->_title->add($attributeObject->getFrontendLabel());
+            $this->_view->getPage()->getConfig()->getTitle()->prepend($attributeObject->getFrontendLabel());
         } else {
-            $this->_title->add(__('New Return Attribute'));
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('New Return Attribute'));
         }
 
         $attributeData = $this->_getSession()->getAttributeData(true);

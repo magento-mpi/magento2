@@ -55,7 +55,9 @@ class Edit extends \Magento\Newsletter\Controller\Adminhtml\Template
             $breadcrumbLabel = __('Create Newsletter Template');
         }
 
-        $this->_title->add($model->getId() ? $model->getTemplateCode() : __('New Template'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $model->getId() ? $model->getTemplateCode() : __('New Template')
+        );
 
         $this->_addBreadcrumb($breadcrumbLabel, $breadcrumbTitle);
 

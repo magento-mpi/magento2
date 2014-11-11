@@ -18,10 +18,10 @@ class Edit extends \Magento\Reward\Controller\Adminhtml\Reward\Rate
     public function execute()
     {
         $rate = $this->_initRate();
-
-        $this->_title->add($rate->getRateId() ? sprintf("#%s", $rate->getRateId()) : __('New Reward Exchange Rate'));
-
         $this->_initAction();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $rate->getRateId() ? sprintf("#%s", $rate->getRateId()) : __('New Reward Exchange Rate')
+        );
         $this->_view->renderLayout();
     }
 }

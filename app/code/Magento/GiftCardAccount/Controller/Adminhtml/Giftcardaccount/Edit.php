@@ -26,14 +26,16 @@ class Edit extends \Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccount
             return;
         }
 
-        $this->_title->add($model->getId() ? $model->getCode() : __('New Account'));
-
         $data = $this->_getSession()->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
 
         $this->_view->loadLayout();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $model->getId() ? $model->getCode() : __('New Account')
+        );
+
         $this->_addBreadcrumb(
             $id ? __('Edit Gift Card Account') : __('New Gift Card Account'),
             $id ? __('Edit Gift Card Account') : __('New Gift Card Account')

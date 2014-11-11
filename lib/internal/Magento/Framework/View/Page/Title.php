@@ -18,6 +18,17 @@ class Title
      */
     private $scopeConfig;
 
+    /** @var string[] */
+    private $prependedValues = [];
+
+    /** @var string[] */
+    private $appendedValues = [];
+
+    /**
+     * @var string
+     */
+    private $textValue;
+
     /**
      * @param App\Config\ScopeConfigInterface $scopeConfig
      */
@@ -28,87 +39,52 @@ class Title
     }
 
     /**
-     * @var string
-     */
-    private $titleChunks;
-
-    /**
-     * @var string
-     */
-    private $pureTitle;
-
-    /** @var string[] */
-    private $prependedValues = [];
-
-    /** @var string[] */
-    private $appendedValues = [];
-
-    /**
-     * @var string
-     */
-    private $value;
-
-        /**
      * Set page title
      *
      * @param string|array $title
      * @return $this
      */
-    public function setTitle($title)
+    public function set($title)
     {
-        $this->value = $this->scopeConfig->getValue(
-            'design/head/title_prefix',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) . ' ' . $this->prepareTitle($title) . ' ' . $this->scopeConfig->getValue(
-            'design/head/title_suffix',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
-
+        $this->textValue = $title;
         return $this;
-    }
-
-    /**
-     * @param array|string $title
-     * @return string
-     */
-    protected function prepareTitle($title)
-    {
-        $this->titleChunks = '';
-        $this->pureTitle = '';
-
-        if (is_array($title)) {
-            $this->titleChunks = $title;
-            return implode(' / ', $title);
-        }
-        $this->pureTitle = $title;
-        return $this->pureTitle;
     }
 
     /**
      * Retrieve title element text (encoded)
      *
+     * @param string $glue
      * @return string
      */
-    public function getTitle()
+    public function get($glue = ' / ')
     {
-        $preparedTitle = is_array($this->value) ? $this->value : [$this->value];
-        $title = array_merge($this->prependedValues, $preparedTitle, $this->appendedValues);
-
-        return join(' / ', $title);
+        $title = array_merge($this->prependedValues, [$this->getShort()], $this->appendedValues);
+        return join($glue, $title);
     }
 
     /**
-     * Same as getTitle(), but return only first item from chunk for backend pages
+     * Same as getTitle(), but return only first item from chunk
      *
      * @return mixed
      */
-    public function getShortTitle()
+    public function getShort()
     {
-        if (!empty($this->titleChunks)) {
-            return reset($this->titleChunks);
-        } else {
-            return $this->pureTitle;
-        }
+        return $this->prepare($this->textValue);
+    }
+
+    /**
+     * @param string $title
+     * @return string
+     */
+    protected function prepare($title)
+    {
+        return $this->scopeConfig->getValue(
+            'design/head/title_prefix',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) . ' ' . $title . ' ' . $this->scopeConfig->getValue(
+            'design/head/title_suffix',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -116,12 +92,13 @@ class Title
      *
      * @return string
      */
-    public function getDefaultTitle()
+    public function getDefault()
     {
-        return $this->scopeConfig->getValue(
+        $defaultTitle = $this->scopeConfig->getValue(
             'design/head/default_title',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
+        return $this->prepare($defaultTitle);
     }
 
     /**

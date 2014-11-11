@@ -20,8 +20,6 @@ class Edit extends \Magento\Tax\Controller\Adminhtml\Rate
      */
     public function execute()
     {
-        $this->_title->add(__('Tax Zones and Rates'));
-
         $rateId = (int)$this->getRequest()->getParam('rate');
         $this->_coreRegistry->register(RegistryConstants::CURRENT_TAX_RATE_ID, $rateId);
         try {
@@ -31,7 +29,8 @@ class Edit extends \Magento\Tax\Controller\Adminhtml\Rate
             return;
         }
 
-        $this->_title->add(sprintf("%s", $taxRateDataObject->getCode()));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Tax Zones and Rates'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(sprintf("%s", $taxRateDataObject->getCode()));
 
         $this->_initAction()->_addBreadcrumb(
             __('Manage Tax Rates'),

@@ -56,16 +56,6 @@ class Config
     protected $title;
 
     /**
-     * @var string
-     */
-    protected $titleChunks;
-
-    /**
-     * @var string
-     */
-    protected $pureTitle;
-
-    /**
      * Asset service
      *
      * @var \Magento\Framework\View\Asset\Repository
@@ -124,14 +114,14 @@ class Config
      * @param \Magento\Framework\View\Asset\GroupedCollection $pageAssets
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\View\Page\FaviconInterface $favicon
-     * @param \Magento\Framework\View\Page\Title $title
+     * @param Title $title
      */
     public function __construct(
         View\Asset\Repository $assetRepo,
         View\Asset\GroupedCollection $pageAssets,
         App\Config\ScopeConfigInterface $scopeConfig,
         View\Page\FaviconInterface $favicon,
-        \Magento\Framework\View\Page\Title $title
+        Title $title
     ) {
         $this->assetRepo = $assetRepo;
         $this->pageAssets = $pageAssets;

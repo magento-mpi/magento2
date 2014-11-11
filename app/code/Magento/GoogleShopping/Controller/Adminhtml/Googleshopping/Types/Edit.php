@@ -33,7 +33,7 @@ class Edit extends \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\T
                 }
             }
 
-            $this->_title->add(__('Google Content Attribute Mapping'));
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Google Content Attribute Mapping'));
             $this->_coreRegistry->register('attributes', $result);
 
             $breadcrumbLabel = $typeId ? __('Edit attribute set mapping') : __('New attribute set mapping');

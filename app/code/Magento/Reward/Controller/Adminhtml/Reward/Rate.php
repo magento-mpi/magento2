@@ -77,7 +77,7 @@ class Rate extends \Magento\Backend\App\Action
      */
     protected function _initRate()
     {
-        $this->_title->add(__('Reward Exchange Rates'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Reward Exchange Rates'));
 
         $rateId = $this->getRequest()->getParam('rate_id', 0);
         $rate = $this->_objectManager->create('Magento\Reward\Model\Reward\Rate');

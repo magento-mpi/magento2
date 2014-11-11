@@ -34,7 +34,7 @@ class Edit extends \Magento\CustomerSegment\Controller\Adminhtml\Index
      */
     public function execute()
     {
-        $this->_title->add(__('Customer Segments'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customer Segments'));
 
         try {
             $model = $this->_initSegment();
@@ -44,7 +44,9 @@ class Edit extends \Magento\CustomerSegment\Controller\Adminhtml\Index
             return;
         }
 
-        $this->_title->add($model->getId() ? $model->getName() : __('New Segment'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $model->getId() ? $model->getName() : __('New Segment')
+        );
 
         // set entered data if was error when we do save
         $data = $this->_session->getPageData(true);

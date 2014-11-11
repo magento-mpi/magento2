@@ -118,7 +118,7 @@ class Renderer
      */
     public function renderTitle()
     {
-        return '<title>' . $this->pageConfig->getTitle()->getTitle() . '</title>' . "\n";
+        return '<title>' . $this->pageConfig->getTitle()->get() . '</title>' . "\n";
     }
 
     /**

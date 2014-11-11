@@ -20,7 +20,7 @@ class NewAction extends \Magento\GoogleShopping\Controller\Adminhtml\Googleshopp
         try {
             $this->_initItemType();
 
-            $this->_title->add(__('New Google Content Attribute Mapping'));
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('New Google Content Attribute Mapping'));
 
             $this->_initAction()->_addBreadcrumb(
                 __('New attribute set mapping'),

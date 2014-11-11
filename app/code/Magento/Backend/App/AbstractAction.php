@@ -138,10 +138,9 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
         $menuBlock = $this->_view->getLayout()->getBlock('menu');
         $menuBlock->setActive($itemId);
         $parents = $menuBlock->getMenuModel()->getParentItems($itemId);
-        $parents = array_reverse($parents);
         foreach ($parents as $item) {
             /** @var $item \Magento\Backend\Model\Menu\Item */
-            $this->_title->add($item->getTitle(), true);
+            $this->_view->getPage()->getConfig()->getTitle()->prepend($item->getTitle());
         }
         return $this;
     }

@@ -22,8 +22,8 @@ class TitleTest extends \PHPUnit_Framework_TestCase
 
     public function testAddPrependFalse()
     {
-        $this->_model->add('First Title');
-        $this->_model->add('Second Title');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend('First Title');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend('Second Title');
         $actual = $this->_model->get();
         $expected = array('First Title', 'Second Title');
 
@@ -32,8 +32,8 @@ class TitleTest extends \PHPUnit_Framework_TestCase
 
     public function testAddPrependTrue()
     {
-        $this->_model->add('First Title');
-        $this->_model->add('Second Title', true);
+        $this->_view->getPage()->getConfig()->getTitle()->prepend('First Title');
+        $this->_view->getPage()->getConfig()->getTitle()->append('Second Title', true);
         $actual = $this->_model->get();
         $expected = array('Second Title', 'First Title');
 

@@ -17,7 +17,7 @@ class Edit extends \Magento\TargetRule\Controller\Adminhtml\Targetrule
      */
     public function execute()
     {
-        $this->_title->add(__('Related Products Rule'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Related Products Rule'));
 
         /* @var $model \Magento\TargetRule\Model\Rule */
         $model = $this->_objectManager->create('Magento\TargetRule\Model\Rule');
@@ -32,7 +32,9 @@ class Edit extends \Magento\TargetRule\Controller\Adminhtml\Targetrule
             }
         }
 
-        $this->_title->add($model->getId() ? $model->getName() : __('New Related Products Rule'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $model->getId() ? $model->getName() : __('New Related Products Rule')
+        );
 
         $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
         if (!empty($data)) {

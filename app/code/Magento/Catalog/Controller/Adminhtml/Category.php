@@ -39,7 +39,7 @@ class Category extends \Magento\Backend\App\Action
      */
     protected function _initCategory($getRootInstead = false)
     {
-        $this->_title->add(__('Categories'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Categories'));
 
         $categoryId = (int)$this->getRequest()->getParam('id', false);
         $storeId = (int)$this->getRequest()->getParam('store');

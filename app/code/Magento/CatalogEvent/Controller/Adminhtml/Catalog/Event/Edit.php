@@ -19,7 +19,7 @@ class Edit extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
      */
     public function execute()
     {
-        $this->_title->add(__('Events'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Events'));
 
         /** @var ModelEvent $event */
         $event = $this->_eventFactory->create()->setStoreId($this->getRequest()->getParam('store', 0));
@@ -30,7 +30,9 @@ class Edit extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
         }
 
-        $this->_title->add($event->getId() ? sprintf("#%s", $event->getId()) : __('New Event'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $event->getId() ? sprintf("#%s", $event->getId()) : __('New Event')
+        );
 
         $sessionData = $this->_getSession()->getEventData(true);
         if (!empty($sessionData)) {

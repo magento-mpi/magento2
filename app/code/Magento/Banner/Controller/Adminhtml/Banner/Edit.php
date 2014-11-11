@@ -26,8 +26,6 @@ class Edit extends \Magento\Banner\Controller\Adminhtml\Banner
             return;
         }
 
-        $this->_title->add($model->getId() ? $model->getName() : __('New Banner'));
-
         $data = $this->_getSession()->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
@@ -35,6 +33,10 @@ class Edit extends \Magento\Banner\Controller\Adminhtml\Banner
 
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Banner::cms_magento_banner');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $model->getId() ? $model->getName() : __('New Banner')
+        );
+
         $this->_addBreadcrumb(
             $bannerId ? __('Edit Banner') : __('New Banner'),
             $bannerId ? __('Edit Banner') : __('New Banner')

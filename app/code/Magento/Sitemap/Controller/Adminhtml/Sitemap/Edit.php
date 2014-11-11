@@ -34,7 +34,7 @@ class Edit extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
      */
     public function execute()
     {
-        $this->_title->add(__('Site Map'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Site Map'));
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('sitemap_id');
@@ -50,7 +50,9 @@ class Edit extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
             }
         }
 
-        $this->_title->add($model->getId() ? $model->getSitemapFilename() : __('New Site Map'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $model->getId() ? $model->getSitemapFilename() : __('New Site Map')
+        );
 
         // 3. Set entered data if was error when we do save
         $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);

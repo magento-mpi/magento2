@@ -17,7 +17,7 @@ class Segment extends \Magento\CustomerSegment\Controller\Adminhtml\Report\Custo
      */
     public function execute()
     {
-        $this->_title->add(__('Customer Segment Report'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customer Segment Report'));
 
         $this->_initAction();
         $this->_view->renderLayout();

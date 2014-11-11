@@ -46,7 +46,7 @@ class UpdateQty extends \Magento\Backend\App\Action
     public function execute()
     {
         try {
-            $this->_title->add(__('Invoices'));
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Invoices'));
             $orderId = $this->getRequest()->getParam('order_id');
             $invoiceId = $this->getRequest()->getParam('invoice_id');
             $invoiceData = $this->getRequest()->getParam('invoice', []);

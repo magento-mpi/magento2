@@ -67,10 +67,9 @@ class Page extends View\Result\Page
         $menuBlock = $this->layout->getBlock('menu');
         $menuBlock->setActive($itemId);
         $parents = $menuBlock->getMenuModel()->getParentItems($itemId);
-        $parents = array_reverse($parents);
         foreach ($parents as $item) {
             /** @var $item \Magento\Backend\Model\Menu\Item */
-            $this->title->add($item->getTitle(), true);
+            $this->getConfig()->getTitle()->prepend($item->getTitle());
         }
         return $this;
     }

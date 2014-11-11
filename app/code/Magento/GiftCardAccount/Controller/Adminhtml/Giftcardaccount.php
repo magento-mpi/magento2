@@ -65,7 +65,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
      */
     protected function _initGca($idFieldName = 'id')
     {
-        $this->_title->add(__('Gift Card Accounts'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Gift Card Accounts'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
         $model = $this->_objectManager->create('Magento\GiftCardAccount\Model\Giftcardaccount');

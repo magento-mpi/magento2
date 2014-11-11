@@ -37,7 +37,7 @@ class Index extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
      */
     public function execute()
     {
-        $this->_title->add(__('Hierarchy'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Hierarchy'));
 
         $this->_initScope();
 

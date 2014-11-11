@@ -96,7 +96,7 @@ class Variable extends Action
      */
     protected function _initVariable()
     {
-        $this->_title->add(__('Custom Variables'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Custom Variables'));
 
         $variableId = $this->getRequest()->getParam('variable_id', null);
         $storeId = (int)$this->getRequest()->getParam('store', 0);

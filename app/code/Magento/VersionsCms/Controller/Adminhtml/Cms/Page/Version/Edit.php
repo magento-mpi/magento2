@@ -78,7 +78,7 @@ class Edit extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Edit
             return;
         }
 
-        $this->_title->add(__('Pages'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Pages'));
         $this->pageLoader->load($this->_request->getParam('page_id'));
 
         $data = $this->_session->getFormData(true);

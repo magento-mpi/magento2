@@ -17,8 +17,6 @@ class Edit extends \Magento\Tax\Controller\Adminhtml\Rule
      */
     public function execute()
     {
-        $this->_title->add(__('Tax Rules'));
-
         $taxRuleId = $this->getRequest()->getParam('rule');
         $this->_coreRegistry->register('tax_rule_id', $taxRuleId);
         /** @var \Magento\Backend\Model\Session $backendSession */
@@ -36,7 +34,8 @@ class Edit extends \Magento\Tax\Controller\Adminhtml\Rule
         } else {
             $pageTitle = __('New Tax Rule');
         }
-        $this->_title->add($pageTitle);
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Tax Rules'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend($pageTitle);
         $data = $backendSession->getRuleData(true);
         if (!empty($data)) {
             $this->_coreRegistry->register('tax_rule_form_data', $data);

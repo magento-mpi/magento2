@@ -37,7 +37,7 @@ class Index extends \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\
      */
     public function execute()
     {
-        $this->_title->add(__('Google Content Items'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Google Content Items'));
 
         if (0 === (int)$this->getRequest()->getParam('store')) {
             $this->_redirect(

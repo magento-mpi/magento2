@@ -15,8 +15,7 @@ class Edit extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog
      */
     public function execute()
     {
-        $this->_title->add(__('Catalog Price Rules'));
-
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Catalog Price Rules'));
         $id = $this->getRequest()->getParam('id');
         $model = $this->_objectManager->create('Magento\CatalogRule\Model\Rule');
 
@@ -29,8 +28,9 @@ class Edit extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog
             }
         }
 
-        $this->_title->add($model->getRuleId() ? $model->getName() : __('New Catalog Price Rule'));
-
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $model->getRuleId() ? $model->getName() : __('New Catalog Price Rule')
+        );
         // set entered data if was error when we do save
         $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getPageData(true);
         if (!empty($data)) {

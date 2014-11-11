@@ -17,7 +17,7 @@ class Edit extends \Magento\Cms\Controller\Adminhtml\Block
      */
     public function execute()
     {
-        $this->_title->add(__('Blocks'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Blocks'));
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('block_id');
@@ -33,7 +33,8 @@ class Edit extends \Magento\Cms\Controller\Adminhtml\Block
             }
         }
 
-        $this->_title->add($model->getId() ? $model->getTitle() : __('New Block'));
+        $this->_view->getPage()
+            ->getConfig()->getTitle()->prepend($model->getId() ? $model->getTitle() : __('New Block'));
 
         // 3. Set entered data if was error when we do save
         $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);

@@ -17,7 +17,7 @@ class Detail extends \Magento\CustomerSegment\Controller\Adminhtml\Report\Custom
      */
     public function execute()
     {
-        $this->_title->add(__('Customer Segment Report'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customer Segment Report'));
 
         if ($this->_initSegment()) {
             // Add help Notice to Combined Report
@@ -44,7 +44,7 @@ class Detail extends \Magento\CustomerSegment\Controller\Adminhtml\Report\Custom
                 }
             }
 
-            $this->_title->add(__('Details'));
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Details'));
 
             $this->_initAction();
             $this->_view->renderLayout();

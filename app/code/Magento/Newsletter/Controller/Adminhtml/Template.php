@@ -27,10 +27,10 @@ class Template extends \Magento\Backend\App\Action
     /**
      * Set title of page
      *
-     * @return $this
+     * @return void
      */
     protected function _setTitle()
     {
-        return $this->_title->add(__('Newsletter Templates'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Newsletter Templates'));
     }
 }

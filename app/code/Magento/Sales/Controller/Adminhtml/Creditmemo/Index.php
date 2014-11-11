@@ -17,7 +17,7 @@ class Index extends \Magento\Sales\Controller\Adminhtml\Creditmemo\AbstractCredi
      */
     public function execute()
     {
-        $this->_title->add(__('Credit Memos'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Credit Memos'));
         parent::execute();
     }
 }

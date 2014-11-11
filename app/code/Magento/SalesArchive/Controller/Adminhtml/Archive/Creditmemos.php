@@ -17,10 +17,9 @@ class Creditmemos extends \Magento\SalesArchive\Controller\Adminhtml\Archive
      */
     public function execute()
     {
-        $this->_title->add(__('Credit Memos'));
-
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_creditmemos');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Credit Memos'));
         $this->_view->renderLayout();
     }
 }

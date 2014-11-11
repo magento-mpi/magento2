@@ -23,9 +23,10 @@ class Edit extends \Magento\Widget\Controller\Adminhtml\Widget\Instance
             return;
         }
 
-        $this->_title->add($widgetInstance->getId() ? $widgetInstance->getTitle() : __('New Frontend App Instance'));
-
         $this->_initAction();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $widgetInstance->getId() ? $widgetInstance->getTitle() : __('New Frontend App Instance')
+        );
         $this->_view->renderLayout();
     }
 }

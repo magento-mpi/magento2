@@ -65,7 +65,7 @@ class Edit extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $this->_title->add(__('Pages'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Pages'));
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('page_id');
@@ -81,7 +81,8 @@ class Edit extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_title->add($model->getId() ? $model->getTitle() : __('New Page'));
+        $this->_view->getPage()->getConfig()->getTitle()
+            ->prepend($model->getId() ? $model->getTitle() : __('New Page'));
 
         // 3. Set entered data if was error when we do save
         $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);

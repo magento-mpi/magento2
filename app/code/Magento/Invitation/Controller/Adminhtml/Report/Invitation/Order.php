@@ -17,14 +17,13 @@ class Order extends \Magento\Invitation\Controller\Adminhtml\Report\Invitation
      */
     public function execute()
     {
-        $this->_title->add(__('Conversion Rate Report'));
-
         $this->_initAction()->_setActiveMenu(
             'Magento_Invitation::report_magento_invitation_order'
         )->_addBreadcrumb(
             __('Invitation Report by Customers'),
             __('Invitation Report by Order Conversion Rate')
         );
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Conversion Rate Report'));
         $this->_view->renderLayout();
     }
 }

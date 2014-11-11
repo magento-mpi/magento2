@@ -15,7 +15,7 @@ class Index extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog
      */
     public function execute()
     {
-        $this->_title->add(__('Catalog Price Rules'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Catalog Price Rules'));
 
         $dirtyRules = $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf();
         if ($dirtyRules->getState()) {

@@ -19,37 +19,37 @@ class TitleTest extends \PHPUnit_Framework_TestCase
     protected $title;
 
     /**
-     * @var \Magento\Framework\View\Page\Config\Structure|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $structure;
+    protected $scopeConfig;
 
     public function setUp()
     {
-        $this->structure = $this->getMockBuilder('Magento\Framework\View\Page\Config\Structure')
+        $this->scopeConfig = $this->getMockBuilder('Magento\Framework\App\Config\ScopeConfigInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->title = new Title($this->structure);
+        $this->title = new Title($this->scopeConfig);
     }
 
     public function testSet()
     {
         $value = 'test_value';
         $this->title->set($value);
-        $this->assertEquals(['test_value'], $this->title->get());
+        $this->assertEquals(' test_value ', $this->title->get());
     }
 
     public function testUnset()
     {
         $value = ['test'];
         $this->title->set($value);
-        $this->assertEquals('test', $this->title->getAsString());
+        $this->assertEquals('test', $this->title->get());
         $this->assertNull($this->title->unsetValue());
     }
 
     public function testGetCompositeValue()
     {
-        $this->structure->expects($this->once())->method('getTitle')->will($this->returnValue('test'));
+        $this->scopeConfig->expects($this->once())->method('getTitle')->will($this->returnValue('test'));
         $this->assertEquals(['test'], $this->title->get());
     }
 

@@ -51,7 +51,7 @@ class Quote extends \Magento\Backend\App\Action
      */
     protected function _initRule()
     {
-        $this->_title->add(__('Cart Price Rules'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Cart Price Rules'));
 
         $this->_coreRegistry->register(
             'current_promo_quote_rule',

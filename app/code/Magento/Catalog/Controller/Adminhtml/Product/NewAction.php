@@ -58,7 +58,6 @@ class NewAction extends \Magento\Catalog\Controller\Adminhtml\Product
         if (!$this->getRequest()->getParam('set')) {
             return $this->resultForwardFactory->create()->forward('noroute');
         }
-        $this->_title->add(__('Products'));
 
         $product = $this->productBuilder->build($this->getRequest());
 
@@ -69,7 +68,6 @@ class NewAction extends \Magento\Catalog\Controller\Adminhtml\Product
             $product->addData($productData);
         }
 
-        $this->_title->add(__('New Product'));
 
         $this->_eventManager->dispatch('catalog_product_new_action', array('product' => $product));
 
@@ -81,6 +79,8 @@ class NewAction extends \Magento\Catalog\Controller\Adminhtml\Product
             $resultPage->addHandle(['catalog_product_' . $product->getTypeId()]);
             $resultPage->setActiveMenu('Magento_Catalog::catalog_products');
         }
+        $resultPage->getConfig()->getTitle()->prepend(__('Products'));
+        $resultPage->getConfig()->getTitle()->prepend(__('New Product'));
 
         $block = $resultPage->getLayout()->getBlock('catalog.wysiwyg.js');
         if ($block) {

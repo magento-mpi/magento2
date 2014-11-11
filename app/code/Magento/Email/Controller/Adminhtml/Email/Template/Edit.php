@@ -28,7 +28,9 @@ class Edit extends \Magento\Email\Controller\Adminhtml\Email\Template
             $this->_addBreadcrumb(__('New Template'), __('New System Template'));
         }
 
-        $this->_title->add($template->getId() ? $template->getTemplateCode() : __('New Template'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $template->getId() ? $template->getTemplateCode() : __('New Template')
+        );
 
         $this->_addContent(
             $this->_view->getLayout()->createBlock(

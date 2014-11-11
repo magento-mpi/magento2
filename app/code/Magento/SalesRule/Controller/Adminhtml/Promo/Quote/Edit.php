@@ -29,7 +29,9 @@ class Edit extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quote
             }
         }
 
-        $this->_title->add($model->getRuleId() ? $model->getName() : __('New Cart Price Rule'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $model->getRuleId() ? $model->getName() : __('New Cart Price Rule')
+        );
 
         // set entered data if was error when we do save
         $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getPageData(true);

@@ -15,8 +15,6 @@ class EditStore extends \Magento\Backend\Controller\Adminhtml\System\Store
      */
     public function execute()
     {
-        $this->_title->add(__('Stores'));
-
         if ($this->_getSession()->getPostData()) {
             $this->_coreRegistry->register('store_post_data', $this->_getSession()->getPostData());
             $this->_getSession()->unsPostData();
@@ -62,9 +60,9 @@ class EditStore extends \Magento\Backend\Controller\Adminhtml\System\Store
             $this->_coreRegistry->register('store_data', $model);
 
             if ($this->_coreRegistry->registry('store_action') == 'add') {
-                $this->_title->add(__('New ') . $title);
+                $this->_view->getPage()->getConfig()->getTitle()->prepend((__('New ') . $title));
             } else {
-                $this->_title->add($model->getName());
+                $this->_view->getPage()->getConfig()->getTitle()->prepend($model->getName());
             }
 
             if ($this->_coreRegistry->registry('store_action') == 'edit' && $codeBase && !$model->isReadOnly()) {
@@ -72,6 +70,7 @@ class EditStore extends \Magento\Backend\Controller\Adminhtml\System\Store
             }
 
             $resultPage = $this->createPage();
+            $resultPage->getConfig()->getTitle()->prepend(__('Stores'));
             $resultPage->addContent($resultPage->getLayout()->createBlock('Magento\Backend\Block\System\Store\Edit'));
             return $resultPage;
         } else {

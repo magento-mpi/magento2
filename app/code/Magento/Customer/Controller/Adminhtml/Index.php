@@ -162,7 +162,7 @@ class Index extends \Magento\Backend\App\Action
     protected function _initCustomer($idFieldName = 'id')
     {
         // Default title
-        $this->_title->add(__('Customers'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customers'));
 
         $customerId = (int)$this->getRequest()->getParam($idFieldName);
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');

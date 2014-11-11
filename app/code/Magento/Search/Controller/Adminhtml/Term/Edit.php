@@ -38,7 +38,7 @@ class Edit extends \Magento\Search\Controller\Adminhtml\Term
      */
     public function execute()
     {
-        $this->_title->add(__('Search Terms'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Search Terms'));
 
         $id = $this->getRequest()->getParam('id');
         $model = $this->_objectManager->create('Magento\Search\Model\Query');
@@ -62,12 +62,15 @@ class Edit extends \Magento\Search\Controller\Adminhtml\Term
 
         $resultPage = $this->createPage();
 
-        $this->_title->add($id ? $model->getQueryText() : __('New Search'));
+        $resultPage->getConfig()->getTitle()->prepend($id ? $model->getQueryText() : __('New Search'));
 
         $resultPage->getLayout()->getBlock('adminhtml.search.term.edit')
             ->setData('action', $this->getUrl('search/term/save'));
 
-        $resultPage->addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'));
+        $resultPage->addBreadcrumb(
+            $id ? __('Edit Search') : __('New Search'),
+            $id ? __('Edit Search') : __('New Search')
+        );
 
         return $resultPage;
     }
