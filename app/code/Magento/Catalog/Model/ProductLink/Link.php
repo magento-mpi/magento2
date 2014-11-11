@@ -71,7 +71,7 @@ class Link extends \Magento\Framework\Model\AbstractExtensibleModel implements
      */
     public function getProductSku()
     {
-        return $this->_get(self::PRODUCT_SKU);
+        return $this->_get('product_sku');
     }
 
     /**
@@ -82,7 +82,7 @@ class Link extends \Magento\Framework\Model\AbstractExtensibleModel implements
      */
     public function getLinkType()
     {
-        return $this->_get(self::LINK_TYPE);
+        return $this->_get('link_type');
     }
 
     /**
@@ -93,7 +93,7 @@ class Link extends \Magento\Framework\Model\AbstractExtensibleModel implements
      */
     public function getLinkedProductSku()
     {
-        return $this->_get(self::LINKED_PRODUCT_SKU);
+        return $this->_get('linked_product_sku');
     }
 
     /**
@@ -103,7 +103,7 @@ class Link extends \Magento\Framework\Model\AbstractExtensibleModel implements
      */
     public function getLinkedProductType()
     {
-        return $this->_get(self::LINKED_PRODUCT_TYPE);
+        return $this->_get('linked_product_type');
     }
 
     /**
@@ -113,6 +113,6 @@ class Link extends \Magento\Framework\Model\AbstractExtensibleModel implements
      */
     public function getPosition()
     {
-        return $this->_get(self::POSITION);
+        return $this->_get('position');
     }
 }

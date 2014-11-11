@@ -80,11 +80,11 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
         $collection = $this->entityCollectionProvider->getCollection($product, $type);
         foreach ($collection as $item) {
             $data = [
-                ProductLinkInterface::PRODUCT_SKU => $product->getSku(),
-                ProductLinkInterface::LINK_TYPE => $type,
-                ProductLinkInterface::LINKED_PRODUCT_SKU => $item['sku'],
-                ProductLinkInterface::LINKED_PRODUCT_TYPE => $item['type'],
-                ProductLinkInterface::POSITION => $item['position'],
+                'product_sku' => $product->getSku(),
+                'link_type' => $type,
+                'linked_product_sku' => $item['sku'],
+                'linked_product_type' => $item['type'],
+                'position' => $item['position'],
             ];
             $this->productLinkBuilder->populateWithArray($data);
             if (isset($item['custom_attributes'])) {
