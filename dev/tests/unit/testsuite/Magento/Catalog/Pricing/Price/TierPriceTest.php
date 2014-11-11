@@ -117,8 +117,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $group->expects($this->any())->method('getId')->willReturn(GroupManagement::CUST_GROUP_ALL);
-        $this->groupManagement->expects($this->any())->method('getAllCustomersGroup')
-            ->will($this->returnValue($group));
+        $this->groupManagement->expects($this->any())->method('getAllCustomersGroup')->will($this->returnValue($group));
         $this->assertEquals($expectedValue, $this->model->getValue());
     }
 

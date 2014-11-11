@@ -68,7 +68,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
     protected $_groupManagement;
 
     /**
-     * @var  \Magento\Framework\Api\SearchCriteriaDataBuilder
+     * @var \Magento\Framework\Api\SearchCriteriaDataBuilder
      */
     protected $_searchCriteriaDataBuilder;
 

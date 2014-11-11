@@ -14,8 +14,6 @@
  */
 namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
-use Magento\Customer\Api\GroupManagementInterface;
-
 class Tierprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice
 {
     /**
@@ -26,18 +24,13 @@ class Tierprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Grouppr
     protected $_productAttributeBackendTierprice;
 
     /**
-     * @var GroupManagementInterface
-     */
-    protected $_groupManagement;
-
-    /**
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
-     * @param GroupManagementInterface $groupManagement
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice $productAttributeTierprice
      */
     public function __construct(
@@ -47,7 +40,7 @@ class Tierprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Grouppr
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
-        GroupManagementInterface $groupManagement,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement,
         \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice $productAttributeTierprice
     ) {
         $this->_productAttributeBackendTierprice = $productAttributeTierprice;

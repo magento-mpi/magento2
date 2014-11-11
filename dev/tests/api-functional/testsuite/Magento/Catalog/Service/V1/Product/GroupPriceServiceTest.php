@@ -49,6 +49,7 @@ class GroupPriceServiceTest extends WebapiAbstract
     public function testDelete()
     {
         $productSku = 'simple_with_group_price';
+        /** @var \Magento\Customer\Api\GroupManagementInterface $groupManagement */
         $groupManagement = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('\Magento\Customer\Api\GroupManagementInterface');
         $customerGroupId = $groupManagement->getNotLoggedInGroup()->getId();
         $serviceInfo = array(

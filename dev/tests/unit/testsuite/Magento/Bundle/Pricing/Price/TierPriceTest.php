@@ -87,7 +87,8 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getAmount')
             ->will($this->returnArgument(0));
 
-        $group = $this->getMock('\Magento\Customer\Model\Data\Group',
+        $group = $this->getMock(
+            '\Magento\Customer\Model\Data\Group',
             array(),
             array(),
             '',
