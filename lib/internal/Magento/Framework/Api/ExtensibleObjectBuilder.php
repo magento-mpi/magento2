@@ -12,10 +12,10 @@ namespace Magento\Framework\Api;
  * Base Builder Class for extensible data Objects
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class ExtensibleObjectBuilder extends AbstractSimpleObjectBuilder implements ExtensibleDataBuilderInterface
+class ExtensibleObjectBuilder extends AbstractSimpleObjectBuilder implements BuilderInterface
 {
     /**
-     * @var AttributeValueBuilder
+     * @var AttributeDataBuilder
      */
     protected $attributeValueBuilder;
 
@@ -36,13 +36,13 @@ class ExtensibleObjectBuilder extends AbstractSimpleObjectBuilder implements Ext
 
     /**
      * @param \Magento\Framework\Api\ObjectFactory $objectFactory
-     * @param AttributeValueBuilder $valueBuilder
+     * @param AttributeDataBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
      * @param string|null $modelClassInterface
      */
     public function __construct(
         \Magento\Framework\Api\ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder,
+        AttributeDataBuilder $valueBuilder,
         MetadataServiceInterface $metadataService,
         $modelClassInterface = null
     ) {

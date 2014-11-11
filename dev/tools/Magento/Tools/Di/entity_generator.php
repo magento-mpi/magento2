@@ -78,6 +78,7 @@ $generator = new Generator(
     $io,
     [
         DataBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\DataBuilder',
+        'builder' => 'Magento\Framework\Api\Code\Generator\DataBuilder',
         SearchResultsBuilder::ENTITY_TYPE =>
             'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
         Proxy::ENTITY_TYPE =>

@@ -11,7 +11,7 @@ namespace Magento\Framework\Api;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Builder
+class Builder implements BuilderInterface
 {
     /**#@+
      * Constant which defines if builder is created for building data objects or data models.
@@ -334,14 +334,14 @@ class Builder
                 'get' . $camelCaseKey,
                 'is' . $camelCaseKey
             );
-            if ($key == AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY
+            if ($key === ExtensibleDataInterface::CUSTOM_ATTRIBUTES
                 && is_array($data[$key])
                 && !empty($data[$key])
             ) {
                 foreach ($data[$key] as $customAttribute) {
                     $this->setCustomAttribute(
-                        $customAttribute[AttributeValue::ATTRIBUTE_CODE],
-                        $customAttribute[AttributeValue::VALUE]
+                        $customAttribute[AttributeInterface::ATTRIBUTE_CODE],
+                        $customAttribute[AttributeInterface::VALUE]
                     );
                 }
             } elseif ($methodName = array_intersect($possibleMethods, $dataObjectMethods)) {
@@ -392,7 +392,9 @@ class Builder
     }
 
     /**
-     * {@inheritdoc}
+     * Get data object type based on suffix
+     *
+     * @return string
      */
     protected function _getDataObjectType()
     {

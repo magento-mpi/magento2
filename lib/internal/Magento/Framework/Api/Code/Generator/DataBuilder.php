@@ -217,31 +217,6 @@ class DataBuilder extends EntityAbstract
     }
 
     /**
-     * Validate data
-     *
-     * @return bool
-     */
-    protected function _validateData()
-    {
-        $result = parent::_validateData();
-
-        if ($result) {
-            $sourceClassName = $this->_getSourceClassName();
-            $resultClassName = $this->_getResultClassName();
-
-            if ($resultClassName !== str_replace('Interface', ucfirst(self::ENTITY_TYPE), $sourceClassName)) {
-                $this->_addError(
-                    'Invalid Builder class name [' . $resultClassName . ']. Use '
-                    . $sourceClassName
-                    . ucfirst(self::ENTITY_TYPE)
-                );
-                $result = false;
-            }
-        }
-        return $result;
-    }
-
-    /**
      * Generate code
      *
      * @return string
@@ -262,7 +237,25 @@ class DataBuilder extends EntityAbstract
      */
     protected function _getSourceClassName()
     {
-        return parent::_getSourceClassName() . 'Interface';
+        return $this->_getDataObjectType();
+    }
+
+    /**
+     * Get data object type based on suffix
+     *
+     * @return string
+     */
+    protected function _getDataObjectType()
+    {
+        $currentBuilderClass = $this->_getResultClassName();
+        $dataBuilderSuffix = 'DataBuilder';
+        if (substr($currentBuilderClass, -strlen($dataBuilderSuffix)) === $dataBuilderSuffix) {
+            $dataObjectType = substr($currentBuilderClass, 0, -strlen($dataBuilderSuffix)) . 'Interface';
+        } else {
+            $builderSuffix = 'Builder';
+            $dataObjectType = substr($currentBuilderClass, 0, -strlen($builderSuffix));
+        }
+        return $dataObjectType;
     }
 
     /**

@@ -39,7 +39,7 @@ abstract class AbstractSimpleObjectBuilder
      * @return $this
      * @throws \LogicException If $prototype object class is not the same type as object that is constructed
      */
-    public function populate(AbstractSimpleObject $prototype)
+    public function populate(ExtensibleDataInterface $prototype)
     {
         $objectType = $this->_getDataObjectType();
         if (!($prototype instanceof $objectType)) {
@@ -94,7 +94,7 @@ abstract class AbstractSimpleObjectBuilder
      * @return $this
      * @throws \LogicException
      */
-    public function mergeDataObjects(AbstractSimpleObject $firstDataObject, AbstractSimpleObject $secondDataObject)
+    public function mergeDataObjects(ExtensibleDataInterface $firstDataObject, ExtensibleDataInterface $secondDataObject)
     {
         $objectType = $this->_getDataObjectType();
         if (get_class($firstDataObject) != $objectType || get_class($secondDataObject) != $objectType) {
@@ -114,7 +114,7 @@ abstract class AbstractSimpleObjectBuilder
      * @return $this
      * @throws \LogicException
      */
-    public function mergeDataObjectWithArray(AbstractSimpleObject $dataObject, array $data)
+    public function mergeDataObjectWithArray(ExtensibleDataInterface $dataObject, array $data)
     {
         $objectType = $this->_getDataObjectType();
         if (!($dataObject instanceof $objectType)) {

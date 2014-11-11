@@ -46,7 +46,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
     /**
      * Get region
      *
-     * @return \Magento\Wonderland\Api\Data\FakeRegionInterface|null
+     * @return \Magento\Wonderland\Api\Data\FakeRegionInterface[]|null
      */
     public function getRegions()
     {

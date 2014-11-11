@@ -21,9 +21,9 @@ abstract class AbstractSimpleObject
     /**
      * Initialize internal storage
      *
-     * @param AbstractSimpleObjectBuilder $builder
+     * @param BuilderInterface $builder
      */
-    public function __construct(AbstractSimpleObjectBuilder $builder)
+    public function __construct(BuilderInterface $builder)
     {
         $this->_data = $builder->getData();
     }

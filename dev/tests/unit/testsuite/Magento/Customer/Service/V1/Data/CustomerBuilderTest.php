@@ -23,7 +23,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\AddressMetadataService */
     private $_addressMetadataService;
 
-    /** @var \Magento\Framework\Api\AttributeValueBuilder */
+    /** @var \Magento\Framework\Api\AttributeDataBuilder */
     private $_valueBuilder;
 
     protected function setUp()
@@ -65,7 +65,7 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
                 )
             );
         $this->_valueBuilder = $this->_objectManager->getObject(
-            'Magento\Framework\Api\AttributeValueBuilder'
+            'Magento\Framework\Api\AttributeDataBuilder'
         );
         $this->_customerBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\CustomerBuilder',

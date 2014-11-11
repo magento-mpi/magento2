@@ -123,6 +123,7 @@ class DefinitionFactory
                         => '\Magento\Framework\Interception\Code\Generator\Interceptor',
                     DataBuilderGenerator::ENTITY_TYPE
                         => '\Magento\Framework\Api\Code\Generator\DataBuilder',
+                    'builder' => 'Magento\Framework\Api\Code\Generator\DataBuilder',
                     MapperGenerator::ENTITY_TYPE
                         => '\Magento\Framework\Api\Code\Generator\Mapper',
                     SearchResults::ENTITY_TYPE

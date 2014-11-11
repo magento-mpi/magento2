@@ -111,7 +111,7 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
         );
 
         $addressData = $this->_sampleAddressDataObject();
-        $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Api\AttributeValueBuilder');
+        $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Api\AttributeDataBuilder');
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressDataBuilder */
         $addressDataBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\AddressBuilder',
@@ -135,7 +135,7 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
     {
         $regionBuilder = $this->_objectManager->getObject('\Magento\Customer\Service\V1\Data\RegionBuilder')
             ->setRegion('Texas')->setRegionId(1)->setRegionCode('TX');
-        $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Api\AttributeValueBuilder');
+        $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Api\AttributeDataBuilder');
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressData */
         $addressData = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\AddressBuilder',

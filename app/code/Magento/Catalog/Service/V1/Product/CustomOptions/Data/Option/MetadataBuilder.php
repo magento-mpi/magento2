@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option;
 
-use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * @codeCoverageIgnore
@@ -30,13 +30,13 @@ class MetadataBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 
     /**
      * @param \Magento\Framework\Api\ObjectFactory $objectFactory
-     * @param AttributeValueBuilder $valueBuilder
+     * @param AttributeDataBuilder $valueBuilder
      * @param \Magento\Framework\Api\Config\MetadataConfig $metadataService
      * @param array $customAttributeCodes
      */
     public function __construct(
         \Magento\Framework\Api\ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder,
+        AttributeDataBuilder $valueBuilder,
         \Magento\Framework\Api\Config\MetadataConfig $metadataService,
         array $customAttributeCodes = array()
     ) {
