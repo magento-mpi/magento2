@@ -105,9 +105,9 @@ class ProductAttributeOptionManagementInterfaceTest extends WebapiAbstract
     {
         $attributeCode = 'select_attribute';
         //get option Id
-        $initialOptions = $this->getAttributeOptions($attributeCode);
-        $this->assertGreaterThan(0, count($initialOptions));
-        $lastOption = array_pop($initialOptions);
+        $optionList = $this->getAttributeOptions($attributeCode);
+        $this->assertGreaterThan(0, count($optionList));
+        $lastOption = array_pop($optionList);
         $this->assertNotEmpty($lastOption['value']);
         $optionId = $lastOption['value'];
 
@@ -130,8 +130,7 @@ class ProductAttributeOptionManagementInterfaceTest extends WebapiAbstract
             ]
         ));
         $updatedOptions = $this->getAttributeOptions($attributeCode);
-        $this->assertLessThan(count($initialOptions), count($updatedOptions));
-        $this->assertNotEquals($lastOption, array_pop($updatedOptions));
+        $this->assertEquals($optionList, $updatedOptions);
     }
 
     /**
