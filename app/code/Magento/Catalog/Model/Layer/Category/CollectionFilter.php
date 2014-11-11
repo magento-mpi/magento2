@@ -59,7 +59,6 @@ class CollectionFilter implements CollectionFilterInterface
             ->addFinalPrice()
             ->addTaxPercents()
             ->addUrlRewrite($category->getId())
-            ->setVisibility($this->productVisibility->getVisibleInCatalogIds())
-            ->addCategoryFilter($category);
+            ->setVisibility($this->productVisibility->getVisibleInCatalogIds());
     }
 }
