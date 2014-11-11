@@ -89,12 +89,14 @@ abstract class AbstractSimpleObjectBuilder
      * Merge second Data Object data with first Data Object data and create new Data Object object based on merge
      * result.
      *
-     * @param AbstractSimpleObject $firstDataObject
-     * @param AbstractSimpleObject $secondDataObject
+     * @param ExtensibleDataInterface $firstDataObject
+     * @param ExtensibleDataInterface $secondDataObject
      * @return $this
      * @throws \LogicException
      */
-    public function mergeDataObjects(ExtensibleDataInterface $firstDataObject, ExtensibleDataInterface $secondDataObject)
+    public function mergeDataObjects(
+        ExtensibleDataInterface $firstDataObject,
+        ExtensibleDataInterface $secondDataObject)
     {
         $objectType = $this->_getDataObjectType();
         if (get_class($firstDataObject) != $objectType || get_class($secondDataObject) != $objectType) {

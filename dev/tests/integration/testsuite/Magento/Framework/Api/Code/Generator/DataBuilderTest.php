@@ -35,6 +35,22 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @dataProvider getBuildersToTest
+     */
+    public function testBuilders($builderType)
+    {
+        $builder = $this->_objectManager->create($builderType);
+        $this->assertInstanceOf($builderType, $builder);
+    }
+
+    public function getBuildersToTest()
+    {
+        return [
+            ['Magento\Checkout\Service\V1\Data\Cart\TotalsBuilder'],
+        ];
+    }
+
     public function testDataObjectBuilder()
     {
         $regionBuilder = $this->_objectManager->create('Magento\Wonderland\Model\Data\FakeRegionBuilder');
