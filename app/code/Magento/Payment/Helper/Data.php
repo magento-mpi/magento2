@@ -7,6 +7,7 @@
  */
 namespace Magento\Payment\Helper;
 
+use Magento\Payment\Model\Method\Substitution;
 use Magento\Sales\Model\Quote;
 use Magento\Store\Model\Store;
 use Magento\Payment\Block\Form;
@@ -104,6 +105,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Retrieve method model object
      *
      * @param string $code
+     *
      * @throws \Magento\Framework\Model\Exception
      * @return MethodInterface
      */
@@ -113,6 +115,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $this->getMethodModelConfigName($code),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
+
+        if (!$class) {
+            throw new \UnexpectedValueException('getMethodModelConfigName: class not found by code!');
+        }
+
         return $this->_methodFactory->create($class);
     }
 

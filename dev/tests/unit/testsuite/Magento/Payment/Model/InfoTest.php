@@ -30,6 +30,9 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Encryption\EncryptorInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $encryptorInterfaceMock;
 
+    /** @var \Magento\Payment\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
+    protected $methodInstanceMock;
+
     protected function setUp()
     {
         $this->contextMock = $this->getMock('Magento\Framework\Model\Context', [], [], '', false);
@@ -42,6 +45,10 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->methodInstanceMock = $this->getMockBuilder('Magento\Payment\Model\MethodInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(['setInfoInstance', 'getCode', 'getFormBlockType', 'getTitle'])
+            ->getMock();
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->info = $this->objectManagerHelper->getObject(
@@ -86,44 +93,73 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testGetMethodInstanceSubstitution()
+
+    public function testGetMethodInstanceWithRealMethod()
     {
-        $code = 'unreal_method';
-        $this->info->setData('method', $code);
+        $method = 'real_method';
+        $this->info->setData('method', $method);
 
-        $methodInstance = $this->getMockBuilder(
-            'Magento\Payment\Model\MethodInterface')->disableOriginalConstructor()->setMethods(
-                ['setInfoInstance', 'getCode', 'getFormBlockType', 'getTitle']
-            )->getMock();
-        $this->paymentHelperMock->expects($this->at(0))->method('getMethodInstance')->with($code)->will(
-            $this->returnValue(null)
-        );
-        $this->paymentHelperMock->expects($this->at(1))->method('getMethodInstance')->with(
-            Method\Substitution::CODE
-        )->will($this->returnValue($methodInstance));
+        $this->methodInstanceMock->expects($this->once())
+            ->method('setInfoInstance')
+            ->with($this->info);
 
-        $methodInstance->expects($this->once())->method('setInfoInstance')->with($this->info);
-        $this->assertSame($methodInstance, $this->info->getMethodInstance());
+        $this->paymentHelperMock->expects($this->once())
+            ->method('getMethodInstance')
+            ->with($method)
+            ->willReturn($this->methodInstanceMock);
+
+        $this->info->getMethodInstance();
     }
+
+
+    public function testGetMethodInstanceWithUnrealMethod()
+    {
+        $method = 'unreal_method';
+        $this->info->setData('method', $method);
+
+        $this->paymentHelperMock->expects($this->at(0))
+            ->method('getMethodInstance')
+            ->with($method)
+            ->willThrowException(new \UnexpectedValueException());
+
+        $this->methodInstanceMock->expects($this->once())
+            ->method('setInfoInstance')
+            ->with($this->info);
+
+        $this->paymentHelperMock->expects($this->at(1))
+            ->method('getMethodInstance')
+            ->with(Method\Substitution::CODE)
+            ->willReturn($this->methodInstanceMock);
+
+        $this->info->getMethodInstance();
+    }
+
+
+    /**
+     * @expectedException \Magento\Framework\Model\Exception
+     * @expectedExceptionMessage The payment method you requested is not available.
+     */
+    public function testGetMethodInstanceWithNoMethod()
+    {
+        $this->info->setData('method', false);
+        $this->info->getMethodInstance();
+    }
+
 
     public function testGetMethodInstanceRequestedMethod()
     {
-        $code = 'unreal_method';
+        $code = 'real_method';
         $this->info->setData('method', $code);
 
-        $methodInstance = $this->getMockBuilder(
-            'Magento\Payment\Model\MethodInterface')->disableOriginalConstructor()->setMethods(
-                ['setInfoInstance', 'getCode', 'getFormBlockType', 'getTitle']
-            )->getMock();
         $this->paymentHelperMock->expects($this->once())->method('getMethodInstance')->with($code)->will(
-            $this->returnValue($methodInstance)
+            $this->returnValue($this->methodInstanceMock)
         );
 
-        $methodInstance->expects($this->once())->method('setInfoInstance')->with($this->info);
-        $this->assertSame($methodInstance, $this->info->getMethodInstance());
+        $this->methodInstanceMock->expects($this->once())->method('setInfoInstance')->with($this->info);
+        $this->assertSame($this->methodInstanceMock, $this->info->getMethodInstance());
 
         // as the method is already stored at Info, check that it's not initialized again
-        $this->assertSame($methodInstance, $this->info->getMethodInstance());
+        $this->assertSame($this->methodInstanceMock, $this->info->getMethodInstance());
     }
 
     public function testEncrypt()
