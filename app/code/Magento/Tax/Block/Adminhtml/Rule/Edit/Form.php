@@ -134,11 +134,17 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         // Editable multiselect for customer tax class
         $selectConfig = $this->getTaxClassSelectConfig(TaxClassServiceInterface::TYPE_CUSTOMER);
         $options = $this->customerTaxClassSource->getAllOptions(false);
+        if ($options) {
+            $selected = $options[0];
+        }
+        else {
+            $selected = null;
+        }
 
         // Use the rule data or pick the first class in the list
         $selectedCustomerTax = isset($formValues['tax_customer_class'])
             ? $formValues['tax_customer_class']
-            : $options[0];
+            : $selected;
         $fieldset->addField(
             'tax_customer_class',
             'editablemultiselect',
@@ -158,11 +164,17 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         // Editable multiselect for product tax class
         $selectConfig = $this->getTaxClassSelectConfig(TaxClassServiceInterface::TYPE_PRODUCT);
         $options = $this->productTaxClassSource->getAllOptions(false);
+        if ($options) {
+            $selected = $options[0];
+        }
+        else {
+            $selected = null;
+        }
 
         // Use the rule data or pick the first class in the list
         $selectedProductTax = isset($formValues['tax_product_class'])
             ? $formValues['tax_product_class']
-            : $options[0];
+            : $selected;
         $fieldset->addField(
             'tax_product_class',
             'editablemultiselect',
@@ -249,46 +261,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->setForm($form);
 
         return parent::_prepareForm();
-    }
-
-    /**
-     * Identify default customer tax class ID.
-     *
-     * @return int|null
-     */
-    public function getDefaultCustomerTaxClass()
-    {
-        $configValue = $this->taxHelper->getDefaultCustomerTaxClass();
-        if (!empty($configValue)) {
-            return $configValue;
-        }
-        $taxClasses = $this->customerTaxClassSource->getAllOptions(true);
-        if (!empty($taxClasses)) {
-            $firstClass = array_shift($taxClasses);
-            return isset($firstClass['value']) ? $firstClass['value'] : null;
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Identify default product tax class ID.
-     *
-     * @return int|null
-     */
-    public function getDefaultProductTaxClass()
-    {
-        $configValue = $this->taxHelper->getDefaultProductTaxClass();
-        if (!empty($configValue)) {
-            return $configValue;
-        }
-        $taxClasses = $this->productTaxClassSource->getAllOptions(true);
-        if (!empty($taxClasses)) {
-            $firstClass = array_shift($taxClasses);
-            return isset($firstClass['value']) ? $firstClass['value'] : null;
-        } else {
-            return null;
-        }
     }
 
     /**
