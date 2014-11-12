@@ -95,6 +95,10 @@ define([
                 .initListeners();
         },
 
+        /**
+         * Initializes observable propertis.
+         * @returns {Component} Chainable.
+         */
         initObservable: function(){
             this.observe({
                 'containers': [],
@@ -104,12 +108,20 @@ define([
             return this;
         },
 
+        /**
+         * Defines instance of a renderer object.
+         * @returns {Component} Chainable.
+         */
         initRenderer: function () {
             this.renderer = registry.get('globalStorage').renderer;
 
             return this;
         },
 
+        /**
+         * Defines 'parentName' and 'parentScope' properties.
+         * @returns {Component} Chainable.
+         */
         initParts: function(){
             this.setLastPart('parentName', this.name)
                 .setLastPart('parentScope', this.dataScope);
@@ -117,6 +129,10 @@ define([
             return this;
         },
 
+        /**
+         * Initializes storages listeners.
+         * @returns {Component} Chainable.
+         */
         initListeners: function(){
             var listeners = this.listeners || {},
                 params,
@@ -132,12 +148,22 @@ define([
             return this;
         },
 
-        initListener: function(params, data, callback){
-            var storage = params.storage,
-                source  = params.source;
+        /**
+         * Used as iterator for the listeners object.
+         * Creates callbacks and assigns it to the specified storage.
+         * @param {Object} data -
+                Data object that contains storage object and
+                it's property name that should be listened.
+         * @param {Object} params - Parameters of the callback. 
+         * @param {String} callback - Callback's name.
+         * @returns {Component} Chainable.
+         */
+        initListener: function(data, params, callback){
+            var storage = data.storage,
+                source  = data.source;
 
             callback = this[callback].bind(this);
-            callback = getProxy(callback, data);
+            callback = getProxy(callback, params);
 
             callback(storage.get(source));
 

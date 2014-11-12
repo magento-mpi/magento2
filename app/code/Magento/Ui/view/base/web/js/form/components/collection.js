@@ -119,7 +119,9 @@ define([
          */
         removeChild: function(elem) {
             return function() {
-                if (confirm(this.removeMessage)) {
+                var confirmed = confirm(this.removeMessage);
+
+                if (confirmed) {
                     this._removeChild(elem);
                 }
 
