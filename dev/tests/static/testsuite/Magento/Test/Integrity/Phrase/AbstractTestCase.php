@@ -11,7 +11,7 @@
  */
 namespace Magento\Test\Integrity\Phrase;
 
-use Magento\Tools\I18n\Code\FilesCollector;
+use Magento\Tools\I18n\FilesCollector;
 
 class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function _getFiles()
     {
-        $filesCollector = new \Magento\Tools\I18n\Code\FilesCollector();
+        $filesCollector = new \Magento\Tools\I18n\FilesCollector();
 
         return $filesCollector->getFiles(
             array(\Magento\TestFramework\Utility\Files::init()->getPathToSource()),

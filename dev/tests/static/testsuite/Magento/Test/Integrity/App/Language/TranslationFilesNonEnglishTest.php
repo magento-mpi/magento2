@@ -15,7 +15,7 @@ class TranslationFilesNonEnglishTest extends TranslationFiles
     /**
      * @var string
      */
-    protected $defaultLocale = \Magento\Tools\I18n\Code\Locale::DEFAULT_SYSTEM_LOCALE;
+    protected $defaultLocale = \Magento\Tools\I18n\Locale::DEFAULT_SYSTEM_LOCALE;
 
     /**
      * Checked whether all the phrases from en_US.csv file is present in all other locale csv files,
