@@ -78,7 +78,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($instance1, $model->get('Magento\Framework\Object'));
         $this->assertSame($model, $model->clearCache());
-        $this->assertSame($model, $model->get('Magento\Framework\ObjectManager'));
+        $this->assertSame($model, $model->get('Magento\Framework\ObjectManagerInterface'));
         $this->assertSame($resource, $model->get('Magento\Framework\App\Resource'));
         $this->assertNotSame($instance1, $model->get('Magento\Framework\Object'));
     }

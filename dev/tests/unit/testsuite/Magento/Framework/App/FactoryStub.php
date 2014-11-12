@@ -14,7 +14,7 @@ class FactoryStub implements \Magento\Framework\ObjectManager\Factory
 {
     /**
      * @param \Magento\Framework\ObjectManager\Config $config
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\ObjectManager\Definition $definitions
      * @param array $globalArguments
      * @throws \BadMethodCallException

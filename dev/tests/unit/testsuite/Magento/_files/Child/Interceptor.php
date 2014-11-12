@@ -15,7 +15,7 @@ class Interceptor extends \Magento\Test\Di\Child
     protected $_config;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_factory;
 

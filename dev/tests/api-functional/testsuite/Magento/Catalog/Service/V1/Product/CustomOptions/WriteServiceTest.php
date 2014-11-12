@@ -26,7 +26,7 @@ class WriteServiceTest extends WebapiAbstract
     protected $productFactory;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 

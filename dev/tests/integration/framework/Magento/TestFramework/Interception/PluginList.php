@@ -21,7 +21,7 @@ class PluginList extends \Magento\Framework\Interception\PluginList\PluginList
      * @param \Magento\Framework\ObjectManager\Relations $relations
      * @param \Magento\Framework\ObjectManager\Config $omConfig
      * @param \Magento\Framework\Interception\Definition $definitions
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\ObjectManager\Definition $classDefinitions
      * @param array $scopePriorityScheme
      * @param string $cacheId
@@ -35,7 +35,7 @@ class PluginList extends \Magento\Framework\Interception\PluginList\PluginList
         \Magento\Framework\ObjectManager\Relations $relations,
         \Magento\Framework\ObjectManager\Config $omConfig,
         \Magento\Framework\Interception\Definition $definitions,
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\ObjectManager\Definition $classDefinitions,
         array $scopePriorityScheme,
         $cacheId = 'plugins'
