@@ -56,22 +56,10 @@ class ButtonTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('button', $this->button->getType());
     }
 
-    public function testGetOnClick()
-    {
-        $this->urlBuilderMock->expects($this->once())->method('getUrl')->with('', [])->willReturn('url');
-        $this->assertEquals("setLocation('url');", $this->button->getOnClick());
-    }
-
-    public function testGetOnClickHasData()
-    {
-        $this->button->setData('url', 'url2');
-        $this->assertEquals("setLocation('url2');", $this->button->getOnClick());
-    }
-
     public function testGetAttributesHtml()
     {
         $expected = 'type="button" class="action- scalable classValue disabled" ' .
-            'onclick="setLocation(\'url2\');" disabled="disabled" data-attributeKey="attributeValue" ';
+            'disabled="disabled" data-attributeKey="attributeValue" ';
         $this->button->setDisabled(true);
         $this->button->setData('url', 'url2');
         $this->button->setData('class', 'classValue');
