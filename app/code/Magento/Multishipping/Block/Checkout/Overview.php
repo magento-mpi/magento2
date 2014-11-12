@@ -65,7 +65,9 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
      */
     protected function _prepareLayout()
     {
-        $this->pageConfig->getTitle()->set(__('Review Order - %1', $this->pageConfig->getDefaultTitle()));
+        $this->pageConfig->getTitle()->set(
+            __('Review Order - %1', $this->pageConfig->getTitle()->getDefault())
+        );
         return parent::_prepareLayout();
     }
 
