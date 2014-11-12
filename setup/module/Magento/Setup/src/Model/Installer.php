@@ -41,6 +41,13 @@ class Installer
      */
     const CLEANUP_DB = 'cleanup_database';
 
+    /**#@+
+     * Parameters for enabling/disabling modules
+     */
+    const ENABLE_MODULES = 'enable_modules';
+    const DISABLE_MODULES = 'disable_modules';
+    /**#@- */
+
     /**
      * Parameter to specify an order_increment_prefix
      */
@@ -293,16 +300,50 @@ class Installer
      *
      * @param \ArrayObject|array $request
      * @return DeploymentConfig
+     * @throws \LogicException
      */
     private function createModulesDeploymentConfig($request)
     {
-        // TODO $request is not used for now
+        $all = array_keys($this->moduleLoader->load());
+        $enable = $this->readListOfModules($all, $request, self::ENABLE_MODULES) ?: $all;
+        $disable = $this->readListOfModules($all, $request, self::DISABLE_MODULES);
+        $toEnable = array_diff($enable, $disable);
+        if (empty($toEnable)) {
+            throw new \LogicException('Unable to determine list of enabled modules.');
+        }
         $result = [];
-        $allModules = $this->moduleLoader->load();
-        foreach (array_keys($allModules) as $module) {
-            $result[$module] = 1;
+        foreach ($all as $module) {
+            $key = array_search($module, $toEnable);
+            $result[$module] = false !== $key;
         }
         return new DeploymentConfig($result);
+    }
+
+    /**
+     * Determines list of modules from request based on list of all modules
+     *
+     * @param string[] $all
+     * @param array $request
+     * @param string $key
+     * @return string[]
+     * @throws \LogicException
+     */
+    private function readListOfModules($all, $request, $key)
+    {
+        $result = [];
+        if (!empty($request[$key])) {
+            if ($request[$key] == 'all') {
+                $result = $all;
+            } else {
+                $result = explode(',', $request[$key]);
+                foreach ($result as $module) {
+                    if (!in_array($module, $all)) {
+                        throw new \LogicException("Unknown module in the requested list: '{$module}'");
+                    }
+                }
+            }
+        }
+        return $result;
     }
 
     /**
@@ -658,7 +699,7 @@ class Installer
             $absolutePath = $configDir->getAbsolutePath($file);
             if (!$configDir->isFile($file)) {
                 $this->log->log("The file '{$absolutePath}' doesn't exist - skipping cleanup");
-                return;
+                continue;
             }
             try {
                 $this->log->log($absolutePath);

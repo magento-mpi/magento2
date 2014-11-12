@@ -113,7 +113,8 @@ class ModuleList implements \Magento\Framework\Module\ModuleListInterface
         if (!$this->configData) {
             return [];
         }
-        return array_keys($this->configData);
+        $result = array_keys(array_filter($this->configData));
+        return $result;
     }
 
     /**
