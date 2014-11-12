@@ -14,26 +14,12 @@ use Magento\Ui\Component\Control\ButtonProviderInterface;
  * Class OrderButton
  * @package Magento\Customer\Block\Adminhtml\Edit
  */
-class OrderButton implements ButtonProviderInterface
+class OrderButton extends GenericButton implements ButtonProviderInterface
 {
     /**
      * @var \Magento\Framework\AuthorizationInterface
      */
     protected $authorization;
-
-    /**
-     * Url Builder
-     *
-     * @var \Magento\Framework\UrlInterface
-     */
-    protected $urlBuilder;
-
-    /**
-     * Registry
-     *
-     * @var \Magento\Framework\Registry
-     */
-    protected $registry = null;
 
     /**
      * Constructor
@@ -46,8 +32,7 @@ class OrderButton implements ButtonProviderInterface
         \Magento\Framework\Registry $registry
     ) {
         $this->authorization = $context->getAuthorization();
-        $this->urlBuilder = $context->getUrlBuilder();
-        $this->registry = $registry;
+        parent::__construct($context, $registry);
     }
 
     /**
@@ -76,28 +61,5 @@ class OrderButton implements ButtonProviderInterface
     public function getCreateOrderUrl()
     {
         return $this->getUrl('sales/order_create/start', array('customer_id' => $this->getCustomerId()));
-    }
-
-    /**
-     * Return the customer Id.
-     *
-     * @return int|null
-     */
-    public function getCustomerId()
-    {
-        $customerId = $this->registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        return $customerId;
-    }
-
-    /**
-     * Generate url by route and parameters
-     *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
-     */
-    public function getUrl($route = '', $params = array())
-    {
-        return $this->urlBuilder->getUrl($route, $params);
     }
 }

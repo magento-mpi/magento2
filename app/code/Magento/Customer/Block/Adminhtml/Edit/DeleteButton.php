@@ -15,22 +15,8 @@ use Magento\Ui\Component\Control\ButtonProviderInterface;
  * Class DeleteButton
  * @package Magento\Customer\Block\Adminhtml\Edit
  */
-class DeleteButton implements ButtonProviderInterface
+class DeleteButton extends GenericButton implements ButtonProviderInterface
 {
-    /**
-     * Url Builder
-     *
-     * @var \Magento\Framework\UrlInterface
-     */
-    protected $urlBuilder;
-
-    /**
-     * Registry
-     *
-     * @var \Magento\Framework\Registry
-     */
-    protected $registry;
-
     /**
      * @var CustomerAccountServiceInterface
      */
@@ -48,8 +34,7 @@ class DeleteButton implements ButtonProviderInterface
         \Magento\Framework\Registry $registry,
         CustomerAccountServiceInterface $customerAccountService
     ) {
-        $this->urlBuilder = $context->getUrlBuilder();
-        $this->registry = $registry;
+        parent::__construct($context, $registry);
         $this->customerAccountService = $customerAccountService;
     }
 
@@ -80,28 +65,5 @@ class DeleteButton implements ButtonProviderInterface
     public function getDeleteUrl()
     {
         return $this->getUrl('*/*/delete', array('customer_id' => $this->getCustomerId()));
-    }
-
-    /**
-     * Return the customer Id.
-     *
-     * @return int|null
-     */
-    public function getCustomerId()
-    {
-        $customerId = $this->registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        return $customerId;
-    }
-
-    /**
-     * Generate url by route and parameters
-     *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
-     */
-    public function getUrl($route = '', $params = array())
-    {
-        return $this->urlBuilder->getUrl($route, $params);
     }
 }

@@ -14,36 +14,8 @@ use Magento\Ui\Component\Control\ButtonProviderInterface;
  * Class InvalidateTokenButton
  * @package Magento\Customer\Block\Adminhtml\Edit
  */
-class InvalidateTokenButton implements ButtonProviderInterface
+class InvalidateTokenButton extends GenericButton implements ButtonProviderInterface
 {
-    /**
-     * Url Builder
-     *
-     * @var \Magento\Framework\UrlInterface
-     */
-    protected $urlBuilder;
-
-    /**
-     * Registry
-     *
-     * @var \Magento\Framework\Registry
-     */
-    protected $registry;
-
-    /**
-     * Constructor
-     *
-     * @param \Magento\Backend\Block\Widget\Context $context
-     * @param \Magento\Framework\Registry $registry
-     */
-    public function __construct(
-        \Magento\Backend\Block\Widget\Context $context,
-        \Magento\Framework\Registry $registry
-    ) {
-        $this->urlBuilder = $context->getUrlBuilder();
-        $this->registry = $registry;
-    }
-
     /**
      * @return array
      */
@@ -69,28 +41,5 @@ class InvalidateTokenButton implements ButtonProviderInterface
     public function getInvalidateTokenUrl()
     {
         return $this->getUrl('customer/customer/invalidateToken', array('customer_id' => $this->getCustomerId()));
-    }
-
-    /**
-     * Return the customer Id.
-     *
-     * @return int|null
-     */
-    public function getCustomerId()
-    {
-        $customerId = $this->registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        return $customerId;
-    }
-
-    /**
-     * Generate url by route and parameters
-     *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
-     */
-    public function getUrl($route = '', $params = array())
-    {
-        return $this->urlBuilder->getUrl($route, $params);
     }
 }

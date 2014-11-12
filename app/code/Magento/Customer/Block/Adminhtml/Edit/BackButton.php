@@ -13,25 +13,8 @@ use Magento\Ui\Component\Control\ButtonProviderInterface;
  * Class BackButton
  * @package Magento\Customer\Block\Adminhtml\Edit
  */
-class BackButton implements ButtonProviderInterface
+class BackButton extends GenericButton implements ButtonProviderInterface
 {
-    /**
-     * Url Builder
-     *
-     * @var \Magento\Framework\UrlInterface
-     */
-    protected $urlBuilder;
-
-    /**
-     * Constructor
-     *
-     * @param \Magento\Backend\Block\Widget\Context $context
-     */
-    public function __construct(\Magento\Backend\Block\Widget\Context $context)
-    {
-        $this->urlBuilder = $context->getUrlBuilder();
-    }
-
     /**
      * @return array
      */
@@ -53,17 +36,5 @@ class BackButton implements ButtonProviderInterface
     public function getBackUrl()
     {
         return $this->getUrl('*/*/');
-    }
-
-    /**
-     * Generate url by route and parameters
-     *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
-     */
-    public function getUrl($route = '', $params = array())
-    {
-        return $this->urlBuilder->getUrl($route, $params);
     }
 }

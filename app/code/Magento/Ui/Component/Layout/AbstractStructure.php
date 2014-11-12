@@ -388,7 +388,7 @@ class AbstractStructure extends AbstractView
         foreach ($this->getData('child_blocks') as $blockName => $childBlock) {
             /** @var TabInterface $childBlock */
             if (!($childBlock instanceof TabInterface)) {
-                throw new \Exception(__('"%s" tab should implement TabInterface', $blockName));
+                throw new \Exception(__('"%1" tab should implement TabInterface', $blockName));
             }
             if (!$childBlock->canShowTab()) {
                 continue;

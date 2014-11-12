@@ -11,8 +11,7 @@ namespace Magento\Customer\Controller\Adminhtml\Index;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
-use Magento\Customer\Service\V1\AddressMetadataServiceInterface as AddressMetadata;
+use Magento\Customer\Service\V1\CustomerMetadataService as CustomerMetadata;
 
 class Save extends \Magento\Customer\Controller\Adminhtml\Index
 {
@@ -50,6 +49,45 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
     }
 
     /**
+     * @param array $addressIdList
+     * @return array
+     */
+    protected function saveDefaultFlags(array $addressIdList)
+    {
+        $result = array();
+        /** @var \Magento\Customer\Helper\Data $customerHelper */
+        $customerHelper = $this->_objectManager->get('Magento\Customer\Helper\Data');
+        foreach ($addressIdList as $addressId) {
+            $scope = sprintf('account/customer_address/%s', $addressId);
+            $addressData = $customerHelper->extractCustomerData(
+                $this->getRequest(),
+                'adminhtml_customer_address',
+                \Magento\Customer\Api\AddressMetadataInterface::ENTITY_TYPE_ADDRESS,
+                array(),
+                $scope
+            );
+            if (is_numeric($addressId)) {
+                $addressData['id'] = $addressId;
+            }
+            // Set default billing and shipping flags to address
+            $addressData[Customer::DEFAULT_BILLING] = isset(
+                $customerData[Customer::DEFAULT_BILLING]
+                ) &&
+                $customerData[Customer::DEFAULT_BILLING] &&
+                $customerData[Customer::DEFAULT_BILLING] == $addressId;
+            $addressData[Customer::DEFAULT_SHIPPING] = isset(
+                $customerData[Customer::DEFAULT_SHIPPING]
+                ) &&
+                $customerData[Customer::DEFAULT_SHIPPING] &&
+                $customerData[Customer::DEFAULT_SHIPPING] == $addressId;
+
+            $result[] = $addressData;
+        }
+
+        return $result;
+    }
+
+    /**
      * Reformat customer addresses data to be compatible with customer service interface
      *
      * @return array
@@ -65,34 +103,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             }
 
             $addressIdList = array_keys($addresses);
-            /** @var \Magento\Customer\Helper\Data $customerHelper */
-            $customerHelper = $this->_objectManager->get('Magento\Customer\Helper\Data');
-            foreach ($addressIdList as $addressId) {
-                $scope = sprintf('account/customer_address/%s', $addressId);
-                $addressData = $customerHelper->extractCustomerData(
-                    $this->getRequest(),
-                    'adminhtml_customer_address',
-                    AddressMetadata::ENTITY_TYPE_ADDRESS,
-                    array(),
-                    $scope
-                );
-                if (is_numeric($addressId)) {
-                    $addressData['id'] = $addressId;
-                }
-                // Set default billing and shipping flags to address
-                $addressData[Customer::DEFAULT_BILLING] = isset(
-                    $customerData[Customer::DEFAULT_BILLING]
-                    ) &&
-                    $customerData[Customer::DEFAULT_BILLING] &&
-                    $customerData[Customer::DEFAULT_BILLING] == $addressId;
-                $addressData[Customer::DEFAULT_SHIPPING] = isset(
-                    $customerData[Customer::DEFAULT_SHIPPING]
-                    ) &&
-                    $customerData[Customer::DEFAULT_SHIPPING] &&
-                    $customerData[Customer::DEFAULT_SHIPPING] == $addressId;
-
-                $result[] = $addressData;
-            }
+            $result = $this->saveDefaultFlags($addressIdList);
         }
 
         return $result;
@@ -103,6 +114,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
      *
      * @return void
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function execute()
     {
@@ -120,7 +132,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 if ($isExistingCustomer) {
                     $savedCustomerData = $this->_customerAccountService->getCustomer($customerId);
                     $customerData = array_merge(
-                        \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($savedCustomerData),
+                        \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($savedCustomerData),
                         $customerData
                     );
                 }

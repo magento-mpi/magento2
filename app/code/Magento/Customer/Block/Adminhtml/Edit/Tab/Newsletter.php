@@ -46,7 +46,6 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements T
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Framework\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -55,12 +54,10 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements T
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Framework\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_subscriberFactory = $subscriberFactory;
         $this->_customerAccountService = $customerAccountService;
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 

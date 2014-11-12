@@ -53,14 +53,13 @@ class ManageShoppingCartButton implements ButtonProviderInterface
      */
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
-        \Magento\Framework\Registry $registry,
-        StoreManagerInterface $storeManager
+        \Magento\Framework\Registry $registry
     ) {
         $this->buttonList = $context->getButtonList();
         $this->authorization = $context->getAuthorization();
         $this->urlBuilder = $context->getUrlBuilder();
         $this->registry = $registry;
-        $this->storeManager = $storeManager;
+        $this->storeManager = $context->getStoreManager();
     }
 
     /**
