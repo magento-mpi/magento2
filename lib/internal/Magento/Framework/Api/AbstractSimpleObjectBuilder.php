@@ -11,7 +11,7 @@ namespace Magento\Framework\Api;
  * Base Builder Class for simple data Objects
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class AbstractSimpleObjectBuilder
+abstract class AbstractSimpleObjectBuilder implements SimpleBuilderInterface
 {
     /**
      * @var array
@@ -33,37 +33,6 @@ abstract class AbstractSimpleObjectBuilder
     }
 
     /**
-     * Populates the fields with an existing entity.
-     *
-     * @param AbstractSimpleObject $prototype the prototype to base on
-     * @return $this
-     * @throws \LogicException If $prototype object class is not the same type as object that is constructed
-     */
-    public function populate(ExtensibleDataInterface $prototype)
-    {
-        $objectType = $this->_getDataObjectType();
-        if (!($prototype instanceof $objectType)) {
-            throw new \LogicException('Wrong prototype object given. It can only be of "' . $objectType . '" type.');
-        }
-        return $this->populateWithArray($prototype->__toArray());
-    }
-
-    /**
-     * Populates the fields with data from the array.
-     *
-     * Keys for the map are snake_case attribute/field names.
-     *
-     * @param array $data
-     * @return $this
-     */
-    public function populateWithArray(array $data)
-    {
-        $this->data = array();
-        $this->_setDataValues($data);
-        return $this;
-    }
-
-    /**
      * Initializes Data Object with the data from array
      *
      * @param array $data
@@ -82,48 +51,6 @@ abstract class AbstractSimpleObjectBuilder
                 $this->data[$key] = $value;
             }
         }
-        return $this;
-    }
-
-    /**
-     * Merge second Data Object data with first Data Object data and create new Data Object object based on merge
-     * result.
-     *
-     * @param ExtensibleDataInterface $firstDataObject
-     * @param ExtensibleDataInterface $secondDataObject
-     * @return $this
-     * @throws \LogicException
-     */
-    public function mergeDataObjects(
-        ExtensibleDataInterface $firstDataObject,
-        ExtensibleDataInterface $secondDataObject
-    ) {
-        $objectType = $this->_getDataObjectType();
-        if (get_class($firstDataObject) != $objectType || get_class($secondDataObject) != $objectType) {
-            throw new \LogicException('Wrong prototype object given. It can only be of "' . $objectType . '" type.');
-        }
-        $this->_setDataValues($firstDataObject->__toArray());
-        $this->_setDataValues($secondDataObject->__toArray());
-        return $this;
-    }
-
-    /**
-     * Merged data provided in array format with Data Object data and create new Data Object object based on merge
-     * result.
-     *
-     * @param AbstractSimpleObject $dataObject
-     * @param array $data
-     * @return $this
-     * @throws \LogicException
-     */
-    public function mergeDataObjectWithArray(ExtensibleDataInterface $dataObject, array $data)
-    {
-        $objectType = $this->_getDataObjectType();
-        if (!($dataObject instanceof $objectType)) {
-            throw new \LogicException('Wrong prototype object given. It can only be of "' . $objectType . '" type.');
-        }
-        $this->_setDataValues($dataObject->__toArray());
-        $this->_setDataValues($data);
         return $this;
     }
 

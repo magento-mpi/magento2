@@ -8,8 +8,6 @@
 
 namespace Magento\Framework\Api;
 
-use Magento\Framework\Api\AttributeInterface;
-
 /**
  * Custom Attribute Data object
  */

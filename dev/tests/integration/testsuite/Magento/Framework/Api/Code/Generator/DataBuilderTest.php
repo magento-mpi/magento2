@@ -63,49 +63,13 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test', $region->getRegion());
     }
 
+
     public function testDataObjectPopulateWithArray()
     {
+        $data = $this->getAddressArray();
+
         /** @var \Magento\Wonderland\Model\Data\FakeAddressBuilder $addressBuilder */
         $addressBuilder = $this->_objectManager->create('Magento\Wonderland\Model\Data\FakeAddressBuilder');
-
-        $data = [
-            FakeAddress::ID => 1,
-            FakeAddress::CITY => 'Kiev',
-            FakeAddress::REGION => [
-                FakeRegion::REGION => 'US',
-                FakeRegion::REGION_CODE => 'TX',
-                FakeRegion::REGION_ID => '1',
-            ],
-            FakeAddress::REGIONS => [
-                [
-                    FakeRegion::REGION => 'US',
-                    FakeRegion::REGION_CODE => 'TX',
-                    FakeRegion::REGION_ID => '1',
-                ], [
-                    FakeRegion::REGION => 'US',
-                    FakeRegion::REGION_CODE => 'TX',
-                    FakeRegion::REGION_ID => '2',
-                ]
-            ],
-            ExtensibleDataInterface::CUSTOM_ATTRIBUTES => [
-                [AttributeInterface::ATTRIBUTE_CODE => 'test', AttributeInterface::VALUE => 'test']
-            ],
-            FakeAddress::COMPANY => 'Magento',
-            FakeAddress::COUNTRY_ID => 'US',
-            FakeAddress::CUSTOMER_ID => '1',
-            FakeAddress::FAX => '222',
-            FakeAddress::FIRSTNAME => 'John',
-            FakeAddress::MIDDLENAME => 'Dow',
-            FakeAddress::LASTNAME => 'Johnes',
-            FakeAddress::SUFFIX => 'Jr.',
-            FakeAddress::POSTCODE => '78757',
-            FakeAddress::PREFIX => 'Mr.',
-            FakeAddress::STREET => 'Oak rd.',
-            FakeAddress::TELEPHONE => '1234567',
-            FakeAddress::VAT_ID => '1',
-            'test' => 'xxx'
-        ];
-
         /** @var \Magento\Wonderland\Api\Data\FakeAddressInterface $address */
         $address = $addressBuilder->populateWithArray($data)
             ->create();
@@ -118,12 +82,53 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Magento\Wonderland\Model\Data\FakeRegion', $address->getRegions()[1]);
     }
 
+
+    public function testDataObjectPopulate()
+    {
+        $data = $this->getAddressArray();
+
+        /** @var \Magento\Wonderland\Model\Data\FakeAddressBuilder $addressBuilder */
+        $addressBuilder = $this->_objectManager->create('Magento\Wonderland\Model\Data\FakeAddressBuilder');
+        /** @var \Magento\Wonderland\Api\Data\FakeAddressInterface $address */
+        $address = $addressBuilder->populateWithArray($data)
+            ->create();
+
+        $addressUpdated = $addressBuilder->populate($address)
+            ->setCompany('RocketScience')
+            ->create();
+
+        $this->assertInstanceOf('\Magento\Wonderland\Model\Data\FakeAddress', $addressUpdated);
+        $this->assertEquals('RocketScience', $addressUpdated->getCompany());
+
+        $this->assertEmpty($address->getCustomAttributes());
+        $this->assertInstanceOf('\Magento\Wonderland\Model\Data\FakeRegion', $address->getRegion());
+        $this->assertInstanceOf('\Magento\Wonderland\Model\Data\FakeRegion', $address->getRegions()[0]);
+        $this->assertInstanceOf('\Magento\Wonderland\Model\Data\FakeRegion', $address->getRegions()[1]);
+    }
+
+
     public function testModelPopulateWithArray()
     {
+        $data = $this->getAddressArray();
+
         /** @var \Magento\Wonderland\Api\Data\FakeAddressDataBuilder $addressBuilder */
         $addressBuilder = $this->_objectManager->create('Magento\Wonderland\Api\Data\FakeAddressDataBuilder');
+        /** @var \Magento\Wonderland\Api\Data\FakeAddressInterface $address */
+        $address = $addressBuilder->populateWithArray($data)
+            ->create();
+        $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeAddressInterface', $address);
+        $this->assertEquals('Johnes', $address->getLastname());
+        $this->assertEquals(true, $address->isDefaultShipping());
+        $this->assertEquals(false, $address->isDefaultBilling());
+        $this->assertNull($address->getCustomAttribute('test'));
+        $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeRegionInterface', $address->getRegion());
+        $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeRegionInterface', $address->getRegions()[0]);
+        $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeRegionInterface', $address->getRegions()[1]);
+    }
 
-        $data = [
+    public function getAddressArray()
+    {
+        return [
             FakeAddressInterface::ID => 1,
             FakeAddressInterface::CITY => 'Kiev',
             FakeAddressInterface::REGION => [
@@ -159,17 +164,5 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
             FakeAddressInterface::DEFAULT_BILLING => false,
             FakeAddressInterface::DEFAULT_SHIPPING => true,
         ];
-
-        /** @var \Magento\Wonderland\Api\Data\FakeAddressInterface $address */
-        $address = $addressBuilder->populateWithArray($data)
-            ->create();
-        $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeAddressInterface', $address);
-        $this->assertEquals('Johnes', $address->getLastname());
-        $this->assertEquals(true, $address->isDefaultShipping());
-        $this->assertEquals(false, $address->isDefaultBilling());
-        $this->assertNull($address->getCustomAttribute('test'));
-        $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeRegionInterface', $address->getRegion());
-        $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeRegionInterface', $address->getRegions()[0]);
-        $this->assertInstanceOf('\Magento\Wonderland\Api\Data\FakeRegionInterface', $address->getRegions()[1]);
     }
 }

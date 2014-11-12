@@ -24,7 +24,6 @@ class Tierprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Grouppr
     protected $_productAttributeBackendTierprice;
 
     /**
-     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -34,7 +33,6 @@ class Tierprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Grouppr
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice $productAttributeTierprice
      */
     public function __construct(
-        \Magento\Framework\Logger $logger,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -44,7 +42,14 @@ class Tierprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Grouppr
         \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice $productAttributeTierprice
     ) {
         $this->_productAttributeBackendTierprice = $productAttributeTierprice;
-        parent::__construct($logger, $currencyFactory, $storeManager, $catalogData, $config, $catalogProductType, $groupManagement);
+        parent::__construct(
+            $currencyFactory, 
+            $storeManager, 
+            $catalogData, 
+            $config, 
+            $catalogProductType, 
+            $groupManagement
+        );
     }
 
     /**

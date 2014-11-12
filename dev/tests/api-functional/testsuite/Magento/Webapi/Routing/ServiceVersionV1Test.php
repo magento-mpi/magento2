@@ -93,13 +93,16 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         ];
 
         $attributeValue1 = $this->valueBuilder
-            ->populateWithArray($customerAttributes[ItemBuilder::CUSTOM_ATTRIBUTE_1])
+            ->setAttributeCode(ItemBuilder::CUSTOM_ATTRIBUTE_1)
+            ->setValue('12345')
             ->create();
         $attributeValue2 = $this->valueBuilder
-            ->populateWithArray($customerAttributes[ItemBuilder::CUSTOM_ATTRIBUTE_2])
+            ->setAttributeCode(ItemBuilder::CUSTOM_ATTRIBUTE_2)
+            ->setValue(12345)
             ->create();
         $attributeValue3 = $this->valueBuilder
-            ->populateWithArray($customerAttributes[ItemBuilder::CUSTOM_ATTRIBUTE_3])
+            ->setAttributeCode(ItemBuilder::CUSTOM_ATTRIBUTE_3)
+            ->setValue(true)
             ->create();
 
         $item = $this->itemBuilder

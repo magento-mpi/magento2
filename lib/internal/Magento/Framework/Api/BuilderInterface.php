@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Api;
 
-interface BuilderInterface
+interface BuilderInterface extends SimpleBuilderInterface
 {
     /**
      * Set custom attribute value.
@@ -29,7 +29,7 @@ interface BuilderInterface
     public function setCustomAttributes(array $attributes);
 
     /**
-     * Return created DataInterface object
+     * Return created ExtensibleDataInterface object
      *
      * @return \Magento\Framework\Api\ExtensibleDataInterface
      */
@@ -55,8 +55,7 @@ interface BuilderInterface
     public function populate(ExtensibleDataInterface $prototype);
 
     /**
-     * Merge second Data Object data with first Data Object data and create new Data Object object based on merge
-     * result.
+     * Populate builder with the two data interfaces, merging them
      *
      * @param ExtensibleDataInterface $firstDataObject
      * @param ExtensibleDataInterface $secondDataObject
@@ -69,8 +68,7 @@ interface BuilderInterface
     );
 
     /**
-     * Merged data provided in array format with Data Object data and create new Data Object object based on merge
-     * result.
+     * Populate builder with the data interface and array, merging them
      *
      * @param ExtensibleDataInterface $dataObject
      * @param array $data
@@ -78,12 +76,4 @@ interface BuilderInterface
      * @throws \LogicException
      */
     public function mergeDataObjectWithArray(ExtensibleDataInterface $dataObject, array $data);
-
-
-    /**
-     * Return data Object data.
-     *
-     * @return array
-     */
-    public function getData();
 }

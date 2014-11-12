@@ -106,11 +106,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * Set custom attribute value.
-     *
-     * @param string $attributeCode
-     * @param mixed $attributeValue
-     * @return $this
+     * {@inheritdoc}
      */
     public function setCustomAttribute($attributeCode, $attributeValue)
     {
@@ -127,11 +123,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * Set array of custom attributes
-     *
-     * @param \Magento\Framework\Api\AttributeInterface[] $attributes
-     * @return $this
-     * @throws \LogicException If array elements are not of AttributeValue type
+     * {@inheritdoc}
      */
     public function setCustomAttributes(array $attributes)
     {
@@ -150,9 +142,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * Return created DataInterface object
-     *
-     * @return \Magento\Framework\Api\ExtensibleDataInterface
+     * {@inheritdoc}
      */
     public function create()
     {
@@ -163,20 +153,17 @@ class Builder implements BuilderInterface
             );
         } else {
             $dataObjectType = $this->_getDataObjectType();
-            $dataObject = $this->objectFactory
-                ->create($dataObjectType, ['builder' => $this]);
+            $dataObject = $this->objectFactory->create(
+                $dataObjectType,
+                ['builder' => $this]
+            );
         }
         $this->data = array();
         return $dataObject;
     }
 
     /**
-     * Populates the fields with data from the array.
-     *
-     * Keys for the map are snake_case attribute/field names.
-     *
-     * @param array $data
-     * @return $this
+     * {@inheritdoc}
      */
     public function populateWithArray(array $data)
     {
@@ -186,11 +173,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * Populates the fields with an existing entity.
-     *
-     * @param ExtensibleDataInterface $prototype the prototype to base on
-     * @return $this
-     * @throws \LogicException If $prototype object class is not the same type as object that is constructed
+     * {@inheritdoc}
      */
     public function populate(ExtensibleDataInterface $prototype)
     {
@@ -203,13 +186,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * Merge second Data Object data with first Data Object data and create new Data Object object based on merge
-     * result.
-     *
-     * @param ExtensibleDataInterface $firstDataObject
-     * @param ExtensibleDataInterface $secondDataObject
-     * @return $this
-     * @throws \LogicException
+     * {@inheritdoc}
      */
     public function mergeDataObjects(
         ExtensibleDataInterface $firstDataObject,
@@ -227,13 +204,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * Merged data provided in array format with Data Object data and create new Data Object object based on merge
-     * result.
-     *
-     * @param ExtensibleDataInterface $dataObject
-     * @param array $data
-     * @return $this
-     * @throws \LogicException
+     * {@inheritdoc}
      */
     public function mergeDataObjectWithArray(ExtensibleDataInterface $dataObject, array $data)
     {
@@ -247,11 +218,8 @@ class Builder implements BuilderInterface
         return $this;
     }
 
-
     /**
-     * Return data Object data.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getData()
     {
@@ -278,12 +246,20 @@ class Builder implements BuilderInterface
      */
     protected function getDataType()
     {
-        $sourceClassPreference = $this->objectManagerConfig->getPreference($this->modelClassInterface);
+        $dataType = $this->_getDataObjectType();
+        if (is_subclass_of($dataType, '\Magento\Framework\Api\AbstractSimpleObject')) {
+            return self::TYPE_DATA_OBJECT;
+        } else if (is_subclass_of($dataType, '\Magento\Framework\Model\AbstractExtensibleModel')) {
+            return self::TYPE_DATA_MODEL;
+        }
+
+        $sourceClassPreference = $this->objectManagerConfig->getPreference($dataType);
         if (empty($sourceClassPreference)) {
             throw new \LogicException(
                 "Preference for {$this->_getDataObjectType()} is not defined."
             );
         }
+
         if (is_subclass_of($sourceClassPreference, '\Magento\Framework\Api\AbstractSimpleObject')) {
             return self::TYPE_DATA_OBJECT;
         } else if (is_subclass_of($sourceClassPreference, '\Magento\Framework\Model\AbstractExtensibleModel')) {

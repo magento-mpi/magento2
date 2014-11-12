@@ -23,7 +23,7 @@ class CreatePageTest extends Functional
      */
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-29634');
+        $this->markTestIncomplete('MAGETWO-29634, MAGETWO-30362');
         Factory::getApp()->magentoBackendLoginUser();
     }
 

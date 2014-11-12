@@ -273,10 +273,12 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         ];
 
         $attributeValue1 = $this->_valueBuilder
-            ->populateWithArray($customerAttributes['warehouse_zip'])
+            ->setValue('78777')
+            ->setAttributeCode('warehouse_zip')
             ->create();
         $attributeValue2 = $this->_valueBuilder
-            ->populateWithArray($customerAttributes['warehouse_alternate'])
+            ->setValue('90051')
+            ->setAttributeCode('warehouse_alternate')
             ->create();
 
         $address = $this->_customerBuilder->setCustomAttributes([$attributeValue1, $attributeValue2])

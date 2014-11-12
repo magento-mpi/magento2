@@ -24,6 +24,11 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $groupRepositoryPlugin;
 
+    /**
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $indexerRegistryMock;
+
     protected function setUp()
     {
         $this->indexerMock = $this->getMock(
@@ -42,7 +47,9 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->groupRepositoryPlugin = new \Magento\CatalogPermissions\Model\Indexer\Plugin\GroupRepository($this->indexerMock, $this->appConfigMock);
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
+
+        $this->groupRepositoryPlugin = new \Magento\CatalogPermissions\Model\Indexer\Plugin\GroupRepository($this->indexerRegistryMock, $this->appConfigMock);
     }
 
     public function testAfterDeleteGroupIndexerOff()
@@ -55,7 +62,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(false));
-        $this->indexerMock->expects($this->never())->method('getId');
+        $this->indexerRegistryMock->expects($this->never())->method('get');
         $this->groupRepositoryPlugin->afterDelete($customerGroupService);
     }
 
@@ -69,7 +76,10 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
-        $this->prepareIndexer();
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
         $this->indexerMock->expects($this->once())->method('invalidate');
         $this->groupRepositoryPlugin->afterDelete($customerGroupService);
     }
@@ -120,8 +130,11 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
         );
         $customerGroupMock->expects($this->once())->method('getId')->will($this->returnValue(0));
         $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
-        $this->prepareIndexer();
         $this->indexerMock->expects($this->once())->method('invalidate');
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
 
         $proceedMock = function () {
             return 10;
