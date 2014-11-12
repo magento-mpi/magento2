@@ -197,11 +197,12 @@ class Application
         if (null === $this->_db) {
             if ($this->isInstalled()) {
                 $localConfigFile = $this->getLocalConfig();
-                $localConfig = simplexml_load_file($localConfigFile);
-                $host = (string)$localConfig->connection->host;
-                $user = (string)$localConfig->connection->username;
-                $password = (string)$localConfig->connection->password;
-                $dbName = (string)$localConfig->connection->dbname;
+                $localConfig = include $localConfigFile;
+                $dbInfo = $localConfig['db']['connection']['default'];
+                $host = $dbInfo['host'];
+                $user = $dbInfo['username'];
+                $password = $dbInfo['password'];
+                $dbName = $dbInfo['dbname'];
             } else {
                 $installConfig = $this->getInstallConfig();
                 $host = $installConfig['db_host'];
