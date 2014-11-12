@@ -54,9 +54,9 @@ abstract class FilterAbstract extends AbstractView implements FilterInterface
         ContentTypeFactory $contentTypeFactory,
         ConfigFactory $configFactory,
         ConfigBuilderInterface $configBuilder,
-        FilterPoolProvider $filterPool,
         DataProviderFactory $dataProviderFactory,
         Manager $dataProviderManager,
+        FilterPoolProvider $filterPool,
         array $data = []
     ) {
         $this->filterPool = $filterPool;

@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Ui\Component;
 
 use Magento\Backend\Helper\Data;

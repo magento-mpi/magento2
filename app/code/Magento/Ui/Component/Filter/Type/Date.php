@@ -80,9 +80,9 @@ class Date extends FilterAbstract
             $contentTypeFactory,
             $configFactory,
             $configBuilder,
-            $filterPool,
             $dataProviderFactory,
             $dataProviderManager,
+            $filterPool,
             $data
         );
     }
