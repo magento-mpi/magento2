@@ -344,14 +344,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
                     try {
                         $category = $this->categoryRepository->get($this->_request->getParam('id'));
                     } catch (NoSuchEntityException $e) {
+                        $category = null;
+                    }
+                    if (!$category || !$this->_isCategoryAllowed($category)) {
                         // no viewing wrong categories
                         $forward = true;
-                    }
-                    if (isset($category)) {
-                        if (!$this->_isCategoryAllowed($category)) {
-                            // no viewing wrong categories
-                            $forward = true;
-                        }
                     }
                 }
                 break;
