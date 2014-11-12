@@ -23,7 +23,7 @@ class Auto extends AbstractAlgorithm
         if (!$range) {
             $range = $this->getRange($bucket, $dimensions, $entityIds);
             $dbRanges = $this->dataProvider->getAggregation($bucket, $dimensions, $range, $entityIds, 'count');
-            $data = $this->prepareData($range, $dbRanges);
+            $data = $this->dataProvider->prepareData($range, $dbRanges);
         }
 
         return $data;
@@ -72,30 +72,5 @@ class Auto extends AbstractAlgorithm
         $options = $this->dataProvider->getOptions();
 
         return $options['min_range_power'];
-    }
-
-    /**
-     * @param int $range
-     * @param int[] $dbRanges
-     * @return array
-     */
-    public function prepareData($range, array $dbRanges)
-    {
-        $data = [];
-        if (!empty($dbRanges)) {
-
-            foreach ($dbRanges as $index => $count) {
-                $fromPrice = ($index - 1) * $range;
-                $toPrice = $index * $range;
-
-                $data[] = [
-                    'from' => $fromPrice,
-                    'to' => $toPrice,
-                    'count' => $count
-                ];
-            }
-        }
-
-        return $data;
     }
 }

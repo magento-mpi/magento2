@@ -208,6 +208,29 @@ class DataProvider implements DataProviderInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function prepareData($range, array $dbRanges)
+    {
+        $data = [];
+        if (!empty($dbRanges)) {
+
+            foreach ($dbRanges as $index => $count) {
+                $fromPrice = ($index - 1) * $range;
+                $toPrice = $index * $range;
+
+                $data[] = [
+                    'from' => $fromPrice,
+                    'to' => $toPrice,
+                    'count' => $count
+                ];
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * @return array
      */
     public function getRange()
