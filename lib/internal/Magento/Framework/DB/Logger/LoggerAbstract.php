@@ -70,7 +70,7 @@ abstract class LoggerAbstract implements LoggerInterface
         $time = sprintf('%.4f', microtime(true) - $this->timer);
 
         if (!$this->logAllQueries && $time < $this->logQueryTime) {
-            return $this;
+            return '';
         }
         switch ($type) {
             case self::TYPE_CONNECT:
