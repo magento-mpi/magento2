@@ -592,12 +592,12 @@ class AccountManagement implements AccountManagementInterface
         try {
             $customer = $this->customerRepository->get($email);
         } catch (NoSuchEntityException $e) {
-            throw new InvalidEmailOrPasswordException("Password doesn't match for this account.");
+            throw new InvalidEmailOrPasswordException('Invalid login or password.');
         }
         $customerSecure = $this->customerRegistry->retrieveSecureData($customer->getId());
         $hash = $customerSecure->getPasswordHash();
         if (!$this->encryptor->validateHash($currentPassword, $hash)) {
-            throw new InvalidEmailOrPasswordException('Invalid login or password.', []);
+            throw new InvalidEmailOrPasswordException("Password doesn't match for this account.", []);
         }
         $customerSecure->setRpToken(null);
         $customerSecure->setRpTokenCreatedAt(null);

@@ -10,7 +10,7 @@ namespace Magento\Customer\Controller\Account;
 
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Core\App\Action\FormKeyValidator;
@@ -23,8 +23,8 @@ use Magento\Framework\Exception\AuthenticationException;
  */
 class EditPost extends \Magento\Customer\Controller\Account
 {
-    /** @var CustomerAccountServiceInterface  */
-    protected $customerAccountService;
+    /** @var AccountManagementInterface */
+    protected $customerAccountManagement;
 
     /** @var CustomerRepositoryInterface  */
     protected $customerRepository;
@@ -41,7 +41,7 @@ class EditPost extends \Magento\Customer\Controller\Account
     /**
      * @param Context $context
      * @param Session $customerSession
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param AccountManagementInterface $customerAccountManagement
      * @param CustomerRepositoryInterface $customerRepository
      * @param CustomerDataBuilder $customerDataBuilder
      * @param FormKeyValidator $formKeyValidator
@@ -51,13 +51,13 @@ class EditPost extends \Magento\Customer\Controller\Account
     public function __construct(
         Context $context,
         Session $customerSession,
-        CustomerAccountServiceInterface $customerAccountService,
+        AccountManagementInterface $customerAccountManagement,
         CustomerRepositoryInterface $customerRepository,
         CustomerDataBuilder $customerDataBuilder,
         FormKeyValidator $formKeyValidator,
         CustomerExtractor $customerExtractor
     ) {
-        $this->customerAccountService = $customerAccountService;
+        $this->customerAccountManagement = $customerAccountManagement;
         $this->customerRepository = $customerRepository;
         $this->customerDataBuilder = $customerDataBuilder;
         $this->formKeyValidator = $formKeyValidator;
@@ -92,7 +92,8 @@ class EditPost extends \Magento\Customer\Controller\Account
                 if (strlen($newPass)) {
                     if ($newPass == $confPass) {
                         try {
-                            $this->customerAccountService->changePassword($customerId, $currPass, $newPass);
+                            $customerEmail = $this->customerRepository->getById($customerId)->getEmail();
+                            $this->customerAccountManagement->changePassword($customerEmail, $currPass, $newPass);
                         } catch (AuthenticationException $e) {
                             $this->messageManager->addError($e->getMessage());
                         } catch (\Exception $e) {

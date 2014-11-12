@@ -170,16 +170,16 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      */
     public function testChangePasswordWrongPassword()
     {
-        $this->accountManagement->changePassword(1, 'wrongPassword', 'new_password');
+        $this->accountManagement->changePassword('customer@example.com', 'wrongPassword', 'new_password');
     }
 
     /**
      * @expectedException \Magento\Framework\Exception\InvalidEmailOrPasswordException
-     * @expectedExceptionMessage Password doesn't match for this account
+     * @expectedExceptionMessage Invalid login or password.
      */
     public function testChangePasswordWrongUser()
     {
-        $this->accountManagement->changePassword(4200, 'password', 'new_password');
+        $this->accountManagement->changePassword('wrong.email@example.com', 'password', 'new_password');
     }
 
     /**
