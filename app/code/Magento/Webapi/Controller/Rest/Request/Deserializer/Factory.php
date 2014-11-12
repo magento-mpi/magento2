@@ -12,7 +12,7 @@ namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
 class Factory
 {
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -22,10 +22,10 @@ class Factory
     protected $_deserializers;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param array $deserializers
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, array $deserializers = array())
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, array $deserializers = array())
     {
         $this->_objectManager = $objectManager;
         $this->_deserializers = $deserializers;
