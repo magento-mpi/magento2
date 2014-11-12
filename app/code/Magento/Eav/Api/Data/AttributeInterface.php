@@ -68,7 +68,7 @@ interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterf
     /**
      * Retrieve entity type id
      *
-     * @return string
+     * @return string|null
      */
     public function getEntityTypeId();
 
@@ -82,7 +82,7 @@ interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterf
     /**
      * Return options of the attribute (key => value pairs for select)
      *
-     * @return \Magento\Eav\Api\Data\AttributeOptionInterface[]
+     * @return \Magento\Eav\Api\Data\AttributeOptionInterface[]|null
      */
     public function getOptions();
 
@@ -96,14 +96,14 @@ interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterf
     /**
      * Get label which supposed to be displayed on frontend.
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function getFrontendLabel();
 
     /**
      * Return frontend label for each store
      *
-     * @return \Magento\Eav\Api\Data\AttributeFrontendLabelInterface[]
+     * @return \Magento\Eav\Api\Data\AttributeFrontendLabelInterface[]|null
      */
     public function getStoreFrontendLabels();
 

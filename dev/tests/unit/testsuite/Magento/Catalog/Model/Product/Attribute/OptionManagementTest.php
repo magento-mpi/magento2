@@ -19,18 +19,11 @@ class OptionManagementTest extends \PHPUnit_Framework_TestCase
      */
     protected $eavOptionManagementMock;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $requestMock;
-
     protected function setUp()
     {
         $this->eavOptionManagementMock = $this->getMock('\Magento\Eav\Api\AttributeOptionManagementInterface');
-        $this->requestMock = $this->getMock('\Magento\Framework\App\RequestInterface');
         $this->model = new \Magento\Catalog\Model\Product\Attribute\OptionManagement(
-            $this->eavOptionManagementMock,
-            $this->requestMock
+            $this->eavOptionManagementMock
         );
     }
 

@@ -19,7 +19,6 @@ interface AttributeSetManagementInterface
      * @return \Magento\Eav\Api\Data\AttributeSetInterface
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @see \Magento\Catalog\Service\V1\Product\AttributeSet\WriteServiceInterface::create
      */
     public function create(
         $entityTypeCode,

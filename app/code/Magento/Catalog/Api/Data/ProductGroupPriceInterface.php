@@ -30,4 +30,3 @@ interface ProductGroupPriceInterface
      */
     public function getValue();
 }
-

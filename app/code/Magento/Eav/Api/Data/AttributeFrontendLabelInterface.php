@@ -8,23 +8,19 @@
  */
 namespace Magento\Eav\Api\Data;
 
-interface AttributeFrontendLabelInterface 
+interface AttributeFrontendLabelInterface
 {
-    const LABEL = 'label';
-
-    const STORE_ID = 'store_id';
+    /**
+     * Return store id
+     *
+     * @return int|null
+     */
+    public function getStoreId();
 
     /**
      * Return label
      *
-     * @return string
+     * @return string|null
      */
     public function getLabel();
-
-    /**
-     * Return store id
-     *
-     * @return int
-     */
-    public function getStoreId();
 }

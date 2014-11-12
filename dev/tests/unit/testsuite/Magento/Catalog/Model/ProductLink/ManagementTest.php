@@ -7,8 +7,6 @@
  */
 namespace Magento\Catalog\Model\ProductLink;
 
-use Magento\Catalog\Api\Data\ProductLinkInterface;
-
 class ManagementTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -100,11 +98,11 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
         ];
         $itemCollection = [$item];
         $expectedItem = [
-            ProductLinkInterface::LINKED_PRODUCT_SKU => $item['sku'],
-            ProductLinkInterface::LINKED_PRODUCT_TYPE => $item['type'],
-            ProductLinkInterface::POSITION => $item['position'],
-            ProductLinkInterface::PRODUCT_SKU => $productSku,
-            ProductLinkInterface::LINK_TYPE => $linkType
+            'product_sku' => $productSku,
+            'link_type' => $linkType,
+            'linked_product_sku' => $item['sku'],
+            'linked_product_type' => $item['type'],
+            'position' => $item['position']
         ];
         $this->collectionProviderMock->expects($this->once())
             ->method('getCollection')

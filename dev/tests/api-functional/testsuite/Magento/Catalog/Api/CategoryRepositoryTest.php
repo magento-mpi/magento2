@@ -15,6 +15,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 class CategoryRepositoryTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/categories';
+    const SERVICE_NAME = 'catalogCategoryRepositoryV1';
 
     private $modelId = 333;
 
@@ -24,7 +25,7 @@ class CategoryRepositoryTest extends WebapiAbstract
     public function testGet()
     {
         $expected = [
-            'parent_id' => 3,
+            'parent_id' => 2,
             'path' => '1/2/3',
             'position' => 1,
             'level' => 2,
@@ -33,16 +34,15 @@ class CategoryRepositoryTest extends WebapiAbstract
             'name' => 'Category 1',
             'url_key' => 'category-1',
             'id' => 333,
-            'is_active' => true,
-            'children' => null
+            'is_active' => true
         ];
 
         $result = $this->getInfoCategory($this->modelId);
 
         $this->assertArrayHasKey('created_at', $result);
         $this->assertArrayHasKey('updated_at', $result);
-
-        unset($result['created_at'], $result['updated_at']);
+        $this->assertArrayHasKey('children', $result);
+        unset($result['created_at'], $result['updated_at'], $result['children']);
         ksort($expected);
         ksort($result);
         $this->assertEquals($expected, $result);
@@ -69,7 +69,9 @@ class CategoryRepositoryTest extends WebapiAbstract
                 'httpMethod' => Config::HTTP_METHOD_GET
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => 'V1',
+                'operation' => self::SERVICE_NAME . 'Get'
             ]
         ];
         return $this->_webApiCall($serviceInfo, ['categoryId' => $id]);
@@ -191,7 +193,9 @@ class CategoryRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => ['resourcePath' => self::RESOURCE_PATH, 'httpMethod' => Config::HTTP_METHOD_POST],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => 'V1',
+                'operation' => self::SERVICE_NAME . 'Save'
             ],
         ];
         $requestData = ['category' => $category];
@@ -212,7 +216,9 @@ class CategoryRepositoryTest extends WebapiAbstract
                     'httpMethod' => Config::HTTP_METHOD_DELETE
                 ],
                 'soap' => [
-                    // @todo fix this configuration after SOAP test framework is functional
+                    'service' => self::SERVICE_NAME,
+                    'serviceVersion' => 'V1',
+                    'operation' => self::SERVICE_NAME . 'DeleteByIdentifier'
                 ]
             ];
         return $this->_webApiCall($serviceInfo, ['categoryId' => $id]);
@@ -227,10 +233,18 @@ class CategoryRepositoryTest extends WebapiAbstract
                     'httpMethod' => Config::HTTP_METHOD_PUT
                 ],
                 'soap' => [
-                    // @todo fix this configuration after SOAP test framework is functional
+                    'service' => self::SERVICE_NAME,
+                    'serviceVersion' => 'V1',
+                    'operation' => self::SERVICE_NAME . 'Save'
                 ]
             ];
-        return $this->_webApiCall($serviceInfo, ['category' => $data]);
+
+            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+                $data['id'] = $id;
+                return $this->_webApiCall($serviceInfo, ['id' => $id, 'category' => $data]);
+            } else {
+                return $this->_webApiCall($serviceInfo, ['category' => $data]);
+            }
     }
 
 }

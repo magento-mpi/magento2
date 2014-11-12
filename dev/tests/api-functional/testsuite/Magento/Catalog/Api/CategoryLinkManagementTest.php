@@ -14,7 +14,7 @@ use Magento\Webapi\Model\Rest\Config;
 
 class CategoryLinkManagementTest extends WebapiAbstract
 {
-    const SERVICE_WRITE_NAME = 'catalogCategoryLinksManagementV1';
+    const SERVICE_WRITE_NAME = 'catalogCategoryLinkManagementV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH_SUFFIX = '/V1/categories';
     const RESOURCE_PATH_PREFIX = 'products';
@@ -61,7 +61,7 @@ class CategoryLinkManagementTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_WRITE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_WRITE_NAME . 'assignedProducts'
+                'operation' => self::SERVICE_WRITE_NAME . 'GetAssignedProducts'
             ]
         ];
         return $this->_webApiCall($serviceInfo, ['categoryId' => $id]);

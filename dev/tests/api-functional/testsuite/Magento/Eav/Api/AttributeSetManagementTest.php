@@ -26,8 +26,9 @@ class AttributeSetManagementTest extends WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ),
             'soap' => array(
-                // @todo fix SOAP configuration after SOAP tests are functional
-                'operation' => '',
+                'service' => 'eavAttributeSetManagementV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'eavAttributeSetManagementV1Create',
             ),
         );
     }
@@ -41,7 +42,7 @@ class AttributeSetManagementTest extends WebapiAbstract
         $arguments = array(
             'entityTypeCode' => $entityTypeCode,
             'attributeSet' => array(
-                'name' => $attributeSetName,
+                'attribute_set_name' => $attributeSetName,
                 'sort_order' => 500,
             ),
             'skeletonId' => $entityType->getDefaultAttributeSetId(),
@@ -50,8 +51,8 @@ class AttributeSetManagementTest extends WebapiAbstract
         $this->assertNotNull($result);
         $attributeSet = $this->getAttributeSetByName($attributeSetName);
         $this->assertNotNull($attributeSet);
-        $this->assertEquals($attributeSet->getId(), $result['id']);
-        $this->assertEquals($attributeSet->getName(), $result['name']);
+        $this->assertEquals($attributeSet->getId(), $result['attribute_set_id']);
+        $this->assertEquals($attributeSet->getAttributeSetName(), $result['attribute_set_name']);
         $this->assertEquals($attributeSet->getEntityTypeId(), $result['entity_type_id']);
         $this->assertEquals($attributeSet->getEntityTypeId(), $entityType->getId());
         $this->assertEquals($attributeSet->getSortOrder(), $result['sort_order']);
@@ -74,8 +75,8 @@ class AttributeSetManagementTest extends WebapiAbstract
         $arguments = array(
             'entityTypeCode' => $entityTypeCode,
             'attributeSet' => array(
-                'id' => 1,
-                'name' => $attributeSetName,
+                'attribute_set_id' => 1,
+                'attribute_set_name' => $attributeSetName,
                 'sort_order' => 100,
             ),
             'skeletonId' => $entityType->getDefaultAttributeSetId(),
@@ -95,7 +96,7 @@ class AttributeSetManagementTest extends WebapiAbstract
         $arguments = array(
             'entityTypeCode' => $entityTypeCode,
             'attributeSet' => array(
-                'name' => $attributeSetName,
+                'attribute_set_name' => $attributeSetName,
                 'sort_order' => 200,
             ),
             'skeletonId' => 0,
@@ -115,7 +116,7 @@ class AttributeSetManagementTest extends WebapiAbstract
         $arguments = array(
             'entityTypeCode' => $entityTypeCode,
             'attributeSet' => array(
-                'name' => $attributeSetName,
+                'attribute_set_name' => $attributeSetName,
                 'sort_order' => 300,
             ),
             'skeletonId' => 9999,
@@ -136,7 +137,7 @@ class AttributeSetManagementTest extends WebapiAbstract
         $arguments = array(
             'entityTypeCode' => 'invalid_entity_type',
             'attributeSet' => array(
-                'name' => $attributeSetName,
+                'attribute_set_name' => $attributeSetName,
                 'sort_order' => 400,
             ),
             'skeletonId' => $entityType->getDefaultAttributeSetId(),
@@ -157,7 +158,7 @@ class AttributeSetManagementTest extends WebapiAbstract
         $arguments = array(
             'entityTypeCode' => $entityTypeCode,
             'attributeSet' => array(
-                'name' => $attributeSetName,
+                'attribute_set_name' => $attributeSetName,
                 'sort_order' => 500,
             ),
             'skeletonId' => $entityType->getDefaultAttributeSetId(),
@@ -178,7 +179,7 @@ class AttributeSetManagementTest extends WebapiAbstract
         $arguments = array(
             'entityTypeCode' => $entityTypeCode,
             'attributeSet' => array(
-                'name' => $attributeSetName,
+                'attribute_set_name' => $attributeSetName,
                 'sort_order' => 550,
             ),
             'skeletonId' => $entityType->getDefaultAttributeSetId(),

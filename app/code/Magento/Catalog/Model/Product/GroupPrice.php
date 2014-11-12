@@ -9,9 +9,8 @@
 
 namespace Magento\Catalog\Model\Product;
 
-
-class GroupPrice extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Catalog\Api\Data\ProductGroupPriceInterface
+class GroupPrice extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Catalog\Api\Data\ProductGroupPriceInterface
 {
     /**
      * Retrieve customer group id

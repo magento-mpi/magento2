@@ -10,7 +10,6 @@ namespace Magento\Eav\Api\Data;
 
 /**
  * Created from:
- * @see \Magento\Catalog\Service\V1\Data\Eav\Option
  * @codeCoverageIgnore
  */
 interface AttributeOptionInterface
@@ -45,21 +44,21 @@ interface AttributeOptionInterface
     /**
      * Get option order
      *
-     * @return int
+     * @return int|null
      */
     public function getSortOrder();
 
     /**
      * is default
      *
-     * @return bool
+     * @return bool|nulll
      */
     public function getIsDefault();
 
     /**
      * Set option label for store scopes
      *
-     * @return \Magento\Eav\Api\Data\AttributeOptionLabelInterface[]
+     * @return \Magento\Eav\Api\Data\AttributeOptionLabelInterface[]|null
      */
     public function getStoreLabels();
 }

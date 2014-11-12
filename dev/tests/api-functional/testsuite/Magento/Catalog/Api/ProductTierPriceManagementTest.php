@@ -10,9 +10,14 @@
 namespace Magento\Catalog\Api;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ProductTierPriceManagementTest extends WebapiAbstract
 {
+    const SERVICE_NAME = 'catalogProductTierPriceManagementV1';
+    const SERVICE_VERSION = 'V1';
+    const RESOURCE_PATH = '/V1/products/';
+
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
      * @dataProvider getListDataProvider
@@ -22,15 +27,20 @@ class ProductTierPriceManagementTest extends WebapiAbstract
         $productSku = 'simple';
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/products/' . $productSku . '/group-prices/' . $customerGroupId . '/tiers',
-                'httpMethod' => 'GET',
+                'resourcePath' => self::RESOURCE_PATH . $productSku . '/group-prices/' . $customerGroupId . '/tiers',
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
-            ],
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetList'
+            ]
         ];
 
-            $groupPriceList = $this->_webApiCall($serviceInfo);
+            $groupPriceList = $this->_webApiCall(
+                $serviceInfo,
+                ['productSku' => $productSku, 'customerGroupId' => $customerGroupId]
+            );
 
         $this->assertCount($count, $groupPriceList);
         if ($count) {
@@ -59,15 +69,18 @@ class ProductTierPriceManagementTest extends WebapiAbstract
         $productSku = 'simple';
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => "/V1/products/$productSku/group-prices/$customerGroupId/tiers/$qty",
-                'httpMethod' => 'DELETE',
+                'resourcePath' =>   self::RESOURCE_PATH
+                    . $productSku . "/group-prices/" . $customerGroupId . "/tiers/" . $qty,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
-            ],
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Remove'
+            ]
         ];
-        $requestData = array('productSku' => $productSku, 'customerGroupId' => $customerGroupId, 'qty' => $qty);
-        $this->assertTrue( $this->_webApiCall($serviceInfo, $requestData));
+        $requestData = ['productSku' => $productSku, 'customerGroupId' => $customerGroupId, 'qty' => $qty];
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
     }
 
 
@@ -86,17 +99,29 @@ class ProductTierPriceManagementTest extends WebapiAbstract
     public function testAdd()
     {
         $productSku = 'simple';
+        $customerGroupId = 1;
+        $qty = 50;
+        $price = 10;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/products/' . $productSku . '/group-prices/1/tiers/50/price/10',
-                'httpMethod' => 'POST',
+                'resourcePath' => '/V1/products/' . $productSku
+                    . '/group-prices/' . $customerGroupId . '/tiers/' . $qty . '/price/' . $price,
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
-            ],
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Add'
+            ]
         ];
 
-            $this->_webApiCall($serviceInfo);
+        $requestData = [
+            'productSku' => $productSku,
+            'customerGroupId' => $customerGroupId,
+            'qty' => $qty,
+            'price' => $price
+        ];
+        $this->_webApiCall($serviceInfo, $requestData);
         $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
         /** @var \Magento\Catalog\Api\ProductTierPriceManagementInterface $service */
         $service = $objectManager->get('\Magento\Catalog\Api\ProductTierPriceManagementInterface');
@@ -113,17 +138,28 @@ class ProductTierPriceManagementTest extends WebapiAbstract
     public function testAddWithAllCustomerGrouped()
     {
         $productSku = 'simple';
+        $customerGroupId = 'all';
+        $qty = 50;
+        $price = 20;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/products/' . $productSku . '/group-prices/all/tiers/50/price/20',
-                'httpMethod' => 'POST',
+                'resourcePath' => '/V1/products/' . $productSku
+                    . '/group-prices/' . $customerGroupId . '/tiers/' . $qty . '/price/' . $price,
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
-            ],
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Add'
+            ]
         ];
-
-            $this->_webApiCall($serviceInfo);
+        $requestData = [
+            'productSku' => $productSku,
+            'customerGroupId' => $customerGroupId,
+            'qty' => $qty,
+            'price' => $price
+        ];
+        $this->_webApiCall($serviceInfo, $requestData);
         $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
         /** @var \Magento\Catalog\Api\ProductTierPriceManagementInterface $service */
         $service = $objectManager->get('\Magento\Catalog\Api\ProductTierPriceManagementInterface');
@@ -140,19 +176,28 @@ class ProductTierPriceManagementTest extends WebapiAbstract
     public function testUpdateWithAllGroups()
     {
         $productSku = 'simple';
+        $customerGroupId = 'all';
+        $qty = 2;
+        $price = 20;
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/products/' . $productSku . '/group-prices/all/tiers/2/price/20',
-                'httpMethod' => 'POST',
+                'resourcePath' => '/V1/products/' . $productSku
+                    . '/group-prices/' . $customerGroupId . '/tiers/' . $qty . '/price/' . $price,
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
-                'service' => 'catalogProductTierPriceServiceV1',
-                'serviceVersion' => 'V1',
-                'operation' => 'catalogProductTierPriceServiceV1set',
-            ],
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Add'
+            ]
         ];
-
-            $this->_webApiCall($serviceInfo);
+        $requestData = [
+            'productSku' => $productSku,
+            'customerGroupId' => $customerGroupId,
+            'qty' => $qty,
+            'price' => $price
+        ];
+        $this->_webApiCall($serviceInfo, $requestData);
         $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
         /** @var \Magento\Catalog\Api\ProductTierPriceManagementInterface $service */
         $service = $objectManager->get('\Magento\Catalog\Api\ProductTierPriceManagementInterface');

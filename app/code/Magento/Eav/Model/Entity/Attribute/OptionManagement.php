@@ -109,7 +109,6 @@ class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInte
         }
 
         return true;
-
     }
 
     /**

@@ -14,7 +14,7 @@ use Magento\Webapi\Exception as HTTPExceptionCodes;
 
 class ProductRepositoryInterfaceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductRepositoryInterfaceV1';
+    const SERVICE_NAME = 'catalogProductRepositoryV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products';
 
@@ -47,11 +47,11 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'get'
+                'operation' => self::SERVICE_NAME . 'Get'
             ]
         ];
 
-        $response = $this->_webApiCall($serviceInfo, ['id' => $productData[ProductInterface::SKU]]);
+        $response = $this->_webApiCall($serviceInfo, ['productSku' => $productData[ProductInterface::SKU]]);
         foreach ([ProductInterface::SKU, ProductInterface::NAME, ProductInterface::PRICE] as $key) {
             $this->assertEquals($productData[$key], $response[$key]);
         }
@@ -68,14 +68,14 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'get'
+                'operation' => self::SERVICE_NAME . 'Get'
             ]
         ];
 
         $expectedMessage = 'Requested product doesn\'t exist';
 
         try {
-            $this->_webApiCall($serviceInfo, ['id' => $invalidSku]);
+            $this->_webApiCall($serviceInfo, ['productSku' => $invalidSku]);
             $this->fail("Expected throwing exception");
         } catch (\SoapFault $e) {
             $this->assertContains(
@@ -127,7 +127,7 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
             ProductInterface::SKU => 'simple', //sku from fixture
         ];
         $product = $this->getSimpleProductData($productData);
-        unset($product[ProductInterface::SKU]);
+        $product[ProductInterface::SKU] = null;
 
         $serviceInfo = [
             'rest' => [
@@ -137,7 +137,7 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'save'
+                'operation' => self::SERVICE_NAME . 'Save'
             ],
         ];
         $requestData = ['product' => $product];
@@ -155,6 +155,55 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
     {
         $response = $this->deleteProduct('simple');
         $this->assertTrue($response);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/product_simple.php
+     */
+    public function testGetList()
+    {
+        $searchCriteria = [
+            'searchCriteria' => [
+                'filter_groups' => [
+                    [
+                        'filters' => [
+                            [
+                                'field' => 'sku',
+                                'value' => 'simple',
+                                'condition_type' => 'eq'
+                            ]
+                        ]
+                    ],
+                ],
+                'current_page' => 1,
+                'page_size' => 2
+            ]
+        ];
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetList'
+            ],
+        ];
+
+        $response = $this->_webApiCall($serviceInfo, $searchCriteria);
+
+        $this->assertArrayHasKey('search_criteria', $response);
+        $this->assertArrayHasKey('total_count', $response);
+        $this->assertArrayHasKey('items', $response);
+
+        $this->assertEquals($searchCriteria['searchCriteria'], $response['search_criteria']);
+        $this->assertTrue($response['total_count'] > 0);
+        $this->assertTrue(count($response['items']) > 0);
+
+        $this->assertNotNull($response['items'][0]['sku']);
+        $this->assertEquals('simple', $response['items'][0]['sku']);
     }
 
     /**
@@ -197,7 +246,7 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'save'
+                'operation' => self::SERVICE_NAME . 'Save'
             ],
         ];
         $requestData = ['product' => $product];
@@ -220,11 +269,11 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'delete'
+                'operation' => self::SERVICE_NAME . 'DeleteById'
             ]
         ];
 
         return (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['id' => $sku]) : $this->_webApiCall($serviceInfo);
+            $this->_webApiCall($serviceInfo, ['productSku' => $sku]) : $this->_webApiCall($serviceInfo);
     }
 }

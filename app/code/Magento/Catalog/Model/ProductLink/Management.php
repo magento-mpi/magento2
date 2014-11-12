@@ -12,7 +12,6 @@ use Magento\Catalog\Api\Data;
 use Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks as LinksInitializer;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Catalog\Api\Data\ProductLinkInterface as ProductLinkInterface;
 
 class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
 {
@@ -42,7 +41,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
     protected $productResource;
 
     /**
-     * @var \Magento\Framework\Service\Data\AttributeValueBuilder
+     * @var \Magento\Framework\Api\AttributeValueBuilder
      */
     protected $valueBuilder;
 
@@ -80,17 +79,18 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
         $collection = $this->entityCollectionProvider->getCollection($product, $type);
         foreach ($collection as $item) {
             $data = [
-                ProductLinkInterface::PRODUCT_SKU => $product->getSku(),
-                ProductLinkInterface::LINK_TYPE => $type,
-                ProductLinkInterface::LINKED_PRODUCT_SKU => $item['sku'],
-                ProductLinkInterface::LINKED_PRODUCT_TYPE => $item['type'],
-                ProductLinkInterface::POSITION => $item['position'],
+                'product_sku' => $product->getSku(),
+                'link_type' => $type,
+                'linked_product_sku' => $item['sku'],
+                'linked_product_type' => $item['type'],
+                'position' => $item['position'],
             ];
             $this->productLinkBuilder->populateWithArray($data);
             if (isset($item['custom_attributes'])) {
                 foreach ($item['custom_attributes'] as $option) {
                     $this->productLinkBuilder->setCustomAttribute(
-                        $this->valueBuilder->populateWithArray($option)->create()
+                        $option['attribute_code'],
+                        $option['value']
                     );
                 }
             }
@@ -107,7 +107,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
         $product = $this->productRepository->get($productSku);
         $assignedSkuList = [];
         /** @var \Magento\Catalog\Api\Data\ProductLinkInterface $link */
-        foreach($items as $link) {
+        foreach ($items as $link) {
             $assignedSkuList[] = $link->getLinkedProductSku();
         }
         $linkedProductIds = $this->productResource->getProductsIdsBySkus($assignedSkuList);

@@ -14,6 +14,9 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 class ProductCustomOptionOptionTypeListTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/products/options/';
+
+    const SERVICE_NAME = 'catalogProductCustomOptionOptionTypeListV1';
+
     /**
      * @magentoAppIsolation enabled
      */
@@ -25,7 +28,9 @@ class ProductCustomOptionOptionTypeListTest extends WebapiAbstract
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
             ],
             'soap' => [
-                // @todo fix this configuration after SOAP test framework is functional
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => 'V1',
+                'operation' => self::SERVICE_NAME . 'GetItems'
             ]
         ];
         $types = $this->_webApiCall($serviceInfo);

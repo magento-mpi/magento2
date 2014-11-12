@@ -12,16 +12,16 @@ interface AttributeSetInterface
     /**
      * Get attribute set ID
      *
-     * @return int
+     * @return int|null
      */
-    public function getId();
+    public function getAttributeSetId();
 
     /**
      * Get attribute set name
      *
      * @return string
      */
-    public function getName();
+    public function getAttributeSetName();
 
     /**
      * Get attribute set sort order index
@@ -33,7 +33,7 @@ interface AttributeSetInterface
     /**
      * Get attribute set entity type id
      *
-     * @return int
+     * @return int|null
      */
     public function getEntityTypeId();
 }

@@ -12,28 +12,32 @@ use Magento\TestFramework\TestCase\WebapiAbstract,
 
 class ProductTypeListTest extends WebapiAbstract
 {
+    const SERVICE_NAME = 'catalogProductTypeListV1';
+    const SERVICE_VERSION = 'V1';
+    const RESOURCE_PATH = '/V1/products/';
+
     public function testGetProductTypes()
     {
         $expectedProductTypes = array(
             array(
-                'key' => 'simple',
-                'value' => 'Simple Product',
+                'name' => 'simple',
+                'label' => 'Simple Product',
             ),
             array(
-                'key' => 'virtual',
-                'value' => 'Virtual Product',
+                'name' => 'virtual',
+                'label' => 'Virtual Product',
             ),
             array(
-                'key' => 'downloadable',
-                'value' => 'Downloadable Product',
+                'name' => 'downloadable',
+                'label' => 'Downloadable Product',
             ),
             array(
-                'key' => 'bundle',
-                'value' => 'Bundle Product',
+                'name' => 'bundle',
+                'label' => 'Bundle Product',
             ),
             array(
-                'key' => 'configurable',
-                'value' => 'Configurable Product',
+                'name' => 'configurable',
+                'label' => 'Configurable Product',
             ),
         );
 
@@ -43,8 +47,9 @@ class ProductTypeListTest extends WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ),
             'soap' => array(
-                // @todo fix this configuration after SOAP test framework is functional
-                'operation' => 'catalogProductTypeListGetProductTypes',
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetProductTypes'
             ),
         );
 

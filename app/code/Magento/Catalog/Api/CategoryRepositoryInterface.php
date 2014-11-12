@@ -54,5 +54,4 @@ interface CategoryRepositoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function deleteByIdentifier($categoryId);
-
 }

@@ -46,7 +46,7 @@ interface ProductCustomOptionRepositoryInterface
     /**
      * @param string $productSku
      * @param int $optionId
-     * @return mixed
+     * @return bool
      */
     public function deleteByIdentifier($productSku, $optionId);
 }

@@ -96,7 +96,7 @@ class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Dat
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Catalog\Service\V1\Category\MetadataService $metadataService
+     * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService
      * @param Option\Value $productOptionValue
      * @param Option\Type\Factory $optionFactory
      * @param \Magento\Framework\Stdlib\String $string
@@ -108,7 +108,7 @@ class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Dat
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Catalog\Service\V1\Category\MetadataService $metadataService,
+        \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService,
         Option\Value $productOptionValue,
         \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory,
         \Magento\Framework\Stdlib\String $string,

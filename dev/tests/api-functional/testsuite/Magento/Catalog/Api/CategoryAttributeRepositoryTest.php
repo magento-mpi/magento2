@@ -12,7 +12,7 @@ use \Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class CategoryAttributeRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductAttributeReadServiceV1';
+    const SERVICE_NAME = 'catalogCategoryAttributeRepositoryV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/categories/attributes';
 
@@ -32,11 +32,25 @@ class CategoryAttributeRepositoryTest extends \Magento\TestFramework\TestCase\We
 
     public function testGetList()
     {
-        $this->markTestIncomplete('Need new searchCriteria');
         $searchCriteria = [
-            'searchCriteria' => [],
-            'entityTypeCode' => \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE
+            'searchCriteria' => [
+                'filter_groups' => [
+                    [
+                        'filters' => [
+                            [
+                                'field' => 'frontend_input',
+                                'value' => 'text',
+                                'condition_type' => 'eq'
+                            ]
+                        ]
+                    ],
+                ],
+                'current_page' => 1,
+                'page_size' => 2
+            ],
+            'entityTypeCode' => \Magento\Catalog\Api\Data\CategoryAttributeInterface::ENTITY_TYPE_CODE
         ];
+
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/',
@@ -48,7 +62,19 @@ class CategoryAttributeRepositoryTest extends \Magento\TestFramework\TestCase\We
                 'operation' => self::SERVICE_NAME . 'GetList'
             ],
         ];
-        $attributes = $this->_webApiCall($serviceInfo, $searchCriteria);
+
+        $response = $this->_webApiCall($serviceInfo, $searchCriteria);
+
+        $this->assertArrayHasKey('search_criteria', $response);
+        $this->assertArrayHasKey('total_count', $response);
+        $this->assertArrayHasKey('items', $response);
+
+        $this->assertEquals($searchCriteria['searchCriteria'], $response['search_criteria']);
+        $this->assertTrue($response['total_count'] > 0);
+        $this->assertTrue(count($response['items']) > 0);
+
+        $this->assertNotNull($response['items'][0]['frontend_label']);
+        $this->assertNotNull($response['items'][0]['attribute_id']);
     }
 
     /**
@@ -68,7 +94,7 @@ class CategoryAttributeRepositoryTest extends \Magento\TestFramework\TestCase\We
                 'operation' => self::SERVICE_NAME . 'Get'
             ],
         ];
-        return $this->_webApiCall($serviceInfo);
+        return $this->_webApiCall($serviceInfo, ['attributeCode' => $attributeCode]);
     }
 }
  

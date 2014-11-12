@@ -8,8 +8,8 @@
  */
 namespace Magento\Catalog\Model\Product\Media;
 
-class GalleryEntryContent extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface
+class GalleryEntryContent extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface
 {
     /**
      * {@inheritdoc}

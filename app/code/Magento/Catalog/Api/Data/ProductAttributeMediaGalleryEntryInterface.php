@@ -21,7 +21,7 @@ interface ProductAttributeMediaGalleryEntryInterface
     /**
      * Retrieve gallery entry ID
      *
-     * @return int
+     * @return int|null
      */
     public function getId();
 
@@ -56,7 +56,7 @@ interface ProductAttributeMediaGalleryEntryInterface
     /**
      * Get file path
      *
-     * @return string
+     * @return string|null
      */
     public function getFile();
 }

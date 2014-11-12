@@ -10,12 +10,11 @@ namespace Magento\Catalog\Api;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Catalog\Api\Data\ProductLinkInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class ProductLinkManagementInterfaceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductLinkRepositoryInterfaceV1';
+    const SERVICE_NAME = 'catalogProductLinkManagementV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/';
 
@@ -76,15 +75,15 @@ class ProductLinkManagementInterfaceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetLinkedProducts'
+                'operation' => self::SERVICE_NAME . 'GetLinkedItemsByType'
             ]
         ];
 
         $actual = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'type' => $linkType]);
 
-        $this->assertEquals('simple', $actual[0][ProductLinkInterface::LINKED_PRODUCT_TYPE ]);
-        $this->assertEquals('simple', $actual[0][ProductLinkInterface::LINKED_PRODUCT_SKU ]);
-        $this->assertEquals(1, $actual[0][ProductLinkInterface::POSITION]);
+        $this->assertEquals('simple', $actual[0]['linked_product_type']);
+        $this->assertEquals('simple', $actual[0]['linked_product_sku']);
+        $this->assertEquals(1, $actual[0]['position']);
     }
 
     /**
@@ -96,11 +95,11 @@ class ProductLinkManagementInterfaceTest extends WebapiAbstract
         $linkType = 'related';
         $productSku = 'simple';
         $linkData = [
-            ProductLinkInterface::LINKED_PRODUCT_TYPE => 'virtual',
-            ProductLinkInterface::LINKED_PRODUCT_SKU => 'virtual-product',
-            ProductLinkInterface::POSITION => 100,
-            ProductLinkInterface::PRODUCT_SKU => 'simple',
-            ProductLinkInterface::LINK_TYPE => 'related',
+            'linked_product_type' => 'virtual',
+            'linked_product_sku' => 'virtual-product',
+            'position' => 100,
+            'product_sku' => 'simple',
+            'link_type' => 'related',
         ];
 
         $serviceInfo = [

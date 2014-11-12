@@ -24,11 +24,6 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $attributeBuilderMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $attributeCollectionMock;
 
     /**
@@ -60,17 +55,6 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
     {
         $this->setRepositoryMock =
             $this->getMock('Magento\Eav\Api\AttributeSetRepositoryInterface', [], [], '', false);
-        $this->attributeBuilderMock =
-            $this->getMock(
-                'Magento\Eav\Api\Data\AttributeDataBuilder',
-                [
-                    'populateWithArray',
-                    'create',
-                    '__wakeup'
-                ],
-                [],
-                '',
-                false);
         $this->attributeCollectionMock =
             $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\Collection', [], [], '', false);
         $this->eavConfigMock =
@@ -86,7 +70,6 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
 
         $this->model = new AttributeManagement(
             $this->setRepositoryMock,
-            $this->attributeBuilderMock,
             $this->attributeCollectionMock,
             $this->eavConfigMock,
             $this->entityTypeFactoryMock,
@@ -218,7 +201,7 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->with('entity type code', $attributeCode)
             ->willReturn($attributeMock);
-        $attributeSetMock->expects($this->once())->method('getId')->willReturn(33);
+        $attributeSetMock->expects($this->once())->method('getAttributeSetId')->willReturn(33);
         $attributeMock->expects($this->once())->method('setAttributeSetId')->with(33)->willReturnSelf();
         $attributeMock->expects($this->once())->method('loadEntityAttributeIdBySet')->willReturnSelf();
         $attributeMock->expects($this->once())->method('getEntityAttributeId')->willReturn(12);
@@ -264,8 +247,8 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->with('entity type code', $attributeCode)
             ->willReturn($attributeMock);
-        $attributeSetMock->expects($this->once())->method('getId')->willReturn(33);
-        $attributeMock->expects($this->once())->method('setAttributeSetId')->with(33)->willReturnSelf();
+        $attributeSetMock->expects($this->once())->method('getAttributeSetId')->willReturn($attributeSetId);
+        $attributeMock->expects($this->once())->method('setAttributeSetId')->with($attributeSetId)->willReturnSelf();
         $attributeMock->expects($this->once())->method('loadEntityAttributeIdBySet')->willReturnSelf();
         $attributeMock->expects($this->once())->method('getEntityAttributeId')->willReturn(null);
         $attributeMock->expects($this->never())->method('getIsUserDefined');
@@ -310,8 +293,8 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->with('entity type code', $attributeCode)
             ->willReturn($attributeMock);
-        $attributeSetMock->expects($this->once())->method('getId')->willReturn(33);
-        $attributeMock->expects($this->once())->method('setAttributeSetId')->with(33)->willReturnSelf();
+        $attributeSetMock->expects($this->once())->method('getAttributeSetId')->willReturn($attributeSetId);
+        $attributeMock->expects($this->once())->method('setAttributeSetId')->with($attributeSetId)->willReturnSelf();
         $attributeMock->expects($this->once())->method('loadEntityAttributeIdBySet')->willReturnSelf();
         $attributeMock->expects($this->once())->method('getEntityAttributeId')->willReturn(12);
         $attributeMock->expects($this->once())->method('getIsUserDefined')->willReturn(null);
@@ -336,20 +319,15 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
             ->with($entityType)
             ->willReturn($entityTypeMock);
         $entityTypeMock->expects($this->once())->method('getId')->willReturn(88);
-        $attributeSetMock->expects($this->exactly(2))->method('getId')->willReturn(88);
+        $attributeSetMock->expects($this->exactly(2))->method('getAttributeSetId')->willReturn(88);
         $attributeSetMock->expects($this->once())->method('getEntityTypeId')->willReturn(88);
         $this->attributeCollectionMock->expects($this->once())
             ->method('setAttributeSetFilter')
             ->with(88)
             ->willReturnSelf();
         $attributeMock = $this->getMock('Magento\Eav\Model\Entity\Attribute', [], [], '', false);
-        $this->attributeCollectionMock->expects($this->once())->method('load')->willReturn([$attributeMock]);
-        $attributeMock->expects($this->once())->method('getData')->willReturn(['data']);
-        $this->attributeBuilderMock->expects($this->once())
-            ->method('populateWithArray')
-            ->with(['data'])
-            ->willReturnSelf();
-        $this->attributeBuilderMock->expects($this->once())->method('create')->willReturn($attributeMock);
+        $this->attributeCollectionMock->expects($this->once())->method('load')->willReturnSelf();
+        $this->attributeCollectionMock->expects($this->once())->method('getItems')->willReturn([$attributeMock]);
 
         $this->assertEquals([$attributeMock], $this->model->getAttributes($entityType, $attributeSetId));
     }
@@ -374,7 +352,7 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
             ->with($entityType)
             ->willReturn($entityTypeMock);
         $entityTypeMock->expects($this->once())->method('getId')->willReturn(77);
-        $attributeSetMock->expects($this->once())->method('getId')->willReturn(88);
+        $attributeSetMock->expects($this->once())->method('getAttributeSetId')->willReturn(88);
         $attributeSetMock->expects($this->once())->method('getEntityTypeId')->willReturn(88);
 
         $this->model->getAttributes($entityType, $attributeSetId);

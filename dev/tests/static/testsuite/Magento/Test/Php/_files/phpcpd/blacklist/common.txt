@@ -130,3 +130,5 @@ Magento/Shipping/Controller/Adminhtml/Order/Shipment
 vendor
 setup/vendor
 Magento/CatalogSearch/Model/Resource/Fulltext
+Magento/Catalog/Service
+Magento/Catalog/Model/ProductLink

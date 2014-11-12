@@ -257,4 +257,16 @@ class ExtensibleDataBuilder implements ExtensibleDataBuilderInterface
         $this->data[$key] = $object;
         return $this;
     }
+
+    /**
+     * Populates the fields with data from the prototype.
+     *
+     * @param mixed $prototype
+     * @return $this
+     */
+    public function populate($prototype)
+    {
+        $this->populateWithArray($this->objectProcessor->buildOutputDataArray($prototype, $this->modelClassInterface));
+        return $this;
+    }
 }

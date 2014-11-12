@@ -30,11 +30,19 @@ class CategoryLinkRepositoryTest extends WebapiAbstract
      */
     public function testSave($productLink, $productId, $productPosition = 0)
     {
-        $result = $this->executeRequest(
-            $this->categoryId,
-            'assignProduct',
-            $productLink
-        );
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH_SUFFIX
+                    . '/' . $this->categoryId . '/' . self::RESOURCE_PATH_PREFIX,
+                'httpMethod' => Config::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_WRITE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_WRITE_NAME . 'Save'
+            ]
+        ];
+        $result = $this->_webApiCall($serviceInfo, ['productLink' => $productLink]);
         $this->assertTrue($result);
         $this->assertTrue($this->isProductInCategory($this->categoryId, $productId, $productPosition));
     }
@@ -64,11 +72,19 @@ class CategoryLinkRepositoryTest extends WebapiAbstract
      */
     public function testUpdateProduct($productLink, $productId, $productPosition = 0)
     {
-        $result = $this->executeRequest(
-            $this->categoryId,
-            'assignProduct',
-            $productLink
-        );
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH_SUFFIX
+                    . '/' . $this->categoryId . '/' . self::RESOURCE_PATH_PREFIX,
+                'httpMethod' => Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_WRITE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_WRITE_NAME . 'Save'
+            ]
+        ];
+        $result = $this->_webApiCall($serviceInfo, ['productLink' => $productLink]);
         $this->assertTrue($result);
         $this->assertFalse($this->isProductInCategory($this->categoryId, $productId, $productPosition));
     }
@@ -94,58 +110,24 @@ class CategoryLinkRepositoryTest extends WebapiAbstract
      */
     public function testDelete()
     {
-        $result = $this->executeRequestRemove($this->categoryId, 'simple');
-        $this->assertTrue($result);
-        $this->assertFalse($this->isProductInCategory($this->categoryId, 333, 10));
-    }
-
-    /**
-     * @param int $categoryId
-     * @param string $productSku
-     * @return bool
-     * @throws \Exception
-     */
-    private function executeRequestRemove($categoryId, $productSku)
-    {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH_SUFFIX . '/' . $categoryId .
-                    '/' . self::RESOURCE_PATH_PREFIX . '/' . $productSku,
+                'resourcePath' => self::RESOURCE_PATH_SUFFIX . '/' . $this->categoryId .
+                    '/' . self::RESOURCE_PATH_PREFIX . '/simple',
                 'httpMethod' => Config::HTTP_METHOD_DELETE
             ],
             'soap' => [
                 'service' => self::SERVICE_WRITE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_WRITE_NAME . 'delete'
+                'operation' => self::SERVICE_WRITE_NAME . 'DeleteByIds'
             ]
         ];
-        return $this->_webApiCall(
+        $result = $this->_webApiCall(
             $serviceInfo,
-            ['productLink' => ['sku' => $productSku, 'category_id' => $this->categoryId]]
+            ['productSku' => 'simple', 'categoryId' => $this->categoryId]
         );
-    }
-
-    /**
-     * @param int $categoryId
-     * @param string $operationName
-     * @param string[] $productLink
-     * @return bool
-     * @throws \Exception
-     */
-    private function executeRequest($categoryId, $operationName, $productLink)
-    {
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH_SUFFIX . '/' . $categoryId . '/' . self::RESOURCE_PATH_PREFIX,
-                'httpMethod' => Config::HTTP_METHOD_POST
-            ],
-            'soap' => [
-                'service' => self::SERVICE_WRITE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_WRITE_NAME . $operationName
-            ]
-        ];
-        return $this->_webApiCall($serviceInfo, ['productLink' => $productLink]);
+        $this->assertTrue($result);
+        $this->assertFalse($this->isProductInCategory($this->categoryId, 333, 10));
     }
 
     /**

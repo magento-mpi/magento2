@@ -39,7 +39,7 @@ abstract class AbstractSimpleObjectBuilder
      * @return $this
      * @throws \LogicException If $prototype object class is not the same type as object that is constructed
      */
-    public function populate(AbstractSimpleObject $prototype)
+    public function populate($prototype)
     {
         $objectType = $this->_getDataObjectType();
         if (!($prototype instanceof $objectType)) {

@@ -8,7 +8,19 @@
 
 namespace Magento\Catalog\Api\Data;
 
-interface ProductLinkTypeInterface extends \Magento\Framework\Object\KeyValueObjectInterface
+interface ProductLinkTypeInterface
 {
+    /**
+     * Get link type code
+     *
+     * @return int
+     */
+    public function getCode();
 
+    /**
+     * Get link type name
+     *
+     * @return string
+     */
+    public function getName();
 }

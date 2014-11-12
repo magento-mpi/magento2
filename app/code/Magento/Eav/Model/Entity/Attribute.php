@@ -14,8 +14,8 @@ use Magento\Eav\Exception;
  *
  * @method \Magento\Eav\Model\Entity\Attribute setOption($value)
  */
-class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
-    implements \Magento\Framework\Object\IdentityInterface
+class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute implements
+    \Magento\Framework\Object\IdentityInterface
 {
     /**
      * Attribute code max length
@@ -73,6 +73,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Eav\Api\Data\AttributeOptionDataBuilder $optionDataBuilder
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
@@ -90,6 +91,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Eav\Api\Data\AttributeOptionDataBuilder $optionDataBuilder,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
@@ -107,6 +109,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
             $storeManager,
             $resourceHelper,
             $universalFactory,
+            $optionDataBuilder,
             $resource,
             $resourceCollection,
             $data

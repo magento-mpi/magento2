@@ -8,22 +8,22 @@
  */
 namespace Magento\Eav\Model\Entity\Attribute;
 
-class FrontendLabel extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Eav\Api\Data\AttributeFrontendLabelInterface
+class FrontendLabel extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Eav\Api\Data\AttributeFrontendLabelInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getLabel()
-    {
-        return $this->getData(self::LABEL);
-    }
-
     /**
      * {@inheritdoc}
      */
     public function getStoreId()
     {
-        return $this->getData(self::STORE_ID);
+        return $this->getData('store_id');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLabel()
+    {
+        return $this->getData('label');
     }
 }

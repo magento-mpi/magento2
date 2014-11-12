@@ -17,7 +17,7 @@ interface CategoryAttributeRepositoryInterface extends \Magento\Framework\Api\Me
      * Retrieve all attributes for entity type
      *
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return \Magento\Framework\Data\Search\SearchResultsInterface
+     * @return \Magento\Catalog\Api\Data\CategoryAttributeSearchResultsInterface
      */
     public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 

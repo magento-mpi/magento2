@@ -8,8 +8,8 @@
  */
 namespace Magento\Catalog\Model\Product\Gallery;
 
-class Entry extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface
+class Entry extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface
 {
     /**
      * Retrieve gallery entry ID

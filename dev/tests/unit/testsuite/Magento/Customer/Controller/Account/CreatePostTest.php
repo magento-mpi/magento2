@@ -333,6 +333,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             ->method('getParam')
             ->willReturnMap([
                 ['password', null, $password],
+                ['password_confirmation', null, $password],
                 ['is_subscribed', false, true],
             ]);
 
@@ -470,6 +471,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             ->method('getParam')
             ->willReturnMap([
                 ['password', null, $password],
+                ['password_confirmation', null, $password],
                 ['is_subscribed', false, true],
             ]);
 

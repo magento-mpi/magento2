@@ -10,16 +10,9 @@ namespace Magento\Catalog\Api\Data;
 
 interface ProductLinkInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
-    const PRODUCT_SKU = 'product_sku';
-    const LINK_TYPE = 'link_type';
-    const LINKED_PRODUCT_SKU = 'linked_product_sku';
-    const LINKED_PRODUCT_TYPE = 'linked_product_type';
-    const POSITION = 'position';
-
     /**
      * Get product SKU
      *
-     * @identifier
      * @return string
      */
     public function getProductSku();
@@ -27,7 +20,6 @@ interface ProductLinkInterface extends \Magento\Framework\Api\ExtensibleDataInte
     /**
      * Get link type
      *
-     * @identifier
      * @return string
      */
     public function getLinkType();
@@ -35,7 +27,6 @@ interface ProductLinkInterface extends \Magento\Framework\Api\ExtensibleDataInte
     /**
      * Get linked product sku
      *
-     * @identifier
      * @return string
      */
     public function getLinkedProductSku();

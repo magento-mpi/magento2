@@ -33,7 +33,7 @@ class ProductLinkManagementTest extends \Magento\TestFramework\TestCase\WebapiAb
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetLinkedProducts'
+                'operation' => self::SERVICE_NAME . 'GetLinkedItemsByType'
             ]
         ];
 

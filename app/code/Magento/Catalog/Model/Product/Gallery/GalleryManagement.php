@@ -15,7 +15,7 @@ use \Magento\Catalog\Api\Data\ProductInterface as Product;
 use \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface as ContentInterface;
 use \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface;
 use \Magento\Catalog\Model\Product\Media\Config as MediaConfig;
-use \Magento\Framework\App\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGalleryManagementInterface
 {
@@ -161,7 +161,7 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
 
         $fileContent = @base64_decode($entryContent->getEntryData(), true);
         $mediaTmpPath = $this->mediaConfig->getBaseTmpMediaPath();
-        $mediaDirectory = $this->filesystem->getDirectoryWrite(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
+        $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $mediaDirectory->create($mediaTmpPath);
         $fileName = $entryContent->getName() . '.' . $this->mimeTypeExtensionMap[$entryContent->getMimeType()];
         $relativeFilePath = $mediaTmpPath . DIRECTORY_SEPARATOR . $fileName;

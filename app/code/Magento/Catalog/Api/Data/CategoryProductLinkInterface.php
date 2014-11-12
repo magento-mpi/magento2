@@ -10,10 +10,6 @@ namespace Magento\Catalog\Api\Data;
 
 interface CategoryProductLinkInterface
 {
-    const SKU = 'sku';
-    const POSITION = 'position';
-    const CATEGORY_ID = 'category_id';
-
     /**
      * @return string|null
      */
@@ -27,7 +23,7 @@ interface CategoryProductLinkInterface
     /**
      * Get category id
      *
-     * @return int
+     * @return string
      */
     public function getCategoryId();
 }

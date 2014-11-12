@@ -94,8 +94,15 @@ class CompositeExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      */
     public function __call($name, $arguments)
     {
-        call_user_func_array([$this->currentBuilder, $name], $arguments);
-        return $this;
+        $result = call_user_func_array([$this->currentBuilder, $name], $arguments);
+        if ($result === $this->currentBuilder) {
+            /*
+             * Return a reference to the composite builder instead of the reference to the current builder,
+             * which should not be exposed to the clients
+             */
+            return $this;
+        }
+        return $result;
     }
 
     /**
@@ -144,7 +151,7 @@ class CompositeExtensibleDataBuilder implements ExtensibleDataBuilderInterface
      * @param AbstractSimpleObject $prototype
      * @return $this
      */
-    public function populate(AbstractSimpleObject $prototype)
+    public function populate($prototype)
     {
         $this->currentBuilder->populate($prototype);
         return $this;

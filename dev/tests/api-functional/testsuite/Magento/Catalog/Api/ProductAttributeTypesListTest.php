@@ -12,7 +12,7 @@ use \Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ProductAttributeTypesListTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductAttributeReadServiceV1';
+    const SERVICE_NAME = 'catalogProductAttributeTypesListV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/attributes';
 
@@ -34,5 +34,7 @@ class ProductAttributeTypesListTest extends \Magento\TestFramework\TestCase\Weba
         $this->assertTrue(count($types) > 0);
         $this->assertArrayHasKey('value', $types[0]);
         $this->assertArrayHasKey('label', $types[0]);
+        $this->assertNotNull($types[0]['value']);
+        $this->assertNotNull($types[0]['label']);
     }
 }

@@ -50,6 +50,9 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         $this->metadataService = $metadataService;
         $data = $this->filterCustomAttributes($data);
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        if (isset($data['id'])) {
+            $this->setId($data['id']);
+        }
     }
 
     /**
@@ -172,5 +175,17 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         }
         $this->customAttributesCodes = $attributeCodes;
         return $attributeCodes;
+    }
+
+    /**
+     * Identifier setter
+     *
+     * @param mixed $value
+     * @return $this
+     */
+    public function setId($value)
+    {
+        parent::setId($value);
+        return $this->setData('id', $value);
     }
 }

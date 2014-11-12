@@ -8,8 +8,6 @@
 
 namespace Magento\Catalog\Model\ProductLink\Converter;
 
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
-
 class DefaultConverter implements ConverterInterface
 {
     /**
@@ -18,9 +16,9 @@ class DefaultConverter implements ConverterInterface
     public function convert(\Magento\Catalog\Model\Product $product)
     {
         return [
-            ProductLink::TYPE => $product->getTypeId(),
-            ProductLink::SKU => $product->getSku(),
-            ProductLink::POSITION => $product->getPosition()
+            'type' => $product->getTypeId(),
+            'sku' => $product->getSku(),
+            'position' => $product->getPosition()
         ];
     }
 }

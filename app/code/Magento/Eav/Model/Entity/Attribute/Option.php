@@ -9,6 +9,7 @@ namespace Magento\Eav\Model\Entity\Attribute;
 
 use Magento\Eav\Api\Data\AttributeOptionInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
+
 /**
  * Emtity attribute option model
  *

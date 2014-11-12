@@ -58,7 +58,6 @@ interface EavAttributeInterface extends \Magento\Eav\Api\Data\AttributeInterface
      * Whether it is used for sorting in product listing
      *
      * @return bool|null
-     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getUsedForSortBy();
     /**

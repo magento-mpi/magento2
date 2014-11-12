@@ -31,8 +31,10 @@ use Magento\Catalog\Api\Data\ProductInterface;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Product extends \Magento\Catalog\Model\AbstractModel
-    implements IdentityInterface, SaleableInterface, ProductInterface
+class Product extends \Magento\Catalog\Model\AbstractModel implements
+    IdentityInterface,
+    SaleableInterface,
+    ProductInterface
 {
     /**
      * Entity code.
@@ -209,10 +211,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     protected $_filesystem;
 
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $categoryIndexer;
+    /** @var \Magento\Indexer\Model\IndexerRegistry */
+    protected $indexerRegistry;
 
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
@@ -260,7 +260,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param Resource\Product\Collection $resourceCollection
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param Indexer\Product\Price\Processor $productPriceIndexerProcessor
      * @param Indexer\Product\Eav\Processor $productEavIndexerProcessor
@@ -290,7 +290,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         Resource\Product\Collection $resourceCollection,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Filesystem $filesystem,
-        \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor,
@@ -311,7 +311,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
         $this->_filesystem = $filesystem;
-        $this->categoryIndexer = $categoryIndexer;
+        $this->indexerRegistry = $indexerRegistry;
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
         $this->_productEavIndexerProcessor = $productEavIndexerProcessor;
@@ -335,19 +335,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected function _construct()
     {
         $this->_init('Magento\Catalog\Model\Resource\Product');
-    }
-
-    /**
-     * Return product category indexer object
-     *
-     * @return \Magento\Indexer\Model\IndexerInterface
-     */
-    protected function getCategoryIndexer()
-    {
-        if (!$this->categoryIndexer->getId()) {
-            $this->categoryIndexer->load(Indexer\Product\Category::INDEXER_ID);
-        }
-        return $this->categoryIndexer;
     }
 
     /**
@@ -834,8 +821,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function reindex()
     {
         $this->_productFlatIndexerProcessor->reindexRow($this->getEntityId());
-        if (!$this->getCategoryIndexer()->isScheduled()) {
-            $this->getCategoryIndexer()->reindexRow($this->getId());
+        $categoryIndexer = $this->indexerRegistry->get(Indexer\Product\Category::INDEXER_ID);
+        if (!$categoryIndexer->isScheduled()) {
+            $categoryIndexer->reindexRow($this->getId());
         }
     }
 

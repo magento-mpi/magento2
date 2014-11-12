@@ -20,7 +20,7 @@ interface CategoryInterface extends \Magento\Framework\Api\ExtensibleDataInterfa
     /**
      * Get parent category ID
      *
-     * @return int
+     * @return int|null
      */
     public function getParentId();
 
@@ -34,26 +34,26 @@ interface CategoryInterface extends \Magento\Framework\Api\ExtensibleDataInterfa
     /**
      * Check whether category is active
      *
-     * @return bool
+     * @return bool|null
      */
     public function getIsActive();
 
     /**
      * Get category position
      *
-     * @return int
+     * @return int|null
      */
     public function getPosition();
 
     /**
      * Get category level
      *
-     * @return int
+     * @return int|null
      */
     public function getLevel();
 
     /**
-     * @return array|null
+     * @return \Magento\Catalog\Api\Data\CategoryInterface[]|null
      */
     public function getChildren();
 

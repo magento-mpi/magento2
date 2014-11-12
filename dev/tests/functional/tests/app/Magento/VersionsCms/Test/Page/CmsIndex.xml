@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="cms/index/index">
+    <blocks>
+        <widgetView>
+            <renders>
+                <hierarchyNodeLink>
+                    <class>Magento\VersionsCms\Test\Block\WidgetView</class>
+                </hierarchyNodeLink>
+            </renders>
+        </widgetView>
+        <cmsHierarchyNodeBlock>
+            <class>Magento\VersionsCms\Test\Block\Page</class>
+            <locator>.col-main</locator>
+            <strategy>css selector</strategy>
+        </cmsHierarchyNodeBlock>
+    </blocks>
+</page>

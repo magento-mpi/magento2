@@ -26,12 +26,12 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     protected $storeManager;
 
     /**
-     * @var CategoryFactory
+     * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $categoryFactory;
 
     /**
-     * @var Resource\Category
+     * @var \Magento\Catalog\Model\Resource\Category
      */
     protected $categoryResource;
 
@@ -48,16 +48,16 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     protected $categoryBuilder;
 
     /**
-     * @param CategoryFactory $categoryFactory
-     * @param Resource\Category $categoryResource
+     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Resource\Category $categoryResource
      * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Api\Data\CategoryDataBuilder $dataBuilder
      */
     public function __construct(
-        CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Category $categoryResource,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Api\Data\CategoryDataBuilder $dataBuilder
-
     ) {
         $this->categoryFactory = $categoryFactory;
         $this->categoryResource = $categoryResource;
@@ -149,8 +149,13 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
             $categoryId = $category->getId();
             $this->categoryResource->delete($category);
         } catch (\Exception $e) {
-            throw new StateException('Cannot delete category with id %category_id',
-                ['category_id' => $category->getId()], $e);
+            throw new StateException(
+                'Cannot delete category with id %category_id',
+                [
+                    'category_id' => $category->getId()
+                ],
+                $e
+            );
         }
         if (array_key_exists($categoryId, $this->instances)) {
             unset($this->instances[$categoryId]);

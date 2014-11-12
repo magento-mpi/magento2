@@ -12,10 +12,8 @@ namespace Magento\CatalogPermissions\Model\Indexer\System\Config;
  */
 class Mode extends \Magento\Framework\App\Config\Value
 {
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $indexer;
+    /** @var \Magento\Indexer\Model\IndexerRegistry */
+    protected $indexerRegistry;
 
     /**
      * @var \Magento\Indexer\Model\Indexer\State
@@ -26,7 +24,7 @@ class Mode extends \Magento\Framework\App\Config\Value
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Indexer\Model\IndexerInterface $indexer
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      * @param \Magento\Indexer\Model\Indexer\State $indexerState
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -36,13 +34,13 @@ class Mode extends \Magento\Framework\App\Config\Value
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \Magento\Indexer\Model\IndexerInterface $indexer,
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         \Magento\Indexer\Model\Indexer\State $indexerState,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->indexer = $indexer;
+        $this->indexerRegistry = $indexerRegistry;
         $this->indexerState = $indexerState;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
@@ -71,12 +69,10 @@ class Mode extends \Magento\Framework\App\Config\Value
                 $this->indexerState->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_INVALID);
                 $this->indexerState->save();
             } else {
-                // Turn scheduled mode off for Category indexer
-                $this->indexer->load(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID);
-                $this->indexer->setScheduled(false);
-                // Turn scheduled mode off for Product indexer
-                $this->indexer->load(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID);
-                $this->indexer->setScheduled(false);
+                $this->indexerRegistry->get(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
+                    ->setScheduled(false);
+                $this->indexerRegistry->get(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID)
+                    ->setScheduled(false);
             }
         }
     }

@@ -11,46 +11,21 @@ namespace Magento\Catalog\Model;
 
 use \Magento\Catalog\Api\Data\ProductTypeInterface;
 
-class ProductType implements ProductTypeInterface
+class ProductType extends \Magento\Framework\Api\AbstractExtensibleObject implements ProductTypeInterface
 {
     /**
-     * Product type name
-     *
-     * @var string
+     * {@inheritdoc}
      */
-    private $key;
-
-    /**
-     * Product type label
-     *
-     * @var string
-     */
-    private $value;
-
-
-    /**
-     * @param string $key
-     * @param string $value
-     */
-    public function __construct($key, $value)
+    public function getName()
     {
-        $this->key = $key;
-        $this->value = $value;
+        return $this->_get('name');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getKey()
+    public function getLabel()
     {
-        return $this->key;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getValue()
-    {
-        return $this->value;
+        return $this->_get('label');
     }
 }

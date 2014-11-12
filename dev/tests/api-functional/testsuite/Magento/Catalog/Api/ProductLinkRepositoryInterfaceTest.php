@@ -14,7 +14,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 class ProductLinkRepositoryInterfaceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductLinkRepositoryInterfaceV1';
+    const SERVICE_NAME = 'catalogProductLinkRepositoryV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products/';
 
@@ -30,6 +30,7 @@ class ProductLinkRepositoryInterfaceTest extends WebapiAbstract
 
     /**
      * @magentoApiDataFixture Magento/Catalog/_files/products_related_multiple.php
+     * @magentoAppIsolation enabled
      */
     public function testDelete()
     {
@@ -41,7 +42,17 @@ class ProductLinkRepositoryInterfaceTest extends WebapiAbstract
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType . '/' . $linkedSku,
                     'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                ],
+                'soap' => [
+                    'service' => self::SERVICE_NAME,
+                    'serviceVersion' => self::SERVICE_VERSION,
+                    'operation' => self::SERVICE_NAME . 'DeleteById'
                 ]
+            ],
+            [
+                'productSku' => $productSku,
+                'type' => $linkType,
+                'linkedProductSku' => $linkedSku
             ]
         );
         /** @var \Magento\Catalog\Model\ProductLink\Management $linkManagement */
@@ -73,27 +84,23 @@ class ProductLinkRepositoryInterfaceTest extends WebapiAbstract
             ]
         ];
 
-        /** @var \Magento\Catalog\Model\ProductLink\Management $linkManagement */
-        $linkManagement = $this->objectManager->create('\Magento\Catalog\Api\ProductLinkManagementInterface');
-        $linkedProducts = $linkManagement->getLinkedItemsByType($productSku, $linkType);
-
-        /** @var \Magento\Catalog\Api\Data\ProductLinkInterface $current */
-        $current = current($linkedProducts);
-        $this->assertCount(1, $linkedProducts, 'Invalid linked products count');
-        //$this->assertEquals(1, $current->getPosition(), 'Invalid product position');
-
-        /** @var \Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder $builder */
-        $builder = $this->objectManager->get('Magento\Catalog\Api\Data\ProductLinkInterfaceDataBuilder');
-        $builder->populateWithArray($current->__toArray())->setPosition(2);
-        $updatedLink = $builder->create();
-
         $this->_webApiCall(
             $serviceInfo,
-            ['entity' => $updatedLink->__toArray()]
+            [
+                'entity' => [
+                    'product_sku' => 'simple_with_cross',
+                    'link_type' => 'related',
+                    'linked_product_sku' => 'simple',
+                    'linked_product_type' => 'simple',
+                    'position' => 1000
+                ]
+            ]
         );
 
+        /** @var \Magento\Catalog\Model\ProductLink\Management $linkManagement */
+        $linkManagement = $this->objectManager->get('\Magento\Catalog\Api\ProductLinkManagementInterface');
         $actual = $linkManagement->getLinkedItemsByType($productSku, $linkType);
         $this->assertCount(1, $actual, 'Invalid actual linked products count');
-        $this->assertEquals(2, $actual[0]->getPosition());
+        $this->assertEquals(1000, $actual[0]->getPosition(), 'Product position is not updated');
     }
 }
