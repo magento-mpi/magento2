@@ -31,23 +31,15 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testWithOneXmlFile()
+    public function testWithOnePhpFile()
     {
         $this->_dirs->expects($this->once())->method('getPath')->will($this->returnValue(__DIR__ . '/_files'));
         $this->_model = new Loader($this->_dirs);
-        $expected = require __DIR__ . '/_files/local.php';
+        $expected = require __DIR__ . '/_files/config.php';
         $this->assertEquals($expected, $this->_model->load());
     }
 
-    public function testWithTwoXmlFileMerging()
-    {
-        $this->_dirs->expects($this->once())->method('getPath')->will($this->returnValue(__DIR__ . '/_files'));
-        $this->_model = new Loader($this->_dirs, 'other/local_developer.xml');
-        $expected = require __DIR__ . '/_files/other/local_developer_merged.php';
-        $this->assertEquals($expected, $this->_model->load());
-    }
-
-    public function testWithoutXmlFiles()
+    public function testWithoutPhpFiles()
     {
         $this->_dirs->expects($this->once())->method('getPath')->will($this->returnValue(__DIR__ . '/notExistFolder'));
         $this->_model = new Loader($this->_dirs);

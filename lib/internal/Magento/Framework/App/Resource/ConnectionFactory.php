@@ -42,8 +42,8 @@ class ConnectionFactory
         if (!$connectionConfig || !isset($connectionConfig['active']) || !$connectionConfig['active']) {
             return null;
         }
-
-        $adapterInstance = new $this->adapterClass(
+        $adapterClass = isset($connectionConfig['adapter']) ? $connectionConfig['adapter'] : $this->adapterClass;
+        $adapterInstance = new $adapterClass(
             $this->logger,
             new \Magento\Framework\Stdlib\String,
             new \Magento\Framework\Stdlib\DateTime,

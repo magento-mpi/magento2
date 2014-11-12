@@ -4,8 +4,14 @@ namespace Magento\Framework\App\DeploymentConfig;
 
 class SessionConfig implements SegmentInterface
 {
+    /**
+     * Parameter for setup tool
+     */
     const KEY_SESSION_SAVE = 'session_save';
 
+    /**
+     * Key in config.php
+     */
     const KEY_SAVE = 'save';
 
     /**

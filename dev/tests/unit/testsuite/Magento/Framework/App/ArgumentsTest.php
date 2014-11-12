@@ -31,7 +31,7 @@ class ArgumentsTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$fixtureConfig = require __DIR__ . '/Arguments/_files/local.php';
+        self::$fixtureConfig = require __DIR__ . '/Arguments/_files/config.php';
         self::$fixtureConfigMerged = require __DIR__ . '/Arguments/_files/other/local_developer_merged.php';
     }
 
@@ -83,8 +83,8 @@ class ArgumentsTest extends \PHPUnit_Framework_TestCase
 
     public function testGetConnections()
     {
-        $this->assertEquals(self::$fixtureConfig['connection'], $this->_arguments->getConnections());
-        $this->assertEquals(self::$fixtureConfigMerged['connection'], $this->_argumentsMerged->getConnections());
+        $this->assertEquals(self::$fixtureConfig['db']['connection'], $this->_arguments->getConnections());
+        $this->assertEquals(self::$fixtureConfigMerged['db']['connection'], $this->_argumentsMerged->getConnections());
     }
 
     public function testGetResources()

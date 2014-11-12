@@ -29,7 +29,7 @@ Copy,Copy
 "Validation has failed.","Validation has failed."
 %1,%1
 "Insert Variable...","Insert Variable..."
-"System(config.xml, local.xml) and modules configuration files(config.xml).","System(config.xml, local.xml) and modules configuration files(config.xml)."
+"System(config.xml, config.php) and modules configuration files(config.xml).","System(config.xml, config.php) and modules configuration files(config.xml)."
 Layouts,Layouts
 "Layout building instructions.","Layout building instructions."
 "Blocks HTML output","Blocks HTML output"

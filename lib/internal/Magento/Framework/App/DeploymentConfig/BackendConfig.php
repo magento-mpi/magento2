@@ -26,7 +26,7 @@ class BackendConfig implements SegmentInterface
     const CONFIG_KEY = 'backend';
 
     /**
-     * Data -- session_save
+     * Data
      *
      * @var array
      */

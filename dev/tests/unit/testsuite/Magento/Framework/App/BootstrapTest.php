@@ -244,12 +244,9 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     public function testAssertInstalled($isInstalled, $isExpected)
     {
         $bootstrap = self::createBootstrap([Bootstrap::PARAM_REQUIRE_IS_INSTALLED => $isExpected]);
-        $this->configDir->expects($this->once())->method('isExist')->willReturn($isInstalled);
-        if ($isInstalled) {
-            $this->deploymentConfig->expects($this->once())->method('isAvailable')->willReturn(true);
-        } else {
-            $this->deploymentConfig->expects($this->never())->method('isAvailable');
-        }
+
+        $this->deploymentConfig->expects($this->once())->method('isAvailable')->willReturn($isInstalled);
+
         $this->application->expects($this->never())->method('launch');
         $this->application->expects($this->once())->method('catchException')->willReturn(true);
         $bootstrap->run($this->application);

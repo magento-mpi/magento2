@@ -34,20 +34,6 @@ class Loader
     private $config;
 
     /**
-     * Configuration identifier attributes
-     *
-     * @var array
-     */
-    private $segments = [
-        BackendConfig::CONFIG_KEY,
-        DbConfig::CONFIG_KEY,
-        EncryptConfig::CONFIG_KEY,
-        SessionConfig::CONFIG_KEY,
-        InstallConfig::CONFIG_KEY,
-        ResourceConfig::CONFIG_KEY,
-    ];
-
-    /**
      * @param \Magento\Framework\App\Filesystem\DirectoryList $dirList
      * @param string $customFile
      */
@@ -64,10 +50,7 @@ class Loader
      */
     public function load()
     {
-        $result = [];
-        foreach ($this->segments as $segment) {
-            $result[$segment] = $this->config->getSegment($segment);
-        }
+        $result = $this->config->get();
         return !empty($result) ? $result : array();
     }
 }

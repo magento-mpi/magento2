@@ -18,7 +18,7 @@ class InstallConfig
     const CONFIG_KEY = 'install';
 
     /**
-     * Data -- session_save
+     * Data
      *
      * @var array
      */

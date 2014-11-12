@@ -44,24 +44,12 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Adapter is not set for connection
-     */
-    public function testCreateNoAdapter()
-    {
-        $config = [
-            'active' => 1,
-        ];
-
-        $this->model->create($config);
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Trying to create wrong connection adapter
      */
-    public function testCreateNoWrongAdapter()
+    public function testCreateWrongAdapter()
     {
         $config = [
+            'host' => 'localhost',
             'active' => 1,
             'adapter' => 'StdClass',
         ];

@@ -7,9 +7,11 @@
  */
 
 return array(
-    'connection' => array(
-        'connection_one' => array('name' => 'connection_one', 'dbname' => 'db_one'),
-        'connection_two' => array('name' => 'connection_two', 'dbname' => 'db_two')
+    'db' => array(
+        'connection' => array(
+            'connection_one' => array('name' => 'connection_one', 'dbname' => 'db_one'),
+            'connection_two' => array('name' => 'connection_two', 'dbname' => 'db_two')
+        )
     ),
     'resource' => array(
         'resource_one' => array('name' => 'resource_one', 'connection' => 'connection_one'),

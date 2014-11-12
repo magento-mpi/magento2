@@ -35,7 +35,6 @@ class ConnectionFactoryCacheableTest extends \PHPUnit_Framework_TestCase
             'password' => $dbInstance->getPassword(),
             'dbname' => $dbInstance->getSchema(),
             'active' => true,
-            'adapter' => 'Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql',
         ];
         $connection = $this->model->create($dbConfig);
         $this->assertInstanceOf('\Magento\Framework\DB\Adapter\AdapterInterface', $connection);

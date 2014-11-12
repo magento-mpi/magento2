@@ -17,7 +17,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class Key extends \Magento\Backend\App\Action
 {
     /**
-     * Check whether local.xml is writeable
+     * Check whether config.php is writeable
      *
      * @return bool
      */
