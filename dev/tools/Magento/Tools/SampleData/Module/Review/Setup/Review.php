@@ -48,6 +48,16 @@ class Review implements SetupInterface
     protected $productCollection;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $customerAccount;
+
+    /**
+     * @var \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
+     */
+    protected $ratings;
+
+    /**
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
@@ -59,13 +69,15 @@ class Review implements SetupInterface
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
-        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
     ) {
         $this->reviewFactory = $reviewFactory;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
         $this->ratingFactory = $ratingFactory;
         $this->productCollection = $productCollectionFactory->create()->addAttributeToSelect('sku');
+        $this->customerAccount = $customerAccount;
     }
 
     /**
@@ -79,14 +91,16 @@ class Review implements SetupInterface
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
         $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
-        $ratingId = ['1', '2', '3'];
         $storeId = ['1'];
-        $this->assignRatingsToWebsite($ratingId, $storeId);
+        $this->assignRatingsToWebsite($storeId);
         foreach ($csvReader as $row) {
             if (!$this->getProductIdBySku($row['sku'])) {
                 continue;
             }
             $review = $this->prepareReview($row);
+            if (!empty($row['email']) && ($this->getCustomerIdByEmail($row['email']) != null)) {
+                $review->setCustomerId($this->getCustomerIdByEmail($row['email']));
+            }
             $review->save();
             $this->setReviewRating($review, $row);
             echo '.';
@@ -119,9 +133,8 @@ class Review implements SetupInterface
      */
     public function prepareReview($row)
     {
-        $review = $this->reviewFactory->create();
         /** @var $review \Magento\Review\Model\Review */
-        $review->unsetData();
+        $review = $this->reviewFactory->create();
         $review->setEntityId(
             $review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE)
         )->setEntityPkValue(
@@ -143,6 +156,15 @@ class Review implements SetupInterface
         return $review;
     }
 
+    public function getRatings()
+    {
+        if (!isset($this->ratings)) {
+            $ratingModel = $this->ratingFactory->create();
+            $this->ratings = $ratingModel->getResourceCollection();
+        }
+        return $this->ratings;
+
+    }
     /**
      * @param \Magento\Review\Model\Review $review
      * @param array $row
@@ -150,50 +172,47 @@ class Review implements SetupInterface
      */
     public function setReviewRating(\Magento\Review\Model\Review $review, $row)
     {
-        $ratings = unserialize($row['rating']);
-        foreach ($ratings as $ratingId => $ratingOption) {
-            $rating = $this->ratingFactory->create()->load($ratingId);
-            $optionId = $this->getOptionId($rating->getOptions(), $ratingOption);
-            $rating->setReviewId(
-                $review->getId()
-            )->addOptionVote(
-                $optionId,
-                $this->getProductIdBySku($row['sku'])
-            );
+        $reviewRatings = unserialize($row['rating']);
+        foreach ($this->getRatings() as $rating) {
+            foreach ($rating->getOptions() as $option) {
+                if ($option->getValue() == $reviewRatings[$rating->getId()]) {
+                    $optionId = $option->getOptionId();
+                    if (!empty($optionId)) {
+                        $rating->setReviewId(
+                            $review->getId()
+                        )->addOptionVote(
+                            $optionId,
+                            $this->getProductIdBySku($row['sku'])
+                        );
+                    }
+                }
+            }
         }
     }
 
     /**
-     * @param array $allRatings
      * @param array $stores
      * @return void
      */
-    public function assignRatingsToWebsite($allRatings = [], $stores = ['1'])
+    public function assignRatingsToWebsite($stores = ['1'])
     {
-        $rating = $this->ratingFactory->create();
         $stores[] = '0';
-        foreach ($allRatings as $ratingCode) {
-            $rating->setId(
-                $ratingCode
-            )->setStores(
+        foreach ($this->getRatings() as $rating) {
+            $rating->setStores(
                 $stores
-            )->setEntityId(
-                1
             )->save();
         }
     }
 
     /**
-     * @param array $options
-     * @param string $value
-     * @return null|string
+     * @param string $customerEmail
+     * @return int|null
      */
-    public function getOptionId($options, $value)
+    protected function getCustomerIdByEmail($customerEmail)
     {
-        foreach ($options as $option) {
-            if ($option->getValue() == $value) {
-                return $option->getOptionId();
-            }
+        $customerData = $this->customerAccount->getCustomerByEmail($customerEmail);
+        if ($customerData) {
+            return $customerData->getId();
         }
         return null;
     }
