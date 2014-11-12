@@ -129,7 +129,7 @@ class AddressMetadataServiceTest extends WebapiAbstract
         $requestData = ['attribute_code' => 'custom_attribute'];
         $attributeMetadata = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertCount(2, $attributeMetadata);
-        $this->assertEquals('custom_attribute', $attributeMetadata[0]['attribute_code']);
+        $this->assertEquals('custom_attribute_test', $attributeMetadata[0]['attribute_code']);
     }
 
     /**

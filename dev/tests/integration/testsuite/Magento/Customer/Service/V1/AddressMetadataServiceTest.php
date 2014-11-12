@@ -64,9 +64,9 @@ class AddressMetadataServiceTest extends \PHPUnit_Framework_TestCase
          */
         $this->markTestSkipped('It is impossible to save EAV attribute with custom_attribute code.');
         $customAttributesMetadata = $this->_service->getCustomAttributesMetadata();
-        $customAttributeCode = 'custom_attribute';
+        $customAttributeCode = 'custom_attribute_test';
         $customAttributeFound = false;
-        $customAttributesCode = 'custom_attributes';
+        $customAttributesCode = 'custom_attributes_test';
         $customAttributesFound = false;
         foreach ($customAttributesMetadata as $attribute) {
             if ($attribute->getAttributeCode() == $customAttributeCode) {

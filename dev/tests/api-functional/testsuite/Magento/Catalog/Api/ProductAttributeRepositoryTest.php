@@ -82,7 +82,6 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
      */
     public function testCreate()
     {
-        $this->markTestIncomplete('Need resolve problem with hasDataChanges flag.');
         $attributeCode = 'label_attr_code3df4tr3';
         $attribute = $this->createAttribute($attributeCode);
         $this->assertArrayHasKey('attribute_id', $attribute);
@@ -94,7 +93,6 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
      */
     public function testCreateWithExceptionIfAttributeAlreadyExists()
     {
-        $this->markTestIncomplete('Need resolve problem with hasDataChanges flag.');
         $attributeCode = 'test_attribute_code_333';
         $expectedMessage = 'Attribute with the same code already exists.';
         try {
@@ -118,7 +116,6 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
      */
     public function testUpdate()
     {
-        $this->markTestIncomplete('Need resolve problem with hasDataChanges flag.');
         $attributeCode = 'test_attribute_code_333';
         $attribute = $this->getAttribute($attributeCode);
 
