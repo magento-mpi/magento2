@@ -1,0 +1,2 @@
+"widget/data/widgetOptions/preset";"widget/data/code";"widget/data/theme_id";"widget/data/title";"widget/data/store_ids/dataSet";"widget/data/layout/preset";"constraint";"issue"
+"hierarchyNodeLink";"CMS Hierarchy Node Link";"Magento Blank";"Title_%isolation%";"All Store Views";"all_pages";"assertWidgetSuccessSaveMessage, assertWidgetInGrid, assertWidgetHierarchyNodeLinkOnHomePage";"Bug: MAGETWO-28346"
