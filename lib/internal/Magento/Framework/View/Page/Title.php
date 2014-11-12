@@ -11,8 +11,16 @@ namespace Magento\Framework\View\Page;
 use Magento\Framework\App;
 use Magento\Framework\View;
 
+/**
+ * Page title
+ */
 class Title
 {
+    /**
+     * Default title glue
+     */
+    const TITLE_GLUE = ' / ';
+
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
@@ -53,12 +61,11 @@ class Title
     /**
      * Retrieve title element text (encoded)
      *
-     * @param string $glue
      * @return string
      */
-    public function get($glue = ' / ')
+    public function get()
     {
-        return join($glue, $this->build());
+        return join(self::TITLE_GLUE, $this->build());
     }
 
     /**
