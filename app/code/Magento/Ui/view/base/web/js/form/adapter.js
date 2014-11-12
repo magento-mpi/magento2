@@ -13,7 +13,7 @@ define([
     var buttons = {
         'reset':            '#reset',
         'save':             "#save",
-        'saveAndContinue':  '#save_and_continue'
+        'saveAndContinue':  '#saveAndContinue'
     };
 
     function initListener(callback, action){

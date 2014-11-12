@@ -13,7 +13,7 @@ define([
 
     var __super__ = Component.prototype;
 
-    function collect(selector){
+    function collectData(selector){
         var items = document.querySelectorAll(selector),
             result = {};
 
@@ -45,12 +45,10 @@ define([
         },
 
         initAdapter: function(){
-            _.bindAll(this, 'reset', 'save');
-
             adapter.on({
                 'reset':            this.reset,
-                'save':             this.save,
-                'saveAndContinue':  this.save
+                'save':             this.save.bind(this, true),
+                'saveAndContinue':  this.save.bind(this, false)
             });
 
             return this;
@@ -72,28 +70,30 @@ define([
             this.provider.data.trigger('reset');
         },
 
-        save: function(){
+        save: function(redirect){
             var params = this.provider.params;
 
             this.validate();
 
             if (!params.get('invalid')) {
-                this.submit();
+                this.submit(redirect);
             }
         },
 
         /**
          * Submits form
          */
-        submit: function () {
-            var additional  = collect(this.selector),
+        submit: function (redirect) {
+            var additional  = collectData(this.selector),
                 provider    = this.provider;
 
             _.each(additional, function(value, name){
                 provider.data.set(name, value);
             });
 
-            provider.save();
+            provider.save({
+                redirect: redirect
+            });
         },
 
         /**

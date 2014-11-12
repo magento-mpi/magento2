@@ -56,7 +56,7 @@ define([
             this.client = new Client({
                 urls: {
                     beforeSave: this.validate_url,
-                    save: this.submit_url
+                    save:       this.submit_url
                 } 
             });
 
@@ -66,10 +66,10 @@ define([
         /**
          * Assembles data and submits it using 'utils.submit' method
          */
-        save: function(){
+        save: function(options){
             var data = this.data.get();
             
-            this.client.save(data);
+            this.client.save(data, options);
 
             return this;
         }

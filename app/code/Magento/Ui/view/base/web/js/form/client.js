@@ -15,23 +15,24 @@ define([
     var defaults = {};
 
     function beforeSave(data, url){
-        var save        = $.Deferred(),
-            serialized  = utils.serialize(data);
+        var save = $.Deferred();
         
-        serialized.form_key = FORM_KEY;
+        data = utils.serialize(data);
+
+        data.form_key = FORM_KEY;
         
         if(!url){
-            save.resolve(data);
+            save.resolve();
         }
 
         $('body').trigger('processStart');
 
         $.ajax({
             url: url,
-            data: serialized,
+            data: data,
             success: function(resp){
                 if(!resp.error){
-                    save.resolve(data);
+                    save.resolve();
                 }
             },
             complete: function(){
@@ -49,26 +50,33 @@ define([
          */
         initialize: function(config) {
             _.extend(this, defaults, config);
-
-            _.bindAll(this, '_save');
         },
 
         /**
          * Assembles data and submits it using 'utils.submit' method
          */
-        save: function(data){
-            var url = this.urls.beforeSave;
+        save: function(data, options){
+            var url     = this.urls.beforeSave,
+                save    = this._save.bind(this, data, options);
 
-            beforeSave(data, url).then(this._save);
+            beforeSave(data, url).then(save);
 
             return this;
         },
 
-        _save: function(data){
+        _save: function(data, options){
+            var url = this.urls.save;
+
+            options = options || {};
+
             data.form_key = FORM_KEY;
 
+            if(!options.redirect){
+                url += '_current/true/back/edit';
+            }
+
             utils.submit({
-                url:    this.urls.save,
+                url:    url,
                 data:   data
             });
 
