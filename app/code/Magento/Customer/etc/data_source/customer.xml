@@ -54,7 +54,11 @@
             <field name="dob" source="eav" dataType="text" label="Date Of Birth" formElement="date"/>
             <field name="taxvat" source="eav" dataType="text" label="Tax VAT Number"/>
             <field name="gender" source="eav" dataType="text" formElement="select"/>
-            <field name="sendemail" dataType="boolean" formElement="checkbox" label="Send Welcome Email"/>
+            <field name="sendemail"
+                   dataType="boolean"
+                   formElement="checkbox"
+                   label="Welcome Email"
+                   description="Send a Welcome email "/>
             <field name="sendemail_store_id"
                    dataType="number"
                    formElement="select"
