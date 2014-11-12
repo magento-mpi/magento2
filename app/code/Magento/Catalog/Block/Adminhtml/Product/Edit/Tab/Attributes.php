@@ -121,12 +121,6 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
                 }
             }
 
-            // Set the correct product default tax class id
-            $values["tax_class_id"] = $this->_scopeConfig->getValue(
-                'tax/classes/default_product_tax_class',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
-
             $form->addValues($values);
             $form->setFieldNameSuffix('product');
 

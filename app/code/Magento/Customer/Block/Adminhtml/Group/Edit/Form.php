@@ -8,7 +8,6 @@
 namespace Magento\Customer\Block\Adminhtml\Group\Edit;
 
 use Magento\Customer\Controller\RegistryConstants;
-
 /**
  * Adminhtml customer groups edit form
  */
@@ -18,6 +17,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @var \Magento\Tax\Model\TaxClass\Source\Customer
      */
     protected $_taxCustomer;
+
+    /**
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxHelper;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
@@ -34,6 +38,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer
+     * @param \Magento\Tax\Helper\Data\TaxHelper $taxHelper
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $groupBuilder
      * @param array $data
@@ -43,11 +48,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer,
+        \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $groupBuilder,
         array $data = array()
     ) {
         $this->_taxCustomer = $taxCustomer;
+        $this->_taxHelper = $taxHelper;
         $this->_groupService = $groupService;
         $this->_groupBuilder = $groupBuilder;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -69,8 +76,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Customer\Service\V1\Data\CustomerGroup $customerGroup */
         if (is_null($groupId)) {
             $customerGroup = $this->_groupBuilder->create();
+            $defaultCustomerTaxClass = $this->_taxHelper->getDefaultCustomerTaxClass();
         } else {
             $customerGroup = $this->_groupService->getGroup($groupId);
+            $defaultCustomerTaxClass = $customerGroup->getTaxClassId();
         }
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Group Information')));
@@ -99,12 +108,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $name->setDisabled(true);
         }
 
-        // Set the correct product default tax class id
-        $defaultCustomerTaxClass = $this->_scopeConfig->getValue(
-            'tax/classes/default_customer_tax_class',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
-
         $fieldset->addField(
             'tax_class_id',
             'select',
@@ -115,10 +118,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'class' => 'required-entry',
                 'required' => true,
                 'values' => $this->_taxCustomer->toOptionArray(true),
-                'value' => $defaultCustomerTaxClass
             )
         );
-
 
         if (!is_null($customerGroup->getId())) {
             // If edit add id
