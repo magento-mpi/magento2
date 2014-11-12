@@ -33,7 +33,7 @@ class Config implements ConfigInterface
     /**
      * Configuration path for session cache limiter
      */
-    const PARAM_SESSION_CACHE_LIMITER = 'session_cache_limiter';
+    const PARAM_SESSION_CACHE_LIMITER = 'session.cache_limiter';
 
     /**
      * Configuration path for cookie domain

@@ -54,11 +54,12 @@ class Arguments
         $output['connection'] = isset($input[DbConfig::CONFIG_KEY]['connection']) ?
             $input[DbConfig::CONFIG_KEY]['connection'] : array();
         $output['resource'] = isset($input[ResourceConfig::CONFIG_KEY]) ? $input[ResourceConfig::CONFIG_KEY] : array();
+        $output['cache'] = isset($input['cache']) ? $input['cache'] : array();
         unset($input[DbConfig::CONFIG_KEY]['connection']);
         unset($input[ResourceConfig::CONFIG_KEY]);
+        unset($input['cache']);
 
         $output = array_merge($output, $this->_flattenParams($input));
-        $output['cache'] = isset($input['cache']) ? $input['cache'] : array();
         return $output;
     }
 

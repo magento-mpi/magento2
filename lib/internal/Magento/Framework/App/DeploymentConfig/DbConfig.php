@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-class DbConfig implements SegmentInterface
+class DbConfig extends Config
 {
     /**
      * Keys for config.php
@@ -39,28 +39,6 @@ class DbConfig implements SegmentInterface
     const CONFIG_KEY = 'db';
 
     /**
-     * Data -- database connection
-     *
-     * @var array
-     */
-    private $data = [
-        self::KEY_PREFIX => '',
-        'connection' => [
-            'default' => [
-                'name' => 'default',
-                self::KEY_HOST => '',
-                self::KEY_NAME => '',
-                self::KEY_USER => '',
-                self::KEY_PASS => '',
-                self::KEY_MODEL => 'mysql4',
-                self::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
-                self::KEY_ACTIVE => '1',
-            ],
-        ]
-    ];
-
-
-    /**
      * Constructor
      *
      * @param array $data
@@ -68,32 +46,28 @@ class DbConfig implements SegmentInterface
      */
     public function __construct(array $data)
     {
-        $this->update($data);
+        $this->data = [
+            self::KEY_PREFIX => '',
+            'connection' => [
+                'default' => [
+                    'name' => 'default',
+                    self::KEY_HOST => '',
+                    self::KEY_NAME => '',
+                    self::KEY_USER => '',
+                    self::KEY_PASS => '',
+                    self::KEY_MODEL => 'mysql4',
+                    self::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
+                    self::KEY_ACTIVE => '1',
+                ],
+            ]
+        ];
+        parent::__construct($this->update($data));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getKey()
-    {
-        return self::CONFIG_KEY;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * Update data
-     *
-     * @param string[] $data
-     * @return void
-     */
-    public function update($data)
+    protected function update(array $data)
     {
         $new = [];
         $new[self::KEY_PREFIX] = isset($data[self::KEY_PREFIX]) ?
@@ -103,7 +77,7 @@ class DbConfig implements SegmentInterface
                 isset($data[$key]) ? $data[$key] : $this->data['connection']['default'][$key];
         }
         $this->checkData($new);
-        $this->data = $new;
+        return $new;
     }
 
     /**

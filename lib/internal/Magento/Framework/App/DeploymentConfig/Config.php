@@ -35,16 +35,18 @@ class Config implements SegmentInterface
      * @param string[] $data
      * @return array
      */
-    public function update($data)
+    protected function update(array $data)
     {
+        $isSet = function ($value) {
+            return isset($value);
+        };
+        // get rid of null values
+        $data = array_filter($data, $isSet);
         if (empty($data)) {
             return $this->data;
         }
 
-        $new = [];
-        foreach (array_keys($this->data) as $key) {
-            $new[$key] = isset($data[$key]) ? $data[$key] : $this->data[$key];
-        }
+        $new = array_replace_recursive($this->data, $data);
         return $new;
     }
 

@@ -294,10 +294,10 @@
         </exec>
     </target>
 
-    <target name="_copy_local_xml">
-        <copy file="${dir.build_directory}/instance-0/app/etc/local.xml" failonerror="true" overwrite="true"
-              tofile="${dir.build_directory}/instance-${instanceIndex}/app/etc/local.xml"/>
-        <replace file="${dir.build_directory}/instance-${instanceIndex}/app/etc/local.xml">
+    <target name="_copy_config_php">
+        <copy file="${dir.build_directory}/instance-0/app/etc/config.php" failonerror="true" overwrite="true"
+              tofile="${dir.build_directory}/instance-${instanceIndex}/app/etc/config.php"/>
+        <replace file="${dir.build_directory}/instance-${instanceIndex}/app/etc/config.php">
             <replacefilter token="${env.db_name_prefix}0" value="${env.db_name_prefix}${instanceIndex}"/>
         </replace>
     </target>

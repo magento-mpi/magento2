@@ -12,12 +12,6 @@ namespace Magento\Framework\App\Arguments;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\DeploymentConfig;
 use Magento\Framework\App\DeploymentConfig\Reader;
-use Magento\Framework\App\DeploymentConfig\BackendConfig;
-use Magento\Framework\App\DeploymentConfig\EncryptConfig;
-use Magento\Framework\App\DeploymentConfig\DbConfig;
-use Magento\Framework\App\DeploymentConfig\SessionConfig;
-use Magento\Framework\App\DeploymentConfig\InstallConfig;
-use Magento\Framework\App\DeploymentConfig\ResourceConfig;
 
 class Loader
 {
