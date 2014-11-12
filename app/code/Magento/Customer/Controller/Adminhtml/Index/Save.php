@@ -49,10 +49,13 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
     }
 
     /**
+     * Saves default_billing and default_shipping flags for customer address
+     *
      * @param array $addressIdList
+     * @param array $customerData
      * @return array
      */
-    protected function saveDefaultFlags(array $addressIdList)
+    protected function saveDefaultFlags(array $addressIdList, array $customerData)
     {
         $result = array();
         /** @var \Magento\Customer\Helper\Data $customerHelper */
@@ -103,7 +106,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             }
 
             $addressIdList = array_keys($addresses);
-            $result = $this->saveDefaultFlags($addressIdList);
+            $result = $this->saveDefaultFlags($addressIdList, $customerData);
         }
 
         return $result;

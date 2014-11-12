@@ -104,9 +104,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
                 'email' => 'example@domain.com',
-                'default_billing' => '_item1'
-            ),
-            'customer_address' => array('_item1' => array())
+                'default_billing' => '_item1',
+                'customer_address' => array('_item1' => array())
+            )
         );
         $this->getRequest()->setPost($post);
         $this->dispatch('backend/customer/index/save');
@@ -145,16 +145,16 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'email' => 'example@domain.com',
                 'default_billing' => '_item1',
                 'password' => 'password',
-            ),
-            'customer_address' => array(
-                '_item1' => array(
-                    'firstname' => 'test firstname',
-                    'lastname' => 'test lastname',
-                    'street' => array('test street'),
-                    'city' => 'test city',
-                    'country_id' => 'US',
-                    'postcode' => '01001',
-                    'telephone' => '+7000000001'
+                'customer_address' => array(
+                    '_item1' => array(
+                        'firstname' => 'test firstname',
+                        'lastname' => 'test lastname',
+                        'street' => array('test street'),
+                        'city' => 'test city',
+                        'country_id' => 'US',
+                        'postcode' => '01001',
+                        'telephone' => '+7000000001'
+                    )
                 )
             )
         );
@@ -223,41 +223,44 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
-                'sendemail' => '1'
-            ),
-            'customer_address' => array(
-                '1' => array(
-                    'firstname' => 'update firstname',
-                    'lastname' => 'update lastname',
-                    'street' => array('update street'),
-                    'city' => 'update city',
-                    'country_id' => 'US',
-                    'postcode' => '01001',
-                    'telephone' => '+7000000001'
+                'sendemail' => '1',
+                'created_at' => '2000-01-01 00:00:00',
+                'default_billing' => 1,
+                'customer_address' => array(
+                    '1' => array(
+                        'firstname' => 'update firstname',
+                        'lastname' => 'update lastname',
+                        'street' => array('update street'),
+                        'city' => 'update city',
+                        'country_id' => 'US',
+                        'postcode' => '01001',
+                        'telephone' => '+7000000001'
+                    ),
+                    '_item1' => array(
+                        'firstname' => 'new firstname',
+                        'lastname' => 'new lastname',
+                        'street' => array('new street'),
+                        'city' => 'new city',
+                        'country_id' => 'US',
+                        'postcode' => '01001',
+                        'telephone' => '+7000000001'
+                    ),
+                    '_template_' => array(
+                        'firstname' => '',
+                        'lastname' => '',
+                        'street' => array(),
+                        'city' => '',
+                        'country_id' => 'US',
+                        'postcode' => '',
+                        'telephone' => ''
+                    )
                 ),
-                '_item1' => array(
-                    'firstname' => 'new firstname',
-                    'lastname' => 'new lastname',
-                    'street' => array('new street'),
-                    'city' => 'new city',
-                    'country_id' => 'US',
-                    'postcode' => '01001',
-                    'telephone' => '+7000000001'
-                ),
-                '_template_' => array(
-                    'firstname' => '',
-                    'lastname' => '',
-                    'street' => array(),
-                    'city' => '',
-                    'country_id' => 'US',
-                    'postcode' => '',
-                    'telephone' => ''
-                )
             ),
+
             'subscription' => ''
         );
         $this->getRequest()->setPost($post);
-        $this->getRequest()->setParam('customer_id', 1);
+        $this->getRequest()->setParam('id', 1);
         $this->dispatch('backend/customer/index/save');
         /**
          * Check that success message is set
@@ -394,35 +397,35 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
-                'sendemail' => '1'
-            ),
-            'customer_address' => array(
-                '1' => array(
-                    'firstname' => 'update firstname',
-                    'lastname' => 'update lastname',
-                    'street' => array('update street'),
-                    'city' => 'update city',
-                    'country_id' => 'US',
-                    'postcode' => '01001',
-                    'telephone' => '+7000000001'
-                ),
-                '_item1' => array(
-                    'firstname' => 'default firstname',
-                    'lastname' => 'default lastname',
-                    'street' => array('default street'),
-                    'city' => 'default city',
-                    'country_id' => 'US',
-                    'postcode' => '01001',
-                    'telephone' => '+7000000001'
-                ),
-                '_template_' => array(
-                    'firstname' => '',
-                    'lastname' => '',
-                    'street' => array(),
-                    'city' => '',
-                    'country_id' => 'US',
-                    'postcode' => '',
-                    'telephone' => ''
+                'sendemail' => '1',
+                'customer_address' => array(
+                    '1' => array(
+                        'firstname' => 'update firstname',
+                        'lastname' => 'update lastname',
+                        'street' => array('update street'),
+                        'city' => 'update city',
+                        'country_id' => 'US',
+                        'postcode' => '01001',
+                        'telephone' => '+7000000001'
+                    ),
+                    '_item1' => array(
+                        'firstname' => 'default firstname',
+                        'lastname' => 'default lastname',
+                        'street' => array('default street'),
+                        'city' => 'default city',
+                        'country_id' => 'US',
+                        'postcode' => '01001',
+                        'telephone' => '+7000000001'
+                    ),
+                    '_template_' => array(
+                        'firstname' => '',
+                        'lastname' => '',
+                        'street' => array(),
+                        'city' => '',
+                        'country_id' => 'US',
+                        'postcode' => '',
+                        'telephone' => ''
+                    )
                 )
             )
         );
@@ -474,9 +477,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'firstname' => false,
                 'group_id' => false,
                 'lastname' => false,
-                'website_id' => false
-            ),
-            'customer_address' => array()
+                'website_id' => false,
+                'customer_address' => array()
+            )
         );
         $context = Bootstrap::getObjectManager()->get('Magento\Backend\Block\Template\Context');
         $context->getBackendSession()->setCustomerData($customerData);
@@ -888,26 +891,26 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
-                'sendemail' => '1'
-            ),
-            'customer_address' => array(
-                '_item1' => array(
-                    'firstname' => 'update firstname',
-                    'lastname' => 'update lastname',
-                    'street' => array('update street'),
-                    'city' => 'update city',
-                    'country_id' => 'US',
-                    'postcode' => '01001',
-                    'telephone' => '+7000000001'
-                ),
-                '_template_' => array(
-                    'firstname' => '',
-                    'lastname' => '',
-                    'street' => array(),
-                    'city' => '',
-                    'country_id' => 'US',
-                    'postcode' => '',
-                    'telephone' => ''
+                'sendemail' => '1',
+                'customer_address' => array(
+                    '_item1' => array(
+                        'firstname' => 'update firstname',
+                        'lastname' => 'update lastname',
+                        'street' => array('update street'),
+                        'city' => 'update city',
+                        'country_id' => 'US',
+                        'postcode' => '01001',
+                        'telephone' => '+7000000001'
+                    ),
+                    '_template_' => array(
+                        'firstname' => '',
+                        'lastname' => '',
+                        'street' => array(),
+                        'city' => '',
+                        'country_id' => 'US',
+                        'postcode' => '',
+                        'telephone' => ''
+                    )
                 )
             )
         );
@@ -938,30 +941,30 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'middlename' => 'new middlename',
                 'group_id' => 1,
                 'website_id' => 1,
-                'firstname' => 'new firstname',
-                'lastname' => 'new lastname',
+                'firstname' => '',
+                'lastname' => '',
                 'email' => '*',
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
-                'sendemail' => '1'
-            ),
-            'customer_address' => array(
-                '1' => array(
-                    'firstname' => '',
-                    'lastname' => '',
-                    'street' => array('update street'),
-                    'city' => 'update city',
-                    'postcode' => '01001',
-                    'telephone' => ''
-                ),
-                '_template_' => array(
-                    'lastname' => '',
-                    'street' => array(),
-                    'city' => '',
-                    'country_id' => 'US',
-                    'postcode' => '',
-                    'telephone' => ''
+                'sendemail' => '1',
+                'customer_address' => array(
+                    '1' => array(
+                        'firstname' => '',
+                        'lastname' => '',
+                        'street' => array('update street'),
+                        'city' => 'update city',
+                        'postcode' => '01001',
+                        'telephone' => ''
+                    ),
+                    '_template_' => array(
+                        'lastname' => '',
+                        'street' => array(),
+                        'city' => '',
+                        'country_id' => 'US',
+                        'postcode' => '',
+                        'telephone' => ''
+                    )
                 )
             )
         );
