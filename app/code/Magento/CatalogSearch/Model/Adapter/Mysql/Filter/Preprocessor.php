@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogSearch\Model\Adapter\Mysql\Filter;
 
-use Magento\CatalogSearch\Model\Resource\Fulltext\Engine;
+use Magento\CatalogSearch\Model\Resource\Engine;
 use Magento\Eav\Model\Config;
 use Magento\Framework\App\Resource;
 use Magento\Framework\App\ScopeResolverInterface;
