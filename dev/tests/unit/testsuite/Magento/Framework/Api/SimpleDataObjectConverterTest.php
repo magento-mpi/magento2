@@ -181,21 +181,21 @@ class SimpleDataObjectConverterTest extends \PHPUnit_Framework_TestCase
         $address2 = $addressBuilder->create();
 
         $customerData = [
-            Customer::FIRSTNAME => self::FIRSTNAME,
-            Customer::LASTNAME => self::LASTNAME,
-            Customer::EMAIL => 'janedoe@example.com',
-            Customer::CONFIRMATION => self::CONFIRMATION,
-            Customer::CREATED_AT => self::CREATED_AT,
-            Customer::CREATED_IN => self::STORE_NAME,
-            Customer::DOB => self::DOB,
-            Customer::GENDER => self::GENDER,
-            Customer::GROUP_ID => self::GROUP_ID,
-            Customer::MIDDLENAME => self::MIDDLENAME,
-            Customer::PREFIX => self::PREFIX,
-            Customer::STORE_ID => self::STORE_ID,
-            Customer::SUFFIX => self::SUFFIX,
-            Customer::TAXVAT => self::TAXVAT,
-            Customer::WEBSITE_ID => self::WEBSITE_ID
+            CustomerInterface::FIRSTNAME => self::FIRSTNAME,
+            CustomerInterface::LASTNAME => self::LASTNAME,
+            CustomerInterface::EMAIL => 'janedoe@example.com',
+            CustomerInterface::CONFIRMATION => self::CONFIRMATION,
+            CustomerInterface::CREATED_AT => self::CREATED_AT,
+            CustomerInterface::CREATED_IN => self::STORE_NAME,
+            CustomerInterface::DOB => self::DOB,
+            CustomerInterface::GENDER => self::GENDER,
+            CustomerInterface::GROUP_ID => self::GROUP_ID,
+            CustomerInterface::MIDDLENAME => self::MIDDLENAME,
+            CustomerInterface::PREFIX => self::PREFIX,
+            CustomerInterface::STORE_ID => self::STORE_ID,
+            CustomerInterface::SUFFIX => self::SUFFIX,
+            CustomerInterface::TAXVAT => self::TAXVAT,
+            CustomerInterface::WEBSITE_ID => self::WEBSITE_ID
         ];
         $customerData = $customerBuilder->populateWithArray($customerData)->create();
         $customerDetails = $customerDetailsBuilder->setAddresses([$address, $address2])

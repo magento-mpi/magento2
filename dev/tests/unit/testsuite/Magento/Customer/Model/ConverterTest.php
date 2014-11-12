@@ -102,39 +102,26 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateCustomerFromModel()
     {
-        $customerModelMock = $this->getMockBuilder(
-            'Magento\Customer\Model\Customer'
-        )->disableOriginalConstructor()->setMethods(
-            array('getId', 'getFirstname', 'getLastname', 'getEmail', 'getAttributes', 'getData', '__wakeup')
-        )->getMock();
+        $customerModelMock = $this->getMockBuilder('Magento\Customer\Model\Customer')
+            ->disableOriginalConstructor()
+            ->setMethods(['getId', 'getFirstname', 'getLastname', 'getEmail', 'getAttributes', 'getData', '__wakeup'])
+            ->getMock();
 
-        $attributeModelMock = $this->getMockBuilder(
-            '\Magento\Customer\Model\Attribute'
-        )->disableOriginalConstructor()->getMock();
+        $attributeModelMock = $this->getMockBuilder('Magento\Customer\Model\Attribute')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $attributeModelMock->expects(
-            $this->at(0)
-        )->method(
-            'getAttributeCode'
-        )->will(
-            $this->returnValue('attribute_code')
-        );
+        $attributeModelMock->expects($this->at(0))
+            ->method('getAttributeCode')
+            ->will($this->returnValue('attribute_code'));
 
-        $attributeModelMock->expects(
-            $this->at(1)
-        )->method(
-            'getAttributeCode'
-        )->will(
-            $this->returnValue('attribute_code2')
-        );
+        $attributeModelMock->expects($this->at(1))
+            ->method('getAttributeCode')
+            ->will($this->returnValue('attribute_code2'));
 
-        $attributeModelMock->expects(
-            $this->at(2)
-        )->method(
-            'getAttributeCode'
-        )->will(
-            $this->returnValue('attribute_code3')
-        );
+        $attributeModelMock->expects($this->at(2))
+            ->method('getAttributeCode')
+            ->will($this->returnValue('attribute_code3'));
 
         $this->_mockReturnValue(
             $customerModelMock,
@@ -154,9 +141,20 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
         $customerModelMock->expects($this->any())->method('getData')->will($this->returnValueMap($map));
 
+        $objectManagerConfig = $this->getMockBuilder('Magento\Framework\ObjectManager\Config')
+            ->setMethods(['getPreference'])
+            ->getMockForAbstractClass();
+
+        $objectManagerConfig->expects($this->any())
+            ->method('getPreference')
+            ->will($this->returnValue('Magento\Customer\Model\Data\Customer'));
+
         $customerBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Api\Data\CustomerDataBuilder',
-            ['metadataService' => $this->_metadataService]
+            [
+                'metadataService' => $this->_metadataService,
+                'objectManagerConfig' => $objectManagerConfig
+            ]
         );
 
         $customerFactory = $this->getMockBuilder(
@@ -166,9 +164,13 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $converter = new Converter($customerBuilder, $customerFactory, $this->storeManagerMock);
         $customerDataObject = $converter->createCustomerFromModel($customerModelMock);
 
+
         $customerBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Api\Data\CustomerDataBuilder',
-            ['metadataService' => $this->_metadataService]
+            [
+                'metadataService' => $this->_metadataService,
+                'objectManagerConfig' => $objectManagerConfig
+            ]
         );
 
         $customerData = array(
