@@ -116,4 +116,12 @@ class Title
     {
         array_unshift($this->prependedValues, $prefix);
     }
+
+    /**
+     * Unset title
+     */
+    public function unsetValue()
+    {
+        $this->textValue = null;
+    }
 }
