@@ -12,7 +12,7 @@ class Factory implements \Magento\Framework\ObjectManager\Factory
     /**
      * Object manager
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -39,13 +39,13 @@ class Factory implements \Magento\Framework\ObjectManager\Factory
 
     /**
      * @param \Magento\Framework\ObjectManager\Config $config
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\ObjectManager\Definition $definitions
      * @param array $globalArguments
      */
     public function __construct(
         \Magento\Framework\ObjectManager\Config $config,
-        \Magento\Framework\ObjectManager $objectManager = null,
+        \Magento\Framework\ObjectManagerInterface $objectManager = null,
         \Magento\Framework\ObjectManager\Definition $definitions = null,
         $globalArguments = array()
     ) {
@@ -58,10 +58,10 @@ class Factory implements \Magento\Framework\ObjectManager\Factory
     /**
      * Set object manager
      *
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @return void
      */
-    public function setObjectManager(\Magento\Framework\ObjectManager $objectManager)
+    public function setObjectManager(\Magento\Framework\ObjectManagerInterface $objectManager)
     {
         $this->objectManager = $objectManager;
     }

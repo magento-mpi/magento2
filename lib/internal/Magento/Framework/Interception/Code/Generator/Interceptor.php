@@ -36,7 +36,10 @@ class Interceptor extends \Magento\Framework\Code\Generator\EntityAbstract
                 'visibility' => 'protected',
                 'docblock' => array(
                     'shortDescription' => 'Object Manager instance',
-                    'tags' => array(array('name' => 'var', 'description' => '\Magento\Framework\ObjectManager'))
+                    'tags' => array(array(
+                        'name' => 'var',
+                        'description' => '\Magento\Framework\ObjectManagerInterface',
+                    ))
                 )
             ),
             array(
@@ -86,7 +89,7 @@ class Interceptor extends \Magento\Framework\Code\Generator\EntityAbstract
             'name' => '__construct',
             'parameters' => array_merge(
                 array(
-                    array('name' => 'pluginLocator', 'type' => '\Magento\Framework\ObjectManager'),
+                    array('name' => 'pluginLocator', 'type' => '\Magento\Framework\ObjectManagerInterface'),
                     array('name' => 'pluginList', 'type' => '\Magento\Framework\Interception\PluginList'),
                     array('name' => 'chain', 'type' => '\Magento\Framework\Interception\Chain')
                 ),

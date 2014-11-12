@@ -14,7 +14,7 @@
  */
 namespace Magento\Framework\ObjectManager;
 
-class ObjectManager implements \Magento\Framework\ObjectManager
+class ObjectManager implements \Magento\Framework\ObjectManagerInterface
 {
     /**
      * @var \Magento\Framework\ObjectManager\Factory
@@ -43,7 +43,7 @@ class ObjectManager implements \Magento\Framework\ObjectManager
         $this->_config = $config;
         $this->_factory = $factory;
         $this->_sharedInstances = $sharedInstances;
-        $this->_sharedInstances['Magento\Framework\ObjectManager'] = $this;
+        $this->_sharedInstances['Magento\Framework\ObjectManagerInterface'] = $this;
     }
 
     /**

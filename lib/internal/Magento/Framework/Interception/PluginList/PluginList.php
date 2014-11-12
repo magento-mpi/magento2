@@ -18,7 +18,7 @@ use Magento\Framework\Interception\PluginList as InterceptionPluginList;
 use Magento\Framework\Interception\ObjectManager\Config;
 use Magento\Framework\ObjectManager\Relations;
 use Magento\Framework\ObjectManager\Definition as ClassDefinitions;
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 use Zend\Soap\Exception\InvalidArgumentException;
 
 class PluginList extends Scoped implements InterceptionPluginList
@@ -66,7 +66,7 @@ class PluginList extends Scoped implements InterceptionPluginList
     protected $_classDefinitions;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -82,7 +82,7 @@ class PluginList extends Scoped implements InterceptionPluginList
      * @param Relations $relations
      * @param Config $omConfig
      * @param Definition $definitions
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param ClassDefinitions $classDefinitions
      * @param array $scopePriorityScheme
      * @param string $cacheId
@@ -94,7 +94,7 @@ class PluginList extends Scoped implements InterceptionPluginList
         Relations $relations,
         Config $omConfig,
         Definition $definitions,
-        ObjectManager $objectManager,
+        ObjectManagerInterface $objectManager,
         ClassDefinitions $classDefinitions,
         array $scopePriorityScheme = array('global'),
         $cacheId = 'plugins'

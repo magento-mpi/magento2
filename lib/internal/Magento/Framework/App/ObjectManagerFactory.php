@@ -72,7 +72,7 @@ class ObjectManagerFactory
      *
      * @param array $arguments
      * @param bool $useCompiled
-     * @return \Magento\Framework\ObjectManager
+     * @return \Magento\Framework\ObjectManagerInterface
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -136,7 +136,7 @@ class ObjectManagerFactory
         ];
 
         $className = $this->_locatorClassName;
-        /** @var \Magento\Framework\ObjectManager $objectManager */
+        /** @var \Magento\Framework\ObjectManagerInterface $objectManager */
         $objectManager = new $className($this->factory, $diConfig, $sharedInstances);
 
         $this->factory->setObjectManager($objectManager);
@@ -243,7 +243,7 @@ class ObjectManagerFactory
     /**
      * Crete plugin list object
      *
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\ObjectManager\Relations $relations
      * @param \Magento\Framework\ObjectManager\DefinitionFactory $definitionFactory
      * @param \Magento\Framework\ObjectManager\Config\Config $diConfig
@@ -251,7 +251,7 @@ class ObjectManagerFactory
      * @return \Magento\Framework\Interception\PluginList\PluginList
      */
     protected function _createPluginList(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\ObjectManager\Relations $relations,
         \Magento\Framework\ObjectManager\DefinitionFactory $definitionFactory,
         \Magento\Framework\ObjectManager\Config\Config $diConfig,

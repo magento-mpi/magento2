@@ -27,7 +27,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testConstruct()
     {
-        $this->assertAttributeInstanceOf('Magento\Framework\ObjectManager', '_objectManager', $this->_model);
+        $this->assertAttributeInstanceOf('Magento\Framework\ObjectManagerInterface', '_objectManager', $this->_model);
     }
 
     public function testReplaceClassName()

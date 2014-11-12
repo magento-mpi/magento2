@@ -13,7 +13,7 @@ use Zend\Code\Reflection\MethodReflection;
 use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Api\ExtensibleDataInterface;
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Data object processor for de-serialization using class reflection
@@ -102,7 +102,7 @@ class DataObjectProcessor
                     continue;
                 }
                 $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
-                if ($key === ExtensibleDataInterface::CUSTOM_ATTRIBUTES) {
+                if ($key === AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY) {
                     $value = $this->convertCustomAttributes($value);
                 } else if (is_object($value)) {
                     $value = $this->buildOutputDataArray($value, $returnType);

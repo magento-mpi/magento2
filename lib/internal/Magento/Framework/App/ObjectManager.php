@@ -32,7 +32,7 @@ class ObjectManager extends \Magento\Framework\ObjectManager\ObjectManager
      */
     public static function getInstance()
     {
-        if (!self::$_instance instanceof \Magento\Framework\ObjectManager) {
+        if (!self::$_instance instanceof \Magento\Framework\ObjectManagerInterface) {
             throw new \RuntimeException('ObjectManager isn\'t initialized');
         }
         return self::$_instance;
@@ -41,11 +41,11 @@ class ObjectManager extends \Magento\Framework\ObjectManager\ObjectManager
     /**
      * Set object manager instance
      *
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @throws \LogicException
      * @return void
      */
-    public static function setInstance(\Magento\Framework\ObjectManager $objectManager)
+    public static function setInstance(\Magento\Framework\ObjectManagerInterface $objectManager)
     {
         self::$_instance = $objectManager;
     }

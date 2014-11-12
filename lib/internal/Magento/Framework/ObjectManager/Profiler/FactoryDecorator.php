@@ -31,11 +31,11 @@ class FactoryDecorator implements \Magento\Framework\ObjectManager\Factory
     }
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      *
      * @return void
      */
-    public function setObjectManager(\Magento\Framework\ObjectManager $objectManager)
+    public function setObjectManager(\Magento\Framework\ObjectManagerInterface $objectManager)
     {
         $this->subject->setObjectManager($objectManager);
     }

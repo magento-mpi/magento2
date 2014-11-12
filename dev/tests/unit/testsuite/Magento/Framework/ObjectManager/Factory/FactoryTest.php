@@ -16,7 +16,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      * Expected exception message
      */
     const EXCEPTION_MESSAGE =
-        'Invalid parameter configuration provided for $firstParam argument of Magento\Framework\ObjectManagerInterface';
+        'Invalid parameter configuration provided for $firstParam argument of Magento\Framework\ObjectManager';
 
     /**
      * @var Factory
