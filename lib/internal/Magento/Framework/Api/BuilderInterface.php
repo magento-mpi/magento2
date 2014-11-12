@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Api;
 
-interface BuilderInterface
+interface BuilderInterface extends SimpleBuilderInterface
 {
     /**
      * Set custom attribute value.

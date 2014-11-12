@@ -43,4 +43,9 @@ class AttributeDataBuilder extends AbstractSimpleObjectBuilder
     {
         return '\Magento\Framework\Api\AttributeValue';
     }
+
+    public function populateWithArray(array $data)
+    {
+
+    }
 }

@@ -277,12 +277,20 @@ class Builder implements BuilderInterface
      */
     protected function getDataType()
     {
-        $sourceClassPreference = $this->objectManagerConfig->getPreference($this->modelClassInterface);
+        $dataType = $this->_getDataObjectType();
+        if (is_subclass_of($dataType, '\Magento\Framework\Api\AbstractSimpleObject')) {
+            return self::TYPE_DATA_OBJECT;
+        } else if (is_subclass_of($dataType, '\Magento\Framework\Model\AbstractExtensibleModel')) {
+            return self::TYPE_DATA_MODEL;
+        }
+
+        $sourceClassPreference = $this->objectManagerConfig->getPreference($dataType);
         if (empty($sourceClassPreference)) {
             throw new \LogicException(
                 "Preference for {$this->_getDataObjectType()} is not defined."
             );
         }
+
         if (is_subclass_of($sourceClassPreference, '\Magento\Framework\Api\AbstractSimpleObject')) {
             return self::TYPE_DATA_OBJECT;
         } else if (is_subclass_of($sourceClassPreference, '\Magento\Framework\Model\AbstractExtensibleModel')) {

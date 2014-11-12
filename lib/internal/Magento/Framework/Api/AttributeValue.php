@@ -43,4 +43,6 @@ class AttributeValue extends AbstractSimpleObject implements AttributeInterface
     {
         return $this->_get(self::VALUE);
     }
+
+
 }
