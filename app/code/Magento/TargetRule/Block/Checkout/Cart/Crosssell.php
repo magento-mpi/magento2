@@ -7,6 +7,9 @@
  */
 namespace Magento\TargetRule\Block\Checkout\Cart;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
+
 /**
  * TargetRule Checkout Cart Cross-Sell Products Block
  *
@@ -46,11 +49,6 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected $_indexFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
      * @var \Magento\Catalog\Model\Product\LinkFactory
      */
     protected $_productLinkFactory;
@@ -81,6 +79,11 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected $productTypeConfig;
 
     /**
+     * @var ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
@@ -89,9 +92,9 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      * @param \Magento\CatalogInventory\Model\Stock\Status $status
      * @param \Magento\Checkout\Model\Session $session
      * @param \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
+     * @param ProductRepositoryInterface $productRepository
      * @param array $data
      */
     public function __construct(
@@ -103,9 +106,9 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         \Magento\CatalogInventory\Model\Stock\Status $status,
         \Magento\Checkout\Model\Session $session,
         \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
+        ProductRepositoryInterface $productRepository,
         array $data = array()
     ) {
         $this->productTypeConfig = $productTypeConfig;
@@ -114,7 +117,6 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         $this->_status = $status;
         $this->_checkoutSession = $session;
         $this->_productLinkFactory = $productLinkFactory;
-        $this->_productFactory = $productFactory;
         $this->_indexFactory = $indexFactory;
         parent::__construct(
             $context,
@@ -123,6 +125,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
             $data
         );
         $this->_isScopePrivate = true;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -155,7 +158,11 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         if (is_null($this->_lastAddedProduct)) {
             $productId = $this->getLastAddedProductId();
             if ($productId) {
-                $this->_lastAddedProduct = $this->_productFactory->create()->load($productId);
+                try {
+                    $this->_lastAddedProduct = $this->productRepository->getById($productId);
+                } catch (NoSuchEntityException $e) {
+                    $this->_lastAddedProduct = false;
+                }
             } else {
                 $this->_lastAddedProduct = false;
             }
