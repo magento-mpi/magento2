@@ -210,7 +210,7 @@ define([
                             price = this.options.priceConfig.showIncludeTax ?
                                 updatedPrice.inclTaxPrice : updatedPrice.exclTaxPrice;
                             optionPrice = this.options.priceConfig.showIncludeTax ?
-                                getOptionPrices[2] : getOptionPrices[3]
+                                getOptionPrices[2] : getOptionPrices[3];
                             price = price + optionPrice;
                         }
 
