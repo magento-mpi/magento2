@@ -60,8 +60,6 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
     protected $customerRepository;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -72,6 +70,7 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
      * @param \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Customer\Model\Converter $customerConverter
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param array $data
      */
     public function __construct(

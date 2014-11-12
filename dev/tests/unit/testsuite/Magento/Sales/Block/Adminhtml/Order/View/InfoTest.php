@@ -61,7 +61,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
         $this->coreRegistryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
         $methods = ['getCustomerGroupId', '__wakeUp'];
         $this->orderMock = $this->getMock('\Magento\Sales\Model\Order', $methods, [], '', false);
-        $this->groupMock = $this->getMockForAbstractClass('Magento\Customer\Api\Data\GroupInterface', [],  '', false);
+        $this->groupMock = $this->getMockForAbstractClass('Magento\Customer\Api\Data\GroupInterface', [], '', false);
         $arguments = [
             'context' => $this->contextMock,
             'groupRepository' => $this->groupRepositoryMock,

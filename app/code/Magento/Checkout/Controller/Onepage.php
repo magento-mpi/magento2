@@ -58,8 +58,8 @@ class Onepage extends Action
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param CustomerRepositoryInterface $customerAccountService
-     * @param AccountManagementInterface $customerMetadataService
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param AccountManagementInterface $accountManagement
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
@@ -70,7 +70,7 @@ class Onepage extends Action
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         CustomerRepositoryInterface $customerRepository,
-        AccountManagementInterface $customerMetadataService,
+        AccountManagementInterface $accountManagement,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Translate\InlineInterface $translateInline,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
@@ -82,7 +82,7 @@ class Onepage extends Action
         $this->_formKeyValidator = $formKeyValidator;
         $this->scopeConfig = $scopeConfig;
         $this->layoutFactory = $layoutFactory;
-        parent::__construct($context, $customerSession, $customerRepository, $customerMetadataService);
+        parent::__construct($context, $customerSession, $customerRepository, $accountManagement);
     }
 
     /**
