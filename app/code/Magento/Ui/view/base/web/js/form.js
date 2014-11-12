@@ -46,7 +46,7 @@ define([
 
         initAdapter: function(){
             adapter.on({
-                'reset':            this.reset,
+                'reset':            this.reset.bind(this),
                 'save':             this.save.bind(this, true),
                 'saveAndContinue':  this.save.bind(this, false)
             });
