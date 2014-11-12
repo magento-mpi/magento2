@@ -106,7 +106,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'email' => 'example@domain.com',
                 'default_billing' => '_item1'
             ),
-            'address' => array('_item1' => array())
+            'customer_address' => array('_item1' => array())
         );
         $this->getRequest()->setPost($post);
         $this->dispatch('backend/customer/index/save');
@@ -146,7 +146,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'default_billing' => '_item1',
                 'password' => 'password',
             ),
-            'address' => array(
+            'customer_address' => array(
                 '_item1' => array(
                     'firstname' => 'test firstname',
                     'lastname' => 'test lastname',
@@ -225,7 +225,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'sendemail_store_id' => '1',
                 'sendemail' => '1'
             ),
-            'address' => array(
+            'customer_address' => array(
                 '1' => array(
                     'firstname' => 'update firstname',
                     'lastname' => 'update lastname',
@@ -396,7 +396,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'sendemail_store_id' => '1',
                 'sendemail' => '1'
             ),
-            'address' => array(
+            'customer_address' => array(
                 '1' => array(
                     'firstname' => 'update firstname',
                     'lastname' => 'update lastname',
@@ -436,18 +436,6 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
         // verify
         $this->assertContains('<h1 class="title">new firstname new lastname</h1>', $body);
-
-        $accountStr = 'data-ui-id="adminhtml-edit-tab-account-0-fieldset-element-text-account-';
-        $this->assertNotContains($accountStr . 'firstname"  value="test firstname"', $body);
-        $this->assertContains($accountStr . 'firstname"  value="new firstname"', $body);
-
-        $addressStr = 'data-ui-id="adminhtml-edit-tab-addresses-0-fieldset-element-text-address-';
-        $this->assertNotContains($addressStr . '1-firstname"  value="test firstname"', $body);
-        $this->assertContains($addressStr . '1-firstname"  value="update firstname"', $body);
-        $this->assertContains($addressStr . '2-firstname"  value="test firstname"', $body);
-        $this->assertContains($addressStr . '3-firstname"  value="removed firstname"', $body);
-        $this->assertContains($addressStr . 'item1-firstname"  value="default firstname"', $body);
-        $this->assertContains($addressStr . 'template-firstname"  value=""', $body);
     }
 
     /**
@@ -461,16 +449,6 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
         // verify
         $this->assertContains('<h1 class="title">test firstname test lastname</h1>', $body);
-
-        $accountStr = 'data-ui-id="adminhtml-edit-tab-account-0-fieldset-element-text-account-';
-        $this->assertContains($accountStr . 'firstname"  value="test firstname"', $body);
-
-        $addressStr = 'data-ui-id="adminhtml-edit-tab-addresses-0-fieldset-element-text-address-';
-        $this->assertContains($addressStr . '1-firstname"  value="test firstname"', $body);
-        $this->assertContains($addressStr . '2-firstname"  value="test firstname"', $body);
-        $this->assertContains($addressStr . '3-firstname"  value="removed firstname"', $body);
-        $this->assertNotContains($addressStr . 'item1-firstname"', $body);
-        $this->assertContains($addressStr . 'template-firstname"  value=""', $body);
     }
 
     public function testNewAction()
@@ -498,7 +476,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'lastname' => false,
                 'website_id' => false
             ),
-            'address' => array()
+            'customer_address' => array()
         );
         $context = Bootstrap::getObjectManager()->get('Magento\Backend\Block\Template\Context');
         $context->getBackendSession()->setCustomerData($customerData);
@@ -912,7 +890,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'sendemail_store_id' => '1',
                 'sendemail' => '1'
             ),
-            'address' => array(
+            'customer_address' => array(
                 '_item1' => array(
                     'firstname' => 'update firstname',
                     'lastname' => 'update lastname',
@@ -968,7 +946,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'sendemail_store_id' => '1',
                 'sendemail' => '1'
             ),
-            'address' => array(
+            'customer_address' => array(
                 '1' => array(
                     'firstname' => '',
                     'lastname' => '',
