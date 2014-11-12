@@ -28,16 +28,16 @@ class VersionTest extends \PHPUnit_Framework_TestCase
     private $versionStorage;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\DateTime|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $versionGenerator;
+    private $dateTime;
 
     protected function setUp()
     {
         $this->appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
         $this->versionStorage = $this->getMock('Magento\Framework\App\View\Deployment\Version\StorageInterface');
-        $this->versionGenerator = $this->getMock('Magento\Framework\App\View\Deployment\Version\GeneratorInterface');
-        $this->object = new Version($this->appState, $this->versionStorage, $this->versionGenerator);
+        $this->dateTime = $this->getMock('Magento\Framework\Stdlib\DateTime');
+        $this->object = new Version($this->appState, $this->versionStorage, $this->dateTime);
     }
 
     public function testGetValueDeveloperMode()
@@ -48,7 +48,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(\Magento\Framework\App\State::MODE_DEVELOPER))
         ;
         $this->versionStorage->expects($this->never())->method($this->anything());
-        $this->versionGenerator->expects($this->once())->method('generate')->will($this->returnValue('123'));
+        $this->dateTime->expects($this->once())->method('toTimestamp')->will($this->returnValue('123'));
         $this->assertEquals('123', $this->object->getValue());
         $this->object->getValue(); // Ensure computation occurs only once and result is cached in memory
     }
@@ -66,7 +66,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
         ;
         $this->versionStorage->expects($this->once())->method('load')->will($this->returnValue('123'));
         $this->versionStorage->expects($this->never())->method('save');
-        $this->versionGenerator->expects($this->never())->method('generate');
+        $this->dateTime->expects($this->never())->method('toTimestamp');
         $this->assertEquals('123', $this->object->getValue());
         $this->object->getValue(); // Ensure caching in memory
     }
@@ -93,7 +93,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
             ->method('load')
             ->will($this->throwException($storageException))
         ;
-        $this->versionGenerator->expects($this->once())->method('generate')->will($this->returnValue('123'));
+        $this->dateTime->expects($this->once())->method('toTimestamp')->will($this->returnValue('123'));
         $this->versionStorage->expects($this->once())->method('save')->with('123');
         $this->assertEquals('123', $this->object->getValue());
         $this->object->getValue(); // Ensure caching in memory

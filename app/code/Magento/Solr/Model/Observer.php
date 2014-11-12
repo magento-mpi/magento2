@@ -46,14 +46,12 @@ class Observer
     /**
      * @param CollectionFactory $eavEntityAttributeOptionCollectionFactory
      * @param Resource\RecommendationsFactory $searchRecommendationsFactory
-     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
      * @param \Magento\Solr\Helper\Data $searchData
      * @param Source\Weight $sourceWeight
      */
     public function __construct(
         CollectionFactory $eavEntityAttributeOptionCollectionFactory,
         \Magento\Solr\Model\Resource\RecommendationsFactory $searchRecommendationsFactory,
-        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
         \Magento\Solr\Helper\Data $searchData,
         \Magento\Solr\Model\Source\Weight $sourceWeight
     ) {
