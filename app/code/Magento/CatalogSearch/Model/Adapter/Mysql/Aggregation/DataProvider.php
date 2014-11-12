@@ -215,12 +215,10 @@ class DataProvider implements DataProviderInterface
     {
         $data = [];
         if (!empty($dbRanges)) {
-            $lastIndex = array_keys($dbRanges);
-            $lastIndex = $lastIndex[count($lastIndex) - 1];
 
             foreach ($dbRanges as $index => $count) {
-                $fromPrice = $index == 1 ? '' : ($index - 1) * $range;
-                $toPrice = $index == $lastIndex ? '' : $index * $range;
+                $fromPrice = ($index - 1) * $range;
+                $toPrice = $index * $range;
 
                 $data[] = [
                     'from' => $fromPrice,
