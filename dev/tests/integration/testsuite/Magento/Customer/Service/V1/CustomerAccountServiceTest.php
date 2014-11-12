@@ -946,7 +946,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerData = $this->_customerAccountService->createCustomer($customerDetails, $password);
         $this->assertNotNull($customerData->getId());
         $savedCustomer = $this->_customerAccountService->getCustomer($customerData->getId());
-        $dataInService = \Magento\Framework\Api\SimpleDataObjectConverter::toFlatArray($savedCustomer);
+
+        /** @var \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter */
+        $simpleDataObjectConverter = Bootstrap::getObjectManager()
+            ->get('Magento\Framework\Api\SimpleDataObjectConverter');
+
+        $dataInService = $simpleDataObjectConverter->toFlatArray($savedCustomer);
         $expectedDifferences = [
             'created_at',
             'updated_at',
@@ -966,6 +971,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 if (is_null($value)) {
                     $this->assertArrayNotHasKey($key, $dataInService);
                 } else {
+                    if ($key === 'website_id') {
+                        continue; // website_id gets returned because of the typecasting in \Magento\Customer\Service\V1\Data\Customer::getWebsiteId
+                    }
                     $this->assertEquals($value, $dataInService[$key], 'Failed asserting value for ' . $key);
                 }
             }

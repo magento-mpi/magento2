@@ -665,7 +665,12 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
         $customerData = $this->accountManagement->createAccount($newCustomerEntity, $password);
         $this->assertNotNull($customerData->getId());
         $savedCustomer = $this->customerRepository->getById($customerData->getId());
-        $dataInService = \Magento\Framework\Api\SimpleDataObjectConverter::toFlatArray($savedCustomer);
+
+        /** @var \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter */
+        $simpleDataObjectConverter = Bootstrap::getObjectManager()
+            ->get('Magento\Framework\Api\SimpleDataObjectConverter');
+
+        $dataInService = $simpleDataObjectConverter->toFlatArray($savedCustomer);
         $expectedDifferences = [
             'created_at',
             'updated_at',

@@ -31,11 +31,17 @@ abstract class AbstractForm extends \Magento\Sales\Block\Adminhtml\Order\Create\
     protected $_form;
 
     /**
+     * @var \Magento\Framework\Api\SimpleDataObjectConverter
+     */
+    protected $_simpleDataObjectConverter;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
      * @param array $data
      */
     public function __construct(
@@ -44,9 +50,11 @@ abstract class AbstractForm extends \Magento\Sales\Block\Adminhtml\Order\Create\
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
+        $this->_simpleDataObjectConverter = $simpleDataObjectConverter;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $data);
     }
 
@@ -183,7 +191,7 @@ abstract class AbstractForm extends \Magento\Sales\Block\Adminhtml\Order\Create\
                 if ($inputType == 'select' || $inputType == 'multiselect') {
                     $options = array();
                     foreach ($attribute->getOptions() as $optionData) {
-                        $options[] = \Magento\Framework\Api\SimpleDataObjectConverter::toFlatArray($optionData);
+                        $options[] = $this->_simpleDataObjectConverter->toFlatArray($optionData);
                     }
                     $element->setValues($options);
                 } elseif ($inputType == 'date') {
