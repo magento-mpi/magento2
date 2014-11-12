@@ -38,7 +38,7 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Engine
      * @dataProvider pricesSegmentationDataProvider
      */
     public function testPricesSegmentation($categoryId, $intervalsNumber, $intervalItems)
