@@ -33,7 +33,6 @@ $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRender
 $application = \Magento\TestFramework\WebApiApplication::getInstance(
     $settings->getAsConfigFile('TESTS_INSTALL_CONFIG_FILE'),
     BP . '/app/etc/',
-    glob(BP . '/app/etc/*/module.xml'),
     $settings->get('TESTS_MAGENTO_MODE'),
     $shell
 );

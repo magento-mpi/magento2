@@ -19,7 +19,6 @@ class WebApiApplication extends Application
     /**
      * @param string $installConfigFile
      * @param string $globalConfigDir
-     * @param array $moduleConfigFiles
      * @param string $appMode
      * @param \Magento\Framework\Shell $shell
      * @return Application|WebApiApplication
@@ -27,7 +26,6 @@ class WebApiApplication extends Application
     public static function getInstance(
         $installConfigFile,
         $globalConfigDir,
-        array $moduleConfigFiles,
         $appMode,
         \Magento\Framework\Shell $shell
     ) {
@@ -40,7 +38,6 @@ class WebApiApplication extends Application
             $dirList->getPath(DirectoryList::VAR_DIR),
             $installConfigFile,
             $globalConfigDir,
-            $moduleConfigFiles,
             $appMode
         );
     }

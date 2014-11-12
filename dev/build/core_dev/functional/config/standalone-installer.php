@@ -19,6 +19,16 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
+$opt = getopt('', ['module-list-file::']);
+$enableModules = [];
+if (!empty($opt['module-list-file'])) {
+    $moduleListFile = $opt['module-list-file'];
+    if (!is_file($moduleListFile)) {
+        throw new Exception("The specified module list file does not exist: " . $moduleListFile);
+    }
+    $enableModules = file($moduleListFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+}
+
 require_once realpath(SELENIUM_TESTS_BASEDIR . '/../../../app/autoload.php');
 
 //if (defined('SELENIUM_TESTS_INSTALLATION') && SELENIUM_TESTS_INSTALLATION === 'enabled') {
@@ -36,6 +46,9 @@ $installConfigFile = SELENIUM_TESTS_BASEDIR . '/config/install.php';
 $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "$installConfigFile.dist";
 $installConfig = require($installConfigFile);
 $installOptions = isset($installConfig['install_options']) ? $installConfig['install_options'] : array();
+if ($enableModules) {
+    $installOptions['enable_modules'] = implode(',', $enableModules);
+}
 $installOptionsNoValue = isset($installConfig['install_options_no_value']) ? $installConfig['install_options_no_value'] : array();
 
 /* Install application */

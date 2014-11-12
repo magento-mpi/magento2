@@ -53,9 +53,6 @@ try {
             break;
         case 'ee':
             $includeLists[] = 'ee.txt';
-            $moduleXml = "{$dir}/app/etc/enterprise/module.xml";
-            echo "Copy {$moduleXml}.dist to {$moduleXml}\n";
-            copy("{$moduleXml}.dist", $moduleXml);
             copyAll("{$dir}/dev/build/publication/extra_files/ee", $dir);
             break;
         default:
