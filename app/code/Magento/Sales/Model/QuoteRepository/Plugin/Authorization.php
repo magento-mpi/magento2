@@ -53,7 +53,7 @@ class Authorization
      * @return \Magento\Sales\Model\Quote
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function afterGetForCustomerActive(
+    public function afterGetActiveForCustomer(
         \Magento\Sales\Model\QuoteRepository $subject,
         \Magento\Sales\Model\Quote $quote
     ) {
