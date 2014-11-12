@@ -74,8 +74,6 @@ app/design/frontend/Magento/blank/Magento_Reward
 app/design/frontend/Magento/blank/Magento_Rma
 app/design/frontend/Magento/luma
 
-app/etc/enterprise
-
 dev/tests/integration/testsuite/Magento/Test/Design/Frontend/Enterprise
 
 dev/tests/static/testsuite/Magento/Test/Integrity/_files/dependency_test/tables_ee.php
