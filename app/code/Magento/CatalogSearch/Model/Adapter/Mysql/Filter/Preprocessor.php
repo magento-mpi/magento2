@@ -93,19 +93,15 @@ class Preprocessor implements PreprocessorInterface
                 $select->from(['main_table' => $table], 'entity_id')
                     ->where($query);
             } else {
-                if ($filter->getType()  == 'termFilter' ) {
+                if ($filter->getType() == FilterInterface::TYPE_TERM) {
                     $field = $filter->getField();
+                    $mapper = function ($value) use ($field, $isNegation) {
+                        return ($isNegation ? '-' : '') . Engine::ATTRIBUTE_PREFIX . $field . '_' . $value;
+                    };
                     if (is_array($filter->getValue())) {
-                        $value = implode(' ', array_map(
-                            function ($value) use ($field, $isNegation) {
-                                return (!$isNegation ? '' : '-') . Engine::ATTRIBUTE_PREFICS . $field . '_' . $value;
-                            },
-                            $filter->getValue()
-                        ));
+                        $value = implode(' ', array_map($mapper, $filter->getValue()));
                     } else {
-                        $value = (!$isNegation ? '+' : '-' )
-                            . Engine::ATTRIBUTE_PREFICS. $field
-                            . '_' . $filter->getValue();
+                        $value = $mapper($filter->getValue());
                     }
 
                     return 'MATCH (data_index) AGAINST (' . $this->getConnection()->quote($value) . ' IN BOOLEAN MODE)';
