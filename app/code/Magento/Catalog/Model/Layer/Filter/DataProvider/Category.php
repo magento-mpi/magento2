@@ -47,6 +47,7 @@ class Category
 
     /**
      * @param Registry $coreRegistry
+     * @param CategoryModelFactory $categoryFactory
      * @param Layer $layer
      * @internal param $data
      */
@@ -137,7 +138,8 @@ class Category
             /**
              * Revert path ids
              */
-            $pathIds = array_reverse($this->getCategory()->getPathIds());
+            $category = $this->getCategory();
+            $pathIds = array_reverse($category->getPathIds());
             $curCategoryId = $this->getLayer()->getCurrentCategory()->getId();
             if (isset($pathIds[1]) && $pathIds[1] != $curCategoryId) {
                 return $pathIds[1];

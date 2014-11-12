@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Layer\Filter\DataProvider;
 
-use Magento\Catalog\Model\Layer\Filter\AbstractFilter;
+use Magento\Catalog\Model\Layer\Filter\FilterInterface;
 
 class Decimal
 {
@@ -39,22 +39,19 @@ class Decimal
     private $resource;
 
     /**
-     * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\Decimal $resource
      */
-    public function __construct(
-        \Magento\Catalog\Model\Layer $layer,
-        \Magento\Catalog\Model\Resource\Layer\Filter\Decimal $resource
-    ) {
+    public function __construct(\Magento\Catalog\Model\Resource\Layer\Filter\Decimal $resource)
+    {
 
         $this->resource = $resource;
     }
 
     /**
-     * @param AbstractFilter $filter
+     * @param FilterInterface $filter
      * @return int
      */
-    public function getRange(AbstractFilter $filter)
+    public function getRange(FilterInterface $filter)
     {
         $range = $this->range;
         if (!$range) {
@@ -72,47 +69,49 @@ class Decimal
     }
 
     /**
+     * @param int $range
+     */
+    public function setRange($range)
+    {
+        $this->range = $range;
+    }
+
+    /**
      * Retrieve maximum value from layer products set
      *
-     * @param AbstractFilter $filter
+     * @param FilterInterface $filter
      * @return float
      */
-    public function getMaxValue(AbstractFilter $filter)
+    public function getMaxValue(FilterInterface $filter)
     {
-        $max = $this->max;
-        if (is_null($max)) {
-            list($min, $max) = $this->getResource()->getMinMax($filter);
-            $this->max = $max;
-            $this->min = $min;
+        if (is_null($this->max)) {
+            $this->loadValues($filter);
         }
-        return $max;
+        return $this->max;
     }
 
     /**
      * Retrieve minimal value from layer products set
      *
-     * @param AbstractFilter $filter
+     * @param FilterInterface $filter
      * @return float
      */
-    public function getMinValue(AbstractFilter $filter)
+    public function getMinValue(FilterInterface $filter)
     {
-        $min = $this->min;
-        if (is_null($min)) {
-            list($min, $max) = $this->getResource()->getMinMax($filter);
-            $this->max = $max;
-            $this->min = $min;
+        if (is_null($this->min)) {
+            $this->loadValues($filter);
         }
-        return $min;
+        return $this->min;
     }
 
     /**
      * Retrieve information about products count in range
      *
      * @param int $range
-     * @param AbstractFilter $filter
+     * @param FilterInterface $filter
      * @return mixed
      */
-    public function getRangeItemCounts($range, AbstractFilter $filter)
+    public function getRangeItemCounts($range, FilterInterface $filter)
     {
         $count = array_key_exists($range, $this->rangeItemsCount) ? $this->rangeItemsCount[$range] : null;
         if (is_null($count)) {
@@ -123,18 +122,22 @@ class Decimal
     }
 
     /**
-     * @param int $range
-     */
-    public function setRange($range)
-    {
-        $this->range = $range;
-    }
-
-    /**
      * @return \Magento\Catalog\Model\Resource\Layer\Filter\Decimal
      */
     public function getResource()
     {
         return $this->resource;
+    }
+
+    /**
+     * @param FilterInterface $filter
+     * @return mixed
+     */
+    private function loadValues(FilterInterface $filter)
+    {
+        list($min, $max) = $this->getResource()->getMinMax($filter);
+        $this->min = $min;
+        $this->max = $max;
+        return $this;
     }
 } 

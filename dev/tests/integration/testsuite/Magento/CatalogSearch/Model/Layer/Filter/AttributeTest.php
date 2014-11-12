@@ -62,14 +62,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('attribute', array());
-        $this->_model->apply(
-            $request,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\View\LayoutInterface'
-            )->createBlock(
-                'Magento\Framework\View\Element\Text'
-            )
-        );
+        $this->_model->apply($request);
 
         $this->assertEmpty($this->_model->getLayer()->getState()->getFilters());
     }

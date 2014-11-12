@@ -88,22 +88,6 @@ class Price
     private $interval = [];
 
     /**
-     * @return array
-     */
-    public function getInterval()
-    {
-        return $this->interval;
-    }
-
-    /**
-     * @param array $interval
-     */
-    public function setInterval($interval)
-    {
-        $this->interval = $interval;
-    }
-
-    /**
      * @param Layer $layer
      * @param Registry $coreRegistry
      * @param ScopeConfigInterface $scopeConfig
@@ -119,6 +103,22 @@ class Price
         $this->coreRegistry = $coreRegistry;
         $this->scopeConfig = $scopeConfig;
         $this->resource = $resource;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInterval()
+    {
+        return $this->interval;
+    }
+
+    /**
+     * @param array $interval
+     */
+    public function setInterval($interval)
+    {
+        $this->interval = $interval;
     }
 
     /**
@@ -206,8 +206,8 @@ class Price
                     ->getFilterPriceRange();
             }
 
-            $maxPrice = $this->getMaxPrice();
             if (!$range) {
+                $maxPrice = $this->getMaxPrice();
                 $calculation = $this->getRangeCalculationValue();
                 if ($calculation == self::RANGE_CALCULATION_AUTO) {
                     $index = 1;
@@ -242,10 +242,7 @@ class Price
             $i = 0;
             $lastIndex = null;
             $maxIntervalsNumber = $this->getRangeMaxIntervalsValue();
-            $calculation = $this->scopeConfig->getValue(
-                self::XML_PATH_RANGE_CALCULATION,
-                ScopeInterface::SCOPE_STORE
-            );
+            $calculation = $this->getRangeCalculationValue();
             foreach ($items as $k => $v) {
                 ++$i;
                 if ($calculation == self::RANGE_CALCULATION_MANUAL && $i > 1 && $i > $maxIntervalsNumber) {
@@ -383,5 +380,4 @@ class Price
 
         return $result;
     }
-
-} 
+}

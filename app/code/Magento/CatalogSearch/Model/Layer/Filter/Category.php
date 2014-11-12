@@ -53,6 +53,7 @@ class Category extends AbstractFilter
             $data
         );
         $this->escaper = $escaper;
+        $this->_requestVar = 'cat';
         $this->dataProvider = $categoryDataProviderFactory->create(['layer' => $this->getLayer()]);
     }
 
