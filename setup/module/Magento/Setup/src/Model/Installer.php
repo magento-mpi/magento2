@@ -468,7 +468,11 @@ class Installer
         $paramsString = '-f %s --';
         $paramsArray = [$this->directoryList->getRoot() . '/dev/shell/user_config_data.php'];
         $paramsString .= ' --noOfConfigDatasets=%s';
-        $paramsArray[] = count($configData);
+        if (count($configData) === 0) {
+            return;
+        } else {
+            $paramsArray[] = count($configData);
+        }
         foreach ($configData as $path => $val) {
             $paramsString .= ' --website=%s --store=%s --path=%s --value=%s';
             $paramsArray[] = "0";
