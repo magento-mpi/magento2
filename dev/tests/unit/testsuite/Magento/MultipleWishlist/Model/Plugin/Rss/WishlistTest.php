@@ -65,7 +65,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
      */
     public function testAroundGetHeader($multipleEnabled, $customerId, $isDefault, $expectedResult)
     {
-        $this->markTestSkipped('Customer service refactoring');
+
         $subject = $this->getMock('Magento\Wishlist\Model\Rss\Wishlist', [], [], '', false);
         $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', [
             'getId',

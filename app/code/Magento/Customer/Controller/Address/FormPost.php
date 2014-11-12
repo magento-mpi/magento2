@@ -23,7 +23,7 @@ class FormPost extends \Magento\Customer\Controller\Address
         $addressId = $this->getRequest()->getParam('id');
         $existingAddressData = array();
         if ($addressId) {
-            $existingAddress = $this->_addressRepository->get($addressId);
+            $existingAddress = $this->_addressRepository->getById($addressId);
 
             $existingAddressData = $this->_dataProcessor
                 ->buildOutputDataArray($existingAddress, '\Magento\Customer\Api\Data\AddressInterface');
