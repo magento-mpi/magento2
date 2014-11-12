@@ -196,7 +196,7 @@ class Classes
         foreach (\Magento\TestFramework\Utility\Files::init()->getPhpFiles(true, false, false, false) as $file) {
             if (preg_match($pattern, $file, $matches)) {
                 $module = "{$matches[1]}_{$matches[2]}";
-                $class = "{$module}" . \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR . str_replace(
+                $class = "{$module}" . '\\' . str_replace(
                     '/',
                     '\\',
                     $matches[3]

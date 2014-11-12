@@ -2817,6 +2817,7 @@ return array(
     ['Magento\Wishlist\Block\Rss'],
     ['Magento\Wishlist\Controller\Index\Rss'],
     ['Magento\Checkout\Controller\Onepage\Progress'],
+    ['Magento\Checkout\Controller\Onepage\GetAdditional'],
     ['Magento\Framework\App\Filesystem', 'Magento\Framework\Filesystem'],
     ['Magento\TestFramework\App\Filesystem\DirectoryList'],
     ['Magento\Framework\App\Filesystem\DirectoryList\Configuration'],
@@ -2826,4 +2827,6 @@ return array(
     ['Magento\Framework\Filesystem\WrapperInterface'],
     ['Magento\Install'],
     ['Magento\Install\Model\Resource\Resource', 'Magento\Framework\Module\Resource'],
+    ['Magento\Framework\App\View\Deployment\Version\Generator\Timestamp', 'Magento\Framework\Stdlib\DateTime'],
+    ['Magento\Framework\App\View\Deployment\Version\GeneratorInterface'],
 );
