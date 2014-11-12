@@ -104,8 +104,8 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     {
         $to = '';
         $interval = $this->getInterval();
-        if ($interval && $interval[0] > $from) {
-            $to = $interval[0];
+        if ($interval && is_numeric($interval[1]) && $interval[1] > $from) {
+            $to = $interval[1];
         }
         return $to;
     }
