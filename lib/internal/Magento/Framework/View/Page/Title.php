@@ -41,7 +41,7 @@ class Title
     /**
      * Set page title
      *
-     * @param string|array $title
+     * @param string $title
      * @return $this
      */
     public function set($title)
@@ -58,8 +58,7 @@ class Title
      */
     public function get($glue = ' / ')
     {
-        $title = array_merge($this->prependedValues, [$this->getShort()], $this->appendedValues);
-        return join($glue, $title);
+        return join($glue, $this->build());
     }
 
     /**
@@ -69,7 +68,16 @@ class Title
      */
     public function getShort()
     {
-        return $this->prepare($this->textValue);
+        $title = $this->build();
+        return reset($title);
+    }
+
+    /**
+     * @return array
+     */
+    protected function build()
+    {
+        return array_merge($this->prependedValues, [$this->prepare($this->textValue)], $this->appendedValues);
     }
 
     /**
@@ -103,6 +111,7 @@ class Title
 
     /**
      * @param string $suffix
+     * @return void
      */
     public function append($suffix)
     {
@@ -111,6 +120,7 @@ class Title
 
     /**
      * @param string $prefix
+     * @return void
      */
     public function prepend($prefix)
     {

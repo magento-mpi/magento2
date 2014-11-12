@@ -61,7 +61,9 @@ class Billing extends \Magento\Payment\Block\Form\Container
      */
     protected function _prepareLayout()
     {
-        $this->pageConfig->getTitle->set(__('Billing Information - %1', $this->pageConfig->getDefaultTitle()));
+        $this->pageConfig->getTitle()->set(
+            __('Billing Information - %1', $this->pageConfig->getTitle()->getDefault())
+        );
 
         return parent::_prepareLayout();
     }

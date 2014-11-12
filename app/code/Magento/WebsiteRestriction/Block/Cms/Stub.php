@@ -71,7 +71,7 @@ class Stub extends \Magento\Cms\Block\Page
     {
         $page = $this->getPage();
         $this->pageConfig->addBodyClass('cms-' . $page->getIdentifier());
-        $this->pageConfig->getTitle->set($page->getTitle());
+        $this->pageConfig->getTitle()->set($page->getTitle());
         $this->pageConfig->setKeywords($page->getMetaKeywords());
         $this->pageConfig->setDescription($page->getMetaDescription());
 

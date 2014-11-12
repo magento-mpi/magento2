@@ -84,7 +84,7 @@ class Register extends \Magento\Directory\Block\Data
      */
     protected function _prepareLayout()
     {
-        $this->pageConfig->getTitle->set(__('Create New Customer Account'));
+        $this->pageConfig->getTitle()->set(__('Create New Customer Account'));
         return parent::_prepareLayout();
     }
 
