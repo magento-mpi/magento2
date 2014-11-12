@@ -60,7 +60,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $viewInterfacekMock;
+    protected $viewInterfaceMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -122,11 +122,11 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->viewInterfacekMock = $this->getMockBuilder('Magento\Framework\App\ViewInterface')
+        $this->viewInterfaceMock = $this->getMockBuilder('Magento\Framework\App\ViewInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->viewInterfacekMock->expects($this->any())->method('getPage')->will(
+        $this->viewInterfaceMock->expects($this->any())->method('getPage')->will(
             $this->returnValue($this->resultPageMock)
         );
         $this->resultPageMock->expects($this->any())->method('getConfig')->will(
@@ -155,7 +155,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->titleMock);
         $this->contextMock->expects($this->any())
             ->method('getView')
-            ->willReturn($this->viewInterfacekMock);
+            ->willReturn($this->viewInterfaceMock);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->controller = $objectManager->getObject(
@@ -178,7 +178,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         $this->titleMock->expects($this->once())->method('prepend')->with(__('Customers'));
-        $this->viewInterfacekMock->expects($this->any())->method('getLayout')->will(
+        $this->viewInterfaceMock->expects($this->any())->method('getLayout')->will(
             $this->returnValue($this->layoutInterfaceMock)
         );
         $this->layoutInterfaceMock->expects($this->at(0))
