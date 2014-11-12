@@ -51,13 +51,6 @@ interface DataProviderInterface
     public function getAggregation(BucketInterface $bucket, array $dimensions, $range, array $entityIds);
 
     /**
-     * @param int $range
-     * @param array $dbRanges
-     * @return array
-     */
-    public function prepareData($range, array $dbRanges);
-
-    /**
      * Get range
      *
      * @return int

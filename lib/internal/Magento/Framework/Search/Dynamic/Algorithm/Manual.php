@@ -23,7 +23,7 @@ class Manual extends AbstractAlgorithm
         }
         $dbRanges = $this->dataProvider->getAggregation($bucket, $dimensions, $range, $entityIds);
         $dbRanges = $this->processRange($dbRanges, $options['max_intervals_number']);
-        $data = $this->dataProvider->prepareData($range, $dbRanges);
+        $data = $this->prepareData($range, $dbRanges);
 
         return $data;
     }
@@ -48,5 +48,32 @@ class Manual extends AbstractAlgorithm
         }
 
         return $items;
+    }
+
+    /**
+     * @param int $range
+     * @param int[] $dbRanges
+     * @return array
+     */
+    public function prepareData($range, array $dbRanges)
+    {
+        $data = [];
+        if (!empty($dbRanges)) {
+            $lastIndex = array_keys($dbRanges);
+            $lastIndex = $lastIndex[count($lastIndex) - 1];
+
+            foreach ($dbRanges as $index => $count) {
+                $fromPrice = $index == 1 ? '' : ($index - 1) * $range;
+                $toPrice = $index == $lastIndex ? '' : $index * $range;
+
+                $data[] = [
+                    'from' => $fromPrice,
+                    'to' => $toPrice,
+                    'count' => $count
+                ];
+            }
+        }
+
+        return $data;
     }
 }
