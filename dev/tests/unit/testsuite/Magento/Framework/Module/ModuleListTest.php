@@ -9,8 +9,18 @@ namespace Magento\Framework\Module;
 
 class ModuleListTest extends \PHPUnit_Framework_TestCase
 {
-    private static $allFixture = ['foo' => [], 'bar' => []];
+    /**
+     * Fixture for all modules' meta-information
+     *
+     * @var array
+     */
+    private static $allFixture = ['foo' => ['key' => 'value'], 'bar' => ['another' => 'value']];
 
+    /**
+     * Fixture for enabled modules
+     *
+     * @var array
+     */
     private static $enabledFixture = ['foo' => 1, 'bar' => 0];
 
     /**
@@ -42,6 +52,38 @@ class ModuleListTest extends \PHPUnit_Framework_TestCase
         $expected = ['foo' => self::$allFixture['foo']];
         $this->assertSame($expected, $this->model->getAll());
         $this->assertSame($expected, $this->model->getAll()); // second time to ensure loadAll is called once
+    }
+
+    public function testGetAllNoData()
+    {
+        $this->loader->expects($this->exactly(2))->method('load')->willReturn([]);
+        $this->setLoadConfigExpectation(false);
+        $this->assertEquals([], $this->model->getAll());
+        $this->assertEquals([], $this->model->getAll());
+    }
+
+    public function testGetOne()
+    {
+        $this->setLoadAllExpectation();
+        $this->setLoadConfigExpectation();
+        $this->assertSame(['key' => 'value'], $this->model->getOne('foo'));
+        $this->assertNull($this->model->getOne('bar'));
+    }
+
+    public function testGetNames()
+    {
+        $this->setLoadAllExpectation(false);
+        $this->setLoadConfigExpectation();
+        $this->assertSame(['foo'], $this->model->getNames());
+        $this->assertSame(['foo'], $this->model->getNames()); // second time to ensure config loader is called once
+    }
+
+    public function testHas()
+    {
+        $this->setLoadAllExpectation(false);
+        $this->setLoadConfigExpectation();
+        $this->assertTrue($this->model->has('foo'));
+        $this->assertFalse($this->model->has('bar'));
     }
 
     /**
