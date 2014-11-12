@@ -10,7 +10,6 @@ namespace Magento\Framework\Api;
 
 use Magento\Framework\Api\Search\FilterGroupBuilder;
 
-
 /**
  * Builder for SearchCriteria Service Data Object
  */
