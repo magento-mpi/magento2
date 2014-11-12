@@ -182,7 +182,7 @@ class Onepage
      * @param AddressBuilder $addressBuilder
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param AddressRepositoryInterface $customerAddressService
+     * @param AddressRepositoryInterface $addressRepository
      * @param AccountManagementInterface $accountManagement
      * @param OrderSender $orderSender
      * @param CustomerRepositoryInterface $customerRepository
@@ -208,7 +208,7 @@ class Onepage
         AddressBuilder $addressBuilder,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        AddressRepositoryInterface $customerAddressService,
+        AddressRepositoryInterface $addressRepository,
         AccountManagementInterface $accountManagement,
         OrderSender $orderSender,
         CustomerRepositoryInterface $customerRepository
@@ -233,7 +233,7 @@ class Onepage
         $this->_addressBuilder = $addressBuilder;
         $this->mathRandom = $mathRandom;
         $this->_encryptor = $encryptor;
-        $this->addressRepository = $customerAddressService;
+        $this->addressRepository = $addressRepository;
         $this->accountManagement = $accountManagement;
         $this->orderSender = $orderSender;
         $this->customerRepository = $customerRepository;
@@ -381,7 +381,7 @@ class Onepage
 
         if ($customerAddressId) {
             try {
-                $customerAddress = $this->addressRepository->get($customerAddressId);
+                $customerAddress = $this->addressRepository->getById($customerAddressId);
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
                     return ['error' => 1, 'message' => __('The customer address is not valid.')];
                 }
@@ -618,7 +618,7 @@ class Onepage
         if (!empty($customerAddressId)) {
             $addressData = null;
             try {
-                $addressData = $this->addressRepository->get($customerAddressId);
+                $addressData = $this->addressRepository->getById($customerAddressId);
             } catch (NoSuchEntityException $e) {
                 // do nothing if customer is not found by id
             }
