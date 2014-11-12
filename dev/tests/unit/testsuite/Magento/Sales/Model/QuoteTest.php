@@ -509,7 +509,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             ->method('getTaxClassId')
             ->willReturn($taxClassId);
         $this->groupRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getById')
             ->with($groupId)
             ->will($this->returnValue($groupMock));
         $this->quote->setData('customer_group_id', $groupId);

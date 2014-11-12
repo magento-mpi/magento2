@@ -102,7 +102,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->orderMock));
         $this->orderMock->expects($this->once())->method('getCustomerGroupId')->will($this->returnValue(4));
         $this->groupRepositoryMock
-            ->expects($this->once())->method('get')->with(4)->will($this->returnValue($this->groupMock));
+            ->expects($this->once())->method('getById')->with(4)->will($this->returnValue($this->groupMock));
         $this->groupMock
             ->expects($this->once())
             ->method('getCode')
@@ -119,7 +119,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->orderMock));
         $this->orderMock->expects($this->once())->method('getCustomerGroupId')->will($this->returnValue(4));
         $this->groupRepositoryMock
-            ->expects($this->once())->method('get')->with(4)->will($this->returnValue($this->groupMock));
+            ->expects($this->once())->method('getById')->with(4)->will($this->returnValue($this->groupMock));
         $this->groupMock
             ->expects($this->once())
             ->method('getCode')

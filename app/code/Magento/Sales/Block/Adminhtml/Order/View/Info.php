@@ -115,7 +115,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
             $customerGroupId = $this->getOrder()->getCustomerGroupId();
             try {
                 if (!is_null($customerGroupId)) {
-                    return $this->groupRepository->get($customerGroupId)->getCode();
+                    return $this->groupRepository->getById($customerGroupId)->getCode();
                 }
             } catch (NoSuchEntityException $e) {
                 return '';
