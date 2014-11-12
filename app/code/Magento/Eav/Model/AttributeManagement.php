@@ -113,7 +113,11 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
      */
     public function unassign($attributeSetId, $attributeCode)
     {
-        $attributeSet = $this->setRepository->get($attributeSetId);
+        try {
+            $attributeSet = $this->setRepository->get($attributeSetId);
+        } catch (NoSuchEntityException $e) {
+            throw new NoSuchEntityException('Attribute set not found: ' . $attributeSetId);
+        }
         $setEntityType = $this->entityTypeFactory->create()->getEntityType($attributeSet->getEntityTypeId());
 
         /** @var \Magento\Eav\Model\Entity\Attribute $attribute */
@@ -124,7 +128,9 @@ class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterfa
         $attribute->loadEntityAttributeIdBySet();
 
         if (!$attribute->getEntityAttributeId()) {
-            throw  new InputException('Requested attribute is not in requested attribute set.');
+            throw new InputException(
+                sprintf('Attribute "%s" not found in attribute set %s.', $attributeCode, $attributeSetId)
+            );
         }
         if (!$attribute->getIsUserDefined()) {
             throw new StateException('System attribute can not be deleted');
