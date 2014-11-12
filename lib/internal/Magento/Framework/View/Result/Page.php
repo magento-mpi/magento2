@@ -80,6 +80,8 @@ class Page extends Layout
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param string $template
      * @param bool $isIsolated
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         View\Element\Template\Context $context,
