@@ -49,10 +49,6 @@ class BestsellerProductsReportEntityTest extends Injectable
     public function __inject(Bestsellers $bestsellers)
     {
         $this->bestsellers = $bestsellers;
-        ObjectManager::getInstance()->create(
-            'Magento\Core\Test\TestStep\SetupConfigurationStep',
-            ['configData' => "checkmo"]
-        )->run();
     }
 
     /**

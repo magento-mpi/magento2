@@ -11,7 +11,6 @@ namespace Magento\Reports\Test\TestCase;
 use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
@@ -38,13 +37,6 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class AbandonedCartsReportEntityTest extends Injectable
 {
     /**
-     * Cms Index page.
-     *
-     * @var CmsIndex
-     */
-    protected $cmsIndex;
-
-    /**
      * Catalog Product View page.
      *
      * @var CatalogProductView
@@ -68,19 +60,16 @@ class AbandonedCartsReportEntityTest extends Injectable
     /**
      * Inject pages.
      *
-     * @param CmsIndex $cmsIndex
      * @param Browser $browser
      * @param FixtureFactory $fixtureFactory
      * @param CatalogProductView $catalogProductView
      * @return void
      */
     public function __inject(
-        CmsIndex $cmsIndex,
         Browser $browser,
         FixtureFactory $fixtureFactory,
         CatalogProductView $catalogProductView
     ) {
-        $this->cmsIndex = $cmsIndex;
         $this->browser = $browser;
         $this->catalogProductView = $catalogProductView;
         $this->fixtureFactory = $fixtureFactory;
@@ -103,8 +92,10 @@ class AbandonedCartsReportEntityTest extends Injectable
             ['customer' => $customer]
         )->run();
         $this->addProductsToCart($products);
-        $this->cmsIndex->getLinksBlock()->openLink("Log Out");
-        $this->cmsIndex->getCmsPageBlock()->waitUntilTextIsVisible('Home Page');
+        $this->objectManager->create(
+            'Magento\Customer\Test\TestStep\LogoutCustomerOnFrontendStep',
+            ['customer' => $customer]
+        )->run();
 
         return ['products' => $products];
     }
