@@ -70,7 +70,7 @@ class SaveAndContinueButton implements ButtonProviderInterface
                         'button' => array('event' => 'saveAndContinueEdit')
                     )
                 ),
-                'sort_order' => 0
+                'sort_order' => 80
             ];
         }
         return $data;

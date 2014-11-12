@@ -69,7 +69,7 @@ class SaveButton implements ButtonProviderInterface
                     'mage-init' => array('button' => array('event' => 'save')),
                     'form-role' => 'save'
                 ),
-                'sort_order' => 5
+                'sort_order' => 90
             ];
         }
         return $data;

@@ -8,7 +8,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="customer_edit_tab_view">
-        <block class="Magento\Paypal\Block\Adminhtml\Customer\Edit\Tab\Agreement" name="customer_edit_tab_agreements" />
-    </referenceBlock>
+    <body>
+        <referenceBlock name="form">
+            <block class="Magento\Paypal\Block\Adminhtml\Customer\Edit\Tab\Agreement" name="customer_edit_tab_agreements" after="orders" />
+        </referenceBlock>
+    </body>
 </page>

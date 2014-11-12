@@ -62,7 +62,7 @@ class OrderButton implements ButtonProviderInterface
                 'label' => __('Create Order'),
                 'on_click' => 'setLocation(\'' . $this->getCreateOrderUrl() . '\')',
                 'class' => 'add',
-                'sort_order' => 60
+                'sort_order' => 40
             ];
         }
         return $data;

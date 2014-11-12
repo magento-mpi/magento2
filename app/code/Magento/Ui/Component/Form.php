@@ -121,9 +121,15 @@ class Form extends AbstractView
                 /** @var ButtonProviderInterface $button */
                 $button = $this->buttonProviderFactory->create($buttonClass);
                 $buttonData = $button->getButtonData();
-                if ($buttonData) {
-                    $this->actionPool->add($buttonId, $buttonData, $this);
+                if (!$buttonData) {
+                    unset($buttons[$buttonId]);
+                    continue;
                 }
+                $buttons[$buttonId] = $buttonData;
+            }
+            uasort($buttons, [$this, 'sortButtons']);
+            foreach ($buttons as $buttonId => $buttonData) {
+                $this->actionPool->add($buttonId, $buttonData, $this);
             }
         }
 
@@ -198,5 +204,22 @@ class Form extends AbstractView
     public function getValidateAction()
     {
         return $this->getUrl('mui/form/validate');
+    }
+
+    /**
+     * Sort buttons by sort order
+     *
+     * @param array $itemA
+     * @param array $itemB
+     * @return int
+     */
+    public function sortButtons(array $itemA, array $itemB)
+    {
+        $sortOrderA = isset($itemA['sort_order']) ? intval($itemA['sort_order']) : 0;
+        $sortOrderB = isset($itemB['sort_order']) ? intval($itemB['sort_order']) : 0;
+        if ($sortOrderA == $sortOrderB) {
+            return 0;
+        }
+        return ($sortOrderA < $sortOrderB) ? -1 : 1;
     }
 }

@@ -41,7 +41,7 @@ class BackButton implements ButtonProviderInterface
             'label' => __('Back'),
             'on_click' => 'setLocation(\'' . $this->getBackUrl() . '\')',
             'class' => 'back',
-            'sort_order' => 20
+            'sort_order' => 10
         ];
     }
 
