@@ -494,7 +494,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         try {
             $product = $this->productRepository->getById($orderItem->getProductId(), false, $this->getStore()->getId());
         } catch (NoSuchEntityException $e) {
-            throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'));
+            throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'), 0, $e);
         }
         $info = $orderItem->getProductOptionByCode('info_buyRequest');
         $info = new \Magento\Framework\Object($info);

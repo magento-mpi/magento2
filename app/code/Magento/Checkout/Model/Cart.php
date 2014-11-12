@@ -272,7 +272,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             try {
                 $product = $this->productRepository->getById($productInfo, false, $storeId);
             } catch (NoSuchEntityException $e) {
-                throw new \Magento\Framework\Model\Exception(__('We can\'t find the product.'));
+                throw new \Magento\Framework\Model\Exception(__('We can\'t find the product.'), 0, $e);
             }
         } else {
             throw new \Magento\Framework\Model\Exception(__('We can\'t find the product.'));
