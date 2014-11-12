@@ -7,6 +7,7 @@
  */
 namespace Magento\Review\Block\Product;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Review\Model\Resource\Review\Collection as ReviewCollection;
 use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
 
@@ -41,6 +42,7 @@ class View extends \Magento\Catalog\Block\Product\View
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Customer\Model\Session $customerSession
      * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
      * @param array $data
      */
@@ -54,6 +56,7 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Customer\Model\Session $customerSession,
         TaxCalculationServiceInterface $taxCalculationService,
+        ProductRepositoryInterface $productRepository,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
@@ -68,6 +71,7 @@ class View extends \Magento\Catalog\Block\Product\View
             $localeFormat,
             $customerSession,
             $taxCalculationService,
+            $productRepository,
             $data
         );
     }
