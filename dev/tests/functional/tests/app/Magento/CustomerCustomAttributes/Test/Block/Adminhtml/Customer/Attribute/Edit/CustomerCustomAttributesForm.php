@@ -21,20 +21,20 @@ class CustomerCustomAttributesForm extends FormTabs
      *
      * @var string
      */
-    protected $mageError = '//*[contains(@class,"field ")][.//*[contains(@class,"mage-error")]]';
+    protected $mageError = '//*[contains(@for,"attribute_code")]';
 
     /**
-     * Get Require Notice Properties.
+     * Get customer attribute error.
      *
      * @return array
      */
-    public function getRequireNoticeProperties()
+    public function getAttributeError()
     {
         $data = [];
-        $elements = $this->_rootElement->find($this->mageError, Locator::SELECTOR_XPATH)->getElements();
-        foreach ($elements as $element) {
-            $data[$element->find('label')->getText()] = $element;
-        }
+        list($label, $error) = $this->_rootElement->find($this->mageError, Locator::SELECTOR_XPATH)->getElements();
+        $data['label'] = $label->getText();
+        $data['text'] = $error->getText();
+
         return $data;
     }
 }
