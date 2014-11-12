@@ -14,6 +14,8 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMeta
 class SaveShippingMethod extends \Magento\Checkout\Controller\Onepage
 {
     /**
+     * Sales Quote repository
+     *
      * @var \Magento\Sales\Model\QuoteRepository
      */
     protected $quoteRepository;
@@ -42,7 +44,6 @@ class SaveShippingMethod extends \Magento\Checkout\Controller\Onepage
         \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Magento\Sales\Model\QuoteRepository $quoteRepository
     ) {
-        $this->quoteRepository = $quoteRepository;
         parent::__construct(
             $context,
             $customerSession,
@@ -54,6 +55,7 @@ class SaveShippingMethod extends \Magento\Checkout\Controller\Onepage
             $scopeConfig,
             $layoutFactory
         );
+        $this->quoteRepository = $quoteRepository;
     }
 
     /**

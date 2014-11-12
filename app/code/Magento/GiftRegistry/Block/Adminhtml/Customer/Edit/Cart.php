@@ -77,7 +77,11 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $quote = $this->quoteRepository->getForCustomer($this->getEntity()->getCustomerId());
+        try {
+            $quote = $this->quoteRepository->getForCustomer($this->getEntity()->getCustomerId());
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            $quote = $this->quoteRepository->create();
+        }
         $quote->setWebsite($this->_storeManager->getWebsite($this->getEntity()->getWebsiteId()));
 
         $collection = $quote ? $quote->getItemsCollection(false) : $this->_dataFactory->create();

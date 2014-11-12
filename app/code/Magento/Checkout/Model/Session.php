@@ -205,8 +205,12 @@ class Session extends \Magento\Framework\Session\SessionManager
                     $customerId = $this->_customer
                         ? $this->_customer->getId()
                         : $this->_customerSession->getCustomerId();
-                    $quote = $this->quoteRepository->getForCustomer($customerId);
-                    $this->setQuoteId($quote->getId());
+                    try {
+                        $quote = $this->quoteRepository->getForCustomer($customerId);
+                        $this->setQuoteId($quote->getId());
+                    } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+
+                    }
                 } else {
                     $quote->setIsCheckoutCart(true);
                     $this->_eventManager->dispatch('checkout_quote_init', array('quote' => $quote));
@@ -271,11 +275,12 @@ class Session extends \Magento\Framework\Session\SessionManager
 
         $this->_eventManager->dispatch('load_customer_quote_before', array('checkout_session' => $this));
 
-        $customerQuote = $this->quoteRepository->getForCustomer(
-            $this->_customerSession->getCustomerId()
-        )->setStoreId(
-            $this->_storeManager->getStore()->getId()
-        );
+        try {
+            $customerQuote = $this->quoteRepository->getForCustomer($this->_customerSession->getCustomerId());
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            $customerQuote = $this->quoteRepository->create();
+        }
+        $customerQuote->setStoreId($this->_storeManager->getStore()->getId());
 
         if ($customerQuote->getId() && $this->getQuoteId() != $customerQuote->getId()) {
             if ($this->getQuoteId()) {

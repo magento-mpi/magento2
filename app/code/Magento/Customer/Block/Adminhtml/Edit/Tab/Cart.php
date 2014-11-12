@@ -229,7 +229,11 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
             $customerId = $this->getCustomerId();
             $storeIds = $this->_storeManager->getWebsite($this->getWebsiteId())->getStoreIds();
 
-            $this->quote = $this->quoteRepository->getForCustomer($customerId, $storeIds);
+            try {
+                $this->quote = $this->quoteRepository->getForCustomer($customerId, $storeIds);
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                $this->quote = $this->quoteRepository->create()->setSharedStoreIds($storeIds);
+            }
         }
         return $this->quote;
     }

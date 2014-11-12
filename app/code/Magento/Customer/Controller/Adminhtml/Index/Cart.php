@@ -28,11 +28,16 @@ class Cart extends \Magento\Customer\Controller\Adminhtml\Index
             /** @var \Magento\Sales\Model\QuoteRepository $quoteRepository */
             $quoteRepository = $this->_objectManager->create('Magento\Sales\Model\QuoteRepository');
             /** @var \Magento\Sales\Model\Quote $quote */
-            $quote = $quoteRepository->getForCustomer(
+            try {
+                $quote = $quoteRepository->getForCustomer(
                     $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
-                )->setWebsite(
-                    $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsite($websiteId)
                 );
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                $quote = $quoteRepository->create();
+            }
+            $quote->setWebsite(
+                $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsite($websiteId)
+            );
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
                 $quote->removeItem($deleteItemId);

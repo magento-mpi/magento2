@@ -165,7 +165,11 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
 
             $currentCustomerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
             if (!empty($currentCustomerId)) {
-                $this->quote = $this->quoteRepository->getForCustomer($currentCustomerId, $storeIds);
+                try {
+                    $this->quote = $this->quoteRepository->getForCustomer($currentCustomerId, $storeIds);
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+
+                }
             }
         }
         return $this->quote;

@@ -71,8 +71,14 @@ class Cart extends \Magento\Backend\App\Action
         $quoteItemId = (int)$this->getRequest()->getParam('id');
         $websiteId = (int)$this->getRequest()->getParam('website_id');
 
-        $this->_quote = $this->quoteRepository->getForCustomer($this->_customerId)
-            ->setWebsite($this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsite($websiteId));
+        try {
+            $this->_quote = $this->quoteRepository->getForCustomer($this->_customerId);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            $this->_quote = $this->quoteRepository->create();
+        }
+        $this->_quote->setWebsite(
+            $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsite($websiteId)
+        );
 
         $this->_quoteItem = $this->_quote->getItemById($quoteItemId);
         if (!$this->_quoteItem) {

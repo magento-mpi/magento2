@@ -13,6 +13,8 @@ use Magento\Checkout\Model\Cart as CustomerCart;
 class CouponPost extends \Magento\Checkout\Controller\Cart
 {
     /**
+     * Sales quote repository
+     *
      * @var \Magento\Sales\Model\QuoteRepository
      */
     protected $quoteRepository;
@@ -35,7 +37,6 @@ class CouponPost extends \Magento\Checkout\Controller\Cart
         CustomerCart $cart,
         \Magento\Sales\Model\QuoteRepository $quoteRepository
     ) {
-        $this->quoteRepository = $quoteRepository;
         parent::__construct(
             $context,
             $scopeConfig,
@@ -44,6 +45,7 @@ class CouponPost extends \Magento\Checkout\Controller\Cart
             $formKeyValidator,
             $cart
         );
+        $this->quoteRepository = $quoteRepository;
     }
 
     /**

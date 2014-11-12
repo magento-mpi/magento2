@@ -287,7 +287,11 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     {
         $skippedItems = 0;
         if (is_array($itemsIds)) {
-            $quote = $this->quoteRepository->getForCustomer($this->getCustomerId());
+            try {
+                $quote = $this->quoteRepository->getForCustomer($this->getCustomerId());
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                $quote = $this->quoteRepository->create();
+            }
             $quote->setWebsite($this->storeManager->getWebsite($this->getWebsiteId()));
 
             foreach ($quote->getAllVisibleItems() as $item) {

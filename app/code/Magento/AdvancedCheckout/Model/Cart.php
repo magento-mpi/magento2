@@ -294,10 +294,14 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->_quote = $this->quoteRepository->create();
 
         if ($this->getCustomer() !== null) {
-            $this->_quote = $this->quoteRepository->getForCustomer(
-                $this->getCustomer()->getId(),
-                $this->getQuoteSharedStoreIds()
-            );
+            try {
+                $this->_quote = $this->quoteRepository->getForCustomer(
+                    $this->getCustomer()->getId(),
+                    $this->getQuoteSharedStoreIds()
+                );
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+
+            }
         }
 
         return $this->_quote;

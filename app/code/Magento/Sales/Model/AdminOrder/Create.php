@@ -643,14 +643,12 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $customerId = (int)$this->getSession()->getCustomerId();
         if ($customerId) {
             try {
-                $this->_cart = $this->quoteRepository->getForCustomer($customerId)
-                    ->setStore($this->getSession()->getStore());
-
+                $this->_cart = $this->quoteRepository->getForCustomer($customerId);
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                $this->_cart->setStore($this->getSession()->getStore());
                 $customerData = $this->_customerAccountService->getCustomer($customerId);
                 $this->_cart->assignCustomer($customerData);
                 $this->quoteRepository->save($this->_cart);
-            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-
             }
         }
 

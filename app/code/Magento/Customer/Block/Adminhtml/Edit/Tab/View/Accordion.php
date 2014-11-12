@@ -96,11 +96,15 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
             $website = $this->_storeManager->getWebsite($websiteId);
 
             // count cart items
-            $cartItemsCount = $this->quoteRepository->getForCustomer($customerId)
-                ->setWebsite($website)
-                ->getItemsCollection(false)
-                ->addFieldToFilter('parent_item_id', array('null' => true))
-                ->getSize();
+            try {
+                $cartItemsCount = $this->quoteRepository->getForCustomer($customerId)
+                    ->setWebsite($website)
+                    ->getItemsCollection(false)
+                    ->addFieldToFilter('parent_item_id', array('null' => true))
+                    ->getSize();
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                $cartItemsCount = 0;
+            }
             // prepare title for cart
             $title = __('Shopping Cart - %1 item(s)', $cartItemsCount);
             if (count($websiteIds) > 1) {
