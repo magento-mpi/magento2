@@ -40,7 +40,12 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
 
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->customerViewHelper = $this->getMock('Magento\Customer\Helper\View', [], [], '', false);
-        $this->customerRepository = $this->getMock('Magento\Customer\Api\CustomerRepositoryInterface');
+        $this->customerRepository = $this->getMockForAbstractClass(
+            'Magento\Customer\Api\CustomerRepositoryInterface',
+            [],
+            '',
+            false
+        );
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->wishlist = $this->objectManagerHelper->getObject(
@@ -65,7 +70,6 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
      */
     public function testAroundGetHeader($multipleEnabled, $customerId, $isDefault, $expectedResult)
     {
-
         $subject = $this->getMock('Magento\Wishlist\Model\Rss\Wishlist', [], [], '', false);
         $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', [
             'getId',

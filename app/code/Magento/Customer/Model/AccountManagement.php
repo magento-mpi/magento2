@@ -1121,4 +1121,15 @@ class AccountManagement implements AccountManagementInterface
         $mergedCustomerData->setData('name', $this->getName($customer));
         return $mergedCustomerData;
     }
+
+    /**
+     * Return hashed password, which can be directly saved to database.
+     *
+     * @param string $password
+     * @return string
+     */
+    public function getPasswordHash($password)
+    {
+        return $this->encryptor->getHash($password);
+    }
 }

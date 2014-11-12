@@ -47,20 +47,20 @@ class Wishlist
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Helper\View $customerViewHelper
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerAccountService
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         \Magento\MultipleWishlist\Helper\Rss $wishlistHelper,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Helper\View $customerViewHelper,
-        \Magento\Customer\Api\CustomerRepositoryInterface $customerAccountService
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
     ) {
         $this->wishlistHelper = $wishlistHelper;
         $this->urlBuilder = $urlBuilder;
         $this->scopeConfig = $scopeConfig;
         $this->customerViewHelper = $customerViewHelper;
-        $this->customerRepository = $customerAccountService;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
