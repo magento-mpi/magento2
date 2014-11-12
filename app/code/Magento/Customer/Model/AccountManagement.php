@@ -220,6 +220,11 @@ class AccountManagement implements AccountManagementInterface
     protected $objectFactory;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
      * @param CustomerFactory $customerFactory
      * @param ManagerInterface $eventManager
      * @param StoreManagerInterface $storeManager
@@ -244,6 +249,7 @@ class AccountManagement implements AccountManagementInterface
      * @param CustomerDataHelper $customerDataHelper
      * @param DateTime $dateTime
      * @param \Magento\Framework\ObjectFactory $objectFactory
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -271,7 +277,8 @@ class AccountManagement implements AccountManagementInterface
         \Magento\Framework\Registry $registry,
         CustomerDataHelper $customerDataHelper,
         DateTime $dateTime,
-        \Magento\Framework\ObjectFactory $objectFactory
+        \Magento\Framework\ObjectFactory $objectFactory,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->customerFactory = $customerFactory;
         $this->eventManager = $eventManager;
@@ -297,6 +304,7 @@ class AccountManagement implements AccountManagementInterface
         $this->customerDataHelper = $customerDataHelper;
         $this->dateTime = $dateTime;
         $this->objectFactory = $objectFactory;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
     }
 
     /**
@@ -643,7 +651,7 @@ class AccountManagement implements AccountManagementInterface
     public function validate(\Magento\Customer\Api\Data\CustomerInterface $customer)
     {
         $customerErrors = $this->validator->validateData(
-            \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer),
+            $this->extensibleDataObjectConverter->toFlatArray($customer),
             [],
             'customer'
         );

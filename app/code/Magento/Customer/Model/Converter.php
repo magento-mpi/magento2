@@ -37,18 +37,26 @@ class Converter
     protected $storeManager;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
      * @param CustomerDataObjectBuilder $customerBuilder
      * @param CustomerFactory $customerFactory
      * @param StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      */
     public function __construct(
         CustomerDataObjectBuilder $customerBuilder,
         CustomerFactory $customerFactory,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->_customerBuilder = $customerBuilder;
         $this->_customerFactory = $customerFactory;
         $this->storeManager = $storeManager;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
     }
 
     /**
@@ -140,7 +148,7 @@ class Converter
     {
         $customerModel = $this->_customerFactory->create();
 
-        $attributes = ExtensibleDataObjectConverter::toFlatArray($customer);
+        $attributes = $this->extensibleDataObjectConverter->toFlatArray($customer);
         foreach ($attributes as $attributeCode => $attributeValue) {
             // avoid setting password through set attribute
             if ($attributeCode == 'password') {
@@ -174,7 +182,7 @@ class Converter
         \Magento\Customer\Model\Customer $customerModel,
         CustomerDataObject $customerData
     ) {
-        $attributes = ExtensibleDataObjectConverter::toFlatArray($customerData);
+        $attributes = $this->extensibleDataObjectConverter->toFlatArray($customerData);
         foreach ($attributes as $attributeCode => $attributeValue) {
             $customerModel->setDataUsingMethod($attributeCode, $attributeValue);
         }

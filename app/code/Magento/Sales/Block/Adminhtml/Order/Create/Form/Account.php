@@ -30,6 +30,11 @@ class Account extends AbstractForm
     protected $_customerAccountService;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $_extensibleDataObjectConverter;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
@@ -37,6 +42,7 @@ class Account extends AbstractForm
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param array $data
      */
     public function __construct(
@@ -47,10 +53,12 @@ class Account extends AbstractForm
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         array $data = array()
     ) {
         $this->_metadataFormFactory = $metadataFormFactory;
         $this->_customerAccountService = $customerAccountService;
+        $this->_extensibleDataObjectConverter = $extensibleDataObjectConverter;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $formFactory, $data);
     }
 
@@ -142,7 +150,7 @@ class Account extends AbstractForm
         } catch (\Exception $e) {
             /** If customer does not exist do nothing. */
         }
-        $data = isset($customer) ? ExtensibleDataObjectConverter::toFlatArray($customer) : array();
+        $data = isset($customer) ? $this->_extensibleDataObjectConverter->toFlatArray($customer) : array();
         foreach ($this->getQuote()->getData() as $key => $value) {
             if (strpos($key, 'customer_') === 0) {
                 $data[substr($key, 9)] = $value;

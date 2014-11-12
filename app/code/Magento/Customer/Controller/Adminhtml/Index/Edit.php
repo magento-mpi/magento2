@@ -37,7 +37,7 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
         if ($isExistingCustomer) {
             try {
                 $customer = $this->_customerAccountService->getCustomer($customerId);
-                $customerData['account'] = ExtensibleDataObjectConverter::toFlatArray($customer);
+                $customerData['account'] = $this->_extensibleDataObjectConverter->toFlatArray($customer);
                 $customerData['account']['id'] = $customerId;
                 try {
                     $addresses = $this->_addressService->getAddresses($customerId);

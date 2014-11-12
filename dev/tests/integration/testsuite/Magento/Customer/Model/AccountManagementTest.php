@@ -53,6 +53,9 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /** @var DataObjectProcessor */
     private $dataProcessor;
 
+    /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter */
+    private $extensibleDataObjectConverter;
+
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
@@ -101,6 +104,9 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
 
         $this->dataProcessor = $this->objectManager
             ->create('Magento\Framework\Reflection\DataObjectProcessor');
+
+        $this->extensibleDataObjectConverter = $this->objectManager
+            ->create('Magento\Framework\Api\ExtensibleDataObjectConverter');
     }
 
     /**
@@ -593,8 +599,8 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             'aPassword',
             true
         );
-        $attributesBefore = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($existingCustomer);
-        $attributesAfter = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = $this->extensibleDataObjectConverter->toFlatArray($existingCustomer);
+        $attributesAfter = $this->extensibleDataObjectConverter->toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -616,7 +622,6 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             'firstname',
             'id',
             'lastname',
-            'confirmation'
         ];
         sort($expectedInAfter);
         $actualInAfterOnly = array_keys($inAfterOnly);

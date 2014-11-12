@@ -22,8 +22,14 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    private $_extensibleDataObjectConverter;
+
     protected function setUp()
     {
+        $objectManager = Bootstrap::getObjectManager();
         $weeeConfig = $this->getMock('Magento\Weee\Model\Config', [], [], '', false);
         $weeeConfig->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
         $attribute = $this->getMock('Magento\Eav\Model\Entity\Attribute', [], [], '', false);
@@ -32,9 +38,12 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         );
         $attributeFactory = $this->getMock('Magento\Eav\Model\Entity\AttributeFactory', [], [], '', false);
         $attributeFactory->expects($this->any())->method('create')->will($this->returnValue($attribute));
-        $this->_model = Bootstrap::getObjectManager()->create(
+        $this->_model = $objectManager->create(
             'Magento\Weee\Model\Tax',
             ['weeeConfig' => $weeeConfig, 'attributeFactory' => $attributeFactory]
+        );
+        $this->_extensibleDataObjectConverter = $objectManager->get(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter'
         );
     }
 
@@ -50,7 +59,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\Data\CustomerBuilder',
             ['metadataService' => $customerMetadataService]
         );
-        $expected = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray(
+        $expected = $this->_extensibleDataObjectConverter->toFlatArray(
             $customerAccountService->getCustomer(1)
         );
         $customerBuilder->populateWithArray($expected);

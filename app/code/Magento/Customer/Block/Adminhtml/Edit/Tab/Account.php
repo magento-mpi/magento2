@@ -69,6 +69,11 @@ class Account extends GenericMetadata
     protected $_customerDataObject;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $_extensibleDataObjectConverter;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
@@ -79,6 +84,7 @@ class Account extends GenericMetadata
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -94,6 +100,7 @@ class Account extends GenericMetadata
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;
@@ -103,6 +110,7 @@ class Account extends GenericMetadata
         $this->_customerAccountService = $customerAccountService;
         $this->_customerMetadataService = $customerMetadataService;
         $this->_customerBuilder = $customerBuilder;
+        $this->_extensibleDataObjectConverter = $extensibleDataObjectConverter;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -164,7 +172,7 @@ class Account extends GenericMetadata
         );
         $form->getElement('website_id')->setRenderer($renderer);
 
-        $accountData = ExtensibleDataObjectConverter::toFlatArray($this->_getCustomerDataObject());
+        $accountData = $this->_extensibleDataObjectConverter->toFlatArray($this->_getCustomerDataObject());
 
         if ($this->_getCustomerDataObject()->getId()) {
             $customerFormFields = $this->_addEditCustomerFormFields($fieldset);
@@ -270,7 +278,7 @@ class Account extends GenericMetadata
             $this->_customerForm = $this->_customerFormFactory->create(
                 'customer',
                 'adminhtml_customer',
-                ExtensibleDataObjectConverter::toFlatArray($this->_getCustomerDataObject())
+                $this->_extensibleDataObjectConverter->toFlatArray($this->_getCustomerDataObject())
             );
         }
         return $this->_customerForm;

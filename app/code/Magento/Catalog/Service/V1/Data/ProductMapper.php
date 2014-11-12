@@ -7,8 +7,6 @@
  */
 namespace Magento\Catalog\Service\V1\Data;
 
-use \Magento\Framework\Api\ExtensibleDataObjectConverter;
-
 class ProductMapper
 {
     /** @var  \Magento\Catalog\Model\ProductFactory */
@@ -18,15 +16,23 @@ class ProductMapper
     protected $productTypes;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Type $productTypes
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\Product\Type $productTypes
+        \Magento\Catalog\Model\Product\Type $productTypes,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->productFactory = $productFactory;
         $this->productTypes = $productTypes;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
     }
 
     /**
@@ -43,7 +49,13 @@ class ProductMapper
     ) {
         /** @var \Magento\Catalog\Model\Product $productModel */
         $productModel = $productModel ? : $this->productFactory->create();
-        $productModel->addData(ExtensibleDataObjectConverter::toFlatArray($product, $customAttributesToSkip));
+        $productModel->addData(
+            $this->extensibleDataObjectConverter->toFlatArray(
+                $product,
+                '\Magento\Catalog\Service\V1\Data\Product',
+                $customAttributesToSkip
+            )
+        );
         if (!is_numeric($productModel->getAttributeSetId())) {
             $productModel->setAttributeSetId($productModel->getDefaultAttributeSetId());
         }

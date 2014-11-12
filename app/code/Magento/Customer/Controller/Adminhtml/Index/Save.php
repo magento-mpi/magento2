@@ -120,7 +120,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 if ($isExistingCustomer) {
                     $savedCustomerData = $this->_customerAccountService->getCustomer($customerId);
                     $customerData = array_merge(
-                        \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($savedCustomerData),
+                        $this->_extensibleDataObjectConverter->toFlatArray($savedCustomerData),
                         $customerData
                     );
                 }

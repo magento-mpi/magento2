@@ -29,17 +29,29 @@ class ProductMapperTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $dataObjectProcessor = $dataObjectConverter = $this->getMockBuilder(
+            'Magento\Framework\Reflection\DataObjectProcessor'
+        )->disableOriginalConstructor()->getMock();
+
+        $dataObjectProcessor->expects($this->once())->method('buildOutputDataArray')->will(
+            $this->returnValue(['test_code' => 'test_value'])
+        );
+
+        /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter */
+        $extensibleDataObjectConverter = $this->objectManagerHelper->getObject(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter',
+            ['dataObjectProcessor' => $dataObjectProcessor]
+        );
+
         /** @var \Magento\Catalog\Service\V1\Data\ProductMapper $productMapper */
         $productMapper = $this->objectManagerHelper->getObject(
             'Magento\Catalog\Service\V1\Data\ProductMapper',
-            ['productFactory' => $productFactory]
+            ['productFactory' => $productFactory, 'extensibleDataObjectConverter' => $extensibleDataObjectConverter]
         );
 
         $product = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
                ->disableOriginalConstructor()
                ->getMock();
-        $product->expects($this->once())->method('__toArray')
-            ->will($this->returnValue(['test_code' => 'test_value']));
 
         /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $productModel */
         $productModel = $this->getMockBuilder('Magento\Catalog\Model\Product')
@@ -62,17 +74,28 @@ class ProductMapperTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $dataObjectProcessor = $dataObjectConverter = $this->getMockBuilder(
+            'Magento\Framework\Reflection\DataObjectProcessor'
+        )->disableOriginalConstructor()->getMock();
+
+        $dataObjectProcessor->expects($this->once())->method('buildOutputDataArray')->will(
+            $this->returnValue(['test_code' => 'test_value'])
+        );
+        /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter $dataObjectConverter */
+        $extensibleDataObjectConverter = $this->objectManagerHelper->getObject(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter',
+            ['dataObjectProcessor' => $dataObjectProcessor]
+        );
+
         /** @var \Magento\Catalog\Service\V1\Data\ProductMapper $productMapper */
         $productMapper = $this->objectManagerHelper->getObject(
             'Magento\Catalog\Service\V1\Data\ProductMapper',
-            ['productFactory' => $productFactory]
+            ['productFactory' => $productFactory, 'extensibleDataObjectConverter' => $extensibleDataObjectConverter]
         );
 
         $product = $this->getMockBuilder('Magento\Catalog\Service\V1\Data\Product')
             ->disableOriginalConstructor()
             ->getMock();
-        $product->expects($this->once())->method('__toArray')
-            ->will($this->returnValue(['test_code' => 'test_value']));
 
         /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $productModel */
         $productModel = $this->getMockBuilder('Magento\Catalog\Model\Product')

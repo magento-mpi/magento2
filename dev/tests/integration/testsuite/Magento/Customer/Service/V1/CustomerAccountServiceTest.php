@@ -47,6 +47,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder */
     private $_customerDetailsBuilder;
 
+    /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    private $_extensibleDataObjectConverter;
+
     protected function setUp()
     {
         $this->_objectManager = Bootstrap::getObjectManager();
@@ -94,6 +99,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $address2 = $this->_addressBuilder->create();
 
         $this->_expectedAddresses = [$address, $address2];
+
+        $this->_extensibleDataObjectConverter = $this->_objectManager->get(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter'
+        );
     }
 
     /**
@@ -656,8 +665,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Admin', $customerAfter->getCreatedIn());
         $passwordFromFixture = 'password';
         $this->_customerAccountService->authenticate($customerAfter->getEmail(), $passwordFromFixture);
-        $attributesBefore = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerBefore);
-        $attributesAfter = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = $this->_extensibleDataObjectConverter->toFlatArray($customerBefore);
+        $attributesAfter = $this->_extensibleDataObjectConverter->toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -716,8 +725,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'password',
             true
         );
-        $attributesBefore = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerBefore);
-        $attributesAfter = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = $this->_extensibleDataObjectConverter->toFlatArray($customerBefore);
+        $attributesAfter = $this->_extensibleDataObjectConverter->toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -782,8 +791,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'password',
             true
         );
-        $attributesBefore = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerBefore);
-        $attributesAfter = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = $this->_extensibleDataObjectConverter->toFlatArray($customerBefore);
+        $attributesAfter = $this->_extensibleDataObjectConverter->toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -870,8 +879,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'aPassword',
             true
         );
-        $attributesBefore = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($existingCustomer);
-        $attributesAfter = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = $this->_extensibleDataObjectConverter->toFlatArray($existingCustomer);
+        $attributesAfter = $this->_extensibleDataObjectConverter->toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);

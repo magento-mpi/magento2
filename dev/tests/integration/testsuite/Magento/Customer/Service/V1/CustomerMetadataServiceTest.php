@@ -18,6 +18,11 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
     /** @var CustomerMetadataServiceInterface */
     private $_service;
 
+    /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    private $_extensibleDataObjectConverter;
+
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -34,6 +39,9 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
         $this->_service = $objectManager->create('Magento\Customer\Service\V1\CustomerMetadataServiceInterface');
+        $this->_extensibleDataObjectConverter = $objectManager->get(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter'
+        );
     }
 
     public function testGetCustomAttributesMetadata()
@@ -124,7 +132,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_customerAccountService->getCustomer(1);
         $this->assertNotNull($customer);
 
-        $attributes = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer);
+        $attributes = $this->_extensibleDataObjectConverter->toFlatArray($customer);
         $this->assertNotEmpty($attributes);
 
         foreach ($attributes as $attributeCode => $attributeValue) {

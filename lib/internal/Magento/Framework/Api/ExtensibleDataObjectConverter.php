@@ -8,9 +8,8 @@
 
 namespace Magento\Framework\Api;
 
-use Magento\Framework\Api\AbstractExtensibleObject;
 use Magento\Framework\Convert\ConvertArray;
-use Magento\Framework\Api\AttributeValue;
+use Magento\Framework\Reflection\DataObjectProcessor;
 
 /**
  * Class to convert Extensible Data Object array to flat array
@@ -18,15 +17,29 @@ use Magento\Framework\Api\AttributeValue;
 class ExtensibleDataObjectConverter
 {
     /**
+     * @var DataObjectProcessor
+     */
+    protected $dataObjectProcessor;
+
+    /**
+     * @param DataObjectProcessor $dataObjectProcessor
+     */
+    public function __construct(DataObjectProcessor $dataObjectProcessor)
+    {
+        $this->dataObjectProcessor = $dataObjectProcessor;
+    }
+
+    /**
      * Convert AbstractExtensibleObject into flat array.
      *
-     * @param AbstractExtensibleObject $dataObject
+     * @param ExtensibleDataInterface $dataObject
      * @param string[] $skipCustomAttributes
      * @return array
      */
-    public static function toFlatArray(AbstractExtensibleObject $dataObject, $skipCustomAttributes = array())
+    public function toFlatArray(ExtensibleDataInterface $dataObject, $skipCustomAttributes = array())
     {
-        $dataObjectArray = $dataObject->__toArray();
+        $dataObjectType = get_class($dataObject);
+        $dataObjectArray = $this->dataObjectProcessor->buildOutputDataArray($dataObject, $dataObjectType);
         //process custom attributes if present
         if (!empty($dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY])) {
             /** @var AttributeValue[] $customAttributes */
