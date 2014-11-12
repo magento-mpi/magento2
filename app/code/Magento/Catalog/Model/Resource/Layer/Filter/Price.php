@@ -90,6 +90,7 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Retrieve clean select with joined price index table
      *
+     * @throws \Zend_Db_Select_Exception
      * @return \Magento\Framework\DB\Select
      */
     protected function _getSelect()
@@ -323,12 +324,12 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Apply price range filter to product collection
      *
-     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\FilterInterface $filter
+     * @param $interval
      * @return $this
      */
-    public function applyPriceRange($filter)
+    public function applyPriceRange(\Magento\Catalog\Model\Layer\Filter\FilterInterface $filter, $interval)
     {
-        $interval = $filter->getInterval();
         if (!$interval) {
             return $this;
         }

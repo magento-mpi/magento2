@@ -75,7 +75,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
             // Check filter type
             if ($this->_getIsFilterableAttribute(
                 $attribute
-            ) != \Magento\Catalog\Model\Layer\Filter\Attribute::OPTIONS_ONLY_WITH_RESULTS ||
+            ) != \Magento\Catalog\Model\Layer\Filter\Attribute::ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS ||
                 !empty($optionsFacetedData[$optionId])
             ) {
                 $this->itemDataBuilder->addItemData(
@@ -189,7 +189,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
     public function getItemsCount()
     {
         $attributeIsFilterable = $this->getAttributeModel()->getIsFilterable();
-        if ($attributeIsFilterable == \Magento\Catalog\Model\Layer\Filter\Attribute::OPTIONS_ONLY_WITH_RESULTS) {
+        if ($attributeIsFilterable == \Magento\Catalog\Model\Layer\Filter\Attribute::ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS) {
             return parent::getItemsCount();
         }
 

@@ -236,7 +236,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getFacetedData($field)
     {
-        $this->load();
+        $this->_renderFilters();
         $aggregations = $this->queryResponse->getAggregations();
         $values = $aggregations->getBucket($field . '_bucket')->getValues();
         $result = [];

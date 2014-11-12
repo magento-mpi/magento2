@@ -69,10 +69,9 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\Price $resource
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Search\Dynamic\Algorithm $priceAlgorithm
-     * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param Dynamic\AlgorithmFactory $algorithmFactory
+     * @param DataProvider\PriceFactory $dataProviderFactory
      * @param array $data
      */
     public function __construct(
@@ -284,7 +283,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     protected function _applyPriceRange()
     {
-        $this->dataProvider->getResource()->applyPriceRange($this);
+        $this->dataProvider->getResource()->applyPriceRange($this, $this->dataProvider->getInterval());
 
         return $this;
     }

@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Model\Layer\Filter;
 
 /**
- * Layer category filter abstract model
+ * Layer filter interface
  */
 interface FilterInterface
 {
@@ -16,7 +16,7 @@ interface FilterInterface
      * Set request variable name which is used for apply filter
      *
      * @param   string $varName
-     * @return  \Magento\Catalog\Model\Layer\Filter\AbstractFilter
+     * @return  \Magento\Catalog\Model\Layer\Filter\FilterInterface
      */
     public function setRequestVar($varName);
 
@@ -82,7 +82,7 @@ interface FilterInterface
      * Set attribute model to filter
      *
      * @param   \Magento\Eav\Model\Entity\Attribute $attribute
-     * @return  \Magento\Catalog\Model\Layer\Filter\AbstractFilter
+     * @return  \Magento\Catalog\Model\Layer\Filter\FilterInterface
      */
     public function setAttributeModel($attribute);
 

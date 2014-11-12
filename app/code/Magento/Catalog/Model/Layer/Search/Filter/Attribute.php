@@ -20,7 +20,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute  $attribute
      * @return bool
      */
-    protected function isAttributeFilterable($attribute)
+    protected function getAttributeIsFilterable($attribute)
     {
         return $attribute->getIsFilterableInSearch();
     }

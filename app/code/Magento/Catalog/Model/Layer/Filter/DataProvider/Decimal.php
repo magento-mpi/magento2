@@ -43,7 +43,6 @@ class Decimal
      */
     public function __construct(\Magento\Catalog\Model\Resource\Layer\Filter\Decimal $resource)
     {
-
         $this->resource = $resource;
     }
 

@@ -12,6 +12,8 @@ namespace Magento\Catalog\Model\Layer\Filter;
  */
 abstract class AbstractFilter extends \Magento\Framework\Object implements FilterInterface
 {
+    const ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS = 1;
+
     /**
      * Request variable name with filter value
      *
@@ -62,6 +64,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object implements Filte
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param array $data
+     * @throws \Magento\Framework\Model\Exception
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
@@ -358,6 +361,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object implements Filte
      * Get option text from frontend model by option id
      *
      * @param   int $optionId
+     * @throws \Magento\Framework\Model\Exception
      * @return  string|bool
      */
     protected function getOptionText($optionId)
@@ -369,9 +373,9 @@ abstract class AbstractFilter extends \Magento\Framework\Object implements Filte
      * Check whether specified attribute can be used in LN
      *
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
-     * @return bool
+     * @return int
      */
-    protected function isAttributeFilterable($attribute)
+    protected function getAttributeIsFilterable($attribute)
     {
         return $attribute->getIsFilterable();
     }

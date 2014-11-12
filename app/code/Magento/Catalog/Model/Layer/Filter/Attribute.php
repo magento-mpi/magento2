@@ -14,8 +14,6 @@ namespace Magento\Catalog\Model\Layer\Filter;
  */
 class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
-    const OPTIONS_ONLY_WITH_RESULTS = 1;
-
     /**
      * Resource instance
      *
@@ -93,10 +91,10 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         return $this;
     }
 
-
     /**
      * Get data array for building attribute filter items
      *
+     * @throws \Magento\Framework\Model\Exception
      * @return array
      */
     protected function _getItemsData()
@@ -112,7 +110,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
             }
             if ($this->string->strlen($option['value'])) {
                 // Check filter type
-                if ($this->isAttributeFilterable($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
+                if ($this->getAttributeIsFilterable($attribute) == self::ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS) {
                     if (!empty($optionsCount[$option['value']])) {
                         $this->itemDataBuilder->addItemData(
                             $this->tagFilter->filter($option['label']),

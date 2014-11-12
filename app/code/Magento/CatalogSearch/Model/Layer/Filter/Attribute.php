@@ -87,7 +87,9 @@ class Attribute extends AbstractFilter
                 continue;
             }
             // Check filter type
-            if ($this->isAttributeFilterable($attribute) && empty($optionsFacetedData[$option['value']]['count'])) {
+            if ($this->getAttributeIsFilterable($attribute) == static::ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS
+                && empty($optionsFacetedData[$option['value']]['count'])
+            ) {
                 continue;
             }
             $this->itemDataBuilder->addItemData(
