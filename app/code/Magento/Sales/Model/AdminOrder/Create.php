@@ -1509,7 +1509,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         }
 
         if (isset($data['customer_group_id'])) {
-            $customerGroup = $this->groupRepository->get($data['customer_group_id']);
+            $customerGroup = $this->groupRepository->getById($data['customer_group_id']);
             $data['customer_tax_class_id'] = $customerGroup->getTaxClassId();
             $this->setRecollect(true);
         }
