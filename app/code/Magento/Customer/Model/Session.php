@@ -109,7 +109,7 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param Converter $converter
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerAccountService
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
