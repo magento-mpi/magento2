@@ -141,6 +141,11 @@ class Onepage
     protected $orderSender;
 
     /**
+     * @var \Magento\Sales\Model\QuoteRepository
+     */
+    protected $quoteRepository;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Helper\Data $helper
      * @param \Magento\Customer\Helper\Data $customerData
@@ -156,14 +161,15 @@ class Onepage
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param CustomerBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param CustomerAddressServiceInterface $customerAddressService
+     * @param CustomerAccountServiceInterface $accountService
      * @param OrderSender $orderSender
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
@@ -188,7 +194,8 @@ class Onepage
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAccountServiceInterface $accountService,
-        OrderSender $orderSender
+        OrderSender $orderSender,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
@@ -213,6 +220,7 @@ class Onepage
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAccountService = $accountService;
         $this->orderSender = $orderSender;
+        $this->quoteRepository = $quoteRepository;
     }
 
     /**
@@ -280,7 +288,7 @@ class Onepage
         $quote = $this->getQuote();
         if ($quote->isMultipleShippingAddresses()) {
             $quote->removeAllAddresses();
-            $quote->save();
+            $this->quoteRepository->save($quote);
         }
 
         /*
@@ -326,7 +334,7 @@ class Onepage
             return array('error' => -1, 'message' => __('Invalid data'));
         }
 
-        $this->getQuote()->setCheckoutMethod($method)->save();
+        $this->quoteRepository->save($this->getQuote()->setCheckoutMethod($method));
         $this->getCheckout()->setStepData('billing', 'allow', true);
         return array();
     }
@@ -700,7 +708,7 @@ class Onepage
         $payment = $quote->getPayment();
         $payment->importData($data);
 
-        $quote->save();
+        $this->quoteRepository->save($quote);
 
         $this->getCheckout()->setStepData('payment', 'complete', true)->setStepData('review', 'allow', true);
 

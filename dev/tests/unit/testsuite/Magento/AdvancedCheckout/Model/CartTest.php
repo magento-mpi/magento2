@@ -48,7 +48,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $this->helperMock = $this->getMock('Magento\AdvancedCheckout\Helper\Data', array(), array(), '', false);
         $wishListFactoryMock = $this->getMock('Magento\Wishlist\Model\WishlistFactory', array(), array(), '', false);
-        $quoteFactoryMock =  $this->getMock('Magento\Sales\Model\QuoteFactory', array(), array(), '', false);
+        $quoteRepositoryMock =  $this->getMock('Magento\Sales\Model\QuoteRepository', array(), array(), '', false);
         $this->storeManagerMock =  $this->getMock('Magento\Framework\StoreManagerInterface');
         $this->localeFormatMock =  $this->getMock('Magento\Framework\Locale\FormatInterface');
         $messageManagerMock =  $this->getMock('Magento\Framework\Message\ManagerInterface');
@@ -75,7 +75,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
             $optionFactoryMock,
             $wishListFactoryMock,
             $this->prodFactoryMock,
-            $quoteFactoryMock,
+            $quoteRepositoryMock,
             $this->storeManagerMock,
             $this->localeFormatMock,
             $messageManagerMock,

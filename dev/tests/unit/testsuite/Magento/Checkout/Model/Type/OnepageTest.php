@@ -43,7 +43,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManagerMock;
 
-    /** @var \Magento\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $requestMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -87,6 +87,9 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
     /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerAccountServiceMock;
+
+    /** @var \Magento\Sales\Model\QuoteRepository|\PHPUnit_Framework_MockObject_MockObject */
+    protected $quoteRepositoryMock;
 
     protected function setUp()
     {
@@ -145,6 +148,14 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
 
+        $this->quoteRepositoryMock = $this->getMock(
+            'Magento\Sales\Model\QuoteRepository',
+            [],
+            [],
+            '',
+            false
+        );
+
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->onepage = $this->objectManagerHelper->getObject(
             'Magento\Checkout\Model\Type\Onepage',
@@ -170,7 +181,8 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
                 'mathRandom' => $this->randomMock,
                 'encryptor' => $this->encryptorMock,
                 'customerAddressService' => $this->customerAddressServiceMock,
-                'accountService' => $this->customerAccountServiceMock
+                'accountService' => $this->customerAccountServiceMock,
+                'quoteRepository' => $this->quoteRepositoryMock,
             ]
         );
     }
@@ -200,8 +212,9 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
         $quoteMock->expects($this->once())->method('isMultipleShippingAddresses')->will($this->returnValue(true));
         $quoteMock->expects($this->once())->method('removeAllAddresses');
-        $quoteMock->expects($this->once())->method('save');
         $quoteMock->expects($this->once())->method('assignCustomer')->with($customer);
+
+        $this->quoteRepositoryMock->expects($this->once())->method('save')->with($quoteMock);
 
         $this->customerSessionMock
             ->expects($this->once())
@@ -273,13 +286,13 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject $quoteMock */
         $quoteMock = $this->getMock(
             'Magento\Sales\Model\Quote',
-            ['setCheckoutMethod', 'save', '__wakeup'],
+            ['setCheckoutMethod', '__wakeup'],
             [],
             '',
             false
         );
-        $quoteMock->expects($this->once())->method('save');
         $quoteMock->expects($this->once())->method('setCheckoutMethod')->with('someMethod')->will($this->returnSelf());
+        $this->quoteRepositoryMock->expects($this->once())->method('save')->with($quoteMock);
         $this->checkoutSessionMock->expects($this->once())->method('setStepData')->with('billing', 'allow', true);
         $this->onepage->setQuote($quoteMock);
         $this->assertEquals([], $this->onepage->saveCheckoutMethod('someMethod'));

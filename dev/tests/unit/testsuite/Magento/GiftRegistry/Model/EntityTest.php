@@ -117,7 +117,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         );
         $session = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
 
-        $quoteFactory = $this->getMock('Magento\Sales\Model\QuoteFactory', array(), array(), '', false);
+        $quoteRepository = $this->getMock('Magento\Sales\Model\QuoteRepository', array(), array(), '', false);
         $customerFactory = $this->getMock('Magento\Customer\Model\CustomerFactory', array(), array(), '', false);
         $personFactory = $this->getMock('Magento\GiftRegistry\Model\PersonFactory', array(), array(), '', false);
         $itemFactory = $this->getMock('Magento\GiftRegistry\Model\ItemFactory', array(), array(), '', false);
@@ -148,7 +148,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             $item,
             $stockItemService,
             $session,
-            $quoteFactory,
+            $quoteRepository,
             $customerFactory,
             $personFactory,
             $itemFactory,

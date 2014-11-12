@@ -192,6 +192,11 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $objectFactory;
 
     /**
+     * @var \Magento\Sales\Model\QuoteRepository
+     */
+    protected $quoteRepository;
+
+    /**
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Registry $coreRegistry
@@ -213,6 +218,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param Item\Updater $quoteItemUpdater
      * @param \Magento\Framework\Object\Factory $objectFactory
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param array $data
      */
     public function __construct(
@@ -237,6 +243,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Sales\Model\Quote\Item\Updater $quoteItemUpdater,
         \Magento\Framework\Object\Factory $objectFactory,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         array $data = array()
     ) {
         $this->_objectManager = $objectManager;
@@ -260,6 +267,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->stockItemService = $stockItemService;
         $this->quoteItemUpdater = $quoteItemUpdater;
         $this->objectFactory = $objectFactory;
+        $this->quoteRepository = $quoteRepository;
         parent::__construct($data);
     }
 
@@ -342,7 +350,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     public function recollectCart()
     {
         if ($this->_needCollectCart === true) {
-            $this->getCustomerCart()->collectTotals()->save();
+            $this->getCustomerCart()->collectTotals();
+            $this->quoteRepository->save($this->getCustomerCart());
         }
         $this->setRecollect(true);
         return $this;
@@ -363,7 +372,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $this->getQuote()->collectTotals();
         }
 
-        $this->getQuote()->save();
+        $this->quoteRepository->save($this->getQuote());
         return $this;
     }
 
@@ -492,7 +501,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $this->collectRates();
         }
 
-        $quote->save();
+        $this->quoteRepository->save($quote);
 
         return $this;
     }
@@ -629,15 +638,19 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             return $this->_cart;
         }
 
-        $this->_cart = $this->_objectManager->create('Magento\Sales\Model\Quote');
+        $this->_cart = $this->quoteRepository->create();
 
         $customerId = (int)$this->getSession()->getCustomerId();
         if ($customerId) {
-            $this->_cart->setStore($this->getSession()->getStore())->loadByCustomer($customerId);
-            if (!$this->_cart->getId()) {
+            try {
+                $this->_cart = $this->quoteRepository->getForCustomer($customerId)
+                    ->setStore($this->getSession()->getStore());
+
                 $customerData = $this->_customerAccountService->getCustomer($customerId);
                 $this->_cart->assignCustomer($customerData);
-                $this->_cart->save();
+                $this->quoteRepository->save($this->_cart);
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+
             }
         }
 
@@ -855,7 +868,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             }
         }
         if (isset($data['empty_customer_cart']) && (int)$data['empty_customer_cart'] == 1) {
-            $this->getCustomerCart()->removeAllItems()->collectTotals()->save();
+            $this->getCustomerCart()->removeAllItems()->collectTotals();
+            $this->quoteRepository->save($this->getCustomerCart());
         }
         return $this;
     }
@@ -877,7 +891,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                 $cart = $this->getCustomerCart();
                 if ($cart) {
                     $cart->removeItem($itemId);
-                    $cart->collectTotals()->save();
+                    $cart->collectTotals();
+                    $this->quoteRepository->save($cart);
                 }
                 break;
             case 'wishlist':

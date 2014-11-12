@@ -78,15 +78,21 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $stockItemService;
 
     /**
+     * @var \Magento\Sales\Model\QuoteRepository
+     */
+    protected $quoteRepository;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Checkout\Model\Resource\Cart $resourceCart
+     * @param Resource\Cart $resourceCart
      * @param Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param array $data
      */
     public function __construct(
@@ -99,6 +105,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -110,6 +117,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->_customerSession = $customerSession;
         $this->messageManager = $messageManager;
         $this->stockItemService = $stockItemService;
+        $this->quoteRepository = $quoteRepository;
         parent::__construct($data);
     }
 
@@ -525,7 +533,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->getQuote()->getBillingAddress();
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
         $this->getQuote()->collectTotals();
-        $this->getQuote()->save();
+        $this->quoteRepository->save($this->getQuote());
         $this->_checkoutSession->setQuoteId($this->getQuote()->getId());
         /**
          * Cart save usually called after changes with cart items.

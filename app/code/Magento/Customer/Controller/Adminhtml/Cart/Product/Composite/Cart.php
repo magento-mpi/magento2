@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Controller\Adminhtml\Cart\Product\Composite;
 
+use Magento\Backend\App\Action;
 use Magento\Framework\Model\Exception;
 
 /**
@@ -38,6 +39,23 @@ class Cart extends \Magento\Backend\App\Action
     protected $_quoteItem = null;
 
     /**
+     * @var \Magento\Sales\Model\QuoteRepository
+     */
+    protected $quoteRepository;
+
+    /**
+     * @param Action\Context $context
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
+     */
+    public function __construct(
+        Action\Context $context,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository
+    ) {
+        $this->quoteRepository = $quoteRepository;
+        parent::__construct($context);
+    }
+
+    /**
      * Loads customer, quote and quote item by request params
      *
      * @return $this
@@ -53,13 +71,8 @@ class Cart extends \Magento\Backend\App\Action
         $quoteItemId = (int)$this->getRequest()->getParam('id');
         $websiteId = (int)$this->getRequest()->getParam('website_id');
 
-        $this->_quote = $this->_objectManager->create(
-            'Magento\Sales\Model\Quote'
-        )->setWebsite(
-            $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsite($websiteId)
-        )->loadByCustomer(
-            $this->_customerId
-        );
+        $this->_quote = $this->quoteRepository->getForCustomer($this->_customerId)
+            ->setWebsite($this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsite($websiteId));
 
         $this->_quoteItem = $this->_quote->getItemById($quoteItemId);
         if (!$this->_quoteItem) {

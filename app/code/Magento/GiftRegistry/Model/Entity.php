@@ -119,9 +119,9 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $_giftRegistryData = null;
 
     /**
-     * @var \Magento\Sales\Model\QuoteFactory
+     * @var \Magento\Sales\Model\QuoteRepository
      */
-    protected $quoteFactory;
+    protected $quoteRepository;
 
     /**
      * @var \Magento\Customer\Model\CustomerFactory
@@ -189,7 +189,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * @param Item $itemModel
      * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\GiftRegistry\Model\PersonFactory $personFactory
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
@@ -215,7 +215,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         Item $itemModel,
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\GiftRegistry\Model\PersonFactory $personFactory,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
@@ -238,7 +238,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         $this->itemModel = $itemModel;
         $this->stockItemService = $stockItemService;
         $this->customerSession = $customerSession;
-        $this->quoteFactory = $quoteFactory;
+        $this->quoteRepository = $quoteRepository;
         $this->customerFactory = $customerFactory;
         $this->personFactory = $personFactory;
         $this->itemFactory = $itemFactory;
@@ -287,9 +287,8 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     {
         $skippedItems = 0;
         if (is_array($itemsIds)) {
-            $quote = $this->quoteFactory->create();
+            $quote = $this->quoteRepository->getForCustomer($this->getCustomerId());
             $quote->setWebsite($this->storeManager->getWebsite($this->getWebsiteId()));
-            $quote->loadByCustomer($this->getCustomerId());
 
             foreach ($quote->getAllVisibleItems() as $item) {
                 if (in_array($item->getId(), $itemsIds)) {

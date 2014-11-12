@@ -64,11 +64,6 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
     protected $_customerSession;
 
     /**
-     * @var \Magento\Sales\Model\QuoteFactory
-     */
-    protected $_quoteFactory;
-
-    /**
      * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
@@ -101,7 +96,6 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
     /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
@@ -112,7 +106,6 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
@@ -121,7 +114,6 @@ abstract class AbstractExpress extends AppAction implements RedirectLoginInterfa
         \Magento\Customer\Helper\Data $customerHelper
     ) {
         $this->_customerSession = $customerSession;
-        $this->_quoteFactory = $quoteFactory;
         $this->_checkoutSession = $checkoutSession;
         $this->_orderFactory = $orderFactory;
         $this->_checkoutFactory = $checkoutFactory;
