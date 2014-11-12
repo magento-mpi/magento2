@@ -103,6 +103,7 @@ class Title
 
     /**
      * @param string $suffix
+     * @return void
      */
     public function append($suffix)
     {
@@ -111,6 +112,7 @@ class Title
 
     /**
      * @param string $prefix
+     * @return void
      */
     public function prepend($prefix)
     {
