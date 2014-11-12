@@ -77,7 +77,6 @@ app/design/frontend/Magento/luma
 dev/tests/integration/testsuite/Magento/Test/Design/Frontend/Enterprise
 
 dev/tests/static/testsuite/Magento/Test/Integrity/_files/dependency_test/tables_ee.php
-dev/tests/static/testsuite/Magento/Test/Integrity/Enterprise
 dev/tests/static/testsuite/Magento/Test/Js/_files/{whitelist,blacklist}/ee.txt
 dev/tests/static/testsuite/Magento/Test/Legacy/_files/obsolete_*_ee.php
 dev/tests/static/testsuite/Magento/Test/Legacy/_files/words_ee.xml
