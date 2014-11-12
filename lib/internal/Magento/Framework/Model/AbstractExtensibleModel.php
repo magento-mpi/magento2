@@ -137,7 +137,7 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
      */
     public function getData($key = '', $index = null)
     {
-        if ($key == self::CUSTOM_ATTRIBUTES_KEY) {
+        if ($key === self::CUSTOM_ATTRIBUTES_KEY) {
             throw new \LogicException("Custom attributes array should be retrieved via getCustomAttributes() only.");
         } else if ($key === '') {
             /** Represent model data and custom attributes as a flat array */
