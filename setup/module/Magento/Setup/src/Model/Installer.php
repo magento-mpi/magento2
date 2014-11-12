@@ -470,9 +470,10 @@ class Installer
         $paramsString .= ' --noOfConfigDatasets=%s';
         $paramsArray[] = count($configData);
         foreach ($configData as $path => $val) {
-            $paramsString .= ' --path=%s';
+            $paramsString .= ' --website=%s --store=%s --path=%s --value=%s';
+            $paramsArray[] = "0";
+            $paramsArray[] = "0";
             $paramsArray[] = $path;
-            $paramsString .= ' --value=%s';
             $paramsArray[] = $val;
         }
         $this->exec($paramsString, $paramsArray);
