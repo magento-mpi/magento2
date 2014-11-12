@@ -34,8 +34,10 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                 if ($from == '*') {
                     $from = '';
                 }
-                if ($to== '*') {
-                    $to= '';
+                if ($to == '*') {
+                    $to = '';
+                } else {
+                    $to = $to - 0.001;
                 }
                 $label = $this->_renderRangeLabel(
                     empty($from) ? 0 : $from * $this->getCurrencyRate(),
