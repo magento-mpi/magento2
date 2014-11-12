@@ -78,6 +78,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
             $jsonEncoder,
             $customerFormFactory,
             $customerHelper,
+            $addressHelper,
             $addressService,
             $criteriaBuilder,
             $filterBuilder,
