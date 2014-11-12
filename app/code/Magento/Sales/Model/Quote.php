@@ -623,7 +623,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
                 $this->setBillingAddress($billingAddress);
             } else {
                 try {
-                    $defaultBillingAddress = $customer->getDefaultBilling();
+                    $defaultBillingAddress = $this->addressRepository->getById($customer->getDefaultBilling());
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                     //
                 }
@@ -637,7 +637,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
 
             if (null === $shippingAddress) {
                 try {
-                    $defaultShippingAddress = $customer->getDefaultShipping();
+                    $defaultShippingAddress = $this->addressRepository->getById($customer->getDefaultShipping());
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                     //
                 }
@@ -770,7 +770,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         //if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
         $groupId = $this->getCustomerGroupId();
         if (!is_null($groupId)) {
-            $taxClassId = $this->groupRepository->get($this->getCustomerGroupId())->getTaxClassId();
+            $taxClassId = $this->groupRepository->getById($this->getCustomerGroupId())->getTaxClassId();
             $this->setCustomerTaxClassId($taxClassId);
         }
 

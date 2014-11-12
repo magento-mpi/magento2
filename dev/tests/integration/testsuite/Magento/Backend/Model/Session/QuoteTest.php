@@ -33,6 +33,10 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $quote = $quoteSession->getQuote();
 
         /** Ensure that customer data was added to quote correctly */
-        $this->assertEquals('Firstname', $quote->getCustomerFirstname(), 'Customer data was set to quote incorrectly.');
+        $this->assertEquals(
+            'Firstname',
+            $quote->getCustomer()->getFirstname(),
+            'Customer data was set to quote incorrectly.'
+        );
     }
 }

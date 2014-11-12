@@ -51,9 +51,9 @@ class Quote extends \Magento\Framework\Session\SessionManager
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    protected $_customerService;
+    protected $customerRepository;
 
     /**
      * @var \Magento\Sales\Model\QuoteFactory
@@ -80,7 +80,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
      * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -95,13 +95,13 @@ class Quote extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Stdlib\CookieManager $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_quoteFactory = $quoteFactory;
-        $this->_customerService = $customerService;
+        $this->customerRepository = $customerRepository;
         $this->_orderFactory = $orderFactory;
         $this->_storeManager = $storeManager;
         $this->_scopeConfig = $scopeConfig;
@@ -144,8 +144,8 @@ class Quote extends \Magento\Framework\Session\SessionManager
                     ->save();
                 $this->setQuoteId($this->_quote->getId());
                 try {
-                    $customerData = $this->_customerService->getCustomer($this->getCustomerId());
-                    $this->_quote->assignCustomer($customerData);
+                    $customer = $this->customerRepository->getById($this->getCustomerId());
+                    $this->_quote->assignCustomer($customer);
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                     /** Customer does not exist */
                 }
