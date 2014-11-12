@@ -465,15 +465,17 @@ class Installer
         $setup = $this->setupFactory->createSetup($this->log);
         $userConfig = new UserConfigurationData($setup);
         $configData = $userConfig->getConfigData($data);
-        $args = '';
-        foreach ($configData as $key => $val) {
-            $args .= $key . '{' . $val . '}';
+        $paramsString = '-f %s --';
+        $paramsArray = [$this->directoryList->getRoot() . '/dev/shell/user_config_data.php'];
+        $paramsString .= ' --noOfConfigDatasets=%s';
+        $paramsArray[] = count($configData);
+        foreach ($configData as $path => $val) {
+            $paramsString .= ' --path=%s';
+            $paramsArray[] = $path;
+            $paramsString .= ' --value=%s';
+            $paramsArray[] = $val;
         }
-        $params = [
-            $this->directoryList->getRoot() . '/dev/shell/setup_user_config_data.php',
-            $args
-        ];
-        $this->exec('-f %s -- %s', $params);
+        $this->exec($paramsString, $paramsArray);
     }
 
     /**
