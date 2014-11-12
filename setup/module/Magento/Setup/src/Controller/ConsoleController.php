@@ -8,7 +8,7 @@
 
 namespace Magento\Setup\Controller;
 
-use Magento\Locale\Lists;
+use Magento\Setup\Model\Lists;
 use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Model\InstallerFactory;
 use Magento\Setup\Model\Installer;
@@ -164,7 +164,9 @@ class ConsoleController extends AbstractActionController
             . ' [--' . DbConfig::KEY_DB_MODEL . '=]'
             . ' [--' . DbConfig::KEY_DB_INIT_STATEMENTS . '=]'
             . ' [--' . SessionConfig::KEY_SESSION_SAVE . '=]'
-            . ' [--' . EncryptConfig::KEY_ENCRYPTION_KEY . '=]';
+            . ' [--' . EncryptConfig::KEY_ENCRYPTION_KEY . '=]'
+            . ' [--' . Installer::ENABLE_MODULES . '=]'
+            . ' [--' . Installer::DISABLE_MODULES . '=]';
         $userConfig = '[--' . UserConfig::KEY_BASE_URL . '=]'
             . ' [--' . UserConfig::KEY_LANGUAGE . '=]'
             . ' [--' . UserConfig::KEY_TIMEZONE . '=]'

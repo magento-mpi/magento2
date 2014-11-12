@@ -28,7 +28,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             $tempDir,
             'local.xml',
             '',
-            array(),
             $appMode
         );
 
