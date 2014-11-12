@@ -17,11 +17,6 @@ use Magento\Ui\Component\Control\ButtonProviderInterface;
 class OrderButton implements ButtonProviderInterface
 {
     /**
-     * @var \Magento\Backend\Block\Widget\Button\ButtonList
-     */
-    protected $buttonList;
-
-    /**
      * @var \Magento\Framework\AuthorizationInterface
      */
     protected $authorization;
@@ -50,7 +45,6 @@ class OrderButton implements ButtonProviderInterface
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry
     ) {
-        $this->buttonList = $context->getButtonList();
         $this->authorization = $context->getAuthorization();
         $this->urlBuilder = $context->getUrlBuilder();
         $this->registry = $registry;

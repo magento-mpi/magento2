@@ -18,11 +18,6 @@ use Magento\Ui\Component\Control\ButtonProviderInterface;
 class SaveButton implements ButtonProviderInterface
 {
     /**
-     * @var \Magento\Backend\Block\Widget\Button\ButtonList
-     */
-    protected $buttonList;
-
-    /**
      * Url Builder
      *
      * @var \Magento\Framework\UrlInterface
@@ -53,7 +48,6 @@ class SaveButton implements ButtonProviderInterface
         \Magento\Framework\Registry $registry,
         CustomerAccountServiceInterface $customerAccountService
     ) {
-        $this->buttonList = $context->getButtonList();
         $this->urlBuilder = $context->getUrlBuilder();
         $this->registry = $registry;
         $this->customerAccountService = $customerAccountService;
@@ -75,7 +69,7 @@ class SaveButton implements ButtonProviderInterface
                     'mage-init' => array('button' => array('event' => 'save')),
                     'form-role' => 'save'
                 ),
-                'sort_order' => 0
+                'sort_order' => 5
             ];
         }
         return $data;

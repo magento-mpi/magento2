@@ -17,11 +17,6 @@ use Magento\Ui\Component\Control\ButtonProviderInterface;
 class ResetPasswordButton implements ButtonProviderInterface
 {
     /**
-     * @var \Magento\Backend\Block\Widget\Button\ButtonList
-     */
-    protected $buttonList;
-
-    /**
      * Url Builder
      *
      * @var \Magento\Framework\UrlInterface
@@ -45,7 +40,6 @@ class ResetPasswordButton implements ButtonProviderInterface
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry
     ) {
-        $this->buttonList = $context->getButtonList();
         $this->urlBuilder = $context->getUrlBuilder();
         $this->registry = $registry;
     }

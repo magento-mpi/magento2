@@ -31,12 +31,7 @@
                 </tooltip>
             </field>
             <field name="prefix" source="eav" dataType="text"/>
-            <field name="group_id" dataType="number" formElement="select" source="option" label="Group" fieldGroup="group_id">
-                <reference target="customer_group"
-                           referencedField="group_id"
-                           targetField="customer_group_id"
-                           neededField="customer_group_code"/>
-            </field>
+            <field name="group_id" dataType="number" formElement="select" source="eav" label="Group" fieldGroup="group_id" />
             <field name="disable_auto_group_change" source="eav" dataType="boolean" formElement="checkbox" fieldGroup="group_id"/>
             <field name="firstname" source="eav" dataType="text">
                 <constraints>

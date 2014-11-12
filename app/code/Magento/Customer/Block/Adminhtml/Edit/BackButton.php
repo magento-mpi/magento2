@@ -16,11 +16,6 @@ use Magento\Ui\Component\Control\ButtonProviderInterface;
 class BackButton implements ButtonProviderInterface
 {
     /**
-     * @var \Magento\Backend\Block\Widget\Button\ButtonList
-     */
-    protected $buttonList;
-
-    /**
      * Url Builder
      *
      * @var \Magento\Framework\UrlInterface
@@ -32,10 +27,8 @@ class BackButton implements ButtonProviderInterface
      *
      * @param \Magento\Backend\Block\Widget\Context $context
      */
-    public function __construct(
-        \Magento\Backend\Block\Widget\Context $context
-    ) {
-        $this->buttonList = $context->getButtonList();
+    public function __construct(\Magento\Backend\Block\Widget\Context $context)
+    {
         $this->urlBuilder = $context->getUrlBuilder();
     }
 

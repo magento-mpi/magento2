@@ -16,21 +16,6 @@ use Magento\Ui\Component\Control\ButtonProviderInterface;
 class ResetButton implements ButtonProviderInterface
 {
     /**
-     * @var \Magento\Backend\Block\Widget\Button\ButtonList
-     */
-    protected $buttonList;
-
-    /**
-     * Constructor
-     *
-     * @param \Magento\Backend\Block\Widget\Context $context
-     */
-    public function __construct(\Magento\Backend\Block\Widget\Context $context)
-    {
-        $this->buttonList = $context->getButtonList();
-    }
-
-    /**
      * @return array
      */
     public function getButtonData()

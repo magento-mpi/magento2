@@ -12,10 +12,10 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Ui\Component\Control\ButtonProviderInterface;
 
 /**
- * Class DeleteButton
+ * Class SaveAndContinueButton
  * @package Magento\Customer\Block\Adminhtml\Edit
  */
-class DeleteButton implements ButtonProviderInterface
+class SaveAndContinueButton implements ButtonProviderInterface
 {
     /**
      * Url Builder
@@ -59,28 +59,23 @@ class DeleteButton implements ButtonProviderInterface
     public function getButtonData()
     {
         $customerId = $this->getCustomerId();
-        $canModify = $customerId && $this->customerAccountService->canDelete($this->getCustomerId());
+        $canModify = !$customerId || $this->customerAccountService->canModify($this->getCustomerId());
         $data = [];
-        if ($customerId && $canModify) {
+        if ($canModify) {
             $data = [
-                'label' => __('Delete Customer'),
-                'class' => 'delete',
-                'on_click' => 'deleteConfirm(\'' . __(
-                        'Are you sure you want to do this?'
-                    ) . '\', \'' . $this->getDeleteUrl() . '\')',
-                'sort_order' => 80
+                'label' => __('Save and Continue Edit'),
+                'class' => 'save',
+                'data_attribute' => array(
+                    'mage-init' => array(
+                        'button' => array('event' => 'saveAndContinueEdit')
+                    )
+                ),
+                'sort_order' => 0
             ];
         }
         return $data;
     }
 
-    /**
-     * @return string
-     */
-    public function getDeleteUrl()
-    {
-        return $this->getUrl('*/*/delete', array('customer_id' => $this->getCustomerId()));
-    }
 
     /**
      * Return the customer Id.
