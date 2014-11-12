@@ -23,7 +23,7 @@ interface SegmentInterface
     /**
      * Gets the segment data
      *
-     * @return array
+     * @return mixed
      */
     public function getData();
 }

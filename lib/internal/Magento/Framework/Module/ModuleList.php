@@ -48,13 +48,6 @@ class ModuleList implements \Magento\Framework\Module\ModuleListInterface
     private $enabled;
 
     /**
-     * Full list of all modules' and their meta-information
-     *
-     * @var array
-     */
-    private $all;
-
-    /**
      * Constructor
      *
      * @param DeploymentConfig $config
@@ -77,12 +70,12 @@ class ModuleList implements \Magento\Framework\Module\ModuleListInterface
     public function getAll()
     {
         if (null === $this->enabled) {
-            $this->loadAll();
-            if (empty($this->all)) {
+            $all = $this->loader->load();
+            if (empty($all)) {
                 return []; // don't record erroneous value into memory
             }
             $this->enabled = [];
-            foreach ($this->all as $key => $value) {
+            foreach ($all as $key => $value) {
                 if ($this->has($key)) {
                     $this->enabled[$key] = $value;
                 }
@@ -97,11 +90,8 @@ class ModuleList implements \Magento\Framework\Module\ModuleListInterface
      */
     public function getOne($name)
     {
-        $this->getAll();
-        if (!isset($this->enabled[$name])) {
-            return null;
-        }
-        return $this->enabled[$name];
+        $enabled = $this->getAll();
+        return isset($enabled[$name]) ? $enabled[$name] : null;
     }
 
     /**
@@ -138,18 +128,6 @@ class ModuleList implements \Magento\Framework\Module\ModuleListInterface
     {
         if (null === $this->configData) {
             $this->configData = $this->config->getSegment(ModuleList\DeploymentConfig::CONFIG_KEY);
-        }
-    }
-
-    /**
-     * Loads full definition of all modules
-     *
-     * @return void
-     */
-    private function loadAll()
-    {
-        if (null === $this->all) {
-            $this->all = $this->loader->load();
         }
     }
 }

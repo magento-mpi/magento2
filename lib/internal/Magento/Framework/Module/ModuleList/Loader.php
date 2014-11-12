@@ -53,8 +53,9 @@ class Loader
         $result = [];
         $dir = $this->filesystem->getDirectoryRead(DirectoryList::MODULES);
         foreach ($dir->search('*/*/etc/module.xml') as $file) {
+            $contents = $dir->readFile($file);
             $dom = new \DOMDocument();
-            $dom->load($dir->getAbsolutePath($file));
+            $dom->loadXML($contents);
             $data = $this->converter->convert($dom);
             $name = key($data);
             $result[$name] = $data[$name];
