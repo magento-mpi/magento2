@@ -81,12 +81,10 @@ class Add extends Action\Action implements IndexInterface
         try {
             $product = $this->productRepository->getById($productId);
         } catch (NoSuchEntityException $e) {
-            $this->messageManager->addError(__('We can\'t specify a product.'));
-            $this->_redirect('*/');
-            return;
+            $product = null;
         }
 
-        if (!$product->isVisibleInCatalog()) {
+        if (!$product || !$product->isVisibleInCatalog()) {
             $this->messageManager->addError(__('We can\'t specify a product.'));
             $this->_redirect('*/');
             return;
