@@ -18,6 +18,8 @@ use Magento\Framework\Model\Resource\Db\AbstractDb;
  */
 class Engine extends AbstractDb implements EngineInterface
 {
+    const ATTRIBUTE_PREFIX = 'attr_';
+
     /**
      * Catalog product visibility
      *
@@ -150,7 +152,7 @@ class Engine extends AbstractDb implements EngineInterface
      */
     public function getAllowedVisibility()
     {
-        return $this->_catalogProductVisibility->getVisibleInSearchIds();
+        return $this->_catalogProductVisibility->getVisibleInSiteIds();
     }
 
     /**
@@ -160,7 +162,37 @@ class Engine extends AbstractDb implements EngineInterface
      */
     public function allowAdvancedIndex()
     {
-        return false;
+        return true;
+    }
+
+    /**
+     * Is Attribute Filterable as Term
+     *
+     * @param \Magento\Catalog\Model\Entity\Attribute $attribute
+     * @return bool
+     */
+    private function isTermFilterableAttribute($attribute)
+    {
+        return ($attribute->getIsVisibleInAdvancedSearch()
+            || $attribute->getIsFilterable()
+            || $attribute->getIsFilterableInSearch())
+            && in_array($attribute->getFrontendInput(), ['select', 'multiselect']);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function processAttributeValue($attribute, $value)
+    {
+        if ($attribute->getIsSearchable()
+            && in_array($attribute->getFrontendInput(), ['text', 'textarea'])
+        ) {
+            return $value;
+        } elseif ($this->isTermFilterableAttribute($attribute)
+            || in_array($attribute->getAttributeCode(), ['visibility', 'status'])
+        ) {
+            return self::ATTRIBUTE_PREFIX . $attribute->getAttributeCode() . '_' . $value;
+        }
     }
 
     /**

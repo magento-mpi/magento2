@@ -103,7 +103,7 @@ class Mapper
         );
         $select = $this->processDimensions($request, $select);
         $tableName = $this->resource->getTableName($request->getIndex());
-        $select->from($tableName, ['entity_id' =>'product_id'])
+        $select->from($tableName, ['entity_id' => 'product_id'])
             ->columns($scoreBuilder->build())
             ->order($scoreBuilder->getScoreAlias() . ' ' . Select::SQL_DESC);
         return $select;
