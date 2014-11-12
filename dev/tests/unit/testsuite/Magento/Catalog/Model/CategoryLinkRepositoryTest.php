@@ -181,6 +181,43 @@ class CategoryLinkRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->model->deleteByIds($categoryId, $productSku);
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @expectedExceptionMessage Category does not contain specified product
+     */
+    public function testDeleteWithInputException()
+    {
+        $categoryId = "42";
+        $productSku = "testSku";
+        $productId = 60;
+        $productPositions = [55 => 1];
+        $this->productLinkMock->expects($this->once())->method('getCategoryId')->willReturn($categoryId);
+        $this->productLinkMock->expects($this->once())->method('getSku')->willReturn($productSku);
+        $categoryMock = $this->getMock(
+            '\Magento\Catalog\Model\Category',
+            ['getProductsPosition', 'setPostedProducts', 'save', 'getId'],
+            [],
+            '',
+            false
+        );
+        $productMock = $this->getMock(
+            '\Magento\Catalog\Model\Product',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->categoryRepositoryMock->expects($this->once())->method('get')->with($categoryId)
+            ->willReturn($categoryMock);
+        $this->productRepositoryMock->expects($this->once())->method('get')->with($productSku)
+            ->willReturn($productMock);
+        $categoryMock->expects($this->once())->method('getProductsPosition')->willReturn($productPositions);
+        $productMock->expects($this->once())->method('getId')->willReturn($productId);
+
+        $categoryMock->expects($this->never())->method('save');
+        $this->assertTrue($this->model->delete($this->productLinkMock));
+    }
+
     public function testDelete()
     {
         $categoryId = "42";
