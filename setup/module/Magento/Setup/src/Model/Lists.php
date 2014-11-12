@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Locale;
+namespace Magento\Setup\Model;
 
 use Zend_Locale;
 

@@ -8,7 +8,7 @@
 
 namespace Magento\Setup\Controller;
 
-use Magento\Locale\Lists;
+use Magento\Setup\Model\Lists;
 use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Model\InstallerFactory;
 use Magento\Setup\Model\Installer;
