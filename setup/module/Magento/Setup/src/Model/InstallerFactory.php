@@ -51,8 +51,7 @@ class InstallerFactory
             $this->serviceLocator->get('Magento\Framework\App\MaintenanceMode'),
             $this->serviceLocator->get('Magento\Framework\Filesystem'),
             $this->serviceLocator,
-            $this->serviceLocator->get('Magento\Framework\App\Arguments\Loader'),
-            $this->serviceLocator->get('Magento\Setup\Module\ResourceFactory')
+            $this->serviceLocator->get('Magento\Framework\App\Arguments\Loader')
         );
     }
 }

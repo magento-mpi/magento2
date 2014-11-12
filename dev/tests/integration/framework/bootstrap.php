@@ -50,7 +50,6 @@ try {
     $application = \Magento\TestFramework\Application::getInstance(
         $settings->getAsConfigFile('TESTS_INSTALL_CONFIG_FILE'),
         $settings->get('TESTS_GLOBAL_CONFIG_DIR'),
-        $settings->getAsMatchingPaths('TESTS_MODULE_CONFIG_FILES'),
         $settings->get('TESTS_MAGENTO_MODE'),
         $testsTmpDir,
         $shell

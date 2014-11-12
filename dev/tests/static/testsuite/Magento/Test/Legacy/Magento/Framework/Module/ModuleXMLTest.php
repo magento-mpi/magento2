@@ -24,6 +24,10 @@ class ModuleXMLTest extends \PHPUnit_Framework_TestCase
             $xml->xpath('/config/module/@version'),
             'The "version" attribute is obsolete. Use "schema_version" instead.'
         );
+        $this->assertEmpty(
+            $xml->xpath('/config/module/@active'),
+            'The "active" attribute is obsolete. The list of active modules is defined in deployment configuration.'
+        );
     }
 
     /**

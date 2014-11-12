@@ -59,13 +59,6 @@ class Application
     protected $_globalConfigDir;
 
     /**
-     * Module declaration *.xml configuration files
-     *
-     * @var array
-     */
-    protected $_moduleEtcFiles;
-
-    /**
      * Installation destination directory
      *
      * @var string
@@ -119,7 +112,6 @@ class Application
      *
      * @param string $installConfigFile
      * @param string $globalConfigDir
-     * @param array $moduleConfigFiles
      * @param string $appMode
      * @param string $tmpDir
      * @param \Magento\Framework\Shell $shell
@@ -128,7 +120,6 @@ class Application
     public static function getInstance(
         $installConfigFile,
         $globalConfigDir,
-        array $moduleConfigFiles,
         $appMode,
         $tmpDir,
         \Magento\Framework\Shell $shell
@@ -143,7 +134,6 @@ class Application
             $installDir,
             $installConfigFile,
             $globalConfigDir,
-            $moduleConfigFiles,
             $appMode
         );
     }
@@ -155,7 +145,6 @@ class Application
      * @param string $tmpDir
      * @param array $installConfigFile
      * @param string $globalConfigDir
-     * @param array $moduleEtcFiles
      * @param string $appMode
      */
     public function __construct(
@@ -163,13 +152,11 @@ class Application
         $tmpDir,
         $installConfigFile,
         $globalConfigDir,
-        array $moduleEtcFiles,
         $appMode
     ) {
         $this->_shell = $shell;
         $this->installConfigFile = $installConfigFile;
         $this->_globalConfigDir = realpath($globalConfigDir);
-        $this->_moduleEtcFiles = $moduleEtcFiles;
         $this->_appMode = $appMode;
 
         $this->_tmpDir = $tmpDir;
@@ -439,19 +426,13 @@ class Application
     private function copyAppConfigFiles()
     {
         $globalConfigFiles = glob(
-            $this->_globalConfigDir . '/{di.xml,' . Loader::DEPLOYMENT_CONFIG_FILE_TEMPLATE . ',*/*.xml}',
+            $this->_globalConfigDir . '/{di.xml,' . Loader::DEPLOYMENT_CONFIG_FILE_TEMPLATE . '}',
             GLOB_BRACE
         );
         foreach ($globalConfigFiles as $file) {
             $targetFile = $this->_configDir . str_replace($this->_globalConfigDir, '', $file);
             $this->_ensureDirExists(dirname($targetFile));
             copy($file, $targetFile);
-        }
-
-        foreach ($this->_moduleEtcFiles as $file) {
-            $targetModulesDir = $this->_configDir . '/modules';
-            $this->_ensureDirExists($targetModulesDir);
-            copy($file, $targetModulesDir . '/' . basename($file));
         }
     }
 

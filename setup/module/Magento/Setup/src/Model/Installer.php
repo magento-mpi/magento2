@@ -46,6 +46,13 @@ class Installer
      */
     const CLEANUP_DB = 'cleanup_database';
 
+    /**#@+
+     * Parameters for enabling/disabling modules
+     */
+    const ENABLE_MODULES = 'enable_modules';
+    const DISABLE_MODULES = 'disable_modules';
+    /**#@- */
+
     /**
      * Parameter to specify an order_increment_prefix
      */
@@ -298,14 +305,21 @@ class Installer
      *
      * @param \ArrayObject|array $request
      * @return DeploymentConfig
+     * @throws \LogicException
      */
     private function createModulesDeploymentConfig($request)
     {
-        // TODO $request is not used for now
+        $all = array_keys($this->moduleLoader->load());
+        $enable = $this->readListOfModules($all, $request, self::ENABLE_MODULES) ?: $all;
+        $disable = $this->readListOfModules($all, $request, self::DISABLE_MODULES);
+        $toEnable = array_diff($enable, $disable);
+        if (empty($toEnable)) {
+            throw new \LogicException('Unable to determine list of enabled modules.');
+        }
         $result = [];
-        $allModules = $this->moduleLoader->load();
-        foreach (array_keys($allModules) as $module) {
-            $result[$module] = 1;
+        foreach ($all as $module) {
+            $key = array_search($module, $toEnable);
+            $result[$module] = false !== $key;
         }
         return new DeploymentConfig($result);
     }
@@ -342,6 +356,33 @@ class Installer
             new InstallConfig($installConfigData),
             new ResourceConfig()
         );
+    }
+
+    /**
+     * Determines list of modules from request based on list of all modules
+     *
+     * @param string[] $all
+     * @param array $request
+     * @param string $key
+     * @return string[]
+     * @throws \LogicException
+     */
+    private function readListOfModules($all, $request, $key)
+    {
+        $result = [];
+        if (!empty($request[$key])) {
+            if ($request[$key] == 'all') {
+                $result = $all;
+            } else {
+                $result = explode(',', $request[$key]);
+                foreach ($result as $module) {
+                    if (!in_array($module, $all)) {
+                        throw new \LogicException("Unknown module in the requested list: '{$module}'");
+                    }
+                }
+            }
+        }
+        return $result;
     }
 
     /**
@@ -464,15 +505,18 @@ class Installer
         $setup = $this->setupFactory->createSetup($this->log);
         $userConfig = new UserConfigurationData($setup);
         $configData = $userConfig->getConfigData($data);
-        $args = '';
-        foreach ($configData as $key => $val) {
-            $args .= $key . '{' . $val . '}';
+        $paramsString = '-f %s --';
+        $paramsArray = [$this->directoryList->getRoot() . '/dev/shell/user_config_data.php'];
+        $paramsString .= ' --noOfConfigDatasets=%s';
+        $paramsArray[] = count($configData);
+        foreach ($configData as $path => $val) {
+            $paramsString .= ' --website=%s --store=%s --path=%s --value=%s';
+            $paramsArray[] = "0";
+            $paramsArray[] = "0";
+            $paramsArray[] = $path;
+            $paramsArray[] = $val;
         }
-        $params = [
-            $this->directoryList->getRoot() . '/dev/shell/setup_user_config_data.php',
-            $args
-        ];
-        $this->exec('-f %s -- %s', $params);
+        $this->exec($paramsString, $paramsArray);
     }
 
     /**

@@ -68,31 +68,31 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'period'    => 'year',
                 'date_from' => null,
                 'date_to'   => null,
-                'expected_period' => date('Y', time())
+                'expected_period' => '2014'
             ],
             [
                 'period'    => 'month',
                 'date_from' => null,
                 'date_to'   => null,
-                'expected_period' => date('Y-m', time())
+                'expected_period' => '2014-10'
             ],
             [
                 'period'    => 'day',
                 'date_from' => null,
                 'date_to'   => null,
-                'expected_period' => date('Y-m-d', time())
+                'expected_period' => '2014-10-25'
             ],
             [
                 'period'    => 'undefinedPeriod',
                 'date_from' => null,
                 'date_to'   => null,
-                'expected_period' => date('Y-m-d', time())
+                'expected_period' => '2014-10-25'
             ],
             [
                 'period'    => null,
-                'date_from' => date('Y-m-d', strtotime('-1 year', time())),
-                'date_to'   => date('Y-m-d', time()),
-                'expected_period' => date('Y-m-d', time())
+                'date_from' => '2013-10-25',
+                'date_to'   => '2014-10-25',
+                'expected_period' => '2014-10-25'
             ]
         );
     }

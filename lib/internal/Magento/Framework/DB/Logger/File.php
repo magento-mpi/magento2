@@ -65,7 +65,10 @@ class File extends LoggerAbstract
      */
     public function logStats($type, $sql, $bind = [], $result = null)
     {
-        $this->log($this->getStats($type, $sql, $bind, $result));
+        $stats = $this->getStats($type, $sql, $bind, $result);
+        if ($stats) {
+            $this->log($stats);
+        }
     }
 
     /**
