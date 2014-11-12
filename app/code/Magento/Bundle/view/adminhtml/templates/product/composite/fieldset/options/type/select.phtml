@@ -21,8 +21,7 @@
             <?php echo $this->getSelectionTitlePrice($_selections[0]) ?>
             <input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>]"
                    value="<?php echo $_selections[0]->getSelectionId() ?>"
-                   price="<?php echo $this->getSelectionPrice($_selections[0]) ?>"
-                   qtyId="bundle-option-<?php echo $_option->getId() ?>-qty-input" />
+                   price="<?php echo $this->getSelectionPrice($_selections[0]) ?>" />
         <?php else:?>
             <select id="bundle-option-<?php echo $_option->getId() ?>"
                     name="bundle_option[<?php echo $_option->getId() ?>]"
