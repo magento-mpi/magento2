@@ -76,7 +76,11 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
     {
         $output = [];
         $product = $this->productRepository->get($productSku);
-        $collection = $this->entityCollectionProvider->getCollection($product, $type);
+        try {
+            $collection = $this->entityCollectionProvider->getCollection($product, $type);
+        } catch (NoSuchEntityException $e) {
+            throw new NoSuchEntityException('Unknown link type: ' . (string)$type);
+        }
         foreach ($collection as $item) {
             $data = [
                 'product_sku' => $product->getSku(),
