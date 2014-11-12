@@ -271,7 +271,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $this->groupRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getById')
             ->will($this->returnValue($customerGroupMock));
 
         $this->adminOrderCreate->setAccountData([]);

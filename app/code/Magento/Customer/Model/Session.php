@@ -62,8 +62,8 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     protected $_session;
 
-    /** @var  CustomerAccountServiceInterface */
-    protected $_customerAccountService;
+    /** @var  \Magento\Customer\Api\CustomerRepositoryInterface */
+    protected $customerRepository;
 
     /**
      * @var CustomerFactory
@@ -109,7 +109,7 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param Converter $converter
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
@@ -130,7 +130,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Converter $converter,
-        CustomerAccountServiceInterface $customerAccountService
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;
@@ -139,7 +139,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         $this->_customerFactory = $customerFactory;
         $this->_urlFactory = $urlFactory;
         $this->_session = $session;
-        $this->_customerAccountService = $customerAccountService;
+        $this->customerRepository = $customerRepository;
         $this->_eventManager = $eventManager;
         $this->_httpContext = $httpContext;
         parent::__construct(
@@ -198,7 +198,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     public function getCustomerData()
     {
         if (!$this->_customer instanceof CustomerData && $this->getCustomerId()) {
-            $this->_customer = $this->_customerAccountService->getCustomer($this->getCustomerId());
+            $this->_customer = $this->customerRepository->getById($this->getCustomerId());
         }
 
         return $this->_customer;
@@ -375,7 +375,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         }
 
         try {
-            $this->_customerAccountService->getCustomer($customerId);
+            $this->customerRepository->getById($customerId);
             $this->_isCustomerIdChecked = $customerId;
             return true;
         } catch (\Exception $e) {
@@ -422,7 +422,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     public function loginById($customerId)
     {
         try {
-            $customer = $this->_customerAccountService->getCustomer($customerId);
+            $customer = $this->customerRepository->getById($customerId);
             $this->setCustomerDataAsLoggedIn($customer);
             return true;
         } catch (\Exception $e) {

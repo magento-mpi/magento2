@@ -43,7 +43,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManagerMock;
 
-    /** @var \Magento\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $requestMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -83,7 +83,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     protected $encryptorMock;
 
     /** @var \Magento\Customer\Api\AddressRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $customerAddressMock;
+    protected $addressRepositoryMock;
 
     /** @var \Magento\Customer\Api\CustomerRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerRepositoryMock;
@@ -95,7 +95,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->customerAddressMock = $this->getMockForAbstractClass(
+        $this->addressRepositoryMock = $this->getMockForAbstractClass(
             'Magento\Customer\Api\AddressRepositoryInterface',
             ['get'],
             '',
@@ -204,7 +204,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
                 'addressBuilder' => $this->addressBuilderMock,
                 'mathRandom' => $this->randomMock,
                 'encryptor' => $this->encryptorMock,
-                'customerAddressService' => $this->customerAddressMock,
+                'addressRepository' => $this->addressRepositoryMock,
                 'accountManagement' => $this->accountManagementMock,
                 'orderSenderMock' => $orderSenderMock,
                 'customerRepository' => $this->customerRepositoryMock,
@@ -490,8 +490,8 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $customerAddressMock->expects($this->any())
             ->method('getCustomerId')
             ->will($this->returnValue($addressCustomerId));
-        $this->customerAddressMock->expects($this->any())
-            ->method('get')
+        $this->addressRepositoryMock->expects($this->any())
+            ->method('getById')
             ->will($isAddress ? $this->returnValue($customerAddressMock) : $this->throwException(new \Exception()));
 
         $this->customerBuilderMock
