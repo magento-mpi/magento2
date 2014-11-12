@@ -15,7 +15,7 @@ use Mtf\Constraint\AbstractConstraint;
 use Mtf\Client\Browser;
 
 /**
- * Assert that deleted products attributes are absent on product page on frontend.
+ * Assert that deleted configurable attributes are absent on product page on frontend.
  */
 class AssertConfigurableAttributesAbsentOnProductPage extends AbstractConstraint
 {
@@ -27,7 +27,7 @@ class AssertConfigurableAttributesAbsentOnProductPage extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Assert that deleted products attributes are absent on product page on frontend.
+     * Assert that deleted configurable attributes are absent on product page on frontend.
      *
      * @param CatalogProductAttribute[] $deletedProductAttributes
      * @param Browser $browser
@@ -48,7 +48,7 @@ class AssertConfigurableAttributesAbsentOnProductPage extends AbstractConstraint
             $attributeLabel = $attribute->getFrontendLabel();
             \PHPUnit_Framework_Assert::assertFalse(
                 isset($pageOptions[$attributeLabel]),
-                "Product attribute '$attributeLabel' found on product page on frontend."
+                "Configurable attribute '$attributeLabel' found on product page on frontend."
             );
         }
     }
@@ -60,6 +60,6 @@ class AssertConfigurableAttributesAbsentOnProductPage extends AbstractConstraint
      */
     public function toString()
     {
-        return "Product attributes are absent on product page on frontend.";
+        return "Configurable attributes are absent on product page on frontend.";
     }
 }

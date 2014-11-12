@@ -9,6 +9,7 @@
 namespace Magento\Wishlist\Test\Block\Customer\Wishlist\Items;
 
 use Mtf\Block\Form;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Product
@@ -38,6 +39,13 @@ class Product extends Form
     protected $viewDetails = '.details.tooltip';
 
     /**
+     * Selector for 'Details block' element
+     *
+     * @var string
+     */
+    protected $detailsBlock = '.product-item-tooltip';
+
+    /**
      * Edit button css selector
      *
      * @var string
@@ -57,6 +65,13 @@ class Product extends Form
      * @var string
      */
     protected $optionValue = '.tooltip.content .values';
+
+    /**
+     * Selector for click on footer block
+     *
+     * @var string
+     */
+    protected $footer = './ancestor::body//footer';
 
     /**
      * Fill item product details
@@ -99,11 +114,15 @@ class Product extends Form
     {
         $viewDetails = $this->_rootElement->find($this->viewDetails);
         if ($viewDetails->isVisible()) {
+            $this->_rootElement->find($this->footer, Locator::SELECTOR_XPATH)->click();
             $viewDetails->click();
             $labels = $this->_rootElement->find($this->optionLabel)->getElements();
             $values = $this->_rootElement->find($this->optionValue)->getElements();
             $data = [];
             foreach ($labels as $key => $label) {
+                if (!$label->isVisible()) {
+                    $viewDetails->click();
+                }
                 $data[] = [
                     'title' => $label->getText(),
                     'value' => str_replace('$', '', $values[$key]->getText())
