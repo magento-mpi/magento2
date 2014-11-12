@@ -70,22 +70,13 @@ interface CategoryInterface extends \Magento\Framework\Api\ExtensibleDataInterfa
     /**
      * @return string|null
      */
-    public function getUrlKey();
-
-    /**
-     * @return string|null
-     */
     public function getPath();
-
-    /**
-     * @return string|null
-     */
-    public function getDisplayMode();
 
     /**
      * @return string[]|null
      */
     public function getAvailableSortBy();
+
     /**
      * @return bool|null
      */

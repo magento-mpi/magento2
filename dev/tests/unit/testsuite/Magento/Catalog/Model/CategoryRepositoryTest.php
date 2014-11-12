@@ -75,10 +75,9 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         )->method('create')->willReturn(
             $categoryMock
         );
-        $this->categoryResourceMock->expects(
+        $categoryMock->expects(
             $this->once()
         )->method('load')->with(
-            $categoryMock,
             $categoryId
         );
 
@@ -101,10 +100,9 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         )->method('create')->willReturn(
             $categoryMock
         );
-        $this->categoryResourceMock->expects(
+        $categoryMock->expects(
             $this->once()
         )->method('load')->with(
-            $categoryMock,
             $categoryId
         );
 
@@ -123,23 +121,13 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         )->method('create')->willReturn(
             $categoryMock
         );
-        $categoryMock->expects($this->atLeastOnce())->method('getData')->willReturn(['image' => []]);
+        $categoryMock->expects($this->atLeastOnce())->method('toFlatArray')->willReturn(['image' => []]);
         $categoryMock->expects($this->once())->method('validate')->willReturn(true);
         $categoryMock->expects($this->once())->method('getParentId')->willReturn(3);
         $categoryMock->expects($this->once())->method('getPath')->willReturn('path');
         $categoryMock->expects($this->once())->method('getIsActive')->willReturn(true);
-        $categoryMock->expects($this->once())->method('addData')->with(
-            [
-                'id' => $categoryId,
-                'parent_id' => 3,
-                'path' => 'path',
-                'is_active' => true,
-                'image_additional_data' => [],
-                'include_in_menu' => false
-            ]
-        );
         $this->categoryResourceMock->expects($this->once())->method('save')->willReturn('\Magento\Framework\Object');
-        $this->assertEquals($categoryId, $this->model->save($categoryMock));
+        $this->assertEquals($categoryMock, $this->model->save($categoryMock));
     }
 
     public function testCreateNewCategory()
@@ -148,9 +136,8 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $parentCategoryId = 15;
         $newCategoryId = 25;
         $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false, true, true);
-
         $parentCategoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false, true, true);
-        $categoryMock->expects($this->exactly(2))->method('getId')
+        $categoryMock->expects($this->once())->method('getId')
             ->will($this->onConsecutiveCalls($categoryId, $newCategoryId));
         $categoryMock->expects($this->never())->method('getIsActive');
         $this->categoryFactoryMock->expects($this->once())->method('create')->willReturn($parentCategoryMock);
@@ -161,7 +148,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         $categoryMock->expects($this->once())->method('validate')->willReturn(true);
         $categoryMock->expects($this->once())->method('getParentId')->willReturn(3);
         $this->categoryResourceMock->expects($this->once())->method('save')->willReturn('\Magento\Framework\Object');
-        $this->assertEquals($newCategoryId, $this->model->save($categoryMock));
+        $this->assertEquals($categoryMock, $this->model->save($categoryMock));
     }
 
     /**
@@ -258,10 +245,9 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         )->method('create')->willReturn(
             $categoryMock
         );
-        $this->categoryResourceMock->expects(
+        $categoryMock->expects(
             $this->once()
         )->method('load')->with(
-            $categoryMock,
             $categoryId
         );
         $this->assertTrue($this->model->deleteByIdentifier($categoryId));
@@ -283,10 +269,9 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
         )->method('create')->willReturn(
             $categoryMock
         );
-        $this->categoryResourceMock->expects(
+        $categoryMock->expects(
             $this->once()
         )->method('load')->with(
-            $categoryMock,
             $categoryId
         );
         $this->model->deleteByIdentifier($categoryId);
