@@ -48,7 +48,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $this->_metadataService = $this->getMockForAbstractClass(
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface',
-            array(),
+            [],
             '',
             false
         );
@@ -66,35 +66,35 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getCustomAttributesMetadata'
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([])
         );
 
         $this->_attributeMetadata = $this->getMock(
             'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->customerBuilderMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerInterfaceBuilder',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->customerFactoryMock = $this->getMock(
             'Magento\Customer\Model\CustomerFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->storeManagerMock = $this->getMock(
             'Magento\Framework\StoreManagerInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -105,7 +105,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $customerModelMock = $this->getMockBuilder(
             'Magento\Customer\Model\Customer'
         )->disableOriginalConstructor()->setMethods(
-            array('getId', 'getFirstname', 'getLastname', 'getEmail', 'getAttributes', 'getData', '__wakeup')
+            ['getId', 'getFirstname', 'getLastname', 'getEmail', 'getAttributes', 'getData', '__wakeup']
         )->getMock();
 
         $attributeModelMock = $this->getMockBuilder(
@@ -138,26 +138,34 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $this->_mockReturnValue(
             $customerModelMock,
-            array(
+            [
                 'getId' => 1,
                 'getFirstname' => 'Tess',
                 'getLastname' => 'Tester',
                 'getEmail' => 'ttester@example.com',
-                'getAttributes' => array($attributeModelMock, $attributeModelMock, $attributeModelMock)
-            )
+                'getAttributes' => [$attributeModelMock, $attributeModelMock, $attributeModelMock]
+            ]
         );
 
-        $map = array(
-            array('attribute_code', null, 'attributeValue'),
-            array('attribute_code2', null, 'attributeValue2'),
-            array('attribute_code3', null, null)
-        );
+        $map = [
+            ['attribute_code', null, 'attributeValue'],
+            ['attribute_code2', null, 'attributeValue2'],
+            ['attribute_code3', null, null]
+        ];
         $customerModelMock->expects($this->any())->method('getData')->will($this->returnValueMap($map));
 
         $customerBuilder = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterfaceBuilder')
             ->disableOriginalConstructor()
-            ->setMethods(['create', 'populateWithArray'])
-            ->getMock();
+            ->setMethods(
+                [
+                    'create',
+                    'populateWithArray',
+                    'setId',
+                    'setFirstname',
+                    'setLastname',
+                    'setEmail'
+                ]
+            )->getMock();
         $customerBuilder->expects($this->any())
             ->method('create')
             ->willReturn($customerModelMock);
@@ -176,7 +184,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function prepareGetCustomerModel($customerId)
     {
-        $customerMock = $this->getMock('Magento\Customer\Model\Customer', array(), array(), '', false);
+        $customerMock = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
         $customerMock->expects($this->once())
             ->method('load')
             ->with($customerId)
@@ -220,8 +228,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $customerMock = $this->getMock(
             'Magento\Customer\Model\Customer',
-            array('setWebsiteId', 'loadByEmail', 'getId', '__wakeup'),
-            array(),
+            ['setWebsiteId', 'loadByEmail', 'getId', '__wakeup'],
+            [],
             '',
             false
         );
@@ -249,7 +257,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $customerEmail = 'test@example.com';
         $this->prepareGetCustomerModelByEmail($websiteId, $customerEmail, $customerId);
 
-        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $storeMock->expects($this->once())
             ->method('getWebsiteId')
             ->will($this->returnValue($websiteId));
