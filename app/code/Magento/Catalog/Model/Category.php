@@ -224,7 +224,13 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
         $this->urlFinder = $urlFinder;
         $this->indexerRegistry = $indexerRegistry;
         parent::__construct(
-            $context, $registry, $metadataService, $storeManager, $resource, $resourceCollection, $data
+            $context,
+            $registry,
+            $metadataService,
+            $storeManager,
+            $resource,
+            $resourceCollection,
+            $data
         );
     }
 

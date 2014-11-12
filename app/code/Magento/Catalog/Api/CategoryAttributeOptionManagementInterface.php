@@ -22,5 +22,4 @@ interface CategoryAttributeOptionManagementInterface
      * @return \Magento\Eav\Api\Data\AttributeOptionInterface[]
      */
     public function getItems($attributeCode);
-
 }

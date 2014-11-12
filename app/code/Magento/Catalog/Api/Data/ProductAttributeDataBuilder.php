@@ -8,6 +8,7 @@
  */
 
 namespace Magento\Catalog\Api\Data;
+
 use Magento\Framework\Api\CompositeExtensibleDataBuilder;
 
 /**
