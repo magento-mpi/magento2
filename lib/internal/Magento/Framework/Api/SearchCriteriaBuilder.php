@@ -29,7 +29,7 @@ class SearchCriteriaBuilder extends Builder
      * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
      * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
      * @param FilterGroupBuilder $filterGroupBuilder
-     * @param null $modelClassInterface
+     * @param string|null $modelClassInterface
      */
     public function __construct(
         ObjectFactory $objectFactory,

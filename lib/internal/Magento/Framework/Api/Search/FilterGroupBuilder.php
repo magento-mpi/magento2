@@ -33,7 +33,7 @@ class FilterGroupBuilder extends Builder
      * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
      * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
      * @param FilterBuilder $filterBuilder
-     * @param null $modelClassInterface
+     * @param string|null $modelClassInterface
      */
     public function __construct(
         ObjectFactory $objectFactory,

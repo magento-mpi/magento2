@@ -21,7 +21,6 @@ class AttributeValue extends AbstractSimpleObject implements AttributeInterface
      */
     public function __construct(AttributeDataBuilder $builder)
     {
-
         $this->_data = $builder->getData();
     }
 

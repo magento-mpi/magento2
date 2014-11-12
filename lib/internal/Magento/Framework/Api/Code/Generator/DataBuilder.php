@@ -21,9 +21,14 @@ use Zend\Code\Reflection\ClassReflection;
 class DataBuilder extends EntityAbstract
 {
     /**
-     * Entity type
+     * Builder Entity, used for a builders built based on Data Objects
      */
     const ENTITY_TYPE = 'dataBuilder';
+
+    /**
+     * Builder Entity, used for a builders built based on API interfaces
+     */
+    const ENTITY_TYPE_BUILDER = 'builder';
 
     /**
      * Data Model property name
