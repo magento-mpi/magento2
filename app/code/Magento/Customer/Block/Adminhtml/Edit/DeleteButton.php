@@ -65,9 +65,8 @@ class DeleteButton implements ButtonProviderInterface
             $data = [
                 'label' => __('Delete Customer'),
                 'class' => 'delete',
-                'on_click' => 'deleteConfirm(\'' . __(
-                        'Are you sure you want to do this?'
-                    ) . '\', \'' . $this->getDeleteUrl() . '\')',
+                'on_click' => 'deleteConfirm(\'' . __('Are you sure you want to do this?') . '\', \'' .
+                    $this->getDeleteUrl() . '\')',
                 'sort_order' => 80
             ];
         }

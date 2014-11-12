@@ -50,6 +50,7 @@ class ManageShoppingCartButton implements ButtonProviderInterface
      *
      * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
@@ -70,15 +71,11 @@ class ManageShoppingCartButton implements ButtonProviderInterface
     {
         $customerWebsite = $this->registry->registry(RegistryConstants::CURRENT_CUSTOMER)->getWebsiteId();
         $data = [];
-        if ($this->authorization->isAllowed(
-                'Magento_AdvancedCheckout::view'
-            ) && $this->authorization->isAllowed(
-                'Magento_AdvancedCheckout::update'
-            ) && $this->storeManager->getStore(
-                \Magento\Store\Model\Store::ADMIN_CODE
-            )->getWebsiteId() != $customerWebsite
+        if ($this->authorization->isAllowed('Magento_AdvancedCheckout::view')
+            && $this->authorization->isAllowed('Magento_AdvancedCheckout::update')
+            && $this->storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getWebsiteId() != $customerWebsite
         ) {
-            $data =  [
+            $data = [
                 'label' => __('Manage Shopping Cart'),
                 'on_click' => 'setLocation(\'' . $this->getManageShoppingCartUrl() . '\')'
             ];
@@ -86,6 +83,9 @@ class ManageShoppingCartButton implements ButtonProviderInterface
         return $data;
     }
 
+    /**
+     * @return string
+     */
     public function getManageShoppingCartUrl()
     {
         return $this->urlBuilder->getUrl('checkout/index', array('customer' => $this->getCustomerId()));

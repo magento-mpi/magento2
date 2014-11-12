@@ -74,6 +74,7 @@ class Form extends AbstractView
      * @param ElementRendererBuilder $elementRendererBuilder
      * @param UiElementFactory $factory
      * @param ActionPool $actionPool
+     * @param ButtonProviderFactory $buttonProviderFactory
      * @param array $data
      */
     public function __construct(
