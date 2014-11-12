@@ -27,6 +27,11 @@ class Loader
     const PARAM_CUSTOM_FILE = 'custom.options.file';
 
     /**
+     * Config file template
+     */
+    const DEPLOYMENT_CONFIG_FILE_TEMPLATE = 'config.php.template';
+
+    /**
      * Deployment config
      *
      * @var \Magento\Framework\App\DeploymentConfig
