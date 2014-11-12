@@ -82,6 +82,10 @@ define([
             return _.groupBy(this(), iteratee, ctx);
         },
 
+        sortBy: function (iteratee, ctx) {
+            return _.sortBy(this(), iteratee, ctx);
+        },
+
         pluck: function(){
             var args = Array.prototype.slice.call(arguments);
 

@@ -90,7 +90,6 @@ define([
 
             this.initObservable()
                 .initRenderer()
-                .initParts()
                 .initProperties()
                 .initListeners();
         },
@@ -114,17 +113,6 @@ define([
          */
         initRenderer: function () {
             this.renderer = registry.get('globalStorage').renderer;
-
-            return this;
-        },
-
-        /**
-         * Defines 'parentName' and 'parentScope' properties.
-         * @returns {Component} Chainable.
-         */
-        initParts: function(){
-            this.setLastPart('parentName', this.name)
-                .setLastPart('parentScope', this.dataScope);
 
             return this;
         },
@@ -156,7 +144,6 @@ define([
                 it's property name that should be listened.
          * @param {Object} params - Parameters of the callback. 
          * @param {String} callback - Callback's name.
-         * @returns {Component} Chainable.
          */
         initListener: function(data, params, callback){
             var storage = data.storage,
@@ -170,32 +157,60 @@ define([
             storage.on('update:' + source, callback);
         },
 
+        /**
+         * Ment to define various properties.
+         * @returns {Component} Chainable.
+         */
         initProperties: function () {
+            this.parentName     = this.getPart(this.name, -2);
+            this.parentScope    = this.getPart(this.dataScope, -2);
+
             return this;
         },
 
+        /**
+         * Called when current element was injected to another component.
+         * @param {Object} parent - Instance of a 'parent' component.
+         * @returns {Component} Chainable.
+         */
         initContainer: function(parent){
             this.containers.push(parent);
 
             return this;
         },
 
+        /**
+         * Called when another element was added to current component.
+         * @param {Object} elem - Instance of an element that was added.
+         * @returns {Component} Chainable.
+         */
         initElement: function(elem){
             elem.initContainer(this);
 
             return this;
         },
 
-        setLastPart: function(container, ns){
-            var parts = ns.split('.');
+        /**
+         * Splits incoming string and returns its' part specified by offset.
+         * @param {String} parts
+         * @param {Number} [offset] 
+         * @param {String} [delimiter=.]
+         * @returns {String}
+         */
+        getPart: function(parts, offset, delimiter){
+            delimiter   = delimiter || '.';
+            parts       = parts.split(delimiter);
+            offset      = getOffsetFor(parts, offset);
 
-            parts.pop();
-
-            this[container] = parts.join('.');
-
-            return this;
+            parts.splice(offset, 1)
+            
+            return parts.join(delimiter) || '';
         },
 
+        /**
+         * Returns path to components' template.
+         * @returns {String}
+         */
         getTemplate: function(){
             return this.template || 'ui/collection';
         }

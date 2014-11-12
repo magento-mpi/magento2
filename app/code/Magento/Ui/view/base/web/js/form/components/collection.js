@@ -108,7 +108,7 @@ define([
                 return elem.delegate('hasChanged', 'some');
             });
         },
-
+        
         /**
          * Creates function that removes element from collection using '_removeChild'
          *     method

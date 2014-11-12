@@ -16,10 +16,9 @@ define([
 
         /**
          * Invokes initElement method of parent class, calls 'initActivation' method
-         *     passing element to it 
-         * 
-         * @param  {Object} elem
-         * @return {Object} - reference to instance
+         * passing element to it.
+         * @param {Object} elem
+         * @returns {Object} - reference to instance
          */
         initElement: function(elem){
             __super__.initElement.apply(this, arguments);    
@@ -36,15 +35,18 @@ define([
          * @return {Object} - reference to instance
          */
         initListeners: function(){
-            this.provider.data.on('validate', this.onValidate.bind(this));
+            var data = this.provider.data;
+
+            __super__.initListeners.apply(this, arguments); 
+
+            data.on('validate', this.onValidate.bind(this));
             
             return this;
         },
 
         /**
          * Activates element if one is first or if one has 'active' propert
-         *     set to true
-         * 
+         * set to true.
          * @param  {Object} elem
          * @return {Object} - reference to instance
          */
@@ -65,11 +67,10 @@ define([
 
         /**
          * Delegates 'validate' method on element, then reads 'invalid' property
-         *     of params storage, and if defined, activates element, sets 
-         *     'isValid' property of instance to false and sets invalid's
-         *     'focused' property to true
-         *     
-         * @param  {Object} elem
+         * of params storage, and if defined, activates element, sets 
+         * 'isValid' property of instance to false and sets invalid's
+         * 'focused' property to true.
+         * @param {Object} elem
          */
         validate: function(elem){
             var params = this.provider.params,
@@ -89,12 +90,16 @@ define([
 
         /**
          * Sets 'isValid' property of instance to true, then calls 'validate' method
-         *     of instance for each element 
+         * of instance for each element 
          */
         onValidate: function(){
             this.isValid = true;
-            
-            this.elems.each(this.validate, this);
+
+            this.elems
+                .sortBy(function(elem){
+                    return !elem.active();
+                })
+                .each(this.validate, this);
         }
     });
 });
