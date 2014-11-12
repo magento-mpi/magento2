@@ -201,7 +201,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             $addressData,
             array(
                 'address_type' => 'billing',
-                'quote_id' => null,
+                'quote_id' => $this->_model->getQuote()->getId(),
                 'street' => "Line1\nLine2",
                 'save_in_address_book' => 0
             )
