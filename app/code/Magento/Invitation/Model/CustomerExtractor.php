@@ -12,12 +12,27 @@ use Magento\Customer\Model\Metadata;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Framework\App\RequestInterface;
 
-class CustomerExtractor extends \Magento\Customer\Model\CustomerExtractor
+class CustomerExtractor
 {
     /**
-     * @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
+     * @var \Magento\Customer\Model\Metadata\FormFactory
+     */
+    protected $formFactory;
+
+    /**
+     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
     protected $customerBuilder;
+
+    /**
+     * @var \Magento\Framework\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var CustomerGroupServiceInterface
+     */
+    protected $groupService;
 
     /**
      * @var \Magento\Framework\Registry
@@ -30,8 +45,8 @@ class CustomerExtractor extends \Magento\Customer\Model\CustomerExtractor
     protected $invitationProvider;
 
     /**
-     * @param Metadata\FormFactory $formFactory
-     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+     * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param CustomerGroupServiceInterface $groupService
      * @param \Magento\Framework\Registry $registry
@@ -39,15 +54,18 @@ class CustomerExtractor extends \Magento\Customer\Model\CustomerExtractor
      */
     public function __construct(
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Framework\StoreManagerInterface $storeManager,
         CustomerGroupServiceInterface $groupService,
         \Magento\Framework\Registry $registry,
         InvitationProvider $invitationProvider
     ) {
+        $this->formFactory = $formFactory;
+        $this->customerBuilder = $customerBuilder;
+        $this->storeManager = $storeManager;
+        $this->groupService = $groupService;
         $this->registry = $registry;
         $this->invitationProvider = $invitationProvider;
-        parent::__construct($formFactory, $customerBuilder, $storeManager, $groupService);
     }
 
     /**
@@ -55,8 +73,26 @@ class CustomerExtractor extends \Magento\Customer\Model\CustomerExtractor
      */
     public function extract($formCode, RequestInterface $request)
     {
-        $customer = parent::extract($formCode, $request);
-        $this->customerBuilder->populate($customer);
+        $customerForm = $this->formFactory->create('customer', $formCode);
+
+        $allowedAttributes = $customerForm->getAllowedAttributes();
+        $isGroupIdEmpty = true;
+        $customerData = array();
+        foreach ($allowedAttributes as $attribute) {
+            $attributeCode = $attribute->getAttributeCode();
+            if ($attributeCode == 'group_id') {
+                $isGroupIdEmpty = false;
+            }
+            $customerData[$attributeCode] = $request->getParam($attributeCode);
+        }
+        $this->customerBuilder->populateWithArray($customerData);
+        $store = $this->storeManager->getStore();
+        if ($isGroupIdEmpty) {
+            $this->customerBuilder->setGroupId($this->groupService->getDefaultGroup($store->getId())->getId());
+        }
+
+        $this->customerBuilder->setWebsiteId($store->getWebsiteId());
+        $this->customerBuilder->setStoreId($store->getId());
 
         $invitation = $this->invitationProvider->get($request);
         $this->registry->register("skip_confirmation_if_email", $invitation->getEmail());

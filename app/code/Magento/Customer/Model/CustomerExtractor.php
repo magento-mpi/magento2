@@ -8,7 +8,7 @@
  */
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Framework\App\RequestInterface;
 
 class CustomerExtractor
@@ -29,26 +29,26 @@ class CustomerExtractor
     protected $storeManager;
 
     /**
-     * @var CustomerGroupServiceInterface
+     * @var GroupManagementInterface
      */
-    protected $groupService;
+    protected $customerGroupManagement;
 
     /**
      * @param Metadata\FormFactory $formFactory
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param CustomerGroupServiceInterface $groupService
+     * @param GroupManagementInterface $customerGroupManagement
      */
     public function __construct(
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        CustomerGroupServiceInterface $groupService
+        GroupManagementInterface $customerGroupManagement
     ) {
         $this->formFactory = $formFactory;
         $this->customerBuilder = $customerBuilder;
         $this->storeManager = $storeManager;
-        $this->groupService = $groupService;
+        $this->customerGroupManagement = $customerGroupManagement;
     }
 
     /**
@@ -73,7 +73,9 @@ class CustomerExtractor
         $this->customerBuilder->populateWithArray($customerData);
         $store = $this->storeManager->getStore();
         if ($isGroupIdEmpty) {
-            $this->customerBuilder->setGroupId($this->groupService->getDefaultGroup($store->getId())->getId());
+            $this->customerBuilder->setGroupId(
+                $this->customerGroupManagement->getDefaultGroup($store->getId())->getId()
+            );
         }
 
         $this->customerBuilder->setWebsiteId($store->getWebsiteId());
