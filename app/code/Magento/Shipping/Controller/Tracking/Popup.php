@@ -62,7 +62,7 @@ class Popup extends \Magento\Framework\App\Action\Action
             throw new NotFoundException();
         }
         $this->_view->loadLayout();
-        $this->_view->getPage()->getConfig()->getTitle->set(__('Tracking Information'));
+        $this->_view->getPage()->getConfig()->getTitle()->set(__('Tracking Information'));
         $this->_view->renderLayout();
     }
 }

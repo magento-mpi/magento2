@@ -121,7 +121,7 @@ class Edit extends \Magento\Directory\Block\Data
             )->create();
         }
 
-        $this->pageConfig->getTitle->set($this->getTitle());
+        $this->pageConfig->getTitle()->set($this->getTitle());
 
         if ($postedData = $this->_customerSession->getAddressFormData(true)) {
             if (!empty($postedData['region_id']) || !empty($postedData['region'])) {
