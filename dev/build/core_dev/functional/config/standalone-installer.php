@@ -23,10 +23,13 @@ $opt = getopt('', ['module-list-file::']);
 $enableModules = [];
 if (!empty($opt['module-list-file'])) {
     $moduleListFile = $opt['module-list-file'];
-    if (!is_file($moduleListFile)) {
-        throw new Exception("The specified module list file does not exist: " . $moduleListFile);
+    // if value is undefined, bamboo will insert the variable definition literally as "${env.bamboo_...}"
+    if (!preg_match('/^\$\{/', $moduleListFile)) {
+        if (!is_file($moduleListFile)) {
+            throw new Exception("The specified module list file does not exist: " . $moduleListFile);
+        }
+        $enableModules = file($moduleListFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     }
-    $enableModules = file($moduleListFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 }
 
 require_once realpath(SELENIUM_TESTS_BASEDIR . '/../../../app/autoload.php');

@@ -270,7 +270,7 @@
     </target>
 
     <target name="_install_standalone_application">
-        <exec executable="php" dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/">
+        <exec executable="php" failonerror="true" dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/">
             <arg line="-f standalone-installer.php -- --module-list-file=${env.bamboo_build_module_list_file}"/>
         </exec>
     </target>
