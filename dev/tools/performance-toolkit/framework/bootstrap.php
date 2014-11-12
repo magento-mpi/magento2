@@ -8,10 +8,7 @@
  * @license     {license_link}
  */
 
-$toolkitBaseDir = realpath(__DIR__ . '/..');
-$magentoBaseDir = realpath($toolkitBaseDir . '/../../../');
+$magentoBaseDir = realpath(__DIR__ . '/../../../../');
 
 require_once "$magentoBaseDir/app/bootstrap.php";
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath("$toolkitBaseDir/framework");
-
 return $magentoBaseDir;

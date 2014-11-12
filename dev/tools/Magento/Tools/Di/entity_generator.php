@@ -54,7 +54,7 @@ try {
         $generationDir = $opt->getOption('g');
     }
 } catch (\Zend_Console_Getopt_Exception $e) {
-    $generator = new Generator();
+    $generator = new Generator(new \Magento\Framework\Code\Generator\FileResolver());
     $entities = $generator->getGeneratedEntities();
 
     $allowedTypes = 'Allowed entity types are: ' . implode(', ', $entities) . '.';
@@ -69,7 +69,7 @@ try {
     exit($example);
 }
 
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath($generationDir);
+\Magento\Framework\Code\Generator\FileResolver::addIncludePath($generationDir);
 
 //reinit generator with correct generation path
 $io = new Io(new File(), null, $generationDir);
