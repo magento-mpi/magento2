@@ -44,16 +44,8 @@ class SaveShippingMethod extends \Magento\Checkout\Controller\Onepage
         \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Magento\Sales\Model\QuoteRepository $quoteRepository
     ) {
-        parent::__construct(
-            $context,
-            $customerSession,
-            $customerAccountService,
-            $customerMetadataService,
-            $coreRegistry,
-            $translateInline,
-            $formKeyValidator,
-            $scopeConfig,
-            $layoutFactory
+        parent::__construct($context, $customerSession, $customerAccountService, $customerMetadataService,
+            $coreRegistry, $translateInline, $formKeyValidator, $scopeConfig, $layoutFactory
         );
         $this->quoteRepository = $quoteRepository;
     }
