@@ -96,8 +96,8 @@ abstract class AbstractSimpleObjectBuilder
      */
     public function mergeDataObjects(
         ExtensibleDataInterface $firstDataObject,
-        ExtensibleDataInterface $secondDataObject)
-    {
+        ExtensibleDataInterface $secondDataObject
+    ) {
         $objectType = $this->_getDataObjectType();
         if (get_class($firstDataObject) != $objectType || get_class($secondDataObject) != $objectType) {
             throw new \LogicException('Wrong prototype object given. It can only be of "' . $objectType . '" type.');

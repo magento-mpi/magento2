@@ -158,7 +158,8 @@ class Builder implements BuilderInterface
     {
         if ($this->getDataType() == self::TYPE_DATA_MODEL) {
             $dataObject = $this->objectFactory->create(
-               $this->_getDataObjectType(), ['data' => $this->data]
+                $this->_getDataObjectType(),
+                ['data' => $this->data]
             );
         } else {
             $dataObjectType = $this->_getDataObjectType();
