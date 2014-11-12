@@ -189,3 +189,4 @@
 
     #FileETag none
 
+SetEnv MAGE_PROFILER 0
