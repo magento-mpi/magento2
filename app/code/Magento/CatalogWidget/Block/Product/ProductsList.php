@@ -41,13 +41,6 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
     protected $pager;
 
     /**
-     * Products count
-     *
-     * @var int
-     */
-    protected $productsCount;
-
-    /**
      * @var \Magento\Framework\App\Http\Context
      */
     protected $httpContext;
@@ -166,9 +159,6 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
         if (!isset($arguments['zone'])) {
             $arguments['zone'] = $renderZone;
         }
-        $arguments['zone'] = isset($arguments['zone'])
-            ? $arguments['zone']
-            : $renderZone;
         $arguments['price_id'] = isset($arguments['price_id'])
             ? $arguments['price_id']
             : 'old-price-' . $product->getId() . '-' . $priceType;
@@ -207,7 +197,7 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
      *
      * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
-    protected function createCollection()
+    public function createCollection()
     {
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
         $collection = $this->productCollectionFactory->create();
@@ -256,11 +246,11 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
             return $this->getData('products_count');
         }
 
-        if (null === $this->productsCount) {
-            $this->productsCount = self::DEFAULT_PRODUCTS_COUNT;
+        if (null === $this->getData('products_count')) {
+            $this->setData('products_count', self::DEFAULT_PRODUCTS_COUNT);
         }
 
-        return $this->productsCount;
+        return $this->getData('products_count');
     }
 
     /**
@@ -296,7 +286,7 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
      */
     public function getPagerHtml()
     {
-        if ($this->showPager() && $this->_getProductCollection()->getSize() > $this->getProductsPerPage()) {
+        if ($this->showPager() && $this->getProductCollection()->getSize() > $this->getProductsPerPage()) {
             if (!$this->pager) {
                 $this->pager = $this->getLayout()->createBlock(
                     'Magento\Catalog\Block\Product\Widget\Html\Pager',
@@ -317,19 +307,6 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
         }
         return '';
     }
-
-    /**
-     * Set how much product should be displayed at once.
-     *
-     * @param int $count
-     * @return $this
-     */
-    public function setProductsCount($count)
-    {
-        $this->productsCount = $count;
-        return $this;
-    }
-
 
     /**
      * Return identifiers for produced content
