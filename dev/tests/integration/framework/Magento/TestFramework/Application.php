@@ -241,7 +241,7 @@ class Application
      */
     private function getLocalConfig()
     {
-        return $this->_configDir . '/local.xml';
+        return $this->_configDir . '/config.php';
     }
 
     /**
