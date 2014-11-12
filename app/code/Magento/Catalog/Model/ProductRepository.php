@@ -175,11 +175,8 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         } catch (\Exception $e) {
             throw new \Magento\Framework\Exception\CouldNotSaveException('Unable to save product');
         }
-        if (array_key_exists($product->getSku(), $this->instances)) {
-            unset($this->instances[$product->getSku()]);
-            unset($this->instancesById[$product->getId()]);
-        }
-
+        unset($this->instances[$product->getSku()]);
+        unset($this->instancesById[$product->getId()]);
         return $product;
     }
 
@@ -195,10 +192,8 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         } catch (\Exception $e) {
             throw new \Magento\Framework\Exception\StateException('Unable to remove product ' . $productSku);
         }
-        if (array_key_exists($productSku, $this->instances)) {
-            unset($this->instances[$productSku]);
-            unset($this->instancesById[$productId]);
-        }
+        unset($this->instances[$productSku]);
+        unset($this->instancesById[$productId]);
         return true;
     }
 

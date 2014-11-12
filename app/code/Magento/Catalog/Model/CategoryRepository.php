@@ -100,9 +100,7 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not save category: %message', ['message' => $e->getMessage()], $e);
         }
-        if (array_key_exists($category->getId(), $this->instances)) {
-            unset($this->instances[$category->getId()]);
-        }
+        unset($this->instances[$category->getId()]);
         return $category->getId();
     }
 
@@ -157,9 +155,7 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
                 $e
             );
         }
-        if (array_key_exists($categoryId, $this->instances)) {
-            unset($this->instances[$categoryId]);
-        }
+        unset($this->instances[$categoryId]);
         return true;
     }
 
