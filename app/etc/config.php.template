@@ -82,7 +82,6 @@ return array (
     'Magento_Bundle' => 1,
     'Magento_Email' => 1,
     'Magento_Fedex' => 1,
-    'Magento_GiftCardAccount' => 1,
     'Magento_GiftMessage' => 1,
     'Magento_Wishlist' => 1,
     'Magento_GoogleAdwords' => 1,

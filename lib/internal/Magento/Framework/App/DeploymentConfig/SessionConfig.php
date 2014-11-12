@@ -43,7 +43,7 @@ class SessionConfig implements SegmentInterface
     public function __construct(array $data)
     {
         if (isset($data[self::KEY_SAVE])) {
-            if ($data[self::KEY_SAVE] !== 'files' || $data[self::KEY_SAVE] !== 'db') {
+            if ($data[self::KEY_SAVE] !== 'files' && $data[self::KEY_SAVE] !== 'db') {
                 throw new \InvalidArgumentException("Invalid session_save location {$data[self::KEY_SAVE]}");
             }
             $this->data = $data;
