@@ -2826,4 +2826,11 @@ return array(
     ['Magento\Framework\Filesystem\WrapperInterface'],
     ['Magento\Install'],
     ['Magento\Install\Model\Resource\Resource', 'Magento\Framework\Module\Resource'],
+    ['Magento\Framework\Module\Declaration\Reader\Filesystem', 'Magento\Framework\Module\ModuleList\Loader'],
+    ['Magento\Framework\Module\Declaration\FileIterator'],
+    ['Magento\Framework\Module\Declaration\FileIteratorFactory'],
+    ['Magento\Framework\Module\Declaration\FileResolver', 'Magento\Framework\Module\ModuleList\Loader'],
+    ['Magento\Framework\Module\Declaration\SchemaLocator'],
+    ['Magento\Framework\Module\DependencyManager'],
+    ['Magento\Framework\Module\DependencyManagerInterface'],
 );

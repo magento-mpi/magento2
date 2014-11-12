@@ -670,4 +670,9 @@ return array(
     ['DEBUG_CONNECT', 'Magento\Framework\DB\Adapter\Pdo\Mysql', 'Magento\Framework\DB\LoggerInterface::TYPE_CONNECT'],
     ['DEBUG_TRANSACTION', 'Magento\Framework\DB\Adapter\Pdo\Mysql', 'Magento\Framework\DB\LoggerInterface::TYPE_TRANSACTION'],
     ['DEBUG_QUERY', 'Magento\Framework\DB\Adapter\Pdo\Mysql', 'Magento\Framework\DB\LoggerInterface::TYPE_QUERY'],
+    [
+        'PARAM_ALLOWED_MODULES',
+        'Magento\Framework\Module\Declaration\Reader\Filesystem',
+        'Magento\Framework\App\ObjectManagerFactory::INIT_PARAM_DEPLOYMENT_CONFIG'
+    ],
 );

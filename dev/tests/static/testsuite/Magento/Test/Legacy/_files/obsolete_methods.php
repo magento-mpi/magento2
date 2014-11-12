@@ -2051,4 +2051,8 @@ return array(
     ['endSetup', 'Magento\Framework\Module\Setup', 'Magento\Framework\Module\Setup\Base::endSetup'],
     ['getIdxName', 'Magento\Framework\Module\Setup', 'Magento\Framework\Module\Setup\Base'],
     ['getFkName', 'Magento\Framework\Module\Setup', 'Magento\Framework\Module\Setup\Base'],
+    ['getModules', 'Magento\Framework\Module\ModuleList', 'getAll'],
+    ['getModules', 'Magento\Framework\Module\ModuleListInterface', 'getAll'],
+    ['getModule', 'Magento\Framework\Module\ModuleList', 'getOne'],
+    ['getModule', 'Magento\Framework\Module\ModuleListInterface', 'getOne'],
 );

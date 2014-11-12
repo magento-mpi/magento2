@@ -31,15 +31,24 @@ class Writer
     private $filesystem;
 
     /**
+     * Formatter
+     *
+     * @var Writer\FormatterInterface
+     */
+    private $formatter;
+
+    /**
      * Constructor
      *
      * @param Reader $reader
      * @param Filesystem $filesystem
+     * @param Writer\FormatterInterface $formatter
      */
-    public function __construct(Reader $reader, Filesystem $filesystem)
+    public function __construct(Reader $reader, Filesystem $filesystem, Writer\FormatterInterface $formatter = null)
     {
         $this->reader = $reader;
         $this->filesystem = $filesystem;
+        $this->formatter = $formatter ?: new Writer\PhpFormatter;
     }
 
     /**
@@ -49,11 +58,15 @@ class Writer
      *
      * @param SegmentInterface[] $segments
      * @return void
+     * @throws \InvalidArgumentException
      */
     public function create($segments)
     {
         $data = [];
         foreach ($segments as $segment) {
+            if (!($segment instanceof SegmentInterface)) {
+                throw new \InvalidArgumentException('An instance of SegmentInterface is expected.');
+            }
             $data[$segment->getKey()] = $segment->getData();
         }
         $this->write($data);
@@ -81,7 +94,7 @@ class Writer
      */
     private function write($data)
     {
-        $contents = '<?php' . PHP_EOL . 'return ' . var_export($data, true) . ';' . PHP_EOL;
+        $contents = $this->formatter->format($data);
         $this->filesystem->getDirectoryWrite(DirectoryList::CONFIG)->writeFile($this->reader->getFile(), $contents);
     }
 }
