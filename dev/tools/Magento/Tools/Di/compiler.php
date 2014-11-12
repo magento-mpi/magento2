@@ -18,7 +18,6 @@ use Magento\Tools\Di\Compiler\Directory;
 use Magento\Tools\Di\Code\Scanner;
 use Magento\Tools\Di\Definition\Compressor;
 use Magento\Tools\Di\Definition\Serializer;
-use Magento\Framework\Api\Code\Generator\Builder;
 use Magento\Framework\Api\Code\Generator\Mapper;
 use Magento\Framework\Api\Code\Generator\SearchResults;
 use Magento\Framework\Api\Code\Generator\SearchResultsBuilder;
@@ -92,9 +91,9 @@ try {
             \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
                 'Magento\Framework\Interception\Code\Generator\Interceptor',
             SearchResultsBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
+            'builder' => 'Magento\Framework\Api\Code\Generator\DataBuilder',
             Proxy::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Proxy',
             Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
-            Builder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\Builder',
             Mapper::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\Mapper',
             Repository::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Repository',
             Converter::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Converter',

@@ -90,7 +90,6 @@
             <argument name="customerData" xsi:type="object">Magento\Customer\Helper\Data\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Customer\Model\Data\GroupBuilder" shared="false" />
     <type name="Magento\Customer\Service\V1\Data\CustomerGroupBuilder" shared="false" />
     <type name="Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder" shared="false" />
     <type name="Magento\Customer\Api\Data\OptionDataBuilder" shared="false" />

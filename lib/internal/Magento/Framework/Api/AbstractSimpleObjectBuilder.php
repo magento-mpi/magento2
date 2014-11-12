@@ -39,7 +39,7 @@ abstract class AbstractSimpleObjectBuilder
      * @return $this
      * @throws \LogicException If $prototype object class is not the same type as object that is constructed
      */
-    public function populate(AbstractSimpleObject $prototype)
+    public function populate(ExtensibleDataInterface $prototype)
     {
         $objectType = $this->_getDataObjectType();
         if (!($prototype instanceof $objectType)) {
@@ -89,12 +89,14 @@ abstract class AbstractSimpleObjectBuilder
      * Merge second Data Object data with first Data Object data and create new Data Object object based on merge
      * result.
      *
-     * @param AbstractSimpleObject $firstDataObject
-     * @param AbstractSimpleObject $secondDataObject
-     * @return AbstractSimpleObject
+     * @param ExtensibleDataInterface $firstDataObject
+     * @param ExtensibleDataInterface $secondDataObject
+     * @return $this
      * @throws \LogicException
      */
-    public function mergeDataObjects(AbstractSimpleObject $firstDataObject, AbstractSimpleObject $secondDataObject)
+    public function mergeDataObjects(
+        ExtensibleDataInterface $firstDataObject,
+        ExtensibleDataInterface $secondDataObject)
     {
         $objectType = $this->_getDataObjectType();
         if (get_class($firstDataObject) != $objectType || get_class($secondDataObject) != $objectType) {
@@ -102,7 +104,7 @@ abstract class AbstractSimpleObjectBuilder
         }
         $this->_setDataValues($firstDataObject->__toArray());
         $this->_setDataValues($secondDataObject->__toArray());
-        return $this->create();
+        return $this;
     }
 
     /**
@@ -111,10 +113,10 @@ abstract class AbstractSimpleObjectBuilder
      *
      * @param AbstractSimpleObject $dataObject
      * @param array $data
-     * @return AbstractSimpleObject
+     * @return $this
      * @throws \LogicException
      */
-    public function mergeDataObjectWithArray(AbstractSimpleObject $dataObject, array $data)
+    public function mergeDataObjectWithArray(ExtensibleDataInterface $dataObject, array $data)
     {
         $objectType = $this->_getDataObjectType();
         if (!($dataObject instanceof $objectType)) {
@@ -122,7 +124,7 @@ abstract class AbstractSimpleObjectBuilder
         }
         $this->_setDataValues($dataObject->__toArray());
         $this->_setDataValues($data);
-        return $this->create();
+        return $this;
     }
 
     /**

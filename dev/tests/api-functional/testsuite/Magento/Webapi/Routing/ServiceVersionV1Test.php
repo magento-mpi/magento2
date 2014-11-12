@@ -32,7 +32,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
      */
     protected $_soapService = 'testModule1AllSoapAndRest';
 
-    /** @var \Magento\Framework\Api\AttributeValueBuilder */
+    /** @var \Magento\Framework\Api\AttributeDataBuilder */
     protected $valueBuilder;
 
     /** @var ItemBuilder */
@@ -45,7 +45,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $this->_restResourcePath = "/{$this->_version}/testmodule1/";
 
         $this->valueBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Api\AttributeValueBuilder'
+            'Magento\Framework\Api\AttributeDataBuilder'
         );
 
         $this->itemBuilder = Bootstrap::getObjectManager()->create(

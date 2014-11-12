@@ -794,7 +794,8 @@ class Onepage
         $billing->setCustomerAddressData($customerBillingData);
 
         $dataArray = $this->_objectCopyService->getDataFromFieldset('checkout_onepage_quote', 'to_customer', $quote);
-        $customerData = $this->_customerBuilder->mergeDataObjectWithArray($customerData, $dataArray);
+        $customerData = $this->_customerBuilder->mergeDataObjectWithArray($customerData, $dataArray)
+            ->create();
         $quote->setCustomerData($customerData)->setCustomerId(true);
         // TODO : Eventually need to remove this legacy hack
         // Add billing address to quote since customer Data Object does not hold address information

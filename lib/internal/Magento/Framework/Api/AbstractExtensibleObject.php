@@ -28,9 +28,9 @@ abstract class AbstractExtensibleObject extends AbstractSimpleObject implements 
      */
     public function getCustomAttribute($attributeCode)
     {
-        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
-            && isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode])
-                ? $this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode]
+        return isset($this->_data[self::CUSTOM_ATTRIBUTES])
+            && isset($this->_data[self::CUSTOM_ATTRIBUTES][$attributeCode])
+                ? $this->_data[self::CUSTOM_ATTRIBUTES][$attributeCode]
                 : null;
     }
 
@@ -41,6 +41,6 @@ abstract class AbstractExtensibleObject extends AbstractSimpleObject implements 
      */
     public function getCustomAttributes()
     {
-        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY]) ? $this->_data[self::CUSTOM_ATTRIBUTES_KEY] : array();
+        return isset($this->_data[self::CUSTOM_ATTRIBUTES]) ? $this->_data[self::CUSTOM_ATTRIBUTES] : [];
     }
 }
