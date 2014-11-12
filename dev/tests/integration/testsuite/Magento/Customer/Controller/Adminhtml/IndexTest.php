@@ -144,7 +144,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'lastname' => 'test lastname',
                 'email' => 'example@domain.com',
                 'default_billing' => '_item1',
-                'password' => 'auto'
+                'password' => 'password',
             ),
             'address' => array(
                 '_item1' => array(
@@ -358,7 +358,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
                 'email' => 'customer@example.com',
-                'password' => 'auto'
+                'password' => 'password',
             )
         );
         $this->getRequest()->setPost($post);
@@ -437,11 +437,11 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         // verify
         $this->assertContains('<h1 class="title">new firstname new lastname</h1>', $body);
 
-        $accountStr = 'data-ui-id="adminhtml-edit-tab-account-fieldset-element-text-account-';
+        $accountStr = 'data-ui-id="adminhtml-edit-tab-account-0-fieldset-element-text-account-';
         $this->assertNotContains($accountStr . 'firstname"  value="test firstname"', $body);
         $this->assertContains($accountStr . 'firstname"  value="new firstname"', $body);
 
-        $addressStr = 'data-ui-id="adminhtml-edit-tab-addresses-fieldset-element-text-address-';
+        $addressStr = 'data-ui-id="adminhtml-edit-tab-addresses-0-fieldset-element-text-address-';
         $this->assertNotContains($addressStr . '1-firstname"  value="test firstname"', $body);
         $this->assertContains($addressStr . '1-firstname"  value="update firstname"', $body);
         $this->assertContains($addressStr . '2-firstname"  value="test firstname"', $body);
@@ -462,10 +462,10 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         // verify
         $this->assertContains('<h1 class="title">test firstname test lastname</h1>', $body);
 
-        $accountStr = 'data-ui-id="adminhtml-edit-tab-account-fieldset-element-text-account-';
+        $accountStr = 'data-ui-id="adminhtml-edit-tab-account-0-fieldset-element-text-account-';
         $this->assertContains($accountStr . 'firstname"  value="test firstname"', $body);
 
-        $addressStr = 'data-ui-id="adminhtml-edit-tab-addresses-fieldset-element-text-address-';
+        $addressStr = 'data-ui-id="adminhtml-edit-tab-addresses-0-fieldset-element-text-address-';
         $this->assertContains($addressStr . '1-firstname"  value="test firstname"', $body);
         $this->assertContains($addressStr . '2-firstname"  value="test firstname"', $body);
         $this->assertContains($addressStr . '3-firstname"  value="removed firstname"', $body);
@@ -480,16 +480,6 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
         // verify
         $this->assertContains('<h1 class="title">New Customer</h1>', $body);
-
-        $accountStr = 'data-ui-id="adminhtml-edit-tab-account-fieldset-element-text-account-';
-        $this->assertContains($accountStr . 'firstname"  value=""', $body);
-
-        $addressStr = 'data-ui-id="adminhtml-edit-tab-addresses-fieldset-element-text-address-';
-        $this->assertNotContains($addressStr . '1-firstname"', $body);
-        $this->assertNotContains($addressStr . '2-firstname"', $body);
-        $this->assertNotContains($addressStr . '3-firstname"', $body);
-        $this->assertNotContains($addressStr . 'item1-firstname"', $body);
-        $this->assertContains($addressStr . 'template-firstname"  value=""', $body);
     }
 
     /**
@@ -1045,14 +1035,5 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'edit'));
-    }
-
-    public function testIndexActionCorrectTabsQty()
-    {
-        $this->dispatch('backend/customer/index/new/');
-        $html = $this->getResponse()->getBody();
-        $this->assertSelectCount('.tab-item-link', 2, $html);
-        $this->assertSelectCount('[title="Account Information"]', 1, $html);
-        $this->assertSelectCount('[title="Addresses"]', 1, $html);
     }
 }
