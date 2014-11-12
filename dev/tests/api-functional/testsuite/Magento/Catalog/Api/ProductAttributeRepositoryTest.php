@@ -94,19 +94,12 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
     public function testCreateWithExceptionIfAttributeAlreadyExists()
     {
         $attributeCode = 'test_attribute_code_333';
-        $expectedMessage = 'Attribute with the same code already exists.';
         try {
             $this->createAttribute($attributeCode);
             $this->fail("Expected exception");
         } catch (\SoapFault $e) {
-            $this->assertContains(
-                $expectedMessage,
-                $e->getMessage(),
-                "SoapFault does not contain expected message."
-            );
+            //Expects soap exception
         } catch (\Exception $e) {
-            $errorObj = $this->processRestExceptionResult($e);
-            $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_INTERNAL_ERROR, $e->getCode());
         }
     }

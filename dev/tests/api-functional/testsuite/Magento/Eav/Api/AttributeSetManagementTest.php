@@ -10,6 +10,7 @@ namespace Magento\Eav\Api;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Webapi\Exception as HTTPExceptionCodes;
 
 class AttributeSetManagementTest extends WebapiAbstract
 {
@@ -166,15 +167,12 @@ class AttributeSetManagementTest extends WebapiAbstract
         $this->_webApiCall($this->createServiceInfo, $arguments);
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage An attribute set with the \"Default\" name already exists.
-     */
     public function testCreateThrowsExceptionIfAttributeSetWithGivenNameAlreadyExists()
     {
         $entityTypeCode = 'catalog_product';
         $entityType = $this->getEntityTypeByCode($entityTypeCode);
         $attributeSetName = 'Default';
+        $expectedMessage = 'An attribute set with the "Default" name already exists.';
 
         $arguments = array(
             'entityTypeCode' => $entityTypeCode,
@@ -184,7 +182,24 @@ class AttributeSetManagementTest extends WebapiAbstract
             ),
             'skeletonId' => $entityType->getDefaultAttributeSetId(),
         );
-        $this->_webApiCall($this->createServiceInfo, $arguments);
+
+        try {
+            $this->_webApiCall($this->createServiceInfo, $arguments);
+            $this->fail("Expected exception");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "SoapFault does not contain expected message."
+            );
+        } catch (\Exception $e) {
+            $errorObj = $this->processRestExceptionResult($e);
+            $this->assertEquals(
+                $expectedMessage,
+                $errorObj['message']
+            );
+            $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $e->getCode());
+        }
     }
 
     /**
