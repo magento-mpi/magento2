@@ -28,7 +28,11 @@ $installer->addAttribute(
 );
 
 $data = array();
-$statuses = array('pending_paypal' => __('Pending PayPal'));
+$statuses = array(
+    'pending_paypal' => __('Pending PayPal'),
+    'paypal_reversed' => __('PayPal Reversed'),
+    'paypal_canceled_reversal'  => __('PayPal Canceled Reversal')
+);
 foreach ($statuses as $code => $info) {
     $data[] = array('status' => $code, 'label' => $info);
 }
