@@ -105,7 +105,7 @@ lib/internal/Magento/Framework/HTTP/Adapter/Curl.php
 lib/internal/Magento/Framework/HTTP/Client.php
 lib/internal/Magento/Framework/HTTP/Client/Curl.php
 lib/internal/Magento/Framework/HTTP/Client/Socket.php
-lib/internal/Magento/Framework/HTTP/IClient.php
+lib/internal/Magento/Framework/HTTP/ClientInterface.php
 lib/internal/Magento/Framework/Image
 lib/internal/Magento/Framework/Image.php
 lib/internal/Magento/Framework/Io
