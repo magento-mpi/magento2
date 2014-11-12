@@ -65,10 +65,10 @@ class Date extends FilterAbstract
         ContentTypeFactory $contentTypeFactory,
         ConfigFactory $configFactory,
         ConfigBuilderInterface $configBuilder,
-        FilterPool $filterPool,
         ResolverInterface $localeResolver,
         DataProviderFactory $dataProviderFactory,
         Manager $dataProviderManager,
+        FilterPool $filterPool,
         array $data = []
     ) {
         $this->localeDate = $context->getLocaleDate();
