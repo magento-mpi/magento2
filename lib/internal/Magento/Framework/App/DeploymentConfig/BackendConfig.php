@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-class BackendConfig implements SegmentInterface
+class BackendConfig extends Config
 {
     /**
      * Parameter used in setup tool
@@ -26,13 +26,6 @@ class BackendConfig implements SegmentInterface
     const CONFIG_KEY = 'backend';
 
     /**
-     * Data
-     *
-     * @var array
-     */
-    private $data;
-
-    /**
      * Constructor
      *
      * @param array $data
@@ -40,26 +33,9 @@ class BackendConfig implements SegmentInterface
      */
     public function __construct(array $data)
     {
-        $this->data = [];
         if (!preg_match('/^[a-zA-Z0-9]+$/', $data[self::KEY_FRONTNAME])) {
             throw new \InvalidArgumentException("Invalid backend frontname {$data[self::KEY_FRONTNAME]}");
         }
-        $this->data = $data;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getKey()
-    {
-        return self::CONFIG_KEY;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getData()
-    {
-        return $this->data;
+        parent::__construct($data);
     }
 }

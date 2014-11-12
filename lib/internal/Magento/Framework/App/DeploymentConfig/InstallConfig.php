@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-class InstallConfig
+class InstallConfig extends Config
 {
     const KEY_DATE = 'date';
 
@@ -16,38 +16,4 @@ class InstallConfig
      * Segment key
      */
     const CONFIG_KEY = 'install';
-
-    /**
-     * Data
-     *
-     * @var array
-     */
-    private $data;
-
-    /**
-     * Constructor
-     *
-     * @param array $data
-     * @throws \InvalidArgumentException
-     */
-    public function __construct(array $data)
-    {
-        $this->data = $data;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getKey()
-    {
-        return self::CONFIG_KEY;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
 }

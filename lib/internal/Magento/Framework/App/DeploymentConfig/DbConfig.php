@@ -110,6 +110,7 @@ class DbConfig implements SegmentInterface
      * Validate data
      *
      * @param array $data
+     * @return void
      * @throws \InvalidArgumentException
      */
     private function checkData(array $data)

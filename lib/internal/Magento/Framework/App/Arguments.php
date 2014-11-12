@@ -40,6 +40,7 @@ class Arguments
     public function __construct(array $parameters, \Magento\Framework\App\Arguments\Loader $loader)
     {
         $this->_loader = $loader;
+        $this->_parameters = $parameters;
         $this->_data = array_replace_recursive($this->_parseParams($loader->load()), $parameters);
     }
 
@@ -170,6 +171,6 @@ class Arguments
      */
     public function reload()
     {
-        $this->_data = array_replace_recursive($this->_parseParams($this->_loader->load()), $parameters);
+        $this->_data = array_replace_recursive($this->_parseParams($this->_loader->load()), $this->_parameters);
     }
 }

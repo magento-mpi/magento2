@@ -8,24 +8,17 @@
 
 namespace Magento\Framework\Module\ModuleList;
 
-use Magento\Framework\App\DeploymentConfig\SegmentInterface;
+use Magento\Framework\App\DeploymentConfig\Config;
 
 /**
  * Deployment configuration segment for modules
  */
-class DeploymentConfig implements SegmentInterface
+class DeploymentConfig extends Config
 {
     /**
      * Segment key
      */
     const CONFIG_KEY = 'modules';
-
-    /**
-     * Data -- list of enabled modules
-     *
-     * @var array
-     */
-    private $data;
 
     /**
      * Constructor
@@ -35,28 +28,14 @@ class DeploymentConfig implements SegmentInterface
      */
     public function __construct(array $data)
     {
-        $this->data = [];
+        $modules = [];
         foreach ($data as $key => $value) {
             if (!preg_match('/^[A-Z][A-Za-z\d]+_[A-Z][A-Za-z\d]+$/', $key)) {
                 throw new \InvalidArgumentException("Incorrect module name: '{$key}'");
             }
-            $this->data[$key] = (int)$value;
+            $modules[$key] = (int)$value;
         }
-    }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getKey()
-    {
-        return self::CONFIG_KEY;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getData()
-    {
-        return $this->data;
+        parent::__construct($modules);
     }
 }
