@@ -223,7 +223,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         $this->urlFinder = $urlFinder;
         $this->indexerRegistry = $indexerRegistry;
-        parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context, $registry, $metadataService, $storeManager, $resource, $resourceCollection, $data
+        );
     }
 
     /**
