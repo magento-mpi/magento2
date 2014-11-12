@@ -7,6 +7,7 @@
  */
 namespace Magento\CatalogSearch\Model\Adapter\Mysql\Filter;
 
+use Magento\CatalogSearch\Model\Resource\Fulltext\Engine;
 use Magento\Eav\Model\Config;
 use Magento\Framework\App\Resource;
 use Magento\Framework\App\ScopeResolverInterface;
@@ -92,7 +93,23 @@ class Preprocessor implements PreprocessorInterface
                 $select->from(['main_table' => $table], 'entity_id')
                     ->where($query);
             } else {
+                if ($filter->getType()  == 'termFilter' ) {
+                    $field = $filter->getField();
+                    if (is_array($filter->getValue())) {
+                        $value = implode(' ', array_map(
+                            function ($value) use ($field, $isNegation) {
+                                return (!$isNegation ? '' : '-') . Engine::ATTRIBUTE_PREFICS . $field . '_' . $value;
+                            },
+                            $filter->getValue()
+                        ));
+                    } else {
+                        $value = (!$isNegation ? '+' : '-' )
+                            . Engine::ATTRIBUTE_PREFICS. $field
+                            . '_' . $filter->getValue();
+                    }
 
+                    return 'MATCH (data_index) AGAINST (' . $this->getConnection()->quote($value) . ' IN BOOLEAN MODE)';
+                }
                 $ifNullCondition = $this->getConnection()->getIfNullSql('current_store.value', 'main_table.value');
 
                 $select->from(['main_table' => $table], 'entity_id')
@@ -113,8 +130,8 @@ class Preprocessor implements PreprocessorInterface
         }
 
         return 'product_id IN (
-                select entity_id from  ' . $this->conditionManager->wrapBrackets($select) . '
-             as filter)';
+            select entity_id from  ' . $this->conditionManager->wrapBrackets($select) . ' as filter
+            )';
     }
 
     /**

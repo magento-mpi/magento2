@@ -18,6 +18,8 @@ use Magento\Framework\Model\Resource\Db\AbstractDb;
  */
 class Engine extends AbstractDb implements EngineInterface
 {
+    const ATTRIBUTE_PREFICS = 'attr_';
+
     /**
      * Catalog product visibility
      *
@@ -153,7 +155,7 @@ class Engine extends AbstractDb implements EngineInterface
      */
     public function getAllowedVisibility()
     {
-        return $this->_catalogProductVisibility->getVisibleInSearchIds();
+        return $this->_catalogProductVisibility->getVisibleInSiteIds();
     }
 
     /**
@@ -163,7 +165,44 @@ class Engine extends AbstractDb implements EngineInterface
      */
     public function allowAdvancedIndex()
     {
-        return false;
+        return true;
+    }
+
+    /**
+     * Is Attribute Filterable as Term
+     * @param \Magento\Catalog\Model\Entity\Attribute $attribute
+     * @return bool
+     */
+    private function isTermFilterableAttribute($attribute)
+    {
+        return ($attribute->getIsVisibleInAdvancedSearch()
+            || $attribute->getIsFilterable()
+            || $attribute->getIsFilterableInSearch())
+            && $attribute->getBackendType() == 'int';
+    }
+
+    /**
+     *
+     * @param \Magento\Catalog\Model\Entity\Attribute $attribute
+     * @param mixed $value
+     * @return mixed|null
+     */
+    public function processAttributeValue($attribute, $value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+        if ($attribute->getIsSearchable()
+            && in_array($attribute->getBackendType() , ['varchar', 'text'])
+        ) {
+            return $value;
+        } else if ($this->isTermFilterableAttribute($attribute)
+            || in_array($attribute->getAttributeCode(), ['visibility', 'status'])
+        ) {
+            return self::ATTRIBUTE_PREFICS . $attribute->getAttributeCode() . '_' . $value;
+        } else {
+            return null;
+        }
     }
 
     /**
