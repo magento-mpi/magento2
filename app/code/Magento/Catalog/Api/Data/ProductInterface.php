@@ -38,6 +38,13 @@ interface ProductInterface extends \Magento\Framework\Api\ExtensibleDataInterfac
     /**#@-*/
 
     /**
+     * Product id
+     *
+     * @return int
+     */
+    public function getId();
+
+    /**
      * Product sku
      *
      * @return string

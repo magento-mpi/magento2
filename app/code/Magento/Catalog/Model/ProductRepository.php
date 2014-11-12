@@ -179,6 +179,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         }
         if (array_key_exists($product->getSku(), $this->instances)) {
             unset($this->instances[$product->getSku()]);
+            unset($this->instancesById[$product->getId()]);
         }
 
         return $product;
@@ -190,6 +191,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     public function delete(\Magento\Catalog\Api\Data\ProductInterface $product)
     {
         $productSku = $product->getSku();
+        $productId = $product->getId();
         try {
             $this->resourceModel->delete($product);
         } catch (\Exception $e) {
@@ -197,6 +199,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         }
         if (array_key_exists($productSku, $this->instances)) {
             unset($this->instances[$productSku]);
+            unset($this->instancesById[$productId]);
         }
         return true;
     }

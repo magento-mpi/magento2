@@ -16,6 +16,11 @@ use Magento\Framework\Exception\StateException;
 class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInterface
 {
     /**
+     * @var Category[]
+     */
+    protected $instances = array();
+
+    /**
      * @var \Magento\Framework\StoreManagerInterface
      */
     protected $storeManager;
@@ -95,6 +100,9 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not save category: %message', ['message' => $e->getMessage()], $e);
         }
+        if (array_key_exists($category->getId(), $this->instances)) {
+            unset($this->instances[$category->getId()]);
+        }
         return $category->getId();
     }
 
@@ -110,17 +118,20 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
      */
     public function get($categoryId, $storeId = null)
     {
-        /** @var Category $category */
-        $category = $this->categoryFactory->create();
-        if (null !== $storeId) {
-            $category->setStoreId($storeId);
-        }
-        $this->categoryResource->load($category, $categoryId);
+        if (!isset($this->instances[$categoryId])) {
+            /** @var Category $category */
+            $category = $this->categoryFactory->create();
+            if (null !== $storeId) {
+                $category->setStoreId($storeId);
+            }
+            $this->categoryResource->load($category, $categoryId);
 
-        if (!$category->getId()) {
-            throw NoSuchEntityException::singleField('id', $categoryId);
+            if (!$category->getId()) {
+                throw NoSuchEntityException::singleField('id', $categoryId);
+            }
+            $this->instances[$categoryId] = $category;
         }
-        return $category;
+        return $this->instances[$categoryId];
     }
 
     /**
@@ -135,10 +146,14 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     public function delete(\Magento\Catalog\Api\Data\CategoryInterface $category)
     {
         try {
+            $categoryId = $category->getId();
             $this->categoryResource->delete($category);
         } catch (\Exception $e) {
             throw new StateException('Cannot delete category with id %category_id',
                 ['category_id' => $category->getId()], $e);
+        }
+        if (array_key_exists($categoryId, $this->instances)) {
+            unset($this->instances[$categoryId]);
         }
         return true;
     }
