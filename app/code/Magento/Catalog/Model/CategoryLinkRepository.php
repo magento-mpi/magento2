@@ -9,6 +9,7 @@
 namespace Magento\Catalog\Model;
 
 use Magento\Framework\Exception\CouldNotSaveException;
+use \Magento\Framework\Exception\InputException;
 
 class CategoryLinkRepository implements \Magento\Catalog\Api\CategoryLinkRepositoryInterface
 {
@@ -77,7 +78,11 @@ class CategoryLinkRepository implements \Magento\Catalog\Api\CategoryLinkReposit
         $product = $this->productRepository->get($productSku);
         $productPositions = $category->getProductsPosition();
 
-        unset($productPositions[$product->getId()]);
+        $productID = $product->getId();
+        if (!isset($productPositions[$productID])) {
+            throw new InputException('Category does not contain specified product');
+        }
+        unset($productPositions[$productID]);
 
         $category->setPostedProducts($productPositions);
         try {
