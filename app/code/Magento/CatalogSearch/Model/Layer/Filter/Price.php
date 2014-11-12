@@ -35,7 +35,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                     $from = '';
                 }
                 if ($to== '*') {
-                    $to= '';
+                    $to = $this->getTo($from);
                 }
                 $label = $this->_renderRangeLabel(
                     empty($from) ? 0 : $from * $this->getCurrencyRate(),
@@ -56,7 +56,6 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
 
         return $data;
     }
-
 
     /**
      * Apply price range filter
@@ -95,5 +94,19 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         );
 
         return $this;
+    }
+
+    /**
+     * @param float $from
+     * @return float
+     */
+    protected function getTo($from)
+    {
+        $to = '';
+        $interval = $this->getInterval();
+        if ($interval && $interval[0] > $from) {
+            $to = $interval[0];
+        }
+        return $to;
     }
 }
