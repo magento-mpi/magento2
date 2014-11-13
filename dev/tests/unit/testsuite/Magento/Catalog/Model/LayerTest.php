@@ -25,11 +25,6 @@ class LayerTest extends \PHPUnit_Framework_TestCase
     private $category;
 
     /**
-     * @var \Magento\Catalog\Model\CategoryFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $categoryFactory;
-
-    /**
      * @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject
      */
     private $registry;
@@ -89,21 +84,19 @@ class LayerTest extends \PHPUnit_Framework_TestCase
      */
     private $abstractFilter;
 
+    /**
+     * @var \Magento\Catalog\Api\CategoryRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $categoryRepository;
+
     protected function setUp()
     {
         $helper = new ObjectManager($this);
 
         $this->category = $this->getMockBuilder('Magento\Catalog\Model\Category')
-            ->setMethods(['load', 'getId', '__wakeup'])
+            ->setMethods(['getId', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->categoryFactory = $this->getMockBuilder('Magento\Catalog\Model\CategoryFactory')
-            ->setMethods(['create'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->categoryFactory->expects($this->any())->method('create')
-            ->will($this->returnValue($this->category));
 
         $this->registry = $this->getMockBuilder('Magento\Framework\Registry')
             ->setMethods(['registry'])
@@ -171,14 +164,16 @@ class LayerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->categoryRepository = $this->getMock('Magento\Catalog\Api\CategoryRepositoryInterface');
+
         $this->model = $helper->getObject(
             'Magento\Catalog\Model\Layer',
             [
                 'registry' => $this->registry,
-                'categoryFactory' => $this->categoryFactory,
                 'storeManager' => $this->storeManager,
                 'context' => $this->context,
-                'layerStateFactory' => $this->stateFactory
+                'layerStateFactory' => $this->stateFactory,
+                'categoryRepository' => $this->categoryRepository,
             ]
         );
     }
@@ -263,8 +258,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
     {
         $categoryId = 333;
 
-        $this->category->expects($this->once())->method('load')->with($this->equalTo($categoryId))
-            ->will($this->returnValue($this->category));
+        $this->categoryRepository->expects($this->once())->with($categoryId)->will($this->returnValue($this->category));
         $this->category->expects($this->at(0))->method('getId')->will($this->returnValue($categoryId));
         $this->category->expects($this->at(1))->method('getId')->will($this->returnValue($categoryId));
         $this->category->expects($this->at(2))->method('getId')->will($this->returnValue($categoryId - 1));
@@ -305,7 +299,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
         $this->registry->expects($this->once())->method('registry')->with($this->equalTo('current_category'))
             ->will($this->returnValue($currentCategory));
 
-        $this->category->expects($this->any())->method('load')->with($this->equalTo($rootCategoryId))
+        $this->categoryRepository->expects($this->once())->with($rootCategoryId)
             ->will($this->returnValue($this->category));
 
         $this->store->expects($this->any())->method('getRootCategoryId')
