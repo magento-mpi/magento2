@@ -688,22 +688,27 @@ class Installer
     private function cleanupDb()
     {
         // stops cleanup if app/etc/config.php does not exist
-        if (!$this->filesystem->getDirectoryWrite(DirectoryList::CONFIG)->isFile('config.php')) {
-            $this->log->log('No database connection defined - skipping database cleanup');
-            return;
+        if ($this->filesystem->getDirectoryWrite(DirectoryList::CONFIG)->isFile('config.php')) {
+            $arguments = new Arguments([], $this->configLoader);
+            $config = $arguments->getConnection(\Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION);
+            if ($config) {
+                try {
+                    $connection = $this->connectionFactory->create($config);
+                    if (!$connection) {
+                        $this->log->log("Can't create connection to database - skipping database cleanup");
+                    }
+                } catch (\Exception $e) {
+                    $this->log->log($e->getMessage() . ' - skipping database cleanup');
+                    return;
+                }
+                $dbName = $connection->quoteIdentifier($config['dbname']);
+                $this->log->log("Recreating database {$dbName}");
+                $connection->query("DROP DATABASE IF EXISTS {$dbName}");
+                $connection->query("CREATE DATABASE IF NOT EXISTS {$dbName}");
+                return;
+            }
         }
-        $arguments = new Arguments([], $this->configLoader);
-        $config = $arguments->getConnection(\Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION);
-        try {
-            $connection = $this->connectionFactory->create($config);
-        } catch (\Exception $e) {
-            $this->log->log($e->getMessage() . ' - skipping database cleanup');
-            return;
-        }
-        $dbName = $connection->quoteIdentifier($config['dbname']);
-        $this->log->log("Recreating database {$dbName}");
-        $connection->query("DROP DATABASE IF EXISTS {$dbName}");
-        $connection->query("CREATE DATABASE IF NOT EXISTS {$dbName}");
+        $this->log->log('No database connection defined - skipping database cleanup');
     }
 
     /**
