@@ -13,11 +13,6 @@ use Magento\Framework\Model\Resource\Type\Db;
 class Mysql extends Db implements ConnectionAdapterInterface
 {
     /**
-     * @var \Magento\Framework\DB\LoggerInterface
-     */
-    private $logger;
-
-    /**
      * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
@@ -33,18 +28,15 @@ class Mysql extends Db implements ConnectionAdapterInterface
     protected $_connectionConfig;
 
     /**
-     * @param \Magento\Framework\DB\LoggerInterface $logger
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param array $config
      */
     public function __construct(
-        \Magento\Framework\DB\LoggerInterface $logger,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         array $config
     ) {
-        $this->logger = $logger;
         $this->string = $string;
         $this->dateTime = $dateTime;
         $this->_connectionConfig = $this->getValidConfig($config);
@@ -85,7 +77,7 @@ class Mysql extends Db implements ConnectionAdapterInterface
     protected function _getDbAdapterInstance()
     {
         $className = $this->_getDbAdapterClassName();
-        $adapter = new $className($this->logger, $this->string, $this->dateTime, $this->_connectionConfig);
+        $adapter = new $className($this->string, $this->dateTime, $this->_connectionConfig);
         return $adapter;
     }
 

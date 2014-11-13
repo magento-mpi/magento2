@@ -13,12 +13,12 @@ use Magento\Framework\App\Arguments\Loader;
 use Magento\Framework\App\DeploymentConfig\Writer;
 use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Module\SetupFactory;
-use Magento\Framework\Module\ModuleList;
+use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Module\ModuleList\Loader as ModuleLoader;
 use Magento\Framework\Module\ModuleList\DeploymentConfig;
 use Magento\Store\Model\Store;
 use Magento\Framework\Math\Random;
-use Magento\Framework\App\Resource\ConnectionFactory;
+use Magento\Framework\Model\Resource\Type\Db\ConnectionFactory;
 use Magento\Framework\Shell;
 use Magento\Framework\Shell\CommandRenderer;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -98,7 +98,7 @@ class Installer
     /**
      * Module list
      *
-     * @var ModuleList
+     * @var ModuleListInterface
      */
     private $moduleList;
 
@@ -140,7 +140,7 @@ class Installer
     /**
      * DB connection factory
      *
-     * @var ConnectionFactory
+     * @var \Magento\Framework\Model\Resource\Type\Db\ConnectionFactory
      */
     private $connectionFactory;
 
@@ -204,7 +204,7 @@ class Installer
      * @param FilePermissions $filePermissions
      * @param Writer $deploymentConfigWriter
      * @param SetupFactory $setupFactory
-     * @param ModuleList $moduleList
+     * @param ModuleListInterface $moduleList
      * @param ModuleLoader $moduleLoader
      * @param DirectoryList $directoryList
      * @param AdminAccountFactory $adminAccountFactory
@@ -220,7 +220,7 @@ class Installer
         FilePermissions $filePermissions,
         Writer $deploymentConfigWriter,
         SetupFactory $setupFactory,
-        ModuleList $moduleList,
+        ModuleListInterface $moduleList,
         ModuleLoader $moduleLoader,
         DirectoryList $directoryList,
         AdminAccountFactory $adminAccountFactory,

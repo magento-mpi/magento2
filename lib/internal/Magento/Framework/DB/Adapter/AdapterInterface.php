@@ -8,6 +8,7 @@
 namespace Magento\Framework\DB\Adapter;
 
 use Magento\Framework\DB\Ddl\Table;
+use Magento\Framework\DB\LoggerInterface;
 
 /**
  * Magento Database Adapter Interface
@@ -73,6 +74,14 @@ interface AdapterInterface
      * Error message for asymmetric transaction commit
      */
     const ERROR_ASYMMETRIC_COMMIT_MESSAGE = 'Asymmetric transaction commit.';
+
+    /**
+     * Set logger
+     *
+     * @param LoggerInterface $logger
+     * @return void
+     */
+    public function setLogger(LoggerInterface $logger);
 
     /**
      * Begin new DB transaction for connection

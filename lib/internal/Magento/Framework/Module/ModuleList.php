@@ -15,7 +15,7 @@ use Magento\Framework\App\DeploymentConfig;
  * Encapsulates information about whether modules are enabled or not.
  * Represents only enabled modules through its interface
  */
-class ModuleList implements \Magento\Framework\Module\ModuleListInterface
+class ModuleList implements ModuleListInterface
 {
     /**
      * Deployment configuration
