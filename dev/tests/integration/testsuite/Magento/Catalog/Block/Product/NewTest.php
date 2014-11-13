@@ -7,8 +7,6 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-use Magento\Customer\Model\Context;
-
 /**
  * Test class for \Magento\Catalog\Block\Product\New.
  *
@@ -27,7 +25,7 @@ class NewTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Http\Context'
         )->setValue(
-            Context::CONTEXT_GROUP,
+            \Magento\Customer\Model\Context::CONTEXT_GROUP,
             \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
             \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID
         );

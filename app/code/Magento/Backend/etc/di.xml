@@ -20,11 +20,6 @@
     <preference for="Magento\Backend\Block\Widget\Button\ToolbarInterface" type="Magento\Backend\Block\Widget\Button\Toolbar" />
     <preference for="Magento\Backend\Service\V1\ModuleServiceInterface" type="Magento\Backend\Service\V1\ModuleService" />
     <type name="Magento\Backend\Block\Widget\Button\ButtonList" shared="false" />
-    <type name="Magento\Backend\Model\Url">
-        <arguments>
-            <argument name="backendHelper" xsi:type="object">Magento\Backend\Helper\Data\Proxy</argument>
-        </arguments>
-    </type>
     <type name="Magento\Framework\App\AreaList">
         <arguments>
             <argument name="areas" xsi:type="array">
@@ -93,6 +88,7 @@
             <argument name="authSession" xsi:type="object">Magento\Backend\Model\Auth\Session\Proxy</argument>
             <argument name="formKey" xsi:type="object">Magento\Framework\Data\Form\FormKey\Proxy</argument>
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
+            <argument name="backendHelper" xsi:type="object">Magento\Backend\Helper\Data\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Backend\Helper\Dashboard\Data">
