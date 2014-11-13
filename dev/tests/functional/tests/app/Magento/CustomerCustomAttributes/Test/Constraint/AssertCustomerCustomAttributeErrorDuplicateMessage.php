@@ -12,14 +12,14 @@ use Mtf\Constraint\AbstractConstraint;
 use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeNew;
 
 /**
- * Assert that after customer attribute duplicate error message appears
+ * Assert that after customer attribute error duplicate message appears
  */
-class AssertCustomerCustomAttributeDuplicateErrorMessage extends AbstractConstraint
+class AssertCustomerCustomAttributeErrorDuplicateMessage extends AbstractConstraint
 {
     /**
-     * Text of duplicate error message
+     * Text of error duplicate message
      */
-    const DUPLICATE_ERROR_MESSAGE = 'An attribute with this code already exists.';
+    const ERROR_DUPLICATE_MESSAGE = 'An attribute with this code already exists.';
 
     /**
      * Constraint severeness
@@ -29,18 +29,18 @@ class AssertCustomerCustomAttributeDuplicateErrorMessage extends AbstractConstra
     protected $severeness = 'high';
 
     /**
-     * Assert that after customer attribute duplicate error message appears
+     * Assert that after customer attribute error duplicate message appears
      *
      * @param CustomerAttributeNew $customerAttributeNew
      * @return void
      */
     public function processAssert(CustomerAttributeNew $customerAttributeNew)
     {
-        $error = $customerAttributeNew->getCustomerCustomAttributesForm()->getAttributeError();
+        $customerAttributeNew->getCustomerCustomAttributesForm()->openTab('properties');
+        $errors = $customerAttributeNew->getCustomerCustomAttributesForm()->getTabElement('properties')->getJsErrors();
         \PHPUnit_Framework_Assert::assertEquals(
-            self::DUPLICATE_ERROR_MESSAGE,
-            $error['text'],
-            'Wrong error message for ' . $error['label'] . ' is displayed.'
+            self::ERROR_DUPLICATE_MESSAGE,
+            $errors['Attribute Code']
         );
     }
 
@@ -51,6 +51,6 @@ class AssertCustomerCustomAttributeDuplicateErrorMessage extends AbstractConstra
      */
     public function toString()
     {
-        return 'Customer Attribute duplicate error message appears after creation attribute with already exist code.';
+        return 'Customer Attribute error duplicate message appears after creation attribute with already exist code.';
     }
 }
