@@ -19,14 +19,14 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
     /**
      * List of plugins
      *
-     * @var \Magento\Framework\Interception\PluginList
+     * @var \Magento\Framework\Interception\PluginListInterface
      */
     protected $pluginList = null;
 
     /**
      * Invocation chain
      *
-     * @var \Magento\Framework\Interception\Chain
+     * @var \Magento\Framework\Interception\ChainInterface
      */
     protected $chain = null;
 
@@ -37,7 +37,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
      */
     protected $subjectType = null;
 
-    public function __construct(\Magento\Framework\ObjectManagerInterface $pluginLocator, \Magento\Framework\Interception\PluginList $pluginList, \Magento\Framework\Interception\Chain $chain, $param1 = '', $param2 = '\\', $param3 = '\'')
+    public function __construct(\Magento\Framework\ObjectManagerInterface $pluginLocator, \Magento\Framework\Interception\PluginListInterface $pluginList, \Magento\Framework\Interception\ChainInterface $chain, $param1 = '', $param2 = '\\', $param3 = '\'')
     {
         $this->pluginLocator = $pluginLocator;
         $this->pluginList = $pluginList;
@@ -63,8 +63,8 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
     public function __wakeup()
     {
         $this->pluginLocator = \Magento\Framework\App\ObjectManager::getInstance();
-        $this->pluginList = $this->pluginLocator->get('Magento\Framework\Interception\PluginList');
-        $this->chain = $this->pluginLocator->get('Magento\Framework\Interception\Chain');
+        $this->pluginList = $this->pluginLocator->get('Magento\Framework\Interception\PluginListInterface');
+        $this->chain = $this->pluginLocator->get('Magento\Framework\Interception\ChainInterface');
         $this->subjectType = get_parent_class($this);
     }
 
@@ -72,8 +72,8 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
     {
         $capMethod = ucfirst($method);
         $result = null;
-        if (isset($pluginInfo[\Magento\Framework\Interception\Definition::LISTENER_BEFORE])) {
-            foreach ($pluginInfo[\Magento\Framework\Interception\Definition::LISTENER_BEFORE] as $code) {
+        if (isset($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_BEFORE])) {
+            foreach ($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_BEFORE] as $code) {
                 $beforeResult = call_user_func_array(
                     array($this->pluginList->getPlugin($this->subjectType, $code), 'before'. $capMethod), array_merge(array($this), $arguments)
                 );
@@ -82,11 +82,11 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
                 }
             }
         }
-        if (isset($pluginInfo[\Magento\Framework\Interception\Definition::LISTENER_AROUND])) {
+        if (isset($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_AROUND])) {
             $chain = $this->chain;
             $type = $this->subjectType;
             $subject = $this;
-            $code = $pluginInfo[\Magento\Framework\Interception\Definition::LISTENER_AROUND];
+            $code = $pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_AROUND];
             $next = function () use ($chain, $type, $method, $subject, $code) {
                 return $chain->invokeNext($type, $method, $subject, func_get_args(), $code);
             };
@@ -97,8 +97,8 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
         } else {
             $result = call_user_func_array(array('parent', $method), $arguments);
         }
-        if (isset($pluginInfo[\Magento\Framework\Interception\Definition::LISTENER_AFTER])) {
-            foreach ($pluginInfo[\Magento\Framework\Interception\Definition::LISTENER_AFTER] as $code) {
+        if (isset($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_AFTER])) {
+            foreach ($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_AFTER] as $code) {
                 $result = $this->pluginList->getPlugin($this->subjectType, $code)
                     ->{'after' . $capMethod}($this, $result);
             }

@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\App;
 
-use Magento\Framework\ObjectManager\Factory;
+use Magento\Framework\ObjectManager\FactoryInterface;
 
 /**
  * A wrapper around object manager with workarounds to access it in client code
@@ -51,13 +51,13 @@ class ObjectManager extends \Magento\Framework\ObjectManager\ObjectManager
     }
 
     /**
-     * @param Factory $factory
-     * @param \Magento\Framework\ObjectManager\Config $config
+     * @param FactoryInterface $factory
+     * @param \Magento\Framework\ObjectManager\ConfigInterface $config
      * @param array $sharedInstances
      */
     public function __construct(
-        Factory $factory,
-        \Magento\Framework\ObjectManager\Config $config,
+        FactoryInterface $factory,
+        \Magento\Framework\ObjectManager\ConfigInterface $config,
         array $sharedInstances = array()
     ) {
         parent::__construct($factory, $config, $sharedInstances);

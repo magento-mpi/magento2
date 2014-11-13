@@ -2740,7 +2740,7 @@ return array(
     ],
     ['Magento\Tax\Model\Rate\CsvImportHandler', 'Magento\TaxImportExport\Model\Rate\CsvImportHandler'],
     ['\Magento\Theme\Helper\Layout'],
-    ['Magento\Framework\Stdlib\Cookie', 'Magento\Framework\Stdlib\CookieManager'],
+    ['Magento\Framework\Stdlib\Cookie', 'Magento\Framework\Stdlib\CookieManagerInterface'],
     ['Magento\Framework\View\Design\Theme\Provider'],
     ['Magento\Install\Controller\Index'],
     ['Magento\Install\Controller\Wizard'],

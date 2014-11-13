@@ -8,7 +8,7 @@
  */
 namespace Magento\Framework\Interception;
 
-interface Chain
+interface ChainInterface
 {
     /**
      * @param string $type

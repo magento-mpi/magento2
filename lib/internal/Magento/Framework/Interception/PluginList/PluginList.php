@@ -13,11 +13,11 @@ use Magento\Framework\Config\ReaderInterface;
 use Magento\Framework\Config\ScopeInterface;
 use Magento\Framework\Config\CacheInterface;
 use Magento\Framework\Config\Data\Scoped;
-use Magento\Framework\Interception\Definition;
-use Magento\Framework\Interception\PluginList as InterceptionPluginList;
+use Magento\Framework\Interception\DefinitionInterface;
+use Magento\Framework\Interception\PluginListInterface as InterceptionPluginList;
 use Magento\Framework\Interception\ObjectManager\Config;
-use Magento\Framework\ObjectManager\Relations;
-use Magento\Framework\ObjectManager\Definition as ClassDefinitions;
+use Magento\Framework\ObjectManager\RelationsInterface;
+use Magento\Framework\ObjectManager\DefinitionInterface as ClassDefinitions;
 use Magento\Framework\ObjectManagerInterface;
 use Zend\Soap\Exception\InvalidArgumentException;
 
@@ -47,14 +47,14 @@ class PluginList extends Scoped implements InterceptionPluginList
     /**
      * Class relations information provider
      *
-     * @var Relations
+     * @var RelationsInterface
      */
     protected $_relations;
 
     /**
      * List of interception methods per plugin
      *
-     * @var Definition
+     * @var DefinitionInterface
      */
     protected $_definitions;
 
@@ -79,9 +79,9 @@ class PluginList extends Scoped implements InterceptionPluginList
      * @param ReaderInterface $reader
      * @param ScopeInterface $configScope
      * @param CacheInterface $cache
-     * @param Relations $relations
+     * @param RelationsInterface $relations
      * @param Config $omConfig
-     * @param Definition $definitions
+     * @param DefinitionInterface $definitions
      * @param ObjectManagerInterface $objectManager
      * @param ClassDefinitions $classDefinitions
      * @param array $scopePriorityScheme
@@ -91,9 +91,9 @@ class PluginList extends Scoped implements InterceptionPluginList
         ReaderInterface $reader,
         ScopeInterface $configScope,
         CacheInterface $cache,
-        Relations $relations,
+        RelationsInterface $relations,
         Config $omConfig,
-        Definition $definitions,
+        DefinitionInterface $definitions,
         ObjectManagerInterface $objectManager,
         ClassDefinitions $classDefinitions,
         array $scopePriorityScheme = array('global'),
@@ -162,15 +162,15 @@ class PluginList extends Scoped implements InterceptionPluginList
                     foreach ($this->_definitions->getMethodList($pluginType) as $pluginMethod => $methodTypes) {
                         $current = isset($lastPerMethod[$pluginMethod]) ? $lastPerMethod[$pluginMethod] : '__self';
                         $currentKey = $type . '_' . $pluginMethod . '_' . $current;
-                        if ($methodTypes & Definition::LISTENER_AROUND) {
-                            $this->_processed[$currentKey][Definition::LISTENER_AROUND] = $key;
+                        if ($methodTypes & DefinitionInterface::LISTENER_AROUND) {
+                            $this->_processed[$currentKey][DefinitionInterface::LISTENER_AROUND] = $key;
                             $lastPerMethod[$pluginMethod] = $key;
                         }
-                        if ($methodTypes & Definition::LISTENER_BEFORE) {
-                            $this->_processed[$currentKey][Definition::LISTENER_BEFORE][] = $key;
+                        if ($methodTypes & DefinitionInterface::LISTENER_BEFORE) {
+                            $this->_processed[$currentKey][DefinitionInterface::LISTENER_BEFORE][] = $key;
                         }
-                        if ($methodTypes & Definition::LISTENER_AFTER) {
-                            $this->_processed[$currentKey][Definition::LISTENER_AFTER][] = $key;
+                        if ($methodTypes & DefinitionInterface::LISTENER_AFTER) {
+                            $this->_processed[$currentKey][DefinitionInterface::LISTENER_AFTER][] = $key;
                         }
                     }
                 }

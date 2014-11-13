@@ -34,7 +34,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $factory = $this->getMock('\Magento\Framework\ObjectManager\Factory', array(), array(), '', false);
+        $factory = $this->getMock('Magento\Framework\ObjectManager\FactoryInterface');
         $factory->expects($this->exactly(2))->method('create')->will(
             $this->returnCallback(
                 function ($className) {

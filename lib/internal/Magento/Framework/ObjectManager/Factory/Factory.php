@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\ObjectManager\Factory;
 
-class Factory implements \Magento\Framework\ObjectManager\Factory
+class Factory implements \Magento\Framework\ObjectManager\FactoryInterface
 {
     /**
      * Object manager
@@ -19,14 +19,14 @@ class Factory implements \Magento\Framework\ObjectManager\Factory
     /**
      * Object manager config
      *
-     * @var \Magento\Framework\ObjectManager\Config
+     * @var \Magento\Framework\ObjectManager\ConfigInterface
      */
     protected $config;
 
     /**
      * Definition list
      *
-     * @var \Magento\Framework\ObjectManager\Definition
+     * @var \Magento\Framework\ObjectManager\DefinitionInterface
      */
     protected $definitions;
 
@@ -38,15 +38,15 @@ class Factory implements \Magento\Framework\ObjectManager\Factory
     protected $creationStack = array();
 
     /**
-     * @param \Magento\Framework\ObjectManager\Config $config
+     * @param \Magento\Framework\ObjectManager\ConfigInterface $config
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
-     * @param \Magento\Framework\ObjectManager\Definition $definitions
+     * @param \Magento\Framework\ObjectManager\DefinitionInterface $definitions
      * @param array $globalArguments
      */
     public function __construct(
-        \Magento\Framework\ObjectManager\Config $config,
+        \Magento\Framework\ObjectManager\ConfigInterface $config,
         \Magento\Framework\ObjectManagerInterface $objectManager = null,
-        \Magento\Framework\ObjectManager\Definition $definitions = null,
+        \Magento\Framework\ObjectManager\DefinitionInterface $definitions = null,
         $globalArguments = array()
     ) {
         $this->config = $config;

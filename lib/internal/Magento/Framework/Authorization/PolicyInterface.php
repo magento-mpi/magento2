@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Authorization;
 
-interface Policy
+interface PolicyInterface
 {
     /**
      * Check whether given role has access to given resource

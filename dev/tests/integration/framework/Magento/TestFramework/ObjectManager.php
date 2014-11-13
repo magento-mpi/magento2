@@ -24,10 +24,10 @@ class ObjectManager extends \Magento\Framework\App\ObjectManager
     protected $persistedInstances = array(
         'Magento\Framework\App\Resource',
         'Magento\Framework\Config\Scope',
-        'Magento\Framework\ObjectManager\Relations',
-        'Magento\Framework\ObjectManager\Config',
-        'Magento\Framework\Interception\Definition',
-        'Magento\Framework\ObjectManager\Definition',
+        'Magento\Framework\ObjectManager\RelationsInterface',
+        'Magento\Framework\ObjectManager\ConfigInterface',
+        'Magento\Framework\Interception\DefinitionInterface',
+        'Magento\Framework\ObjectManager\DefinitionInterface',
         'Magento\Framework\Session\Config',
         'Magento\Framework\ObjectManager\Config\Mapper\Dom'
     );
@@ -94,7 +94,7 @@ class ObjectManager extends \Magento\Framework\App\ObjectManager
     }
 
     /**
-     * @return \Magento\Framework\ObjectManager\Factory|\Magento\Framework\ObjectManager\Factory\Factory
+     * @return \Magento\Framework\ObjectManager\FactoryInterface|\Magento\Framework\ObjectManager\Factory\Factory
      */
     public function getFactory()
     {
