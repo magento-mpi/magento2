@@ -87,6 +87,30 @@ class Writer
     }
 
     /**
+     * Check if configuration file is writable
+     *
+     * @return bool
+     */
+    public function checkIfWritable()
+    {
+        $configDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::CONFIG);
+        if ($configDirectory->isWritable($this->reader->getFile())) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get absolute path of config file
+     *
+     * @return string
+     */
+    public function getAbsolutePath()
+    {
+        return $this->reader->getAbsolutePath();
+    }
+
+    /**
      * Persists the data into file
      *
      * @param array $data

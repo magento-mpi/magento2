@@ -55,7 +55,7 @@ class Resource
     protected $_connectionFactory;
 
     /**
-     * @var Arguments $localConfig
+     * @var DeploymentConfig $localConfig
      */
     private $localConfig;
 
@@ -67,13 +67,13 @@ class Resource
     /**
      * @param ResourceConfigInterface $resourceConfig
      * @param ConnectionFactory $adapterFactory
-     * @param Arguments $localConfig
+     * @param DeploymentConfig $localConfig
      * @param string $tablePrefix
      */
     public function __construct(
         ResourceConfigInterface $resourceConfig,
         ConnectionFactory $adapterFactory,
-        Arguments $localConfig,
+        DeploymentConfig $localConfig,
         $tablePrefix = ''
     ) {
         $this->_config = $resourceConfig;

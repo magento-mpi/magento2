@@ -23,26 +23,19 @@ class SetupFactory
      * @var ResourceFactory
      */
     private $resourceFactory;
-    /**
-     * @var \Magento\Framework\App\Arguments\Loader
-     */
-    private $configLoader;
 
     /**
      * Constructor
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @param \Magento\Framework\App\Arguments\Loader $configLoader
      * @param ResourceFactory $resourceFactory
      */
     public function __construct(
         ServiceLocatorInterface $serviceLocator,
-        \Magento\Framework\App\Arguments\Loader $configLoader,
         \Magento\Setup\Module\ResourceFactory $resourceFactory
     ) {
         $this->serviceLocator = $serviceLocator;
         $this->resourceFactory = $resourceFactory;
-        $this->configLoader = $configLoader;
     }
 
     /**
@@ -75,10 +68,10 @@ class SetupFactory
 
     private function getResource()
     {
-        $arguments = new \Magento\Framework\App\Arguments(
-            [],
-            $this->configLoader
+        $deploymentConfig = new \Magento\Framework\App\DeploymentConfig(
+            $this->serviceLocator->get('Magento\Framework\App\DeploymentConfig\Reader'),
+            []
         );
-        return $this->resourceFactory->create($arguments);
+        return $this->resourceFactory->create($deploymentConfig);
     }
 }

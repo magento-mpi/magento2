@@ -2833,4 +2833,6 @@ return array(
     ['Magento\Framework\Module\Declaration\SchemaLocator'],
     ['Magento\Framework\Module\DependencyManager'],
     ['Magento\Framework\Module\DependencyManagerInterface'],
+    ['Magento\Framework\App\Arguments\Loader'],
+    ['Magento\Framework\App\Arguments', 'Magento\Framework\App\DeploymentConfig'],
 );

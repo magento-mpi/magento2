@@ -19,7 +19,7 @@ class Index extends \Magento\Pci\Controller\Adminhtml\Crypt\Key
     {
         $this->_title->add(__('Encryption Key'));
 
-        $this->_checkIsLocalXmlWriteable();
+        $this->_checkIsConfigPhpWritable();
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Pci::system_crypt_key');
 

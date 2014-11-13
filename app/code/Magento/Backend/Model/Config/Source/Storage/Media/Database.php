@@ -11,21 +11,21 @@
  */
 namespace Magento\Backend\Model\Config\Source\Storage\Media;
 
-use Magento\Framework\App\Arguments;
+use Magento\Framework\App\DeploymentConfig;
 
 class Database implements \Magento\Framework\Option\ArrayInterface
 {
     /**
-     * @var Arguments
+     * @var DeploymentConfig
      */
-    protected $_arguments;
+    protected $_deploymentConfig;
 
     /**
-     * @param Arguments $arguments
+     * @param DeploymentConfig $deploymentConfig
      */
-    public function __construct(Arguments $arguments)
+    public function __construct(DeploymentConfig $deploymentConfig)
     {
-        $this->_arguments = $arguments;
+        $this->_deploymentConfig = $deploymentConfig;
     }
 
     /**
@@ -36,7 +36,7 @@ class Database implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         $resourceOptions = array();
-        foreach (array_keys($this->_arguments->getResources()) as $resourceName) {
+        foreach (array_keys($this->_deploymentConfig->getResources()) as $resourceName) {
             $resourceOptions[] = array('value' => $resourceName, 'label' => $resourceName);
         }
         sort($resourceOptions);

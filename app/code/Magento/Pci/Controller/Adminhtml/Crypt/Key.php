@@ -17,23 +17,19 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class Key extends \Magento\Backend\App\Action
 {
     /**
-     * Check whether config.php is writeable
+     * Check whether config.php is writable
      *
      * @return bool
      */
-    protected function _checkIsLocalXmlWriteable()
+    protected function _checkIsConfigPhpWritable()
     {
-        /** @var \Magento\Framework\Filesystem\Directory\Write $configDirectory */
-        $configDirectory = $this->_objectManager->get(
-            'Magento\Framework\Filesystem'
-        )->getDirectoryWrite(
-            DirectoryList::CONFIG
-        );
-        if (!$configDirectory->isWritable('config.php')) {
+        /** @var \Magento\Framework\App\DeploymentConfig\Writer $writer */
+        $writer = $this->_objectManager->get('Magento\Framework\App\DeploymentConfig\Writer');
+        if (!$writer->checkIfWritable()) {
             $this->messageManager->addError(
                 __(
                     'To enable a key change this file must be writable: %1.',
-                    $configDirectory->getAbsolutePath('config.php')
+                    $writer->getAbsolutePath()
                 )
             );
             return false;

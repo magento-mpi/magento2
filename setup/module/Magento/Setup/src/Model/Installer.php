@@ -8,10 +8,7 @@
 
 namespace Magento\Setup\Model;
 
-use Magento\Framework\App\Arguments;
-use Magento\Framework\App\Arguments\Loader;
 use Magento\Framework\App\DeploymentConfig\Writer;
-use Magento\Setup\Module\Setup\Config;
 use Magento\Setup\Module\SetupFactory;
 use Magento\Framework\Module\ModuleList;
 use Magento\Framework\Module\ModuleList\Loader as ModuleLoader;
@@ -73,13 +70,6 @@ class Installer
      * @var FilePermissions
      */
     private $filePermissions;
-
-    /**
-     * Deployment configuration factory
-     *
-     * @var DeploymentConfigFactory
-     */
-    private $deploymentConfigFactory;
 
     /**
      * Deployment configuration repository
@@ -194,11 +184,6 @@ class Installer
     private $execParams;
 
     /**
-     * @var Loader
-     */
-    private $configLoader;
-
-    /**
      * Constructor
      *
      * @param FilePermissions $filePermissions
@@ -214,7 +199,6 @@ class Installer
      * @param MaintenanceMode $maintenanceMode
      * @param Filesystem $filesystem
      * @param ServiceLocatorInterface $serviceManager
-     * @param Loader $configLoader
      */
     public function __construct(
         FilePermissions $filePermissions,
@@ -229,8 +213,7 @@ class Installer
         ConnectionFactory $connectionFactory,
         MaintenanceMode $maintenanceMode,
         Filesystem $filesystem,
-        ServiceLocatorInterface $serviceManager,
-        Loader $configLoader
+        ServiceLocatorInterface $serviceManager
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigWriter = $deploymentConfigWriter;
@@ -247,7 +230,6 @@ class Installer
         $this->maintenanceMode = $maintenanceMode;
         $this->filesystem = $filesystem;
         $this->execParams = urldecode(http_build_query($serviceManager->get(InitParamListener::BOOTSTRAP_PARAM)));
-        $this->configLoader = $configLoader;
         $this->installInfo[self::INFO_MESSAGE] = array();
     }
 
@@ -281,7 +263,7 @@ class Installer
         $script[] = ['Disabling Maintenance Mode:', 'setMaintenanceMode', [0]];
         $script[] = ['Post installation file permissions check...', 'checkApplicationFilePermissions', []];
 
-        $estimatedModules = $this->createModulesDeploymentConfig($request);
+        $estimatedModules = $this->createModulesConfig($request);
         $total = count($script) + count($estimatedModules->getData());
         $this->progress = new Installer\Progress($total, 0);
 
@@ -307,7 +289,7 @@ class Installer
      * @return DeploymentConfig
      * @throws \LogicException
      */
-    private function createModulesDeploymentConfig($request)
+    private function createModulesConfig($request)
     {
         $all = array_keys($this->moduleLoader->load());
         $enable = $this->readListOfModules($all, $request, self::ENABLE_MODULES) ?: $all;
@@ -325,15 +307,37 @@ class Installer
     }
 
     /**
-     * Creates other deploymnet configuration segments
+     * Creates backend deployment configuration segment
      *
      * @param \ArrayObject|array $data
-     * @return array
+     * @return \Magento\Framework\App\DeploymentConfig\SegmentInterface
      */
-    private function createDeploymentConfigs($data)
+    private function createBackendConfig($data)
     {
         $backendConfigData = array(BackendConfig::KEY_FRONTNAME => $data[BackendConfig::KEY_BACKEND_FRONTNAME]);
+        return new BackendConfig($backendConfigData);
+    }
+
+    /**
+     * Creates encrypt deployment configuration segment
+     *
+     * @param \ArrayObject|array $data
+     * @return \Magento\Framework\App\DeploymentConfig\SegmentInterface
+     */
+    private function createEncryptConfig($data)
+    {
         $cryptConfigData = array(EncryptConfig::KEY_ENCRYPTION_KEY => $data[EncryptConfig::KEY_ENCRYPTION_KEY]);
+        return new EncryptConfig($cryptConfigData);
+    }
+
+    /**
+     * Creates db deployment configuration segment
+     *
+     * @param \ArrayObject|array $data
+     * @return \Magento\Framework\App\DeploymentConfig\SegmentInterface
+     */
+    private function createDbConfig($data)
+    {
         $dbConfigData = array(
             DbConfig::KEY_HOST => $data[DbConfig::KEY_DB_HOST],
             DbConfig::KEY_INIT_STATEMENTS =>
@@ -344,18 +348,32 @@ class Installer
             DbConfig::KEY_PREFIX => isset($data[DbConfig::KEY_DB_PREFIX]) ? $data[DbConfig::KEY_DB_PREFIX] : null,
             DbConfig::KEY_USER => $data[DbConfig::KEY_DB_USER],
         );
+        return new DbConfig($dbConfigData);
+    }
+
+    /**
+     * Creates session deployment configuration segment
+     *
+     * @param \ArrayObject|array $data
+     * @return \Magento\Framework\App\DeploymentConfig\SegmentInterface
+     */
+    private function createSessionConfig($data)
+    {
         $sessionConfigData = array(SessionConfig::KEY_SAVE =>
             isset($data[SessionConfig::KEY_SESSION_SAVE]) ? $data[SessionConfig::KEY_SESSION_SAVE] : null);
-        $installConfigData = array(InstallConfig::KEY_DATE => $data[InstallConfig::KEY_DATE]);
+        return new SessionConfig($sessionConfigData);
+    }
 
-        return array(
-            new BackendConfig($backendConfigData),
-            new EncryptConfig($cryptConfigData),
-            new DbConfig($dbConfigData),
-            new SessionConfig($sessionConfigData),
-            new InstallConfig($installConfigData),
-            new ResourceConfig()
-        );
+    /**
+     * Creates install deployment configuration segment
+     *
+     * @param \ArrayObject|array $data
+     * @return \Magento\Framework\App\DeploymentConfig\SegmentInterface
+     */
+    private function createInstallConfig($data)
+    {
+        $installConfigData = array(InstallConfig::KEY_DATE => $data[InstallConfig::KEY_DATE]);
+        return new InstallConfig($installConfigData);
     }
 
     /**
@@ -451,9 +469,15 @@ class Installer
         }
         $this->installInfo[EncryptConfig::KEY_ENCRYPTION_KEY] = $data[EncryptConfig::KEY_ENCRYPTION_KEY];
 
-        $configs = $this->createDeploymentConfigs($data);
-        $modules = $this->createModulesDeploymentConfig($data);
-        $configs[] = $modules;
+        $configs = [
+            $this->createBackendConfig($data),
+            $this->createDbConfig($data),
+            $this->createEncryptConfig($data),
+            $this->createInstallConfig($data),
+            $this->createSessionConfig($data),
+            new ResourceConfig(),
+            $this->createModulesConfig($data),
+        ];
         $this->deploymentConfigWriter->create($configs);
     }
 
@@ -689,8 +713,9 @@ class Installer
     {
         // stops cleanup if app/etc/config.php does not exist
         if ($this->filesystem->getDirectoryWrite(DirectoryList::CONFIG)->isFile('config.php')) {
-            $arguments = new Arguments([], $this->configLoader);
-            $config = $arguments->getConnection(\Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION);
+            $reader = new \Magento\Framework\App\DeploymentConfig\Reader($this->directoryList);
+            $deploymentConfig = new \Magento\Framework\App\DeploymentConfig($reader, []);
+            $config = $deploymentConfig->getConnection(\Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION);
             if ($config) {
                 try {
                     $connection = $this->connectionFactory->create($config);

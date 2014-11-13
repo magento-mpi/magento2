@@ -9,6 +9,6 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/Cache/etc/cache.xsd">
     <type name="config" translate="description">
-        <description>System(config.xml, config.php) and modules configuration files(config.xml, menu.xml).</description>
+        <description>Various XML configurations that were collected across modules and merged.</description>
     </type>
 </config>

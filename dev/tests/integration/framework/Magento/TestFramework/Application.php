@@ -7,7 +7,6 @@
  */
 namespace Magento\TestFramework;
 
-use Magento\Framework\App\Arguments\Loader;
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
@@ -426,7 +425,7 @@ class Application
     private function copyAppConfigFiles()
     {
         $globalConfigFiles = glob(
-            $this->_globalConfigDir . '/{di.xml,' . Loader::DEPLOYMENT_CONFIG_FILE_TEMPLATE . '}',
+            $this->_globalConfigDir . '/{di.xml}',
             GLOB_BRACE
         );
         foreach ($globalConfigFiles as $file) {

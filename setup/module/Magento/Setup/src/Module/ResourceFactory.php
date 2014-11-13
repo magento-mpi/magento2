@@ -30,16 +30,16 @@ class ResourceFactory {
     }
 
     /**
-     * @param \Magento\Framework\App\Arguments $arguments
+     * @param \Magento\Framework\App\DeploymentConfig $deploymentConfig
      * @return Resource
      */
-    public function create(\Magento\Framework\App\Arguments $arguments)
+    public function create(\Magento\Framework\App\DeploymentConfig $deploymentConfig)
     {
         $connectionFactory = $this->serviceLocator->get('Magento\Framework\App\Resource\ConnectionFactory');
         $resource = new Resource(
             new ResourceConfig,
             $connectionFactory,
-            $arguments
+            $deploymentConfig
         );
         return $resource;
     }

@@ -39,8 +39,8 @@ class FeedTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject */
     protected $appState;
 
-    /** @var \Magento\Framework\App\Arguments|\PHPUnit_Framework_MockObject_MockObject */
-    protected $args;
+    /** @var \Magento\Framework\App\DeploymentConfig|\PHPUnit_Framework_MockObject_MockObject */
+    protected $deploymentConfig;
 
     protected function setUp()
     {
@@ -77,7 +77,7 @@ class FeedTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->args = $this->getMockBuilder('\Magento\Framework\App\Arguments')
+        $this->deploymentConfig = $this->getMockBuilder('\Magento\Framework\App\DeploymentConfig')
             ->disableOriginalConstructor()->getMock();
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->feed = $this->objectManagerHelper->getObject(
@@ -88,7 +88,7 @@ class FeedTest extends \PHPUnit_Framework_TestCase
                 'inboxFactory' => $this->inboxFactory,
                 'appState' => $this->appState,
                 'curlFactory' => $this->curlFactory,
-                'args' => $this->args
+                'deploymentConfig' => $this->deploymentConfig,
             ]
         );
     }
@@ -108,8 +108,8 @@ class FeedTest extends \PHPUnit_Framework_TestCase
         $this->backendConfig->expects($this->at(1))->method('getValue')
             ->will($this->returnValue('http://feed.magento.com'));
         $this->cacheManager->expects($this->once())->method('load')->will(($this->returnValue($lastUpdate)));
-        $this->args->expects($this->once())->method('get')
-            ->with('install_date')->will($this->returnValue('Sat, 6 Sep 2014 16:46:11 UTC'));
+        $this->deploymentConfig->expects($this->once())->method('get')
+            ->with('install.date')->will($this->returnValue('Sat, 6 Sep 2014 16:46:11 UTC'));
         if ($callInbox) {
             $this->inboxFactory->expects($this->once())->method('create')
                 ->will(($this->returnValue($this->inboxModel)));

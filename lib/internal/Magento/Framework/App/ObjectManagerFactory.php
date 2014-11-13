@@ -91,22 +91,21 @@ class ObjectManagerFactory
             array($this->directoryList->getPath(DirectoryList::GENERATION))
         );
 
-        $appArguments = $this->createAppArguments($this->directoryList, $arguments);
         $deploymentConfig = $this->createDeploymentConfig($this->directoryList, $arguments);
 
         $definitionFactory = new \Magento\Framework\ObjectManager\DefinitionFactory(
             $this->driverPool->getDriver(DriverPool::FILE),
             $this->directoryList->getPath(DirectoryList::DI),
             $this->directoryList->getPath(DirectoryList::GENERATION),
-            $appArguments->get('definition.format', 'serialized')
+            $deploymentConfig->get('definition.format', 'serialized')
         );
 
-        $definitions = $definitionFactory->createClassDefinition($appArguments->get('definitions'), $useCompiled);
+        $definitions = $definitionFactory->createClassDefinition($deploymentConfig->get('definitions'), $useCompiled);
         $relations = $definitionFactory->createRelations();
         $configClass = $this->_configClassName;
         /** @var \Magento\Framework\ObjectManager\Config\Config $diConfig */
         $diConfig = new $configClass($relations, $definitions);
-        $appMode = $appArguments->get(State::PARAM_MODE, State::MODE_DEFAULT);
+        $appMode = $deploymentConfig->get(State::PARAM_MODE, State::MODE_DEFAULT);
 
         $booleanUtils = new \Magento\Framework\Stdlib\BooleanUtils();
         $argInterpreter = $this->createArgumentInterpreter($booleanUtils);
@@ -123,10 +122,10 @@ class ObjectManagerFactory
             $diConfig,
             null,
             $definitions,
-            $appArguments->get()
+            $deploymentConfig->get()
         );
 
-        if ($appArguments->get('MAGE_PROFILER') == 2) {
+        if ($deploymentConfig->get('MAGE_PROFILER') == 2) {
             $this->factory = new \Magento\Framework\ObjectManager\Profiler\FactoryDecorator(
                 $this->factory,
                 \Magento\Framework\ObjectManager\Profiler\Log::getInstance()
@@ -134,7 +133,6 @@ class ObjectManagerFactory
         }
 
         $sharedInstances = [
-            'Magento\Framework\App\Arguments' => $appArguments,
             'Magento\Framework\App\DeploymentConfig' => $deploymentConfig,
             'Magento\Framework\App\Filesystem\DirectoryList' => $this->directoryList,
             'Magento\Framework\Filesystem\DirectoryList' => $this->directoryList,
@@ -167,33 +165,13 @@ class ObjectManagerFactory
     }
 
     /**
-     * Create instance of application arguments
-     *
-     * @param DirectoryList $directoryList
-     * @param array $arguments
-     * @return Arguments
-     */
-    protected function createAppArguments(DirectoryList $directoryList, array $arguments)
-    {
-        return new Arguments(
-            $arguments,
-            new \Magento\Framework\App\Arguments\Loader(
-                $directoryList,
-                isset(
-                    $arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE]
-                ) ? $arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE] : null
-            )
-        );
-    }
-
-    /**
      * Creates deployment configuration object
      *
      * @param DirectoryList $directoryList
      * @param array $arguments
      * @return DeploymentConfig
      */
-    private function createDeploymentConfig(DirectoryList $directoryList, array $arguments)
+    protected function createDeploymentConfig(DirectoryList $directoryList, array $arguments)
     {
         $customFile = isset($arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE])
             ? $arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE]

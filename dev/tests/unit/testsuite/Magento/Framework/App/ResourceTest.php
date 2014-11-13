@@ -25,9 +25,9 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
     protected $_connectionFactory;
 
     /**
-     * @var \Magento\Framework\App\Arguments|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\DeploymentConfig|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $arguments;
+    private $deploymentConfig;
 
     /**
      * @var \Magento\Framework\App\Resource
@@ -57,11 +57,11 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(self::CONNECTION_NAME))
         ;
 
-        $this->arguments = $this->getMock('Magento\Framework\App\Arguments', [], [], '', false);
-        $this->arguments->expects($this->any())
+        $this->deploymentConfig = $this->getMock('Magento\Framework\App\DeploymentConfig', [], [], '', false);
+        $this->deploymentConfig->expects($this->any())
             ->method('get')
             ->willReturnArgument(0);
-        $this->arguments->expects($this->once())
+        $this->deploymentConfig->expects($this->once())
             ->method('getConnection')
             ->with(self::CONNECTION_NAME)
             ->will($this->returnValue(['host' => 'localhost']));
@@ -71,7 +71,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
             ->method('getTableName')
             ->will($this->returnArgument(0));
 
-        $this->resource = new Resource($this->_config, $this->_connectionFactory, $this->arguments, self::TABLE_PREFIX);
+        $this->resource = new Resource($this->_config, $this->_connectionFactory, $this->deploymentConfig, self::TABLE_PREFIX);
     }
 
     public function testGetConnectionFail()
