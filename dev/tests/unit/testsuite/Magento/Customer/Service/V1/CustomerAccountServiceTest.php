@@ -138,6 +138,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $this->markTestSkipped('Will be removed as part of MAGETWO-30671');
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $filterGroupBuilder = $this->_objectManager

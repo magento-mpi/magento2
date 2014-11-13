@@ -49,6 +49,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Will be removed as part of MAGETWO-30671');
         $this->_objectManager = Bootstrap::getObjectManager();
         $this->_customerAccountService = $this->_objectManager
             ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
