@@ -18,11 +18,11 @@ $usage = 'Usage: php -f user_config_data.php --
     . ' as \'1\' at a time
     ' . ' [--store=0|1]  - configuration is store specific, only one of \'webiste\' and \'store\' can be set'
     . ' as \'1\' at a time
-    ' . ' --data=<string> - pairs of \'path=value\' seperated by \'&\', where
+    ' . ' --data=<string> - pairs of \'path=value\' separated by \'&\', where
     ' . '       \'path\' is path of the specified data group, e.g. web/unsecure/base_url, and
     ' . '       \'value\' is value for the path specified, e.g. http://127.0.0.1/
-    ' . 'Example Usage: php -f user_config_data.php -- --website=1
-    ' . '--data="web/seo/use_rewrites=1&web/unsecure/base_url=http://127.0.0.1/"' . PHP_EOL;
+    ' . ' Example Usage: php -f user_config_data.php -- --website=1
+    ' . '--data=web/seo/use_rewrites=1&web/unsecure/base_url=http://127.0.0.1/' . PHP_EOL;
 
 $longOpts = [
     'website::',
