@@ -7,6 +7,8 @@
  */
 namespace Magento\Ui\DataProvider;
 
+use Magento\Framework\View\Element\UiComponent\DataProviderInterface;
+
 /**
  * Interface DataProviderCollectionInterface
  */

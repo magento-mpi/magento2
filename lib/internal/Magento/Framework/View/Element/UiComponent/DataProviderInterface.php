@@ -5,10 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Ui\DataProvider;
+namespace Magento\Framework\View\Element\UiComponent;
 
 /**
  * Interface DataProviderInterface
+ * @package Magento\Framework\View\Element\UiComponent
  */
 interface DataProviderInterface
 {

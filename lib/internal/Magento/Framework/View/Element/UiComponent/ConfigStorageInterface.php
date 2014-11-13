@@ -8,7 +8,6 @@
 namespace Magento\Framework\View\Element\UiComponent;
 
 use Magento\Framework\Data\Collection as DataCollection;
-use Magento\Ui\DataProvider\DataProviderInterface;
 
 /**
  * Class ConfigurationStorageInterface

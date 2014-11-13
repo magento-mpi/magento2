@@ -10,7 +10,7 @@ namespace Magento\Ui\Context;
 use Magento\Framework\Data\Collection as DataCollection;
 use Magento\Framework\View\Element\UiComponent\ConfigInterface;
 use Magento\Framework\View\Element\UiComponent\ConfigStorageInterface;
-use Magento\Ui\DataProvider\DataProviderInterface;
+use Magento\Framework\View\Element\UiComponent\DataProviderInterface;
 
 /**
  * Class ConfigurationStorage

@@ -8,7 +8,6 @@
 namespace Magento\Framework\View\Element;
 
 use Magento\Framework\ObjectManager;
-use Magento\Ui\Component\Form\Element\ElementInterface;
 use Magento\Framework\View\Element\UiComponent\Context as UiContext;
 
 /**
