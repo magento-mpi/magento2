@@ -111,20 +111,20 @@
             <arg line="-u${env.db_user} -p${env.db_password} -e 'DROP DATABASE IF EXISTS ${env.db_name}_${instance_index}; CREATE DATABASE ${env.db_name}_${instance_index}'"/>
         </exec>
 
-        <copy file="${basedir}/dev/build/core_dev/integration/local-${db_vendor_name}.xml"
-              tofile="${product_root_dir}/dev/tests/integration/etc/local-${db_vendor_name}-${instance_index}.xml" overwrite="true"/>
+        <copy file="${basedir}/dev/build/core_dev/integration/install-config-${db_vendor_name}.php"
+              tofile="${product_root_dir}/dev/tests/integration/etc/install-config-${db_vendor_name}-${instance_index}.php" overwrite="true"/>
         <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_database_credential_substitution">
-            <property name="db_config_file" value="${product_root_dir}/dev/tests/integration/etc/local-${db_vendor_name}-${instance_index}.xml"/>
+            <property name="db_config_file" value="${product_root_dir}/dev/tests/integration/etc/install-config-${db_vendor_name}-${instance_index}.php"/>
             <property name="env.db_name" value="${env.db_name}_${instance_index}"/>
         </ant>
-        <replace file="${product_root_dir}/dev/tests/integration/etc/local-${db_vendor_name}-${instance_index}.xml">
+        <replace file="${product_root_dir}/dev/tests/integration/etc/install-config-${db_vendor_name}-${instance_index}.php">
             <replacefilter token="{{db_table_prefix}}" value="${db_table_prefix}"/>
         </replace>
 
         <copy file="${basedir}/dev/build/core_dev/integration/phpunit.xml"
               tofile="${product_root_dir}/dev/tests/integration/phpunit-${instance_index}.xml" overwrite="true"/>
         <replace file="${product_root_dir}/dev/tests/integration/phpunit-${instance_index}.xml">
-            <replacefilter token="{{local_config_file}}" value="etc/local-${db_vendor_name}-${instance_index}.xml"/>
+            <replacefilter token="{{local_config_file}}" value="etc/install-config-${db_vendor_name}-${instance_index}.php"/>
             <replacefilter token="{{app_mode}}" value="${app_mode}"/>
             <replacefilter token="{{instance_index}}" value="${instance_index}"/>
             <replacefilter token="{{tests_cleanup}}" value="${tests_cleanup}"/>

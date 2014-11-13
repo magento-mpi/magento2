@@ -7,12 +7,19 @@
  * @license     {license_link}
  */
 -->
-<page mca="cms/index/index" module="Magento_Cms">
+<page mca="cms/index/index">
     <blocks>
         <bannersBlock>
             <class>Magento\Banner\Test\Block\Banners</class>
             <locator>.widget.banners</locator>
             <strategy>css selector</strategy>
         </bannersBlock>
+        <widgetView>
+            <renders>
+                <bannerRotator>
+                    <class>Magento\Banner\Test\Block\WidgetView</class>
+                </bannerRotator>
+            </renders>
+        </widgetView>
     </blocks>
 </page>

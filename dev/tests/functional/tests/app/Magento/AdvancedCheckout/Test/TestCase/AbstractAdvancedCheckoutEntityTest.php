@@ -56,40 +56,6 @@ abstract class AbstractAdvancedCheckoutEntityTest extends Injectable
     protected $configuration;
 
     /**
-     * Create customer.
-     *
-     * @param CustomerInjectable $customer
-     * @return array
-     */
-    public function __prepare(CustomerInjectable $customer)
-    {
-        $customer->persist();
-
-        return ['customer' => $customer];
-    }
-
-    /**
-     * Injection data.
-     *
-     * @param CmsIndex $cmsIndex
-     * @param CustomerAccountIndex $customerAccountIndex
-     * @param CustomerOrderSku $customerOrderSku
-     * @param CheckoutCart $checkoutCart
-     * @return void
-     */
-    public function __inject(
-        CmsIndex $cmsIndex,
-        CustomerAccountIndex $customerAccountIndex,
-        CustomerOrderSku $customerOrderSku,
-        CheckoutCart $checkoutCart
-    ) {
-        $this->cmsIndex = $cmsIndex;
-        $this->customerAccountIndex = $customerAccountIndex;
-        $this->customerOrderSku = $customerOrderSku;
-        $this->checkoutCart = $checkoutCart;
-    }
-
-    /**
      * Filter products.
      *
      * @param array $products

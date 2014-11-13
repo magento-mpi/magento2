@@ -219,7 +219,18 @@ class Create extends Block
             $items->getItemProductByName($product->getName())
                 ->fill($product->getDataFieldConfig('checkout_data')['source']);
         }
+        $this->updateItems();
+    }
+
+    /**
+     * Update product items.
+     *
+     * @return void
+     */
+    public function updateItems()
+    {
         $this->_rootElement->find($this->updateItems)->click();
+        $this->getTemplateBlock()->waitLoader();
     }
 
     /**

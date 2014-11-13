@@ -6,7 +6,7 @@
  * @license    {license_link}
  */
 
-/** @var $installer \Magento\Framework\Module\Setup */
+/** @var $installer \Magento\WebsiteRestriction\Model\Resource\Setup */
 $installer = $this;
 $connection = $installer->getConnection();
 

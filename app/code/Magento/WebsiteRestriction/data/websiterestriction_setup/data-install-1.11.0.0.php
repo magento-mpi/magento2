@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\WebsiteRestriction\Model\Resource\Setup $this */
+/** @var $this \Magento\WebsiteRestriction\Model\Resource\Setup */
 
 $cmsPages = array(
     array(
