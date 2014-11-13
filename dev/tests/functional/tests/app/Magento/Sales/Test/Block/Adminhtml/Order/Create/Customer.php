@@ -60,10 +60,10 @@ class Customer extends Grid
     }
 
     /**
-     * Search item and open it
+     * Search item and open it.
      *
      * @param array $filter
-     * @throws \Exception
+     * @return void
      */
     public function searchAndOpen(array $filter)
     {

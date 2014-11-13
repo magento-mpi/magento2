@@ -25,7 +25,6 @@ class CreateOnFrontendTest extends Functional
      */
     public function testCreateCustomer()
     {
-        $this->markTestIncomplete('Bug: MAGETWO-30455');
         //Data
         $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customer->switchData('customer_US_1');
