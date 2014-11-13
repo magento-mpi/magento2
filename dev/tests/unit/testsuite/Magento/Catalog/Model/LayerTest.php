@@ -7,6 +7,7 @@
  */
 namespace Magento\Catalog\Model;
 
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\ObjectManager;
 
 /**
@@ -89,6 +90,11 @@ class LayerTest extends \PHPUnit_Framework_TestCase
      */
     private $categoryRepository;
 
+    /**
+     * @var \Magento\Catalog\Model\Category|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $currentCategory;
+
     protected function setUp()
     {
         $helper = new ObjectManager($this);
@@ -165,6 +171,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->categoryRepository = $this->getMock('Magento\Catalog\Api\CategoryRepositoryInterface');
+        $this->currentCategory = $this->getMock('Magento\Catalog\Model\Category', ['getId', '__wakeup'], [], '', false);
 
         $this->model = $helper->getObject(
             'Magento\Catalog\Model\Layer',
@@ -254,25 +261,53 @@ class LayerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Magento\Store\Model\Store', $this->model->getCurrentStore());
     }
 
-    public function testSetCurrentCategory()
+    public function testSetNewCurrentCategoryIfCurrentCategoryIsAnother()
+    {
+        $categoryId = 333;
+        $currentCategoryId = 334;
+
+        $this->category->expects($this->any())->method('getId')->will($this->returnValue($categoryId));
+        $this->categoryRepository->expects($this->once())->method('get')->with($categoryId)
+            ->willReturn($this->category);
+
+        $this->currentCategory->expects($this->any())->method('getId')->willReturn($currentCategoryId);
+        $this->registry->expects($this->once())->method('registry')->with('current_category')
+            ->willReturn($this->currentCategory);
+
+        $this->assertInstanceOf('\Magento\Catalog\Model\Layer', $this->model->setCurrentCategory($categoryId));
+        $this->assertEquals($this->currentCategory, $this->model->getData('current_category'));
+    }
+
+    public function testSetNewCurrentCategoryIfCurrentCategoryIsSame()
     {
         $categoryId = 333;
 
-        $this->categoryRepository->expects($this->once())->with($categoryId)->will($this->returnValue($this->category));
-        $this->category->expects($this->at(0))->method('getId')->will($this->returnValue($categoryId));
-        $this->category->expects($this->at(1))->method('getId')->will($this->returnValue($categoryId));
-        $this->category->expects($this->at(2))->method('getId')->will($this->returnValue($categoryId - 1));
+        $this->category->expects($this->any())->method('getId')->will($this->returnValue($categoryId));
 
-        $this->registry->expects($this->once())->method('registry')->with($this->equalTo('current_category'))
-            ->will($this->returnValue($this->category));
+        $this->categoryRepository->expects($this->once())->method('get')->with($categoryId)
+            ->willReturn($this->category);
+        $this->registry->expects($this->once())->method('registry')->with('current_category')
+            ->willReturn($this->category);
 
-        $result = $this->model->setCurrentCategory($categoryId);
-        $this->assertInstanceOf('\Magento\Catalog\Model\Layer', $result);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Layer', $this->model->setCurrentCategory($categoryId));
+        $this->assertEquals($this->category, $this->model->getData('current_category'));
     }
 
     /**
      * @expectedException \Magento\Framework\Model\Exception
-     * @expectedExceptionMessage The category must be an instance of \Magento\Catalog\Model\Category.
+     * @expectedExceptionMessage Please correct the category.
+     */
+    public function testSetNewCurrentCategoryIfCategoryIsNotFound()
+    {
+        $this->categoryRepository->expects($this->once())->method('get')
+            ->will($this->throwException(new NoSuchEntityException));
+
+        $this->model->setCurrentCategory(1);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Model\Exception
+     * @expectedExceptionMessage Must be category model instance or its id.
      */
     public function testSetCurrentCategoryInstanceOfException()
     {
@@ -285,36 +320,35 @@ class LayerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetCurrentCategoryNotFoundException()
     {
-        $this->category->expects($this->at(0))->method('getId')->will($this->returnValue(null));
+        $this->category->expects($this->once())->method('getId')->will($this->returnValue(null));
 
         $this->model->setCurrentCategory($this->category);
     }
 
-    /**
-     * @dataProvider currentCategoryProvider
-     */
-    public function testGetCurrentCategory($currentCategory)
+    public function testGetCurrentCategory()
+    {
+        $this->currentCategory->getData('current_category', null);
+
+        $this->registry->expects($this->once())->method('registry')->with('current_category')
+            ->willReturn($this->currentCategory);
+
+        $this->assertEquals($this->currentCategory, $this->model->getCurrentCategory());
+        $this->assertEquals($this->currentCategory, $this->model->getData('current_category'));
+    }
+
+    public function testGetCurrentCategoryIfCurrentCategoryIsNotSet()
     {
         $rootCategoryId = 333;
+        $this->currentCategory->getData('current_category', null);
+
         $this->registry->expects($this->once())->method('registry')->with($this->equalTo('current_category'))
-            ->will($this->returnValue($currentCategory));
-
-        $this->categoryRepository->expects($this->once())->with($rootCategoryId)
-            ->will($this->returnValue($this->category));
-
+            ->willReturn(null);
+        $this->categoryRepository->expects($this->once())->method('get')->with($rootCategoryId)
+            ->willReturn($this->category);
         $this->store->expects($this->any())->method('getRootCategoryId')
             ->will($this->returnValue($rootCategoryId));
 
-        $result = $this->model->getCurrentCategory();
-        $this->assertInstanceOf('\Magento\Catalog\Model\Category', $result);
-    }
-
-    public function currentCategoryProvider()
-    {
-        $category = $this->getMockBuilder('Magento\Catalog\Model\Category')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        return [[$category], [null]];
+        $this->assertEquals($this->currentCategory, $this->model->getCurrentCategory());
+        $this->assertEquals($this->currentCategory, $this->model->getData('current_category'));
     }
 }
