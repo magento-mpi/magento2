@@ -105,7 +105,7 @@ define([
                 changed = !utils.identical(initial, current);
 
             return changed || this.elems.some(function(elem){
-                return elem.delegate('hasChanged', 'some');
+                return _.some(elem.delegate('hasChanged'));
             });
         },
 

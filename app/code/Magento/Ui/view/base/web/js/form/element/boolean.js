@@ -85,11 +85,7 @@ define([
          * @param  {String} name
          */
         onUniqueUpdate: function (name) {
-            var checked = this.name === name;
-
-            if (!checked) {
-                this.value(undefined);
-            }
-        },
+            this.value(this.name === name);
+        }
     });
 });

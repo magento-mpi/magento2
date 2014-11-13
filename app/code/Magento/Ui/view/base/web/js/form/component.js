@@ -266,12 +266,12 @@ define([
                 parent.remove(this);
             }, this);
 
+            data.remove(this.dataScope);
+            layout.clear(this.name);
+            
             this.elems().forEach(function(child){ 
                 child.destroy();
             });
-
-            data.remove(this.dataScope);
-            layout.clear(this.name);
         }
     });
 
