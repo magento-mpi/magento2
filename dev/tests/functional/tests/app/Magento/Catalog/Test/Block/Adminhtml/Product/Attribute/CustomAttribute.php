@@ -24,30 +24,16 @@ class CustomAttribute extends Element
     protected $inputSelector = '.control [data-ui-id][name]';
 
     /**
-     * Attribute type to element type reference.
-     *
-     * @var array
-     */
-    protected $typeReference = [
-        'Text Field' => null,
-        'Text Area' => null,
-        'Date' => 'datepicker',
-        'Yes/No' => 'select',
-        'Multiple Select' => 'select',
-        'Dropdown' => 'select',
-        'Price' => null,
-    ];
-
-    /**
      * Attribute class to element type reference.
      *
      * @var array
      */
     protected $classReference = [
-        'input-text' => 'Text Field',
-        'textarea' => 'Text Area',
-        'hasDatepicker' => 'Date',
-        'select' => 'Dropdown',
+        'input-text' => null,
+        'textarea' => null,
+        'hasDatepicker' => 'datepicker',
+        'select' => 'select',
+        'multiselect' => 'multiselect',
     ];
 
     /**
@@ -59,8 +45,12 @@ class CustomAttribute extends Element
     public function setValue($data)
     {
         $this->_eventManager->dispatchEvent(['set_value'], [__METHOD__, $this->getAbsoluteSelector()]);
-        $element = $this->typeReference[$data['type']];
-        $this->find($this->inputSelector, Locator::SELECTOR_CSS, $element)->setValue($data['value']);
+        $element = $this->getElementByClass($this->getElementClass());
+        if (is_array($data)) {
+            $this->find($this->inputSelector, Locator::SELECTOR_CSS, $element)->setValue($data['value']);
+        } else {
+            $this->find($this->inputSelector, Locator::SELECTOR_CSS, $element)->setValue($data);
+        }
     }
 
     /**
@@ -86,7 +76,7 @@ class CustomAttribute extends Element
         $element = null;
         foreach ($this->classReference as $key => $reference) {
             if (strpos($class, $key) !== false) {
-                $element = $this->typeReference[$reference];
+                $element = $reference;
             }
         }
         return $element;
@@ -103,16 +93,5 @@ class CustomAttribute extends Element
         $criteria->value($this->inputSelector);
         $input = $this->_getWrappedElement()->element($criteria);
         return $input->attribute('class');
-    }
-
-    /**
-     * Reset attribute value.
-     *
-     * @return void.
-     */
-    public function resetValue()
-    {
-        $inputType = $this->getElementByClass($this->getElementClass());
-        $this->find($this->inputSelector, Locator::SELECTOR_CSS, $inputType)->setValue('');
     }
 }

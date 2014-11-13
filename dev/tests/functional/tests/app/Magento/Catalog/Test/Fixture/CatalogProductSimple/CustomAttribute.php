@@ -13,7 +13,7 @@ use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 
 /**
- * Source for attributes field.
+ * Source for attribute field.
  */
 class CustomAttribute implements FixtureInterface
 {
@@ -32,17 +32,29 @@ class CustomAttribute implements FixtureInterface
     protected $attribute;
 
     /**
+     * Data set configuration settings.
+     *
+     * @var array
+     */
+    protected $params;
+
+    /**
      * @constructor
      * @param FixtureFactory $fixtureFactory
      * @param array $params
-     * @param CatalogProductAttribute $data
+     * @param mixed $data
      */
-    public function __construct(FixtureFactory $fixtureFactory, array $params, CatalogProductAttribute $data)
+    public function __construct(FixtureFactory $fixtureFactory, array $params, $data)
     {
         $this->params = $params;
+        if (!$data instanceof CatalogProductAttribute) {
+            /** @var CatalogProductAttribute $data */
+            $data = $fixtureFactory->createByCode('catalogProductAttribute', ['dataSet' => $data['dataSet']]);
+        }
         $this->data['value'] = $this->getDefaultAttributeValue($data);
-        $this->data['type'] = $data->getFrontendInput();
-        $this->data['code'] = $data->getAttributeCode();
+        $this->data['code'] = $data->hasData('attribute_code') == false
+            ? $this->createAttributeCode($data)
+            : $data->getAttributeCode();
         $this->attribute = $data;
     }
 
@@ -50,32 +62,20 @@ class CustomAttribute implements FixtureInterface
      * Get default value of custom attribute considering to it's type.
      *
      * @param CatalogProductAttribute $attribute
-     * @return string
+     * @return string|null
      */
     protected function getDefaultAttributeValue(CatalogProductAttribute $attribute)
     {
-        $possibleFields = [
-            'default_value_text',
-            'default_value_textarea',
-            'default_value_date',
-            'default_value_yesno',
-            'options'
-        ];
-        foreach ($possibleFields as $field) {
-            if ($attribute->hasData($field) !== false) {
-                $defaultValue = $attribute->getData($field);
-                if (is_array($defaultValue)) {
-                    foreach ($defaultValue as $option) {
-                        if ($option['is_default'] == 'Yes') {
-                            return $option['admin'];
-                        }
-                    }
-                } else {
-                    return $defaultValue;
+        $data = $attribute->getData();
+        if (isset($data['options'])) {
+            foreach ($data['options'] as $option) {
+                if ($option['is_default'] == 'Yes') {
+                    return $option['admin'];
                 }
-            } else {
-                continue;
             }
+        } else {
+            $defaultValue = preg_grep('/^default_value/', array_keys($data));
+            return !empty($defaultValue) ? $data[array_shift($defaultValue)] : null;
         }
     }
 
@@ -120,5 +120,17 @@ class CustomAttribute implements FixtureInterface
     public function getDataConfig()
     {
         return $this->params;
+    }
+
+    /**
+     * Get default attribute code according to attribute label.
+     *
+     * @param CatalogProductAttribute $attribute
+     * @return string
+     */
+    protected function createAttributeCode(CatalogProductAttribute $attribute)
+    {
+        $label = $attribute->getFrontendLabel();
+        return strtolower(preg_replace('@[\W\s]+@', '_', $label));
     }
 }

@@ -18,7 +18,7 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\AttributeForm;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\CustomAttribute;
 
 /**
@@ -104,25 +104,11 @@ class ProductForm extends FormTabs
     protected $tabsTitle = '#product_info_tabs-basic [data-role="title"]';
 
     /**
-     * Mage error selector.
-     *
-     * @var string
-     */
-    protected $mageError = '//*[contains(@class,"field ")][.//*[contains(@class,"mage-error")]]';
-
-    /**
      * Attribute block selector.
      *
      * @var string
      */
     protected $attributeBlock = '#attribute-%s-container';
-
-    /**
-     * Selector for 'New Attribute' button.
-     *
-     * @var string
-     */
-    protected $newAttributeButton = '[id^="create_attribute"]';
 
     /**
      * Magento loader.
@@ -194,9 +180,9 @@ class ProductForm extends FormTabs
         $attribute = $product->getDataFieldConfig('custom_attribute')['source']->getAttribute();
         $this->openTab('product-details');
         if (!$this->checkAttributeLabel($attribute)) {
-            /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AddAttributeTab $tab */
-            $this->openTab($tabName);
-            $this->addNewAttribute();
+            /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\ProductTab $tab */
+            $tab = $this->openTab($tabName);
+            $tab->addNewAttribute();
             $this->fillAttributeForm($attribute);
             $this->reinitRootElement();
         }
@@ -363,27 +349,22 @@ class ProductForm extends FormTabs
     /**
      * Get Require Notice Attributes.
      *
+     * @param InjectableFixture $product
      * @return array
      */
-    public function getRequireNoticeAttributes()
+    public function getRequireNoticeAttributes(InjectableFixture $product)
     {
         $data = [];
-        $elements = $this->_rootElement->find($this->mageError, Locator::SELECTOR_XPATH)->getElements();
-        foreach ($elements as $element) {
-            $data[$element->find('label')->getText()] = $element;
+        $tabs = $this->getFieldsByTabs($product);
+        foreach ($tabs as $tabName => $fields) {
+            $tab = $this->getTabElement($tabName);
+            $this->openTab($tabName);
+            $errors = $tab->getJsErrors();
+            if (!empty($errors)) {
+                $data[$tabName] = $errors;
+            }
         }
         return $data;
-    }
-
-    /**
-     * Click on 'New Attribute' button.
-     *
-     * @return void
-     */
-    public function addNewAttribute()
-    {
-        $this->_rootElement->find($this->attributeSearch)->click();
-        $this->_rootElement->find($this->newAttributeButton)->click();
     }
 
     /**
@@ -417,13 +398,13 @@ class ProductForm extends FormTabs
     /**
      * Get Attribute Form.
      *
-     * @return Edit
+     * @return AttributeForm
      */
     public function getAttributeForm()
     {
-        /** @var Edit $attributeForm */
+        /** @var AttributeForm $attributeForm */
         return $this->blockFactory->create(
-            'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit',
+            'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\AttributeForm',
             ['element' => $this->browser->find('body')]
         );
     }

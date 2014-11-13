@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<scenarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/mtf/Mtf/Config/etc/scenario.xsd">
+    <scenario name="CreateProductAttributeEntityFromProductPageTest" module="Magento_Catalog">
+        <methods>
+            <method name="test">
+                <steps>
+                    <first>openProductOnBackend</first>
+                    <step name="openProductOnBackend" module="Magento_Catalog">
+                        <next>addCustomAttribute</next>
+                    </step>
+                    <step name="addCustomAttribute" module="Magento_Catalog">
+                        <next>fillCustomAttributeForm</next>
+                    </step>
+                    <step name="fillCustomAttributeForm" module="Magento_Catalog">
+                        <next>setDefaultAttributeValue</next>
+                    </step>
+                    <step name="setDefaultAttributeValue" module="Magento_Catalog">
+                        <next>saveProduct</next>
+                    </step>
+                    <step name="saveProduct" module="Magento_Catalog" />
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+    <scenario name="CreateProductAttributeEntityTest" module="Magento_Catalog">
+        <methods>
+            <method name="test">
+                <steps>
+                    <first>createProductTemplate</first>
+                    <step name="createProductTemplate" module="Magento_Catalog">
+                        <next>openProductAttributeIndexPage</next>
+                    </step>
+                    <step name="openProductAttributeIndexPage" module="Magento_Catalog">
+                        <next>addNewAttribute</next>
+                    </step>
+                    <step name="addNewAttribute" module="Magento_Catalog">
+                        <next>fillAttributeForm</next>
+                    </step>
+                    <step name="fillAttributeForm" module="Magento_Catalog">
+                        <next>saveAttribute</next>
+                    </step>
+                    <step name="saveAttribute" module="Magento_Catalog">
+                        <next>moveAttributeToAttributeSet</next>
+                    </step>
+                    <step name="moveAttributeToAttributeSet" module="Magento_Catalog">
+                        <next>saveAttributeSet</next>
+                    </step>
+                    <step name="saveAttributeSet" module="Magento_Catalog">
+                        <next>createProductForAsserts</next>
+                    </step>
+                    <step name="createProductForAsserts" module="Magento_Catalog" />
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+</scenarios>

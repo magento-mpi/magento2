@@ -8,19 +8,12 @@
 
 namespace Magento\Catalog\Test\TestCase\ProductAttribute;
 
-use Magento\Backend\Test\Page\Adminhtml\AdminCache;
-use Magento\Catalog\Test\Constraint\AssertProductAttributeSaveMessage;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
-use Mtf\Fixture\FixtureFactory;
-use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
+use Mtf\TestCase\Scenario;
 
 /**
  * Test Creation for CreateProductAttributeEntity
@@ -36,7 +29,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
  * @group Product_Attributes_(CS)
  * @ZephyrId MAGETWO-24767
  */
-class CreateProductAttributeEntityTest extends Injectable
+class CreateProductAttributeEntityTest extends Scenario
 {
     /**
      * CatalogProductAttribute object.
@@ -44,13 +37,6 @@ class CreateProductAttributeEntityTest extends Injectable
      * @var CatalogProductAttribute
      */
     protected $attribute;
-
-    /**
-     * AdminCache page.
-     *
-     * @var AdminCache
-     */
-    protected $adminCache;
 
     /**
      * CatalogProductAttributeIndex page.
@@ -67,151 +53,30 @@ class CreateProductAttributeEntityTest extends Injectable
     protected $attributeNew;
 
     /**
-     * CatalogProductSetIndex page.
-     *
-     * @var CatalogProductSetIndex
-     */
-    protected $catalogProductSetIndex;
-
-    /**
-     * CatalogProductSetEdit page.
-     *
-     * @var CatalogProductSetEdit
-     */
-    protected $catalogProductSetEdit;
-
-    /**
-     * FixtureFactory object.
-     *
-     * @var FixtureFactory
-     */
-    protected $fixtureFactory;
-
-    /**
-     * Catalog Product Index page.
-     *
-     * @var CatalogProductIndex
-     */
-    protected $catalogProductIndex;
-
-    /**
-     * Catalog Product Edit page.
-     *
-     * @var CatalogProductEdit
-     */
-    protected $catalogProductEdit;
-
-    /**
      * Injection data.
      *
      * @param CatalogProductAttributeIndex $attributeIndex
      * @param CatalogProductAttributeNew $attributeNew
-     * @param AdminCache $adminCache
-     * @param CatalogProductSetIndex $catalogProductSetIndex
-     * @param CatalogProductSetEdit $catalogProductSetEdit
-     * @param CatalogProductIndex $catalogProductIndex
-     * @param CatalogProductEdit $catalogProductEdit
-     * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function __inject(
         CatalogProductAttributeIndex $attributeIndex,
-        CatalogProductAttributeNew $attributeNew,
-        AdminCache $adminCache,
-        CatalogProductSetIndex $catalogProductSetIndex,
-        CatalogProductSetEdit $catalogProductSetEdit,
-        CatalogProductIndex $catalogProductIndex,
-        CatalogProductEdit $catalogProductEdit,
-        FixtureFactory $fixtureFactory
+        CatalogProductAttributeNew $attributeNew
     ) {
         $this->attributeIndex = $attributeIndex;
         $this->attributeNew = $attributeNew;
-        $this->adminCache = $adminCache;
-        $this->catalogProductSetIndex = $catalogProductSetIndex;
-        $this->catalogProductSetEdit = $catalogProductSetEdit;
-        $this->fixtureFactory = $fixtureFactory;
-        $this->catalogProductIndex = $catalogProductIndex;
-        $this->catalogProductEdit = $catalogProductEdit;
     }
 
     /**
      * Run CreateProductAttributeEntity test.
      *
      * @param CatalogProductAttribute $productAttribute
-     * @param CatalogProductAttributeIndex $attributeIndex
-     * @param CatalogProductAttributeNew $attributeNew
-     * @param CatalogAttributeSet $productTemplate
-     * @param AssertProductAttributeSaveMessage $assertProductAttributeSaveMessage
      * @return array
      */
-    public function testCreateProductAttribute(
-        CatalogProductAttribute $productAttribute,
-        CatalogProductAttributeIndex $attributeIndex,
-        CatalogProductAttributeNew $attributeNew,
-        CatalogAttributeSet $productTemplate,
-        AssertProductAttributeSaveMessage $assertProductAttributeSaveMessage
-    ) {
-        //Precondition
-        $productTemplate->persist();
-
-        //Steps
-        $attributeIndex->open();
-        $attributeIndex->getPageActionsBlock()->addNew();
-        $attributeNew->getAttributeForm()->fill($productAttribute);
-        $attributeNew->getPageActions()->save();
-        $assertProductAttributeSaveMessage->processAssert($this->attributeIndex);
-
-        // Move attribute to default attribute set and create product for asserts:
-        $this->attribute = $productAttribute;
-        $this->moveAttributeToAttributeSet($productAttribute, $productTemplate);
-        $this->catalogProductSetEdit->getPageActions()->save();
-        $product = $this->createProductForAsserts($productTemplate, $productAttribute);
-
-        return ['attribute' => $productAttribute, 'product' => $product];
-    }
-
-    /**
-     * Move attribute to attribute set.
-     *
-     * @param CatalogProductAttribute $attribute
-     * @param CatalogAttributeSet $productTemplate
-     * @return void
-     */
-    protected function moveAttributeToAttributeSet(
-        CatalogProductAttribute $attribute,
-        CatalogAttributeSet $productTemplate
-    ) {
-        $filterAttribute = ['set_name' => $productTemplate->getAttributeSetName()];
-        $this->catalogProductSetIndex->open()->getGrid()->searchAndOpen($filterAttribute);
-
-        $this->catalogProductSetEdit->getAttributeSetEditBlock()->moveAttribute(
-            $attribute->getData(),
-            'Product Details'
-        );
-    }
-
-    /**
-     * Create product for asserts.
-     *
-     * @param CatalogAttributeSet $productTemplate
-     * @param CatalogProductAttribute $attribute
-     * @return CatalogProductSimple
-     */
-    protected function createProductForAsserts(CatalogAttributeSet $productTemplate, CatalogProductAttribute $attribute)
+    public function testCreateProductAttribute(CatalogProductAttribute $productAttribute)
     {
-
-        $product = $this->fixtureFactory->createByCode(
-            'catalogProductSimple',
-            [
-                'dataSet' => 'product_with_category_with_anchor',
-                'data' => [
-                    'attribute_set_id' => ['attribute_set' => $productTemplate],
-                    'custom_attribute' => $attribute
-                ],
-            ]
-        );
-        $product->persist();
-        return $product;
+        $this->attribute = $productAttribute;
+        $this->executeScenario();
     }
 
     /**

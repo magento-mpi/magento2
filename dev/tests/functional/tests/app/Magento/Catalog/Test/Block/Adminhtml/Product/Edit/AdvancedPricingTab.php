@@ -16,7 +16,7 @@ use Magento\Backend\Test\Block\Widget\Tab;
  * Class AdvancedPricingTab
  * Product advanced pricing tab
  */
-class AdvancedPricingTab extends AddAttributeTab
+class AdvancedPricingTab extends ProductTab
 {
     /**
      * Class name 'Subform' of the main tab form

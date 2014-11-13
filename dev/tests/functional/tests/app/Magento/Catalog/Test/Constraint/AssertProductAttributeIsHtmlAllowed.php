@@ -28,7 +28,7 @@ class AssertProductAttributeIsHtmlAllowed extends AbstractConstraint
 
     /**
      * Check whether html tags are using in attribute value.
-     * Checked tag structure <b><i>atttribute_default_value</i></b>
+     * Checked tag structure <b><i>atttribute_default_value</p></i></b>
      *
      * @param InjectableFixture $product
      * @param CatalogProductAttribute $attribute

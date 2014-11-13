@@ -136,11 +136,11 @@ class View extends AbstractConfigureBlock
     protected $addToWishlist = '[data-action="add-to-wishlist"]';
 
     /**
-     * Success message selector.
+     * Messages block locator.
      *
      * @var string
      */
-    protected $succesMessage = '.success';
+    protected $messageBlock = '.page.messages';
 
     /**
      * Get block price.
@@ -374,14 +374,13 @@ class View extends AbstractConfigureBlock
      */
     public function clickAddToCompare()
     {
-        $browser = $this->browser;
-        $successMessage = $this->succesMessage;
-        $this->_rootElement->find($this->clickAddToCompare, Locator::SELECTOR_CSS)->click();
-        $this->_rootElement->waitUntil(
-            function () use ($browser, $successMessage) {
-                return $browser->find($successMessage)->isVisible() ? true : null;
-            }
+        /** @var \Magento\Core\Test\Block\Messages $messageBlock */
+        $messageBlock = $this->blockFactory->create(
+            'Magento\Core\Test\Block\Messages',
+            ['element' => $this->browser->find($this->messageBlock)]
         );
+        $this->_rootElement->find($this->clickAddToCompare, Locator::SELECTOR_CSS)->click();
+        $messageBlock->waitSuccessMessage();
     }
 
     /**

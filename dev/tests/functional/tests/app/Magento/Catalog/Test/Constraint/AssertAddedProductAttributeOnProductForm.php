@@ -33,7 +33,7 @@ class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
      * @param InjectableFixture $product
      * @param CatalogProductIndex $productGrid
      * @param CatalogProductEdit $productEdit
-     * @param CatalogProductAttribute $productAttribute
+     * @param CatalogProductAttribute $attribute
      * @param CatalogProductAttribute $productAttributeOriginal
      * @throws \Exception
      * @return void
@@ -42,7 +42,7 @@ class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
         InjectableFixture $product,
         CatalogProductIndex $productGrid,
         CatalogProductEdit $productEdit,
-        CatalogProductAttribute $productAttribute,
+        CatalogProductAttribute $attribute,
         CatalogProductAttribute $productAttributeOriginal = null
     ) {
         $filterProduct = [
@@ -52,8 +52,8 @@ class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
         $productGrid->getProductGrid()->searchAndOpen($filterProduct);
 
         $catalogProductAttribute = ($productAttributeOriginal !== null)
-            ? array_merge($productAttributeOriginal->getData(), $productAttribute->getData())
-            : $productAttribute->getData();
+            ? array_merge($productAttributeOriginal->getData(), $attribute->getData())
+            : $attribute->getData();
 
         \PHPUnit_Framework_Assert::assertTrue(
             $productEdit->getProductForm()->checkAttributeLabel($catalogProductAttribute),

@@ -87,19 +87,17 @@ class Navigation extends Block
     }
 
     /**
-     * Get array of available options.
+     * Get array of available filters.
      *
-     * @return Element[]
+     * @return array
      */
-    public function getAvailableOptions()
+    public function getFilters()
     {
         $this->reinitRootElement();
         $options = $this->_rootElement->find($this->optionTitle)->getElements();
-        $contents = $this->_rootElement->find($this->optionContent)->getElements();
-
         $data = [];
-        foreach ($options as $key => $option) {
-            $data[$option->getText()] = $contents[$key];
+        foreach ($options as $option) {
+            $data[] = $option->getText();
         }
         return $data;
     }

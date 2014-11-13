@@ -17,7 +17,7 @@ use Mtf\Fixture\InjectableFixture;
 /**
  * Assert that attribute present in sort dropdown on search results page on frontend.
  */
-class AssertProductAttributeUsedSortOnFrontend extends AbstractConstraint
+class AssertProductAttributeIsUsedInSortOnFrontend extends AbstractConstraint
 {
     /**
      * Constraint severeness
@@ -47,7 +47,7 @@ class AssertProductAttributeUsedSortOnFrontend extends AbstractConstraint
             : $attribute->getFrontendLabel();
 
         \PHPUnit_Framework_Assert::assertTrue(
-            in_array($label, $catalogsearchResult->getListProductBlock()->getSortByTerms()),
+            in_array($label, $catalogsearchResult->getListProductBlock()->getSortByValues()),
             'Attribute is absent in sort dropdown on search results page on frontend.'
         );
     }

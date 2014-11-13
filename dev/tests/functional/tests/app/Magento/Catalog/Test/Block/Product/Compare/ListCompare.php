@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\Block\Product\Compare;
 
+use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
@@ -60,6 +61,13 @@ class ListCompare extends Block
     protected $attributeSelector = './td[%d]/div';
 
     /**
+     * Global attribute selector.
+     *
+     * @var string
+     */
+    protected $attribute = 'span.attribute';
+
+    /**
      * Remove button selector.
      *
      * @var string
@@ -74,14 +82,14 @@ class ListCompare extends Block
     protected $isEmpty = 'p.empty';
 
     /**
-     * Selector for message block
+     * Selector for message block.
      *
      * @var string
      */
     protected $messageBlock = '#messages';
 
     /**
-     * Get product info
+     * Get product info.
      *
      * @param int $index
      * @param string $attributeKey
@@ -119,12 +127,11 @@ class ListCompare extends Block
     }
 
     /**
-     * Get item compare product attribute.
+     * Get list of comparable product attributes.
      *
-     * @param string $key
-     * @return Element
+     * @return array
      */
-    public function getCompareProductAttribute($key)
+    public function getComparableAttributes()
     {
         $rootElement = $this->_rootElement;
         $element = $this->nameSelector;
@@ -133,7 +140,12 @@ class ListCompare extends Block
                 return $rootElement->find($element, Locator::SELECTOR_XPATH)->isVisible() ? true : null;
             }
         );
-        return $this->_rootElement->find(sprintf($this->productAttribute, $key), Locator::SELECTOR_XPATH);
+
+        $attributes = $this->_rootElement->find($this->attribute)->getElements();
+        foreach ($attributes as $attribute) {
+            $data[] = $attribute->getText();
+        }
+        return $data;
     }
 
     /**

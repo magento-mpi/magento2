@@ -13,7 +13,7 @@ use Magento\CatalogSearch\Test\Page\AdvancedSearch;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Check whether attribute displayed in the advanced search form on the frontend.
+ * Check whether attribute is displayed in the advanced search form on the frontend.
  */
 class AssertProductAttributeDisplayingOnSearchForm extends AbstractConstraint
 {
@@ -25,7 +25,7 @@ class AssertProductAttributeDisplayingOnSearchForm extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Check whether attribute displayed in the advanced search form on the frontend.
+     * Check whether attribute is displayed in the advanced search form on the frontend.
      *
      * @param CatalogProductAttribute $attribute
      * @param AdvancedSearch $advancedSearch
@@ -34,12 +34,12 @@ class AssertProductAttributeDisplayingOnSearchForm extends AbstractConstraint
     public function processAssert(CatalogProductAttribute $attribute, AdvancedSearch $advancedSearch)
     {
         $advancedSearch->open();
-        $formFields = $advancedSearch->getForm()->getFormFields();
+        $formLabels = $advancedSearch->getForm()->getFormlabels();
         $label = $attribute->hasData('manage_frontend_label')
             ? $attribute->getManageFrontendLabel()
             : $attribute->getFrontendLabel();
         \PHPUnit_Framework_Assert::assertTrue(
-            in_array($label, array_keys($formFields)),
+            in_array($label, $formLabels),
             'Attribute is absent on advanced search form.'
         );
     }

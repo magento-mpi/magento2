@@ -17,7 +17,7 @@ use Magento\Backend\Test\Block\Widget\Tab;
 /**
  * Edit attribute form on catalog product edit page.
  */
-class Edit extends FormTabs
+class AttributeForm extends FormTabs
 {
     /**
      * Iframe locator.

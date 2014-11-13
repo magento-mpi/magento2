@@ -16,7 +16,7 @@ use Mtf\Constraint\AbstractAssertForm;
 /**
  * Assert that displayed attribute data on edit page equals passed from fixture.
  */
-class AssertAttributeOnAttributeForm extends AbstractAssertForm
+class AssertAttributeForm extends AbstractAssertForm
 {
     /**
      * Constraint severeness

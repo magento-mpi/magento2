@@ -14,13 +14,17 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Mtf\Constraint\AbstractConstraint;
-use Mtf\Fixture\FixtureFactory;
 
 /**
- * Check whether the attribute unique.
+ * Check whether the attribute is unique.
  */
 class AssertProductAttributeIsUnique extends AbstractConstraint
 {
+    /**
+     * Expected message.
+     */
+    const UNIQUE_MESSAGE = 'The value of attribute "%s" must be unique';
+
     /**
      * Constraint severeness
      *
@@ -29,44 +33,37 @@ class AssertProductAttributeIsUnique extends AbstractConstraint
     protected $severeness = 'low';
 
     /**
-     * Check whether the attribute unique.
+     * Check whether the attribute is unique.
      *
      * @param CatalogProductIndex $catalogProductIndex
      * @param CatalogProductEdit $catalogProductEdit
-     * @param CatalogProductSimple $productSimple
+     * @param CatalogProductSimple $product
      * @param CatalogProductAttribute $attribute
-     * @param FixtureFactory $fixtureFactory
-     * @param CatalogAttributeSet|null $productTemplate
      * @throws \Exception
      * @return void
      */
     public function processAssert(
         CatalogProductIndex $catalogProductIndex,
         CatalogProductEdit $catalogProductEdit,
-        CatalogProductSimple $productSimple,
-        CatalogProductAttribute $attribute,
-        FixtureFactory $fixtureFactory,
-        CatalogAttributeSet $productTemplate = null
+        CatalogProductSimple $product,
+        CatalogProductAttribute $attribute
     ) {
-        if ($productTemplate !== null) {
-            $productSimple = $fixtureFactory->createByCode(
-                'catalogProductSimple',
-                [
-                    'dataSet' => 'product_with_category_with_anchor',
-                    'data' => [
-                        'attribute_set_id' => ['attribute_set' => $productTemplate],
-                    ],
-                ]
-            );
-        }
-        $productSimple->persist();
-
-        $catalogProductIndex->open()->getProductGrid()->searchAndOpen(['sku' => $productSimple->getSku()]);
+        $catalogProductIndex->open()->getGridPageActionBlock()->addProduct('simple');
         $productForm = $catalogProductEdit->getProductForm();
-        $productForm->fill($productSimple);
-        $productForm->save($productSimple);
+        $productForm->fill($product);
+        $catalogProductEdit->getFormPageActions()->save();
+        $failedAttributes = $productForm->getRequireNoticeAttributes($product);
+        $actualMessage = $failedAttributes['product-details'][$attribute->getFrontendLabel()];
 
-        \PHPUnit_Framework_Assert::assertTrue($productForm->getRequireNoticeAttributes(), 'Attribute is not unique.');
+        $fixtureData = $attribute->getData();
+        $defaultValue = preg_grep('/^default_value/', array_keys($fixtureData));
+
+        \PHPUnit_Framework_Assert::assertEquals(
+            self::UNIQUE_MESSAGE,
+            sprintf($actualMessage, $fixtureData[array_shift($defaultValue)]),
+            'JS error notice on product edit page is not equal to expected.'
+        );
+
     }
 
     /**

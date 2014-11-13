@@ -69,7 +69,7 @@ class ListProduct extends Block
 
     /**
      * Price box CSS selector.
-     * 
+     *
      * @var string
      */
     protected $priceBox = '.price-box #product-price-%s .price';
@@ -207,7 +207,7 @@ class ListProduct extends Block
      *
      * @return array
      */
-    public function getSortByTerms()
+    public function getSortByValues()
     {
         return explode("\n", $this->_rootElement->find($this->sorter)->getText());
     }

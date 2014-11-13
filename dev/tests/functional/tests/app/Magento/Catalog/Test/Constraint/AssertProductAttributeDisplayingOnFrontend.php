@@ -46,9 +46,9 @@ class AssertProductAttributeDisplayingOnFrontend extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertTrue(
             in_array(
                 $attribute->getFrontendLabel(),
-                array_keys($catalogProductView->getAdditionalInformationBlock()->getProductAttributes())
+                $catalogProductView->getAdditionalInformationBlock()->getAttributeLabels()
             ),
-            'Attribute is not visible on frontend.'
+            'Attribute is not visible on product page in additional info block on frontend.'
         );
     }
 
@@ -59,6 +59,6 @@ class AssertProductAttributeDisplayingOnFrontend extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Attribute is visible on frontend.';
+        return 'Attribute is visible on product page in additional info block on frontend.';
     }
 }

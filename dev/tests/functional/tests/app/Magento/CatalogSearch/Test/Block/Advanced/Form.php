@@ -98,14 +98,14 @@ class Form extends ParentForm
     /**
      * Get form fields.
      *
-     * @return Element[]
+     * @return array
      */
-    public function getFormFields()
+    public function getFormLabels()
     {
         $elements = $this->_rootElement->find($this->fieldSelector, Locator::SELECTOR_XPATH)->getElements();
         foreach ($elements as $element) {
-            $fields[$element->find($this->labelSelector)->getText()] = $element;
+            $labels[] = $element->find($this->labelSelector)->getText();
         }
-        return $fields;
+        return $labels;
     }
 }

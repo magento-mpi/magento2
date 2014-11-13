@@ -10,7 +10,7 @@ namespace Magento\Catalog\Test\Constraint;
 
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
-use Mtf\Client\Driver\Selenium\Browser;
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Mtf\Fixture\InjectableFixture;
 
@@ -32,22 +32,21 @@ class AssertProductAttributeIsFilterable extends AbstractConstraint
      * @param CatalogCategoryView $catalogCategoryView
      * @param InjectableFixture $product
      * @param CatalogProductAttribute $attribute
-     * @param Browser $browser
+     * @param CmsIndex $cmsIndex
      * @return void
      */
     public function processAssert(
         CatalogCategoryView $catalogCategoryView,
         InjectableFixture $product,
         CatalogProductAttribute $attribute,
-        Browser $browser
+        CmsIndex $cmsIndex
     ) {
-        $categories = $product->getDataFieldConfig('category_ids')['source']->getCategories();
-        $browser->open($_ENV['app_frontend_url'] . reset($categories)->getUrlKey() . '.html');
+        $cmsIndex->open()->getTopmenu()->selectCategoryByName($product->getCategoryIds()[0]);
         $label = $attribute->hasData('manage_frontend_label')
             ? $attribute->getManageFrontendLabel()
             : $attribute->getFrontendLabel();
         \PHPUnit_Framework_Assert::assertTrue(
-            in_array($label, array_keys($catalogCategoryView->getLayeredNavigationBlock()->getAvailableOptions())),
+            in_array($label, $catalogCategoryView->getLayeredNavigationBlock()->getFilters()),
             'Attribute is absent in layered navigation on category page.'
         );
     }
