@@ -702,16 +702,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             try {
                 $this->_customer = $this->customerRepository->getById($this->getCustomerId());
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-                $this->_customer = $this->customerBuilder->create();
+                $this->_customer = $this->customerBuilder->setId(null)->create();
             }
-//            $this->_customer = $this->_customerFactory->create();
-//            $customerId = $this->getCustomerId();
-//            if ($customerId) {
-//                $this->_customer->load($customerId);
-//                if (!$this->_customer->getId()) {
-//                    $this->_customer->setCustomerId(null);
-//                }
-//            }
         }
 
         return $this->_customer;
