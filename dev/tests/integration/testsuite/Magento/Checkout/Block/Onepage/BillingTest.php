@@ -7,6 +7,9 @@ namespace Magento\Checkout\Block\Onepage;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
+/**
+ * Class BillingTest
+ */
 class BillingTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Checkout\Block\Onepage\Billing */
@@ -36,7 +39,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $objectManager = Bootstrap::getObjectManager();
-        $this->_customerBuilder = $objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
+        $this->_customerBuilder = $objectManager->create('Magento\Customer\Api\Data\CustomerInterfaceBuilder');
         $this->_customerRepository = $objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
         $customer = $this->_customerRepository->getById(self::FIXTURE_CUSTOMER_ID);
 
