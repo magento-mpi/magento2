@@ -50,7 +50,7 @@
                             </arguments>
                         </block>
                     </block>
-                    <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet">
+                    <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" name="adminhtml.block.giftwrapping.grid_column_set" as="grid.columnSet">
                         <arguments>
                             <argument name="id" xsi:type="string">giftwrappingGrid</argument>
                             <argument name="rowUrl" xsi:type="array">
