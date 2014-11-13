@@ -39,8 +39,6 @@ class Template extends \Magento\Backend\App\Action
      */
     protected function _initTemplate($idFieldName = 'template_id')
     {
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Email Templates'));
-
         $id = (int)$this->getRequest()->getParam($idFieldName);
         $model = $this->_objectManager->create('Magento\Email\Model\BackendTemplate');
         if ($id) {

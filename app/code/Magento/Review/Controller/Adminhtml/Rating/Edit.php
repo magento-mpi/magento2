@@ -24,6 +24,7 @@ class Edit extends \Magento\Review\Controller\Adminhtml\Rating
         }
 
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_ratings');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Ratings'));
         $this->_view->getPage()->getConfig()->getTitle()->prepend(
             $ratingModel->getId() ? $ratingModel->getRatingCode() : __('New Rating')
         );

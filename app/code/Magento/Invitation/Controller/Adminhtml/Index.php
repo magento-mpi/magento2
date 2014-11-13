@@ -66,8 +66,6 @@ class Index extends \Magento\Backend\App\Action
      */
     protected function _initInvitation()
     {
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Invitations'));
-
         $invitation = $this->_invitationFactory->create()->load($this->getRequest()->getParam('id'));
         if (!$invitation->getId()) {
             throw new \Magento\Framework\Model\Exception(__("We couldn't find this invitation."));

@@ -37,8 +37,6 @@ class Index extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
      */
     public function execute()
     {
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Hierarchy'));
-
         $this->_initScope();
 
         $nodeModel = $this->_objectManager->create(
@@ -56,6 +54,7 @@ class Index extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
         $this->_coreRegistry->register('current_hierarchy_node', $nodeModel);
 
         $this->_initAction();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Hierarchy'));
         $this->_view->renderLayout();
     }
 }

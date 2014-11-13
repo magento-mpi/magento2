@@ -33,6 +33,7 @@ class Edit extends \Magento\Banner\Controller\Adminhtml\Banner
 
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Banner::cms_magento_banner');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Banners'));
         $this->_view->getPage()->getConfig()->getTitle()->prepend(
             $model->getId() ? $model->getName() : __('New Banner')
         );

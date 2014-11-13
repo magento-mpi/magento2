@@ -29,9 +29,6 @@ class Edit extends \Magento\Tax\Controller\Adminhtml\Rate
             return;
         }
 
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Tax Zones and Rates'));
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(sprintf("%s", $taxRateDataObject->getCode()));
-
         $this->_initAction()->_addBreadcrumb(
             __('Manage Tax Rates'),
             __('Manage Tax Rates'),
@@ -55,6 +52,8 @@ class Edit extends \Magento\Tax\Controller\Adminhtml\Rate
                 )
             )
         );
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Tax Zones and Rates'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(sprintf("%s", $taxRateDataObject->getCode()));
         $this->_view->renderLayout();
     }
 }

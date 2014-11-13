@@ -20,7 +20,6 @@ class Edit extends \Magento\Rma\Controller\Adminhtml\Rma\Item\Attribute
         /* @var $attributeObject \Magento\Rma\Model\Item\Attribute */
         $attributeId = $this->getRequest()->getParam('attribute_id');
         $attributeObject = $this->_initAttribute()->setEntityTypeId($this->_getEntityType()->getId());
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Returns Attributes'));
 
         if ($attributeId) {
             $attributeObject->load($attributeId);
@@ -34,10 +33,6 @@ class Edit extends \Magento\Rma\Controller\Adminhtml\Rma\Item\Attribute
                 $this->_redirect('adminhtml/*/');
                 return;
             }
-
-            $this->_view->getPage()->getConfig()->getTitle()->prepend($attributeObject->getFrontendLabel());
-        } else {
-            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('New Return Attribute'));
         }
 
         $attributeData = $this->_getSession()->getAttributeData(true);
@@ -50,6 +45,9 @@ class Edit extends \Magento\Rma\Controller\Adminhtml\Rma\Item\Attribute
         $label = $attributeObject->getId() ? __('Edit Return Item Attribute') : __('New Return Item Attribute');
 
         $this->_initAction()->_addBreadcrumb($label, $label);
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Returns Attributes'));
+        $attributeId ? $this->_view->getPage()->getConfig()->getTitle()->prepend($attributeObject->getFrontendLabel())
+            : $this->_view->getPage()->getConfig()->getTitle()->prepend(__('New Return Attribute'));
         $this->_view->renderLayout();
     }
 }

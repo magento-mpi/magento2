@@ -30,11 +30,7 @@ class Edit extends \Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccount
         if (!empty($data)) {
             $model->addData($data);
         }
-
         $this->_view->loadLayout();
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(
-            $model->getId() ? $model->getCode() : __('New Account')
-        );
 
         $this->_addBreadcrumb(
             $id ? __('Edit Gift Card Account') : __('New Gift Card Account'),
@@ -51,6 +47,10 @@ class Edit extends \Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccount
             $this->_view->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tabs')
         )->_setActiveMenu(
             'Magento_GiftCardAccount::customer_giftcardaccount'
+        );
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Gift Card Accounts'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $model->getId() ? $model->getCode() : __('New Account')
         );
         $this->_view->renderLayout();
     }
