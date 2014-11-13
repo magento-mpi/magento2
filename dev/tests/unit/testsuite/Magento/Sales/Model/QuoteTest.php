@@ -236,7 +236,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
         $this->addressBuilderMock = $this->getMockBuilder('Magento\Customer\Api\Data\AddressInterfaceBuilder')
             ->disableOriginalConstructor()
-            ->setMethods(['mergeDataObjectWithArray'])
+            ->setMethods(['mergeDataObjectWithArray', 'create'])
             ->getMock();
 
         $this->customerBuilderMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterfaceBuilder')
@@ -505,23 +505,23 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->addressRepositoryMock->expects($this->once())
             ->method('delete')
             ->with($addressMock);
-        $customerMock = $this->getMockBuilder('Magento\Customer\Model\Customer')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->customerFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($customerMock));
-        $customerMock->expects($this->once())
-            ->method('load')
-            ->with($customerId);
+
+        $customerMock = $this->getMockForAbstractClass('Magento\Customer\Api\Data\CustomerInterface', [], '', false);
         $customerMock->expects($this->any())
             ->method('getId')
-            ->will($this->returnValue(false));
-        $this->quote->setCustomerId($customerId);
+            ->will($this->returnValue($customerId));
+        $this->quote->setCustomer($customerMock);
         $this->addressBuilderMock->expects($this->once())
             ->method('mergeDataObjectWithArray')
-            ->with($addressMock, [\Magento\Customer\Api\Data\AddressInterface::CUSTOMER_ID => null]);
-
+            ->with($addressMock, [\Magento\Customer\Api\Data\AddressInterface::CUSTOMER_ID => $customerId])
+            ->will($this->returnSelf());
+        $this->addressBuilderMock->expects($this->once())
+            ->method('create')
+            ->willReturn($addressMock);
+        $this->addressRepositoryMock->expects($this->once())
+            ->method('save')
+            ->with($addressMock)
+            ->willReturn($addressMock);
         $result = $this->quote->setCustomerAddressData($addresses);
         $this->assertInstanceOf('Magento\Sales\Model\Quote', $result);
     }
