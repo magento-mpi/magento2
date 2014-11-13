@@ -161,9 +161,6 @@ class Index extends \Magento\Backend\App\Action
      */
     protected function _initCustomer($idFieldName = 'id')
     {
-        // Default title
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customers'));
-
         $customerId = (int)$this->getRequest()->getParam($idFieldName);
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
         if ($customerId) {
@@ -174,6 +171,14 @@ class Index extends \Magento\Backend\App\Action
         // TODO: Investigate if any piece of code still relies on this; remove if not.
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
         return $customerId;
+    }
+
+    /**
+     * Prepare customer default title
+     */
+    protected function prepareDefaultCustomerTitle()
+    {
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customers'));
     }
 
     /**
