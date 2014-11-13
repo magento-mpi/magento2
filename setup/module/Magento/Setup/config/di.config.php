@@ -45,9 +45,6 @@ return [
                 'Zend\ServiceManager\ServiceLocatorInterface' => 'ServiceManager',
                 'Magento\Framework\DB\LoggerInterface' => 'Magento\Framework\DB\Logger\Null',
             ],
-            'Magento\Framework\App\Arguments\Loader' => [
-                'dirList' => 'Magento\Framework\App\Filesystem\DirectoryList'
-            ],
         ],
     ],
 ];
