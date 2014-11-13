@@ -43,11 +43,11 @@ class Tierprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Grouppr
     ) {
         $this->_productAttributeBackendTierprice = $productAttributeTierprice;
         parent::__construct(
-            $currencyFactory, 
-            $storeManager, 
-            $catalogData, 
-            $config, 
-            $catalogProductType, 
+            $currencyFactory,
+            $storeManager,
+            $catalogData,
+            $config,
+            $catalogProductType,
             $groupManagement
         );
     }

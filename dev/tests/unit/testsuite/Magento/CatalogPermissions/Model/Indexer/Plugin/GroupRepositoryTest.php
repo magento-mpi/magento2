@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -49,7 +49,10 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
 
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
 
-        $this->groupRepositoryPlugin = new \Magento\CatalogPermissions\Model\Indexer\Plugin\GroupRepository($this->indexerRegistryMock, $this->appConfigMock);
+        $this->groupRepositoryPlugin = new \Magento\CatalogPermissions\Model\Indexer\Plugin\GroupRepository(
+            $this->indexerRegistryMock,
+            $this->appConfigMock
+        );
     }
 
     public function testAfterDeleteGroupIndexerOff()

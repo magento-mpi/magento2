@@ -41,11 +41,11 @@ class Groupprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Groupp
     ) {
         $this->_productAttributeBackendGroupprice = $productAttributeBackendGroupprice;
         parent::__construct(
-            $currencyFactory, 
-            $storeManager, 
-            $catalogData, 
-            $config, 
-            $catalogProductType, 
+            $currencyFactory,
+            $storeManager,
+            $catalogData,
+            $config,
+            $catalogProductType,
             $groupManagement
         );
     }
