@@ -325,7 +325,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             'customer_id' => $customerId,
         );
         $this->getRequest()->setPost($post);
-        $this->getRequest()->setParam('customer_id', 1);
+        $this->getRequest()->setParam('id', 1);
         $this->dispatch('backend/customer/index/save');
 
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
@@ -398,6 +398,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
                 'sendemail' => '1',
+                'created_at' => '2000-01-01 00:00:00',
                 'customer_address' => array(
                     '1' => array(
                         'firstname' => 'update firstname',
