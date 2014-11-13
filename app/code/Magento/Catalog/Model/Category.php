@@ -301,9 +301,14 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
         try {
             $parent = $this->categoryRepository->get($parentId, $this->getStoreId());
         } catch (NoSuchEntityException $e) {
-            $message = 'Sorry, but we can\'t move the category because we can\'t find the new parent category you'
-                . ' selected.';
-            throw new \Magento\Framework\Model\Exception(__($message), 0, $e);
+            throw new \Magento\Framework\Model\Exception(
+                __(
+                    'Sorry, but we can\'t move the category because we can\'t find the new parent category you'
+                        . ' selected.'
+                ),
+                0,
+                $e
+            );
         }
 
         if (!$this->getId()) {
