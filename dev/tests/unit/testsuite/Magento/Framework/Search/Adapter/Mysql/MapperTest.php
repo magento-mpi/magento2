@@ -86,7 +86,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $connectionAdapter->expects($this->any())->method('select')->will($this->returnValue($this->select));
 
         $this->resource = $this->getMockBuilder('Magento\Framework\App\Resource')
-            ->setMethods(['getConnection'])
             ->disableOriginalConstructor()
             ->getMock();
         $this->resource->expects($this->any())->method('getConnection')

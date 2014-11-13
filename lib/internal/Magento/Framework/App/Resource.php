@@ -79,7 +79,7 @@ class Resource
         $this->_config = $resourceConfig;
         $this->_connectionFactory = $adapterFactory;
         $this->localConfig = $localConfig;
-        $this->_tablePrefix = $tablePrefix ?: $this->localConfig->get(self::PARAM_TABLE_PREFIX);
+        $this->_tablePrefix = $tablePrefix ?: null;
     }
 
     /**
@@ -207,5 +207,18 @@ class Resource
             $this->getTableName($refTableName),
             $refColumnName
         );
+    }
+
+    /**
+     * Get table prefix
+     *
+     * @return string
+     */
+    private function getTablePrefix()
+    {
+        if (null === $this->_tablePrefix) {
+            $this->_tablePrefix = (string)$this->localConfig->get(self::PARAM_TABLE_PREFIX);
+        }
+        return $this->_tablePrefix;
     }
 }

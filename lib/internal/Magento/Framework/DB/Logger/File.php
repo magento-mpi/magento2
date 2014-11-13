@@ -9,6 +9,7 @@ namespace Magento\Framework\DB\Logger;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * Logging to file
@@ -16,9 +17,9 @@ use Magento\Framework\Filesystem;
 class File extends LoggerAbstract
 {
     /**
-     * @var Filesystem
+     * @var WriteInterface
      */
-    private $filesystem;
+    private $dir;
 
     /**
      * Path to SQL debug data log
@@ -36,13 +37,13 @@ class File extends LoggerAbstract
      */
     public function __construct(
         Filesystem $filesystem,
-        $debugFile = 'var/debug/pdo_mysql.log',
+        $debugFile = 'debug/pdo_mysql.log',
         $logAllQueries = false,
         $logQueryTime = 0.05,
         $logCallStack = false
     ) {
         parent::__construct($logAllQueries, $logQueryTime, $logCallStack);
-        $this->filesystem = $filesystem;
+        $this->dir = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $this->debugFile = $debugFile;
     }
 
@@ -53,7 +54,7 @@ class File extends LoggerAbstract
     {
         $str = '## ' . date('Y-m-d H:i:s') . "\r\n" . $str;
 
-        $stream = $this->filesystem->getDirectoryWrite(DirectoryList::ROOT)->openFile($this->debugFile, 'a');
+        $stream = $this->dir->openFile($this->debugFile, 'a');
         $stream->lock();
         $stream->write($str);
         $stream->unlock();

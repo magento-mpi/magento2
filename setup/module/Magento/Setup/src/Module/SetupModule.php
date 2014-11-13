@@ -7,6 +7,7 @@
  */
 namespace Magento\Setup\Module;
 
+use Magento\Framework\Module\Resource;
 use Magento\Framework\Module\Updater\SetupInterface;
 use Magento\Setup\Module\Setup\FileResolver as SetupFileResolver;
 use Magento\Setup\Model\LoggerInterface;
@@ -43,7 +44,7 @@ class SetupModule extends Setup
     /**
      * Resource
      *
-     * @var SchemaResource
+     * @var Resource
      */
     protected $resource;
 
@@ -74,7 +75,7 @@ class SetupModule extends Setup
         $this->logger = $log;
         $this->fileResolver = $fileResolver;
         $this->moduleConfig = $moduleList->getOne($moduleName);
-        $this->resource = new \Magento\Framework\Module\Resource($resource);
+        $this->resource = new Resource($resource);
         $this->resourceName = $this->fileResolver->getResourceCode($moduleName);
     }
 

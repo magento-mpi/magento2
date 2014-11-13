@@ -24,7 +24,7 @@ class AbstractDbTest extends \PHPUnit_Framework_TestCase
     {
         $this->_resourcesMock = $this->getMock(
             '\Magento\Framework\App\Resource',
-            ['getConnection', 'getTableName', 'getTable'],
+            [],
             [],
             '',
             false

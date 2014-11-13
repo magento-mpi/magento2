@@ -17,11 +17,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
     private $stream;
 
     /**
-     * @var \Magento\Framework\Filesystem|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $filesystem;
-
-    /**
      * @var \Magento\Framework\Filesystem\Directory\WriteInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $dir;
@@ -39,13 +34,13 @@ class FileTest extends \PHPUnit_Framework_TestCase
             ->method('openFile')
             ->with(self::DEBUG_FILE, 'a')
             ->will($this->returnValue($this->stream));
-        $this->filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
-        $this->filesystem->expects($this->any())
+        $filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
+        $filesystem->expects($this->any())
             ->method('getDirectoryWrite')
             ->will($this->returnValue($this->dir));
 
         $this->object = new File(
-            $this->filesystem,
+            $filesystem,
             self::DEBUG_FILE
         );
     }
