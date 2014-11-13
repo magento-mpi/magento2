@@ -52,7 +52,7 @@ class SearchResultsBuilder extends EntityAbstract
                 ],
                 [
                     'name' => 'valueBuilder',
-                    'type' => '\\Magento\Framework\Api\AttributeValueBuilder'
+                    'type' => '\\Magento\Framework\Api\AttributeDataBuilder'
                 ],
                 [
                     'name' => 'metadataService',
