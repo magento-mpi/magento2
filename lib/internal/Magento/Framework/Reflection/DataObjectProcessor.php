@@ -102,7 +102,7 @@ class DataObjectProcessor
                     continue;
                 }
                 $key = SimpleDataObjectConverter::camelCaseToSnakeCase(substr($methodName, 3));
-                if ($key === AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY) {
+                if ($key === ExtensibleDataInterface::CUSTOM_ATTRIBUTES) {
                     $value = $this->convertCustomAttributes($value);
                 } else if (is_object($value)) {
                     $value = $this->buildOutputDataArray($value, $returnType);
