@@ -15,16 +15,16 @@ use Magento\Tools\Composer\Helper\VersionCalculator;
 
 require __DIR__ . '/../../../bootstrap.php';
 
-$skeletonOption = 'skeleton';
+$baseOption = 'base';
 $productOption = 'product';
 
 define(
     'USAGE',
     "Usage: php -f create-root.php --"
-    . " [--type=<$skeletonOption|$productOption>] [--wildcard] [--source-dir=<path>] " .
+    . " [--type=<$baseOption|$productOption>] [--wildcard] [--source-dir=<path>] " .
     "[--target-file=<path>] [--set=<option:value>]
-    --type=$skeletonOption|$productOption - render the result as a project skeleton or as a product.
-        --type=$skeletonOption render the result as a project skeleton
+    --type=$baseOption|$productOption - render the result as a project base or as a product.
+        --type=$baseOption render the result as a project base
         --type=$productOption render the result as a product
     --wildcard - whether to set 'require' versions to wildcard
     --source-dir=/path/to/magento/dir - path to a Magento root directory. By default will use current working copy
@@ -56,9 +56,9 @@ try {
         'description' => 'Magento project (Community Edition)',
         'license' => ['OSL-3.0', 'AFL-3.0'],
     ];
-    $skeletonDefaults = [
-        'name' => 'magento/skeleton-community-edition',
-        'description' => 'Magento 2 Skeleton',
+    $baseDefaults = [
+        'name' => 'magento/magento2-base',
+        'description' => 'Magento 2 Base',
         'type' => 'magento2-component',
         'version' => $package->get('version'),
         'require' => [
@@ -67,12 +67,12 @@ try {
     ];
     $replaceFilter = new ReplaceFilter($source);
     $useWildcard = isset($opt['wildcard']);
-    $skeletonVersion = VersionCalculator::calculateVersionValue(
+    $baseVersion = VersionCalculator::calculateVersionValue(
         $package->get('version'),
         'self.version',
         $useWildcard
     );
-    $skeletonName = $skeletonDefaults['name'];
+    $baseName = $baseDefaults['name'];
     $productDefaults = [
         'name' => 'magento/product-community-edition',
         'description' => 'eCommerce Platform for Growth (Community Edition)',
@@ -84,14 +84,14 @@ try {
                 'url' => 'http://packages.magento.com/'
             ]
         ],
-        'require->' . $skeletonName => $skeletonVersion,
+        'require->' . $baseName => $baseVersion,
     ];
 
     $opt['type'] = isset($opt['type']) ? $opt['type'] : 'default';
     switch ($opt['type']) {
-        case $skeletonOption:
-            $defaults = array_merge($defaults, $skeletonDefaults);
-            $targetPackage = createSkeleton($package, $defaults, $source);
+        case $baseOption:
+            $defaults = array_merge($defaults, $baseDefaults);
+            $targetPackage = createBase($package, $defaults, $source);
             break;
         case $productOption:
             $defaults = array_merge($defaults, $productDefaults);
@@ -153,14 +153,14 @@ function createDefault($package, $defaults, $source)
 }
 
 /**
- * Create skeleton package
+ * Create base package
  *
  * @param Package $package
  * @param array $defaults
  * @param string $source
  * @return Package
  */
-function createSkeleton($package, $defaults, $source)
+function createBase($package, $defaults, $source)
 {
     $targetPackage = new Package(new \StdClass(), null);
 
@@ -175,7 +175,7 @@ function createSkeleton($package, $defaults, $source)
     $targetPackage->set('replace', $package->get('replace'));
     $targetPackage->set('extra->component_paths', $package->get('extra->component_paths'));
 
-    // marshaling mapping (for skeleton)
+    // marshaling mapping (for base)
     $reader = new Reader($source);
     $targetPackage->set('extra->map', $reader->getRootMappingPatterns());
 

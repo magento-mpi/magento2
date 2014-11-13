@@ -50,12 +50,6 @@
         <fail message="Bamboo variable 'target_satis_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_target_satis_dir}" arg2="" trim="true"/></condition>
         </fail>
-        <fail message="Bamboo variable 'target_skeleton_repository' must be defined.">
-            <condition><equals arg1="${env.bamboo_target_skeleton_repository}" arg2="" trim="true"/></condition>
-        </fail>
-        <fail message="Bamboo variable 'target_skeleton_dir' must be defined.">
-            <condition><equals arg1="${env.bamboo_target_skeleton_dir}" arg2="" trim="true"/></condition>
-        </fail>
         <fail message="Bamboo variable 'target_product_repository' must be defined.">
             <condition><equals arg1="${env.bamboo_target_product_repository}" arg2="" trim="true"/></condition>
         </fail>
@@ -68,8 +62,6 @@
                 --changelog-file=CHANGELOG.md
                 --target-satis-repo=${env.bamboo_target_satis_repository}
                 --target-satis-dir=${env.bamboo_target_satis_dir}
-                --target-skeleton-repo=${env.bamboo_target_skeleton_repository}
-                --target-skeleton-dir=${env.bamboo_target_skeleton_dir}
                 --target-product-repo=${env.bamboo_target_product_repository}
                 --target-product-dir=${env.bamboo_target_product_dir}
                 "/>
@@ -83,9 +75,6 @@
         <fail message="Bamboo variable 'publication_target_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_publication_target_dir}" arg2="" trim="true"/></condition>
         </fail>
-        <fail message="Bamboo variable 'target_skeleton_dir' must be defined.">
-            <condition><equals arg1="${env.bamboo_target_skeleton_dir}" arg2="" trim="true"/></condition>
-        </fail>
         <fail message="Bamboo variable 'target_product_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_target_product_dir}" arg2="" trim="true"/></condition>
         </fail>
@@ -97,10 +86,6 @@
         <!-- Push components to Satis repo -->
         <exec dir="${env.bamboo_target_satis_dir}" executable="git" failonerror="true">
             <arg line="push origin master"/>
-        </exec>
-        <!-- Push CE skeleton -->
-        <exec dir="${env.bamboo_target_skeleton_dir}" executable="git" failonerror="true">
-            <arg line="push origin master --tags"/>
         </exec>
         <!-- Push CE product -->
         <exec dir="${env.bamboo_target_product_dir}" executable="git" failonerror="true">
