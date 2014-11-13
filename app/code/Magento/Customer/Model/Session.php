@@ -9,8 +9,8 @@ namespace Magento\Customer\Model;
 
 use Magento\Customer\Model\Config\Share;
 use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\Data\Customer as CustomerData;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\Data\CustomerInterface as CustomerData;
 
 /**
  * Customer session model
@@ -62,7 +62,9 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     protected $_session;
 
-    /** @var  CustomerRepositoryInterface */
+    /**
+     * @var  CustomerRepositoryInterface
+     */
     protected $customerRepository;
 
     /**
