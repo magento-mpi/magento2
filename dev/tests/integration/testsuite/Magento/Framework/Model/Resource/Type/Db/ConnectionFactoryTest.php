@@ -5,22 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\App\Resource;
+namespace Magento\Framework\Model\Resource\Type\Db;
 
-class ConnectionFactoryCacheableTest extends \PHPUnit_Framework_TestCase
+class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\App\Resource\ConnectionFactoryCacheable
+     * @var ConnectionFactory
      */
     private $model;
 
     protected function setUp()
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->model = new \Magento\Framework\App\Resource\ConnectionFactoryCacheable(
-            $objectManager->get('Magento\Framework\DB\LoggerInterface'),
-            $objectManager->get('Magento\Framework\App\CacheInterface')
-        );
+        $this->model = new ConnectionFactory;
     }
 
     public function testCreate()
@@ -38,6 +34,5 @@ class ConnectionFactoryCacheableTest extends \PHPUnit_Framework_TestCase
         ];
         $connection = $this->model->create($dbConfig);
         $this->assertInstanceOf('\Magento\Framework\DB\Adapter\AdapterInterface', $connection);
-        $this->assertAttributeInstanceOf('\Magento\Framework\Cache\FrontendInterface', '_cacheAdapter', $connection);
     }
 }

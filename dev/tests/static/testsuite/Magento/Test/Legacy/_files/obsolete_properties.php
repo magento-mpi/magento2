@@ -344,7 +344,7 @@ return array(
     ['_formKeyValidator', 'Magento\Customer\Controller\Account\LoginPost', 'Magento\Customer\Controller\Account\LoginPost::formKeyValidator'],
     ['_openActions', 'Magento\Customer\Controller\Account', 'Magento\Customer\Controller\Account::openActions'],
     ['_session', 'Magento\Customer\Controller\Account', 'Magento\Customer\Controller\Account::session'],
-    ['_cache', 'Magento\Framework\App\Magento\Framework\App\Resource', 'Magento\Framework\App\Resource\ConnectionFactoryCacheable'],
+    ['_cache', 'Magento\Framework\App\Magento\Framework\App\Resource', 'Magento\Framework\App\Resource\ConnectionFactory'],
     ['_debug', 'Magento\Framework\DB\Adapter\Pdo\Mysql', 'logger'],
     ['_logQueryTime', 'Magento\Framework\DB\Adapter\Pdo\Mysql', 'Magento\Framework\DB\Logger\LoggerAbstract'],
     ['_logAllQueries', 'Magento\Framework\DB\Adapter\Pdo\Mysql', 'Magento\Framework\DB\Logger\LoggerAbstract'],

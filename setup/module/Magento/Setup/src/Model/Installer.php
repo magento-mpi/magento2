@@ -18,7 +18,7 @@ use Magento\Framework\Module\ModuleList\Loader as ModuleLoader;
 use Magento\Framework\Module\ModuleList\DeploymentConfig;
 use Magento\Store\Model\Store;
 use Magento\Framework\Math\Random;
-use Magento\Framework\App\Resource\ConnectionFactory;
+use Magento\Framework\Model\Resource\Type\Db\ConnectionFactory;
 use Magento\Framework\Shell;
 use Magento\Framework\Shell\CommandRenderer;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -140,7 +140,7 @@ class Installer
     /**
      * DB connection factory
      *
-     * @var ConnectionFactory
+     * @var \Magento\Framework\Model\Resource\Type\Db\ConnectionFactory
      */
     private $connectionFactory;
 

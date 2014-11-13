@@ -43,7 +43,6 @@ return [
             'preference' => [
                 'Zend\EventManager\EventManagerInterface' => 'EventManager',
                 'Zend\ServiceManager\ServiceLocatorInterface' => 'ServiceManager',
-                'Magento\Framework\DB\LoggerInterface' => 'Magento\Framework\DB\Logger\Null',
             ],
         ],
     ],
