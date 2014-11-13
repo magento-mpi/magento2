@@ -10,7 +10,7 @@ namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab;
 class PermissionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\CatalogPermissions\Model\Indexer\Product
+     * @var \Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions
      */
     protected $model;
 
@@ -222,7 +222,6 @@ class PermissionsTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerMock->expects($this->any())->method('getWebsites')->will(
             $this->returnValue(array($websiteMock))
         );
-        $temp = $this->model->getParentPermissions();
         $this->assertEquals($result, $this->model->getParentPermissions());
     }
 
