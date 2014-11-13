@@ -133,7 +133,7 @@ abstract class AbstractSimpleObjectBuilder
     public function create()
     {
         $dataObjectType = $this->_getDataObjectType();
-        $dataObject = $this->objectFactory->create($dataObjectType, ['builder' => $this, 'data' => $this->getData()]);
+        $dataObject = $this->objectFactory->create($dataObjectType, ['builder' => $this]);
         $this->data = array();
         return $dataObject;
     }

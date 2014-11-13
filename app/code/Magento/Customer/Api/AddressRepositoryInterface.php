@@ -1,5 +1,6 @@
 <?php
 /**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -17,6 +18,7 @@ interface AddressRepositoryInterface
      *
      * @param \Magento\Customer\Api\Data\AddressInterface $address
      * @return \Magento\Customer\Api\Data\AddressInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function save(\Magento\Customer\Api\Data\AddressInterface $address);
 
@@ -25,6 +27,7 @@ interface AddressRepositoryInterface
      *
      * @param int $addressId
      * @return \Magento\Customer\Api\Data\AddressInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function get($addressId);
 
@@ -33,6 +36,7 @@ interface AddressRepositoryInterface
      *
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Customer\Api\Data\AddressSearchResultsInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 
@@ -41,6 +45,7 @@ interface AddressRepositoryInterface
      *
      * @param \Magento\Customer\Api\Data\AddressInterface $address
      * @return bool true on success
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function delete(\Magento\Customer\Api\Data\AddressInterface $address);
 
@@ -49,6 +54,8 @@ interface AddressRepositoryInterface
      *
      * @param int $addressId
      * @return bool true on success
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function deleteById($addressId);
 }
