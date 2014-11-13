@@ -7,6 +7,8 @@
  */
 namespace Magento\Catalog\Model\ProductLink;
 
+use Magento\Framework\Exception\NoSuchEntityException;
+
 class ManagementTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -116,6 +118,26 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
         $this->productLinkBuilderMock->expects($this->once())->method('create')->willReturn('test');
         $this->assertEquals(['test'], $this->model->getLinkedItemsByType($productSku, $linkType));
     }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage Unknown link type: wrong_type
+     */
+    public function testGetLinkedItemsByTypeWithWrongType()
+    {
+        $productSku = 'product';
+        $linkType = 'wrong_type';
+
+        $this->productRepositoryMock->expects($this->once())->method('get')->with($productSku)
+            ->willReturn($this->productMock);
+        $this->collectionProviderMock->expects($this->once())
+            ->method('getCollection')
+            ->with($this->productMock, $linkType)
+            ->willThrowException(new NoSuchEntityException('Collection provider is not registered'));
+
+        $this->model->getLinkedItemsByType($productSku, $linkType);
+    }
+
 
     public function testSetProductLinks()
     {

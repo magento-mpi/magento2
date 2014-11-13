@@ -8,7 +8,9 @@
  */
  
 namespace Magento\Eav\Model;
- 
+
+use Magento\Framework\Exception\NoSuchEntityException;
+
 class AttributeManagementTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -213,7 +215,7 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Framework\Exception\InputException
-     * @expectedExceptionMessage Requested attribute is not in requested attribute set.
+     * @expectedExceptionMessage Attribute "code" not found in attribute set 1.
      */
     public function testUnassignInputException()
     {
@@ -253,6 +255,22 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
         $attributeMock->expects($this->once())->method('getEntityAttributeId')->willReturn(null);
         $attributeMock->expects($this->never())->method('getIsUserDefined');
         $attributeMock->expects($this->never())->method('deleteEntity');
+
+        $this->model->unassign($attributeSetId, $attributeCode);
+    }
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage Attribute set not found: 1
+     */
+    public function testUnassignWithWrongAttributeSet()
+    {
+        $attributeSetId = 1234567;
+        $attributeCode = 'code';
+
+        $this->setRepositoryMock->expects($this->once())
+            ->method('get')
+            ->with($attributeSetId)
+            ->willThrowException(new NoSuchEntityException('hello'));
 
         $this->model->unassign($attributeSetId, $attributeCode);
     }
