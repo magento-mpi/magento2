@@ -10,6 +10,7 @@ namespace Magento\Customer\Block\Address\Renderer;
 use Magento\Customer\Model\Address\AbstractAddress;
 use Magento\Customer\Model\Metadata\ElementFactory;
 use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Customer\Model\Address\Mapper;
 
 /**
  * Address format renderer default
@@ -46,6 +47,11 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
     protected $_addressConverter;
 
     /**
+     * @var Mapper
+     */
+    protected $addressMapper;
+
+    /**
      * Constructor
      *
      * @param \Magento\Framework\View\Element\Context $context
@@ -53,6 +59,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
      * @param \Magento\Directory\Model\CountryFactory $countryFactory ,
      * @param \Magento\Customer\Model\Address\Converter $addressConverter
      * @param \Magento\Customer\Service\V1\AddressMetadataServiceInterface $metadataService
+     * @param Mapper $addressMapper
      * @param array $data
      */
     public function __construct(
@@ -61,12 +68,14 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Customer\Model\Address\Converter $addressConverter,
         \Magento\Customer\Service\V1\AddressMetadataServiceInterface $metadataService,
+        Mapper $addressMapper,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
         $this->_addressConverter = $addressConverter;
         $this->_countryFactory = $countryFactory;
         $this->_addressMetadataService = $metadataService;
+        $this->addressMapper = $addressMapper;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -118,7 +127,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
     public function render(AbstractAddress $address, $format = null)
     {
         $address = $this->_addressConverter->createAddressFromModel($address, 0, 0);
-        return $this->renderArray(\Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address), $format);
+        return $this->renderArray($this->addressMapper->toFlatArray($address), $format);
     }
 
     /**

@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
+use Magento\Customer\Model\Address\Mapper;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
@@ -100,6 +101,11 @@ class Index extends \Magento\Backend\App\Action
     protected $_extensibleDataObjectConverter;
 
     /**
+     * @var Mapper
+     */
+    protected $addressMapper;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
@@ -118,6 +124,7 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Framework\Math\Random $random
      * @param CustomerRepositoryInterface $customerRepository
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
+     * @param Mapper $addressMapper
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -139,7 +146,8 @@ class Index extends \Magento\Backend\App\Action
         \Magento\Customer\Helper\Data $helper,
         \Magento\Framework\Math\Random $random,
         CustomerRepositoryInterface $customerRepository,
-        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
+        Mapper $addressMapper
     ) {
         $this->_fileFactory = $fileFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -158,6 +166,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_random = $random;
         $this->_customerRepository = $customerRepository;
         $this->_extensibleDataObjectConverter = $extensibleDataObjectConverter;
+        $this->addressMapper = $addressMapper;
         parent::__construct($context);
     }
 

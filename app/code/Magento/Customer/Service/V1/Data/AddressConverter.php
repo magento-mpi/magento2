@@ -15,27 +15,14 @@ use Magento\Framework\Api\ExtensibleDataObjectConverter;
 class AddressConverter
 {
     /**
-     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
-     */
-    private $extensibleDataObjectConverter;
-
-    /**
-     * @param ExtensibleDataObjectConverter $extensibleDataObjectConverter
-     */
-    public function __construct(\Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter)
-    {
-        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
-    }
-
-    /**
      * Convert address data object to a flat array
      *
      * @param Address $addressDataObject
      * @return array
      */
-    public function toFlatArray(Address $addressDataObject)
+    public static function toFlatArray(Address $addressDataObject)
     {
-        $flatAddressArray = $this->extensibleDataObjectConverter->toFlatArray($addressDataObject);
+        $flatAddressArray = ExtensibleDataObjectConverter::toFlatArrayStatic($addressDataObject);
         //preserve street
         $street = $addressDataObject->getStreet();
         if (!empty($street)) {
