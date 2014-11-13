@@ -502,25 +502,24 @@ class Installer
      */
     public function installUserConfig($data)
     {
-        $setup = $this->setupFactory->createSetup($this->log);
-        $userConfig = new UserConfigurationData($setup);
+        $userConfig = new UserConfigurationDataMapper();
         $configData = $userConfig->getConfigData($data);
-        $paramsString = '-f %s --';
-        $paramsArray = [$this->directoryList->getRoot() . '/dev/shell/user_config_data.php'];
-        $paramsString .= ' --noOfConfigDatasets=%s';
         if (count($configData) === 0) {
             return;
-        } else {
-            $paramsArray[] = count($configData);
         }
+        $args = '';
+        $ampersandFlag = 0;
         foreach ($configData as $path => $val) {
-            $paramsString .= ' --website=%s --store=%s --path=%s --value=%s';
-            $paramsArray[] = "0";
-            $paramsArray[] = "0";
-            $paramsArray[] = $path;
-            $paramsArray[] = $val;
+            if ($ampersandFlag === 0) {
+                $args .= $path . '=' . $val;
+                $ampersandFlag = 1;
+            } else {
+                $args .= '&' . $path . '=' . $val;
+            }
         }
-        $this->exec($paramsString, $paramsArray);
+
+        $params = [$this->directoryList->getRoot() . '/dev/shell/user_config_data.php', $args];
+        $this->exec('-f %s -- --data=%s', $params);
     }
 
     /**

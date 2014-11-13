@@ -15,7 +15,7 @@ use Zend\View\Model\JsonModel;
 use Magento\Setup\Model\InstallerFactory;
 use Magento\Setup\Model\Installer;
 use Zend\Stdlib\Parameters;
-use Magento\Setup\Model\UserConfigurationData as UserConfig;
+use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
 use Magento\Setup\Model\AdminAccount;
 use Magento\Framework\App\DeploymentConfig\DbConfig;
 use Magento\Framework\App\DeploymentConfig\BackendConfig;
