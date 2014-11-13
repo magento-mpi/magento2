@@ -151,13 +151,7 @@ class Http extends File
             $query = '?' . $urlProp['query'];
         }
 
-        $result = @fsockopen($hostname, $port, $errorNumber, $errorMessage);
-
-        if ($result === false) {
-            throw new FilesystemException(
-                __('Something went wrong connecting to the host. Error#%1 - %2.', $errorNumber, $errorMessage)
-            );
-        }
+        $result = $this->open($hostname, $port);
 
         $headers = 'GET ' .
             $path .
@@ -226,6 +220,25 @@ class Http extends File
     {
         $scheme = $scheme ?: $this->scheme;
         return $scheme ? $scheme . '://' : '';
+    }
+
+    /**
+     * Open a url
+     *
+     * @param $hostname
+     * @param $port
+     * @throws \Magento\Framework\Filesystem\FilesystemException
+     * @return array
+     */
+    protected function open($hostname, $port)
+    {
+        $result = @fsockopen($hostname, $port, $errorNumber, $errorMessage);
+        if ($result === false) {
+            throw new FilesystemException(
+                __('Something went wrong connecting to the host. Error#%1 - %2.', $errorNumber, $errorMessage)
+            );
+        }
+        return $result;
     }
 
     /**

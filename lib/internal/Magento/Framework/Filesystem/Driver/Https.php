@@ -33,12 +33,23 @@ class Https extends Http
         $urlProp = parent::parseUrl($path);
 
         if ($urlProp['scheme'] === 'https') {
-            $urlProp['host'] = 'ssl://' . $urlProp['host'];
             if (!isset($urlProp['port'])) {
                 $urlProp['port'] = 443;
             }
         }
 
         return $urlProp;
+    }
+
+    /**
+     * Open a https url
+     *
+     * @param $hostname
+     * @param $port
+     * @return array
+     */
+    protected function open($hostname, $port)
+    {
+        return parent::open('ssl://' . $hostname, $port);
     }
 }

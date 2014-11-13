@@ -9,13 +9,12 @@ namespace Magento\Framework\Filesystem\Driver;
 
 class HttpsTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var bool Result of fsockopen() function */
     public static $fSockOpen;
 
     public function setUp()
     {
         require_once __DIR__ . '/../_files/http_mock.php';
-        self::$fSockOpen = true;
+        self::$fSockOpen = 'resource';
     }
 
     public function testFileOpen()
