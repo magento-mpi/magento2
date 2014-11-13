@@ -44,7 +44,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function atestGetCustomAttributesMetadata()
+    public function testGetCustomAttributesMetadata()
     {
         $customAttributesMetadata = $this->_service->getCustomAttributesMetadata();
         $this->assertCount(3, $customAttributesMetadata, "Invalid number of attributes returned.");
@@ -61,7 +61,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function atestGetNestedOptionsCustomAttributesMetadata()
+    public function testGetNestedOptionsCustomAttributesMetadata()
     {
         $nestedOptionsAttribute = 'store_id';
         $customAttributesMetadata = $this->_service->getAttributeMetadata($nestedOptionsAttribute);
@@ -83,7 +83,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/attribute_user_defined_custom_attribute.php
      */
-    public function atestGetCustomAttributesMetadataWithAttributeNamedCustomAttribute()
+    public function testGetCustomAttributesMetadataWithAttributeNamedCustomAttribute()
     {
         $customAttributesMetadata = $this->_service->getCustomAttributesMetadata();
         $customAttributeCode = 'custom_attribute';
@@ -157,7 +157,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($expectAttrsWithVals);
     }
 
-    public function atestGetCustomerAttributeMetadataNoSuchEntity()
+    public function testGetCustomerAttributeMetadataNoSuchEntity()
     {
         try {
             $this->_service->getAttributeMetadata('20');
@@ -167,7 +167,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function atestGetAttributes()
+    public function testGetAttributes()
     {
         $formAttributesMetadata = $this->_service->getAttributes('adminhtml_customer');
         $this->assertCount(14, $formAttributesMetadata, "Invalid number of attributes for the specified form.");
