@@ -225,8 +225,8 @@ class Http extends File
     /**
      * Open a url
      *
-     * @param $hostname
-     * @param $port
+     * @param string $hostname
+     * @param int $port
      * @throws \Magento\Framework\Filesystem\FilesystemException
      * @return array
      */

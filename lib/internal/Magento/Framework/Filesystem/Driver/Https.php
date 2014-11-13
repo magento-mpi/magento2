@@ -44,8 +44,8 @@ class Https extends Http
     /**
      * Open a https url
      *
-     * @param $hostname
-     * @param $port
+     * @param string $hostname
+     * @param int $port
      * @return array
      */
     protected function open($hostname, $port)
