@@ -49,6 +49,9 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Api\Data\CustomerDataBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerBuilderMock;
 
+    /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter|\PHPUnit_Framework_MockObject_MockObject */
+    protected $extensibleDataObjectConverterMock;
+
     protected function setUp()
     {
         $this->objectManagerHelper = new ObjectManagerHelper($this);
@@ -77,6 +80,9 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['populateWithArray', 'create'])
             ->disableOriginalConstructor()
             ->getMock();
+        $this->extensibleDataObjectConverterMock = $this->getMockBuilder(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter'
+        )->setMethods(['toFlatArray'])->disableOriginalConstructor()->getMock();
     }
 
     /**
@@ -119,7 +125,6 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($isSingleStoreMode));
 
         $customerObject = $this->getMock('\Magento\Customer\Api\Data\CustomerInterface');
-        $customerObject->expects($this->any())->method('__toArray')->will($this->returnValue($customerData));
         if (!empty($customerData['id'])) {
             $customerObject->expects($this->any())->method('getId')->will($this->returnValue($customerData['id']));
         }
@@ -170,10 +175,19 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(['Suf1', 'Suf2']));
         $this->formFactoryMock->expects($this->any())->method('create')
             ->will($this->returnValue($accountForm));
+        $this->extensibleDataObjectConverterMock->expects($this->any())->method('toFlatArray')
+            ->will($this->returnValue($customerData));
         $this->customerFormFactoryMock
             ->expects($this->any())
             ->method('create')
-            ->with('customer', 'adminhtml_customer', ExtensibleDataObjectConverter::toFlatArray($customerObject))
+            ->with(
+                'customer',
+                'adminhtml_customer',
+                $this->extensibleDataObjectConverterMock->toFlatArray(
+                    $customerObject,
+                    '\Magento\Customer\Service\V1\Data\Customer'
+                )
+            )
             ->will($this->returnValue($customerForm));
         $this->customerAccountServiceInterfaceMock->expects($this->any())->method('canModify')->withAnyParameters()
             ->will($this->returnValue($canModifyCustomer));
@@ -200,7 +214,8 @@ class AccountTest extends \PHPUnit_Framework_TestCase
                 'customerHelper' => $this->customerHelperMock,
                 'customerAccountService' => $this->customerAccountServiceInterfaceMock,
                 'customerMetadataService' => $this->customerMetadataServiceInterfaceMock,
-                'customerBuilder' => $this->customerBuilderMock
+                'customerBuilder' => $this->customerBuilderMock,
+                'extensibleDataObjectConverter' => $this->extensibleDataObjectConverterMock
             ]
         )->initForm();
     }

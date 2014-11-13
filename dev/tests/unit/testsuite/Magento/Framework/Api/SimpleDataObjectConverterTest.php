@@ -59,8 +59,18 @@ class SimpleDataObjectConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testToFlatArray()
     {
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $typeProcessor = $objectManager->getObject('Magento\Framework\Reflection\TypeProcessor');
+        $dataObjectProcessor = $objectManager->getObject(
+            'Magento\Framework\Reflection\DataObjectProcessor',
+            ['typeProcessor' => $typeProcessor]
+        );
+        $extensibleDataObjectConverter = $objectManager->getObject(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter',
+            ['dataObjectProcessor' => $dataObjectProcessor]
+        );
         //Unpack Data Object as an array and convert keys to camelCase to match property names in WSDL
-        $response = SimpleDataObjectConverter::toFlatArray($this->getCustomerDetails());
+        $response = $extensibleDataObjectConverter->toFlatArray($this->getCustomerDetails());
         //Check if keys are correctly converted to camel case wherever necessary
         $this->assertEquals(self::FIRSTNAME, $response['firstname']);
         $this->assertEquals(self::GROUP_ID, $response['group_id']);

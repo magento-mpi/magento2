@@ -138,6 +138,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $stringHelper;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    private $extensibleDataObjectConverter;
+
+    /**
      * @param CustomerFactory $customerFactory
      * @param ManagerInterface $eventManager
      * @param \Magento\Framework\StoreManagerInterface $storeManager
@@ -157,6 +162,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Encryptor $encryptor
      * @param ConfigShare $configShare
      * @param StringHelper $stringHelper
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -179,7 +185,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Logger $logger,
         Encryptor $encryptor,
         ConfigShare $configShare,
-        StringHelper $stringHelper
+        StringHelper $stringHelper,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->customerFactory = $customerFactory;
         $this->eventManager = $eventManager;
@@ -200,6 +207,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->encryptor = $encryptor;
         $this->configShare = $configShare;
         $this->stringHelper = $stringHelper;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
     }
 
     /**
@@ -675,7 +683,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     public function validateCustomerData(\Magento\Customer\Api\Data\CustomerInterface $customer, array $attributes = [])
     {
         $customerErrors = $this->validator->validateData(
-            \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer),
+            $this->extensibleDataObjectConverter->toFlatArray($customer),
             $attributes,
             'customer'
         );

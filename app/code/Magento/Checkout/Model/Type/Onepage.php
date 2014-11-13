@@ -141,6 +141,11 @@ class Onepage
     protected $orderSender;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Helper\Data $helper
      * @param \Magento\Customer\Helper\Data $customerData
@@ -164,6 +169,7 @@ class Onepage
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param OrderSender $orderSender
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
@@ -188,7 +194,8 @@ class Onepage
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAccountServiceInterface $accountService,
-        OrderSender $orderSender
+        OrderSender $orderSender,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
@@ -213,6 +220,7 @@ class Onepage
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAccountService = $accountService;
         $this->orderSender = $orderSender;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
     }
 
     /**
@@ -496,7 +504,7 @@ class Onepage
         $quote = $this->getQuote();
         $isCustomerNew = !$quote->getCustomerId();
         $customer = $quote->getCustomerData();
-        $customerData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer);
+        $customerData = $this->extensibleDataObjectConverter->toFlatArray($customer);
 
         /** @var Form $customerForm */
         $customerForm = $this->_formFactory->create(
@@ -561,7 +569,7 @@ class Onepage
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_account',
             'to_quote',
-            \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer),
+            $this->extensibleDataObjectConverter->toFlatArray($customer),
             $quote
         );
 

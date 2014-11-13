@@ -34,6 +34,9 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Sales\Model\Quote\Item\Updater|\PHPUnit_Framework_MockObject_MockObject */
     protected $itemUpdater;
 
+    /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter|\PHPUnit_Framework_MockObject_MockObject */
+    protected $extensibleDataObjectConverterMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -82,6 +85,10 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['create'])
             ->getMock();
 
+        $this->extensibleDataObjectConverterMock = $this->getMockBuilder(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter'
+        )->setMethods(['toFlatArray'])->disableOriginalConstructor()->getMock();
+
         $objectManagerHelper = new ObjectManagerHelper($this);
         $this->adminOrderCreate = $objectManagerHelper->getObject(
             'Magento\Sales\Model\AdminOrder\Create',
@@ -102,6 +109,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
                 'customerHelper' => $customerHelperMock,
                 'customerGroupService' => $this->customerGroupServiceMock,
                 'quoteItemUpdater' => $this->itemUpdater,
+                'extensibleDataObjectConverter' => $this->extensibleDataObjectConverterMock,
                 'objectFactory' => $this->objectFactory
             )
         );
@@ -149,13 +157,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         );
 
         $customerMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', array(), array(), '', false);
-        $customerMock->expects(
-            $this->any()
-        )->method(
-            '__toArray'
-        )->will(
-            $this->returnValue(array('email' => 'user@example.com', 'group_id' => 1))
-        );
+        $this->extensibleDataObjectConverterMock->expects($this->any())->method('toFlatArray')
+            ->will($this->returnValue(array('email' => 'user@example.com', 'group_id' => 1)));
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', array(), array(), '', false);
         $quoteMock->expects($this->any())->method('getCustomerData')->will($this->returnValue($customerMock));
 

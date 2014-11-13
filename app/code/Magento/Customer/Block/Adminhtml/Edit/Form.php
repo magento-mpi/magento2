@@ -23,12 +23,18 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_customerAccountService;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $_extensibleDataObjectConverter;
+
+    /**
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param array $data
      */
     public function __construct(
@@ -36,9 +42,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         array $data = array()
     ) {
         $this->_customerAccountService = $customerAccountService;
+        $this->_extensibleDataObjectConverter = $extensibleDataObjectConverter;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -67,7 +75,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $form->addField('id', 'hidden', array('name' => 'customer_id'));
             $customer = $this->_customerAccountService->getCustomer($customerId);
             $form->setValues(
-                \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer)
+                $this->_extensibleDataObjectConverter->toFlatArray($customer)
             )->addValues(
                 array('customer_id' => $customerId)
             );

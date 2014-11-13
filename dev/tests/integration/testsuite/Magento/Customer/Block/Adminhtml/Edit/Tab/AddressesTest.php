@@ -41,6 +41,11 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     /** @var  array */
     private $_customerData;
 
+    /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    private $_extensibleDataObjectConverter;
+
     public function setUp()
     {
         $this->_objectManager = Bootstrap::getObjectManager();
@@ -54,6 +59,10 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $this->_backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
 
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
+
+        $this->_extensibleDataObjectConverter = $this->_objectManager->get(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter'
+        );
     }
 
     public function tearDown()
@@ -151,7 +160,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_customerAccountService->getCustomer(1);
         $this->_customerData = array(
             'customer_id' => $customer->getId(),
-            'account' => \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer)
+            'account' => $this->_extensibleDataObjectConverter->toFlatArray($customer)
         );
         $this->_customerData['account']['id'] = $customer->getId();
         /** @var Address[] $addresses */

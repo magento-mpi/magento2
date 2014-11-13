@@ -192,6 +192,11 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $objectFactory;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
      * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Registry $coreRegistry
@@ -213,6 +218,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param Item\Updater $quoteItemUpdater
      * @param \Magento\Framework\Object\Factory $objectFactory
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param array $data
      */
     public function __construct(
@@ -237,6 +243,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Sales\Model\Quote\Item\Updater $quoteItemUpdater,
         \Magento\Framework\Object\Factory $objectFactory,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         array $data = array()
     ) {
         $this->_objectManager = $objectManager;
@@ -260,6 +267,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->stockItemService = $stockItemService;
         $this->quoteItemUpdater = $quoteItemUpdater;
         $this->objectFactory = $objectFactory;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
         parent::__construct($data);
     }
 
@@ -1203,7 +1211,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $customerForm = $this->_metadataFormFactory->create(
             \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
             'adminhtml_checkout',
-            \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerDataObject),
+            $this->extensibleDataObjectConverter->toFlatArray($customerDataObject),
             false,
             CustomerForm::DONT_IGNORE_INVISIBLE
         );
@@ -1482,7 +1490,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->getQuote()->updateCustomerData($customer);
         $data = array();
 
-        $customerData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer);
+        $customerData = $this->extensibleDataObjectConverter->toFlatArray($customer);
         foreach ($form->getAttributes() as $attribute) {
             $code = sprintf('customer_%s', $attribute->getAttributeCode());
             $data[$code] = isset(
@@ -1655,7 +1663,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         }
         $this->getQuote()->updateCustomerData($customerDataObject);
 
-        $customerData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerDataObject);
+        $customerData = $this->extensibleDataObjectConverter->toFlatArray($customerDataObject);
         foreach ($this->_createCustomerForm($customerDataObject)->getUserAttributes() as $attribute) {
             if (isset($customerData[$attribute->getAttributeCode()])) {
                 $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());

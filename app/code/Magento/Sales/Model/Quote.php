@@ -304,6 +304,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $objectFactory;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
@@ -328,6 +333,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
      * @param Quote\Item\Processor $itemProcessor
      * @param \Magento\Framework\Object\Factory $objectFactory
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -357,6 +363,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
         \Magento\Sales\Model\Quote\Item\Processor $itemProcessor,
         \Magento\Framework\Object\Factory $objectFactory,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -383,6 +390,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->stockItemService = $stockItemService;
         $this->itemProcessor = $itemProcessor;
         $this->objectFactory = $objectFactory;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -702,7 +710,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         /* @TODO: remove model usage in favor of Data Object in scope of MAGETWO-19930 */
         $customer = $this->_customerFactory->create();
-        $customer->setData(\Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerData));
+        $customer->setData($this->extensibleDataObjectConverter->toFlatArray($customerData));
         $customer->setId($customerData->getId());
         $this->setCustomer($customer);
         return $this;
