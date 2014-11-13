@@ -20,6 +20,7 @@
             <module name="Magento_Backend"/>
             <module name="Magento_Cms"/>
             <module name="Magento_Translation" type="soft"/>
+            <module name="Magento_RequireJs"/>
         </depends>
     </module>
 </config>
