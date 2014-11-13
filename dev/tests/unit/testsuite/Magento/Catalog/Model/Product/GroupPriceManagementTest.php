@@ -342,4 +342,12 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Exception()));
         $this->groupPriceManagement->add('product_sku', 2, 100);
     }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\InputException
+     */
+    public function testAddWithInvalidData()
+    {
+        $this->groupPriceManagement->add('product_sku', 1, 'string');
+    }
 }

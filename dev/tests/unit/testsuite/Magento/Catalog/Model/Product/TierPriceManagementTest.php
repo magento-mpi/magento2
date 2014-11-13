@@ -374,4 +374,25 @@ class TierPriceManagementTest extends \PHPUnit_Framework_TestCase
             ->with($this->productMock)->will($this->throwException(new \Exception()));
         $this->service->add('product_sku', 1, 100, 2);
     }
+
+    /**
+     * @param string|int $price
+     * @param string|float $qty
+     * @expectedException \Magento\Framework\Exception\InputException
+     * @dataProvider addDataProvider
+     */
+
+    public function testAddWithInvalidData($price, $qty)
+    {
+        $this->service->add('product_sku', 1, $price, $qty);
+    }
+
+    public function addDataProvider()
+    {
+        return [
+            ['string', 10],
+            [10, 'string'],
+            [10, -15]
+        ];
+    }
 } 
