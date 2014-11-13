@@ -433,10 +433,9 @@ class Product extends \Magento\Core\Helper\Url
             try {
                 $category = $this->categoryRepository->get($categoryId);
             } catch (NoSuchEntityException $e) {
-                // TODO: MAGETWO-30203
+                $category = null;
             }
-            // TODO: MAGETWO-30203
-            if (isset($category)) {
+            if ($category) {
                 $product->setCategory($category);
                 $this->_coreRegistry->register('current_category', $category);
             }

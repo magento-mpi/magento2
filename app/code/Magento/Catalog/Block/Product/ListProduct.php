@@ -106,11 +106,10 @@ class ListProduct extends AbstractProduct implements IdentityInterface
                 try {
                     $category = $this->categoryRepository->get($this->getCategoryId());
                 } catch (NoSuchEntityException $e) {
-                    // TODO: MAGETWO-30203
+                    $category = null;
                 }
 
-                // TODO: MAGETWO-30203
-                if (isset($category)) {
+                if ($category) {
                     $origCategory = $layer->getCurrentCategory();
                     $layer->setCurrentCategory($category);
                 }

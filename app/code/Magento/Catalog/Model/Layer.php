@@ -197,7 +197,6 @@ class Layer extends \Magento\Framework\Object
             if ($category) {
                 $this->setData('current_category', $category);
             } else {
-                // TODO: MAGETWO-30203
                 $category = $this->categoryRepository->get($this->getCurrentStore()->getRootCategoryId());
                 $this->setData('current_category', $category);
             }
@@ -219,7 +218,7 @@ class Layer extends \Magento\Framework\Object
             try {
                 $category = $this->categoryRepository->get($category);
             } catch (NoSuchEntityException $e) {
-                throw new \Magento\Framework\Model\Exception(__('Please correct the category.'));
+                throw new \Magento\Framework\Model\Exception(__('Please correct the category.'), 0, $e);
             }
         } elseif ($category instanceof \Magento\Catalog\Model\Category) {
             if (!$category->getId()) {

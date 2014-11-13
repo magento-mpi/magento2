@@ -107,8 +107,6 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     /**
      * Get info about category by category id
      *
-     * TODO: MAGETWO-30203 $storeId is temporary solution
-     *
      * @param int $categoryId
      * @param int|null $storeId
      * @throws \Magento\Framework\Exception\NoSuchEntityException

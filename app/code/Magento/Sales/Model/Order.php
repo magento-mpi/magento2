@@ -1014,7 +1014,7 @@ class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterfac
                 try {
                     $product = $this->productRepository->getById($productId, false, $this->getStoreId());
                     if (!$ignoreSalable && !$product->isSalable()) {
-                        throw new NoSuchEntityException();
+                        return false;
                     }
                 } catch (NoSuchEntityException $noEntityException) {
                     return false;

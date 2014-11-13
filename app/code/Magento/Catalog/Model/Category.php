@@ -12,6 +12,7 @@ use Magento\Framework\Profiler;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\UrlFinderInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Catalog category
@@ -300,11 +301,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
         try {
             $parent = $this->categoryRepository->get($parentId, $this->getStoreId());
         } catch (NoSuchEntityException $e) {
-            throw new \Magento\Framework\Model\Exception(
-                __(
-                    'Sorry, but we can\'t move the category because we can\'t find the new parent category you selected.'
-                )
-            );
+            $message = 'Sorry, but we can\'t move the category because we can\'t find the new parent category you'
+                . ' selected.';
+            throw new \Magento\Framework\Model\Exception(__($message), 0, $e);
         }
 
         if (!$this->getId()) {
@@ -590,7 +589,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
     public function getParentCategory()
     {
         if (!$this->hasData('parent_category')) {
-            // TODO: MAGETWO-30203
             $this->setData('parent_category', $this->categoryRepository->get($this->getParentId()));
         }
         return $this->_getData('parent_category');

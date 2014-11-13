@@ -25,11 +25,10 @@ class Remove extends \Magento\Catalog\Controller\Product\Compare
             try {
                 $product = $this->productRepository->getById($productId, false, $storeId);
             } catch (NoSuchEntityException $e) {
-                // TODO: MAGETWO-30203
+                $product = null;
             }
 
-            // TODO: MAGETWO-30203
-            if (isset($product)) {
+            if ($product) {
                 /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
                 $item = $this->_compareItemFactory->create();
                 if ($this->_customerSession->isLoggedIn()) {

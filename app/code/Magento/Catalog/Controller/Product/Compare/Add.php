@@ -30,11 +30,10 @@ class Add extends \Magento\Catalog\Controller\Product\Compare
             try {
                 $product = $this->productRepository->getById($productId, false, $storeId);
             } catch (NoSuchEntityException $e) {
-                // TODO: MAGETWO-30203
+                $product = null;
             }
 
-            // TODO: MAGETWO-30203
-            if (isset($product)) {
+            if ($product) {
                 $this->_catalogProductCompareList->addProduct($product);
                 $productName = $this->_objectManager->get('Magento\Framework\Escaper')->escapeHtml($product->getName());
                 $this->messageManager->addSuccess(__('You added product %1 to the comparison list.', $productName));

@@ -11,19 +11,14 @@ use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Msrp\Model\Product\Attribute\Source\Type;
 use Magento\Framework\StoreManagerInterface;
-use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Model\Product;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 
 /**
  * Msrp data helper
  */
 class Data extends AbstractHelper
 {
-    /**
-     * @var ProductFactory
-     */
-    protected $productFactory;
-
     /**
      * @var StoreManagerInterface
      */
@@ -40,27 +35,32 @@ class Data extends AbstractHelper
     protected $config;
 
     /**
+     * @var ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
      * @param Context $context
-     * @param ProductFactory $productFactory
      * @param StoreManagerInterface $storeManager
      * @param \Magento\Msrp\Model\Product\Options $productOptions
      * @param \Magento\Msrp\Model\Msrp $msrp
      * @param \Magento\Msrp\Model\Config $config
+     * @param ProductRepositoryInterface $productRepository
      */
     public function __construct(
         Context $context,
-        ProductFactory $productFactory,
         StoreManagerInterface $storeManager,
         \Magento\Msrp\Model\Product\Options $productOptions,
         \Magento\Msrp\Model\Msrp $msrp,
-        \Magento\Msrp\Model\Config $config
+        \Magento\Msrp\Model\Config $config,
+        ProductRepositoryInterface $productRepository
     ) {
         parent::__construct($context);
-        $this->productFactory = $productFactory;
         $this->storeManager = $storeManager;
         $this->productOptions = $productOptions;
         $this->msrp = $msrp;
         $this->config = $config;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -79,9 +79,7 @@ class Data extends AbstractHelper
             return false;
         }
         if (is_numeric($product)) {
-            $product = $this->productFactory->create()
-                ->setStoreId($this->storeManager->getStore()->getId())
-                ->load($product);
+            $product = $this->productRepository->getById($product, false, $this->storeManager->getStore()->getId());
         }
         $result = $this->msrp->canApplyToProduct($product);
         if ($result && $visibility !== null) {
@@ -146,9 +144,7 @@ class Data extends AbstractHelper
     public function isMinimalPriceLessMsrp($product)
     {
         if (is_numeric($product)) {
-            $product = $this->productFactory->create()
-                ->setStoreId($this->storeManager->getStore()->getId())
-                ->load($product);
+            $product = $this->productRepository->getById($product, false, $this->storeManager->getStore()->getId());
         }
         $msrp = $product->getMsrp();
         $price = $product->getPriceInfo()->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE);

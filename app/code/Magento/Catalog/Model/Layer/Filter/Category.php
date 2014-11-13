@@ -165,12 +165,12 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     {
         if (!is_null($this->_categoryId)) {
             try {
-                return $this->categoryRepository->get($this->_categoryId);
+                $category = $this->categoryRepository->get($this->_categoryId);
             } catch (NoSuchEntityException $e) {
-                // TODO: MAGETWO-30203
+                $category = null;
             }
         }
-        return $this->getLayer()->getCurrentCategory();
+        return isset($category) ? $category : $this->getLayer()->getCurrentCategory();
     }
 
     /**

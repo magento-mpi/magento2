@@ -166,7 +166,6 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
     public function getProduct()
     {
         if (!$this->_coreRegistry->registry('product') && $this->getProductId()) {
-            // TODO: MAGETWO-30203 think about try-catch
             $product = $this->productRepository->getById($this->getProductId());
             $this->_coreRegistry->register('product', $product);
         }

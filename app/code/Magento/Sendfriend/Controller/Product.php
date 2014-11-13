@@ -113,7 +113,7 @@ class Product extends \Magento\Framework\App\Action\Action
         try {
             $product = $this->productRepository->getById($productId);
             if (!$product->isVisibleInCatalog()) {
-                throw new NoSuchEntityException();
+                return false;
             }
         } catch (NoSuchEntityException $noEntityException) {
             return false;

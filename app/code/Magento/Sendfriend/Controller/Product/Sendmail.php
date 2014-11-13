@@ -59,9 +59,12 @@ class Sendmail extends \Magento\Sendfriend\Controller\Product
         if ($categoryId) {
             try {
                 $category = $this->categoryRepository->get($categoryId);
+            } catch (NoSuchEntityException $noEntityException) {
+                $category = null;
+            }
+            if ($category) {
                 $product->setCategory($category);
                 $this->_coreRegistry->register('current_category', $category);
-            } catch (NoSuchEntityException $noEntityException) {
             }
         }
 

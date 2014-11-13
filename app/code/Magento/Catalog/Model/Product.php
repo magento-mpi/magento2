@@ -556,7 +556,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     {
         $category = $this->getData('category');
         if (is_null($category) && $this->getCategoryId()) {
-            // TODO: MAGETWO-30203
             $category = $this->categoryRepository->get($this->getCategoryId());
             $this->setCategory($category);
         }

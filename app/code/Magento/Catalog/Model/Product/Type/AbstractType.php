@@ -372,21 +372,18 @@ abstract class AbstractType
                 /** @var \Magento\Catalog\Model\Product $superProduct */
                 $superProduct = $this->_coreRegistry->registry('used_super_product_' . $superProductId);
                 if (!$superProduct) {
-                    // TODO: MAGETWO-30203 think about exception
                     $superProduct = $this->productRepository->getById($superProductId);
                     $this->_coreRegistry->register('used_super_product_' . $superProductId, $superProduct);
                 }
-                if ($superProduct->getId()) {
-                    $assocProductIds = $superProduct->getTypeInstance()->getAssociatedProductIds($superProduct);
-                    if (in_array($product->getId(), $assocProductIds)) {
-                        $productType = $superProductConfig['product_type'];
-                        $product->addCustomOption('product_type', $productType, $superProduct);
+                $assocProductIds = $superProduct->getTypeInstance()->getAssociatedProductIds($superProduct);
+                if (in_array($product->getId(), $assocProductIds)) {
+                    $productType = $superProductConfig['product_type'];
+                    $product->addCustomOption('product_type', $productType, $superProduct);
 
-                        $buyRequest->setData(
-                            'super_product_config',
-                            array('product_type' => $productType, 'product_id' => $superProduct->getId())
-                        );
-                    }
+                    $buyRequest->setData(
+                        'super_product_config',
+                        array('product_type' => $productType, 'product_id' => $superProduct->getId())
+                    );
                 }
             }
         }
