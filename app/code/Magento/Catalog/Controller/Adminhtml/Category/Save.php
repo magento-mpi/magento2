@@ -143,7 +143,13 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Category
                 )
             );
         } else {
-            $url = $this->getUrl('catalog/*/edit', array('_current' => true, 'id' => $category->getId()));
+            $resultRedirect = $this->_objectManager->create('Magento\Backend\Model\View\Result\Redirect');
+            $resultRedirect->setPath('catalog/*/edit', array('_current' => true, 'id' => $category->getId()));
+        
+            return $resultRedirect;
+
+
+            $url = $this->getUrl('catalog/*/edit', array('id' => $category->getId()));
             $body = '<script type="text/javascript">parent.updateContent("' .
                 $url .
                 '", {}, ' .

@@ -260,7 +260,7 @@ class AbstractCategory extends \Magento\Backend\Block\Template
      */
     public function getSaveUrl(array $args = array())
     {
-        $params = array('_current' => true);
+        $params = array('_current' => false, '_query' => false );
         $params = array_merge($params, $args);
         return $this->getUrl('catalog/*/save', $params);
     }
@@ -272,7 +272,7 @@ class AbstractCategory extends \Magento\Backend\Block\Template
     {
         return $this->getUrl(
             'catalog/category/edit',
-            array('_current' => true, 'store' => null, '_query' => false, 'id' => null, 'parent' => null)
+            array('store' => null, '_query' => false , 'id' => null, 'parent' => null)
         );
     }
 
