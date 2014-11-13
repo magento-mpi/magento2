@@ -35,6 +35,11 @@ class Account extends AbstractForm
     protected $_extensibleDataObjectConverter;
 
     /**
+     * @var \Magento\Framework\Api\SimpleDataObjectConverter
+     */
+    protected $_simpleDataObjectConverter;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
@@ -43,6 +48,7 @@ class Account extends AbstractForm
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
+     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
      * @param array $data
      */
     public function __construct(
@@ -54,12 +60,21 @@ class Account extends AbstractForm
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
+        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
         array $data = array()
     ) {
         $this->_metadataFormFactory = $metadataFormFactory;
         $this->_customerAccountService = $customerAccountService;
         $this->_extensibleDataObjectConverter = $extensibleDataObjectConverter;
-        parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $formFactory, $data);
+        parent::__construct(
+            $context,
+            $sessionQuote,
+            $orderCreate,
+            $priceCurrency,
+            $formFactory,
+            $simpleDataObjectConverter,
+            $data
+        );
     }
 
     /**

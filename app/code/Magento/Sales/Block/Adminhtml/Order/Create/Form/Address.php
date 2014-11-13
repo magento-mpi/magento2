@@ -59,6 +59,11 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     protected $_addressHelper;
 
     /**
+     * @var \Magento\Framework\Api\SimpleDataObjectConverter
+     */
+    protected $_simpleDataObjectConverter;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
@@ -70,6 +75,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -86,6 +92,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Helper\Address $addressHelper,
+        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;
@@ -94,7 +101,15 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $this->_customerFormFactory = $customerFormFactory;
         $this->_addressService = $addressService;
         $this->_addressHelper = $addressHelper;
-        parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $formFactory, $data);
+        parent::__construct(
+            $context,
+            $sessionQuote,
+            $orderCreate,
+            $priceCurrency,
+            $formFactory,
+            $simpleDataObjectConverter,
+            $data
+        );
     }
 
     /**
