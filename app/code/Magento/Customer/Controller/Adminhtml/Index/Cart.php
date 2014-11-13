@@ -40,6 +40,7 @@ class Cart extends \Magento\Customer\Controller\Adminhtml\Index
         }
 
         $this->_view->loadLayout();
+        $this->prepareDefaultCustomerTitle();
         $this->_view->getLayout()->getBlock('admin.customer.view.edit.cart')->setWebsiteId($websiteId);
         $this->_view->renderLayout();
     }
