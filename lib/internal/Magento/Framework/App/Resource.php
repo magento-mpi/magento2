@@ -126,7 +126,7 @@ class Resource
         if ($mappedTableName) {
             $tableName = $mappedTableName;
         } else {
-            $tablePrefix = (string)$this->_tablePrefix;
+            $tablePrefix = $this->getTablePrefix();
             if ($tablePrefix && strpos($tableName, $tablePrefix) !== 0) {
                 $tableName = $tablePrefix . $tableName;
             }
