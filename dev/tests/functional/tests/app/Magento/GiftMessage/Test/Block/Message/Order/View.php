@@ -42,11 +42,13 @@ class View extends \Magento\Sales\Test\Block\Order\View
     public function getGiftMessage()
     {
         $message = [];
-
+        $labelsToSkip = [];
+        $labelsToSkip[] = $this->_rootElement->find($this->giftMessageSenderSelector . ' strong')->getText();
+        $labelsToSkip[] = $this->_rootElement->find($this->giftMessageRecipientSelector . ' strong')->getText();
         $message['sender'] = $this->_rootElement->find($this->giftMessageSenderSelector)->getText();
         $message['recipient'] = $this->_rootElement->find($this->giftMessageRecipientSelector)->getText();
         $message['message'] = $this->_rootElement->find($this->giftMessageTextSelector)->getText();
-        $message = str_replace(['From', 'To'], '', $message);
+        $message = str_replace($labelsToSkip, '', $message);
 
         return $message;
     }

@@ -60,16 +60,19 @@ class View extends Block
     public function getGiftMessage($itemName)
     {
         $message = [];
+        $labelsToSkip = [];
         $this->clickGiftMessageButton($itemName);
         $messageElement = $this->_rootElement->find(
             sprintf($this->giftMessageForItemSelector, $itemName),
             Locator::SELECTOR_XPATH
         );
 
+        $labelsToSkip[] = $messageElement->find($this->giftMessageSenderSelector . ' strong')->getText();
+        $labelsToSkip[] = $messageElement->find($this->giftMessageRecipientSelector . ' strong')->getText();
         $message['sender'] = $messageElement->find($this->giftMessageSenderSelector)->getText();
         $message['recipient'] = $messageElement->find($this->giftMessageRecipientSelector)->getText();
         $message['message'] = $messageElement->find($this->giftMessageTextSelector)->getText();
-        $message = str_replace(['From', 'To'], '', $message);
+        $message = str_replace($labelsToSkip, '', $message);
 
         return $message;
     }
