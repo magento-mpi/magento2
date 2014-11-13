@@ -87,6 +87,9 @@ class ManageShoppingCartButton implements ButtonProviderInterface
         return $data;
     }
 
+    /**
+     * @return string
+     */
     public function getManageShoppingCartUrl()
     {
         return $this->urlBuilder->getUrl('checkout/index', array('customer' => $this->getCustomerId()));

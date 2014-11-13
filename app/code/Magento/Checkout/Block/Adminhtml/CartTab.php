@@ -7,9 +7,8 @@
  */
 namespace Magento\Checkout\Block\Adminhtml;
 
-use Magento\Backend\Block\Template\Context;
+use Magento\Framework\View\Element\Context;
 use Magento\Framework\Registry;
-use Magento\Backend\Helper\Data;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Ui\Component\Layout\Tabs\TabWrapper;
 

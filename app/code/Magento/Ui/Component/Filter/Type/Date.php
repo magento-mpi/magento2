@@ -53,10 +53,10 @@ class Date extends FilterAbstract
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigFactory $configFactory
      * @param ConfigBuilderInterface $configBuilder
-     * @param FilterPool $filterPool
-     * @param ResolverInterface $localeResolver
      * @param DataProviderFactory $dataProviderFactory
      * @param Manager $dataProviderManager
+     * @param FilterPool $filterPool
+     * @param ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
@@ -65,10 +65,10 @@ class Date extends FilterAbstract
         ContentTypeFactory $contentTypeFactory,
         ConfigFactory $configFactory,
         ConfigBuilderInterface $configBuilder,
-        ResolverInterface $localeResolver,
         DataProviderFactory $dataProviderFactory,
         Manager $dataProviderManager,
         FilterPool $filterPool,
+        ResolverInterface $localeResolver,
         array $data = []
     ) {
         $this->localeDate = $context->getLocaleDate();

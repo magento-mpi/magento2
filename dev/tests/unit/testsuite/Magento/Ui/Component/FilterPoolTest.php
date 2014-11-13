@@ -8,7 +8,6 @@
 
 namespace Magento\Ui\Component;
 
-use Magento\Backend\Helper\Data;
 use Magento\Framework\View\Element\Template;
 use Magento\Ui\ContentType\ContentTypeFactory;
 use Magento\Framework\View\Element\UiComponent\Context;
@@ -21,7 +20,7 @@ use Magento\Framework\View\Element\Template\Context as TemplateContext;
 /**
  * Class ViewTest
  */
-class ViewTest extends \PHPUnit_Framework_TestCase
+class FilterPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Filter var

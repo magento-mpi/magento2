@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
-use Magento\Customer\Controller\RegistryConstants;
 use Magento\Ui\Component\Control\ButtonProviderInterface;
 
 /**

@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
-use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Ui\Component\Control\ButtonProviderInterface;
 
@@ -51,8 +50,8 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
                 'label' => __('Delete Customer'),
                 'class' => 'delete',
                 'on_click' => 'deleteConfirm(\'' . __(
-                        'Are you sure you want to do this?'
-                    ) . '\', \'' . $this->getDeleteUrl() . '\')',
+                    'Are you sure you want to do this?'
+                ) . '\', \'' . $this->getDeleteUrl() . '\')',
                 'sort_order' => 20
             ];
         }
