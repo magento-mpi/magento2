@@ -59,11 +59,6 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     protected $_addressHelper;
 
     /**
-     * @var \Magento\Framework\Api\SimpleDataObjectConverter
-     */
-    protected $_simpleDataObjectConverter;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
