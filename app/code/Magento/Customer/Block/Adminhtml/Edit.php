@@ -93,12 +93,12 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $this->buttonList->update('save', 'label', __('Save Customer'));
         $this->buttonList->update('delete', 'label', __('Delete Customer'));
 
-        if ($customerId && !$this->customerAccountManagement->isReadonly($customerId)) {
+        if ($customerId && $this->customerAccountManagement->isReadonly($customerId)) {
             $this->buttonList->remove('save');
             $this->buttonList->remove('reset');
         }
 
-        if (!$customerId || !$this->customerAccountManagement->isReadonly($customerId)) {
+        if (!$customerId || $this->customerAccountManagement->isReadonly($customerId)) {
             $this->buttonList->remove('delete');
         }
 
@@ -199,7 +199,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected function _prepareLayout()
     {
         $customerId = $this->getCustomerId();
-        if (!$customerId || $this->customerAccountManagement->isReadonly($customerId)) {
+        if (!$customerId || !$this->customerAccountManagement->isReadonly($customerId)) {
             $this->buttonList->add(
                 'save_and_continue',
                 array(
