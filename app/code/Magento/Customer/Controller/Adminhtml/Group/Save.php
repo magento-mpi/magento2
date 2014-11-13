@@ -13,6 +13,30 @@ use Magento\Customer\Service\V1\Data\CustomerGroup;
 class Save extends \Magento\Customer\Controller\Adminhtml\Group
 {
     /**
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
+     */
+    protected $dataObjectProcessor;
+
+    /**
+     *
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
+     * @param \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $customerGroupBuilder
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
+        \Magento\Customer\Service\V1\Data\CustomerGroupBuilder $customerGroupBuilder,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
+    ) {
+        $this->dataObjectProcessor = $dataObjectProcessor;
+        parent::__construct($context, $coreRegistry, $groupService, $customerGroupBuilder);
+    }
+
+    /**
      * Store Customer Group Data to session
      *
      * @param array $customerGroupData
@@ -63,7 +87,9 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Group
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 if ($customerGroup != null) {
-                    $this->storeCustomerGroupDataToSession($customerGroup->__toArray());
+                    $this->storeCustomerGroupDataToSession(
+                        $this->dataObjectProcessor->buildOutputDataArray($customerGroup, get_class($customerGroup))
+                    );
                 }
                 $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
                 return;

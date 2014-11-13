@@ -15,6 +15,29 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
+     */
+    protected $dataObjectProcessor;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
+        array $data = array()
+    ) {
+        $this->dataObjectProcessor = $dataObjectProcessor;
+        parent::__construct($context, $registry, $formFactory, $data);
+    }
+
+    /**
      * Set Fieldset to Form
      *
      * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes attributes that are to be added
@@ -96,7 +119,7 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
         $options = $attribute->getOptions();
         $result = array();
         foreach ($options as $option) {
-            $result[] = $option->__toArray();
+            $result[] = $this->dataObjectProcessor->buildOutputDataArray($option, get_class($option));
         }
         return $result;
     }
