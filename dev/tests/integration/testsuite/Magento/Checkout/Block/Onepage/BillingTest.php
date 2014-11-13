@@ -61,7 +61,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         $quote->setBillingAddress($billingAddress);
         $quote->save();
 
-        /** @var $checkoutSession \Magento\Checkout\Model\Session */
+        /** @var \Magento\Checkout\Model\Session $checkoutSession */
         $checkoutSession = $objectManager->get('Magento\Checkout\Model\Session');
         $checkoutSession->setQuoteId($quote->getId());
         $checkoutSession->setLoadInactive(true);
