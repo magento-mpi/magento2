@@ -41,6 +41,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -57,6 +58,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -72,6 +74,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
             $customerHelper,
             $addressService,
             $addressHelper,
+            $simpleDataObjectConverter,
             $data
         );
     }
