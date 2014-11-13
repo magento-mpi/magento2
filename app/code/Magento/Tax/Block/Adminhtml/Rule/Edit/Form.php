@@ -134,7 +134,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         // Editable multiselect for customer tax class
         $selectConfig = $this->getTaxClassSelectConfig(TaxClassServiceInterface::TYPE_CUSTOMER);
         $options = $this->customerTaxClassSource->getAllOptions(false);
-        if ($options) {
+        if (!empty($options)) {
             $selected = $options[0];
         }
         else {
@@ -164,7 +164,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         // Editable multiselect for product tax class
         $selectConfig = $this->getTaxClassSelectConfig(TaxClassServiceInterface::TYPE_PRODUCT);
         $options = $this->productTaxClassSource->getAllOptions(false);
-        if ($options) {
+        if (!empty($options)) {
             $selected = $options[0];
         }
         else {

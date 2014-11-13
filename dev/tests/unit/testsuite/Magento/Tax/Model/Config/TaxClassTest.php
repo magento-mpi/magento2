@@ -65,6 +65,9 @@ class TaxClassTest extends \PHPUnit_Framework_TestCase
         );
 
         $taxClass->setDataChanges(true);
+
+        // Save the tax config data which will call _aftersave() in tax and update the default product tax class
+        // No assertion should be thrown
         $taxClass->save();
     }
 }
