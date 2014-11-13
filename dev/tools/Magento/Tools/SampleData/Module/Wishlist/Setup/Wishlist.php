@@ -12,8 +12,7 @@ use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
- * Class Review
- * @package Magento\Tools\SampleData\Module\Review\Setup
+ * Installation of sample data for wishlist
  */
 class Wishlist implements SetupInterface
 {

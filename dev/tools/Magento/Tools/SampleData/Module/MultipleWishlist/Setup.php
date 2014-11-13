@@ -12,7 +12,7 @@ use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\PostInstaller;
 
 /**
- * Launches setup of sample data for Wishlist module
+ * Launches setup of sample data for MultipleWishlist module
  */
 class Setup implements SetupInterface
 {
