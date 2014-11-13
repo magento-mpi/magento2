@@ -212,6 +212,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
 
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')->disableOriginalConstructor()->getMock();
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
+        $product->expects($this->any())->method('getStoreId')->will($this->returnValue($storeId));
 
         $instanceType = $this->getMockBuilder('Magento\Catalog\Model\Product\Type\AbstractType')
             ->disableOriginalConstructor()
