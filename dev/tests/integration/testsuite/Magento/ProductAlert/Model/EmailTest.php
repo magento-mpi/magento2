@@ -21,9 +21,9 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\AccountManagementInterface
      */
-    protected $_customerAccountService;
+    protected $customerAccountManagement;
 
     /**
      * @var \Magento\Customer\Helper\View
@@ -33,8 +33,8 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_customerAccountService = $this->_objectManager->create(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        $this->customerAccountManagement = $this->_objectManager->create(
+            'Magento\Customer\Api\AccountManagementInterface'
         );
         $this->_customerViewHelper = $this->_objectManager->create('Magento\Customer\Helper\View');
     }
@@ -69,8 +69,9 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $website->load(1);
         $this->_emailModel->setWebsite($website);
 
-        /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
-        $customer = $this->_customerAccountService->getCustomer(1);
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+        $customerRepository = $this->_objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
+        $customer = $customerRepository->getById(1);
         $this->_emailModel->setCustomerData($customer);
 
         /** @var \Magento\Catalog\Model\Product $product */
