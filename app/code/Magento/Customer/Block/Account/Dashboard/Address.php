@@ -11,7 +11,7 @@ namespace Magento\Customer\Block\Account\Dashboard;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Data\AddressConverter;
+use Magento\Customer\Model\Address\Mapper;
 
 class Address extends \Magento\Framework\View\Element\Template
 {
@@ -31,10 +31,16 @@ class Address extends \Magento\Framework\View\Element\Template
     protected $currentCustomerAddress;
 
     /**
+     * @var Mapper
+     */
+    protected $addressMapper;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param \Magento\Customer\Helper\Session\CurrentCustomerAddress $currentCustomerAddress
      * @param \Magento\Customer\Model\Address\Config $addressConfig
+     * @param Mapper $addressMapper
      * @param array $data
      */
     public function __construct(
@@ -42,6 +48,7 @@ class Address extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         \Magento\Customer\Helper\Session\CurrentCustomerAddress $currentCustomerAddress,
         \Magento\Customer\Model\Address\Config $addressConfig,
+        Mapper $addressMapper,
         array $data = array()
     ) {
         $this->currentCustomer = $currentCustomer;
@@ -49,6 +56,7 @@ class Address extends \Magento\Framework\View\Element\Template
         $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->addressMapper = $addressMapper;
     }
 
     /**
@@ -153,6 +161,6 @@ class Address extends \Magento\Framework\View\Element\Template
     {
         /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
         $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-        return $renderer->renderArray(AddressConverter::toFlatArray($address));
+        return $renderer->renderArray($this->addressMapper->toFlatArray($address));
     }
 }

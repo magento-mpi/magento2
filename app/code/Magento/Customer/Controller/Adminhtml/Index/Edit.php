@@ -10,8 +10,6 @@ namespace Magento\Customer\Controller\Adminhtml\Index;
 
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Data\AddressConverter;
-use Magento\Framework\Api\ExtensibleDataObjectConverter;
 
 class Edit extends \Magento\Customer\Controller\Adminhtml\Index
 {
@@ -42,7 +40,7 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
                 try {
                     $addresses = $this->_addressService->getAddresses($customerId);
                     foreach ($addresses as $address) {
-                        $customerData['address'][$address->getId()] = AddressConverter::toFlatArray($address);
+                        $customerData['address'][$address->getId()] = $this->addressMapper->toFlatArray($address);
                         $customerData['address'][$address->getId()]['id'] = $address->getId();
                     }
                 } catch (NoSuchEntityException $e) {
@@ -111,7 +109,7 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
                     $addressForm = $this->_formFactory->create(
                         'customer_address',
                         'adminhtml_customer_address',
-                        AddressConverter::toFlatArray($address)
+                        $this->addressMapper->toFlatArray($address)
                     );
                     $formData = $addressForm->extractData($request, $requestScope);
                     $customerData['address'][$addressId] = $addressForm->restoreData($formData);

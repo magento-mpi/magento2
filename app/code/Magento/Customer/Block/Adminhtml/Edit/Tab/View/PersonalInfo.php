@@ -10,6 +10,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Model\AccountManagement;
+use Magento\Customer\Model\Address\Mapper;
 use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
@@ -58,6 +59,11 @@ class PersonalInfo extends \Magento\Backend\Block\Template
     protected $coreRegistry;
 
     /**
+     * @var Mapper
+     */
+    protected $addressMapper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param AccountManagementInterface $accountService
      * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
@@ -65,6 +71,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Registry $registry
+     * @param Mapper $addressMapper
      * @param array $data
      */
     public function __construct(
@@ -75,6 +82,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Registry $registry,
+        Mapper $addressMapper,
         array $data = array()
     ) {
         $this->coreRegistry = $registry;
@@ -83,6 +91,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
         $this->customerBuilder = $customerBuilder;
         $this->addressHelper = $addressHelper;
         $this->dateTime = $dateTime;
+        $this->addressMapper = $addressMapper;
         parent::__construct($context, $data);
     }
 
@@ -186,7 +195,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
         return $this->addressHelper->getFormatTypeRenderer(
             'html'
         )->renderArray(
-            AddressConverter::toFlatArray($address)
+            $this->addressMapper->toFlatArray($address)
         );
     }
 
