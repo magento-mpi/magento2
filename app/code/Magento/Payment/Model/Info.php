@@ -100,7 +100,7 @@ class Info extends \Magento\Framework\Model\AbstractModel
         }
 
         return $this->_getData('method_instance');
-     }
+    }
 
     /**
      * Encrypt data
