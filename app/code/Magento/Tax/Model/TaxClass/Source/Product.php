@@ -110,7 +110,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      */
     public function getOptionText($value)
     {
-        $options = $this->getAllOptions(false);
+        $options = $this->getAllOptions();
 
         foreach ($options as $item) {
             if ($item['value'] == $value) {
