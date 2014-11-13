@@ -348,6 +348,6 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddWithInvalidData()
     {
-        $this->groupPriceManagement->add('product_sku', 1, 'string');
+        $this->groupPriceManagement->add('product_sku', 1, '10string');
     }
 }

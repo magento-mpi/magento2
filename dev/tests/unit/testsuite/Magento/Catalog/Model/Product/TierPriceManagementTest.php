@@ -391,7 +391,7 @@ class TierPriceManagementTest extends \PHPUnit_Framework_TestCase
     {
         return [
             ['string', 10],
-            [10, 'string'],
+            [10, '10string'],
             [10, -15]
         ];
     }

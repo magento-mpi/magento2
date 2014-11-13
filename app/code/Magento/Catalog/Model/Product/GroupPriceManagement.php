@@ -37,7 +37,7 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $scopeConfig;
+    protected $config;
 
     /**
      * @var \Magento\Framework\StoreManagerInterface
@@ -64,7 +64,7 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
         $this->groupPriceBuilder = $groupPriceBuilder;
         $this->customerGroupService = $customerGroupService;
         $this->priceModifier = $priceModifier;
-        $this->scopeConfig = $config;
+        $this->config = $config;
         $this->storeManager = $storeManager;
     }
 
@@ -73,14 +73,14 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
      */
     public function add($productSku, $customerGroupId, $price)
     {
-        if ($price <= 0) {
+        if (!\Zend_Validate::is($price, 'Float') || $price <= 0 || !\Zend_Validate::is($price, 'Float')) {
             throw new InputException('Please provide valid data');
         }
         $customerGroup = $this->customerGroupService->getGroup($customerGroupId);
         $product = $this->productRepository->get($productSku, true);
         $groupPrices = $product->getData('group_price');
         $websiteIdentifier = 0;
-        if ($this->scopeConfig->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) != 0) {
+        if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) != 0) {
             $websiteIdentifier = $this->storeManager->getWebsite()->getId();
         }
         $found = false;
@@ -124,7 +124,7 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
     {
         $product = $this->productRepository->get($productSku, true);
         $websiteIdentifier = 0;
-        if ($this->scopeConfig->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) != 0) {
+        if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) != 0) {
             $websiteIdentifier = $this->storeManager->getWebsite()->getId();
         }
         $this->priceModifier->removeGroupPrice($product, $customerGroupId, $websiteIdentifier);
@@ -138,7 +138,7 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
     {
         $product = $this->productRepository->get($productSku, true);
         $priceKey = 'website_price';
-        if ($this->scopeConfig->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
+        if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
             $priceKey = 'price';
         }
 
