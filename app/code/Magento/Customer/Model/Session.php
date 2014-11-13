@@ -62,7 +62,7 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     protected $_session;
 
-    /** @var  \Magento\Customer\Api\CustomerRepositoryInterface */
+    /** @var  CustomerRepositoryInterface */
     protected $customerRepository;
 
     /**
@@ -109,7 +109,7 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param Converter $converter
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
@@ -130,7 +130,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Converter $converter,
-        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+        CustomerRepositoryInterface $customerRepository
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;
