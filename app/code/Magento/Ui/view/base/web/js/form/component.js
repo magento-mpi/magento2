@@ -81,17 +81,40 @@ define([
         }
     }
 
+    function delegate(elems){
+        var args = _.toArray(arguments).slice(1),
+            result;
+
+        result = elems.map(function(elem){
+            return elem.delegate.apply(elem, args);
+        });
+
+        return _.flatten(result);
+    }
+
     var Component = Scope.extend({
         initialize: function(config, additional){
             _.extend(this, config, additional);
 
-            this._elems     = [];
-            this.provider   = registry.get(this.provider);
-
-            this.initObservable()
-                .initRenderer()
-                .initProperties()
+            this.initProperties()
+                .initObservable()
                 .initListeners();
+        },
+
+        /**
+         * Ment to define various properties.
+         * @returns {Component} Chainable.
+         */
+        initProperties: function () {
+            _.extend(this,{
+                'parentName':   this.getPart(this.name, -2),
+                'parentScope':  this.getPart(this.dataScope, -2),
+                'provider':     registry.get(this.provider),
+                'renderer':     registry.get('globalStorage').renderer,
+                '_elems':       []
+            });
+
+            return this;
         },
 
         /**
@@ -103,16 +126,6 @@ define([
                 'containers': [],
                 'elems':      []
             });
-
-            return this;
-        },
-
-        /**
-         * Defines instance of a renderer object.
-         * @returns {Component} Chainable.
-         */
-        initRenderer: function () {
-            this.renderer = registry.get('globalStorage').renderer;
 
             return this;
         },
@@ -158,17 +171,6 @@ define([
         },
 
         /**
-         * Ment to define various properties.
-         * @returns {Component} Chainable.
-         */
-        initProperties: function () {
-            this.parentName     = this.getPart(this.name, -2);
-            this.parentScope    = this.getPart(this.dataScope, -2);
-
-            return this;
-        },
-
-        /**
          * Called when current element was injected to another component.
          * @param {Object} parent - Instance of a 'parent' component.
          * @returns {Component} Chainable.
@@ -202,7 +204,7 @@ define([
             parts       = parts.split(delimiter);
             offset      = getOffsetFor(parts, offset);
 
-            parts.splice(offset, 1)
+            parts.splice(offset, 1);
             
             return parts.join(delimiter) || '';
         },
@@ -278,23 +280,18 @@ define([
      * Elements traversing methods.
      */
     _.extend(Component.prototype, {
-        delegate: function(name, iterator){
-            var method  = this[name],
-                args    = _.toArray(arguments),
-                result;
+        delegate: function(target){
+            var args = _.toArray(arguments);
 
-            if(typeof method === 'function'){
-                result = method.apply(this, args.splice(1));
-            }
-            else{
-                iterator = iterator || 'forEach';
+            target = this[target];
 
-                this.elems()[iterator](function(elem){
-                    return (result = elem.delegate.apply(elem, args));
-                });
+            if(_.isFunction(target)){
+                return target.apply(this, args.slice(1));   
             }
 
-            return result;
+            args.unshift(this.elems());
+
+            return delegate.apply(null, args);
         },
 
         trigger: function(){
@@ -308,7 +305,7 @@ define([
 
             this.containers.each(function(parent) {
                 result = parent.trigger.apply(parent, args);
-                
+
                 if (result === false) {
                     bubble = false;
                 }

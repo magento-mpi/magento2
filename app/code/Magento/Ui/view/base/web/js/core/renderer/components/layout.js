@@ -123,12 +123,11 @@ define([
                 registry.get(node.deps, function(){
 
                     require([source], function(constr){
-                        component = new constr(
+
+                        registry.set(node.name, new constr(
                             node.config,
                             additional(node)
-                        );
-
-                        registry.set(node.name, component);
+                        ));
                     });
                 });
             }
@@ -158,8 +157,8 @@ define([
 
         applyTemplate: function(parent, node, name){
             var template = this.registry.get(node.template);
-
-            node = $.extend(true, {}, template, node);
+            
+            node = mergeNode(node, template);
 
             delete node.template;
 

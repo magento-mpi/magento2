@@ -71,9 +71,9 @@ define([
          * @param  {Boolean} changed
          */
         onChildrenUpdate: function(){
-            var changed = this.delegate('hasChanged', 'some');
+            var changed = this.delegate('hasChanged');
 
-            this.changed(changed);
+            this.changed(_.some(changed));
         },
 
         /**

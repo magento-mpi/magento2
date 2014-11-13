@@ -267,7 +267,9 @@ define([
                 params.set('invalid', this);
             }
 
-            return !!this.error(msg);
+            this.error(msg);
+
+            return !!msg;
         }
     });
 });

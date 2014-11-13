@@ -30,7 +30,7 @@ define([
 
         /**
          * Extends instance with default config, calls initialize of parent
-         *     class, calls initChildren method
+         * class, calls initChildren method.
          */
         initialize: function () {
             _.extend(this, defaults);
@@ -41,10 +41,9 @@ define([
         },
 
         /**
-         * Calls parent's initElement method, calls 'activate' method of elem,
-         *     triggers 'update' event 
-         * 
-         * @param  {Object} elem
+         * Activates the incoming child and triggers the update event.
+         *
+         * @param {Object} elem - Incoming child.
          */
         initElement: function (elem) {
             __super__.initElement.apply(this, arguments);
@@ -56,9 +55,9 @@ define([
 
         /**
          * Loops over corresponding data in data storage,
-         *     creates child for each and pushes it's identifier to initialItems array
-         *     
-         * @return {Object} - reference to instance
+         * creates child for each and pushes it's identifier to initialItems array.
+         *
+         * @returns {Collection} Chainable.
          */
         initChildren: function () {
             var data     = this.provider.data,
@@ -75,9 +74,10 @@ define([
 
         /**
          * Creates new item of collection, based on incoming 'index'.
-         *     If not passed creates one with 'new_' prefix
-         * 
-         * @param {String|Object} index
+         * If not passed creates one with 'new_' prefix.
+         *
+         * @param {String|Object} [index] - Index of a child.
+         * @returns {Collection} Chainable.
          */
         addChild: function(index) {
             this.childIndex = !_.isString(index) ?
@@ -95,9 +95,9 @@ define([
 
         /**
          * Returnes true if current set of items differ from initial one,
-         *     or if some child has been changed
-         * 
-         * @return {Boolean}
+         * or if some child has been changed.
+         *
+         * @returns {Boolean}
          */
         hasChanged: function(){
             var initial = this.initialItems,
@@ -108,14 +108,53 @@ define([
                 return elem.delegate('hasChanged', 'some');
             });
         },
+
+        /**
+         * Initiates validation of its' children components.
+         *
+         * @returns {Array} An array of validation results.
+         */
+        validate: function(){
+            var elems;
+
+            this.allValid = true;
+
+            elems = this.elems.sortBy(function(elem){
+                return !elem.active();
+            });
+
+            elems = elems.map(this._validate, this);
+
+            return _.flatten(elems);
+        },
+
+        /**
+         * Iterator function for components validation.
+         * Activates first invalid child component.
+         *
+         * @param {Object} elem - Element to run validation on.
+         * @returns {Array} An array of validation results.
+         */
+        _validate: function(elem){
+            var result = elem.delegate('validate');
+
+            if(this.allValid && _.some(result)){
+                this.allValid = false;
+
+                elem.activate();
+            }
+
+            return result;  
+        },
         
         /**
-         * Creates function that removes element from collection using '_removeChild'
-         *     method
-         *     
-         * @param  {Object} elem
-         * @return {Function} - since this method is used by 'click' binding,
-         *                      it requires function to invoke
+         * Creates function that removes element
+         * from collection using '_removeChild' method.
+         *
+         * @param  {Object} elem - Element that should be removed.
+         * @returns {Function}
+         *      Since this method is used by 'click' binding,
+         *      it requires function to invoke.
          */
         removeChild: function(elem) {
             return function() {
@@ -130,10 +169,10 @@ define([
 
         /**
          * Removes elememt from both collection and data storage,
-         *     activates first element if removed one was active,
-         *     triggers 'update' event
-         * 
-         * @param  {Object} elem
+         * activates first element if removed one was active,
+         * triggers 'update' event.
+         *
+         * @param {Object} elem - Element to remove.
          */
         _removeChild: function(elem) {
             var isActive = elem.active(),

@@ -71,10 +71,10 @@ define([
          * @param  {Object} element
          * @return {Object} - reference to instance
          */
-        initElement: function(element){
+        initElement: function(elem){
             __super__.initElement.apply(this, arguments);
 
-            element.on({
+            elem.on({
                 'toggle': this.toggle.bind(this)
             });
 
@@ -116,14 +116,11 @@ define([
         },
 
         /**
-         * Defines if incoming element is one of instance's child
-         * 
-         * @param  {*} ignored - ignored arg
-         * @param  {Object} element
+         * Defines if group has multiple elements.
          * @return {Boolean}
          */
-        contains: function (ignored, element) {
-            return this.elems.contains(element);
+        isMultiple: function () {
+            return this.elems.getLength() > 1;
         }
     });
 });

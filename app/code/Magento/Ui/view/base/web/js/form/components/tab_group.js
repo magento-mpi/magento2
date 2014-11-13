@@ -68,7 +68,7 @@ define([
         /**
          * Delegates 'validate' method on element, then reads 'invalid' property
          * of params storage, and if defined, activates element, sets 
-         * 'isValid' property of instance to false and sets invalid's
+         * 'allValid' property of instance to false and sets invalid's
          * 'focused' property to true.
          * @param {Object} elem
          */
@@ -80,8 +80,8 @@ define([
 
             invalid = params.get('invalid');
 
-            if(this.isValid && invalid){
-                this.isValid = false;
+            if(this.allValid && invalid){
+                this.allValid = false;
 
                 elem.activate();
                 invalid.focused(true);
@@ -89,17 +89,19 @@ define([
         },
 
         /**
-         * Sets 'isValid' property of instance to true, then calls 'validate' method
+         * Sets 'allValid' property of instance to true, then calls 'validate' method
          * of instance for each element 
          */
         onValidate: function(){
-            this.isValid = true;
+            var elems;
 
-            this.elems
-                .sortBy(function(elem){
-                    return !elem.active();
-                })
-                .each(this.validate, this);
+            this.allValid = true;
+
+            elems = this.elems.sortBy(function(elem){
+                return !elem.active();
+            });            
+
+            elems.each(this.validate, this);
         }
     });
 });

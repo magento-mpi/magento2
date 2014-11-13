@@ -9,7 +9,7 @@ define([
     './collapsible'
 ], function(_, Collapsible) {
     'use strict';
-    
+
     var defaults = {
         template: 'ui/fieldset/fieldset'
     };
@@ -17,26 +17,15 @@ define([
     var __super__ = Collapsible.prototype;
 
     return Collapsible.extend({
+
+        /**
+         * Extends instance with default config, binds required methods
+         *     to instance, calls initialize method of parent class.
+         */
         initialize: function() {
             _.extend(this, defaults);
-
+            
             __super__.initialize.apply(this, arguments);
-        },
-
-        initListeners: function () {
-            __super__.initListeners.apply(this, arguments);
-
-            this.provider.params.on('update:invalidElement', this.onInvalidUpdate.bind(this));
-
-            return this;
-        },
-
-        onInvalidUpdate: function (invalidElement) {
-            var containsInvalid = this.delegate('contains', 'some', invalidElement);
-
-            if (containsInvalid) {
-                this.opened(true);
-            }
         }
     });
 });

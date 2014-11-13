@@ -33,9 +33,7 @@ define([
      * @return {Object}
      */
     function parsePreview(data){
-        var items;
-
-        if (typeof data === 'string') {
+       if (typeof data === 'string') {
             data = {
                 items: data
             };
@@ -177,18 +175,21 @@ define([
 
         /**
          * Creates an array of previews for elements specified in incoming
-         *     items array, calls updatePreview afterwards
+         * items array, calls updatePreview afterwards.
          * 
-         * @param  {Array} items
-         * @return {Array}
+         * @param  {Array} items - An array of element's indexes.
+         * @returns {Array} An array of previews.
          */
         getPreview: function(items){
             var elems       = this.indexed(),
-                displayed   = this.displayed;
+                displayed   = this.displayed,
+                preview;
 
             items = items.map(function(index){
-                var elem    = elems[index],
-                    preview = elem && elem.delegate('getPreview', 'some');
+                var elem = elems[index];
+
+                preview = elem ? elem.delegate('getPreview') : [];
+                preview = _.compact(preview).join(', ');
 
                 displayed[index] = !!preview;
                 
