@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<data>
+    <nodes>
+        <text> some text </text>
+        <cdata><![CDATA[Some data here]]></cdata>
+        <zero>0</zero>
+        <null></null>
+    </nodes>
+</data>
