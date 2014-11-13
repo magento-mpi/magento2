@@ -30,7 +30,7 @@ class ItemProduct extends \Magento\Sales\Test\Block\Adminhtml\Order\Create\Items
      *
      * @var string
      */
-    protected $giftMessageForm = '//*[@role="dialog"][*[@id="gift_options_configure"]]';
+    protected $giftMessageForm = './/*[@role="dialog"][*[@id="gift_options_configure"]]';
 
     /**
      * Magento varienLoader.js loader.
@@ -49,6 +49,7 @@ class ItemProduct extends \Magento\Sales\Test\Block\Adminhtml\Order\Create\Items
     {
         $giftOptionsLink = $this->_rootElement->find($this->giftOptionsLink);
         $giftOptionsLink->click();
+        $this->waitForElementVisible($this->giftMessageForm, Locator::SELECTOR_XPATH);
         /** @var \Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\Form $giftMessageForm */
         $giftMessageForm = $this->blockFactory->create(
             'Magento\GiftMessage\Test\Block\Adminhtml\Order\Create\Form',
