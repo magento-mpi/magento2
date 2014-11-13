@@ -6,13 +6,34 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Wonderland\Model;
+namespace Magento\Wonderland\Model\Data;
 
-use Magento\Wonderland\Api\Data\FakeAddressInterface;
-use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Framework\Api\AbstractExtensibleObject;
 
-class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterface
+class FakeAddress extends AbstractExtensibleObject
 {
+    /**#@+
+     * Constants for keys of data array
+     */
+    const ID = 'id';
+    const CUSTOMER_ID = 'customer_id';
+    const REGION = 'region';
+    const REGIONS = 'regions';
+    const COUNTRY_ID = 'country_id';
+    const STREET = 'street';
+    const COMPANY = 'company';
+    const TELEPHONE = 'telephone';
+    const FAX = 'fax';
+    const POSTCODE = 'postcode';
+    const CITY = 'city';
+    const FIRSTNAME = 'firstname';
+    const LASTNAME = 'lastname';
+    const MIDDLENAME = 'middlename';
+    const PREFIX = 'prefix';
+    const SUFFIX = 'suffix';
+    const VAT_ID = 'vat_id';
+    /**#@-*/
+
     /**
      * Get ID
      *
@@ -20,7 +41,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getId()
     {
-        return $this->getData(self::ID);
+        return $this->_get(self::ID);
     }
 
     /**
@@ -30,27 +51,27 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getCustomerId()
     {
-        return $this->getData(self::CUSTOMER_ID);
+        return $this->_get(self::CUSTOMER_ID);
     }
 
     /**
      * Get region
      *
-     * @return \Magento\Wonderland\Api\Data\FakeRegionInterface|null
+     * @return \Magento\Wonderland\Model\Data\FakeRegion|null
      */
     public function getRegion()
     {
-        return $this->getData(self::REGION);
+        return $this->_get(self::REGION);
     }
 
     /**
      * Get region
      *
-     * @return \Magento\Wonderland\Api\Data\FakeRegionInterface[]|null
+     * @return \Magento\Wonderland\Model\Data\FakeRegion[]|null
      */
     public function getRegions()
     {
-        return $this->getData(self::REGIONS);
+        return $this->_get(self::REGIONS);
     }
 
     /**
@@ -60,7 +81,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getCountryId()
     {
-        return $this->getData(self::COUNTRY_ID);
+        return $this->_get(self::COUNTRY_ID);
     }
 
     /**
@@ -70,7 +91,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getStreet()
     {
-        return $this->getData(self::STREET);
+        return $this->_get(self::STREET);
     }
 
     /**
@@ -80,7 +101,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getCompany()
     {
-        return $this->getData(self::COMPANY);
+        return $this->_get(self::COMPANY);
     }
 
     /**
@@ -90,7 +111,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getTelephone()
     {
-        return $this->getData(self::TELEPHONE);
+        return $this->_get(self::TELEPHONE);
     }
 
     /**
@@ -100,7 +121,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getFax()
     {
-        return $this->getData(self::FAX);
+        return $this->_get(self::FAX);
     }
 
     /**
@@ -110,7 +131,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getPostcode()
     {
-        return $this->getData(self::POSTCODE);
+        return $this->_get(self::POSTCODE);
     }
 
     /**
@@ -120,7 +141,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getCity()
     {
-        return $this->getData(self::CITY);
+        return $this->_get(self::CITY);
     }
 
     /**
@@ -130,7 +151,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getFirstname()
     {
-        return $this->getData(self::FIRSTNAME);
+        return $this->_get(self::FIRSTNAME);
     }
 
     /**
@@ -140,7 +161,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getLastname()
     {
-        return $this->getData(self::LASTNAME);
+        return $this->_get(self::LASTNAME);
     }
 
     /**
@@ -150,7 +171,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getMiddlename()
     {
-        return $this->getData(self::MIDDLENAME);
+        return $this->_get(self::MIDDLENAME);
     }
 
     /**
@@ -160,7 +181,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getPrefix()
     {
-        return $this->getData(self::PREFIX);
+        return $this->_get(self::PREFIX);
     }
 
     /**
@@ -170,7 +191,7 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getSuffix()
     {
-        return $this->getData(self::SUFFIX);
+        return $this->_get(self::SUFFIX);
     }
 
     /**
@@ -180,26 +201,6 @@ class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterfac
      */
     public function getVatId()
     {
-        return $this->getData(self::VAT_ID);
-    }
-
-    /**
-     * Get if this address is default shipping address.
-     *
-     * @return bool|null
-     */
-    public function isDefaultShipping()
-    {
-        return $this->getData(self::DEFAULT_SHIPPING);
-    }
-
-    /**
-     * Get if this address is default billing address
-     *
-     * @return bool|null
-     */
-    public function isDefaultBilling()
-    {
-        return $this->getData(self::DEFAULT_BILLING);
+        return $this->_get(self::VAT_ID);
     }
 }
