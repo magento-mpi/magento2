@@ -142,10 +142,9 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      */
     public function initToken()
     {
-        $paymentMethodInstance = $this->getPaymentMethodInstance();
-        if ($paymentMethodInstance) {
-            $paymentMethodInstance->initBillingAgreementToken($this);
-        }
+        $this->getPaymentMethodInstance()
+             ->initBillingAgreementToken($this);
+
         return $this->getRedirectUrl();
     }
 
@@ -157,10 +156,9 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      */
     public function verifyToken()
     {
-        $paymentMethodInstance = $this->getPaymentMethodInstance();
-        if ($paymentMethodInstance) {
-            $paymentMethodInstance->getBillingAgreementTokenInfo($this);
-        }
+        $this->getPaymentMethodInstance()
+             ->getBillingAgreementTokenInfo($this);
+
         return $this;
     }
 
@@ -174,15 +172,13 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
         $this->verifyToken();
 
         $paymentMethodInstance = $this->getPaymentMethodInstance();
-        if ($paymentMethodInstance) {
-            $paymentMethodInstance->placeBillingAgreement($this);
-        }
+        $paymentMethodInstance->placeBillingAgreement($this);
 
         $this->setCustomerId($this->getCustomerId())
             ->setMethodCode($this->getMethodCode())
             ->setReferenceId($this->getBillingAgreementId())
             ->setStatus(self::STATUS_ACTIVE)
-            ->setAgreementLabel($paymentMethodInstance ? $paymentMethodInstance->getTitle() : '')
+            ->setAgreementLabel($paymentMethodInstance->getTitle())
             ->save();
         return $this;
     }
