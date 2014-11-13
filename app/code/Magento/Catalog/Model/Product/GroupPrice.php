@@ -19,7 +19,7 @@ class GroupPrice extends \Magento\Framework\Model\AbstractExtensibleModel implem
      */
     public function getCustomerGroupId()
     {
-        return $this->getData(self::CUSTOMER_GROUP_ID);
+        return $this->getData('customer_group_id');
     }
 
     /**
@@ -29,6 +29,6 @@ class GroupPrice extends \Magento\Framework\Model\AbstractExtensibleModel implem
      */
     public function getValue()
     {
-        return $this->getData(self::VALUE);
+        return $this->getData('value');
     }
 }
