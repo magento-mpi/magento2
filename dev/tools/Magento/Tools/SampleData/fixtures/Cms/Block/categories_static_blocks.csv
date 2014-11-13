@@ -185,7 +185,14 @@ Women Block,women-block,"<div class=""blocks-promo"">
             <span class=""image""><img src=""{{media url=""wysiwyg/womens/womens-category-tanks.jpg""}}"" alt="""" /></span>
         </a>
     </div>
-</div>"
+</div>
+<div class=""content-heading"">
+    <h2 class=""title"">Hot Sellers</h2>
+    <p class=""info"">Favorites from Luma shoppers</p>
+</div>
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""8"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:22:`WS12, WT09, WH05, WP12`;]]""}}
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""6"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:3:`{{categoryId url=""women""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:15:`erin_recommends`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+"
 Training Block,training-block,"<div class=""blocks-promo"">
 
     <a href=""{{category url=""training""}}"" class=""block-promo training-main"">
@@ -227,7 +234,13 @@ Training Block,training-block,"<div class=""blocks-promo"">
         </a>
     </div>
 
-</div>"
+</div>
+<div class=""content-heading"">
+    <h2 class=""title"">Hot Sellers</h2>
+    <p class=""info"">Favorites from Luma shoppers</p>
+</div>
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""8"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:38:`241-MB08, 240-LV05, 240-LV09, 240-LV07`;]]""}}
+"
 Men Block,men-block,"<div class=""blocks-promo"">
     <a href=""{{category url=""men""}}"" class=""block-promo mens-main"">
         <img src=""{{media url=""wysiwyg/mens/mens-main.jpg""}}"" alt="""" />
@@ -283,7 +296,13 @@ Men Block,men-block,"<div class=""blocks-promo"">
             <span class=""image""><img src=""{{media url=""wysiwyg/mens/mens-category-hoodies.jpg""}}"" alt="""" /></span>
         </a>
     </div>
-</div>"
+</div>
+<div class=""content-heading"">
+    <h2 class=""title"">Hot Sellers</h2>
+    <p class=""info"">Favorites from Luma shoppers</p>
+</div>
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""8"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:23:`MT07, MH07, MSH03, MP03`;]]""}}
+"
 Gear Block,gear-block,"<div class=""blocks-promo"">
     <a href=""{{category url=""gear""}}"" class=""block-promo gear-main"">
         <img src=""{{media url=""wysiwyg/gear/gear-main.jpg""}}"" alt="""" />
@@ -339,7 +358,13 @@ Gear Block,gear-block,"<div class=""blocks-promo"">
             <span class=""image""><img src=""{{media url=""wysiwyg/gear/gear-category-watches.jpg""}}"" alt="""" /></span>
         </a>
     </div>
-</div>"
+</div>
+<div class=""content-heading"">
+    <h2 class=""title"">Hot Sellers</h2>
+    <p class=""info"">Favorites from Luma shoppers</p>
+</div>
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""8"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:35:`24-MB02, 24-WB04, 24-UG06, 24-WG080`;]]""}}
+"
 Sale Block,sale-block,"<div class=""blocks-promo"">
     <a href=""#"" class=""block-promo sale-main"">
         <img src=""{{media url=""wysiwyg/sale/sale-main.jpg""}}"" alt="""" />
@@ -398,8 +423,126 @@ New Block,new-block,"<div class=""blocks-promo"">
             </span>
         </a>
     </div>
-</div>"
-Headings Block,headings-block,"<div class=""content-heading"">
-    <h2 class=""title"">Hot Sellers</h2>
-    <p class=""info"">Here is what`s trending on Luma right now</p>
-</div>"
+</div>
+<div class=""content-heading"">
+    <h2 class=""title"">Luma's Latest</h2>
+    <p class=""info"">Just in time for the new season!</p>
+</div>
+{{widget type="Magento\\CatalogWidget\\Block\\Product\\ProductsList" products_count="6" template="product/widget/content/grid.phtml" conditions_encoded="a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`new`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]"}}
+"
+"Home Page Block",home-page-block,"<div class=""blocks-promo"">
+   <a href=""#"" class=""block-promo home-main"">
+       <img src=""{{media url=""wysiwyg/home/home-main.jpg""}}"" alt="""" />
+       <span class=""content bg-white"">
+           <span class=""info"">New Luma Yoga Collection</span>
+           <strong class=""title"">Get fit and look fab in new seasonal styles</strong>
+           <span class=""action more button"">Shop New Yoga</span>
+       </span>
+   </a>
+   <div class=""block-promo-wrapper block-promo-hp"">
+       <a href=""#"" class=""block-promo home-pants"">
+           <img src=""{{media url=""wysiwyg/home/home-pants.jpg""}}"" alt="""" />
+           <span class=""content"">
+               <strong class=""title"">20% OFF</strong>
+               <span class=""info"">Luma pants when you shop today*</span>
+               <span class=""action more icon"">Shop Pants</span>
+           </span>
+       </a>
+       <a href=""#"" class=""block-promo home-t-shirts"">
+           <span class=""image""><img src=""{{media url=""wysiwyg/home/home-t-shirts.png""}}"" alt="""" /></span>
+           <span class=""content"">
+               <strong class=""title"">Even more ways to mix and match</strong>
+               <span class=""info"">Buy 3 Luma tees get a 4th free</span>
+               <span class=""action more icon"">Shop Tees</span>
+           </span>
+       </a>
+       <a href=""#"" class=""block-promo home-erin"">
+           <img src=""{{media url=""wysiwyg/home/home-erin.jpg""}}"" alt="""" />
+           <span class=""content"">
+               <strong class=""title"">Take it from Erin</strong>
+               <span class=""info"">Luma founder Erin Renny shares her favorites!</span>
+               <span class=""action more icon"">Shop Erin Recommends</span>
+           </span>
+       </a>
+       <a href=""#"" class=""block-promo home-performance"">
+           <img src=""{{media url=""wysiwyg/home/home-performance.jpg""}}"" alt="""" />
+           <span class=""content bg-white"">
+               <strong class=""title"">Science meets performance</strong>
+               <span class=""info"">Wicking to raingear, Luma covers&nbsp;you</span>
+               <span class=""action more icon"">Shop Performance</span>
+           </span>
+       </a>
+       <a href=""#"" class=""block-promo home-eco"">
+           <img src=""{{media url=""wysiwyg/home/home-eco.jpg""}}"" alt="""" />
+           <span class=""content bg-white"">
+               <strong class=""title"">Twice around, twice as nice</strong>
+               <span class=""info"">Find conscientious, comfy clothing in our <nobr>eco-friendly</nobr> collection</span>
+               <span class=""action more icon"">Shop Eco-Friendly</span>
+           </span>
+       </a>
+   </div>
+</div>
+<div class=""content-heading"">
+   <h2 class=""title"">Hot Sellers</h2>
+   <p class=""info"">Here is what`s trending on Luma right now</p>
+</div>
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""8"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:60:`WS12, WT09, MT07, MH07, 24-MB02, 24-WB04, 241-MB08, 240-LV05`;]]""}}
+"
+"Erin Recommends Block",erin-recommends-block,"<div class=""blocks-promo"">
+    <a href=""#"" class=""block-promo collection-erin"">
+        <span class=""content"">
+            <strong class=""title"">The Erin Collection</strong>
+            <span class=""info"">First-rate performance picks from Luma's founder</span>
+        </span>
+        <span class=""image""><img src=""{{media url=""wysiwyg/womens/womens-erin.jpg""}}"" alt="""" /></span>
+    </a>
+</div>
+<div class=""content-heading"">
+   <h2 class=""title"">Cocona</h2>
+</div>
+{{widget type="Magento\\CatalogWidget\\Block\\Product\\ProductsList" products_count="8" template="product/widget/content/grid.phtml" conditions_encoded="a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:18:`performance_fabric`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]"}}
+<div class=""content-heading"">
+   <h2 class=""title"">CoolTech</h2>
+</div>
+{{widget type="Magento\\CatalogWidget\\Block\\Product\\ProductsList" products_count="8" template="product/widget/content/grid.phtml" conditions_encoded="a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:18:`performance_fabric`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]"}}
+<div class=""content-heading"">
+   <h2 class=""title"">Cocona + CoolTech</h2>
+</div>
+{{widget type="Magento\\CatalogWidget\\Block\\Product\\ProductsList" products_count="8" template="product/widget/content/grid.phtml" conditions_encoded="a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:18:`performance_fabric`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]"}}
+"
+"Performance Fabrics Block",performance-fabrics-block,"<div class=""blocks-promo"">
+    <a href=""#"" class=""block-promo collection-erin"">
+        <span class=""content"">
+            <strong class=""title"">The Erin Collection</strong>
+            <span class=""info"">First-rate performance picks from Luma's founder</span>
+        </span>
+        <span class=""image""><img src=""{{media url=""wysiwyg/womens/womens-erin.jpg""}}"" alt="""" /></span>
+    </a>
+</div>
+<div class=""content-heading"">
+   <h2 class=""title"">Mens Tops</h2>
+</div>
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""6"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:3:`{{categoryId url=""tops-men""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:15:`erin_recommends`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+<div class=""content-heading"">
+   <h2 class=""title"">Tops</h2>
+</div>
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""6"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:3:`{{categoryId url=""tops-women""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:15:`erin_recommends`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+"
+"Eco Friendly Block",eco-friendly-block,"<div class=""blocks-promo"">
+    <a href=""#"" class=""block-promo collection-eco"">
+        <img src=""{{media url=""wysiwyg/collection/collection-eco.jpg""}}"" alt="""" />
+        <span class=""content"">
+            <strong class=""title"">Eco-friendly, ego-friendly</strong>
+            <span class=""info"">Recycled polyester, hemp and organic cotton apperel</span>
+        </span>
+    </a>
+</div>
+<div class=""content-heading"">
+   <h2 class=""title"">Tops</h2>
+</div>
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""6"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:7:`{{categoryId url=""tops-men""}},{{categoryId url=""tops-women""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:14:`eco_collection`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+<div class=""content-heading"">
+   <h2 class=""title"">Bottoms</h2>
+</div>
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""6"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:7:`{{categoryId url=""bottoms-men""}},{{categoryId url=""bottoms-women""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:14:`eco_collection`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+"

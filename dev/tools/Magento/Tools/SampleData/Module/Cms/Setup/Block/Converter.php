@@ -56,7 +56,7 @@ class Converter
         $data = [];
         foreach ($row as $field => $value) {
             if ('content' == $field) {
-                $data['block'][$field] = $this->convertContentUrls($value);
+                $data['block'][$field] = $this->replaceMatches($value);
                 continue;
             }
             $data['block'][$field] = $value;
@@ -99,14 +99,12 @@ class Converter
      * @param string $content
      * @return mixed
      */
-    protected function convertContentUrls($content)
+    protected function replaceMatches($content)
     {
-        $categoryReplacement = $this->getCategoriesMatches($content);
-        if (!empty($categoryReplacement['path'])) {
-            $categoriesUrls = $this->getCategoriesUrl($categoryReplacement);
-            foreach ($categoriesUrls as $categoryPath => $categoryUrl) {
-                $content = $this->replaceContentCategoriesPath($content, $categoryPath, $categoryUrl);
-            }
+        $matches = $this->getMatches($content);
+        if (!empty($matches['path'])) {
+            $replaces = $this->getReplaces($matches);
+            preg_replace($replaces['regexp'], $replaces['value'], $content);
         }
         return $content;
     }
@@ -115,51 +113,58 @@ class Converter
      * @param string $content
      * @return array
      */
-    protected function getCategoriesMatches($content)
+    protected function getMatches($content)
     {
-        $regexp = '/{.(?:category.+)(?:url=(?:"([^"]*)")).?(?:attribute=(?:"([^"]*)"))?(?:.}+)/';
+        $regexp = '/{.((?:category.+))(?:url=(?:"([^"]*)")).?(?:attribute=(?:"([^"]*)"))?(?:.}+)/';
         preg_match_all($regexp, $content, $matches);
-        return array('path' => $matches[1], 'attribute' => $matches[2]);
+        return array('path' => $matches[2], 'attribute' => $matches[3], 'type' => $matches[1]);
     }
 
     /**
-     * @param string $content
-     * @param string $urlPath
-     * @param string $categoryUrl
-     * @return mixed
-     */
-    protected function replaceContentCategoriesPath($content, $urlPath, $categoryUrl)
-    {
-        if (strpos($urlPath, '?')) {
-            $urlPath = array_filter(explode("?", $urlPath));
-            $regexp = '/{.(category).*(url="(' . $urlPath[0] . ')").*(attribute="('. $urlPath[1] .')").*(.})/';
-        } else {
-            $regexp = '/{.(category).*(url="(' . $urlPath .')").*(.})/';
-        }
-        return preg_replace($regexp, $categoryUrl, $content);
-    }
-
-    /**
-     * @param array $categoriesReplacement
+     * @param array $matches
      * @return array
      */
-    protected function getCategoriesUrl($categoriesReplacement)
+    protected function getReplaces($matches)
     {
-        $categoryData = array();
-        foreach ($categoriesReplacement['path'] as $categoryNumber => $urlKey) {
-            $category = $this->getCategoryByUrlKey($urlKey);
-            if (!empty($category)) {
-                $categoryUrl = $category->getRequestPath();
-                if (!empty($categoriesReplacement['attribute'][$categoryNumber])) {
-                    $urlAttributes = $categoriesReplacement['attribute'][$categoryNumber];
-                    $categoryUrl .= '?' . $this->getUrlFilter($urlAttributes);
-                    $urlKey = $urlKey . '?' . $urlAttributes;
-                }
-                $categoryData[$urlKey] = '{{store url=""}}' . $categoryUrl;
-                unset($categoryUrl);
+        $replaceData = array();
+
+        array_walk(
+            $matches['path'],
+            'doReplaceCallback',
+            array(
+                $matches,
+                array('category' => array($this, 'matchCategory'), 'categoryId' => array($this, 'matchCategoryId'))
+            )
+        );
+
+        foreach ($matches['path'] as $matchKey => $matchValue) {
+            $category = $this->getCategoryByUrlKey($matchValue);
+            if (empty($category)) {
+                continue;
+            }
+            $type = trim($matches['type'][$matchKey]);
+            switch ($type) {
+                case 'category':
+                    $categoryUrl = $category->getRequestPath();
+                    if (!empty($matches['attribute'][$matchKey])) {
+                        $urlAttributes = $matches['attribute'][$matchKey];
+                        $categoryUrl .= '?' . $this->getUrlFilter($urlAttributes);
+                        $matchValue = $matchValue . '?' . $urlAttributes;
+
+                        $key = array_filter(explode("?", $matchValue));
+                        $replaceData['regexp'][] = '/{.(category).*(url="(' . $key[0] . ')").*(attribute="('. $key[1] .')").*(.})/';
+                    } else {
+                        $replaceData['regexp'][] = '/{.(category).*(url="(' . $matchValue .')").*(.})/';
+                    }
+                    $replaceData['value'][] = '{{store url=""}}' . $categoryUrl;
+                    break;
+                case 'categoryId':
+                    $replaceData['regexp'][] = '/{.(categoryId).*(url="(' . $matchValue .')").*(.})/';
+                    $replaceData['value'][] = sprintf('%03d', $category->getId());
+                    break;
             }
         }
-        return $categoryData;
+        return $replaceData;
     }
 
     /**

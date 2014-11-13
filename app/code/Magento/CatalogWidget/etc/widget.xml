@@ -14,7 +14,7 @@
         <label translate="true">Catalog Products List</label>
         <description translate="true">List of Products</description>
         <parameters>
-            <parameter name="title" xsi:type="text" required="true" visible="true">
+            <parameter name="title" xsi:type="text" required="false" visible="true">
                 <label translate="true">Title</label>
             </parameter>
             <parameter name="show_pager" xsi:type="select" visible="true"
