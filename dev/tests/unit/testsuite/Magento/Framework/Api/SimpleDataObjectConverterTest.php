@@ -119,6 +119,7 @@ class SimpleDataObjectConverterTest extends \PHPUnit_Framework_TestCase
      */
     private function getCustomerDetails()
     {
+        $this->markTestSkipped("Will delete eventually");
         $objectManager =  new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
         $addressBuilder = $objectManager->getObject('Magento\Customer\Service\V1\Data\AddressBuilder');
