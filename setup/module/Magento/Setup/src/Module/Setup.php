@@ -7,7 +7,7 @@
  */
 namespace Magento\Setup\Module;
 
-class Setup extends \Magento\Framework\Module\Setup\Base
+class Setup extends \Magento\Framework\Module\Setup
 {
     /**
      * Retrieve 32bit UNIQUE HASH for a Table index

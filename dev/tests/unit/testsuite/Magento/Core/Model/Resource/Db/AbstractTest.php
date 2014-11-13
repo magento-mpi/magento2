@@ -25,7 +25,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_resource = $this->getMock('Magento\Framework\App\Resource', array('getConnection'), array(), '', false, false);
+        $this->_resource = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false, false);
         $this->_model = $this->getMock(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
             array('_construct', '_getWriteAdapter'),

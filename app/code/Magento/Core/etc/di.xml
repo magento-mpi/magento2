@@ -10,7 +10,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Framework\Acl\CacheInterface" type="Magento\Framework\Acl\Cache" />
     <preference for="Magento\Framework\App\AreaInterface" type="Magento\Framework\App\Area" />
-    <preference for="Magento\Framework\Module\Updater\SetupInterface" type="Magento\Framework\Module\Setup" />
+    <preference for="Magento\Framework\Module\Updater\SetupInterface" type="Magento\Framework\Module\DataSetup" />
     <preference for="Magento\Framework\Module\ResourceResolverInterface" type="Magento\Framework\Module\ResourceResolver" />
     <preference for="Magento\Framework\AuthorizationInterface" type="Magento\Framework\Authorization" />
     <preference for="Magento\Framework\Authorization\Policy" type="Magento\Framework\Authorization\Policy\DefaultPolicy" />
@@ -655,7 +655,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Framework\Module\Setup">
+    <type name="Magento\Framework\Module\DataSetup">
         <arguments>
             <argument name="resourceName" xsi:type="string">core_setup</argument>
             <argument name="connectionName" xsi:type="string">Magento\Framework\Module\Updater::DEFAULT_SETUP_CONNECTION</argument>

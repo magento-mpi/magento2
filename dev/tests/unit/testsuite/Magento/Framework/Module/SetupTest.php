@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Module\Setup;
+namespace Magento\Framework\Module;
 
-class BaseTest extends \PHPUnit_Framework_TestCase
+class SetupTest extends \PHPUnit_Framework_TestCase
 {
     const CONNECTION_NAME = 'connection';
 
@@ -23,7 +23,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     private $connection;
 
     /**
-     * @var Base
+     * @var Setup
      */
     private $object;
 
@@ -35,7 +35,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->with(self::CONNECTION_NAME)
             ->will($this->returnValue($this->connection));
-        $this->object = new Base($this->resourceModel, self::CONNECTION_NAME);
+        $this->object = new Setup($this->resourceModel, self::CONNECTION_NAME);
     }
 
     public function testGetConnection()
