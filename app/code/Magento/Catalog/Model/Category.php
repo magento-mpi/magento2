@@ -325,7 +325,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
         } elseif ($parent->getId() == $this->getId()) {
             throw new \Magento\Framework\Model\Exception(
                 __(
-                    'We can\'t perform this category move operation because the parent category matches the child category.'
+                    'We can\'t perform this category move operation because the parent category matches the child'
+                        . 'category.'
                 )
             );
         }

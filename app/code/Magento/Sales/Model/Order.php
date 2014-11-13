@@ -19,6 +19,7 @@ use Magento\Sales\Model\Resource\Order\Shipment\Collection as ShipmentCollection
 use Magento\Sales\Model\Resource\Order\Shipment\Track\Collection as TrackCollection;
 use Magento\Sales\Model\Resource\Order\Status\History\Collection as HistoryCollection;
 use Magento\Framework\Exception\NoSuchEntityException;
+
 /**
  * Order model
  *
@@ -553,6 +554,7 @@ class Order extends \Magento\Sales\Model\AbstractModel implements EntityInterfac
      * @param Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory
      * @param Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory
      * @param PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data

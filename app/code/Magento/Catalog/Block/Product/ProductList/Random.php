@@ -39,18 +39,18 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param \Magento\Catalog\Model\LayerFactory $layerFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
+        CategoryRepositoryInterface $categoryRepository,
         \Magento\Catalog\Model\LayerFactory $layerFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        CategoryRepositoryInterface $categoryRepository,
         array $data = array()
     ) {
         $this->_layerFactory = $layerFactory;

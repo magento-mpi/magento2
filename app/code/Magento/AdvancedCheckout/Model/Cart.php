@@ -444,7 +444,9 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
                 $product = $this->productRepository->getById($productId, false, $this->getStore()->getId());
             } catch (NoSuchEntityException $e) {
                 throw new \Magento\Framework\Model\Exception(
-                    __('Failed to add a product to cart by id "%1".', $productId), 0, $e
+                    __('Failed to add a product to cart by id "%1".', $productId),
+                    0,
+                    $e
                 );
             }
         }

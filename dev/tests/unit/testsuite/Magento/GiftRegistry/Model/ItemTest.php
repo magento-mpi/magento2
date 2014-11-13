@@ -40,7 +40,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $contextMock = $this->getMock('\Magento\Framework\Model\Context', array(), array(), '', false);
         $registryMock = $this->getMock('\Magento\Framework\Registry', array(), array(), '', false);
-        $productRepositoryMock = $this->getMock('\Magento\Catalog\Model\ProductRepository', array(), array(), '', false);
+        $productRepositoryMock = $this->getMock('\Magento\Catalog\Model\ProductRepository', array(), array(), '',
+            false);
         $itemOptionMock = $this->getMock('\Magento\GiftRegistry\Model\Item\OptionFactory', array(), array(), '', false);
         $this->catalogUrlMock = $this->getMock('\Magento\Catalog\Model\Resource\Url', array(), array(), '', false);
         $this->messageManagerMock = $this->getMock('\Magento\Framework\Message\ManagerInterface');
