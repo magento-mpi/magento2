@@ -12,7 +12,7 @@ namespace Magento\Framework;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Object extends \Magento\Framework\Api\AbstractSimpleObject implements \ArrayAccess
+class Object implements \ArrayAccess
 {
     /**
      * Object attributes
