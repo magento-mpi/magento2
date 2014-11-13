@@ -27,7 +27,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      *
      * @var Configuration
      */
-    protected $_bundleProdConfigur = null;
+    protected $_bundleProdConfiguration = null;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -50,10 +50,10 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Framework\Message\ManagerInterface $messageManager,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Msrp\Helper\Data $msrpHelper,
-        Configuration $bundleProdConfigur,
+        Configuration $bundleProdConfiguration,
         array $data = array()
     ) {
-        $this->_bundleProdConfigur = $bundleProdConfigur;
+        $this->_bundleProdConfigur = $bundleProdConfiguration;
         parent::__construct(
             $context,
             $productConfig,
@@ -74,7 +74,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
     protected function _construct()
     {
         parent::_construct();
-        $this->_configurationHelper = $this->_bundleProdConfigur;
+        $this->_configurationHelper = $this->_bundleProdConfiguration;
     }
 
     /**
@@ -99,7 +99,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     protected function _getSelectionFinalPrice($selectionProduct)
     {
-        $helper = $this->_bundleProdConfigur;
+        $helper = $this->_bundleProdConfiguration;
         $result = $helper->getSelectionFinalPrice($this->getItem(), $selectionProduct);
         return $result;
     }

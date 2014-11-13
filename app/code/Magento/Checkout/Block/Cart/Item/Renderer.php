@@ -627,6 +627,6 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
     public function canApplyMsrp()
     {
         return $this->msrpHelper->isShowBeforeOrderConfirm($this->getItem()->getProduct())
-        && $this->msrpHelper->isMinimalPriceLessMsrp($this->getItem()->getProduct());
+            && $this->msrpHelper->isMinimalPriceLessMsrp($this->getItem()->getProduct());
     }
 }
