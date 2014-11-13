@@ -103,4 +103,9 @@
     <type name="Magento\Catalog\Model\Product\Attribute\Backend\Price">
         <plugin name="bundle" type="Magento\Bundle\Model\Plugin\PriceBackend" sortOrder="100" />
     </type>
+    <type name="Magento\Bundle\Model\Product\Type">
+        <arguments>
+            <argument name="stockItemService" xsi:type="object">Magento\CatalogInventory\Service\V1\StockItemServiceInterface\Proxy</argument>
+        </arguments>
+    </type>
 </config>
