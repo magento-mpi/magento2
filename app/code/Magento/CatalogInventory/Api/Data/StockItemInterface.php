@@ -7,12 +7,13 @@
  */
 namespace Magento\CatalogInventory\Api\Data;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
+
 /**
  * Interface StockItem
- * @package Magento\CatalogInventory\Api\Data
  * @data-api
  */
-interface StockItemInterface
+interface StockItemInterface extends ExtensibleDataInterface
 {
     const BACKORDERS_NO = 0;
 

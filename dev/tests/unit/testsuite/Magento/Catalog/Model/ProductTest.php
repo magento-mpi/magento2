@@ -33,7 +33,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $catalogDataMock;
 
     /**
-     * @var \Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $stockItemBuilderMock;
 
@@ -117,7 +117,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->stockItemBuilderMock = $this->getMock(
-            'Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder',
+            'Magento\CatalogInventory\Api\Data\StockItemDataBuilder',
             ['populateWithArray', 'create'],
             [],
             '',

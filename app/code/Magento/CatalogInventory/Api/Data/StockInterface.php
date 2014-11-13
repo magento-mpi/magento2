@@ -7,12 +7,14 @@
  */
 namespace Magento\CatalogInventory\Api\Data;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
+
 /**
  * Interface Stock
  * @package Magento\CatalogInventory\Api\Data
  * @data-api
  */
-interface StockInterface
+interface StockInterface extends ExtensibleDataInterface
 {
     const ID = 'stock_id';
 

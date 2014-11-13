@@ -7,12 +7,13 @@
  */
 namespace Magento\CatalogInventory\Api\Data;
 
-/**\
+use Magento\Framework\Api\ExtensibleDataInterface;
+
+/**
  * Interface StockStatusInterface
- * @package Magento\CatalogInventory\Api\Data
  * @data-api
  */
-interface StockStatusInterface
+interface StockStatusInterface extends ExtensibleDataInterface
 {
     /**#@+
      * Stock status object data keys

@@ -306,13 +306,10 @@ class StockStateProviderTest extends \PHPUnit_Framework_TestCase
     {
         $variations = [];
         foreach ($this->getVariations() as $variation) {
-            $stockItem = $this->getMock(
-                '\Magento\CatalogInventory\Api\Data\StockItemInterface',
-                $this->stockItemMethods,
-                [],
-                '',
-                false
-            );
+            $stockItem = $this->getMockBuilder('Magento\CatalogInventory\Api\Data\StockItemInterface')
+                ->disableOriginalConstructor()
+                ->setMethods($this->stockItemMethods)
+                ->getMockForAbstractClass();
             $stockItem->expects($this->any())->method('getSuppressCheckQtyIncrements')->willReturn(
                 $variation['values']['_suppress_check_qty_increments_']
             );

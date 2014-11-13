@@ -11,13 +11,12 @@
  */
 namespace Magento\CatalogInventory\Api\Data;
 
-use Magento\Framework\Data\SearchResultInterface;
+use Magento\Framework\Api\SearchResultsInterface;
 
 /**
  * Interface StockCollectionInterface
- * @package Magento\CatalogInventory\Api\Data
  */
-interface StockCollectionInterface extends SearchResultInterface
+interface StockCollectionInterface extends SearchResultsInterface
 {
     /**
      * Get items

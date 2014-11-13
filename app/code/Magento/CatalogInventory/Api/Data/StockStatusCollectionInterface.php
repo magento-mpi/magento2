@@ -7,12 +7,12 @@
  */
 namespace Magento\CatalogInventory\Api\Data;
 
-use Magento\Framework\Data\SearchResultInterface;
+use Magento\Framework\Api\SearchResultsInterface;
 
 /**
  * Stock Status collection interface
  */
-interface StockStatusCollectionInterface extends SearchResultInterface
+interface StockStatusCollectionInterface extends SearchResultsInterface
 {
     /**
      * Get items

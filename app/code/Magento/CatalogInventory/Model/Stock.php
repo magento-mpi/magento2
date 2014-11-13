@@ -8,14 +8,14 @@
 namespace Magento\CatalogInventory\Model;
 
 use Magento\CatalogInventory\Api\Data\StockInterface;
-use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**
  * Class Stock
  * @package Magento\CatalogInventory\Model
  * @data-api
  */
-class Stock extends AbstractModel implements StockInterface
+class Stock extends AbstractExtensibleModel implements StockInterface
 {
     /**
      * Stock entity code

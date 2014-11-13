@@ -107,7 +107,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->stockItemBuilder = $this->getMockBuilder('Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder')
+        $this->stockItemBuilder = $this->getMockBuilder('Magento\CatalogInventory\Api\Data\StockItemDataBuilder')
             ->disableOriginalConstructor()
             ->setMethods(['mergeDataObjectWithArray'])
             ->getMock();

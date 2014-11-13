@@ -10,6 +10,8 @@ namespace Magento\CatalogInventory\Model\Stock;
 use Magento\CatalogInventory\Api\Data\StockStatusInterface;
 use Magento\CatalogInventory\Api\Data\StockItemInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
+use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**
  * CatalogInventory Stock Status
@@ -22,7 +24,7 @@ use Magento\CatalogInventory\Api\StockRegistryInterface;
  * @method Status setQty(float $value)
  * @method Status setStockStatus(int $value)
  */
-class Status extends \Magento\Framework\Model\AbstractModel implements StockStatusInterface
+class Status extends AbstractExtensibleModel implements StockStatusInterface
 {
     /**#@+
      * Stock Status values
@@ -35,6 +37,7 @@ class Status extends \Magento\Framework\Model\AbstractModel implements StockStat
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param MetadataServiceInterface $metadataService
      * @param StockRegistryInterface $stockRegistry
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -43,12 +46,13 @@ class Status extends \Magento\Framework\Model\AbstractModel implements StockStat
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        MetadataServiceInterface $metadataService,
         StockRegistryInterface $stockRegistry,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
         $this->stockRegistry = $stockRegistry;
     }
 

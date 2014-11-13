@@ -202,7 +202,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Stock item factory
      *
-     * @var \Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder
+     * @var \Magento\CatalogInventory\Api\Data\StockItemDataBuilder
      */
     protected $_stockItemBuilder;
 
@@ -250,7 +250,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * @param Product\Url $url
      * @param Product\Link $productLink
      * @param Product\Configuration\Item\OptionFactory $itemOptionFactory
-     * @param \Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder $stockItemBuilder
+     * @param \Magento\CatalogInventory\Api\Data\StockItemDataBuilder $stockItemBuilder
      * @param CategoryFactory $categoryFactory
      * @param Product\Option $catalogProductOption
      * @param Product\Visibility $catalogProductVisibility
@@ -279,7 +279,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         Product\Url $url,
         Product\Link $productLink,
         \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
-        \Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder $stockItemBuilder,
+        \Magento\CatalogInventory\Api\Data\StockItemDataBuilder $stockItemBuilder,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,

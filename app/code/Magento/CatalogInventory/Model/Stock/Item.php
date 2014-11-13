@@ -12,6 +12,8 @@ use Magento\CatalogInventory\Api\StockConfigurationInterface as StockConfigurati
 use Magento\CatalogInventory\Api\StockItemRepositoryInterface as StockItemRepositoryInterface;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
+use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**
  * Catalog Inventory Stock Item Model
@@ -42,7 +44,7 @@ use Magento\CatalogInventory\Api\StockRegistryInterface;
  * @method \Magento\CatalogInventory\Model\Stock\Item setUseConfigEnableQtyInc(int $value)
  * @method \Magento\CatalogInventory\Model\Stock\Item setEnableQtyIncrements(int $value)
  */
-class Item extends \Magento\Framework\Model\AbstractModel implements StockItemInterface
+class Item extends AbstractExtensibleModel implements StockItemInterface
 {
     /**
      * Stock item entity code
@@ -114,6 +116,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements StockItemIn
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param MetadataServiceInterface $metadataService
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param StockConfigurationInterface $stockConfiguration
@@ -126,6 +129,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements StockItemIn
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        MetadataServiceInterface $metadataService,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\StoreManagerInterface $storeManager,
         StockConfigurationInterface $stockConfiguration,
@@ -135,8 +139,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements StockItemIn
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-
+        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
         $this->customerSession = $customerSession;
         $this->storeManager = $storeManager;
         $this->stockConfiguration = $stockConfiguration;

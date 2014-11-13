@@ -33,7 +33,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
     protected $_catalogProduct;
 
     /**
-     * @var \Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder
+     * @var \Magento\CatalogInventory\Api\Data\StockItemDataBuilder
      */
     protected $stockItemBuilder;
 
@@ -56,7 +56,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
      * @param \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor
      * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder $stockItemBuilder
+     * @param \Magento\CatalogInventory\Api\Data\StockItemDataBuilder $stockItemBuilder
      * @param \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
      */
     public function __construct(
@@ -66,7 +66,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         \Magento\CatalogInventory\Model\Indexer\Stock\Processor $stockIndexerProcessor,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder $stockItemBuilder,
+        \Magento\CatalogInventory\Api\Data\StockItemDataBuilder $stockItemBuilder,
         \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
     ) {
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
