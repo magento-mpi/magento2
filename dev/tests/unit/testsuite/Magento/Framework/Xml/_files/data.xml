@@ -10,7 +10,8 @@
 <data>
     <nodes>
         <text> some text </text>
-        <cdata><![CDATA[Some data here]]></cdata>
+        <trim_spaces>   </trim_spaces>
+        <cdata><![CDATA[  Some data here  ]]></cdata>
         <zero>0</zero>
         <null></null>
     </nodes>

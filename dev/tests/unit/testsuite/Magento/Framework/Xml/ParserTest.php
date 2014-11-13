@@ -24,7 +24,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             ['data' => [
                 'nodes' => [
                     'text' => ' some text ',
-                    'cdata' => 'Some data here',
+                    'trim_spaces' => '',
+                    'cdata' => '  Some data here  ',
                     'zero' => '0',
                     'null' => null,
                 ]

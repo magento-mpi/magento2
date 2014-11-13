@@ -78,10 +78,11 @@ class Parser
         if (!$currentNode) {
             $currentNode = $this->getDom();
         }
-        $content = array();
+        $content = '';
         foreach ($currentNode->childNodes as $node) {
             switch ($node->nodeType) {
                 case XML_ELEMENT_NODE:
+                    $content = $content ?: [];
 
                     $value = null;
                     if ($node->hasChildNodes()) {
