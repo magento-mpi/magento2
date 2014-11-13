@@ -83,11 +83,7 @@ class Preprocessor implements PreprocessorInterface
             $select->from(['main_table' => $this->resource->getTableName('catalog_product_index_price')], 'entity_id')
                 ->where($query);
         } elseif ($filter->getField() == 'category_ids') {
-            $query = str_replace('category_ids', 'category_id', $query);
-            $select->from(
-                    ['main_table' => $this->resource->getTableName('catalog_category_product_index')],
-                    ['entity_id' => 'product_id']
-                )->where($query);
+            return 'category_index.category_id = ' . $filter->getValue();
         } else {
             if ($attribute->isStatic()) {
                 $select->from(['main_table' => $table], 'entity_id')
@@ -125,7 +121,7 @@ class Preprocessor implements PreprocessorInterface
             }
         }
 
-        return 'product_id IN (
+        return 'search_index.product_id IN (
             select entity_id from  ' . $this->conditionManager->wrapBrackets($select) . ' as filter
             )';
     }
