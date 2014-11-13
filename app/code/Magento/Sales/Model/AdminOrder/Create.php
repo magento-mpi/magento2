@@ -344,7 +344,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $this->getCustomerCart()->collectTotals()->save();
         }
         $this->setRecollect(true);
-
+        
         return $this;
     }
 
@@ -1496,7 +1496,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $request = $form->prepareRequest($accountData);
         $data = $form->extractData($request);
         $data = $form->restoreData($data);
-        $customer = $this->customerBuilder->mergeDataObjectWithArray($customer, $data);
+        $customer = $this->_customerBuilder->mergeDataObjectWithArray($customer, $data)
+            ->create();
         $this->getQuote()->updateCustomerData($customer);
         $data = [];
 
@@ -1611,8 +1612,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                 unset($data[$key]);
             }
         }
-
-        return $this->customerBuilder->mergeDataObjectWithArray($customer, $data);
+        return $this->_customerBuilder->mergeDataObjectWithArray($customerDataObject, $data)
+            ->create();
     }
 
     /**
@@ -1697,8 +1698,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $customerAddress = $this->addressBuilder->mergeDataObjects(
                 $existingAddressDataObject,
                 $customerAddress
-            );
-        } elseif ($addressType == \Magento\Customer\Api\Data\AddressInterface::ADDRESS_TYPE_SHIPPING) {
+            )->create();
+        } elseif ($addressType == CustomerAddressDataObject::ADDRESS_TYPE_SHIPPING) {
             try {
                 $billingAddressDataObject = $customer->getDefaultBilling();
             } catch (\Exception $e) {

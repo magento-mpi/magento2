@@ -94,7 +94,7 @@ class CollectTotals
         if ($groupId) {
             $quoteAddress->setPrevQuoteCustomerGroupId($quote->getCustomerGroupId());
             $quote->setCustomerGroupId($groupId);
-            $customer = $this->customerBuilder->mergeDataObjectWithArray($customer, ['group_id' => $groupId]);
+            $customer = $this->customerBuilder->mergeDataObjectWithArray($customer, ['group_id' => $groupId])->create();
             $quote->setCustomer($customer);
         }
     }

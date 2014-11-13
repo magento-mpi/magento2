@@ -14,7 +14,6 @@
                 <steps>
                     <step name="applyCustomerBalanceToCustomer" module="Magento_CustomerBalance">
                         <prev>createCustomer</prev>
-                        <next>selectCheckoutMethod</next>
                     </step>
                     <step name="selectStoreCredit" module="Magento_CustomerBalance">
                         <next>selectPaymentMethod</next>

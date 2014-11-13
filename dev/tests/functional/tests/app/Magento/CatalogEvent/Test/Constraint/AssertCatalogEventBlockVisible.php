@@ -57,7 +57,7 @@ class AssertCatalogEventBlockVisible extends AbstractConstraint
     protected $categoryName;
 
     /**
-     * Product Name
+     * Product name
      *
      * @var string
      */
