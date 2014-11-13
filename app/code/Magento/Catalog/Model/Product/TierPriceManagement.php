@@ -76,7 +76,7 @@ class TierPriceManagement implements \Magento\Catalog\Api\ProductTierPriceManage
      */
     public function add($productSku, $customerGroupId, $price, $qty)
     {
-        if ($price <= 0 || $qty <= 0) {
+        if (!\Zend_Validate::is($price, 'Float') || $price <= 0 || !\Zend_Validate::is($qty, 'Float') || $qty <= 0) {
             throw new InputException('Please provide valid data');
         }
         $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
