@@ -69,7 +69,7 @@ class Resolver
     public function get()
     {
         if (!isset($this->layer)) {
-            throw new \RuntimeException('Catalog Layer has not been created yet');
+            $this->layer = $this->objectManager->create($this->layersPool[self::CATALOG_LAYER_CATEGORY]);
         }
         return $this->layer;
     }

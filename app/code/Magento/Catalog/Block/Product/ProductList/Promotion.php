@@ -30,7 +30,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
+     * @param \Magento\Catalog\Model\Layer\Resolver $layerResolver
      * @param \Magento\Catalog\Model\LayerFactory $layerFactory
      * @param CollectionFactory $productCollectionFactory
      * @param array $data
@@ -39,7 +39,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Catalog\Model\Layer\Category $catalogLayer,
+        \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         \Magento\Catalog\Model\LayerFactory $layerFactory,
         CollectionFactory $productCollectionFactory,
         array $data = array()
@@ -50,7 +50,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
             $context,
             $postDataHelper,
             $categoryFactory,
-            $catalogLayer,
+            $layerResolver,
             $data
         );
     }
