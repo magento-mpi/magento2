@@ -28,6 +28,7 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
         $customerId = $this->_initCustomer();
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_manage');
+        $this->prepareDefaultCustomerTitle();
 
         $customerData = array();
         $customerData['account'] = array();
