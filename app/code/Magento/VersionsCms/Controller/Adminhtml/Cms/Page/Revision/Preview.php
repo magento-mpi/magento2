@@ -50,7 +50,6 @@ class Preview extends \Magento\Backend\App\Action implements RevisionInterface
             return;
         }
 
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Pages'));
         $page = $this->pageLoader->load($this->_request->getParam('page_id'));
         $this->_view->loadLayout();
 
@@ -81,7 +80,7 @@ class Preview extends \Magento\Backend\App\Action implements RevisionInterface
         if (!$page->getUnderVersionControl()) {
             $this->_view->getLayout()->unsetChild('tools', 'revision_switcher');
         }
-
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Pages'));
         $this->_view->renderLayout();
     }
 }

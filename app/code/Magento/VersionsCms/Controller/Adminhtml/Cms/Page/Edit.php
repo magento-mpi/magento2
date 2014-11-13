@@ -82,7 +82,6 @@ class Edit extends \Magento\Cms\Controller\Adminhtml\Page\Edit
      */
     public function execute()
     {
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Pages'));
         $page = $this->pageLoader->load($this->_request->getParam('page_id'));
 
         $data = $this->_session->getFormData(true);
@@ -97,14 +96,12 @@ class Edit extends \Magento\Cms\Controller\Adminhtml\Page\Edit
         } elseif (!$page->hasUnderVersionControl()) {
             $page->setUnderVersionControl((int)$this->_cmsConfig->getDefaultVersioningStatus());
         }
-
-        $this->_view->getPage()->getConfig()->getTitle()->prepend($page->getId() ? $page->getTitle() : __('New Page'));
-
         $this->_initAction()->_addBreadcrumb(
             $page->getId() ? __('Edit Page') : __('New Page'),
             $page->getId() ? __('Edit Page') : __('New Page')
         );
-
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Pages'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend($page->getId() ? $page->getTitle() : __('New Page'));
         $this->_view->renderLayout();
     }
 }

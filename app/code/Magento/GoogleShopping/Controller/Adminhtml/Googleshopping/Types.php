@@ -56,8 +56,6 @@ class Types extends \Magento\Backend\App\Action
      */
     protected function _initItemType()
     {
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Google Content Attributes'));
-
         $this->_coreRegistry->register(
             'current_item_type',
             $this->_objectManager->create('Magento\GoogleShopping\Model\Type')

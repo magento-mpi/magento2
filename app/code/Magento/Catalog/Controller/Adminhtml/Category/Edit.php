@@ -114,6 +114,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Category
         }
 
         $resultPage->setActiveMenu('Magento_Catalog::catalog_categories');
+        $resultPage->getConfig()->getTitle()->prepend(__('Categories'));
         $resultPage->getConfig()->getTitle()->prepend($categoryId ? $category->getName() : __('Categories'));
         $resultPage->addBreadcrumb(__('Manage Catalog Categories'), __('Manage Categories'));
 

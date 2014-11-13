@@ -19,8 +19,6 @@ class NewAction extends \Magento\Customer\Controller\Adminhtml\Group
      */
     protected function _initGroup()
     {
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customer Groups'));
-
         $groupId = $this->getRequest()->getParam('id');
         $this->_coreRegistry->register(RegistryConstants::CURRENT_GROUP_ID, $groupId);
 
@@ -38,6 +36,7 @@ class NewAction extends \Magento\Customer\Controller\Adminhtml\Group
 
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_group');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customer Groups'));
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'), $this->getUrl('customer/group'));
 

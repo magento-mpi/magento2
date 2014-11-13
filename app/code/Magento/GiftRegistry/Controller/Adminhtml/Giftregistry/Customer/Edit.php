@@ -27,14 +27,14 @@ class Edit extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry\Custo
                 $model->getCustomerId()
             );
 
+            $this->_view->loadLayout();
             $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customers'));
             $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customers'));
             $this->_view->getPage()->getConfig()->getTitle()->prepend($customer->getName());
             $this->_view->getPage()->getConfig()->getTitle()->prepend(
                 __("Edit '%1' Gift Registry", $model->getTitle())
             );
-
-            $this->_view->loadLayout()->renderLayout();
+            $this->_view->renderLayout();
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect(

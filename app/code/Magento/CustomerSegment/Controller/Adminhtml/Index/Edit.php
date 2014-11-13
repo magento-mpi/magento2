@@ -34,8 +34,6 @@ class Edit extends \Magento\CustomerSegment\Controller\Adminhtml\Index
      */
     public function execute()
     {
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customer Segments'));
-
         try {
             $model = $this->_initSegment();
         } catch (\Magento\Framework\Model\Exception $e) {
@@ -43,11 +41,6 @@ class Edit extends \Magento\CustomerSegment\Controller\Adminhtml\Index
             $this->_redirect('customersegment/*/');
             return;
         }
-
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(
-            $model->getId() ? $model->getName() : __('New Segment')
-        );
-
         // set entered data if was error when we do save
         $data = $this->_session->getPageData(true);
         if (!empty($data)) {
@@ -57,6 +50,10 @@ class Edit extends \Magento\CustomerSegment\Controller\Adminhtml\Index
         $model->getConditions()->setJsFormObject('segment_conditions_fieldset');
 
         $this->_initAction();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customer Segments'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $model->getId() ? $model->getName() : __('New Segment')
+        );
 
         $block = $this->_view->getLayout()->createBlock(
             'Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit'
