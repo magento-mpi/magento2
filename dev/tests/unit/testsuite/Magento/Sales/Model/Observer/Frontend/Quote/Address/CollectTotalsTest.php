@@ -84,7 +84,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $this->customerHelperMock = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
         $this->customerBuilderMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerInterfaceBuilder',
-            ['mergeDataObjectWithArray'],
+            ['mergeDataObjectWithArray', 'create'],
             [],
             '',
             false
@@ -145,88 +145,38 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithDisableAutoGroupChange()
     {
-        /** @var \Magento\Framework\Api\AttributeValueBuilder $attributeValueBuilder */
-        $attributeValueBuilder = $this->objectManager
-            ->getObject('Magento\Framework\Api\AttributeValueBuilder');
-        $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(true);
-        $this->customerMock->expects($this->exactly(2))
-            ->method('getCustomAttribute')
-            ->with('disable_auto_group_change')
-            ->will($this->returnValue($attributeValueBuilder->create()));
-
+        $this->setAttributeCodeValue('disable_auto_group_change');
         $this->model->dispatch($this->observerMock);
     }
 
     public function testDispatchWithDisableVatValidator()
     {
-        /** @var \Magento\Framework\Api\AttributeValueBuilder $attributeValueBuilder */
-        $attributeValueBuilder = $this->objectManager
-            ->getObject('Magento\Framework\Api\AttributeValueBuilder');
-        $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(false);
-        $this->customerMock->expects($this->exactly(2))
-            ->method('getCustomAttribute')
-            ->with('disable_auto_group_change')
-            ->will($this->returnValue($attributeValueBuilder->create()));
 
-        $this->vatValidatorMock->expects(
-            $this->once()
-        )->method(
-            'isEnabled'
-        )->with(
-            $this->quoteAddressMock,
-            $this->storeId
-        )->will(
-            $this->returnValue(false)
-        );
+        $this->vatValidatorMock->expects($this->once())
+            ->method('isEnabled')
+            ->with($this->quoteAddressMock, $this->storeId)
+            ->will($this->returnValue(false));
         $this->model->dispatch($this->observerMock);
     }
 
     public function testDispatchWithCustomerCountryNotInEUAndNotLoggedCustomerInGroup()
     {
-        /** @var \Magento\Framework\Api\AttributeValueBuilder $attributeValueBuilder */
-        $attributeValueBuilder = $this->objectManager
-            ->getObject('Magento\Framework\Api\AttributeValueBuilder');
-        $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(false);
-        /** Preconditions */
-        $this->customerMock->expects(
-            $this->exactly(2)
-        )->method(
-            'getCustomAttribute'
-        )->with(
-            'disable_auto_group_change'
-        )->will(
-            $this->returnValue($attributeValueBuilder->create())
-        );
 
-        $this->vatValidatorMock->expects(
-            $this->once()
-        )->method(
-            'isEnabled'
-        )->with(
-            $this->quoteAddressMock,
-            $this->storeId
-        )->will(
-            $this->returnValue(true)
-        );
+        $this->setAttributeCodeValue(false);
+        $this->vatValidatorMock->expects($this->once())
+            ->method('isEnabled')
+            ->with($this->quoteAddressMock, $this->storeId)
+            ->will($this->returnValue(true));
 
-        $this->quoteAddressMock->expects(
-            $this->once()
-        )->method(
-            'getCountryId'
-        )->will(
-            $this->returnValue('customerCountryCode')
-        );
+        $this->quoteAddressMock->expects($this->once())
+            ->method('getCountryId')
+            ->will($this->returnValue('customerCountryCode'));
         $this->quoteAddressMock->expects($this->once())->method('getVatId')->will($this->returnValue('vatId'));
 
-        $this->customerHelperMock->expects(
-            $this->once()
-        )->method(
-            'isCountryInEU'
-        )->with(
-            'customerCountryCode'
-        )->will(
-            $this->returnValue(false)
-        );
+        $this->customerHelperMock->expects($this->once())
+            ->method('isCountryInEU')
+            ->with('customerCountryCode')
+            ->will($this->returnValue(false));
 
         $this->customerMock->expects($this->once())->method('getId')->will($this->returnValue(null));
 
@@ -241,16 +191,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithDefaultCustomerGroupId()
     {
-        /** @var \Magento\Framework\Api\AttributeValueBuilder $attributeValueBuilder */
-        $attributeValueBuilder = $this->objectManager
-            ->getObject('Magento\Framework\Api\AttributeValueBuilder');
-        $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(false);
-        /** Preconditions */
-        $this->customerMock->expects($this->exactly(2))
-            ->method('getCustomAttribute')
-            ->with('disable_auto_group_change')
-            ->will($this->returnValue($attributeValueBuilder->create()));
-
+        $this->setAttributeCodeValue(false);
         $this->vatValidatorMock->expects($this->once())
             ->method('isEnabled')
             ->with($this->quoteAddressMock, $this->storeId)
@@ -279,7 +220,10 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $this->customerBuilderMock->expects($this->once())
             ->method('mergeDataObjectWithArray')
             ->with($this->customerMock, ['group_id' => 'defaultCustomerGroupId'])
-            ->will($this->returnValue($this->customerMock));
+            ->will($this->returnSelf());
+        $this->customerBuilderMock->expects($this->any())
+            ->method('create')
+            ->willReturn($this->customerMock);
 
         $this->quoteMock->expects($this->once())->method('setCustomer')->with($this->customerMock);
 
@@ -289,16 +233,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithCustomerCountryInEU()
     {
-        /** @var \Magento\Framework\Api\AttributeValueBuilder $attributeValueBuilder */
-        $attributeValueBuilder = $this->objectManager
-            ->getObject('Magento\Framework\Api\AttributeValueBuilder');
-        $attributeValueBuilder->setAttributeCode('disable_auto_group_change')->setValue(false);
-        /** Preconditions */
-        $this->customerMock->expects($this->exactly(2))
-            ->method('getCustomAttribute')
-            ->with('disable_auto_group_change')
-            ->will($this->returnValue($attributeValueBuilder->create()));
-
+        $this->setAttributeCodeValue(false);
         $this->vatValidatorMock->expects($this->once())
             ->method('isEnabled')
             ->with($this->quoteAddressMock, $this->storeId)
@@ -314,7 +249,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $this->customerHelperMock->expects($this->once())
             ->method('isCountryInEU')
             ->with('customerCountryCode')
-            ->will($this->returnValue($attributeValueBuilder->create()));
+            ->willReturn(true);
 
         $this->quoteMock->expects($this->once())
             ->method('getCustomerGroupId')
@@ -341,7 +276,23 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $this->customerBuilderMock->expects($this->once())
             ->method('mergeDataObjectWithArray')
             ->with($this->customerMock, ['group_id' => 'customerGroupId'])
-            ->will($this->returnValue($this->customerMock));
+            ->will($this->returnSelf());
+        $this->customerBuilderMock->expects($this->any())
+            ->method('create')
+            ->willReturn($this->customerMock);
         $this->model->dispatch($this->observerMock);
     }
+
+    protected function setAttributeCodeValue($value)
+    {
+        $attributeInterface = $this->getMockForAbstractClass('Magento\Framework\Api\AttributeInterface', [], '', false);
+        $this->customerMock->expects($this->any())
+            ->method('getCustomAttribute')
+            ->with('disable_auto_group_change')
+            ->willReturn($attributeInterface);
+        $attributeInterface->expects($this->once())
+            ->method('getValue')
+            ->willReturn($value);
+    }
+
 }

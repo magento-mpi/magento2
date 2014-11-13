@@ -95,7 +95,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         );
         $this->customerBuilderMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerInterfaceBuilder',
-            ['mergeDataObjectWithArray', 'populateWithArray'],
+            ['mergeDataObjectWithArray', 'populateWithArray', 'create'],
             [],
             '',
             false
@@ -264,11 +264,10 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 
         $this->formFactoryMock->expects($this->any())->method('create')->will($this->returnValue($customerFormMock));
         $this->sessionQuoteMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
-        $this->customerBuilderMock->expects($this->any())->method('populateWithArray')->will($this->returnSelf());
-        $this->customerBuilderMock->expects($this->any())->method('create')->will($this->returnValue($customerMock));
         $this->customerBuilderMock->expects($this->any())
             ->method('mergeDataObjectWithArray')
-            ->will($this->returnArgument(0));
+            ->will($this->returnSelf());
+        $this->customerBuilderMock->expects($this->any())->method('create')->will($this->returnValue($customerMock));
 
         $this->groupRepositoryMock->expects($this->once())
             ->method('getById')

@@ -1496,7 +1496,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $request = $form->prepareRequest($accountData);
         $data = $form->extractData($request);
         $data = $form->restoreData($data);
-        $customer = $this->_customerBuilder->mergeDataObjectWithArray($customer, $data)
+        $customer = $this->customerBuilder->mergeDataObjectWithArray($customer, $data)
             ->create();
         $this->getQuote()->updateCustomerData($customer);
         $data = [];
