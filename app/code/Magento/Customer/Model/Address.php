@@ -164,7 +164,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         foreach ($attributes as $attribute) {
             $code = $attribute->getAttributeCode();
             if (!is_null($this->getData($code))) {
-                $addressData[$code] = $this->getData($code);
+                $addressData[$code] = $this->getDataUsingMethod($code);
             }
         }
 
