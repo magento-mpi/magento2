@@ -18,11 +18,6 @@ class TaxClass extends \Magento\Framework\App\Config\Value
     protected $resourceConfig;
 
     /**
-     * @var \Magento\Tax\Helper\Data
-     */
-    protected $taxHelper;
-
-    /**
      * @var \Magento\Eav\Model\Entity\AttributeFactory
      */
     protected $attributeFactory;
@@ -43,14 +38,12 @@ class TaxClass extends \Magento\Framework\App\Config\Value
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Core\Model\Resource\Config $resourceConfig,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
-        \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->resourceConfig = $resourceConfig;
         $this->attributeFactory = $attributeFactory;
-        $this->taxHelper = $taxHelper;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
@@ -61,8 +54,6 @@ class TaxClass extends \Magento\Framework\App\Config\Value
      */
     protected function _afterSave()
     {
-        // Get the default tax class for product
-        $defaultProductTaxClass = $this->taxHelper->getDefaultProductTaxClass();
         $attributeCode = "tax_class_id";
 
         $attribute = $this->attributeFactory->create();
@@ -70,7 +61,7 @@ class TaxClass extends \Magento\Framework\App\Config\Value
         if (!$attribute->getId()) {
             throw new \Magento\Framework\Model\Exception(__('Invalid attribute %1', $attributeCode));
         }
-        $attribute->setData("default_value", $defaultProductTaxClass);
+        $attribute->setData("default_value", $this->getData('value'));
         $attribute->save();
 
         return parent::_afterSave($this);
