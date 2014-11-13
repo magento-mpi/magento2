@@ -523,4 +523,12 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Layer\Resolver">
+        <arguments>
+            <argument name="layersPool" xsi:type="array">
+                <item name="category" xsi:type="string">Magento\Catalog\Model\Layer\Category</item>
+                <item name="search" xsi:type="string">Magento\Catalog\Model\Layer\Search</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
