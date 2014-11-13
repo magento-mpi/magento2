@@ -32,7 +32,6 @@ class CategoryRepositoryTest extends WebapiAbstract
             'available_sort_by' => ['position', 'name'],
             'include_in_menu' => true,
             'name' => 'Category 1',
-            'url_key' => 'category-1',
             'id' => 333,
             'is_active' => true
         ];
@@ -100,8 +99,8 @@ class CategoryRepositoryTest extends WebapiAbstract
      */
     public function testCreate($category)
     {
-        $categoryId = $this->createCategory($category);
-        $this->assertGreaterThan(0, $categoryId);
+        $category = $this->createCategory($category);
+        $this->assertGreaterThan(0, $category['id']);
     }
 
     /**
@@ -145,13 +144,21 @@ class CategoryRepositoryTest extends WebapiAbstract
     {
         $categoryId = 333;
         $categoryData = [
-            'name' => "Update Category Test"
+            'name' => "Update Category Test",
+            'custom_attributes' => [
+                [
+                    'attribute_code' => 'description',
+                    'value' => "Update Category Description Test"
+                ]
+            ]
         ];
-        $this->assertEquals($categoryId, $this->updateCategory($categoryId, $categoryData));
+        $result = $this->updateCategory($categoryId, $categoryData);
+        $this->assertEquals($categoryId, $result['id']);
         /** @var \Magento\Catalog\Model\Category $model */
         $model = Bootstrap::getObjectManager()->get('\Magento\Catalog\Model\Category');
         $category = $model->load($categoryId);
         $this->assertEquals("Update Category Test", $category->getName());
+        $this->assertEquals("Update Category Description Test", $category->getDescription());
     }
 
     protected function getSimpleCategoryData($categoryData = array())
@@ -161,10 +168,10 @@ class CategoryRepositoryTest extends WebapiAbstract
             'parent_id' => '2',
             'name' => isset($categoryData['name'])
                 ? $categoryData['name'] : uniqid('Category-', true),
-            'is_active' => '0',
+            'is_active' => '1',
             'custom_attributes' => [
                 ['attribute_code' => 'url_key', 'value' => ''],
-                ['attribute_code' => 'description', 'value' => ''],
+                ['attribute_code' => 'description', 'value' => 'Custom description'],
                 ['attribute_code' => 'meta_title', 'value' => ''],
                 ['attribute_code' => 'meta_keywords', 'value' => ''],
                 ['attribute_code' => 'meta_description', 'value' => ''],

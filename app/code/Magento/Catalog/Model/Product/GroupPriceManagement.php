@@ -73,6 +73,9 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
      */
     public function add($productSku, $customerGroupId, $price)
     {
+        if ($price <= 0) {
+            throw new InputException('Please provide valid data');
+        }
         $customerGroup = $this->customerGroupService->getGroup($customerGroupId);
         $product = $this->productRepository->get($productSku, true);
         $groupPrices = $product->getData('group_price');

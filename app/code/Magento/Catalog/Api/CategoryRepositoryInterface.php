@@ -15,7 +15,7 @@ interface CategoryRepositoryInterface
      * Create category service
      *
      * @param \Magento\Catalog\Api\Data\CategoryInterface $category
-     * @return int
+     * @return \Magento\Catalog\Api\Data\CategoryInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      */
     public function save(\Magento\Catalog\Api\Data\CategoryInterface $category);

@@ -76,8 +76,10 @@ class TierPriceManagement implements \Magento\Catalog\Api\ProductTierPriceManage
      */
     public function add($productSku, $customerGroupId, $price, $qty)
     {
+        if ($price <= 0 || $qty <= 0) {
+            throw new InputException('Please provide valid data');
+        }
         $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
-
         $tierPrices = $product->getData('tier_price');
         $websiteIdentifier = 0;
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) != 0) {
