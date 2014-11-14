@@ -21,56 +21,96 @@ class TitleTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $scopeConfig;
+    protected $scopeConfigMock;
 
     public function setUp()
     {
-        $this->scopeConfig = $this->getMockBuilder('Magento\Framework\App\Config\ScopeConfigInterface')
+        $this->scopeConfigMock = $this->getMockBuilder('Magento\Framework\App\Config\ScopeConfigInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->title = new Title($this->scopeConfig);
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->title = $objectManagerHelper->getObject(
+            'Magento\Framework\View\Page\Title',
+            ['scopeConfig' => $this->scopeConfigMock]
+        );
     }
 
     public function testSet()
     {
         $value = 'test_value';
         $this->title->set($value);
-        $this->assertEquals(' test_value ', $this->title->get());
+        $this->assertEquals($value, $this->title->get());
     }
 
     public function testUnset()
     {
         $value = 'test';
         $this->title->set($value);
-        $this->assertEquals(' test ', $this->title->get());
+        $this->assertEquals($value, $this->title->get());
         $this->title->unsetValue();
-        $this->assertEquals('  ', $this->title->get());
+        $this->assertEmpty($this->title->get());
     }
 
     public function testGet()
     {
-        $this->scopeConfig->expects($this->exactly(2))->method('getValue');
-        $this->title->set('test');
-        $this->assertEquals(' test ', $this->title->get());
+        $value = 'test';
+        $prefix = 'prefix';
+        $suffix = 'suffix';
+        $expected = 'prefix test suffix';
+
+        $this->scopeConfigMock->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValueMap(
+                [
+                    ['design/head/title_prefix', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $prefix],
+                    ['design/head/title_suffix', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $suffix]
+                ]
+            ));
+        $this->title->set($value);
+        $this->assertEquals($expected, $this->title->get());
     }
 
     public function testGetShort()
     {
-        $settingMap = [
-            ['design/head/title_prefix', 'prefix'],
-            ['design/head/title_suffix', 'suffix']
-        ];
-        $this->scopeConfig->expects($this->any())->method('getValue')->will($this->returnValueMap($settingMap));
-        $value = 'test';
+        $value = 'some_title';
         $this->title->set($value);
-        $this->title->get();
+        $this->title->prepend($value);
+        $this->title->append($value);
+
+        $this->assertEquals($value, $this->title->getShort());
     }
-//
-//    public function testGetAsStringArray()
-//    {
-//        $value = ['test', 'test2'];
-//        $this->title->set($value);
-//        $this->assertEquals('test / test2', $this->title->get());
-//    }
+
+    public function testGetDefault()
+    {
+        $defaultTitle = 'default title';
+        $prefix = 'prefix';
+        $suffix = 'suffix';
+        $expected = 'prefix default title suffix';
+
+        $this->scopeConfigMock->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValueMap(
+                [
+                    ['design/head/title_prefix', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $prefix],
+                    ['design/head/title_suffix', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $suffix],
+                    ['design/head/default_title', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $defaultTitle]
+                ]
+            ));
+        $this->assertEquals($expected, $this->title->getDefault());
+    }
+
+    public function testAppendPrepend()
+    {
+        $value = 'title';
+        $prepend = 'prepend_title';
+        $append = 'append_title';
+        $expected = 'prepend_title / title / append_title';
+
+        $this->title->set($value);
+        $this->title->prepend($prepend);
+        $this->title->append($append);
+
+        $this->assertEquals($expected, $this->title->get());
+    }
 }
