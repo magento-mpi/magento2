@@ -116,36 +116,35 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 $addressesData = $this->_extractCustomerAddressData();
                 $request = $this->getRequest();
                 $isExistingCustomer = (bool)$customerId;
-                $customerBuilder = $this->_customerBuilder;
+                $customerBuilder = $this->customerDataBuilder;
                 if ($isExistingCustomer) {
-                    $savedCustomerData = $this->_customerAccountService->getCustomer($customerId);
+                    $savedCustomerData = $this->_customerRepository->getById($customerId);
                     $customerData = array_merge(
-                        $this->_extensibleDataObjectConverter->toFlatArray($savedCustomerData),
+                        $this->customerMapper->toFlatArray($savedCustomerData),
                         $customerData
                     );
+                    $customerData['id'] = $customerId;
                 }
                 unset($customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING]);
                 unset($customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING]);
                 $customerBuilder->populateWithArray($customerData);
                 $addresses = array();
                 foreach ($addressesData as $addressData) {
-                    $addresses[] = $this->_addressBuilder->populateWithArray($addressData)->create();
+                    $addresses[] = $this->addressDataBuilder->populateWithArray($addressData)->create();
                 }
 
                 $this->_eventManager->dispatch(
                     'adminhtml_customer_prepare_save',
                     array('customer' => $customerBuilder, 'request' => $request)
                 );
+                $customerBuilder->setAddresses($addresses);
                 $customer = $customerBuilder->create();
 
                 // Save customer
-                $customerDetails = $this->_customerDetailsBuilder->setCustomer(
-                    $customer
-                )->setAddresses($addresses)->create();
                 if ($isExistingCustomer) {
-                    $this->_customerAccountService->updateCustomer($customerId, $customerDetails);
+                    $this->_customerRepository->save($customer);
                 } else {
-                    $customer = $this->_customerAccountService->createCustomer($customerDetails);
+                    $customer = $this->customerAccountManagement->createAccount($customer);
                     $customerId = $customer->getId();
                 }
 

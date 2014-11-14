@@ -667,7 +667,7 @@ class AccountManagement implements AccountManagementInterface
 
         if ($customerErrors !== true) {
             return $this->validationResultsDataBuilder
-                ->setIsValid(false)
+                ->setValid(false)
                 ->setMessages($this->validator->getMessages())
                 ->create();
         }
@@ -677,12 +677,12 @@ class AccountManagement implements AccountManagementInterface
         $result = $customerModel->validate();
         if (true !== $result && is_array($result)) {
             return $this->validationResultsDataBuilder
-                ->setIsValid(false)
+                ->setValid(false)
                 ->setMessages($result)
                 ->create();
         }
         return $this->validationResultsDataBuilder
-            ->setIsValid(true)
+            ->setValid(true)
             ->setMessages([])
             ->create();
     }

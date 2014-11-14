@@ -12,7 +12,7 @@ use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Framework\Api\ExtensibleDataObjectConverter;
 
 /**
- * Class AddressConverter converts Address Service Data Object to an array
+ * Class Mapper converts Address Service Data Object to an array
  */
 class Mapper
 {
@@ -42,7 +42,7 @@ class Mapper
         $flatAddressArray = $this->extensibleDataObjectConverter->toFlatArray($addressDataObject);
         //preserve street
         $street = $addressDataObject->getStreet();
-        if (!empty($street)) {
+        if (!empty($street) && is_array($street)) {
             // Unset flat street data
             $streetKeys = array_keys($street);
             foreach ($streetKeys as $key) {
