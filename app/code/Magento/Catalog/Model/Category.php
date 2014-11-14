@@ -311,7 +311,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
             throw new \Magento\Framework\Model\Exception(
                 __(
                     'Sorry, but we can\'t move the category because we can\'t find the new parent category you'
-                        . ' selected.'
+                    . ' selected.'
                 ),
                 0,
                 $e
@@ -326,7 +326,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
             throw new \Magento\Framework\Model\Exception(
                 __(
                     'We can\'t perform this category move operation because the parent category matches the child'
-                        . 'category.'
+                    . 'category.'
                 )
             );
         }

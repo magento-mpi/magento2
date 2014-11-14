@@ -29,8 +29,8 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param CategoryRepositoryInterface $categoryRepository
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      */
     public function __construct(
@@ -39,8 +39,8 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         CategoryRepositoryInterface $categoryRepository,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
         $this->_scopeConfig = $scopeConfig;
