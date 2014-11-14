@@ -8,7 +8,7 @@
  */
 namespace Magento\Bundle\Model\Plugin;
 
-class BundleOptions 
+class BundleOptions
 {
     /**
      * @var \Magento\Bundle\Service\V1\Product\Option\WriteService

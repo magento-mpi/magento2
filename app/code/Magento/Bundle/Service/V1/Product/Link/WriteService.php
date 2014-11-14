@@ -47,7 +47,7 @@ class WriteService implements WriteServiceInterface
      * @param ProductRepository $productRepository
      * @param \Magento\Bundle\Model\SelectionFactory $bundleSelection
      * @param \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory
-     * @param \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection,
+     * @param \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -78,7 +78,7 @@ class WriteService implements WriteServiceInterface
      * Add child options for product
      *
      * @param \Magento\Catalog\Api\Data\ProductInterface $product
-     * @param $optionId
+     * @param int $optionId
      * @param \Magento\Bundle\Service\V1\Data\Product\Link $linkedProduct
      * @return mixed
      * @throws CouldNotSaveException
