@@ -174,7 +174,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/customer/group/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(['Invalid value of "" provided for the code field.']),
+            $this->equalTo(['code is a required field.']),
             MessageInterface::TYPE_ERROR
         );
         $this->assertSessionMessages($this->isEmpty(), MessageInterface::TYPE_SUCCESS);
@@ -259,7 +259,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/customer/group/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(['Invalid value of "" provided for the code field.']),
+            $this->equalTo(['code is a required field.']),
             MessageInterface::TYPE_ERROR
         );
         $this->assertSessionMessages($this->isEmpty(), MessageInterface::TYPE_SUCCESS);
