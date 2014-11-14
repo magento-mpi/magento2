@@ -9,20 +9,13 @@
  */
 namespace Magento\Backend\App;
 
+use Magento\Backend\Model\Config\Factory;
 use Magento\Framework\App\Console\Response;
 use Magento\Framework\App\Bootstrap;
 use Magento\Framework\AppInterface;
-use Magento\Backend\Model\Config;
 
 class UserConfig implements AppInterface
 {
-    /**
-     * Config model accessor 
-     *
-     * @var Config
-     */
-    private $configModel;
-
     /**
      * Console response
      *
@@ -38,26 +31,33 @@ class UserConfig implements AppInterface
     private $request;
 
     /**
+     * Factory for config models
+     *
+     * @var Factory
+     */
+    private $configFactory;
+
+    /**
      * Constructor
      *
-     * @param Config $configModel,
+     * @param Factory $configFactory
      * @param Response $response
      * @param array $request
      */
     public function __construct(
-        Config $configModel,
+        Factory $configFactory,
         Response $response,
         array $request
     ) {
-        $this->configModel = $configModel;
         $this->response = $response;
         $this->request = $request;
+        $this->configFactory = $configFactory;
     }
 
     /**
      * Run application
      *
-     * @return \Magento\Framework\App\ResponseInterface     *
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function launch()
     {
