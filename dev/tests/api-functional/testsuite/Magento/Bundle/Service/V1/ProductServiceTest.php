@@ -13,25 +13,21 @@ use Magento\Framework\Api\AbstractExtensibleObject;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
+use \Magento\Catalog\Api\Data\ProductInterface;
 
 /**
  * Class ProductServiceTest for testing Bundle Product API
  */
 class ProductServiceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductServiceV1';
+    const SERVICE_NAME = 'catalogProductRepositoryV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products';
-
-    /**
-     * @var \Magento\Catalog\Model\Product
-     */
-    private $bundleModel;
 
     public function testCreateBundle()
     {
         $response = $this->createProduct($this->getSimpleProductData());
-        $simpleProductSku = $response[Product::SKU];
+        $simpleProductSku = $response[ProductInterface::SKU];
 
         $bundleProductOptions = [
             "attribute_code" => "bundle_product_options",
@@ -52,6 +48,7 @@ class ProductServiceTest extends WebapiAbstract
             "name" => $uniqueId,
             "type_id" => "bundle",
             "price" => 50,
+            "attribute_set_id" => 1,
             "custom_attributes" => [
                 "bundle_product_options" => $bundleProductOptions,
                 "price_view" => [
@@ -62,8 +59,8 @@ class ProductServiceTest extends WebapiAbstract
         ];
 
         $response = $this->createProduct($product);
-        $this->assertEquals($uniqueId, $response[Product::SKU]);
 
+        $this->assertEquals($uniqueId, $response[ProductInterface::SKU]);
         $this->assertEquals(
             $bundleProductOptions,
             $response[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY]["bundle_product_options"]
@@ -79,7 +76,7 @@ class ProductServiceTest extends WebapiAbstract
         }
         $this->assertTrue($foundBundleProductOptions);
 
-        $this->deleteProduct($response[Product::SKU]);
+        $this->deleteProduct($response[ProductInterface::SKU]);
         $this->deleteProduct($simpleProductSku);
     }
 
@@ -126,7 +123,8 @@ class ProductServiceTest extends WebapiAbstract
             ],
         ];
         $requestData = ['product' => $product];
-        $product[Product::SKU] = $this->_webApiCall($serviceInfo, $requestData);
+        $response = $this->_webApiCall($serviceInfo, $requestData);
+        $product[ProductInterface::SKU] = $response[ProductInterface::SKU];
         return $product;
     }
 
@@ -146,12 +144,12 @@ class ProductServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'delete'
+                'operation' => self::SERVICE_NAME . 'DeleteById'
             ]
         ];
 
         return (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['id' => $sku]) : $this->_webApiCall($serviceInfo);
+            $this->_webApiCall($serviceInfo, ['productSku' => $sku]) : $this->_webApiCall($serviceInfo);
     }
 
     /**
@@ -162,13 +160,13 @@ class ProductServiceTest extends WebapiAbstract
     private function getSimpleProductData()
     {
         return [
-            Product::SKU => uniqid('sku-', true),
-            Product::NAME => uniqid('sku-', true),
-            Product::VISIBILITY => 4,
-            Product::TYPE_ID => 'simple',
-            Product::PRICE => 3.62,
-            Product::STATUS => 1,
-            Product::TYPE_ID => 'simple'
+            \Magento\Catalog\Api\Data\ProductInterface::SKU => uniqid('sku-', true),
+            \Magento\Catalog\Api\Data\ProductInterface::NAME => uniqid('sku-', true),
+            \Magento\Catalog\Api\Data\ProductInterface::VISIBILITY => 4,
+            \Magento\Catalog\Api\Data\ProductInterface::PRICE => 3.62,
+            \Magento\Catalog\Api\Data\ProductInterface::STATUS => 1,
+            \Magento\Catalog\Api\Data\ProductInterface::TYPE_ID => 'simple',
+            \Magento\Catalog\Api\Data\ProductInterface::ATTRIBUTE_SET_ID => 1,
         ];
     }
 }

@@ -33,12 +33,25 @@ class StockItemServiceTest extends WebapiAbstract
     /** @var \Magento\Framework\ObjectManager */
     protected $objectManager;
 
+    /** @var \Magento\Catalog\Model\Resource\Product\Collection */
+    protected $productCollection;
+
     /**
      * Execute per test initialization
      */
     public function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
+        $this->productCollection = $this->objectManager->get('Magento\Catalog\Model\Resource\Product\Collection');
+    }
+
+    /**
+     * Execute per test cleanup
+     */
+    public function tearDown()
+    {
+        $this->productCollection->addFieldToFilter('entity_id', array('in' => array(10, 11, 12)))->delete();
+        unset($this->productCollection);
     }
 
     /**
@@ -61,7 +74,7 @@ class StockItemServiceTest extends WebapiAbstract
         ];
         $arguments = ['productSku' => $productSku];
         $apiResult = $this->_webApiCall($serviceInfo, $arguments);
-        $this->assertEquals($result['item_id'], $apiResult['item_id'], 'The stock data does not match.');
+        $this->assertEquals($result['product_id'], $apiResult['product_id'], 'The stock data does not match.');
         $result['item_id'] = $apiResult['item_id'];
         return $apiResult;
     }
@@ -166,7 +179,6 @@ class StockItemServiceTest extends WebapiAbstract
                     'type_id' => 'simple'
                 ],
                 [
-                    'item_id' => 5,
                     'product_id' => 10,
                     'stock_id' => 1,
                     'qty' => 100,
