@@ -35,23 +35,31 @@ class BuiltinPlugin
     protected $state;
 
     /**
+     * @var \Magento\Framework\Registry
+     */
+    protected $registry;
+
+    /**
      * Constructor
      *
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\Framework\App\PageCache\Version $version
      * @param \Magento\Framework\App\PageCache\Kernel $kernel
      * @param \Magento\Framework\App\State $state
+     * @param \Magento\Framework\Registry $registry
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
         \Magento\Framework\App\PageCache\Version $version,
         \Magento\Framework\App\PageCache\Kernel $kernel,
-        \Magento\Framework\App\State $state
+        \Magento\Framework\App\State $state,
+        \Magento\Framework\Registry $registry
     ) {
         $this->config = $config;
         $this->version = $version;
         $this->kernel = $kernel;
         $this->state = $state;
+        $this->registry = $registry;
     }
 
     /**
@@ -66,10 +74,16 @@ class BuiltinPlugin
         ResponseHttp $response
     ) {
         $proceed($response);
+        $usePlugin = $this->registry->registry('use_page_cache_plugin');
+        if (!$this->config->isEnabled() || $this->config->getType() != \Magento\PageCache\Model\Config::BUILT_IN
+            || !$usePlugin) {
+            return $subject;
+        }
+
         if ($this->state->getMode() == \Magento\Framework\App\State::MODE_DEVELOPER) {
             $cacheControl = $response->getHeader('Cache-Control')['value'];
             $response->setHeader('X-Magento-Cache-Control', $cacheControl);
-            $response->setHeader('X-Magento-Cache-Debug', 'MISS');
+            $response->setHeader('X-Magento-Cache-Debug', 'MISS', true);
         }
         $this->kernel->process($response);
         return $subject;
