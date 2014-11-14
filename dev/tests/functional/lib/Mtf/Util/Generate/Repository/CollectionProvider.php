@@ -8,7 +8,7 @@
 
 namespace Mtf\Util\Generate\Repository;
 
-use Magento\Framework\ObjectManagerInterface;
+use Magento\Framework\ObjectManager;
 
 /**
  * Class CollectionProvider
@@ -17,15 +17,15 @@ use Magento\Framework\ObjectManagerInterface;
 class CollectionProvider implements CollectionProviderInterface
 {
     /**
-     * @var \Magento\Framework\ObjectManagerInterface
+     * @var \Magento\Framework\ObjectManager
      */
     protected $objectManager;
 
     /**
      * @constructor
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(ObjectManagerInterface $objectManager)
+    public function __construct(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
     }

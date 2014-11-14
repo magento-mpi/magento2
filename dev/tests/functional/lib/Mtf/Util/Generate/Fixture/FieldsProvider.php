@@ -9,7 +9,7 @@
 namespace Mtf\Util\Generate\Fixture;
 
 use Magento\Framework\App\Resource;
-use Magento\Framework\ObjectManagerInterface;
+use Magento\Framework\ObjectManager;
 
 /**
  * Class FieldsProvider
@@ -29,9 +29,9 @@ class FieldsProvider implements FieldsProviderInterface
 
     /**
      * @constructor
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
-    public function __construct(ObjectManagerInterface $objectManager)
+    public function __construct(ObjectManager $objectManager)
     {
         $this->eavConfig = $objectManager->create('Magento\Eav\Model\Config');
         $this->resource = $objectManager->create('Magento\Framework\App\Resource');
