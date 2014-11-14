@@ -24,6 +24,8 @@ class GroupManagement implements \Magento\Customer\Api\GroupManagementInterface
 
     const CUST_GROUP_ALL = 32000;
 
+    const GROUP_CODE_MAX_LENGTH = 32;
+
     /**
      * @var StoreManagerInterface
      */
