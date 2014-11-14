@@ -63,7 +63,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $productMock = $this->getMock('\Magento\Framework\Object', ['getAttributeSetId', '__wakeup'], [], '', false);
         $attributeSetMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\Set',
-            ['load' , 'getEntityTypeId', '__wakeup'],
+            ['load', 'getEntityTypeId', '__wakeup'],
             [],
             '',
             false
