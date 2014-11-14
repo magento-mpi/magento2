@@ -268,9 +268,7 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function getCustomerAddressCount()
     {
-        /** @var \Magento\Customer\Api\Data\AddressSearchResultsInterface $searchResults */
-        $searchResults = $this->_addressRepository->getList($this->_searchCriteriaBuilder->create());
-        return $searchResults->getTotalCount();
+        return count($this->getCustomer()->getAddresses());
     }
 
     /**
