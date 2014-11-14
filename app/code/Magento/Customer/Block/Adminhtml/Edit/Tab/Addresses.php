@@ -8,11 +8,11 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
-use Magento\Customer\Service\V1\Data\Address;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Customer\Api\AddressMetadataInterface;
+use Magento\Customer\Api\Data\AttributeMetadataDataBuilder;
+use Magento\Customer\Api\Data\AddressInterface;
+use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Model\Address\Mapper;
@@ -55,19 +55,19 @@ class Addresses extends GenericMetadata
     /** @var  \Magento\Customer\Model\Metadata\FormFactory */
     protected $_metadataFormFactory;
 
-    /** @var  CustomerAccountServiceInterface */
-    protected $_customerAccountService;
+    /** @var  AccountManagementInterface */
+    protected $_customerAccountManagement;
 
-    /** @var  AddressMetadataServiceInterface */
+    /** @var  AddressMetadataInterface */
     protected $_addressMetadataService;
 
-    /** @var  AddressBuilder */
+    /** @var  AddressDataBuilder */
     protected $_addressBuilder;
 
     /** @var CustomerDataBuilder */
     protected $_customerBuilder;
 
-    /** @var  AttributeMetadataBuilder */
+    /** @var  AttributeMetadataDataBuilder */
     protected $_attributeMetadataBuilder;
 
     /**
@@ -86,11 +86,11 @@ class Addresses extends GenericMetadata
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
-     * @param AddressMetadataServiceInterface $addressMetadataService
-     * @param AddressBuilder $addressBuilder
+     * @param AccountManagementInterface $customerAccountManagement
+     * @param AddressMetadataInterface $addressMetadataService
+     * @param AddressDataBuilder $addressBuilder
      * @param CustomerDataBuilder $customerBuilder
-     * @param AttributeMetadataBuilder $attributeMetadataBuilder
+     * @param AttributeMetadataDataBuilder $attributeMetadataBuilder
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param Mapper $addressMapper
      * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
@@ -109,11 +109,11 @@ class Addresses extends GenericMetadata
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Customer\Helper\Address $addressHelper,
-        CustomerAccountServiceInterface $customerAccountService,
-        AddressMetadataServiceInterface $addressMetadataService,
-        AddressBuilder $addressBuilder,
+        AccountManagementInterface $customerAccountManagement,
+        AddressMetadataInterface $addressMetadataService,
+        AddressDataBuilder $addressBuilder,
         CustomerDataBuilder $customerBuilder,
-        AttributeMetadataBuilder $attributeMetadataBuilder,
+        AttributeMetadataDataBuilder $attributeMetadataBuilder,
         \Magento\Directory\Helper\Data $directoryHelper,
         Mapper $addressMapper,
         \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
@@ -126,7 +126,7 @@ class Addresses extends GenericMetadata
         $this->_regionFactory = $regionFactory;
         $this->_metadataFormFactory = $metadataFormFactory;
         $this->_systemStore = $systemStore;
-        $this->_customerAccountService = $customerAccountService;
+        $this->_customerAccountManagement = $customerAccountManagement;
         $this->_addressMetadataService = $addressMetadataService;
         $this->_addressBuilder = $addressBuilder;
         $this->_customerBuilder = $customerBuilder;
@@ -201,7 +201,7 @@ class Addresses extends GenericMetadata
         }
 
         try {
-            return !$this->_customerAccountService->canModify($customerId);
+            return !$this->_customerAccountManagement->isReadonly($customerId);
         } catch (NoSuchEntityException $e) {
             return false;
         }
@@ -344,10 +344,10 @@ class Addresses extends GenericMetadata
     }
 
     /**
-     * @param Address $address
+     * @param AddressInterface $address
      * @return $this
      */
-    public function initAddressForm(Address $address)
+    public function initAddressForm(AddressInterface $address)
     {
         $form = $this->initForm()->getForm();
 
@@ -499,11 +499,11 @@ class Addresses extends GenericMetadata
     /**
      * Format the given address to the given type
      *
-     * @param Address $address
+     * @param AddressInterface $address
      * @param string $type
      * @return string
      */
-    public function format(Address $address, $type)
+    public function format(AddressInterface $address, $type)
     {
         return $this->_addressHelper->getFormatTypeRenderer(
             $type

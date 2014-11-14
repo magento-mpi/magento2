@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Model\Metadata;
 
-use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Customer\Api\AddressMetadataInterface;
+use Magento\Customer\Api\CustomerMetadataInterface;
 
 class Form
 {
@@ -22,12 +22,12 @@ class Form
     /**#@-*/
 
     /**
-     * @var CustomerMetadataServiceInterface
+     * @var CustomerMetadataInterface
      */
     protected $_customerMetadataService;
 
     /**
-     * @var AddressMetadataServiceInterface
+     * @var AddressMetadataInterface
      */
     protected $_addressMetadataService;
 
@@ -94,8 +94,8 @@ class Form
     protected $_attributes;
 
     /**
-     * @param CustomerMetadataServiceInterface $customerMetadataService
-     * @param AddressMetadataServiceInterface $addressMetadataService
+     * @param CustomerMetadataInterface $customerMetadataService
+     * @param AddressMetadataInterface $addressMetadataService
      * @param ElementFactory $elementFactory
      * @param \Magento\Framework\App\RequestInterface $httpRequest
      * @param \Magento\Framework\Module\Dir\Reader $modulesReader
@@ -110,8 +110,8 @@ class Form
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        CustomerMetadataServiceInterface $customerMetadataService,
-        AddressMetadataServiceInterface $addressMetadataService,
+        CustomerMetadataInterface $customerMetadataService,
+        AddressMetadataInterface $addressMetadataService,
         ElementFactory $elementFactory,
         \Magento\Framework\App\RequestInterface $httpRequest,
         \Magento\Framework\Module\Dir\Reader $modulesReader,
@@ -140,7 +140,7 @@ class Form
     /**
      * Retrieve attributes metadata for the form
      *
-     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Api\Data\AttributeMetadataInterface[]
      * @throws \LogicException For undefined entity type
      */
     public function getAttributes()

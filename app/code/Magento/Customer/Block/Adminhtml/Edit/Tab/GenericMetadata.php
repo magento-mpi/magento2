@@ -121,7 +121,10 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
         $options = $attribute->getOptions();
         $result = array();
         foreach ($options as $option) {
-            $result[] = $this->dataObjectProcessor->buildOutputDataArray($option, get_class($option));
+            $result[] = $this->dataObjectProcessor->buildOutputDataArray(
+                $option,
+                'Magento\Customer\Api\Data\OptionInterface'
+            );
         }
         return $result;
     }

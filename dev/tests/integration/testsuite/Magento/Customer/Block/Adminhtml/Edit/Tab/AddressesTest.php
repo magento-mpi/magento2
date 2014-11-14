@@ -8,8 +8,8 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -23,10 +23,10 @@ use Magento\Customer\Service\V1\Data\AddressConverter;
  */
 class AddressesTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var CustomerAccountServiceInterface */
-    private $_customerAccountService;
+    /** @var CustomerRepositoryInterface */
+    private $_customerRepository;
 
-    /** @var CustomerAddressServiceInterface */
+    /** @var AddressRepositoryInterface */
     private $_addressService;
 
     /** @var  \Magento\Framework\Registry */
@@ -49,11 +49,11 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_objectManager = Bootstrap::getObjectManager();
-        $this->_customerAccountService = $this->_objectManager->get(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        $this->_customerRepository = $this->_objectManager->get(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
         $this->_addressService = $this->_objectManager->get(
-            'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
+            'Magento\Customer\Api\AddressRepositoryInterface'
         );
         $this->_coreRegistry = $this->_objectManager->get('Magento\Framework\Registry');
         $this->_backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
@@ -157,14 +157,14 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     protected function setupExistingCustomerData()
     {
         /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
-        $customer = $this->_customerAccountService->getCustomer(1);
+        $customer = $this->_customerRepository->getById(1);
         $this->_customerData = array(
             'customer_id' => $customer->getId(),
             'account' => $this->_extensibleDataObjectConverter->toFlatArray($customer)
         );
         $this->_customerData['account']['id'] = $customer->getId();
         /** @var Address[] $addresses */
-        $addresses = $this->_addressService->getAddresses(1);
+        $addresses = $this->_addressService->getById(1);
         foreach ($addresses as $addressData) {
             $this->_customerData['address'][$addressData->getId()] = AddressConverter::toFlatArray($addressData);
             $this->_customerData['address'][$addressData->getId()]['id'] = $addressData->getId();
