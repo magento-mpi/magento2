@@ -75,7 +75,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
             array('label' => __('Subscribed to Newsletter'), 'name' => 'subscription')
         );
 
-        if (!$this->customerAccountManagement->isReadOnly($customerId)) {
+        if ($this->customerAccountManagement->isReadOnly($customerId)) {
             $form->getElement('subscription')->setReadonly(true, true);
         }
 
