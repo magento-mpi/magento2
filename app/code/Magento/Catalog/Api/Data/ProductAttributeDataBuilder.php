@@ -211,7 +211,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
     }
 
     /**
-     * @param string|null $attributeId
+     * @param int $attributeId
      * @return $this
      */
     public function setAttributeId($attributeId)
@@ -221,7 +221,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
     }
 
     /**
-     * @param string|null $attributeCode
+     * @param string $attributeCode
      * @return $this
      */
     public function setAttributeCode($attributeCode)
@@ -231,7 +231,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
     }
 
     /**
-     * @param string|null $frontendInput
+     * @param string $frontendInput
      * @return $this
      */
     public function setFrontendInput($frontendInput)
@@ -241,7 +241,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
     }
 
     /**
-     * @param string|null $entityTypeId
+     * @param string $entityTypeId
      * @return $this
      */
     public function setEntityTypeId($entityTypeId)
@@ -251,7 +251,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
     }
 
     /**
-     * @param bool|null $isRequired
+     * @param bool $isRequired
      * @return $this
      */
     public function setIsRequired($isRequired)
@@ -271,7 +271,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
     }
 
     /**
-     * @param bool|null $isUserDefined
+     * @param bool $isUserDefined
      * @return $this
      */
     public function setIsUserDefined($isUserDefined)
