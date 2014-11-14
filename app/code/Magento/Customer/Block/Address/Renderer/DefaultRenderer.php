@@ -35,7 +35,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
     protected $_countryFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\AddressMetadataServiceInterface
+     * @var \Magento\Customer\Api\AddressMetadataInterface
      */
     protected $_addressMetadataService;
 
@@ -58,7 +58,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
      * @param ElementFactory $elementFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory ,
      * @param \Magento\Customer\Model\Address\Converter $addressConverter
-     * @param \Magento\Customer\Service\V1\AddressMetadataServiceInterface $metadataService
+     * @param \Magento\Customer\Api\AddressMetadataInterface $metadataService
      * @param Mapper $addressMapper
      * @param array $data
      */
@@ -67,7 +67,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
         ElementFactory $elementFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Customer\Model\Address\Converter $addressConverter,
-        \Magento\Customer\Service\V1\AddressMetadataServiceInterface $metadataService,
+        \Magento\Customer\Api\AddressMetadataInterface $metadataService,
         Mapper $addressMapper,
         array $data = array()
     ) {
