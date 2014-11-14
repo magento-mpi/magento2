@@ -150,6 +150,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Bundle\Model\OptionFactory $bundleOption
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param PriceCurrencyInterface $priceCurrency
+     * @param \Magento\CatalogInventory\Service\V1\StockItemServiceInterface $stockItemService
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
