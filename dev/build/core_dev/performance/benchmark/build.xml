@@ -105,7 +105,6 @@
     </target>
 
     <target name="_bootstrap" description="Check whether common parameters is set">
-        <fail unless="env.webnode" message="Variable 'webnode' must be defined"/>
         <fail unless="env.webnode_initial" message="Variable 'webnode_initial' must be defined"/>
         <fail unless="env.webnode_login" message="Variable 'webnode_login' must be defined"/>
         <fail unless="env.webnode_password" message="Variable 'webnode_password' must be defined"/>
