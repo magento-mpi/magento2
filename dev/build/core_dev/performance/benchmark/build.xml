@@ -11,33 +11,25 @@
 -->
 <project name="Core Development Performance Benchmarking" basedir="." xmlns:ac="antlib:net.sf.antcontrib">
     <property environment="env"/>
-    <target name="deploy" depends="cleanup,checkout,credential_substitution,install-magento,sync-webnodes" description="Install Magento on multiple webnodes environment"/>
+    <target name="deploy" depends="cleanup,checkout,credential_substitution,install-magento" description="Install Magento on webnode"/>
 
     <target name="cleanup" depends="_bootstrap" description="Cleanup environment">
-        <ac:for list="${env.webnodes}" param="ip" delimiter="," parallel="true">
-            <sequential>
-                <antcall target="_remote-rmdir">
-                    <param name="server_ip" value="@{ip}"/>
-                    <param name="directory_path" value="${env.magento_dir}"/>
-                </antcall>
-            </sequential>
-        </ac:for>
+        <antcall target="_remote-rmdir">
+            <param name="server_ip" value="${env.webnode}"/>
+            <param name="directory_path" value="${env.magento_dir}"/>
+        </antcall>
         <antcall target="_remote-drop-database"/>
         <antcall target="_remote-flush-memcache"/>
     </target>
 
-    <target name="checkout" depends="_bootstrap" description="Checkout source code to the webnodes">
-        <ac:for list="${env.webnodes}" param="ip" delimiter="," parallel="true">
-            <sequential>
-                <antcall target="_remote-git-checkout">
-                    <param name="server_ip" value="@{ip}"/>
-                </antcall>
-                <antcall target="_composer_install">
-                    <param name="product_root_dir" value="${env.magento_dir}"/>
-                    <param name="server_ip" value="@{ip}"/>
-                </antcall>
-            </sequential>
-        </ac:for>
+    <target name="checkout" depends="_bootstrap" description="Checkout source code to the webnode">
+        <antcall target="_remote-git-checkout">
+            <param name="server_ip" value="${env.webnode}"/>
+        </antcall>
+        <antcall target="_composer_install">
+            <param name="product_root_dir" value="${env.magento_dir}"/>
+            <param name="server_ip" value="${env.webnode}"/>
+        </antcall>
     </target>
 
     <target name="credential_substitution" depends="_bootstrap" description="Credentials substitution in configuration file from environment variables">
@@ -73,17 +65,7 @@
                  username="${env.webnode_login}"
                  password="${env.webnode_password}"
                  trust="yes"
-                 command="cd ${product_root_dir}/setup; composer update;"/>
-        <sshexec host="${server_ip}"
-                 username="${env.webnode_login}"
-                 password="${env.webnode_password}"
-                 trust="yes"
                  command="cd ${product_root_dir}/setup; composer install;"/>
-        <sshexec host="${server_ip}"
-                 username="${env.webnode_login}"
-                 password="${env.webnode_password}"
-                 trust="yes"
-                 command="cd ${product_root_dir}; composer update;"/>
         <sshexec host="${server_ip}"
                  username="${env.webnode_login}"
                  password="${env.webnode_password}"
@@ -99,8 +81,7 @@
              command="php -f ${env.magento_dir}/setup/index.php install --language='en_US' --timezone='America/Los_Angeles' --currency='USD' --db_host='${env.mysql_host}' --db_name='${env.mysql_database}' --db_user='${env.mysql_user}' --db_pass='${env.mysql_password}' --use_secure='0' --use_secure_admin='0' --use_rewrites='1' --admin_lastname='Admin' --admin_firstname='Admin' --admin_email='admin@example.com' --admin_use_security_key='0' --base_url='http://${env.base_url}' --base_url_secure='http://${env.secure_base_url}' --backend_frontname='backend' --admin_username='admin' --admin_password='123123q' 2>&amp;1"/>
     </target>
 
-    <target name="install-magento" depends="_bootstrap,_prepare-magento,_prepare-magento-ee,_remote-create-database" description="Install/Repair Magento Application on defined fixture configuration">
-
+    <target name="install-magento" depends="_bootstrap,_prepare-magento,_prepare-magento-ee,_remote-create-database" description="Install Magento Application on defined fixture configuration">
         <condition property="env.size" value="small">
             <not><isset property="env.size"/></not>
         </condition>
@@ -108,96 +89,23 @@
         <ac:propertyregex property="git_repository_part" input="${env.git_repository}" regexp="github.corp.ebay.com\/(.+)" select="\1" casesensitive="false" />
         <ac:propertyregex property="git_repository" input="${git_repository_part}" regexp="\/" replace="-" casesensitive="false" />
 
-        <property name="sql_dump_file_path" value="${user.home}/sql_dumps/${git_repository}/${env.git_branch}"/>
-        <property name="sql_dump_file_name" value="${env.size}.gzip"/>
+        <antcall target="install-clean-magento"/>
 
-        <mkdir dir="${sql_dump_file_path}"/>
-
-        <ac:if>
-            <or>
-                <not>
-                    <available file="${sql_dump_file_path}/${sql_dump_file_name}"/>
-                </not>
-                <isset property="force_regenerate"/>
-            </or>
-            <then>
-                <antcall target="install-clean-magento"/>
-
-                <sshexec host="${env.webnode_initial}"
-                         username="${env.webnode_login}"
-                         password="${env.webnode_password}"
-                         trust="yes"
-                         command="cd ${env.magento_dir}/dev/tools/performance-toolkit/fixtures/; cp tax_rates.csv temp.csv; head -5 temp.csv > tax_rates.csv;"/>
-
-                <sshexec host="${env.webnode_initial}"
-                         username="${env.webnode_login}"
-                         password="${env.webnode_password}"
-                         trust="yes"
-                         command="php -f ${env.magento_dir}/dev/tools/performance-toolkit/generate.php -- --profile=${env.magento_dir}/dev/tools/performance-toolkit/profiles/${env.size}.xml"/>
-                <sshexec host="${env.mysql_host}"
-                         username="${env.webnode_login}"
-                         password="${env.webnode_password}"
-                         trust="yes"
-                         command="mysqldump -u${env.mysql_user} -p${env.mysql_password} ${env.mysql_database} | gzip -9 &gt; ${env.mysql_db_dump_path}/${sql_dump_file_name}"/>
-                <scp file="${env.webnode_login}:${env.webnode_password}@${env.mysql_host}:${env.mysql_db_dump_path}/${sql_dump_file_name}" todir="${sql_dump_file_path}" trust="yes"/>
-            </then>
-            <else>
-                <scp file="${sql_dump_file_path}/${sql_dump_file_name}" todir="${env.webnode_login}:${env.webnode_password}@${env.mysql_host}:${env.mysql_db_dump_path}" trust="yes"/>
-                <antcall target="_remote-restore-database-from-gzip">
-                    <param name="mysql_db_dump_file" value="${env.mysql_db_dump_path}/${sql_dump_file_name}"/>
-                </antcall>
-                <antcall target="install-clean-magento"/>
-            </else>
-        </ac:if>
-        <sshexec host="${env.mysql_host}"
+        <sshexec host="${env.webnode_initial}"
                  username="${env.webnode_login}"
                  password="${env.webnode_password}"
                  trust="yes"
-                 command="rm -rf ${env.mysql_db_dump_path}/${sql_dump_file_name}"/>
-    </target>
+                 command="cd ${env.magento_dir}/dev/tools/performance-toolkit/fixtures/; cp tax_rates.csv temp.csv; head -5 temp.csv > tax_rates.csv;"/>
 
-    <target name="force_regenerate_database" description="Set flag which will enforce database regeneration">
-        <property name="force_regenerate" value="true"/>
-    </target>
-
-    <target name="sync-webnodes" depends="_bootstrap" description="Sync all necessary files between webnodes">
-        <property name="remote_host" value="${env.webnode_login}:${env.webnode_password}@${env.webnode_initial}"/>
-        <property name="tmp_dir" value="${basedir}/tmp"/>
-        <mkdir dir="${tmp_dir}/media"/>
-        <scp file="${remote_host}:${env.magento_dir}/app/etc/local.xml" todir="${tmp_dir}" trust="yes"/>
-        <scp file="${remote_host}:${env.magento_dir}/app/etc/enterprise/module.xml" todir="${tmp_dir}" trust="yes"/>
-        <scp file="${remote_host}:${env.magento_dir}/pub/media/*" todir="${tmp_dir}/media" trust="yes"/>
-
-        <echo message="Sync ${env.webnodes} webnodes" />
-        <ac:for list="${env.webnodes}" param="ip" delimiter=",">
-            <sequential>
-                <ac:var name="host" value="@{ip}"/>
-                <echo message="Start sync for ${host}" />
-                <ac:if>
-                    <equals arg1="${host}" arg2="${env.webnode_initial}" />
-                    <then>
-                        <echo message="There is no need to copy files from ${env.webnode_initial} to ${host}" />
-                    </then>
-                    <else>
-                        <echo message="Copy files from ${env.webnode_initial} to ${host}" />
-                        <scp file="${tmp_dir}/local.xml" todir="${env.webnode_login}:${env.webnode_password}@${host}:${env.magento_dir}/app/etc/local.xml" trust="yes"/>
-                        <scp file="${tmp_dir}/module.xml" todir="${env.webnode_login}:${env.webnode_password}@${host}:${env.magento_dir}/app/etc/enterprise/module.xml" trust="yes"/>
-                        <scp todir="${env.webnode_login}:${env.webnode_password}@${host}:${env.magento_dir}/pub/media" trust="yes">
-                            <fileset dir="${tmp_dir}/media"/>
-                        </scp>
-                    </else>
-                </ac:if>
-                <ac:var name="host" unset="true"/>
-            </sequential>
-        </ac:for>
-
-        <delete includeEmptyDirs="true">
-            <fileset dir="${tmp_dir}"/>
-        </delete>
+        <sshexec host="${env.webnode_initial}"
+                 username="${env.webnode_login}"
+                 password="${env.webnode_password}"
+                 trust="yes"
+                 command="php -f ${env.magento_dir}/dev/tools/performance-toolkit/generate.php -- --profile=${env.magento_dir}/dev/tools/performance-toolkit/profiles/${env.size}.xml"/>
     </target>
 
     <target name="_bootstrap" description="Check whether common parameters is set">
-        <fail unless="env.webnodes" message="Variable 'webnodes' must be defined"/>
+        <fail unless="env.webnode" message="Variable 'webnode' must be defined"/>
         <fail unless="env.webnode_initial" message="Variable 'webnode_initial' must be defined"/>
         <fail unless="env.webnode_login" message="Variable 'webnode_login' must be defined"/>
         <fail unless="env.webnode_password" message="Variable 'webnode_password' must be defined"/>
@@ -205,13 +113,9 @@
     </target>
 
     <target name="_prepare-magento" description="Prepare Magento for installation">
-        <ac:for list="${env.webnodes}" param="ip" delimiter=",">
-            <sequential>
-                <antcall target="_remote-code-prepare">
-                    <param name="server_ip" value="@{ip}"/>
-                </antcall>
-            </sequential>
-        </ac:for>
+        <antcall target="_remote-code-prepare">
+            <param name="server_ip" value="${env.webnode}"/>
+        </antcall>
     </target>
 
     <target name="_prepare-magento-ee" description="Prepare Enterprise Edition Modules">
@@ -277,15 +181,6 @@
                  password="${env.webnode_password}"
                  trust="yes"
                  command="mysql -u${env.mysql_user} -p${env.mysql_password} -e 'CREATE DATABASE ${env.mysql_database};'"/>
-    </target>
-
-    <target name="_remote-restore-database-from-gzip" depends="_database-credentials-check" description="Restore specified MySQL database from archive">
-        <fail unless="mysql_db_dump_file" message="Variable 'mysql_db_dump_file' must be defined"/>
-        <sshexec host="${env.mysql_host}"
-                 username="${env.webnode_login}"
-                 password="${env.webnode_password}"
-                 trust="yes"
-                 command="gunzip &lt; ${mysql_db_dump_file} | mysql -u${env.mysql_user} -p${env.mysql_password} ${env.mysql_database}"/>
     </target>
 
     <target name="_database-credentials-check" description="Check whether common database parameters is set">
