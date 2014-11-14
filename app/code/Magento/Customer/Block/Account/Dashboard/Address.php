@@ -54,7 +54,7 @@ class Address extends \Magento\Framework\View\Element\Template
     /**
      * Get the logged in customer
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer|null
+     * @return \Magento\Customer\Api\Data\CustomerInterface|null
      */
     public function getCustomer()
     {
@@ -115,7 +115,7 @@ class Address extends \Magento\Framework\View\Element\Template
         } else {
             return $this->_urlBuilder->getUrl(
                 'customer/address/edit',
-                array('id' => $this->getCustomer()->getDefaultShipping())
+                array('id' => $this->currentCustomerAddress->getDefaultShippingAddress()->getId())
             );
         }
     }
@@ -130,7 +130,7 @@ class Address extends \Magento\Framework\View\Element\Template
         } else {
             return $this->_urlBuilder->getUrl(
                 'customer/address/edit',
-                array('id' => $this->getCustomer()->getDefaultBilling())
+                array('id' => $this->currentCustomerAddress->getDefaultBillingAddress()->getId())
             );
         }
     }
