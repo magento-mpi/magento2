@@ -72,7 +72,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $this->buttonList->update('delete', 'label', __('Delete Customer Group'));
 
         $groupId = $this->coreRegistry->registry(RegistryConstants::CURRENT_GROUP_ID);
-        if (!$groupId || !$this->groupManagement->isReadonly($groupId)) {
+        if (!$groupId || $this->groupManagement->isReadonly($groupId)) {
             $this->buttonList->remove('delete');
         }
     }
