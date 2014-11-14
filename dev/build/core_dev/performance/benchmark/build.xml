@@ -15,7 +15,7 @@
 
     <target name="cleanup" depends="_bootstrap" description="Cleanup environment">
         <antcall target="_remote-rmdir">
-            <param name="server_ip" value="${env.webnode}"/>
+            <param name="server_ip" value="${env.webnode_initial}"/>
             <param name="directory_path" value="${env.magento_dir}"/>
         </antcall>
         <antcall target="_remote-drop-database"/>
@@ -24,11 +24,11 @@
 
     <target name="checkout" depends="_bootstrap" description="Checkout source code to the webnode">
         <antcall target="_remote-git-checkout">
-            <param name="server_ip" value="${env.webnode}"/>
+            <param name="server_ip" value="${env.webnode_initial}"/>
         </antcall>
         <antcall target="_composer_install">
             <param name="product_root_dir" value="${env.magento_dir}"/>
-            <param name="server_ip" value="${env.webnode}"/>
+            <param name="server_ip" value="${env.webnode_initial}"/>
         </antcall>
     </target>
 
@@ -114,7 +114,7 @@
 
     <target name="_prepare-magento" description="Prepare Magento for installation">
         <antcall target="_remote-code-prepare">
-            <param name="server_ip" value="${env.webnode}"/>
+            <param name="server_ip" value="${env.webnode_initial}"/>
         </antcall>
     </target>
 
