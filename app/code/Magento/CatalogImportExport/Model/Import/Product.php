@@ -1785,7 +1785,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $row['stock_id'] = $this->stockRegistry->getStock($row['website_id'])->getId();
 
                 $stockItemDo = $this->stockRegistry->getStockItem($row['product_id'], $row['website_id']);
-                $existStockData = $stockItemDo->__toArray();
+                $existStockData = $stockItemDo->getData();
 
                 $row = array_merge(
                     $this->defaultStockData,
