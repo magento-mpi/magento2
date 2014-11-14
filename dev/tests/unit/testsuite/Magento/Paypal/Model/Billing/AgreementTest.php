@@ -38,7 +38,16 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
 
         $this->paymentMethodInstanceMock = $this->getMockBuilder('Magento\Payment\Model\Method\AbstractMethod')
             ->disableOriginalConstructor()
-            ->setMethods(['setStore', 'getCode', 'getFormBlockType', 'getTitle', 'getStore'])
+            ->setMethods([
+                'setStore',
+                'getCode',
+                'getFormBlockType',
+                'getTitle',
+                'getStore',
+                'initBillingAgreementToken',
+                'getBillingAgreementTokenInfo',
+                'placeBillingAgreement'
+            ])
             ->getMock();
 
         $this->model = $objectManager->getObject('Magento\Paypal\Model\Billing\Agreement', [
@@ -137,4 +146,42 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
 
         return $paymentMock;
     }
+
+    public function testInitToken()
+    {
+        $this->initGetMethodInstance();
+
+        $this->paymentMethodInstanceMock->expects($this->once())
+            ->method('initBillingAgreementToken')
+            ->with($this->model)
+            ->willReturn($this->model);
+
+        $url = 'http://dddd';
+        $this->model->setRedirectUrl($url);
+        $this->assertEquals($url, $this->model->initToken());
+    }
+
+    public function testVerifyToken()
+    {
+        $this->initGetMethodInstance();
+
+        $this->paymentMethodInstanceMock->expects($this->once())
+            ->method('getBillingAgreementTokenInfo')
+            ->with($this->model)
+            ->willReturn($this->model);
+
+        $this->assertEquals($this->model, $this->model->verifyToken());
+    }
+
+    private function initGetMethodInstance()
+    {
+        $this->paymentDataMock->expects($this->once())
+            ->method('getMethodInstance')
+            ->willReturn($this->paymentMethodInstanceMock);
+
+        $this->paymentMethodInstanceMock->expects($this->once())
+            ->method('setStore')
+            ->with(null);
+    }
+
 }

@@ -191,10 +191,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     public function cancel()
     {
         $this->setStatus(self::STATUS_CANCELED);
-        $paymentMethodInstance = $this->getPaymentMethodInstance();
-        if ($paymentMethodInstance) {
-            $paymentMethodInstance->updateBillingAgreementStatus($this);
-        }
+        $this->getPaymentMethodInstance()->updateBillingAgreementStatus($this);
         return $this->save();
     }
 
