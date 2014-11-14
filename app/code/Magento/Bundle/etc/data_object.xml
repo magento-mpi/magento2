@@ -11,4 +11,8 @@
     <custom_attributes for="Magento\Catalog\Api\Data\ProductInterface">
         <attribute code="bundle_product_options" type="Magento\Bundle\Service\V1\Data\Product\Option[]" />
     </custom_attributes>
+    <!-- Left old configuration for old services support -->
+    <custom_attributes for="Magento\Catalog\Service\V1\Data\Product">
+        <attribute code="bundle_product_options" type="Magento\Bundle\Service\V1\Data\Product\Option[]" />
+    </custom_attributes>
 </config>
