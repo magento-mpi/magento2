@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Layer\Filter\Price;
 
-use Magento\Catalog\Model\Layer\Category;
+use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Registry;
 use Magento\Store\Model\ScopeInterface;
@@ -27,21 +27,21 @@ class Range
     private $scopeConfig;
 
     /**
-     * @var Category
+     * @var \Magento\Catalog\Model\Layer
      */
     private $layer;
 
     /**
      * @param Registry $registry
      * @param ScopeConfigInterface $scopeConfig
-     * @param Category $layer
+     * @param Resolver $layerResolver
      * @internal param \Magento\Framework\Registry $registry
      */
-    public function __construct(Registry $registry, ScopeConfigInterface $scopeConfig, Category $layer)
+    public function __construct(Registry $registry, ScopeConfigInterface $scopeConfig, Resolver $layerResolver)
     {
         $this->registry = $registry;
         $this->scopeConfig = $scopeConfig;
-        $this->layer = $layer;
+        $this->layer = $layerResolver->get();
     }
 
     /**

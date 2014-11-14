@@ -9,9 +9,7 @@
 namespace Magento\Catalog\Model\Layer;
 
 use Magento\Catalog\Model\CategoryFactory;
-use Magento\Catalog\Model\Layer;
 use Magento\Catalog\Model\Resource;
-use Magento\Framework\Object;
 use Magento\Catalog\Model\Layer\ContextInterface;
 
 class Category extends \Magento\Catalog\Model\Layer

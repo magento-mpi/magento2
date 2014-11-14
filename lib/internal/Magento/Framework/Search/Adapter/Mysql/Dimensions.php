@@ -60,6 +60,6 @@ class Dimensions
             $value = $this->scopeResolver->getScope($value)->getId();
         }
 
-        return $this->conditionManager->generateCondition($field, '=', $value);
+        return $this->conditionManager->generateCondition('search_index.' . $field, '=', $value);
     }
 }

@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Layer\Filter\Dynamic;
 
-use Magento\Catalog\Model\Layer\Category;
+use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Catalog\Model\Layer\Filter\Price\Range;
 use Magento\Catalog\Model\Layer\Filter\Price\Render;
 use Magento\Catalog\Model\Resource\Layer\Filter\Price;
@@ -25,7 +25,7 @@ class Auto implements AlgorithmInterface
     private $algorithm;
 
     /**
-     * @var Category
+     * @var \Magento\Catalog\Model\Layer
      */
     private $layer;
 
@@ -56,7 +56,7 @@ class Auto implements AlgorithmInterface
 
     /**
      * @param Algorithm $algorithm
-     * @param Category $layer
+     * @param Resolver $layerResolver
      * @param ScopeConfigInterface $scopeConfig
      * @param Render $render
      * @param Registry $coreRegistry
@@ -65,7 +65,7 @@ class Auto implements AlgorithmInterface
      */
     public function __construct(
         Algorithm $algorithm,
-        Category $layer,
+        Resolver $layerResolver,
         ScopeConfigInterface $scopeConfig,
         Render $render,
         Registry $coreRegistry,
@@ -73,7 +73,7 @@ class Auto implements AlgorithmInterface
         Range $range
     ) {
         $this->algorithm = $algorithm;
-        $this->layer = $layer;
+        $this->layer = $layerResolver->get();
         $this->scopeConfig = $scopeConfig;
         $this->render = $render;
         $this->coreRegistry = $coreRegistry;

@@ -13,7 +13,7 @@ use Magento\Framework\App\Resource;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\Search\Request\Dimension;
 use Magento\Framework\App\ScopeResolverInterface;
-use Magento\Catalog\Model\Layer\Category;
+use Magento\Catalog\Model\Layer\Resolver;
 
 class DataProvider
 {
@@ -37,16 +37,16 @@ class DataProvider
     /**
      * @param Resource $resource
      * @param ScopeResolverInterface $scopeResolver
-     * @param Category $layer
+     * @param Resolver $layerResolver
      */
     public function __construct(
         Resource $resource,
         ScopeResolverInterface $scopeResolver,
-        Category $layer
+        Resolver $layerResolver
     ) {
         $this->resource = $resource;
         $this->scopeResolver = $scopeResolver;
-        $this->layer = $layer;
+        $this->layer = $layerResolver->get();
     }
 
     /**

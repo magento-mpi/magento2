@@ -187,7 +187,7 @@ class Price extends AbstractFilter
                     $from = '';
                 }
                 if ($to == '*') {
-                    $to = '';
+                    $to = $this->getTo($from);
                 }
                 $label = $this->_renderRangeLabel(
                     empty($from) ? 0 : $from * $this->getCurrencyRate(),
@@ -206,5 +206,19 @@ class Price extends AbstractFilter
         }
 
         return $data;
+    }
+
+    /**
+     * @param float $from
+     * @return float
+     */
+    protected function getTo($from)
+    {
+        $to = '';
+        $interval = $this->dataProvider->getInterval();
+        if ($interval && is_numeric($interval[1]) && $interval[1] > $from) {
+            $to = $interval[1];
+        }
+        return $to;
     }
 }

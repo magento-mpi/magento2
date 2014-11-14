@@ -203,7 +203,6 @@ class DataProvider implements DataProviderInterface
             ->where('main_table.entity_id in (?)', $entityIds)
             ->group('range')
             ->order('range');
-        $s = $select . '';
         $result = $this->getConnection()->fetchPairs($select);
         return $result;
     }

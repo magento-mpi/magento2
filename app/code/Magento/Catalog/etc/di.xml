@@ -294,11 +294,6 @@
             <argument name="tableData" xsi:type="object">Magento\Catalog\Model\Indexer\Product\Flat\TableData</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Block\Product\ListProduct">
-        <arguments>
-            <argument name="catalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Category</argument>
-        </arguments>
-    </type>
     <virtualType name="categoryFilterList" type="Magento\Catalog\Model\Layer\FilterList">
         <arguments>
             <argument name="filterableAttributes" xsi:type="object">Magento\Catalog\Model\Layer\Category\FilterableAttributeList</argument>
@@ -309,16 +304,6 @@
             <argument name="filterableAttributes" xsi:type="object">Magento\Catalog\Model\Layer\Search\FilterableAttributeList</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\Catalog\Model\Layer\Category\FilterableAttributeList">
-        <arguments>
-            <argument name="layer" xsi:type="object">Magento\Catalog\Model\Layer\Category</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Catalog\Model\Layer\Search\FilterableAttributeList">
-        <arguments>
-            <argument name="layer" xsi:type="object">Magento\Catalog\Model\Layer\Search</argument>
-        </arguments>
-    </type>
     <type name="Magento\Catalog\Model\Indexer\Product\Price\Processor">
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
@@ -520,6 +505,14 @@
                 <item name="auto" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Dynamic\Auto</item>
                 <item name="improved" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Dynamic\Improved</item>
                 <item name="manual" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Dynamic\Manual</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Resolver">
+        <arguments>
+            <argument name="layersPool" xsi:type="array">
+                <item name="category" xsi:type="string">Magento\Catalog\Model\Layer\Category</item>
+                <item name="search" xsi:type="string">Magento\Catalog\Model\Layer\Search</item>
             </argument>
         </arguments>
     </type>
