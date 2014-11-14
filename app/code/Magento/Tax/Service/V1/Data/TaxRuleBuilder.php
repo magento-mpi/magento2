@@ -8,7 +8,7 @@
 namespace Magento\Tax\Service\V1\Data;
 
 use Magento\Framework\Api\ExtensibleObjectBuilder;
-use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Api\ObjectFactory;
 
@@ -30,13 +30,13 @@ class TaxRuleBuilder extends ExtensibleObjectBuilder
      * Initialize dependencies.
      *
      * @param ObjectFactory $objectFactory
-     * @param AttributeValueBuilder $valueBuilder
+     * @param AttributeDataBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
      * @param TaxRateBuilder $taxRateBuilder
      */
     public function __construct(
         ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder,
+        AttributeDataBuilder $valueBuilder,
         MetadataServiceInterface $metadataService,
         TaxRateBuilder $taxRateBuilder
     ) {
