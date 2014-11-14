@@ -310,7 +310,6 @@ class AddCommentTest extends \PHPUnit_Framework_TestCase
             ->method('getPost')
             ->with('comment')
             ->will($this->returnValue($data));
-        $this->titleMock->expects($this->once())->method('prepend');
         $this->requestMock->expects($this->any())
             ->method('getParam')
             ->will(
