@@ -227,7 +227,7 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
             ProductInterface::ATTRIBUTE_SET_ID => 1,
             'custom_attributes' => [
                 ['attribute_code' => 'cost', 'value' => ''],
-                ['attribute_code' => 'description', 'value' => ''],
+                ['attribute_code' => 'description', 'value' => 'Description'],
             ]
         );
     }

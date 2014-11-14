@@ -11,6 +11,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Object\IdentityInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
+use Magento\Framework\Convert\ConvertArray;
 
 /**
  * Catalog product model
@@ -2050,5 +2051,52 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
             $this->_priceInfo = null;
             return $this->getPriceInfo();
         }
+    }
+
+    /**
+     * Return Data Object data in array format.
+     *
+     * @return array
+     */
+    public function __toArray()
+    {
+        $data = $this->_data;
+        $hasToArray = function ($model) {
+            return is_object($model) && method_exists($model, '__toArray') && is_callable([$model, '__toArray']);
+        };
+        foreach ($data as $key => $value) {
+            if ($hasToArray($value)) {
+                $data[$key] = $value->__toArray();
+            } elseif (is_array($value)) {
+                foreach ($value as $nestedKey => $nestedValue) {
+                    if ($hasToArray($nestedValue)) {
+                        $value[$nestedKey] = $nestedValue->__toArray();
+                    }
+                }
+                $data[$key] = $value;
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Convert Category model into flat array.
+     *
+     * @return array
+     */
+    public function toFlatArray()
+    {
+        $dataArray = $this->__toArray();
+        //process custom attributes if present
+        if (array_key_exists('custom_attributes', $dataArray) && !empty($dataArray['custom_attributes'])) {
+            /** @var \Magento\Framework\Api\AttributeInterface[] $customAttributes */
+            $customAttributes = $dataArray['custom_attributes'];
+            unset ($dataArray['custom_attributes']);
+            foreach ($customAttributes as $attributeValue) {
+                $dataArray[$attributeValue[\Magento\Framework\Api\AttributeInterface::ATTRIBUTE_CODE]]
+                    = $attributeValue[\Magento\Framework\Api\AttributeInterface::VALUE];
+            }
+        }
+        return ConvertArray::toFlatArray($dataArray);
     }
 }

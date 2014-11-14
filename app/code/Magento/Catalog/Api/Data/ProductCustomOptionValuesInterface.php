@@ -24,7 +24,6 @@ interface ProductCustomOptionValuesInterface
      */
     public function getSortOrder();
 
-
     /**
      * Get price
      *
