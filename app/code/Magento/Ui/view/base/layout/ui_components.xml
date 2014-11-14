@@ -16,18 +16,18 @@
         </arguments>
         <container label="Listing Head" name="listing_head"/>
         <container label="Listing Before" name="listing_before">
-            <ui_component name="sorting" component="sorting" />
-            <ui_component name="paging" component="paging" />
-            <ui_component name="filters" component="filter_pool" />
-            <ui_component name="massactions" component="control_massaction" />
+            <ui_component name="sorting" component="component_sorting" />
+            <ui_component name="paging" component="component_paging" />
+            <ui_component name="filters" component="component_filter_pool" />
+            <ui_component name="massactions" component="component_control_massaction" />
         </container>
     </block>
-    <block class="Magento\Ui\Component\Paging" name="paging">
+    <block class="Magento\Ui\Component\Paging" name="component_paging">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::paging/default.phtml</argument>
         </arguments>
     </block>
-    <block class="Magento\Ui\Component\FilterPool" name="filter_pool">
+    <block class="Magento\Ui\Component\FilterPool" name="component_filter_pool">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::filter_pool/default.phtml</argument>
             <argument name="config" xsi:type="array">
@@ -47,7 +47,7 @@
     <block class="Magento\Ui\Component\Filter\Type\Input" name="filter_input" />
     <block class="Magento\Ui\Component\Filter\Type\Date" name="filter_date" />
 
-    <block class="Magento\Ui\Component\Sorting" name="sorting">
+    <block class="Magento\Ui\Component\Sorting" name="component_sorting">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::sorting/default.phtml</argument>
             <argument name="config" xsi:type="array">
@@ -56,7 +56,7 @@
         </arguments>
     </block>
 
-    <block class="Magento\Ui\Component\MassAction" name="control_massaction">
+    <block class="Magento\Ui\Component\MassAction" name="component_control_massaction">
         <arguments>
             <argument name="content_template" xsi:type="string">Magento_Ui::listingcontainer/massaction/default.phtml</argument>
         </arguments>

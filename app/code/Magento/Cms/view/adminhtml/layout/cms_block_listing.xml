@@ -104,7 +104,6 @@
                 </argument>
             </arguments>
         </referenceBlock>
-
         <referenceBlock name="sorting">
             <arguments>
                 <argument name="config" xsi:type="array">
