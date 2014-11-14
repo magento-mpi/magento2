@@ -21,15 +21,13 @@ class Quote extends AbstractDb
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Eav\Model\Config $config
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Eav\Model\Config $config
     ) {
-        parent::__construct($resource, $dateTime);
+        parent::__construct($resource);
         $this->_config = $config;
     }
 
