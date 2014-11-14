@@ -17,6 +17,12 @@ class InstallConfig extends AbstractSegment
      */
     const CONFIG_KEY = 'install';
 
+    /**
+     * Constructor
+     *
+     * @param array $data
+     * @throws \InvalidArgumentException
+     */
     public function __construct(array $data)
     {
         if (!isset($data[self::KEY_DATE])) {

@@ -28,7 +28,8 @@ class EncryptConfigTest extends \PHPUnit_Framework_TestCase
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage No encryption key provided
      **/
-    public function testEmptyData() {
+    public function testEmptyData()
+    {
         new EncryptConfig([]);
     }
 

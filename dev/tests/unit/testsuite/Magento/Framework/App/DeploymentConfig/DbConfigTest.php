@@ -43,7 +43,8 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage The Database Name field cannot be empty.
      */
-    public function testEmptyData() {
+    public function testEmptyData()
+    {
         new DbConfig([]);
     }
 

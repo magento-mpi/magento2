@@ -54,7 +54,11 @@ class PoolTest extends \PHPUnit_Framework_TestCase
             'resource1' => array('r1d1' => 'value1', 'r1d2' => 'value2')
         );
 
-        $this->_model = new \Magento\Framework\App\Cache\Frontend\Pool($deploymentConfig, $frontendFactory, $frontendSettings);
+        $this->_model = new \Magento\Framework\App\Cache\Frontend\Pool(
+            $deploymentConfig,
+            $frontendFactory,
+            $frontendSettings
+        );
     }
 
     /**

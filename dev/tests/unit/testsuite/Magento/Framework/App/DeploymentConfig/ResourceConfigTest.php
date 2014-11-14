@@ -37,7 +37,8 @@ class ResourceConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expected, $object->getData());
     }
 
-    public function testEmptyData() {
+    public function testEmptyData()
+    {
         $data = [
             'default_setup' => [
                 'name' => 'default_setup',

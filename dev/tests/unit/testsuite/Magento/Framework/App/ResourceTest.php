@@ -71,7 +71,12 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
             ->method('getTableName')
             ->will($this->returnArgument(0));
 
-        $this->resource = new Resource($this->_config, $this->_connectionFactory, $this->deploymentConfig, self::TABLE_PREFIX);
+        $this->resource = new Resource(
+            $this->_config,
+            $this->_connectionFactory,
+            $this->deploymentConfig,
+            self::TABLE_PREFIX
+        );
     }
 
     public function testGetConnectionFail()

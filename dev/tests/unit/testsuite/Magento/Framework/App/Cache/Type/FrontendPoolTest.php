@@ -32,7 +32,13 @@ class FrontendPoolTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager', array(), array(), '', false);
-        $this->_deploymentConfig = $this->getMock('Magento\Framework\App\DeploymentConfig', array(), array(), '', false);
+        $this->_deploymentConfig = $this->getMock(
+            'Magento\Framework\App\DeploymentConfig',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_cachePool = $this->getMock('Magento\Framework\App\Cache\Frontend\Pool', array(), array(), '', false);
         $this->_model = new FrontendPool(
             $this->_objectManager,

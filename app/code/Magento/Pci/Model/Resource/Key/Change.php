@@ -125,10 +125,7 @@ class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
         $this->_encryptor->setNewKey($key);
 
-        $encryptSegment = new EncryptConfig([
-                EncryptConfig::KEY_ENCRYPTION_KEY => $this->_encryptor->exportKeys()
-            ]
-        );
+        $encryptSegment = new EncryptConfig([EncryptConfig::KEY_ENCRYPTION_KEY => $this->_encryptor->exportKeys()]);
 
         // update database and config.php
         $this->beginTransaction();

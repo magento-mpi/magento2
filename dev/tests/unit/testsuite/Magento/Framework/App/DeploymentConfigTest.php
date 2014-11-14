@@ -75,7 +75,8 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->reader->expects($this->once())->method('load')->willReturn(self::$fixture);
         $this->assertSame(self::$flattenedFixture, $this->_deploymentConfig->get());
-        $this->assertSame(self::$flattenedFixture, $this->_deploymentConfig->get()); // second time to ensure loader will be invoked only once
+        // second time to ensure loader will be invoked only once
+        $this->assertSame(self::$flattenedFixture, $this->_deploymentConfig->get());
         $this->assertSame('scalar_value', $this->_deploymentConfig->getSegment('segment1'));
         $this->assertSame(self::$fixture['segment2'], $this->_deploymentConfig->getSegment('segment2'));
         $this->assertTrue($this->_deploymentConfig->isAvailable());
