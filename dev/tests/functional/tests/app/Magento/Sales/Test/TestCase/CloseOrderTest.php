@@ -124,4 +124,15 @@ class CloseOrderTest extends Functional
             [Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder()]
         ];
     }
+
+    /**
+     * Delete all tax rules after test.
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        $deleteTaxRule = $this->objectManager->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep');
+        $deleteTaxRule->run();
+    }
 }

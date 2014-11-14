@@ -36,6 +36,7 @@ class OfflineRefundTest extends RefundTest
 
         // Step 1: Order View Page
         $orderPage = Factory::getPageFactory()->getSalesOrder();
+        $newInvoicePage = Factory::getPageFactory()->getSalesOrderInvoiceNew();
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
@@ -50,6 +51,8 @@ class OfflineRefundTest extends RefundTest
             $orderPage->getOrderActionsBlock()->orderInvoiceCreditMemo();
         } else {
             // Step 2: Click "Credit Memo" button on the Order Page
+            $orderPage->getOrderActionsBlock()->invoice();
+            $newInvoicePage->getTotalsBlock()->submit();
             $orderPage->getOrderActionsBlock()->orderCreditMemo();
         }
 

@@ -18,9 +18,14 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 class AssertOrderOnHoldSuccessMessage extends AbstractConstraint
 {
     /**
-     * Text value to be checked
+     * Text value to be checked for single order on hold
      */
-    const SUCCESS_ON_HOLD_MESSAGE = 'You put the order on hold.';
+    const SINGLE_SUCCESS_ON_HOLD_MESSAGE = 'You put the order on hold.';
+
+    /**
+     * Text value to be checked for multiple order on hold
+     */
+    const MULTIPLE_SUCCESS_ON_HOLD_MESSAGE = 'You have put %d order(s) on hold.';
 
     /**
      * Constraint severeness
@@ -33,12 +38,18 @@ class AssertOrderOnHoldSuccessMessage extends AbstractConstraint
      * Assert on hold success message is displayed on order index page
      *
      * @param OrderIndex $orderIndex
+     * @param int $ordersCount
      * @return void
      */
-    public function processAssert(OrderIndex $orderIndex)
+    public function processAssert(OrderIndex $orderIndex, $ordersCount)
     {
+        $successOnHoldMessage = ($ordersCount > 1) ? sprintf(
+            self::MULTIPLE_SUCCESS_ON_HOLD_MESSAGE,
+            $ordersCount
+        ) : self::SINGLE_SUCCESS_ON_HOLD_MESSAGE;
+
         \PHPUnit_Framework_Assert::assertEquals(
-            self::SUCCESS_ON_HOLD_MESSAGE,
+            $successOnHoldMessage,
             $orderIndex->getMessagesBlock()->getSuccessMessages()
         );
     }
