@@ -16,6 +16,7 @@ define([], function(){
 
         /**
          * Retrieves values of the specified elements.
+         *
          * @param {Array} elems - An array of elements.
          * @returns {Array} Array of values. 
          */
@@ -35,6 +36,7 @@ define([], function(){
 
         /**
          * Sets key -> value pair.
+         *
          * @param {String} elem - Elements' name.
          * @param {*} value - Value of the element.
          * returns {storage} Chainable.
@@ -51,6 +53,7 @@ define([], function(){
 
         /**
          * Removes specified elements from storage.
+         *
          * @param {Array} elems - An array of elements to be removed.
          * returns {storage} Chainable.
          */
@@ -67,6 +70,7 @@ define([], function(){
 
         /**
          * Checks whether all of the specified elements has been registered.
+         *
          * @param {Array} elems - An array of elements.
          * @returns {Boolean}
          */

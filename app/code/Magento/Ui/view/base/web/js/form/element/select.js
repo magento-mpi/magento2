@@ -109,7 +109,7 @@ define([
          * Calls 'initObservable' of parent, initializes 'options' and 'initialOptions'
          *     properties, calls 'setOptions' passing options to it
          *     
-         * @return {Object} - reference to instance
+         * @returns {Select} Chainable.
          */
         initObservable: function(){
             __super__.initObservable.apply(this, arguments);
@@ -126,7 +126,7 @@ define([
          * Parses options and merges the result with instance
          * 
          * @param  {Object} config
-         * @return {Object} - reference to instance
+         * @returns {Select} Chainable.
          */
         initOptions: function(config){
             var result = parseOptions(config.options);
@@ -137,9 +137,9 @@ define([
         },
 
         /**
-         * Creates input from template, renders it via renderer
+         * Creates input from template, renders it via renderer.
          * 
-         * @return {Object} - reference to instance
+         * @returns {Select} Chainable.
          */
         initInput: function(){
             this.renderer.render({
@@ -153,9 +153,9 @@ define([
 
         /**
          * Calls 'getInitialValue' of parent and if the result of it is not empty
-         *     string, returs it, else returnes caption or first found option's value
+         * string, returs it, else returnes caption or first found option's value
          *     
-         * @return {Number|String}
+         * @returns {Number|String}
          */
         getInititalValue: function(){
             var value = __super__.getInititalValue.apply(this, arguments);
@@ -163,17 +163,18 @@ define([
             if(value !== ''){
                 return value;
             }
-            else if(!this.caption){
+            
+            if(!this.caption){
                 return findFirst(this.options);
             }
         },
 
         /**
          * Filters 'initialOptions' property by 'field' and 'value' passed,
-         *     calls 'setOptions' passing the result to it 
+         * calls 'setOptions' passing the result to it 
          * 
-         * @param  {String} field
-         * @param  {*} value
+         * @param {String} field
+         * @param {*} value
          */
         filter: function(field, value){
             var source = this.initialOptions,
@@ -188,10 +189,11 @@ define([
 
         /**
          * Sets 'data' to 'options' observable array, if instance has 
-         *     'customEntry' property set to true, calls 'setHidden' method
-         *     passing !options.length as a parameter
+         * 'customEntry' property set to true, calls 'setHidden' method
+         *  passing !options.length as a parameter
          * 
          * @param {Array} data
+         * @returns {Select} Chainable.
          */
         setOptions: function(data){
             var size = data.length;
@@ -207,19 +209,15 @@ define([
 
         /**
          * Processes preview for option by it's value, and sets the result
-         *     to 'preview' observable
+         * to 'preview' observable
          * 
          * @param {String} value
-         * @return {Object} - reference to instance
+         * @returns {Select} Chainable.
          */
         setPreview: function(value){
             var option  = this.options.indexBy('value')[value],
-                preview = '';
-
-            if(option){
-                preview = option.label;
-            }
-
+                preview = option ? option.label : '';
+                
             this.preview(preview);
 
             return this;

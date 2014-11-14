@@ -21,15 +21,16 @@ define([
 
         /**
          * Retrieves data from registry.
+         *
          * @params {(String|Array)} elems -
-                An array of elements' names or a string of names divided by spaces.
+         *      An array of elements' names or a string of names divided by spaces.
          * @params {Function} [callback] -
-                Callback function that will be triggered
-                when all of the elements are registered.
+         *      Callback function that will be triggered
+         *      when all of the elements are registered.
          * @returns {Array|*|Undefined}
-                Returns either an array of elements
-                or an element itself if only is requested.
-                If callback function is specified then returns 'undefined'.
+         *      Returns either an array of elements
+         *      or an element itself if only is requested.
+         *      If callback function is specified then returns 'undefined'.
          */
         get: function(elems, callback) {
             var records;
@@ -50,12 +51,12 @@ define([
 
        /**
          * Sets data to registry.
-         * @params {String} elems - An array of elements' names or a string of names divided by spaces.
-         * @params {*} value - Value that will be assigned to element.
+         *
+         * @params {String} elems - Elements' name.
+         * @params {*} value - Value that will be assigned to the element.
          * @returns {registry} Chainable.  
          */
         set: function(elem, value) {
-
             this.storage.set(elem, value);
             this.events.resolve(elem);
 
@@ -65,7 +66,7 @@ define([
         /**
          * Removes specified elements from a storage.
          * @params {(String|Array)} elems -
-                An array of elements' names or a string of names divided by spaces.
+         *      An array of elements' names or a string of names divided by spaces.
          * @returns {registry} Chainable.
          */
         remove: function(elems) {
@@ -78,8 +79,9 @@ define([
 
        /**
          * Checks whether specified elements has been registered.
+         *
          * @params {(String|Array)} elems -
-                An array of elements' names or a string of names divided by spaces.
+         *      An array of elements' names or a string of names divided by spaces.
          * @returns {Boolean}
          */
         has: function(elems) {
@@ -89,7 +91,7 @@ define([
         },
 
         create: function(){
-            return new Registry;  
+            return new Registry;
         }
     };
 

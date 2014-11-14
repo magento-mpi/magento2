@@ -257,6 +257,12 @@ define([
             this.initElement(elem);
         },
 
+        /**
+         * Removes specified element from the 'elems' array.
+         *
+         * @param {Object} elem - Element to be removed.
+         * @returns {Component} Chainable.
+         */
         remove: function(elem) {
             utils.remove(this._elems, elem);
             this.elems.remove(elem);
@@ -264,6 +270,9 @@ define([
             return this;
         },
 
+        /**
+         * Destroys current instance along with all of its' children.
+         */
         destroy: function(){
             var data    = this.provider.data,
                 layout  = this.renderer.layout; 
@@ -288,6 +297,14 @@ define([
      * Elements traversing methods.
      */
     _.extend(Component.prototype, {
+        /**
+         * Tries to call specified method of a current component,
+         * otherwise delegates attempt to its' children.
+         *
+         * @param {String} target - Name of the method.
+         * @param [...] Arguments that will be passed to method.
+         * @returns {*} Result of the method calls. 
+         */
         delegate: function(target){
             var args = _.toArray(arguments);
 
@@ -300,6 +317,13 @@ define([
             return this._delegate(args);
         },
 
+        /**
+         * Calls 'delegate' method of all of it's children components.
+         * @private
+         *
+         * @param {Array} args - An array of arguments to pass to the next delegation call.
+         * @returns {Array} An array of delegation resutls.
+         */
         _delegate: function(args){
             var result;
 
@@ -310,6 +334,13 @@ define([
             return _.flatten(result);
         },
 
+        /**
+         * Overrides 'EventsBus.trigger' method to implement events bubbling.
+         *
+         * @param {String} name - Name of the event.
+         * @param [...] Any number of arguments that should be to the events' handler.
+         * @returns {Boolean} False if event bubbling was canceled.
+         */
         trigger: function(){
             var args    = _.toArray(arguments),
                 bubble  = EventsBus.trigger.apply(this, args),

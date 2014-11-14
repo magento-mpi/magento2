@@ -24,55 +24,38 @@ define([
         return !isValid ? message : '';
     }
 
-    return {
+    /**
+     * Validates value by rule and it's params.
+     * @param {(String|Object)} rule - One or many validation rules.
+     * @param {*} value - Value to validate.
+     * @param {*} [params] - Rule configuration
+     * @return {String} Resulting error message if value is invalid.
+     */
+    function validator(rule, value, params){
+        var msg = '';
 
-        /**
-         * Validates value by rule and it's params.
-         * @param  {String} rule - name of the rule
-         * @param  {*} value
-         * @param  {*} params - rule configuration
-         * @return {Boolean} - true, if value is valid, false otherwise
-         */
-        validate: function (rule, value, params) {
-            var msg = '';
-
-            if(_.isObject(rule)){
-                _.some(rule, function(params, rule){
-                    return !!(msg = validate(rule, value, params));
-                });
-            }
-            else{
-                msg = validate.apply(null, arguments);
-            }
-
-            return msg;
-        },
-
-        /**
-         * Returns error message assigned to the rule
-         * @param  {String} rule - name of the rule
-         * @return {String} - error message
-         */
-        messageFor: function (rule) {
-            var rule    = rules[rule],
-                message = '';
-
-            if (rule) {
-                message = rule[1];
-            }
-
-            return message;
-        },
-
-        /**
-         * Adds new validation rule.
-         * 
-         * @param {String} rule - rule name
-         * @param {Function} validator - validation function
-         * @param {String} message - validation message
-         */
-        addRule: function (rule, validator, message) {
-            rules[rule] = [validator, message];
+        if(_.isObject(rule)){
+            _.some(rule, function(params, rule){
+                return !!(msg = validate(rule, value, params));
+            });
         }
-    };
+        else{
+            msg = validate.apply(null, arguments);
+        }
+
+        return msg;
+    }
+
+    /**
+     * Adds new validation rule.
+     * 
+     * @param {String} rule - rule name
+     * @param {Function} validator - validation function
+     * @param {String} message - validation message
+     */
+    validator.addRule = function(rule, validator, message){
+        rules[rule] = [validator, message];
+    }
+
+    return validator;
 });

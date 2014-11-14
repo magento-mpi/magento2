@@ -28,6 +28,8 @@ define([
         initialize: function() {
             _.extend(this, defaults);
 
+            _.bindAll(this, 'onChildrenUpdate', 'onContentLoading', 'onContentLoaded');
+
             __super__.initialize.apply(this, arguments);
         },
 
@@ -54,9 +56,9 @@ define([
             __super__.initElement.apply(this, arguments);
 
             elem.on({
-                'update':     this.onChildrenUpdate.bind(this),
-                'loading':    this.onContentLoading.bind(this, true),
-                'loaded':     this.onContentLoading.bind(this, false)
+                'update':   this.onChildrenUpdate,
+                'loading':  this.onContentLoading,
+                'loaded':   this.onContentLoaded
             });
 
             return this;
@@ -65,8 +67,8 @@ define([
         /**
          * Is being invoked on children update.
          * Sets changed property to one incoming.
-         * Invokes setActive method if settings contain makeVisible property
-         *     set to true.
+         * Invokes setActive method if settings
+         * contain makeVisible property set to true.
          * 
          * @param  {Boolean} changed
          */
@@ -79,11 +81,17 @@ define([
         },
 
         /**
-         * Sets loading property to true of false based on finished parameter.
-         * @param  {Boolean} finished
+         * Callback that sets loading property to true.
          */
-        onContentLoading: function(finished){
-            this.loading(finished);
+        onContentLoading: function(){
+            this.loading(true);
+        },
+
+        /**
+         * Callback that sets loading property to true.
+         */
+        onContentLoaded: function(){
+            this.loading(false);
         }
     });
 });

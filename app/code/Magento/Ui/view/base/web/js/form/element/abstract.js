@@ -51,7 +51,7 @@ define([
         /**
          * Initializes observable properties of instance
          * 
-         * @return {Object} - reference to instance
+         * @returns {Abstract} Chainable.
          */
         initObservable: function () {
             var value = this.getInititalValue(), 
@@ -66,16 +66,16 @@ define([
             this.observe('error disabled focused preview hidden')
                 .observe({
                     'value':    value,
-                    'required': rules['required-entry']
+                    'required': !!rules['required-entry']
                 });
 
             return this;
         },
 
         /**
-         * Initializes regular properties of instance
+         * Initializes regular properties of instance.
          * 
-         * @return {Object} - reference to instance
+         * @returns {Abstract} Chainable.
          */
         initProperties: function () {
             __super__.initProperties.apply(this, arguments);
@@ -90,9 +90,9 @@ define([
         },
 
         /**
-         * Initializes instance's listeners
+         * Initializes instance's listeners.
          * 
-         * @return {Object} - reference to instance
+         * @returns {Abstract} Chainable.
          */
         initListeners: function(){
             var provider  = this.provider,
@@ -110,7 +110,7 @@ define([
         /**
          * Gets initial value of element
          * 
-         * @return {*} - value of element
+         * @returns {*} Elements' value.
          */
         getInititalValue: function(){
             var data = this.provider.data,
@@ -131,7 +131,7 @@ define([
         /**
          * Sets value to preview observable
          * 
-         * @param {Object} - reference to instance
+         * @returns {Abstract} Chainable.
          */
         setPreview: function(value){
             this.preview(this.hidden() ? '' : value);
@@ -140,16 +140,16 @@ define([
         },
 
         /**
-         * Returnes unwrapped preview observable
+         * Returnes unwrapped preview observable.
          * 
-         * @return {*} - value of preview observable
+         * @returns {String} Value of the preview observable.
          */
         getPreview: function(){
             return this.preview();
         },
 
         /**
-         * Calls 'setHidden' passing true to it, sets 'value' property to ''  
+         * Calls 'setHidden' passing true to it.
          */
         hide: function(){
             this.setHidden(true);
@@ -158,7 +158,7 @@ define([
         },
 
         /**
-         * Calls 'setHidden' passing false to it
+         * Calls 'setHidden' passing false to it.
          */
         show: function(value){
             this.setHidden(false);
@@ -171,7 +171,7 @@ define([
          * sets instance's hidden identifier in params storage based on
          * 'value'.
          * 
-         * @param {Object} value - reference to instance
+         * @returns {Abstract} Chainable.
          */
         setHidden: function(isHidden){
             var params = this.provider.params;
@@ -189,7 +189,7 @@ define([
         /**
          * Checkes if element has addons
          * 
-         * @return {Boolean}
+         * @returns {Boolean}
          */
         hasAddons: function () {
             return this.addbefore || this.addafter;
@@ -198,6 +198,7 @@ define([
         /**
          * Stores element's value to registry by element's path value
          * @param  {*} value - current value of form element
+         * @returns {Abstract} Chainable.
          */
         store: function (value) {
             var data = this.provider.data;
@@ -208,26 +209,16 @@ define([
         },
 
         /**
-         * Sets value observable to initialValue property
+         * Sets value observable to initialValue property.
          */
         reset: function(){
             this.value(this.initialValue);
         },
 
         /**
-         * Is being called when value is updated
-         */
-        onUpdate: function (value) {            
-            this.store(value)
-                .setPreview(value)
-                .trigger('update', this.hasChanged());
-
-            this.validate();
-        },
-
-        /**
-         * Defines if value has changed
-         * @return {Boolean}
+         * Defines if value has changed.
+         *
+         * @returns {Boolean}
          */
         hasChanged: function(){
             var notEqual = this.value() !== this.initialValue;
@@ -238,9 +229,9 @@ define([
         /**
          * Validates itself by it's validation rules using validator object.
          * If validation of a rule did not pass, writes it's message to
-         *     'error' observable property.
+         * 'error' observable property.
          *     
-         * @return {Boolean} - true, if element is valid
+         * @returns {Boolean} True, if element is invalid.
          */
         validate: function () {
             var value   = this.value(),
@@ -251,15 +242,26 @@ define([
                 return false;
             }
 
-            msg = validator.validate(this.validation, value);
+            msg = validator(this.validation, value);
 
-            if(msg && !params.get('invalid')){
+            if(!!msg && !params.get('invalid')){
                 params.set('invalid', this);
             }
 
             this.error(msg);
 
             return !!msg;
-        }
+        },
+
+        /**
+         * Callback that fires when 'value' property is updated.
+         */
+        onUpdate: function (value) {            
+            this.store(value)
+                .setPreview(value)
+                .trigger('update', this.hasChanged());
+
+            this.validate();
+        },
     });
 });
