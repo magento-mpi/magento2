@@ -51,11 +51,16 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
     protected $rssUrlBuilder;
 
     /**
+     * @var \Magento\Msrp\Helper\Data
+     */
+    protected $msrpHelper;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Catalog\Helper\Output $outputHelper
-     * @param \Magento\Catalog\Helper\Data $catalogHelper
+     * @param \Magento\Msrp\Helper\Data $msrpHelper
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Catalog\Model\Rss\Product\Special $rssModel
      * @param \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder
@@ -66,7 +71,7 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Catalog\Helper\Output $outputHelper,
-        \Magento\Catalog\Helper\Data $catalogHelper,
+        \Magento\Msrp\Helper\Data $msrpHelper,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\Rss\Product\Special $rssModel,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
@@ -77,7 +82,7 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
         $this->rssModel = $rssModel;
         $this->rssUrlBuilder = $rssUrlBuilder;
         $this->priceCurrency = $priceCurrency;
-        $this->catalogHelper = $catalogHelper;
+        $this->msrpHelper = $msrpHelper;
         $this->httpContext = $httpContext;
         $this->storeManager = $context->getStoreManager();
         parent::__construct($context, $data);
@@ -157,7 +162,7 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
 
         $specialPrice = '';
         if ($item->getAllowedPriceInRss()) {
-            if ($this->catalogHelper->canApplyMsrp($item)) {
+            if ($this->msrpHelper->canApplyMsrp($item)) {
                 $specialPrice = '<br/><a href="' . $item->getProductUrl() . '">' . __('Click for price') . '</a>';
             } else {
                 $special = '';
