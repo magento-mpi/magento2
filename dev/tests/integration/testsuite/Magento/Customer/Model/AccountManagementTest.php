@@ -118,8 +118,12 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
         $customerRegistry = $this->objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        /** @var \Magento\Customer\Model\CustomerRegistry $addressRegistry */
+        $addressRegistry = $this->objectManager->get('Magento\Customer\Model\AddressRegistry');
         //Cleanup customer from registry
         $customerRegistry->remove(1);
+        $addressRegistry->remove(1);
+        $addressRegistry->remove(2);
     }
 
     /**
@@ -897,13 +901,9 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             $shippingResponse,
             'Magento\Customer\Api\Data\AddressInterface'
         );
-        /*
-         * TODO : Data builder / populateWithArray currently does not detect
-         * array type and returns street as string instead of array. Need to fix this.
-         */
-        unset($addressShippingExpected[AddressInterface::STREET]);
-        unset($shippingResponse[AddressInterface::STREET]);
 
+        // Response should have this set since we save as default shipping
+        $addressShippingExpected[AddressInterface::DEFAULT_SHIPPING] = true;
         $this->assertEquals($addressShippingExpected, $shippingResponse);
 
         // Verify if the new Billing address created is same as returned by the api under test :
@@ -916,13 +916,9 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             $billingResponse,
             'Magento\Customer\Api\Data\AddressInterface'
         );
-        /*
-         * TODO : Data builder / populateWithArray currently does not detect
-         * array type and returns street as string instead of array. Need to fix this.
-         */
-        unset($addressBillingExpected[AddressInterface::STREET]);
-        unset($billingResponse[AddressInterface::STREET]);
 
+        // Response should have this set since we save as default billing
+        $addressBillingExpected[AddressInterface::DEFAULT_BILLING] = true;
         $this->assertEquals($addressBillingExpected, $billingResponse);
     }
 
