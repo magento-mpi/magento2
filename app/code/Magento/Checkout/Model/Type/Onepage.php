@@ -472,7 +472,7 @@ class Onepage
             }
         }
 
-        $address->save();
+        $this->getQuote()->save();
 
         $this->getCheckout()->setStepData(
             'billing',
@@ -692,11 +692,6 @@ class Onepage
         }
         $quote = $this->getQuote();
 
-        // shipping totals may be affected by payment method
-        if (!$quote->isVirtual() && $quote->getShippingAddress()) {
-            $quote->getShippingAddress()->setCollectShippingRates(true);
-        }
-
         $data['checks'] = array(
             \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_CHECKOUT,
             \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY,
@@ -802,7 +797,8 @@ class Onepage
         $billing->setCustomerAddressData($customerBillingData);
 
         $dataArray = $this->_objectCopyService->getDataFromFieldset('checkout_onepage_quote', 'to_customer', $quote);
-        $customerData = $this->_customerBuilder->mergeDataObjectWithArray($customerData, $dataArray);
+        $customerData = $this->_customerBuilder->mergeDataObjectWithArray($customerData, $dataArray)
+            ->create();
         $quote->setCustomerData($customerData)->setCustomerId(true);
         // TODO : Eventually need to remove this legacy hack
         // Add billing address to quote since customer Data Object does not hold address information
