@@ -93,6 +93,7 @@ class ObjectManagerFactory
         if (file_exists(BP . '/var/di/config.ser')) {
             $compiledConfig = \unserialize(\file_get_contents(BP . '/var/di/config.ser'));
         }
+
         /** @var \Magento\Framework\ObjectManager\Config\Config $diConfig */
         if ($compiledConfig) {
             $diConfig = new \Magento\Framework\Interception\ObjectManager\Config($compiledConfig);
@@ -113,7 +114,9 @@ class ObjectManagerFactory
                 $diConfig->extend($configData);
             }
         }
-        $factoryClass = $compiledConfig ? '\Magento\Framework\ObjectManager\Factory\Compiled' : '\Magento\Framework\ObjectManager\Factory\Dynamic\Developer';
+        $factoryClass = $compiledConfig
+            ? '\Magento\Framework\ObjectManager\Factory\Compiled'
+            : '\Magento\Framework\ObjectManager\Factory\Dynamic\Developer';
 
         $factoryClass = $diConfig->getPreference($factoryClass);
         $this->factory = new $factoryClass(

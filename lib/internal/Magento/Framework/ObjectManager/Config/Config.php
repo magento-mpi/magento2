@@ -308,6 +308,8 @@ class Config implements \Magento\Framework\ObjectManager\ConfigInterface
     }
 
     /**
+     * Returns list of virtual types
+     *
      * @return array
      */
     public function getVirtualTypes()
