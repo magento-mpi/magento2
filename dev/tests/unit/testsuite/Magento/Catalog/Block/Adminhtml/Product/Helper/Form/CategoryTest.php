@@ -9,6 +9,23 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Magento\Framework\AuthorizationInterface
+     */
+    protected $authorization;
+
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectManager;
+
+    public function setUp()
+    {
+        $this->authorization = $this->getMockBuilder('Magento\Framework\AuthorizationInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+    }
 
     /**
      * @dataProvider isAllowedDataProvider
@@ -16,17 +33,12 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsAllowed($isAllowed)
     {
-        $authorization = $this->getMockBuilder('Magento\Framework\AuthorizationInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $authorization->expects($this->any())
+        $this->authorization->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue($isAllowed));
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        /** @var Category $model */
-        $model = $objectManager->getObject(
+        $model = $this->objectManager ->getObject(
             '\Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category',
-            ['authorization' => $authorization]
+            ['authorization' => $this->authorization]
         );
         switch ($isAllowed) {
             case true:
@@ -46,5 +58,17 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             [true],
             [false],
         ];
+    }
+
+    public function testGetAfterElementHtml()
+    {
+        $model = $this->objectManager ->getObject(
+            '\Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category',
+            ['authorization' => $this->authorization]
+        );
+        $this->authorization->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue(false));
+        $this->assertEmpty($model->getAfterElementHtml());
     }
 }
