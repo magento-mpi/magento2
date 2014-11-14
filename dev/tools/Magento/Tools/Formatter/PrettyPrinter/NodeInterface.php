@@ -7,6 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-interface Node
+interface NodeInterface
 {
 }

@@ -11,7 +11,7 @@ namespace Magento\TestFramework\Integrity\Library\PhpParser;
  * Collect dependencies
  *
  */
-interface DependenciesCollector
+interface DependenciesCollectorInterface
 {
     /**
      * Return list of dependencies

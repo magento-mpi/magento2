@@ -34,6 +34,7 @@ dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/expected
 dev/tests/static/testsuite/Magento/Test/Legacy/_files
 dev/tests/unit/testsuite/Magento/Core/Model/Resource/Db/AbstractTest.php
+dev/tests/unit/testsuite/Magento/Framework/Code/Validator/_files
 dev/tests/unit/testsuite/Magento/Framework/Session/ConfigTest.php
 dev/tests/unit/testsuite/Magento/Framework/View/TemplateEngine/_files
 lib/internal/Magento/Framework/App/Config/Element.php

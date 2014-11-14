@@ -10,7 +10,7 @@ namespace Mtf\Util\Generate;
 use Magento\Framework\App;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class TestCaseClass
