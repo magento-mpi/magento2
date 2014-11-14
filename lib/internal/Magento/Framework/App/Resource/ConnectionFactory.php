@@ -9,25 +9,22 @@
  */
 namespace Magento\Framework\App\Resource;
 
-class ConnectionFactory
+use Magento\Framework\Model\Resource\Type\Db\ConnectionFactory as ModelConnectionFactory;
+
+class ConnectionFactory extends ModelConnectionFactory
 {
     /**
-     * @var \Magento\Framework\DB\LoggerInterface
+     * @var \Magento\Framework\ObjectManager
      */
-    private $logger;
+    private $objectManager;
 
     /**
-     * @var string
-     */
-    private $adapterClass = 'Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql';
-
-    /**
-     * @param \Magento\Framework\DB\LoggerInterface $logger
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
     public function __construct(
-        \Magento\Framework\DB\LoggerInterface $logger
+        \Magento\Framework\ObjectManager $objectManager
     ) {
-        $this->logger = $logger;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -39,21 +36,14 @@ class ConnectionFactory
      */
     public function create(array $connectionConfig)
     {
-        if (!$connectionConfig || !isset($connectionConfig['active']) || !$connectionConfig['active']) {
-            return null;
-        }
-        $adapterClass = isset($connectionConfig['adapter']) ? $connectionConfig['adapter'] : $this->adapterClass;
-        $adapterInstance = new $adapterClass(
-            $this->logger,
-            new \Magento\Framework\Stdlib\String,
-            new \Magento\Framework\Stdlib\DateTime,
-            $connectionConfig
-        );
+        $connection = parent::create($connectionConfig);
+        /** @var \Magento\Framework\App\CacheInterface $cache */
+        $cache = $this->objectManager->get('Magento\Framework\App\CacheInterface');
+        /** @var \Magento\Framework\DB\LoggerInterface $logger */
+        $logger = $this->objectManager->get('Magento\Framework\DB\LoggerInterface');
+        $connection->setCacheAdapter($cache->getFrontend());
+        $connection->setLogger($logger);
 
-        if (!$adapterInstance instanceof ConnectionAdapterInterface) {
-            throw new \InvalidArgumentException("Trying to create wrong connection adapter '$this->adapterClass'");
-        }
-
-        return $adapterInstance->getConnection();
+        return $connection;
     }
 }

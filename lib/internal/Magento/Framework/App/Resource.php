@@ -10,7 +10,7 @@
 namespace Magento\Framework\App;
 
 use Magento\Framework\App\Resource\ConfigInterface as ResourceConfigInterface;
-use Magento\Framework\App\Resource\ConnectionFactory;
+use Magento\Framework\Model\Resource\Type\Db\ConnectionFactory;
 
 class Resource
 {
@@ -50,7 +50,7 @@ class Resource
     /**
      * Resource connection adapter factory
      *
-     * @var ConnectionFactory
+     * @var \Magento\Framework\Model\Resource\Type\Db\ConnectionFactory
      */
     protected $_connectionFactory;
 
@@ -66,7 +66,7 @@ class Resource
 
     /**
      * @param ResourceConfigInterface $resourceConfig
-     * @param ConnectionFactory $adapterFactory
+     * @param \Magento\Framework\Model\Resource\Type\Db\ConnectionFactory $adapterFactory
      * @param DeploymentConfig $localConfig
      * @param string $tablePrefix
      */

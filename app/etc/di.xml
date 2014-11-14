@@ -78,8 +78,7 @@
     <preference for="Magento\Framework\Service\Data\AttributeMetadataBuilderInterface" type="Magento\Framework\Service\Data\AttributeMetadataBuilder"/>
     <preference for="Magento\Framework\Service\Data\MetadataServiceInterface" type="Magento\Framework\Service\Config\MetadataConfig"/>
     <preference for="Magento\Framework\App\Rss\UrlBuilderInterface" type="Magento\Framework\App\Rss\UrlBuilder"/>
-    <preference for="Magento\Framework\App\Resource\ConnectionFactory" type="Magento\Framework\App\Resource\ConnectionFactoryCacheable"/>
-    <preference for="Magento\Framework\DB\LoggerInterface" type="Magento\Framework\DB\Logger\Null"/>
+    <preference for="Magento\Framework\DB\LoggerInterface" type="Magento\Framework\DB\Logger\File"/>
 
     <type name="Magento\Framework\Model\Context">
         <arguments>
@@ -223,6 +222,7 @@
     </type>
     <type name="Magento\Framework\App\Resource">
         <arguments>
+            <argument name="adapterFactory" xsi:type="object">Magento\Framework\App\Resource\ConnectionFactory</argument>
             <argument name="tablePrefix" xsi:type="init_parameter">Magento\Framework\App\Resource::PARAM_TABLE_PREFIX</argument>
         </arguments>
     </type>

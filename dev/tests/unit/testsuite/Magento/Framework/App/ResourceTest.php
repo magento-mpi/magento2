@@ -20,7 +20,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
     protected $_config;
 
     /**
-     * @var \Magento\Framework\App\Resource\ConnectionFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Model\Resource\Type\Db\ConnectionFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_connectionFactory;
 
@@ -41,7 +41,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_connectionFactory = $this->getMockBuilder('Magento\Framework\App\Resource\ConnectionFactory')
+        $this->_connectionFactory = $this->getMockBuilder('Magento\Framework\Model\Resource\Type\Db\ConnectionFactory')
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock()

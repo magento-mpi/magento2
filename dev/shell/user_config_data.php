@@ -6,51 +6,52 @@
  * @license    {license_link}
  */
 
+use Magento\Framework\Shell\ComplexParameter;
+use Magento\Store\Model\ScopeInterface;
+use Magento\Backend\Model\Config;
+use Magento\Framework\App\Bootstrap;
+
 require __DIR__ . '/../../app/bootstrap.php';
 
-$usage = 'Usage: php -f user_config_data.php -- --noOfConfigDatasets=<number> - number of configuration datasets
-    ' . '[each dataset contains four following parameters in order:'
-    . ' you can use \'1\' for either \'website\' or \'store\' for one dataset;'
-    . ' however, if both are \'0\', \'default\' is considered]
-    ' . ' --website="0|1"  - configuration is website specific
-    ' . ' --store="0|1"  - configuration is store specific
-    ' . ' --path=<string> - path of the specified data group. e.g. \'web/unsecure/base_url\'
-    ' . ' --value=<string> -  value for the path specified. e.g. \'http://127.0.0.1/\'
-    ' . '###Example Usage: php -f user_config_data.php -- --noOfConfigDatasets="2" --website="0" --store="0"'
-    . ' --path="web/seo/use_rewrites" --value="1" --website="0" --store="0" --path="web/unsecure/base_url"'
-    . '--value="http://127.0.0.1/"' . PHP_EOL;
+$usage = 'Usage: php -f user_config_data.php --
+    ' . ' [--website=0|1]  - configuration is website specific, only one of \'webiste\' and \'store\' can be set'
+    . ' as \'1\' at a time
+    ' . ' [--store=0|1]  - configuration is store specific, only one of \'webiste\' and \'store\' can be set'
+    . ' as \'1\' at a time
+    ' . ' --data=<string> - pairs of \'path=value\' separated by \'&\', where
+    ' . '       \'path\' is path of the specified data group, e.g. web/unsecure/base_url, and
+    ' . '       \'value\' is value for the path specified, e.g. http://127.0.0.1/
+    ' . ' Example Usage: php -f user_config_data.php -- --website=1
+    ' . '--data=web/seo/use_rewrites=1&web/unsecure/base_url=http://127.0.0.1/' . PHP_EOL;
 
 $longOpts = [
-    'help',
-    'noOfConfigDatasets::',
     'website::',
     'store::',
-    'path:',
-    'value:'
+    'data:'
 ];
 
 $opt = getopt('', $longOpts);
-if (empty($opt) || isset($opt['help'])) {
+if (empty($opt)) {
     echo $usage;
     exit(0);
 }
 
-$params = $_SERVER;
-$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
-/** @var \Magento\Backend\Model\Config $configModel  */
-$configModel = $bootstrap->getObjectManager()->create(
-    '\Magento\Backend\Model\Config'
-);
-
-for ($i = 0; $i < $opt['noOfConfigDatasets']; $i++) {
-    $configData = [];
-    $configData['website'] = isset($opt['website'][$i]) ? $opt['website'][$i] : null;
-    $configData['store'] = isset($opt['store'][$i]) ? $opt['store'][$i] : null;
-    $pathParts = explode('/', trim(str_replace('\\', '/', $opt['path'][$i]), '/'));
-    $configData['section'] = $pathParts[0];
-    $groups = [];
-    $groups[$pathParts[1]]['fields'][$pathParts[2]]['value'] = $opt['value'][$i];
-    $configData['groups'] = $groups;
-    $configModel->addData($configData);
-    $configModel->save();
+try {
+    $data = new ComplexParameter('data');
+    $params = $data->mergeFromArgv($_SERVER, $_SERVER);
+    if (isset($opt['website'])) {
+        $params[ScopeInterface::SCOPE_WEBSITE] = '1';
+    }
+    if (isset($opt['store'])) {
+        $params[ScopeInterface::SCOPE_STORE] = '1';
+    }
+    $opt['data'] = $data->getFromString('--data=' . $opt['data']);
+    $params[Bootstrap::PARAM_REQUIRE_MAINTENANCE] = null;
+    $bootstrap = Bootstrap::create(BP, $params);
+    /** @var \Magento\Framework\App\Config\UserConfig $app */
+    $app = $bootstrap->createApplication('Magento\Framework\App\Config\UserConfig', ['request' => $opt]);
+    $bootstrap->run($app);
+} catch (\Exception $e) {
+    echo $e;
+    exit(1);
 }

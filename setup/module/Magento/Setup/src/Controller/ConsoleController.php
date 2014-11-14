@@ -15,7 +15,7 @@ use Magento\Setup\Model\ConsoleLogger;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\Controller\AbstractActionController;
-use Magento\Setup\Model\UserConfigurationData as UserConfig;
+use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
 use Magento\Setup\Model\AdminAccount;
 use Magento\Framework\App\MaintenanceMode;
 use Magento\Setup\Module\Setup\Config;

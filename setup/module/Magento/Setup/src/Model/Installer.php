@@ -10,12 +10,12 @@ namespace Magento\Setup\Model;
 
 use Magento\Framework\App\DeploymentConfig\Writer;
 use Magento\Setup\Module\SetupFactory;
-use Magento\Framework\Module\ModuleList;
+use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Module\ModuleList\Loader as ModuleLoader;
 use Magento\Framework\Module\ModuleList\DeploymentConfig;
 use Magento\Store\Model\Store;
 use Magento\Framework\Math\Random;
-use Magento\Framework\App\Resource\ConnectionFactory;
+use Magento\Framework\Model\Resource\Type\Db\ConnectionFactory;
 use Magento\Framework\Shell;
 use Magento\Framework\Shell\CommandRenderer;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -89,7 +89,7 @@ class Installer
     /**
      * Module list
      *
-     * @var ModuleList
+     * @var ModuleListInterface
      */
     private $moduleList;
 
@@ -131,7 +131,7 @@ class Installer
     /**
      * DB connection factory
      *
-     * @var ConnectionFactory
+     * @var \Magento\Framework\Model\Resource\Type\Db\ConnectionFactory
      */
     private $connectionFactory;
 
@@ -190,7 +190,7 @@ class Installer
      * @param FilePermissions $filePermissions
      * @param Writer $deploymentConfigWriter
      * @param SetupFactory $setupFactory
-     * @param ModuleList $moduleList
+     * @param ModuleListInterface $moduleList
      * @param ModuleLoader $moduleLoader
      * @param DirectoryList $directoryList
      * @param AdminAccountFactory $adminAccountFactory
@@ -205,7 +205,7 @@ class Installer
         FilePermissions $filePermissions,
         Writer $deploymentConfigWriter,
         SetupFactory $setupFactory,
-        ModuleList $moduleList,
+        ModuleListInterface $moduleList,
         ModuleLoader $moduleLoader,
         DirectoryList $directoryList,
         AdminAccountFactory $adminAccountFactory,
@@ -532,25 +532,24 @@ class Installer
      */
     public function installUserConfig($data)
     {
-        $setup = $this->setupFactory->createSetup($this->log);
-        $userConfig = new UserConfigurationData($setup);
+        $userConfig = new UserConfigurationDataMapper();
         $configData = $userConfig->getConfigData($data);
-        $paramsString = '-f %s --';
-        $paramsArray = [$this->directoryList->getRoot() . '/dev/shell/user_config_data.php'];
-        $paramsString .= ' --noOfConfigDatasets=%s';
         if (count($configData) === 0) {
             return;
-        } else {
-            $paramsArray[] = count($configData);
         }
+        $args = '';
+        $ampersandFlag = 0;
         foreach ($configData as $path => $val) {
-            $paramsString .= ' --website=%s --store=%s --path=%s --value=%s';
-            $paramsArray[] = "0";
-            $paramsArray[] = "0";
-            $paramsArray[] = $path;
-            $paramsArray[] = $val;
+            if ($ampersandFlag === 0) {
+                $args .= $path . '=' . $val;
+                $ampersandFlag = 1;
+            } else {
+                $args .= '&' . $path . '=' . $val;
+            }
         }
-        $this->exec($paramsString, $paramsArray);
+
+        $params = [$this->directoryList->getRoot() . '/dev/shell/user_config_data.php', $args];
+        $this->exec('-f %s -- --data=%s', $params);
     }
 
     /**

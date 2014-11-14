@@ -95,8 +95,7 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
                     'Magento\Framework\Interception\ObjectManager\Config' =>
                         'Magento\TestFramework\ObjectManager\Config',
                     'Magento\Framework\View\LayoutInterface' => 'Magento\TestFramework\View\Layout',
-                    'Magento\Framework\App\Resource\ConnectionFactory' =>
-                        'Magento\TestFramework\Db\ConnectionFactory',
+                    'Magento\Framework\App\Resource\ConnectionFactory' => 'Magento\TestFramework\Db\ConnectionFactory',
                 ]
             );
         }

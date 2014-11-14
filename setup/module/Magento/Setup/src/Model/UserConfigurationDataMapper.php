@@ -19,7 +19,7 @@ use Magento\Backend\Model\Url;
  *
  * @package Magento\Setup\Model
  */
-class UserConfigurationData
+class UserConfigurationDataMapper
 {
     /**#@+
      * Model data keys
@@ -50,23 +50,6 @@ class UserConfigurationData
         Currency::XML_PATH_CURRENCY_ALLOW => self::KEY_CURRENCY,
         Url::XML_PATH_USE_SECURE_KEY => self::KEY_ADMIN_USE_SECURITY_KEY,
     ];
-
-    /**
-     * Setup Instance
-     *
-     * @var Setup $setup
-     */
-    protected $setup;
-
-    /**
-     * Default Constructor
-     *
-     * @param Setup $setup
-     */
-    public function __construct(Setup $setup)
-    {
-        $this->setup = $setup;
-    }
 
     /**
      * Gets All Configuration Data

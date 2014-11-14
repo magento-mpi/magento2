@@ -175,13 +175,11 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     private $logger;
 
     /**
-     * @param LoggerInterface $logger
      * @param \Magento\Framework\Stdlib\String|String $string
      * @param DateTime $dateTime
      * @param array $config
      */
     public function __construct(
-        LoggerInterface $logger,
         String $string,
         DateTime $dateTime,
         array $config = array()
@@ -189,6 +187,13 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         $this->string = $string;
         $this->dateTime = $dateTime;
         parent::__construct($config);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
         $this->logger = $logger;
     }
 
@@ -204,9 +209,9 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
             throw new \Exception(AdapterInterface::ERROR_ROLLBACK_INCOMPLETE_MESSAGE);
         }
         if ($this->_transactionLevel === 0) {
-            $this->logger->startTimer();
+            $this->startLogging();
             parent::beginTransaction();
-            $this->logger->logStats(LoggerInterface::TYPE_TRANSACTION, 'BEGIN');
+            $this->logStats(LoggerInterface::TYPE_TRANSACTION, 'BEGIN');
         }
         ++$this->_transactionLevel;
         return $this;
@@ -221,9 +226,9 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     public function commit()
     {
         if ($this->_transactionLevel === 1 && !$this->_isRolledBack) {
-            $this->logger->startTimer();
+            $this->startLogging();
             parent::commit();
-            $this->logger->logStats(LoggerInterface::TYPE_TRANSACTION, 'COMMIT');
+            $this->logStats(LoggerInterface::TYPE_TRANSACTION, 'COMMIT');
         } elseif ($this->_transactionLevel === 0) {
             throw new \Exception(AdapterInterface::ERROR_ASYMMETRIC_COMMIT_MESSAGE);
         } elseif ($this->_isRolledBack) {
@@ -242,10 +247,10 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     public function rollBack()
     {
         if ($this->_transactionLevel === 1) {
-            $this->logger->startTimer();
+            $this->startLogging();
             parent::rollBack();
             $this->_isRolledBack = false;
-            $this->logger->logStats(LoggerInterface::TYPE_TRANSACTION, 'ROLLBACK');
+            $this->logStats(LoggerInterface::TYPE_TRANSACTION, 'ROLLBACK');
         } elseif ($this->_transactionLevel === 0) {
             throw new \Exception(AdapterInterface::ERROR_ASYMMETRIC_ROLLBACK_MESSAGE);
         } else {
@@ -314,9 +319,9 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
             list($this->_config['host'], $this->_config['port']) = explode(':', $this->_config['host']);
         }
 
-        $this->logger->startTimer();
+        $this->startLogging();
         parent::_connect();
-        $this->logger->logStats(LoggerInterface::TYPE_CONNECT, '');
+        $this->logStats(LoggerInterface::TYPE_CONNECT, '');
 
         /** @link http://bugs.mysql.com/bug.php?id=18551 */
         $this->_connection->query("SET SQL_MODE=''");
@@ -412,12 +417,12 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         $triesCount = 0;
         do {
             $retry = false;
-            $this->logger->startTimer();
+            $this->startLogging();
             try {
                 $this->_checkDdlTransaction($sql);
                 $this->_prepareQuery($sql, $bind);
                 $result = parent::query($sql, $bind);
-                $this->logger->logStats(LoggerInterface::TYPE_QUERY, $sql, $bind, $result);
+                $this->logStats(LoggerInterface::TYPE_QUERY, $sql, $bind, $result);
                 return $result;
             } catch (\Exception $e) {
                 // Finalize broken query
@@ -446,8 +451,8 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
                 }
 
                 if (!$retry) {
-                    $this->logger->logStats(LoggerInterface::TYPE_QUERY, $sql, $bind);
-                    $this->logger->logException($e);
+                    $this->logStats(LoggerInterface::TYPE_QUERY, $sql, $bind);
+                    $this->logException($e);
                     throw $e;
                 }
             }
@@ -3754,5 +3759,42 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
             $tables[] = $row;
         }
         return $tables;
+    }
+
+    /**
+     * Start logging
+     */
+    protected function startLogging()
+    {
+        if ($this->logger) {
+            $this->logger->startTimer();
+        }
+    }
+
+    /**
+     * Log stats
+     *
+     * @param string $type
+     * @param string $sql
+     * @param array $bind
+     * @param \Zend_Db_Statement_Pdo|null $result
+     */
+    protected function logStats($type, $sql, $bind = [], $result = null)
+    {
+        if ($this->logger) {
+            $this->logger->logStats($type, $sql, $bind, $result);
+        }
+    }
+
+    /**
+     * Log exception
+     *
+     * @param \Exception $e
+     */
+    protected function logException(\Exception $e)
+    {
+        if ($this->logger) {
+            $this->logger->logException($e);
+        }
     }
 }
