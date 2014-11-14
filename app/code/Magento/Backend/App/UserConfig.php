@@ -12,14 +12,14 @@ namespace Magento\Backend\App;
 use Magento\Framework\App\Console\Response;
 use Magento\Framework\App\Bootstrap;
 use Magento\Framework\AppInterface;
-use Magento\Backend\Model\Config;
+use Magento\Backend\Model\Config as BackendModelConfig;
 
 class UserConfig implements AppInterface
 {
     /**
      * Config model accessor 
      *
-     * @var Config
+     * @var BackendModelConfig
      */
     private $configModel;
 
@@ -40,12 +40,12 @@ class UserConfig implements AppInterface
     /**
      * Constructor
      *
-     * @param Config $configModel,
+     * @param BackendModelConfig $configModel,
      * @param Response $response
      * @param array $request
      */
     public function __construct(
-        Config $configModel,
+        BackendModelConfig $configModel,
         Response $response,
         array $request
     ) {
