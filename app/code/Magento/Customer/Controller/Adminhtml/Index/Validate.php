@@ -26,7 +26,7 @@ class Validate extends \Magento\Customer\Controller\Adminhtml\Index
 
         try {
             /** @var CustomerInterface $customer */
-            $customer = $this->_customerBuilder->create();
+            $customer = $this->customerDataBuilder->create();
 
             $customerForm = $this->_formFactory->create(
                 'customer',
@@ -42,8 +42,8 @@ class Validate extends \Magento\Customer\Controller\Adminhtml\Index
                 unset($data['website_id']);
             }
 
-            $customer = $this->_customerBuilder->populateWithArray($data)->create();
-            $errors = $this->_customerAccountService->validateCustomerData($customer);
+            $customer = $this->customerDataBuilder->populateWithArray($data)->create();
+            $errors = $this->customerAccountManagement->validate($customer);
         } catch (\Magento\Framework\Model\Exception $exception) {
             /* @var $error Error */
             foreach ($exception->getMessages(\Magento\Framework\Message\MessageInterface::TYPE_ERROR) as $error) {
