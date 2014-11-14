@@ -50,14 +50,15 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
      * @param array $expectedValueOption
      * @dataProvider prepareValueOptionsDataProvider
      */
-    public function testPrepareValueOptions($setData,
-                                            $attributeObjectFrontendInput,
-                                            $attrObjectSourceAllOptionsValue,
-                                            $attrSetCollectionOptionsArray,
-                                            $expectedAttrObjSourceAllOptionsParam,
-                                            $expectedValueSelectOptions,
-                                            $expectedValueOption)
-    {
+    public function testPrepareValueOptions(
+        $setData,
+        $attributeObjectFrontendInput,
+        $attrObjectSourceAllOptionsValue,
+        $attrSetCollectionOptionsArray,
+        $expectedAttrObjSourceAllOptionsParam,
+        $expectedValueSelectOptions,
+        $expectedValueOption
+    ) {
         foreach ($setData as $key => $value) {
             $this->_condition->setData($key, $value);
         }
@@ -89,7 +90,7 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $entityTypeMock->method('getId')->willReturn('SomeEntityType');
 
-        $configValueMock = $this->getMock('Magento\Eav\Model\Config',  ['getAttribute', 'getEntityType'], [], '', false);
+        $configValueMock = $this->getMock('Magento\Eav\Model\Config', ['getAttribute', 'getEntityType'], [], '', false);
         $configValueMock->method('getAttribute')->willReturn($attributeObjectMock);
         $configValueMock->method('getEntityType')->willReturn($entityTypeMock);
 
@@ -97,7 +98,8 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
         $configProperty->setAccessible(true);
         $configProperty->setValue($this->_condition, $configValueMock);
 
-        $attrSetCollectionValueMock = $this->getMockBuilder('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+        $attrSetCollectionValueMock = $this
+            ->getMockBuilder('Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
             ->setMethods(['setEntityTypeFilter', 'load', 'toOptionArray'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -114,7 +116,10 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
         $attrSetCollectionProperty->setAccessible(true);
         $attrSetCollectionProperty->setValue($this->_condition, $attrSetCollectionValueMock);
 
-        $testedMethod = new ReflectionMethod('Magento\Rule\Model\Condition\Product\AbstractProduct', '_prepareValueOptions');
+        $testedMethod = new ReflectionMethod(
+            'Magento\Rule\Model\Condition\Product\AbstractProduct',
+            '_prepareValueOptions'
+        );
         $testedMethod->setAccessible(true);
         $testedMethod->invoke($this->_condition);
 

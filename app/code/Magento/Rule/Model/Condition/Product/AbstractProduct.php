@@ -233,6 +233,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      * @param array $selectOptions
      * @param array $selectReady
      * @param array $hashedReady
+     * @return $this
      */
     protected function _setSelectOptions($selectOptions, $selectReady, $hashedReady)
     {
@@ -252,6 +253,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
                 $this->setData('value_option', $hashedOptions);
             }
         }
+        return $this;
     }
 
     /**
