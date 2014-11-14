@@ -5,6 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/** @var \Magento\Catalog\Block\Adminhtml\Category\Edit\Form $this */
+
+$parentId = $this->getParentCategoryId();
 ?>
 <div class="category-edit-title">
     <h3 class="title"><?php echo $this->escapeHtml($this->getHeader()) . ($this->getCategoryId() ? ' (' . __('ID: %1', $this->getCategoryId()) . ')' : '') ?></h3>
@@ -33,6 +36,9 @@
         <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>"/>
         <input type="hidden" name="category_products" id="in_category_products" value=""/>
         <input type="hidden" name="active_tab_id" id="active_tab_id" value=""/>
+        <?php if ($parentId !== 0): ?>
+            <input type="hidden" name="parent" value="<?php echo $parentId; ?>"/>
+        <?php endif; ?>
     </div>
     <div id="category_tab_content"></div>
 </form>
