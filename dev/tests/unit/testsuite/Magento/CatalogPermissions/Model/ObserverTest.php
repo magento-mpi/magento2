@@ -145,13 +145,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $observer = $this->_preparationData($step);
-        $result =$this->_observer->checkQuotePermissions($observer);
+        $result = $this->_observer->checkQuotePermissions($observer);
         $this->assertInstanceOf('\Magento\CatalogPermissions\Model\Observer', $result);
     }
 
     /**
      * @return array
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function dataSteps()
     {
