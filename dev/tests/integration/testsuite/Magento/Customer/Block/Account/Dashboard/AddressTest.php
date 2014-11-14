@@ -153,7 +153,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         return [
             '0' => [0, 'http://localhost/index.php/customer/address/edit/'],
-            '1' => [1, 'http://localhost/index.php/customer/address/edit/'],
+            '1' => [1, 'http://localhost/index.php/customer/address/edit/id/1/'],
         ];
     }
 
@@ -176,7 +176,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         return [
             '0' => [0, 'http://localhost/index.php/customer/address/edit/'],
-            '1' => [1, 'http://localhost/index.php/customer/address/edit/'],
+            '1' => [1, 'http://localhost/index.php/customer/address/edit/id/1/'],
         ];
     }
 }
