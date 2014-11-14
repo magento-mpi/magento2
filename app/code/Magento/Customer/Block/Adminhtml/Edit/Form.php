@@ -8,7 +8,6 @@
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 /**
  * Adminhtml customer edit form block
@@ -16,11 +15,11 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * Customer Service.
+     * Customer Repository.
      *
-     * @var CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    protected $_customerAccountService;
+    protected $_customerRepository;
 
     /**
      * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
@@ -33,7 +32,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param array $data
      */
@@ -41,11 +40,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         array $data = array()
     ) {
-        $this->_customerAccountService = $customerAccountService;
+        $this->_customerRepository = $customerRepository;
         $this->_extensibleDataObjectConverter = $extensibleDataObjectConverter;
         parent::__construct($context, $registry, $formFactory, $data);
     }
@@ -73,7 +72,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if ($customerId) {
             $form->addField('id', 'hidden', array('name' => 'customer_id'));
-            $customer = $this->_customerAccountService->getCustomer($customerId);
+            $customer = $this->_customerRepository->getById($customerId);
             $form->setValues(
                 $this->_extensibleDataObjectConverter->toFlatArray($customer)
             )->addValues(
