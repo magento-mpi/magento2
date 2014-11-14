@@ -27,7 +27,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      *
      * @var Configuration
      */
-    protected $_bundleProdConfiguration = null;
+    protected $_bundleProductConfiguration = null;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -37,7 +37,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      * @param \Magento\Core\Helper\Url $urlHelper
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param PriceCurrencyInterface $priceCurrency
-     * @param Configuration $bundleProdConfigur
+     * @param Configuration $bundleProductConfiguration
      * @param \Magento\Msrp\Helper\Data $msrpHelper
      * @param array $data
      */
@@ -50,10 +50,10 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Framework\Message\ManagerInterface $messageManager,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Msrp\Helper\Data $msrpHelper,
-        Configuration $bundleProdConfiguration,
+        Configuration $bundleProductConfiguration,
         array $data = array()
     ) {
-        $this->_bundleProdConfigur = $bundleProdConfiguration;
+        $this->_bundleProductConfiguration = $bundleProductConfiguration;
         parent::__construct(
             $context,
             $productConfig,
@@ -74,7 +74,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
     protected function _construct()
     {
         parent::_construct();
-        $this->_configurationHelper = $this->_bundleProdConfiguration;
+        $this->_configurationHelper = $this->_bundleProductConfiguration;
     }
 
     /**
@@ -99,7 +99,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     protected function _getSelectionFinalPrice($selectionProduct)
     {
-        $helper = $this->_bundleProdConfiguration;
+        $helper = $this->_bundleProductConfiguration;
         $result = $helper->getSelectionFinalPrice($this->getItem(), $selectionProduct);
         return $result;
     }
