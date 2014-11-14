@@ -13,8 +13,6 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Class Tablerate
- *
- * @package Magento\Tools\SampleData\Module\Tax\Setup
  */
 class Tablerate implements SetupInterface
 {
