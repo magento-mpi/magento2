@@ -159,4 +159,9 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Customer\Model\Resource\Group" shared="false">
+        <arguments>
+            <argument name="customerData" xsi:type="object">Magento\Customer\Helper\Data\Proxy</argument>
+        </arguments>
+    </type>
 </config>
