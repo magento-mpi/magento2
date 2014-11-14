@@ -32,7 +32,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
     protected $accountManagement;
 
     /**
-     * @var \Magento\Customer\Service\V1\GroupRepositoryInterface
+     * @var \Magento\Customer\Api\GroupRepositoryInterface
      */
     protected $groupRepository;
 
@@ -65,7 +65,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param AccountManagementInterface $accountService
+     * @param AccountManagementInterface $accountManagement
      * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Address $addressHelper
@@ -76,7 +76,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        AccountManagementInterface $accountService,
+        AccountManagementInterface $accountManagement,
         \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Customer\Helper\Address $addressHelper,
@@ -86,7 +86,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
         array $data = array()
     ) {
         $this->coreRegistry = $registry;
-        $this->accountManagement = $accountService;
+        $this->accountManagement = $accountManagement;
         $this->groupRepository = $groupRepository;
         $this->customerBuilder = $customerBuilder;
         $this->addressHelper = $addressHelper;
@@ -216,7 +216,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
 
     /**
      * @param int $groupId
-     * @return \Magento\Customer\Service\V1\Data\CustomerGroup|null
+     * @return \Magento\Customer\Api\Data\GroupInterface|null
      */
     private function getGroup($groupId)
     {
