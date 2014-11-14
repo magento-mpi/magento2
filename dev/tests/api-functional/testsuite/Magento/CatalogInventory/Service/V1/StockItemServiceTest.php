@@ -50,8 +50,17 @@ class StockItemServiceTest extends WebapiAbstract
      */
     public function tearDown()
     {
+        /** @var \Magento\Framework\Registry $registry */
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
+
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', true);
+
         $this->productCollection->addFieldToFilter('entity_id', array('in' => array(10, 11, 12)))->delete();
         unset($this->productCollection);
+
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', false);
     }
 
     /**
