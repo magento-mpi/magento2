@@ -175,6 +175,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Prepare customer default title
+     *
+     * @return void
      */
     protected function prepareDefaultCustomerTitle()
     {

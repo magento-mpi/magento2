@@ -137,6 +137,8 @@ class Title
 
     /**
      * Unset title
+     *
+     * @return void
      */
     public function unsetValue()
     {
