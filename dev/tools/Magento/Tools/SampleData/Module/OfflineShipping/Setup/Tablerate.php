@@ -42,24 +42,32 @@ class Tablerate implements SetupInterface
     protected $regionCollectionFactory;
 
     /**
+     * @var \Magento\Framework\App\Cache\TypeListInterface
+     */
+    protected $cacheTypeList;
+
+    /**
      * @param \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate $tablerate,
      * @param \Magento\Tools\SampleData\Helper\Fixture $fixtureHelper
      * @param \Magento\Tools\SampleData\Helper\Csv\ReaderFactory $csvReaderFactory
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      */
     public function __construct(
         \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate $tablerate,
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         \Magento\Framework\App\Resource $resource,
-        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
     ) {
         $this->tablerate = $tablerate;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
         $this->resource = $resource;
         $this->regionCollectionFactory = $regionCollectionFactory;
+        $this->cacheTypeList = $cacheTypeList;
     }
 
     /**
@@ -94,6 +102,25 @@ class Tablerate implements SetupInterface
             );
             echo '.';
         }
+        $adapter->insert(
+            $adapter->getTableName('core_config_data'),
+            [
+                'scope' => 'default',
+                'scope_id' => 0,
+                'path' => 'carriers/tablerate/active',
+                'value' => 1,
+            ]
+        );
+        $adapter->insert(
+            $adapter->getTableName('core_config_data'),
+            [
+                'scope' => 'default',
+                'scope_id' => 0,
+                'path' => 'carriers/tablerate/condition_name',
+                'value' => 'package_value',
+            ]
+        );
+        $this->cacheTypeList->cleanType('config');
         echo PHP_EOL;
     }
 
