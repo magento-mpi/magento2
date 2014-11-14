@@ -49,6 +49,11 @@ class DataBuilder extends EntityAbstract
     protected $extensibleInterfaceMethods;
 
     /**
+     * @var \Magento\Framework\Reflection\TypeProcessor
+     */
+    protected $typeProcessor = null;
+
+    /**
      * Initialize dependencies.
      *
      * @param string|null $sourceClassName
@@ -64,6 +69,7 @@ class DataBuilder extends EntityAbstract
         CodeGenerator\CodeGeneratorInterface $classGenerator = null,
         FileResolver $fileResolver = null
     ) {
+        $this->typeProcessor = new \Magento\Framework\Reflection\TypeProcessor();
         parent::__construct(
             $sourceClassName,
             $resultClassName,
@@ -202,11 +208,10 @@ class DataBuilder extends EntityAbstract
         } else {
             $propertyName = substr($method->getName(), 3);
         }
-        $returnType = (new ClassReflection($this->_getSourceClassName()))
+        $returnType = $this->typeProcessor->getGetterReturnType(
+            (new ClassReflection($this->_getSourceClassName()))
             ->getMethod($method->getName())
-            ->getDocBlock()
-            ->getTag('return')
-            ->getType();
+        );
         $fieldName = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $propertyName));
         $methodInfo = [
             'name' => 'set' . $propertyName,
@@ -217,7 +222,7 @@ class DataBuilder extends EntityAbstract
                 . PHP_EOL . "return \$this;",
             'docblock' => [
                 'tags' => [
-                    ['name' => 'param', 'description' => $returnType . " \$" . lcfirst($propertyName)],
+                    ['name' => 'param', 'description' => $returnType['type'] . " \$" . lcfirst($propertyName)],
                     ['name' => 'return', 'description' => '$this'],
                 ]
             ]
