@@ -24,6 +24,16 @@ if ($_item->getQtyMaxAllowed()) {
     $maxQuantity = $_item->getQtyMaxAllowed();
 }
 
+$canApplyMsrp = false;
+if ($this->moduleManager->isEnabled('Magento_Msrp')) {
+    /**
+     * @var \Magento\Msrp\Helper\Data $msrpHelper
+     */
+    $msrpHelper = $this->helper('Magento\Msrp\Helper\Data');
+    $canApplyMsrp = $msrpHelper->
+        isShowBeforeOrderConfirm($_item->getProduct()) && $msrpHelper->isMinimalPriceLessMsrp($_item->getProduct());
+}
+
 // disable the qty field if there is no product associated with the sku (i.e. invalid sku) or if sku failed for
 // out of stock scenario
 $qtyDisabled = !$this->hasProductUrl() ||
@@ -54,7 +64,7 @@ $qtyDisabled = !$this->hasProductUrl() ||
             </div>
         </td>
         <td data-th="<?php echo $this->escapeHtml(__('Price')); ?>" class="col price">
-            <?php if ($this->canApplyMsrp()): ?>
+            <?php if ($canApplyMsrp): ?>
                 <span class="msrp notice"><?php echo __('See price before order confirmation.'); ?></span>
                     <?php $helpLinkId = 'cart-msrp-help-' . $_item->getProduct()->getId(); ?>
                     <a href="#" class="action help map" id="<?php echo($helpLinkId); ?>" data-mage-init='{"addToCart":{"helpLinkId": "#<?php echo $helpLinkId;?>","productName": "<?php echo $_item->getProduct()->getName(); ?>","showAddToCart": false}}'>

@@ -78,9 +78,9 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
     protected $priceCurrency;
 
     /**
-     * @var \Magento\Msrp\Helper\Data
+     * @var \Magento\Framework\Module\Manager
      */
-    protected $msrpHelper;
+    public $moduleManager;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -90,7 +90,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
      * @param \Magento\Core\Helper\Url $urlHelper
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Msrp\Helper\Data $msrpHelper
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param array $data
      */
     public function __construct(
@@ -101,7 +101,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
         \Magento\Core\Helper\Url $urlHelper,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         PriceCurrencyInterface $priceCurrency,
-        \Magento\Msrp\Helper\Data $msrpHelper,
+        \Magento\Framework\Module\Manager $moduleManager,
         array $data = array()
     ) {
         $this->priceCurrency = $priceCurrency;
@@ -112,7 +112,7 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
         $this->messageManager = $messageManager;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
-        $this->msrpHelper = $msrpHelper;
+        $this->moduleManager = $moduleManager;
     }
 
     /**
@@ -617,16 +617,5 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
         $block = $this->getLayout()->getBlock('checkout.onepage.review.item.price.rowtotal.incl');
         $block->setItem($item);
         return $block->toHtml();
-    }
-
-    /**
-     * Check msrp application conditions
-     *
-     * @return bool
-     */
-    public function canApplyMsrp()
-    {
-        return $this->msrpHelper->isShowBeforeOrderConfirm($this->getItem()->getProduct())
-            && $this->msrpHelper->isMinimalPriceLessMsrp($this->getItem()->getProduct());
     }
 }

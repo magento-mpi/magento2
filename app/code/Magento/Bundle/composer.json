@@ -17,7 +17,6 @@
         "magento/module-gift-message": "0.1.0-alpha102",
         "magento/framework": "0.1.0-alpha102",
         "magento/module-webapi": "0.1.0-alpha102",
-        "magento/module-msrp": "0.1.0-alpha102",
         "magento/magento-composer-installer": "*"
     },
     "type": "magento2-module",

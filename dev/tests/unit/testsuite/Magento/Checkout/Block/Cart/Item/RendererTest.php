@@ -24,18 +24,12 @@ class RendererTest extends \PHPUnit_Framework_TestCase
      */
     protected $layout;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $msrpHelper;
-
     protected function setUp()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_imageHelper = $this->getMock('Magento\Catalog\Helper\Image', array(), array(), '', false);
         $this->layout = $this->getMock('Magento\Framework\View\LayoutInterface');
-        $this->msrpHelper = $this->getMock('\Magento\Msrp\Helper\Data', [], [], '', false);
 
         $context = $this->getMockBuilder('Magento\Framework\View\Element\Template\Context')
             ->disableOriginalConstructor()
@@ -48,8 +42,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             'Magento\Checkout\Block\Cart\Item\Renderer',
             [
                 'imageHelper' => $this->_imageHelper,
-                'context' => $context,
-                'msrpHelper' => $this->msrpHelper
+                'context' => $context
             ]
         );
     }
@@ -153,31 +146,5 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             )->will($this->returnValue($priceHtml));
 
         $this->assertEquals($priceHtml, $this->_renderer->getProductPriceHtml($product));
-    }
-
-    /**
-     * @dataProvider canApplyMsrpDataProvider
-     */
-    public function testCanApplyMsrp($showBeforeConfirm, $isMinPriceLess, $expected)
-    {
-        $itemMock = $this->getMock('\Magento\Sales\Model\Quote\Item\AbstractItem', [], [], '', false);
-        $productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
-        $this->_renderer->setItem($itemMock);
-        $itemMock->expects($this->atLeastOnce())->method('getProduct')->willReturn($productMock);
-        $this->msrpHelper->expects($this->once())->method('isShowBeforeOrderConfirm')->with($productMock)
-            ->willReturn($showBeforeConfirm);
-        $this->msrpHelper->expects($this->any())->method('isMinimalPriceLessMsrp')->with($productMock)
-            ->willReturn($isMinPriceLess);
-        $this->assertEquals($expected, $this->_renderer->canApplyMsrp());
-    }
-
-    public function canApplyMsrpDataProvider()
-    {
-        return [
-            [true, false, false],
-            [false, true, false],
-            [false, false, false],
-            [true, true, true]
-        ];
     }
 }
