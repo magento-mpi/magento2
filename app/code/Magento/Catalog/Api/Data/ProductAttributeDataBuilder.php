@@ -8,6 +8,7 @@
  */
 
 namespace Magento\Catalog\Api\Data;
+
 use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Api\MetadataServiceInterface;
 
@@ -16,6 +17,39 @@ use Magento\Framework\Api\MetadataServiceInterface;
  */
 class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
 {
+
+    /**
+     * @param ObjectFactory $objectFactory
+     * @param MetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
+     * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
+     * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
+     * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
+     * @param string $modelClassInterface
+     */
+    public function __construct(
+        ObjectFactory $objectFactory,
+        MetadataServiceInterface $metadataService,
+        \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder,
+        \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor,
+        \Magento\Framework\Reflection\TypeProcessor $typeProcessor,
+        \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory,
+        \Magento\Framework\ObjectManager\Config $objectManagerConfig,
+        $modelClassInterface = 'Magento\Catalog\Api\Data\ProductAttributeInterface'
+    ) {
+        parent::__construct(
+            $objectFactory,
+            $metadataService,
+            $attributeValueBuilder,
+            $objectProcessor,
+            $typeProcessor,
+            $dataBuilderFactory,
+            $objectManagerConfig,
+            $modelClassInterface
+        );
+    }
+
     /**
      * @param bool|null $isWysiwygEnabled
      * @return $this
@@ -346,23 +380,6 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
         $this->_set('validation_rules', $validationRules);
         return $this;
     }
-
-    public function __construct(
-        ObjectFactory $objectFactory,
-        MetadataServiceInterface $metadataService,
-        \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder,
-        \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor,
-        \Magento\Framework\Reflection\TypeProcessor $typeProcessor,
-        \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory,
-        \Magento\Framework\ObjectManager\Config $objectManagerConfig,
-        $modelClassInterface = 'Magento\Catalog\Api\Data\ProductAttributeInterface'
-    ) {
-        parent::__construct(
-            $objectFactory, $metadataService, $attributeValueBuilder, $objectProcessor,
-            $typeProcessor, $dataBuilderFactory, $objectManagerConfig, $modelClassInterface
-        );
-    }
-
 
     /**
      * {@inheritdoc}

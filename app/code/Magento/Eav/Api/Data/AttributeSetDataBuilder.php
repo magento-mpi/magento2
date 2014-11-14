@@ -8,6 +8,7 @@
  */
 
 namespace Magento\Eav\Api\Data;
+
 use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Api\MetadataServiceInterface;
 
@@ -17,13 +18,35 @@ use Magento\Framework\Api\MetadataServiceInterface;
 class AttributeSetDataBuilder extends \Magento\Framework\Api\Builder
 {
     /**
-     * @param int|null $attributeSetId
-     * @return $this
+     * @param ObjectFactory $objectFactory
+     * @param MetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
+     * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
+     * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
+     * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
+     * @param string $modelClassInterface
      */
-    public function setAttributeSetId($attributeSetId)
-    {
-        $this->_set('attribute_set_id', $attributeSetId);
-        return $this;
+    public function __construct(
+        ObjectFactory $objectFactory,
+        MetadataServiceInterface $metadataService,
+        \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder,
+        \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor,
+        \Magento\Framework\Reflection\TypeProcessor $typeProcessor,
+        \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory,
+        \Magento\Framework\ObjectManager\Config $objectManagerConfig,
+        $modelClassInterface = 'Magento\Eav\Api\Data\AttributeSetInterface'
+    ) {
+        parent::__construct(
+            $objectFactory,
+            $metadataService,
+            $attributeValueBuilder,
+            $objectProcessor,
+            $typeProcessor,
+            $dataBuilderFactory,
+            $objectManagerConfig,
+            $modelClassInterface
+        );
     }
 
     /**
@@ -33,6 +56,16 @@ class AttributeSetDataBuilder extends \Magento\Framework\Api\Builder
     public function setAttributeSetName($attributeSetName)
     {
         $this->_set('attribute_set_name', $attributeSetName);
+        return $this;
+    }
+
+    /**
+     * @param int|null $attributeSetId
+     * @return $this
+     */
+    public function setAttributeSetId($attributeSetId)
+    {
+        $this->_set('attribute_set_id', $attributeSetId);
         return $this;
     }
 
@@ -55,23 +88,6 @@ class AttributeSetDataBuilder extends \Magento\Framework\Api\Builder
         $this->_set('entity_type_id', $entityTypeId);
         return $this;
     }
-
-    public function __construct(
-        ObjectFactory $objectFactory,
-        MetadataServiceInterface $metadataService,
-        \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder,
-        \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor,
-        \Magento\Framework\Reflection\TypeProcessor $typeProcessor,
-        \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory,
-        \Magento\Framework\ObjectManager\Config $objectManagerConfig,
-        $modelClassInterface = 'Magento\Eav\Api\Data\AttributeSetInterface'
-    ) {
-        parent::__construct(
-            $objectFactory, $metadataService, $attributeValueBuilder, $objectProcessor,
-            $typeProcessor, $dataBuilderFactory, $objectManagerConfig, $modelClassInterface
-        );
-    }
-
 
     /**
      * {@inheritdoc}
