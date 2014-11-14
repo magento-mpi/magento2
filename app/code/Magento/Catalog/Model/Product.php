@@ -2097,6 +2097,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
                     = $attributeValue[\Magento\Framework\Api\AttributeInterface::VALUE];
             }
         }
-        return ConvertArray::toFlatArray($dataArray);
+        return $dataArray;
     }
 }
