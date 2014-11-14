@@ -83,7 +83,6 @@ class SchemaTest extends \PHPUnit_Framework_TestCase
     {
         $list = [
             '#Dhl/etc/countries.xml$#',
-            '#app/etc/config.php$#',
         ];
         foreach ($list as $pattern) {
             foreach ($files as $key => $value) {

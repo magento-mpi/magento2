@@ -46,7 +46,7 @@ class Feed extends \Magento\Framework\Model\AbstractModel
     protected $curlFactory;
 
     /**
-     * Application arguments
+     * Deployment configuration
      *
      * @var \Magento\Framework\App\DeploymentConfig
      */

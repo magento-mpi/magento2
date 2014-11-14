@@ -113,6 +113,7 @@ class Files
             if ($appCode) {
                 $files = array_merge(
                     glob($this->_path . '/app/*.php', GLOB_NOSORT),
+                    glob($this->_path . '/app/etc/config.php', GLOB_NOSORT),
                     self::getFiles(array("{$this->_path}/app/code/{$namespace}/{$module}"), '*.php')
                 );
             }
@@ -206,7 +207,6 @@ class Files
             $globPaths = array(
                 'app/etc/config.xml',
                 'app/etc/*/config.xml',
-                'app/etc/config.php',
                 'app/code/*/*/etc/config.xml',
                 'app/code/*/*/etc/config.*.xml' // Module DB-specific configs, e.g. config.mysql4.xml
             );

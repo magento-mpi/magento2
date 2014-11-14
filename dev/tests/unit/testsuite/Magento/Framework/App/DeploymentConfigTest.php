@@ -128,7 +128,10 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->reader->expects($this->atLeastOnce())->method('load')->will($this->returnValue(self::$fixtureConfig));
         $this->assertEquals(self::$fixtureConfig['db']['connection'], $this->_deploymentConfig->getConnections());
-        $this->assertEquals(self::$fixtureConfigMerged['db']['connection'], $this->_deploymentConfigMerged->getConnections());
+        $this->assertEquals(
+            self::$fixtureConfigMerged['db']['connection'],
+            $this->_deploymentConfigMerged->getConnections()
+        );
     }
 
     public function testGetResources()
@@ -141,7 +144,10 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetCacheFrontendSettings()
     {
         $this->reader->expects($this->atLeastOnce())->method('load')->will($this->returnValue(self::$fixtureConfig));
-        $this->assertEquals(self::$fixtureConfig['cache']['frontend'], $this->_deploymentConfig->getCacheFrontendSettings());
+        $this->assertEquals(
+            self::$fixtureConfig['cache']['frontend'],
+            $this->_deploymentConfig->getCacheFrontendSettings()
+        );
         $this->assertEquals(
             self::$fixtureConfigMerged['cache']['frontend'],
             $this->_deploymentConfigMerged->getCacheFrontendSettings()

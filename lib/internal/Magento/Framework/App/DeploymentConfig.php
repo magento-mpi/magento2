@@ -81,7 +81,7 @@ class DeploymentConfig
      */
     public function isAvailable()
     {
-        $this->load();
+        $this->reload(false);
         return !empty($this->data);
     }
 
@@ -170,23 +170,26 @@ class DeploymentConfig
     /**
      * Reload config.php
      *
+     * @param bool
      * @return void
      */
-    public function reload()
+    public function reload($userOverride = true)
     {
-        $this->load();
+        $this->data = null;
+        $this->load($userOverride);
     }
 
     /**
      * Loads the configuration data
      *
+     * @param bool
      * @return void
      */
-    private function load()
+    private function load($useOverride = true)
     {
         if (null === $this->data) {
             $this->data = $this->reader->load();
-            if ($this->overrideData) {
+            if ($this->overrideData && $useOverride) {
                 $this->data = array_replace_recursive($this->data, $this->overrideData);
             }
             // flatten data for config retrieval using get()
