@@ -7,8 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Framework\Api\ExtensibleDataObjectConverter;
+use Magento\Customer\Model\AccountManagement;
 
 /**
  * Customer account form block
@@ -44,14 +43,14 @@ class Account extends GenericMetadata
     protected $_customerHelper;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\AccountManagementInterface
      */
-    protected $_customerAccountService;
+    protected $_accountManagement;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
+     * @var \Magento\Customer\Api\CustomerMetadataInterface
      */
-    protected $_customerMetadataService;
+    protected $_customerMetadata;
 
     /**
      * @var \Magento\Customer\Api\Data\CustomerDataBuilder
@@ -81,8 +80,8 @@ class Account extends GenericMetadata
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Customer\Helper\Data $customerHelper
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
+     * @param \Magento\Customer\Api\AccountManagementInterface $accountManagement
+     * @param \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
@@ -98,8 +97,8 @@ class Account extends GenericMetadata
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Customer\Helper\Data $customerHelper,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
+        \Magento\Customer\Api\AccountManagementInterface $accountManagement,
+        \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
@@ -109,8 +108,8 @@ class Account extends GenericMetadata
         $this->_jsonEncoder = $jsonEncoder;
         $this->_systemStore = $systemStore;
         $this->_customerFormFactory = $customerFormFactory;
-        $this->_customerAccountService = $customerAccountService;
-        $this->_customerMetadataService = $customerMetadataService;
+        $this->_accountManagement = $accountManagement;
+        $this->_customerMetadata = $customerMetadata;
         $this->_customerBuilder = $customerBuilder;
         $this->_extensibleDataObjectConverter = $extensibleDataObjectConverter;
         parent::__construct($context, $registry, $formFactory, $dataObjectProcessor, $data);
@@ -296,7 +295,7 @@ class Account extends GenericMetadata
      */
     protected function _handleReadOnlyCustomer($form, $customerId, $attributes)
     {
-        if ($customerId && !$this->_customerAccountService->canModify($customerId)) {
+        if ($customerId && $this->_accountManagement->isReadonly($customerId)) {
             foreach ($attributes as $attribute) {
                 $element = $form->getElement($attribute->getAttributeCode());
                 if ($element) {
@@ -354,18 +353,16 @@ class Account extends GenericMetadata
         $fieldset->getForm()->getElement('created_in')->setDisabled('disabled');
         $fieldset->getForm()->getElement('website_id')->setDisabled('disabled');
         $customerData = $this->_getCustomerDataObject();
-        if ($customerData->getId() &&
-            !$this->_customerAccountService->canModify($customerData->getId())
-        ) {
+        if ($customerData->getId() && $this->_accountManagement->isReadonly($customerData->getId())) {
             return array();
         }
 
 
         // Prepare customer confirmation control (only for existing customers)
-        $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customerData->getId());
+        $confirmationStatus = $this->_accountManagement->getConfirmationStatus($customerData->getId());
         $confirmationKey = $customerData->getConfirmation();
-        if ($confirmationStatus != CustomerAccountServiceInterface::ACCOUNT_CONFIRMED) {
-            $confirmationAttr = $this->_customerMetadataService->getAttributeMetadata('confirmation');
+        if ($confirmationStatus != AccountManagement::ACCOUNT_CONFIRMED) {
+            $confirmationAttr = $this->_customerMetadata->getAttributeMetadata('confirmation');
             if (!$confirmationKey) {
                 $confirmationKey = $this->_getRandomConfirmationKey();
             }

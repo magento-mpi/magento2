@@ -766,7 +766,7 @@ class AccountManagement implements AccountManagementInterface
     public function isReadonly($customerId)
     {
         $customer = $this->customerRegistry->retrieveSecureData($customerId);
-        return $customer->getDeleteable();
+        return !$customer->getDeleteable();
     }
 
     /**
