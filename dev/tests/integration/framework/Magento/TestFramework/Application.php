@@ -7,6 +7,7 @@
  */
 namespace Magento\TestFramework;
 
+use Magento\Framework\Code\Generator\FileResolver;
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
@@ -137,6 +138,7 @@ class Application
         }
         $sandboxUniqueId = md5(sha1_file($installConfigFile));
         $installDir = "{$tmpDir}/sandbox-{$sandboxUniqueId}";
+        FileResolver::addIncludePath($installDir . '/var/generation/');
         return new \Magento\TestFramework\Application(
             $shell,
             $installDir,

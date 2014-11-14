@@ -137,4 +137,7 @@
             <cmsVersionEdit class="Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit" />
         </require>
     </assertCmsPageRevisionAsVersionSuccessSaveMessage>
+    <assertWidgetHierarchyNodeLinkOnHomePage module="Magento_VersionsCms">
+        <severeness>low</severeness>
+    </assertWidgetHierarchyNodeLinkOnHomePage>
 </constraint>
