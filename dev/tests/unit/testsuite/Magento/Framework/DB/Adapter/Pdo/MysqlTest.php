@@ -39,12 +39,14 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     {
         $string = $this->getMock('Magento\Framework\Stdlib\String');
         $dateTime = $this->getMock('Magento\Framework\Stdlib\DateTime');
+        $logger = $this->getMockForAbstractClass('Magento\Framework\DB\LoggerInterface');
         $this->_mockAdapter = $this->getMock(
             'Magento\Framework\DB\Adapter\Pdo\Mysql',
             array('beginTransaction', 'getTransactionLevel'),
             array(
                 'string' => $string,
                 'dateTime' => $dateTime,
+                'logger' => $logger,
                 'config' => [
                     'dbname' => 'dbname',
                     'username' => 'user',
@@ -73,6 +75,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
             array(
                 'string' => $string,
                 'dateTime' => $dateTime,
+                'logger' => $logger,
                 'config' => [
                     'dbname' => 'not_exists',
                     'username' => 'not_valid',

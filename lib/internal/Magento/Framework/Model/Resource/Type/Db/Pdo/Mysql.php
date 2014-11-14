@@ -8,6 +8,7 @@
 namespace Magento\Framework\Model\Resource\Type\Db\Pdo;
 
 use Magento\Framework\App\Resource\ConnectionAdapterInterface;
+use Magento\Framework\DB\LoggerInterface;
 use Magento\Framework\Model\Resource\Type\Db;
 
 class Mysql extends Db implements ConnectionAdapterInterface
@@ -47,15 +48,16 @@ class Mysql extends Db implements ConnectionAdapterInterface
     /**
      * Get connection
      *
-     * @return \Magento\Framework\DB\Adapter\Pdo\Mysql|null
+     * @param LoggerInterface|null $logger
+     * @return \Magento\Framework\DB\Adapter\Pdo\Mysql
      */
-    public function getConnection()
+    public function getConnection(LoggerInterface $logger)
     {
         if (!$this->_connectionConfig['active']) {
             return null;
         }
 
-        $connection = $this->_getDbAdapterInstance();
+        $connection = $this->_getDbAdapterInstance($logger);
         if (!empty($this->_connectionConfig['initStatements']) && $connection) {
             $connection->query($this->_connectionConfig['initStatements']);
         }
@@ -72,12 +74,13 @@ class Mysql extends Db implements ConnectionAdapterInterface
     /**
      * Create and return DB adapter object instance
      *
+     * @param LoggerInterface $logger
      * @return \Magento\Framework\DB\Adapter\Pdo\Mysql
      */
-    protected function _getDbAdapterInstance()
+    protected function _getDbAdapterInstance(LoggerInterface $logger)
     {
         $className = $this->_getDbAdapterClassName();
-        $adapter = new $className($this->string, $this->dateTime, $this->_connectionConfig);
+        $adapter = new $className($this->string, $this->dateTime, $logger, $this->_connectionConfig);
         return $adapter;
     }
 

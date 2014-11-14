@@ -10,6 +10,7 @@
 namespace Magento\Framework\Model\Resource\Type\Db;
 
 use Magento\Framework\App\Resource\ConnectionAdapterInterface;
+use Magento\Framework\DB\LoggerInterface;
 
 class ConnectionFactory
 {
@@ -17,6 +18,17 @@ class ConnectionFactory
      * @var string
      */
     private $adapterClass = 'Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql';
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger) {
+        $this->logger = $logger;
+    }
 
     /**
      * Create connection adapter instance
@@ -41,6 +53,6 @@ class ConnectionFactory
             throw new \InvalidArgumentException("Trying to create wrong connection adapter '$this->adapterClass'");
         }
 
-        return $adapterInstance->getConnection();
+        return $adapterInstance->getConnection($this->logger);
     }
 }
