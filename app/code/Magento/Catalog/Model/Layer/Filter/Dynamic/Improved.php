@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Layer\Filter\Dynamic;
 
-use Magento\Catalog\Model\Layer\Category;
+use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Catalog\Model\Layer\Filter\Price\Render;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Search\Dynamic\Algorithm;
@@ -23,7 +23,7 @@ class Improved implements AlgorithmInterface
     private $algorithm;
 
     /**
-     * @var Category
+     * @var \Magento\Catalog\Model\Layer
      */
     private $layer;
 
@@ -43,10 +43,14 @@ class Improved implements AlgorithmInterface
      * @param ScopeConfigInterface $scopeConfig
      * @param Render $render
      */
-    public function __construct(Algorithm $algorithm, Category $layer, ScopeConfigInterface $scopeConfig, Render $render)
-    {
+    public function __construct(
+        Algorithm $algorithm,
+        Resolver $layerResolver,
+        ScopeConfigInterface $scopeConfig,
+        Render $render
+    ) {
         $this->algorithm = $algorithm;
-        $this->layer = $layer;
+        $this->layer = $layerResolver->get();
         $this->scopeConfig = $scopeConfig;
         $this->render = $render;
     }
