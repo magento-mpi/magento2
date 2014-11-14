@@ -206,7 +206,7 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
         $customerDetails = $customer->__toArray();
         $this->customerBuilder->populateWithArray($customerDetails)
             ->setId($customer->getId())
-            ->setAddresses([]);
+            ->setAddresses(null);
         $newCustomerEntity = $this->customerBuilder->create();
         $this->customerRepository->save($newCustomerEntity);
 

@@ -197,7 +197,6 @@ class Customer extends \Magento\Framework\Api\AbstractExtensibleObject implement
      */
     public function getAddresses()
     {
-        $addresses = $this->_get(self::KEY_ADDRESSES);
-        return $addresses ?: [];
+        return $this->_get(self::KEY_ADDRESSES);
     }
 }
