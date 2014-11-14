@@ -1,0 +1,94 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Tools\SampleData\Module\ConfigurableProduct\Setup;
+
+use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\SetupInterface;
+use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+
+/**
+ * Setup configurable product
+ */
+class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product implements SetupInterface
+{
+    /**
+     * @var string
+     */
+    protected $productType = \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE;
+
+    /**
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable
+     */
+    protected $configurableProductType;
+
+    /**
+     * @var \Magento\Eav\Model\Config
+     */
+    protected $eavConfig;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param Product\Converter $converter
+     * @param FixtureHelper $fixtureHelper
+     * @param CsvReaderFactory $csvReaderFactory
+     * @param Product\Gallery $gallery
+     * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProductType
+     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param array $fixtures
+     */
+    public function __construct(
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Model\Config $catalogConfig,
+        Product\Converter $converter,
+        FixtureHelper $fixtureHelper,
+        CsvReaderFactory $csvReaderFactory,
+        Product\Gallery $gallery,
+        \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProductType,
+        \Magento\Eav\Model\Config $eavConfig,
+        $fixtures = array(
+            'ConfigurableProduct/products_men_tops.csv',
+            'ConfigurableProduct/products_men_bottoms.csv',
+            'ConfigurableProduct/products_women_tops.csv',
+            'ConfigurableProduct/products_women_bottoms.csv'
+        )
+    ) {
+        $this->eavConfig = $eavConfig;
+        $this->configurableProductType = $configurableProductType;
+        parent::__construct(
+            $productFactory,
+            $catalogConfig,
+            $converter,
+            $fixtureHelper,
+            $csvReaderFactory,
+            $gallery,
+            $fixtures
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function run()
+    {
+        parent::run();
+        $this->eavConfig->clear();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function prepareProduct($product, $data)
+    {
+        $simpleIds = $this->configurableProductType
+            ->generateSimpleProducts($product, $data['variations_matrix']);
+        $product->setAssociatedProductIds($simpleIds);
+        $product->setCanSaveConfigurableAttributes(true);
+        return $this;
+    }
+}

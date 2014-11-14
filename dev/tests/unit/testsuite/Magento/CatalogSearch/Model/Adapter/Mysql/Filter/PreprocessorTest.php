@@ -113,10 +113,10 @@ class PreprocessorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->connection));
         $this->filter = $this->getMockBuilder('\Magento\Framework\Search\Request\FilterInterface')
             ->disableOriginalConstructor()
-            ->setMethods(['getField'])
+            ->setMethods(['getField', 'getValue'])
             ->getMockForAbstractClass();
 
-        $this->conditionManager->expects($this->once())
+        $this->conditionManager->expects($this->any())
             ->method('wrapBrackets')
             ->with($this->select)
             ->will(
@@ -140,7 +140,7 @@ class PreprocessorTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessPrice()
     {
-        $expectedResult = 'product_id IN ( select entity_id from (TEST QUERY PART) as filter)';
+        $expectedResult = 'search_index.product_id IN (select entity_id from (TEST QUERY PART) as filter)';
         $scopeId = 0;
         $isNegation = false;
         $query = 'SELECT table.price FROM catalog_product_entity';
@@ -170,13 +170,12 @@ class PreprocessorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('TEST QUERY PART'));
 
         $actualResult = $this->target->process($this->filter, $isNegation, $query);
-        $actualResult = preg_replace('/\s+/', ' ',$actualResult); // remove whitespaces
-        $this->assertSame($expectedResult, $actualResult);
+        $this->assertSame($expectedResult, $this->removeWhitespaces($actualResult));
     }
 
     public function testProcessCategoryIds()
     {
-        $expectedResult = 'product_id IN ( select entity_id from (TEST QUERY PART) as filter)';
+        $expectedResult = 'category_index.category_id = FilterValue';
         $scopeId = 0;
         $isNegation = false;
         $query = 'SELECT category_ids FROM catalog_product_entity';
@@ -185,34 +184,23 @@ class PreprocessorTest extends \PHPUnit_Framework_TestCase
         $this->filter->expects($this->exactly(3))
             ->method('getField')
             ->will($this->returnValue('category_ids'));
+
+        $this->filter->expects($this->once())
+            ->method('getValue')
+            ->will($this->returnValue('FilterValue'));
+
         $this->config->expects($this->exactly(1))
             ->method('getAttribute')
             ->with(\Magento\Catalog\Model\Product::ENTITY, 'category_ids')
             ->will($this->returnValue($this->attribute));
-        $this->resource->expects($this->once())
-            ->method('getTableName')
-            ->with('catalog_category_product_index')
-            ->will($this->returnValue('table_name'));
-        $this->select->expects($this->once())
-            ->method('from')
-            ->with(['main_table' => 'table_name'], ['entity_id' => 'product_id'])
-            ->will($this->returnSelf());
-        $this->select->expects($this->once())
-            ->method('where')
-            ->with('SELECT category_id FROM catalog_product_entity')
-            ->will($this->returnSelf());
-        $this->select->expects($this->once())
-            ->method('__toString')
-            ->will($this->returnValue('TEST QUERY PART'));
 
         $actualResult = $this->target->process($this->filter, $isNegation, $query);
-        $actualResult = preg_replace('/\s+/', ' ',$actualResult); // remove whitespaces
-        $this->assertSame($expectedResult, $actualResult);
+        $this->assertSame($expectedResult, $this->removeWhitespaces($actualResult));
     }
 
     public function testProcessStaticAttribute()
     {
-        $expectedResult = 'product_id IN ( select entity_id from (TEST QUERY PART) as filter)';
+        $expectedResult = 'search_index.product_id IN (select entity_id from (TEST QUERY PART) as filter)';
         $scopeId = 0;
         $isNegation = false;
         $query = 'SELECT field FROM table';
@@ -244,13 +232,12 @@ class PreprocessorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('TEST QUERY PART'));
 
         $actualResult = $this->target->process($this->filter, $isNegation, $query);
-        $actualResult = preg_replace('/\s+/', ' ',$actualResult); // remove whitespaces
-        $this->assertSame($expectedResult, $actualResult);
+        $this->assertSame($expectedResult, $this->removeWhitespaces($actualResult));
     }
 
     public function testProcessNotStaticAttribute()
     {
-        $expectedResult = 'product_id IN ( select entity_id from (TEST QUERY PART) as filter)';
+        $expectedResult = 'search_index.product_id IN (select entity_id from (TEST QUERY PART) as filter)';
         $scopeId = 0;
         $isNegation = false;
         $query = 'SELECT field FROM table';
@@ -297,7 +284,15 @@ class PreprocessorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('TEST QUERY PART'));
 
         $actualResult = $this->target->process($this->filter, $isNegation, $query);
-        $actualResult = preg_replace('/\s+/', ' ',$actualResult); // remove whitespaces
-        $this->assertSame($expectedResult, $actualResult);
+        $this->assertSame($expectedResult, $this->removeWhitespaces($actualResult));
+    }
+
+    /**
+     * @param $actualResult
+     * @return mixed
+     */
+    private function removeWhitespaces($actualResult)
+    {
+        return preg_replace(['/(\s)+/', '/(\() /', '/ (\))/'], '${1}', $actualResult);
     }
 }

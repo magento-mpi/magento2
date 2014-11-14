@@ -14,8 +14,6 @@ namespace Magento\Catalog\Model\Layer\Filter;
  */
 class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
-    const OPTIONS_ONLY_WITH_RESULTS = 1;
-
     /**
      * Resource instance
      *
@@ -73,17 +71,6 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     }
 
     /**
-     * Get option text from frontend model by option id
-     *
-     * @param   int $optionId
-     * @return  string|bool
-     */
-    protected function _getOptionText($optionId)
-    {
-        return $this->getAttributeModel()->getFrontend()->getOption($optionId);
-    }
-
-    /**
      * Apply attribute option filter to product collection
      *
      * @param   \Magento\Framework\App\RequestInterface $request
@@ -95,29 +82,19 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         if (is_array($filter)) {
             return $this;
         }
-        $text = $this->_getOptionText($filter);
+        $text = $this->getOptionText($filter);
         if ($filter && strlen($text)) {
             $this->_getResource()->applyFilterToCollection($this, $filter);
             $this->getLayer()->getState()->addFilter($this->_createItem($text, $filter));
-            $this->_items = array();
+            $this->_items = [];
         }
         return $this;
     }
 
     /**
-     * Check whether specified attribute can be used in LN
-     *
-     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
-     * @return bool
-     */
-    protected function _getIsFilterableAttribute($attribute)
-    {
-        return $attribute->getIsFilterable();
-    }
-
-    /**
      * Get data array for building attribute filter items
      *
+     * @throws \Magento\Framework\Model\Exception
      * @return array
      */
     protected function _getItemsData()
@@ -133,7 +110,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
             }
             if ($this->string->strlen($option['value'])) {
                 // Check filter type
-                if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
+                if ($this->getAttributeIsFilterable($attribute) == self::ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS) {
                     if (!empty($optionsCount[$option['value']])) {
                         $this->itemDataBuilder->addItemData(
                             $this->tagFilter->filter($option['label']),

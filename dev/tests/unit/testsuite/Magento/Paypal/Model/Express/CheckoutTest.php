@@ -148,7 +148,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
 
         $this->customerSessionMock->expects($this->once())
             ->method('regenerateId');
-        
+
         $addressDataBuilderMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\AddressBuilder')
             ->disableOriginalConstructor()
             ->getMock();
@@ -174,7 +174,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $addressDataBuilderMock->expects($this->any())
             ->method('create')
             ->willReturn($addressDataMock);
-        
+
         $addressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', [], [], '', false);
         $this->quoteMock->expects($this->any())
             ->method('getBillingAddress')

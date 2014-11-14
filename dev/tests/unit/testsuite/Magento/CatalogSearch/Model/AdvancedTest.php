@@ -76,7 +76,7 @@ class AdvancedTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->engine = $this->getMock(
-            'Magento\CatalogSearch\Model\Resource\Fulltext\Engine',
+            'Magento\CatalogSearch\Model\Resource\Engine',
             array('getResource', '__wakeup', 'getAdvancedResultCollection'),
             array(),
             '',

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $this \Magento\Catalog\Model\Resource\Setup */
+/** @var $this \Magento\GiftWrapping\Model\Resource\Setup */
 
 $groupName = 'Autosettings';
 $entityTypeId = $this->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);

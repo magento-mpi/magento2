@@ -41,8 +41,7 @@ class AssertGiftRegistryItemsForm extends AbstractAssertForm
      * @param array $updateOptions
      * @return void
      */
-    public function processAssert
-    (
+    public function processAssert(
         GiftRegistryItems $giftRegistryItems,
         CatalogProductSimple $product,
         GiftRegistry $giftRegistry,

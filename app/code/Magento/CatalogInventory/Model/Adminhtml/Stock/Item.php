@@ -32,7 +32,7 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
      */
     protected function _isQtyCheckApplicable()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -41,6 +41,14 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
      * @return bool
      */
     protected function _hasDefaultNotificationMessage()
+    {
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAdminArea()
     {
         return true;
     }

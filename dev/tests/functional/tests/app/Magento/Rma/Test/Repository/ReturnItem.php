@@ -12,7 +12,6 @@ use Mtf\Repository\AbstractRepository;
 
 /**
  * Class ReturnItem Repository
- *
  */
 class ReturnItem extends AbstractRepository
 {
@@ -34,7 +33,7 @@ class ReturnItem extends AbstractRepository
         return array(
             'data' => array(
                 'fields' => array(
-                    'quantity' => '1',
+                    'qty_requested' => '1',
                     'resolution' => 'Refund',
                     'condition' => 'Opened',
                     'reason' => 'Wrong Size'

@@ -7,21 +7,96 @@
  */
 namespace Magento\CatalogSearch\Model\Layer\Filter;
 
+use Magento\Catalog\Model\Layer\Filter\AbstractFilter;
+
 /**
  * Layer decimal filter
  */
-class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
+class Decimal extends AbstractFilter
 {
+    /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    private $priceCurrency;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Layer\Filter\Decimal
+     */
+    private $resource;
+
+    /**
+     * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
+     * @param \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
+        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
+        \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $filterItemFactory,
+            $storeManager,
+            $layer,
+            $itemDataBuilder,
+            $data
+        );
+        $this->resource = $filterDecimalFactory->create();
+        $this->priceCurrency = $priceCurrency;
+    }
+
+    /**
+     * Apply price range filter
+     *
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @return $this
+     * @throws \Magento\Framework\Model\Exception
+     */
+    public function apply(\Magento\Framework\App\RequestInterface $request)
+    {
+        /**
+         * Filter must be string: $fromPrice-$toPrice
+         */
+        $filter = $request->getParam($this->getRequestVar());
+        if (!$filter || is_array($filter)) {
+            return $this;
+        }
+
+        list($from, $to) = explode('-', $filter);
+
+        $this->getLayer()
+            ->getProductCollection()
+            ->addFieldToFilter(
+                $this->getAttributeModel()->getAttributeCode(),
+                ['from' => $from, 'to' => $to]
+            );
+
+        $this->getLayer()->getState()->addFilter(
+            $this->_createItem($this->renderRangeLabel(empty($from) ? 0 : $from, $to), $filter)
+        );
+
+        return $this;
+    }
+
     /**
      * Get data array for building attribute filter items
      *
      * @return array
+     * @throws \Magento\Framework\Model\Exception
      */
     protected function _getItemsData()
     {
         $attribute = $this->getAttributeModel();
-        $this->_requestVar = $attribute->getAttributeCode();
 
+        /** @var \Magento\CatalogSearch\Model\Resource\Fulltext\Collection $productCollection */
         $productCollection = $this->getLayer()->getProductCollection();
         $facets = $productCollection->getFacetedData($attribute->getAttributeCode());
 
@@ -33,15 +108,14 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
                 if ($from == '*') {
                     $from = '';
                 }
-                if ($to== '*') {
-                    $to= '';
+                if ($to == '*') {
+                    $to = '';
                 }
                 $label = $this->renderRangeLabel(
                     empty($from) ? 0 : $from,
-                    empty($to) ? $to: $to
+                    empty($to) ? $to : $to
                 );
-                $value =  $from . '-' . $to;
-
+                $value = $from . '-' . $to;
 
                 $data[] = [
                     'label' => $label,
@@ -74,39 +148,5 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
             }
             return __('%1 - %2', $formattedFromPrice, $this->priceCurrency->format($toPrice));
         }
-    }
-
-    /**
-     * Apply price range filter
-     *
-     * @param \Magento\Framework\App\RequestInterface $request
-     * @return $this
-     */
-    public function apply(\Magento\Framework\App\RequestInterface $request)
-    {
-        /**
-         * Filter must be string: $fromPrice-$toPrice
-         */
-        $filter = $request->getParam($this->getRequestVar());
-        if (!$filter || is_array($filter)) {
-            return $this;
-        }
-
-
-        list($from, $to) = explode('-', $filter);
-
-        $this->getLayer()
-            ->getProductCollection()
-            ->addFieldToFilter(
-                $this->getAttributeModel()->getAttributeCode(),
-                ['from' => $from, 'to' => $to]
-            );
-
-
-        $this->getLayer()->getState()->addFilter(
-            $this->_createItem($this->renderRangeLabel(empty($from) ? 0 : $from, $to), $filter)
-        );
-
-        return $this;
     }
 }

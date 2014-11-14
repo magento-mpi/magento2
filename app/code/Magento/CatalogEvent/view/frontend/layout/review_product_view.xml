@@ -8,7 +8,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceContainer name="top.container">
-        <block class="Magento\CatalogEvent\Block\Catalog\Product\Event" after="-" name="product_category_event" template="catalog/event.phtml"/>
-    </referenceContainer>
+    <body>
+        <referenceContainer name="top.container">
+            <block class="Magento\CatalogEvent\Block\Catalog\Product\Event" after="-" name="product_category_event" template="catalog/event.phtml"/>
+        </referenceContainer>
+    </body>
 </page>

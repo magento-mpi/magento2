@@ -7,34 +7,36 @@
  * @license     {license_link}
  */
 -->
-<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <update handle="editor"/>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <head>
         <css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
         <link src="Magento_VersionsCms::js/bootstrap.js"/>
     </head>
-    <referenceBlock name="head.components">
-        <block class="Magento\Framework\View\Element\Js\Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
-    </referenceBlock>
-    <referenceContainer name="content">
-        <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit" name="cms_page_revision_edit">
-            <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Info" name="revision_info" template="page/revision/info.phtml"/>
-        </block>
-    </referenceContainer>
-    <referenceContainer name="left">
-        <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tabs" name="cms_page_revision_edit_tabs">
-            <action method="addTab">
-                <argument name="name" xsi:type="string">content_section</argument>
-                <argument name="block" xsi:type="string">Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Content</argument>
-            </action>
-            <action method="addTab">
-                <argument name="name" xsi:type="string">design_section</argument>
-                <argument name="block" xsi:type="string">Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Design</argument>
-            </action>
-            <action method="addTab">
-                <argument name="name" xsi:type="string">meta_section</argument>
-                <argument name="block" xsi:type="string">Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Meta</argument>
-            </action>
-        </block>
-    </referenceContainer>
+    <update handle="editor"/>
+    <body>
+        <referenceBlock name="head.components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="cms_page_head_components" template="Magento_VersionsCms::page/js/components.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit" name="cms_page_revision_edit">
+                <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Info" name="revision_info" template="page/revision/info.phtml"/>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tabs" name="cms_page_revision_edit_tabs">
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">content_section</argument>
+                    <argument name="block" xsi:type="string">Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Content</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">design_section</argument>
+                    <argument name="block" xsi:type="string">Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Design</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">meta_section</argument>
+                    <argument name="block" xsi:type="string">Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Meta</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
 </page>

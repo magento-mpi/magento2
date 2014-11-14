@@ -10,40 +10,10 @@ namespace Magento\Catalog\Model\Layer\Filter;
 /**
  * Layer price filter
  *
- * @method null|int[] getInterval()
- * @method $this setInterval(array $interval)
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
-    /**
-     * XML configuration paths for Price Layered Navigation
-     */
-    const XML_PATH_RANGE_CALCULATION = 'catalog/layered_navigation/price_range_calculation';
-
-    const XML_PATH_RANGE_STEP = 'catalog/layered_navigation/price_range_step';
-
-    const XML_PATH_RANGE_MAX_INTERVALS = 'catalog/layered_navigation/price_range_max_intervals';
-
-    const XML_PATH_ONE_PRICE_INTERVAL = 'catalog/layered_navigation/one_price_interval';
-
-    const XML_PATH_INTERVAL_DIVISION_LIMIT = 'catalog/layered_navigation/interval_division_limit';
-
-    /**
-     * Price layered navigation modes: Automatic (equalize price ranges), Automatic (equalize product counts), Manual
-     */
-    const RANGE_CALCULATION_AUTO = 'auto';
-
-    // equalize price ranges
-    const RANGE_CALCULATION_IMPROVED = 'improved';
-
-    // equalize product counts
-    const RANGE_CALCULATION_MANUAL = 'manual';
-
-    /**
-     * Minimal size of the range
-     */
-    const MIN_RANGE_POWER = 10;
 
     /**
      * Resource instance
@@ -88,6 +58,9 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     private $algorithmFactory;
 
+    /** @var DataProvider\Price */
+    private $dataProvider;
+
     /**
      * @param ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
@@ -96,10 +69,9 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\Price $resource
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Search\Dynamic\Algorithm $priceAlgorithm
-     * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param Dynamic\AlgorithmFactory $algorithmFactory
+     * @param DataProvider\PriceFactory $dataProviderFactory
      * @param array $data
      */
     public function __construct(
@@ -110,224 +82,19 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Catalog\Model\Resource\Layer\Filter\Price $resource,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Search\Dynamic\Algorithm $priceAlgorithm,
-        \Magento\Framework\Registry $coreRegistry,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory $algorithmFactory,
+        \Magento\Catalog\Model\Layer\Filter\DataProvider\PriceFactory $dataProviderFactory,
         array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_resource = $resource;
         $this->_customerSession = $customerSession;
         $this->_priceAlgorithm = $priceAlgorithm;
-        $this->_coreRegistry = $coreRegistry;
-        $this->_scopeConfig = $scopeConfig;
         parent::__construct($filterItemFactory, $storeManager, $layer, $itemDataBuilder, $data);
         $this->_requestVar = 'price';
         $this->algorithmFactory = $algorithmFactory;
-    }
-
-    /**
-     * Retrieve resource instance
-     *
-     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Price
-     */
-    protected function _getResource()
-    {
-        return $this->_resource;
-    }
-
-    /**
-     * Get price range for building filter steps
-     *
-     * @return int
-     */
-    public function getPriceRange()
-    {
-        $range = $this->getData('price_range');
-        if (!$range) {
-            $currentCategory = $this->_coreRegistry->registry('current_category_filter');
-            if ($currentCategory) {
-                $range = $currentCategory->getFilterPriceRange();
-            } else {
-                $range = $this->getLayer()
-                    ->getCurrentCategory()
-                    ->getFilterPriceRange();
-            }
-
-            $maxPrice = $this->getMaxPriceInt();
-            if (!$range) {
-                $calculation = $this->_scopeConfig->getValue(
-                    self::XML_PATH_RANGE_CALCULATION,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                );
-                if ($calculation == self::RANGE_CALCULATION_AUTO) {
-                    $index = 1;
-                    do {
-                        $range = pow(10, strlen(floor($maxPrice)) - $index);
-                        $items = $this->getRangeItemCounts($range);
-                        $index++;
-                    } while ($range > self::MIN_RANGE_POWER && count($items) < 2);
-                } else {
-                    $range = (double)$this->_scopeConfig->getValue(
-                        self::XML_PATH_RANGE_STEP,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                    );
-                }
-            }
-
-            $this->setData('price_range', $range);
-        }
-
-        return $range;
-    }
-
-    /**
-     * Get maximum price from layer products set
-     *
-     * @return float
-     */
-    public function getMaxPriceInt()
-    {
-        $maxPrice = $this->getData('max_price_int');
-        if (is_null($maxPrice)) {
-            $maxPrice = $this->getLayer()
-                ->getProductCollection()
-                ->getMaxPrice();
-            $maxPrice = floor($maxPrice);
-            $this->setData('max_price_int', $maxPrice);
-        }
-
-        return $maxPrice;
-    }
-
-    /**
-     * Get information about products count in range
-     *
-     * @param   int $range
-     * @return  int
-     */
-    public function getRangeItemCounts($range)
-    {
-        $rangeKey = 'range_item_counts_' . $range;
-        $items = $this->getData($rangeKey);
-        if (is_null($items)) {
-            $items = $this->_getResource()
-                ->getCount($range);
-            // checking max number of intervals
-            $i = 0;
-            $lastIndex = null;
-            $maxIntervalsNumber = $this->getMaxIntervalsNumber();
-            $calculation = $this->_scopeConfig->getValue(
-                self::XML_PATH_RANGE_CALCULATION,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
-            foreach ($items as $k => $v) {
-                ++$i;
-                if ($calculation == self::RANGE_CALCULATION_MANUAL && $i > 1 && $i > $maxIntervalsNumber) {
-                    $items[$lastIndex] += $v;
-                    unset($items[$k]);
-                } else {
-                    $lastIndex = $k;
-                }
-            }
-            $this->setData($rangeKey, $items);
-        }
-
-        return $items;
-    }
-
-    /**
-     * Prepare text of range label
-     *
-     * @param float|string $fromPrice
-     * @param float|string $toPrice
-     * @return string
-     */
-    protected function _renderRangeLabel($fromPrice, $toPrice)
-    {
-        $formattedFromPrice = $this->priceCurrency->format($fromPrice);
-        if ($toPrice === '') {
-            return __('%1 and above', $formattedFromPrice);
-        } elseif ($fromPrice == $toPrice && $this->_scopeConfig->getValue(
-                self::XML_PATH_ONE_PRICE_INTERVAL,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            )
-        ) {
-            return $formattedFromPrice;
-        } else {
-            if ($fromPrice != $toPrice) {
-                $toPrice -= .01;
-            }
-
-            return __('%1 - %2', $formattedFromPrice, $this->priceCurrency->format($toPrice));
-        }
-    }
-
-    /**
-     * Get additional request param data
-     *
-     * @return string
-     */
-    protected function _getAdditionalRequestData()
-    {
-        $result = '';
-        $appliedInterval = $this->getInterval();
-        if ($appliedInterval) {
-            $result = ',' . $appliedInterval[0] . '-' . $appliedInterval[1];
-            $priorIntervals = $this->getResetValue();
-            if ($priorIntervals) {
-                $result .= ',' . $priorIntervals;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Get data for build price filter items
-     *
-     * @return array
-     */
-    protected function _getItemsData()
-    {
-        $algorithm = $this->algorithmFactory->create();
-
-        return $algorithm->getItemsData((array)$this->getInterval(), $this->_getAdditionalRequestData());
-    }
-
-    /**
-     * Apply price range filter to collection
-     *
-     * @return $this
-     */
-    protected function _applyPriceRange()
-    {
-        $this->_getResource()
-            ->applyPriceRange($this);
-
-        return $this;
-    }
-
-    /**
-     * Validate and parse filter request param
-     *
-     * @param string $filter
-     * @return array|bool
-     */
-    protected function _validateFilter($filter)
-    {
-        $filter = explode('-', $filter);
-        if (count($filter) != 2) {
-            return false;
-        }
-        foreach ($filter as $v) {
-            if ($v !== '' && $v !== '0' && (double)$v <= 0 || is_infinite((double)$v)) {
-                return false;
-            }
-        }
-
-        return $filter;
+        $this->dataProvider = $dataProviderFactory->create(['layer' => $this->getLayer()]);
     }
 
     /**
@@ -348,18 +115,18 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 
         //validate filter
         $filterParams = explode(',', $filter);
-        $filter = $this->_validateFilter($filterParams[0]);
+        $filter = $this->dataProvider->validateFilter($filterParams[0]);
         if (!$filter) {
             return $this;
         }
 
         list($from, $to) = $filter;
 
-        $this->setInterval([$from, $to]);
+        $this->dataProvider->setInterval([$from, $to]);
 
-        $priorFilters = $this->getPriorFilters($filterParams);
+        $priorFilters = $this->dataProvider->getPriorFilters($filterParams);
         if ($priorFilters) {
-            $this->setPriorIntervals($priorFilters);
+            $this->dataProvider->setPriorIntervals($priorFilters);
         }
 
         $this->_applyPriceRange();
@@ -429,49 +196,13 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     }
 
     /**
-     * Get maximum number of intervals
-     *
-     * @return int
-     */
-    public function getMaxIntervalsNumber()
-    {
-        return (int)$this->_scopeConfig->getValue(
-            self::XML_PATH_RANGE_MAX_INTERVALS,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
-    }
-
-    /**
-     * Get interval division limit
-     *
-     * @return int
-     */
-    public function getIntervalDivisionLimit()
-    {
-        return (int)$this->_scopeConfig->getValue(
-            self::XML_PATH_INTERVAL_DIVISION_LIMIT,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
-    }
-
-    /**
      * Get filter value for reset current filter state
      *
      * @return null|string
      */
     public function getResetValue()
     {
-        $priorIntervals = $this->getPriorIntervals();
-        $value = [];
-        if ($priorIntervals) {
-            foreach ($priorIntervals as $priorInterval) {
-                $value[] = implode('-', $priorInterval);
-            }
-
-            return implode(',', $value);
-        }
-
-        return parent::getResetValue();
+        return $this->dataProvider->getResetValue();
     }
 
     /**
@@ -481,7 +212,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     public function getClearLinkText()
     {
-        if ($this->getPriorIntervals()
+        if ($this->dataProvider->getPriorIntervals()
         ) {
             return __('Clear Price');
         }
@@ -490,23 +221,70 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     }
 
     /**
-     * @param $filterParams
-     * @return array
+     * Prepare text of range label
+     *
+     * @param float|string $fromPrice
+     * @param float|string $toPrice
+     * @return string
      */
-    protected function getPriorFilters($filterParams)
+    protected function _renderRangeLabel($fromPrice, $toPrice)
     {
-        $priorFilters = [];
-        for ($i = 1; $i < count($filterParams); ++$i) {
-            $priorFilter = $this->_validateFilter($filterParams[$i]);
-            if ($priorFilter) {
-                $priorFilters[] = $priorFilter;
-            } else {
-                //not valid data
-                $priorFilters = [];
-                break;
+        $formattedFromPrice = $this->priceCurrency->format($fromPrice);
+        if ($toPrice === '') {
+            return __('%1 and above', $formattedFromPrice);
+        } elseif ($fromPrice == $toPrice && $this->dataProvider->getOnePriceIntervalValue()
+        ) {
+            return $formattedFromPrice;
+        } else {
+            if ($fromPrice != $toPrice) {
+                $toPrice -= .01;
+            }
+
+            return __('%1 - %2', $formattedFromPrice, $this->priceCurrency->format($toPrice));
+        }
+    }
+
+    /**
+     * Get additional request param data
+     *
+     * @return string
+     */
+    protected function _getAdditionalRequestData()
+    {
+        $result = '';
+        $appliedInterval = $this->dataProvider->getInterval();
+        if ($appliedInterval) {
+            $result = ',' . $appliedInterval[0] . '-' . $appliedInterval[1];
+            $priorIntervals = $this->getResetValue();
+            if ($priorIntervals) {
+                $result .= ',' . $priorIntervals;
             }
         }
 
-        return $priorFilters;
+        return $result;
+    }
+
+    /**
+     * Get data for build price filter items
+     * @return array
+     * @throws \Magento\Framework\Model\Exception
+     */
+    protected function _getItemsData()
+    {
+        $algorithm = $this->algorithmFactory->create();
+
+        return $algorithm->getItemsData((array)$this->dataProvider->getInterval(), $this->dataProvider->getAdditionalRequestData());
+    }
+
+    /**
+     * Apply price range filter to collection
+     *
+     * @return $this
+     */
+    protected function _applyPriceRange()
+    {
+        $this->dataProvider->getResource()->applyPriceRange($this, $this->dataProvider->getInterval());
+
+        return $this;
     }
 }

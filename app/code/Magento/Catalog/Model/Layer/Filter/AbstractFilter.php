@@ -10,8 +10,10 @@ namespace Magento\Catalog\Model\Layer\Filter;
 /**
  * Layer category filter abstract model
  */
-abstract class AbstractFilter extends \Magento\Framework\Object
+abstract class AbstractFilter extends \Magento\Framework\Object implements FilterInterface
 {
+    const ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS = 1;
+
     /**
      * Request variable name with filter value
      *
@@ -62,6 +64,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param array $data
+     * @throws \Magento\Framework\Model\Exception
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
@@ -150,7 +153,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object
      */
     public function getItems()
     {
-        if (is_null($this->_items)) {
+        if (empty($this->_items)) {
             $this->_initItems();
         }
         return $this->_items;
@@ -287,6 +290,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object
      * Get filter text label
      *
      * @return string
+     * @throws \Magento\Framework\Model\Exception
      */
     public function getName()
     {
@@ -351,5 +355,28 @@ abstract class AbstractFilter extends \Magento\Framework\Object
     public function getClearLinkText()
     {
         return false;
+    }
+
+    /**
+     * Get option text from frontend model by option id
+     *
+     * @param   int $optionId
+     * @throws \Magento\Framework\Model\Exception
+     * @return  string|bool
+     */
+    protected function getOptionText($optionId)
+    {
+        return $this->getAttributeModel()->getFrontend()->getOption($optionId);
+    }
+
+    /**
+     * Check whether specified attribute can be used in LN
+     *
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
+     * @return int
+     */
+    protected function getAttributeIsFilterable($attribute)
+    {
+        return $attribute->getIsFilterable();
     }
 }

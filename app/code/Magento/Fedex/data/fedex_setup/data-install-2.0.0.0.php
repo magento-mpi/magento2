@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\Framework\Module\Setup $this */
+/** @var $this \Magento\Framework\Module\Setup */
 $codes = array(
     'method' => array(
         'EUROPEFIRSTINTERNATIONALPRIORITY' => 'EUROPE_FIRST_INTERNATIONAL_PRIORITY',

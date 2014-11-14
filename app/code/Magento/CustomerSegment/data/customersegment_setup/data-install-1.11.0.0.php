@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Eav\Model\Entity\Setup */
+/* @var $installer \Magento\CustomerSegment\Model\Resource\Setup */
 $installer = $this;
 // use specific attributes for customer segments
 $attributesOfEntities = array(

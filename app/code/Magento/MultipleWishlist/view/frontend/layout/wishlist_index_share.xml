@@ -8,7 +8,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceContainer name="content">
-        <block class="Magento\MultipleWishlist\Block\Customer\Sharing" name="wishlist.sharing" template="Magento_Wishlist::sharing.phtml"/>
-    </referenceContainer>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\MultipleWishlist\Block\Customer\Sharing" name="wishlist.sharing" template="Magento_Wishlist::sharing.phtml"/>
+        </referenceContainer>
+    </body>
 </page>

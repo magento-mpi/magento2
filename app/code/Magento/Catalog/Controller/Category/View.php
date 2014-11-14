@@ -8,6 +8,7 @@
  */
 namespace Magento\Catalog\Controller\Category;
 
+use Magento\Framework\View\Result\PageFactory;
 use Magento\Catalog\Model\Layer\Resolver;
 
 class View extends \Magento\Framework\App\Action\Action
@@ -45,8 +46,15 @@ class View extends \Magento\Framework\App\Action\Action
      */
     protected $_storeManager;
 
-    /** @var \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator */
+    /**
+     * @var \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator
+     */
     protected $categoryUrlPathGenerator;
+
+    /**
+     * @var \Magento\Framework\View\Result\PageFactory
+     */
+    protected $resultPageFactory;
 
     /**
      * Catalog Layer Resolver
@@ -56,6 +64,8 @@ class View extends \Magento\Framework\App\Action\Action
     private $layerResolver;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Design $catalogDesign
@@ -64,6 +74,7 @@ class View extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param Resolver $layerResolver
+     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -73,6 +84,7 @@ class View extends \Magento\Framework\App\Action\Action
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
+        PageFactory $resultPageFactory,
         Resolver $layerResolver
     ) {
         parent::__construct($context);
@@ -82,6 +94,7 @@ class View extends \Magento\Framework\App\Action\Action
         $this->_catalogSession = $catalogSession;
         $this->_coreRegistry = $coreRegistry;
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
+        $this->resultPageFactory = $resultPageFactory;
         $this->layerResolver = $layerResolver;
     }
 
@@ -125,7 +138,7 @@ class View extends \Magento\Framework\App\Action\Action
     /**
      * Category view action
      *
-     * @return void
+     * @return \Magento\Framework\View\Result\Page
      */
     public function execute()
     {
@@ -137,7 +150,6 @@ class View extends \Magento\Framework\App\Action\Action
         if ($category) {
             $this->layerResolver->create(Resolver::CATALOG_LAYER_CATEGORY);
             $settings = $this->_catalogDesign->getDesignSettings($category);
-            $pageConfig = $this->_view->getPage()->getConfig();
 
             // apply custom design
             if ($settings->getCustomDesign()) {
@@ -146,12 +158,11 @@ class View extends \Magento\Framework\App\Action\Action
 
             $this->_catalogSession->setLastViewedCategoryId($category->getId());
 
+            $page = $this->resultPageFactory->create();
             // apply custom layout (page) template once the blocks are generated
             if ($settings->getPageLayout()) {
-                $pageConfig->setPageLayout($settings->getPageLayout());
+                $page->getConfig()->setPageLayout($settings->getPageLayout());
             }
-            $this->_view->getPage()->initLayout();
-            $update = $this->_view->getLayout()->getUpdate();
             if ($category->getIsAnchor()) {
                 $type = $category->hasChildren() ? 'layered' : 'layered_without_children';
             } else {
@@ -161,29 +172,24 @@ class View extends \Magento\Framework\App\Action\Action
             if (!$category->hasChildren()) {
                 // Two levels removed from parent.  Need to add default page type.
                 $parentType = strtok($type, '_');
-                $this->_view->addPageLayoutHandles(array('type' => $parentType));
+                $page->addPageLayoutHandles(array('type' => $parentType));
             }
-            $this->_view->addPageLayoutHandles(array('type' => $type, 'id' => $category->getId()));
-
-            $this->_view->loadLayoutUpdates();
+            $page->addPageLayoutHandles(array('type' => $type, 'id' => $category->getId()));
 
             // apply custom layout update once layout is loaded
             $layoutUpdates = $settings->getLayoutUpdates();
             if ($layoutUpdates && is_array($layoutUpdates)) {
                 foreach ($layoutUpdates as $layoutUpdate) {
-                    $update->addUpdate($layoutUpdate);
+                    $page->addUpdate($layoutUpdate);
                 }
             }
 
-            $this->_view->generateLayoutXml();
-            $this->_view->generateLayoutBlocks();
-
-            $pageConfig->addBodyClass('page-products')
+            $page->getConfig()->addBodyClass('page-products')
                 ->addBodyClass('categorypath-' . $this->categoryUrlPathGenerator->getUrlPath($category))
                 ->addBodyClass('category-' . $category->getUrlKey());
 
-            $this->_view->getLayout()->initMessages();
-            $this->_view->renderLayout();
+            $page->getLayout()->initMessages();
+            return $page;
         } elseif (!$this->getResponse()->isRedirect()) {
             $this->_forward('noroute');
         }

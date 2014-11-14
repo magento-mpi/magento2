@@ -9,42 +9,44 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="sales_shipment_grid_block"/>
-    <referenceBlock name="sales.shipment.grid">
-        <arguments>
-            <argument name="id" xsi:type="string">sales_shipment_grid_archive</argument>
-            <argument name="dataSource" xsi:type="object">Magento\SalesArchive\Model\Resource\Order\Shipment\Collection</argument>
-            <argument name="use_ajax" xsi:type="boolean">true</argument>
-            <argument name="grid_url" xsi:type="url" path="*/*/shipmentsgrid">
-                <param name="_current">1</param>
-            </argument>
-        </arguments>
-        <referenceBlock name="sales.shipment.grid.massaction">
+    <body>
+        <referenceBlock name="sales.shipment.grid">
             <arguments>
-                <argument name="options" xsi:type="array">
-                    <item name="pdfshipments_order" xsi:type="array">
-                        <item name="label" xsi:type="string" translate="true">PDF Packing Slips</item>
-                        <item name="url" xsi:type="string">sales/shipment/pdfshipments</item>
-                    </item>
-                    <item name="print_shipping_labels" xsi:type="array">
-                        <item name="label" xsi:type="string" translate="true">Print Shipping Labels</item>
-                        <item name="url" xsi:type="string">sales/archive/massPrintShippingLabel</item>
-                    </item>
+                <argument name="id" xsi:type="string">sales_shipment_grid_archive</argument>
+                <argument name="dataSource" xsi:type="object">Magento\SalesArchive\Model\Resource\Order\Shipment\Collection</argument>
+                <argument name="use_ajax" xsi:type="boolean">true</argument>
+                <argument name="grid_url" xsi:type="url" path="*/*/shipmentsgrid">
+                    <param name="_current">1</param>
                 </argument>
             </arguments>
+            <referenceBlock name="sales.shipment.grid.massaction">
+                <arguments>
+                    <argument name="options" xsi:type="array">
+                        <item name="pdfshipments_order" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">PDF Packing Slips</item>
+                            <item name="url" xsi:type="string">sales/shipment/pdfshipments</item>
+                        </item>
+                        <item name="print_shipping_labels" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Print Shipping Labels</item>
+                            <item name="url" xsi:type="string">sales/archive/massPrintShippingLabel</item>
+                        </item>
+                    </argument>
+                </arguments>
+            </referenceBlock>
+            <referenceBlock name="sales.shipment.grid.export">
+                <arguments>
+                    <argument name="exportTypes" xsi:type="array">
+                        <item name="csv" xsi:type="array">
+                            <item name="urlPath" xsi:type="string">*/*/exportShipmentCsv</item>
+                            <item name="label" xsi:type="string" translate="true">CSV</item>
+                        </item>
+                        <item name="excel" xsi:type="array">
+                            <item name="urlPath" xsi:type="string">*/*/exportShipmentExcel</item>
+                            <item name="label" xsi:type="string" translate="true">Excel XML</item>
+                        </item>
+                    </argument>
+                </arguments>
+            </referenceBlock>
         </referenceBlock>
-        <referenceBlock name="sales.shipment.grid.export">
-            <arguments>
-                <argument name="exportTypes" xsi:type="array">
-                    <item name="csv" xsi:type="array">
-                        <item name="urlPath" xsi:type="string">*/*/exportShipmentCsv</item>
-                        <item name="label" xsi:type="string" translate="true">CSV</item>
-                    </item>
-                    <item name="excel" xsi:type="array">
-                        <item name="urlPath" xsi:type="string">*/*/exportShipmentExcel</item>
-                        <item name="label" xsi:type="string" translate="true">Excel XML</item>
-                    </item>
-                </argument>
-            </arguments>
-        </referenceBlock>
-    </referenceBlock>
+    </body>
 </page>

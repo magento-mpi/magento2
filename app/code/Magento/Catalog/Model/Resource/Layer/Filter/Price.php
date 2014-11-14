@@ -323,12 +323,12 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Apply price range filter to product collection
      *
-     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\FilterInterface $filter
+     * @param mixed $interval
      * @return $this
      */
-    public function applyPriceRange($filter)
+    public function applyPriceRange(\Magento\Catalog\Model\Layer\Filter\FilterInterface $filter, $interval)
     {
-        $interval = $filter->getInterval();
         if (!$interval) {
             return $this;
         }
