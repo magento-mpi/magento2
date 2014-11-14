@@ -10,7 +10,7 @@ namespace Magento\Framework\Api;
 /**
  * Custom Attribute Data object builder
  */
-class AttributeDataBuilder extends CompositeExtensibleDataBuilder
+class AttributeDataBuilder extends AbstractSimpleObjectBuilder
 {
     /**
      * Set attribute code
@@ -20,7 +20,7 @@ class AttributeDataBuilder extends CompositeExtensibleDataBuilder
      */
     public function setAttributeCode($attributeCode)
     {
-        return $this->set(AttributeInterface::ATTRIBUTE_CODE, $attributeCode);
+        return $this->_set(AttributeValue::ATTRIBUTE_CODE, $attributeCode);
     }
 
     /**
@@ -31,26 +31,16 @@ class AttributeDataBuilder extends CompositeExtensibleDataBuilder
      */
     public function setValue($value)
     {
-        return $this->set(AttributeInterface::VALUE, $value);
+        return $this->_set(AttributeValue::VALUE, $value);
     }
 
     /**
-     * Initialize the builder
+     * Return the Data type class name
      *
-     * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
-     * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
+     * @return string
      */
-    public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
-        \Magento\Framework\ObjectManager\Config $objectManagerConfig
-    ) {
-        parent::__construct(
-            $objectManager,
-            $metadataService,
-            $objectManagerConfig,
-            'Magento\Framework\Api\AttributeInterface'
-        );
+    protected function _getDataObjectType()
+    {
+        return '\Magento\Framework\Api\AttributeValue';
     }
 }

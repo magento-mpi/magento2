@@ -12,7 +12,7 @@
 <project name="Core Deployment Builds" basedir="../../../" default="publication_ce">
     <import file="../core_dev/unit/build.xml"/>
 
-    <target name="prepare_publication_ce" depends="_server_info" description="Community Edition source code preparation">
+    <target name="prepare_publication_ce" depends="_server_info, _composer_install" description="Community Edition source code preparation">
         <fail message="Bamboo variable 'publication_target_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_publication_target_dir}" arg2="" trim="true"/></condition>
         </fail>
