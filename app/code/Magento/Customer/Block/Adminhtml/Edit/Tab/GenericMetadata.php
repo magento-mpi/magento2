@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
+use Magento\Customer\Api\Data\AttributeMetadataInterface;
+
 /**
  * Generic block that uses customer metatdata attributes.
  *
@@ -40,7 +42,7 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Set Fieldset to Form
      *
-     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes attributes that are to be added
+     * @param AttributeMetadataInterface[] $attributes attributes that are to be added
      * @param \Magento\Framework\Data\Form\Element\Fieldset $fieldset
      * @param array $exclude attributes that should be skipped
      * @return void
@@ -82,13 +84,13 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @param string $inputType
      * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
-     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
+     * @param AttributeMetadataInterface $attribute
      * @return void
      */
     protected function _applyTypeSpecificConfigCustomer(
         $inputType,
         $element,
-        \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
+        AttributeMetadataInterface $attribute
     ) {
         switch ($inputType) {
             case 'select':
@@ -111,10 +113,10 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
+     * @param AttributeMetadataInterface $attribute
      * @return array
      */
-    protected function _getAttributeOptionsArray(\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute)
+    protected function _getAttributeOptionsArray(AttributeMetadataInterface $attribute)
     {
         $options = $attribute->getOptions();
         $result = array();
