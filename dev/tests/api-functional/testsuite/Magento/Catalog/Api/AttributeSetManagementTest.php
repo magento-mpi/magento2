@@ -23,13 +23,13 @@ class AttributeSetManagementTest extends WebapiAbstract
     {
         $this->createServiceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/eav/attribute-sets',
+                'resourcePath' => '/V1/products/attribute-sets',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ),
             'soap' => array(
-                'service' => 'eavAttributeSetManagementV1',
+                'service' => 'catalogAttributeSetManagementV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'eavAttributeSetManagementV1Create',
+                'operation' => 'catalogAttributeSetManagementV1Create',
             ),
         );
     }
@@ -41,7 +41,6 @@ class AttributeSetManagementTest extends WebapiAbstract
         $attributeSetName = 'new_attribute_set';
 
         $arguments = array(
-            'entityTypeCode' => $entityTypeCode,
             'attributeSet' => array(
                 'attribute_set_name' => $attributeSetName,
                 'sort_order' => 500,
@@ -74,7 +73,6 @@ class AttributeSetManagementTest extends WebapiAbstract
         $attributeSetName = 'new_attribute_set';
 
         $arguments = array(
-            'entityTypeCode' => $entityTypeCode,
             'attributeSet' => array(
                 'attribute_set_id' => 1,
                 'attribute_set_name' => $attributeSetName,
@@ -91,11 +89,8 @@ class AttributeSetManagementTest extends WebapiAbstract
      */
     public function testCreateThrowsExceptionIfGivenSkeletonIdIsInvalid()
     {
-        $entityTypeCode = 'catalog_product';
         $attributeSetName = 'new_attribute_set';
-
         $arguments = array(
-            'entityTypeCode' => $entityTypeCode,
             'attributeSet' => array(
                 'attribute_set_name' => $attributeSetName,
                 'sort_order' => 200,
@@ -112,36 +107,12 @@ class AttributeSetManagementTest extends WebapiAbstract
     public function testCreateThrowsExceptionIfGivenSkeletonAttributeSetDoesNotExist()
     {
         $attributeSetName = 'new_attribute_set';
-        $entityTypeCode = 'catalog_product';
-
         $arguments = array(
-            'entityTypeCode' => $entityTypeCode,
             'attributeSet' => array(
                 'attribute_set_name' => $attributeSetName,
                 'sort_order' => 300,
             ),
             'skeletonId' => 9999,
-        );
-        $this->_webApiCall($this->createServiceInfo, $arguments);
-    }
-
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage Invalid entity_type specified: invalid_entity_type
-     */
-    public function testCreateThrowsExceptionIfGivenEntityTypeDoesNotExist()
-    {
-        $entityTypeCode = 'catalog_product';
-        $entityType = $this->getEntityTypeByCode($entityTypeCode);
-        $attributeSetName = 'new_attribute_set';
-
-        $arguments = array(
-            'entityTypeCode' => 'invalid_entity_type',
-            'attributeSet' => array(
-                'attribute_set_name' => $attributeSetName,
-                'sort_order' => 400,
-            ),
-            'skeletonId' => $entityType->getDefaultAttributeSetId(),
         );
         $this->_webApiCall($this->createServiceInfo, $arguments);
     }
@@ -157,7 +128,6 @@ class AttributeSetManagementTest extends WebapiAbstract
         $attributeSetName = '';
 
         $arguments = array(
-            'entityTypeCode' => $entityTypeCode,
             'attributeSet' => array(
                 'attribute_set_name' => $attributeSetName,
                 'sort_order' => 500,
@@ -175,7 +145,6 @@ class AttributeSetManagementTest extends WebapiAbstract
         $expectedMessage = 'An attribute set with the "Default" name already exists.';
 
         $arguments = array(
-            'entityTypeCode' => $entityTypeCode,
             'attributeSet' => array(
                 'attribute_set_name' => $attributeSetName,
                 'sort_order' => 550,

@@ -23,13 +23,13 @@ class AttributeSetRepositoryTest extends WebapiAbstract
 
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/eav/attribute-sets/' . $attributeSetId,
+                'resourcePath' => '/V1/products/attribute-sets/' . $attributeSetId,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ),
             'soap' => array(
-                'service' => 'eavAttributeSetRepositoryV1',
+                'service' => 'catalogAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'eavAttributeSetRepositoryV1Get',
+                'operation' => 'catalogAttributeSetRepositoryV1Get',
             ),
         );
         $arguments = array(
@@ -52,13 +52,13 @@ class AttributeSetRepositoryTest extends WebapiAbstract
 
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/eav/attribute-sets/' . $attributeSetId,
+                'resourcePath' => '/V1/products/attribute-sets/' . $attributeSetId,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ),
             'soap' => array(
-                'service' => 'eavAttributeSetRepositoryV1',
+                'service' => 'catalogAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'eavAttributeSetRepositoryV1Get',
+                'operation' => 'catalogAttributeSetRepositoryV1Get',
             ),
         );
         $arguments = array(
@@ -76,13 +76,13 @@ class AttributeSetRepositoryTest extends WebapiAbstract
         $attributeSet = $this->getAttributeSetByName($attributeSetName);
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/eav/attribute-sets',
+                'resourcePath' => '/V1/products/attribute-sets/' . $attributeSet->getId(),
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ),
             'soap' => array(
-                'service' => 'eavAttributeSetRepositoryV1',
+                'service' => 'catalogAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'eavAttributeSetRepositoryV1Save',
+                'operation' => 'catalogAttributeSetRepositoryV1Save',
             ),
         );
 
@@ -119,13 +119,13 @@ class AttributeSetRepositoryTest extends WebapiAbstract
 
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/eav/attribute-sets/' . $attributeSetId,
+                'resourcePath' => '/V1/products/attribute-sets/' . $attributeSetId,
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ),
             'soap' => array(
-                'service' => 'eavAttributeSetRepositoryV1',
+                'service' => 'catalogAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'eavAttributeSetRepositoryV1DeleteById',
+                'operation' => 'catalogAttributeSetRepositoryV1DeleteById',
             ),
         );
 
@@ -145,13 +145,13 @@ class AttributeSetRepositoryTest extends WebapiAbstract
 
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/eav/attribute-sets/' . $attributeSetId,
+                'resourcePath' => '/V1/products/attribute-sets/' . $attributeSetId,
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ),
             'soap' => array(
-                'service' => 'eavAttributeSetRepositoryV1',
+                'service' => 'catalogAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'eavAttributeSetRepositoryV1DeleteById',
+                'operation' => 'catalogAttributeSetRepositoryV1DeleteById',
             ),
         );
 
@@ -186,13 +186,13 @@ class AttributeSetRepositoryTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/eav/attribute-sets/list',
+                'resourcePath' => '/V1/products/attribute-sets/sets/list',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => array(
-                'service' => 'eavAttributeSetRepositoryV1',
+                'service' => 'catalogAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
-                'operation' => 'eavAttributeSetRepositoryV1GetList',
+                'operation' => 'catalogAttributeSetRepositoryV1GetList',
             ),
         ];
 
