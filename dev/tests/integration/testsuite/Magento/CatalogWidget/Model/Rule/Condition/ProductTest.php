@@ -30,7 +30,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             'Magento\CatalogWidget\Model\Rule\Condition\Product'
         );
         $this->object->setRule($rule);
-
     }
 
     public function testLoadAttributeOptions()
@@ -44,7 +43,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->assertNotEmpty($label);
             $this->assertNotEmpty($code);
         }
-
     }
 
     public function testAddGlobalAttributeToCollection()

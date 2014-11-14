@@ -68,10 +68,19 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
         $type = 'Magento\CatalogWidget\Model\Rule\Condition\Product|attribute_set_id';
         $this->request->expects($this->at(0))->method('getParam')->with('id')->will($this->returnValue('1--1'));
         $this->request->expects($this->at(1))->method('getParam')->with('type')->will($this->returnValue($type));
+        $this->request->expects($this->at(2))->method('getParam')->with('form')
+            ->will($this->returnValue('request_form_param_value'));
 
         $condition = $this->getMockBuilder('Magento\CatalogWidget\Model\Rule\Condition\Product')
-            ->setMethods(['setId', 'setType', 'setRule', 'setPrefix', 'setAttribute', 'asHtmlRecursive'])
-            ->disableOriginalConstructor()
+            ->setMethods([
+                'setId',
+                'setType',
+                'setRule',
+                'setPrefix',
+                'setAttribute',
+                'asHtmlRecursive',
+                'setJsFormObject'
+            ])->disableOriginalConstructor()
             ->getMock();
         $condition->expects($this->once())->method('setId')->with('1--1')->will($this->returnSelf());
         $condition->expects($this->once())->method('setType')
@@ -79,7 +88,9 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $condition->expects($this->once())->method('setRule')->with($this->rule)->will($this->returnSelf());
         $condition->expects($this->once())->method('setPrefix')->with('conditions')->will($this->returnSelf());
-        $condition->expects($this->once())->method('setPrefix')->with('conditions')->will($this->returnSelf());
+        $condition->expects($this->once())->method('setJsFormObject')->with('request_form_param_value')
+            ->will($this->returnSelf());
+        $condition->expects($this->once())->method('setAttribute')->with('attribute_set_id')->will($this->returnSelf());
         $condition->expects($this->once())->method('asHtmlRecursive')->will($this->returnValue('<some_html>'));
 
         $this->objectManager->expects($this->once())->method('create')->will($this->returnValue($condition));

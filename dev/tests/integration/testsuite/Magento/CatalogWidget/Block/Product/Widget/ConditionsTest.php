@@ -62,7 +62,6 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
         $element->setContainer($container);
         $element->setForm($form);
 
-
         $result = $this->block->render($element);
 
         /* Assert HTML contains form elements */

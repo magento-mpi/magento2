@@ -8,8 +8,12 @@
 
 namespace Magento\CatalogWidget\Block\Product;
 
+use Magento\Catalog\Model\Product\Visibility;
 use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
+/**
+ * Class ProductsListTest
+ */
 class ProductsListTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -69,8 +73,12 @@ class ProductsListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->collectionFactory = $this->getMock('Magento\Catalog\Model\Resource\Product\CollectionFactory', [], [], '', false);
-        $this->visibility = $this->getMock('Magento\Catalog\Model\Product\Visibility', [], [], '', false);
+        $this->collectionFactory = $this->getMockBuilder('Magento\Catalog\Model\Resource\Product\CollectionFactory')
+            ->disableOriginalConstructor()->getMock();
+        $this->visibility = $this->getMockBuilder('Magento\Catalog\Model\Product\Visibility')
+            ->setMethods(['getVisibleInCatalogIds'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->httpContext = $this->getMock('Magento\Framework\App\Http\Context');
         $this->builder = $this->getMock('Magento\Rule\Model\Condition\Sql\Builder', [], [], '', false);
         $this->rule = $this->getMock('Magento\CatalogWidget\Model\Rule', [], [], '', false);
@@ -190,7 +198,7 @@ class ProductsListTest extends \PHPUnit_Framework_TestCase
         $pagerBlock->expects($this->once())->method('setPageVarName')->will($this->returnSelf());
         $pagerBlock->expects($this->once())->method('setLimit')->will($this->returnSelf());
         $pagerBlock->expects($this->once())->method('setTotalLimit')->will($this->returnSelf());
-        $pagerBlock->expects($this->once())->method('setCollection')->will($this->returnSelf());
+        $pagerBlock->expects($this->once())->method('setCollection')->with($collection)->will($this->returnSelf());
 
         $pagerBlock->expects($this->once())->method('toHtml')->will($this->returnValue('<pager_html>'));
         $this->layout->expects($this->once())->method('createBlock')->will($this->returnValue($pagerBlock));
@@ -199,6 +207,8 @@ class ProductsListTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateCollection()
     {
+        $this->visibility->expects($this->once())->method('getVisibleInCatalogIds')
+            ->will($this->returnValue(array(Visibility::VISIBILITY_IN_CATALOG, Visibility::VISIBILITY_BOTH)));
         $collection = $this->getMockBuilder('\Magento\Catalog\Model\Resource\Product\Collection')
             ->setMethods([
                 'setVisibility',
@@ -212,6 +222,9 @@ class ProductsListTest extends \PHPUnit_Framework_TestCase
                 'setCurPage'
             ])->disableOriginalConstructor()
             ->getMock();
+        $collection->expects($this->once())->method('setVisibility')
+            ->with(array(Visibility::VISIBILITY_IN_CATALOG, Visibility::VISIBILITY_BOTH))
+            ->will($this->returnSelf());
         $collection->expects($this->once())->method('addMinimalPrice')->will($this->returnSelf());
         $collection->expects($this->once())->method('addFinalPrice')->will($this->returnSelf());
         $collection->expects($this->once())->method('addTaxPercents')->will($this->returnSelf());
@@ -255,6 +268,11 @@ class ProductsListTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, $this->productsList->getProductsPerPage());
     }
 
+    public function testGetDefaultProductsPerPage()
+    {
+        $this->assertEquals(ProductsList::DEFAULT_PRODUCTS_PER_PAGE, $this->productsList->getProductsPerPage());
+    }
+
     public function testShowPager()
     {
         $this->assertEquals(false, $this->productsList->showPager());
@@ -270,5 +288,11 @@ class ProductsListTest extends \PHPUnit_Framework_TestCase
     public function testGetTitle()
     {
         $this->assertEquals('Products List', $this->productsList->getTitle());
+    }
+
+    public function testGetNonDefaultTitle()
+    {
+        $this->productsList->setTitle('Custom Title');
+        $this->assertEquals('Custom Title', $this->productsList->getTitle());
     }
 }

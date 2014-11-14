@@ -18,30 +18,12 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected $rule;
 
     /**
-     * @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $registry;
-
-    /**
-     * @var \Magento\Framework\Data\FormFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $formFactory;
-
-    /**
-     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $timezoneInterface;
-
-    /**
      * @var \Magento\CatalogWidget\Model\Rule\Condition\CombineFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $combineFactory;
 
     protected function setUp()
     {
-        $this->registry = $this->getMock('Magento\Framework\Registry');
-        $this->formFactory = $this->getMock('Magento\Framework\Data\FormFactory', [], [], '', false);
-        $this->timezoneInterface = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $this->combineFactory = $this->getMockBuilder('Magento\CatalogWidget\Model\Rule\Condition\CombineFactory')
             ->setMethods(['create'])
             ->disableOriginalConstructor()
@@ -51,9 +33,6 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $this->rule = $objectManagerHelper->getObject(
             'Magento\CatalogWidget\Model\Rule',
             [
-                'registry' => $this->registry,
-                'formFactory' => $this->formFactory,
-                'localeDate' => $this->timezoneInterface,
                 'conditionsFactory' => $this->combineFactory
             ]
         );
