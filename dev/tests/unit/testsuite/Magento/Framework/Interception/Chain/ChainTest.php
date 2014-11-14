@@ -84,7 +84,9 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $this->_pluginListMock->expects($this->once())
             ->method('getNext')
             ->with($type, $method, null)
-            ->will($this->returnValue(array(\Magento\Framework\Interception\DefinitionInterface::LISTENER_AROUND => 'code')));
+            ->will($this->returnValue(array(
+                \Magento\Framework\Interception\DefinitionInterface::LISTENER_AROUND => 'code'
+            )));
 
         $this->_pluginListMock->expects($this->once())
             ->method('getPlugin')

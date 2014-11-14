@@ -26,8 +26,10 @@ class LayoutFactory
      * @param ObjectManagerInterface $objectManager
      * @param string $instanceName
      */
-    public function __construct(ObjectManagerInterface $objectManager, $instanceName = 'Magento\Framework\View\Result\Layout')
-    {
+    public function __construct(
+        ObjectManagerInterface $objectManager,
+        $instanceName = 'Magento\Framework\View\Result\Layout'
+    ) {
         $this->objectManager = $objectManager;
         $this->instanceName = $instanceName;
     }

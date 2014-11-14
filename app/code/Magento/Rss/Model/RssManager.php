@@ -26,8 +26,10 @@ class RssManager implements RssManagerInterface
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param array $dataProviders
      */
-    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, array $dataProviders = array())
-    {
+    public function __construct(
+        \Magento\Framework\ObjectManagerInterface $objectManager,
+        array $dataProviders = array()
+    ) {
         $this->objectManager = $objectManager;
         $this->providers = $dataProviders;
     }
