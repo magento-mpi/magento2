@@ -51,28 +51,29 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     public function getValueDataProvider()
     {
+        $currentTime = time();
         return array(
             array(
                 array(
                     'date_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
                     'time_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
-                    'value' => time()
+                    'value' => $currentTime
                 ),
-                date('m/d/y g:i A', time())
+                date('m/d/y g:i A', $currentTime)
             ),
             array(
                 array(
                     'time_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
-                    'value' => time()
+                    'value' => $currentTime
                 ),
-                date('g:i A', time())
+                date('g:i A', $currentTime)
             ),
             array(
                 array(
                     'date_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
-                    'value' => time()
+                    'value' => $currentTime
                 ),
-                date('m/d/y', time())
+                date('m/d/y', $currentTime)
             )
         );
     }

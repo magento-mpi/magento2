@@ -7,10 +7,12 @@
  */
 namespace Magento\Sales\Model\Resource\Quote;
 
+use \Magento\Framework\Model\Resource\Db\AbstractDb;
+
 /**
  * Quote payment resource model
  */
-class Payment extends \Magento\Sales\Model\Resource\AbstractResource
+class Payment extends AbstractDb
 {
     /**
      * Serializeable field: additional_information

@@ -7,10 +7,12 @@
  */
 namespace Magento\Sales\Model\Resource;
 
+use \Magento\Framework\Model\Resource\Db\AbstractDb;
+
 /**
  * Quote resource model
  */
-class Quote extends AbstractResource
+class Quote extends AbstractDb
 {
     /**
      * @var \Magento\Eav\Model\Config
