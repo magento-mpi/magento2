@@ -21,7 +21,7 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
      */
     protected function _construct()
     {
-        $this->_init('coupon_aggregated', 'id');
+        $this->_init('salesrule_coupon_aggregated', 'id');
     }
 
     /**

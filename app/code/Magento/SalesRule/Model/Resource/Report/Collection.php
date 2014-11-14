@@ -26,7 +26,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
      *
      * @var string
      */
-    protected $_aggregationTable = 'coupon_aggregated';
+    protected $_aggregationTable = 'salesrule_coupon_aggregated';
 
     /**
      * Array of columns that should be aggregated
