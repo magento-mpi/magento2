@@ -1,10 +1,9 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
-        "This file is @generated automatically"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "565a89efc4bf9cd9743e7a814cef0123",
+    "hash": "b0afd0f40c6a0c803dc85c5c00c81ffd",
     "packages": [
         {
             "name": "zendframework/zend-stdlib",
@@ -742,12 +741,17 @@
             "time": "2014-03-07 15:35:33"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
-    "prefer-stable": false,
+    "stability-flags": [
+
+    ],
     "platform": {
         "php": "~5.4.11|~5.5.0"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }

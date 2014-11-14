@@ -12,13 +12,12 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Mtf\TestStep\TestStepInterface;
 
 /**
- * Add custom attribute to product.
+ * Click "Save" button on custom attribute form on product page.
  */
-class AddCustomAttributeStep implements TestStepInterface
+class SaveAttributeOnProductPageStep implements TestStepInterface
 {
-
     /**
-     * Catalog product index page.
+     * Catalog product edit page.
      *
      * @var CatalogProductEdit
      */
@@ -34,15 +33,12 @@ class AddCustomAttributeStep implements TestStepInterface
     }
 
     /**
-     * Add custom attribute to product.
+     * Click "Save" button on custom attribute form on product page.
      *
-     * @return void
+     * @return array
      */
     public function run()
     {
-        $productForm = $this->catalogProductEdit->getProductForm();
-        /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\ProductTab $productDetailsTab */
-        $productDetailsTab = $productForm->getTabElement('product-details');
-        $productDetailsTab->addNewAttribute();
+        $this->catalogProductEdit->getProductForm()->saveAttributeForm();
     }
 }

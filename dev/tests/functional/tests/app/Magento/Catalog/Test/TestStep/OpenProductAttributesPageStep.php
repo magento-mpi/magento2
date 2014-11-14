@@ -14,7 +14,7 @@ use Mtf\TestStep\TestStepInterface;
 /**
  * Open Product Attribute Index Page.
  */
-class OpenProductAttributeIndexPageStep implements TestStepInterface
+class OpenProductAttributesPageStep implements TestStepInterface
 {
     /**
      * Catalog Product Attribute Index page.

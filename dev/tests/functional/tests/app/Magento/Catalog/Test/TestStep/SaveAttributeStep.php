@@ -33,7 +33,7 @@ class SaveAttributeStep implements TestStepInterface
     }
 
     /**
-     * Fill custom attribute form on attribute page.
+     * Click "Save" button on attribute edit page.
      *
      * @return void
      */

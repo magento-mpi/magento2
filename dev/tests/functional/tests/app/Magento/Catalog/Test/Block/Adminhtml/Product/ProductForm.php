@@ -20,6 +20,7 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\AttributeForm;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\CustomAttribute;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\ProductTab;
 
 /**
  * Product form on backend product page.
@@ -375,13 +376,22 @@ class ProductForm extends FormTabs
      */
     public function fillAttributeForm(CatalogProductAttribute $productAttribute)
     {
+        $attributeForm = $this->getAttributeForm();
+        $attributeForm->fill($productAttribute);
+    }
+
+    /**
+     * Click "Save" button on attribute form.
+     *
+     * @return void
+     */
+    public function saveAttributeForm()
+    {
+        $this->getAttributeForm()->saveAttributeForm();
+
         $browser = $this->browser;
         $element = $this->newAttributeForm;
         $loader = $this->loader;
-
-        $attributeForm = $this->getAttributeForm();
-        $attributeForm->fill($productAttribute);
-
         $this->_rootElement->waitUntil(
             function () use ($browser, $element) {
                 return $browser->find($element)->isVisible() == false ? true : null;
@@ -422,5 +432,22 @@ class ProductForm extends FormTabs
             Locator::SELECTOR_CSS,
             'Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\CustomAttribute'
         );
+    }
+
+    /**
+     * Click "Add Attribute" button from specific tab.
+     *
+     * @param string $tabName
+     * @throws \Exception
+     */
+    public function addNewAttribute($tabName = 'product-details')
+    {
+        $tab = $this->getTabElement($tabName);
+        if ($tab instanceof ProductTab) {
+            $this->openTab($tabName);
+            $tab->addNewAttribute();
+        } else {
+            throw new \Exception("$tabName hasn't 'Add attribute' button or is not instance of ProductTab class.");
+        }
     }
 }

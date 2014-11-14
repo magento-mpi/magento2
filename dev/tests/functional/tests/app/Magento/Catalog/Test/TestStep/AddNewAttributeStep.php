@@ -12,7 +12,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
 use Mtf\TestStep\TestStepInterface;
 
 /**
- * Add New Attribute.
+ * Add New Attribute from Attribute index page.
  */
 class AddNewAttributeStep implements TestStepInterface
 {
@@ -33,7 +33,7 @@ class AddNewAttributeStep implements TestStepInterface
     }
 
     /**
-     * Add New Attribute Set Step.
+     * Add New Attribute from Attribute index page step.
      *
      * @return void
      */

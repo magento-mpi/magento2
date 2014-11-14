@@ -141,26 +141,12 @@ class ListCompare extends Block
             }
         );
 
+        $data = [];
         $attributes = $this->_rootElement->find($this->attribute)->getElements();
         foreach ($attributes as $attribute) {
             $data[] = $attribute->getText();
         }
         return $data;
-    }
-
-    /**
-     * Get item attribute.
-     *
-     * @param int $indexProduct
-     * @param string $attributeKey
-     * @return string
-     */
-    public function getProductAttribute($indexProduct, $attributeKey)
-    {
-        return trim(
-            $this->getCompareProductAttribute($attributeKey)
-                ->find(sprintf($this->attributeSelector, $indexProduct), Locator::SELECTOR_XPATH)->getText()
-        );
     }
 
     /**

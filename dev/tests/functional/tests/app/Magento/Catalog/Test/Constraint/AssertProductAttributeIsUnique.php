@@ -63,7 +63,6 @@ class AssertProductAttributeIsUnique extends AbstractConstraint
             sprintf($actualMessage, $fixtureData[array_shift($defaultValue)]),
             'JS error notice on product edit page is not equal to expected.'
         );
-
     }
 
     /**

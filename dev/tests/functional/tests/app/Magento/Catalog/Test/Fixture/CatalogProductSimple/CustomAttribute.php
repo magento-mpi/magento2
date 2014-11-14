@@ -47,7 +47,7 @@ class CustomAttribute implements FixtureInterface
     public function __construct(FixtureFactory $fixtureFactory, array $params, $data)
     {
         $this->params = $params;
-        if (!$data instanceof CatalogProductAttribute) {
+        if (is_array($data) && isset($data['dataSet'])) {
             /** @var CatalogProductAttribute $data */
             $data = $fixtureFactory->createByCode('catalogProductAttribute', ['dataSet' => $data['dataSet']]);
         }

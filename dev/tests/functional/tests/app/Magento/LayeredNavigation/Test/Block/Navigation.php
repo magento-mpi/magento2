@@ -93,7 +93,6 @@ class Navigation extends Block
      */
     public function getFilters()
     {
-        $this->reinitRootElement();
         $options = $this->_rootElement->find($this->optionTitle)->getElements();
         $data = [];
         foreach ($options as $option) {

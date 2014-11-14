@@ -10,9 +10,8 @@ namespace Magento\Catalog\Test\TestCase\ProductAttribute;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\ObjectManager;
 use Mtf\TestCase\Scenario;
 
 /**
@@ -38,20 +37,6 @@ use Mtf\TestCase\Scenario;
 class CreateProductAttributeEntityFromProductPageTest extends Scenario
 {
     /**
-     * Catalog Product Attribute Index page.
-     *
-     * @var CatalogProductAttributeIndex
-     */
-    protected $catalogProductAttributeIndex;
-
-    /**
-     * Catalog Product Attribute New page.
-     *
-     * @var CatalogProductAttributeNew
-     */
-    protected $catalogProductAttributeNew;
-
-    /**
      * CatalogProductAttribute fixture.
      *
      * @var CatalogProductAttribute
@@ -75,21 +60,6 @@ class CreateProductAttributeEntityFromProductPageTest extends Scenario
     }
 
     /**
-     * Injection data.
-     *
-     * @param CatalogProductAttributeIndex $catalogProductAttributeIndex
-     * @param CatalogProductAttributeNew $catalogProductAttributeNew
-     * @return void
-     */
-    public function __inject(
-        CatalogProductAttributeIndex $catalogProductAttributeIndex,
-        CatalogProductAttributeNew $catalogProductAttributeNew
-    ) {
-        $this->catalogProductAttributeIndex = $catalogProductAttributeIndex;
-        $this->catalogProductAttributeNew = $catalogProductAttributeNew;
-    }
-
-    /**
      * Run CreateProductAttributeEntity from product page test.
      *
      * @param CatalogProductAttribute $attribute
@@ -108,10 +78,9 @@ class CreateProductAttributeEntityFromProductPageTest extends Scenario
      */
     public function tearDown()
     {
-        $filter = ['attribute_code' => $this->attribute->getAttributeCode()];
-        if ($this->catalogProductAttributeIndex->open()->getGrid()->isRowVisible($filter)) {
-            $this->catalogProductAttributeIndex->getGrid()->searchAndOpen($filter);
-            $this->catalogProductAttributeNew->getPageActions()->delete();
-        }
+        ObjectManager::getInstance()->create(
+            'Magento\Catalog\Test\TestStep\DeleteCustomAttributeStep',
+            ['attribute' => $this->attribute]
+        )->run();
     }
 }

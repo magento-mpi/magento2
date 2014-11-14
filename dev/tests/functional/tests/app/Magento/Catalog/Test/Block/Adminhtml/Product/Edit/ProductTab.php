@@ -22,7 +22,7 @@ class ProductTab extends Tab
      *
      * @var string
      */
-    protected $attributeSearch = '#product-attribute-search-container';
+    protected $attributeSearch = '#product-attribute-search-container button.action-toggle span';
 
     /**
      * Selector for 'New Attribute' button.

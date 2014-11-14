@@ -102,6 +102,7 @@ class Form extends ParentForm
      */
     public function getFormLabels()
     {
+        $labels = [];
         $elements = $this->_rootElement->find($this->fieldSelector, Locator::SELECTOR_XPATH)->getElements();
         foreach ($elements as $element) {
             $labels[] = $element->find($this->labelSelector)->getText();

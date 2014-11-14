@@ -11,8 +11,7 @@ namespace Magento\Catalog\Test\TestCase\ProductAttribute;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
+use Mtf\ObjectManager;
 use Mtf\TestCase\Scenario;
 
 /**
@@ -39,35 +38,6 @@ class CreateProductAttributeEntityTest extends Scenario
     protected $attribute;
 
     /**
-     * CatalogProductAttributeIndex page.
-     *
-     * @var CatalogProductAttributeIndex
-     */
-    protected $attributeIndex;
-
-    /**
-     * CatalogProductAttributeNew page.
-     *
-     * @var CatalogProductAttributeNew
-     */
-    protected $attributeNew;
-
-    /**
-     * Injection data.
-     *
-     * @param CatalogProductAttributeIndex $attributeIndex
-     * @param CatalogProductAttributeNew $attributeNew
-     * @return void
-     */
-    public function __inject(
-        CatalogProductAttributeIndex $attributeIndex,
-        CatalogProductAttributeNew $attributeNew
-    ) {
-        $this->attributeIndex = $attributeIndex;
-        $this->attributeNew = $attributeNew;
-    }
-
-    /**
      * Run CreateProductAttributeEntity test.
      *
      * @param CatalogProductAttribute $productAttribute
@@ -86,10 +56,9 @@ class CreateProductAttributeEntityTest extends Scenario
      */
     public function tearDown()
     {
-        $filter = ['attribute_code' => $this->attribute->getAttributeCode()];
-        if ($this->attributeIndex->open()->getGrid()->isRowVisible($filter)) {
-            $this->attributeIndex->getGrid()->searchAndOpen($filter);
-            $this->attributeNew->getPageActions()->delete();
-        }
+        ObjectManager::getInstance()->create(
+            'Magento\Catalog\Test\TestStep\DeleteCustomAttributeStep',
+            ['attribute' => $this->attribute]
+        )->run();
     }
 }

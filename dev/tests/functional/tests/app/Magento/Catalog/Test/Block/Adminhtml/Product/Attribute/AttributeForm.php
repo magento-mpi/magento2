@@ -51,8 +51,6 @@ class AttributeForm extends FormTabs
             }
         );
         parent::fill($fixture, $element);
-        $this->browser->find($this->saveButton)->click();
-        $this->browser->selectWindow();
     }
 
     /**
@@ -73,5 +71,16 @@ class AttributeForm extends FormTabs
         $tab->click();
 
         return $this;
+    }
+
+    /**
+     * Click on "Save" button.
+     *
+     * @return void
+     */
+    public function saveAttributeForm()
+    {
+        $this->browser->find($this->saveButton)->click();
+        $this->browser->selectWindow();
     }
 }

@@ -12,12 +12,13 @@ use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\TestStep\TestStepInterface;
 
 /**
- * Move Attribute To AttributeSet.
+ * Move attribute To attribute set.
  */
-class MoveAttributeToAttributeSetStep implements TestStepInterface
+class MoveAttributeToProductTemplateStep implements TestStepInterface
 {
     /**
      * Catalog ProductSet Index page.
@@ -53,32 +54,46 @@ class MoveAttributeToAttributeSetStep implements TestStepInterface
      * @param CatalogProductSetEdit $catalogProductSetEdit
      * @param CatalogProductAttribute $attribute
      * @param CatalogAttributeSet $productTemplate
+     * @param FixtureFactory $fixtureFactory
      */
     public function __construct(
         CatalogProductSetIndex $catalogProductSetIndex,
         CatalogProductSetEdit $catalogProductSetEdit,
         CatalogProductAttribute $attribute,
-        CatalogAttributeSet $productTemplate
+        CatalogAttributeSet $productTemplate,
+        FixtureFactory $fixtureFactory
     ) {
         $this->catalogProductSetIndex = $catalogProductSetIndex;
         $this->catalogProductSetEdit = $catalogProductSetEdit;
         $this->attribute = $attribute;
         $this->productTemplate = $productTemplate;
+        $this->fixtureFactory = $fixtureFactory;
     }
 
     /**
-     * Move Attribute To AttributeSet Step.
+     * Move attribute To attribute set.
      *
-     * @return void
+     * @return array
      */
     public function run()
     {
         $filterAttribute = ['set_name' => $this->productTemplate->getAttributeSetName()];
         $this->catalogProductSetIndex->open()->getGrid()->searchAndOpen($filterAttribute);
+        $this->catalogProductSetEdit->getAttributeSetEditBlock()->moveAttribute($this->attribute->getData());
 
-        $this->catalogProductSetEdit->getAttributeSetEditBlock()->moveAttribute(
-            $this->attribute->getData(),
-            'Product Details'
+        // Create product with attribute set mentioned above:
+        $product = $this->fixtureFactory->createByCode(
+            'catalogProductSimple',
+            [
+                'dataSet' => 'product_with_category_with_anchor',
+                'data' => [
+                    'attribute_set_id' => ['attribute_set' => $this->productTemplate],
+                    'custom_attribute' => $this->attribute
+                ],
+            ]
         );
+        $product->persist();
+
+        return ['product' => $product];
     }
 }

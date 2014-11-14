@@ -8,14 +8,13 @@
 
 namespace Magento\Catalog\Test\TestStep;
 
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit;
 use Mtf\TestStep\TestStepInterface;
 
 /**
  * Save attributeSet on attribute set page.
  */
-class SaveAttributeSetStep implements TestStepInterface
+class SaveProductTemplateStep implements TestStepInterface
 {
     /**
      * Catalog ProductSet Edit page.

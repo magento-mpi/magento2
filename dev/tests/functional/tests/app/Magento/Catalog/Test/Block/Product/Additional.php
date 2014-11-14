@@ -12,7 +12,6 @@ use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Block\Block;
-use Mtf\Fixture\InjectableFixture;
 
 /**
  * Product additional information block on the product page.

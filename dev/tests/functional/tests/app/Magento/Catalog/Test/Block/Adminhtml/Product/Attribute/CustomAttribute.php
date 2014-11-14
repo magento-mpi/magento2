@@ -46,11 +46,8 @@ class CustomAttribute extends Element
     {
         $this->_eventManager->dispatchEvent(['set_value'], [__METHOD__, $this->getAbsoluteSelector()]);
         $element = $this->getElementByClass($this->getElementClass());
-        if (is_array($data)) {
-            $this->find($this->inputSelector, Locator::SELECTOR_CSS, $element)->setValue($data['value']);
-        } else {
-            $this->find($this->inputSelector, Locator::SELECTOR_CSS, $element)->setValue($data);
-        }
+        $value = is_array($data) ? $data['value'] : $data;
+        $this->find($this->inputSelector, Locator::SELECTOR_CSS, $element)->setValue($value);
     }
 
     /**

@@ -15,7 +15,7 @@ use Mtf\TestStep\TestStepInterface;
 /**
  * Fill custom attribute form on product page.
  */
-class FillCustomAttributeFormStep implements TestStepInterface
+class FillAttributeFormOnProductPageStep implements TestStepInterface
 {
     /**
      * CatalogProductAttribute fixture.
