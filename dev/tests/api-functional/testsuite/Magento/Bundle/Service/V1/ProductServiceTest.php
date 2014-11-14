@@ -48,7 +48,7 @@ class ProductServiceTest extends WebapiAbstract
             "name" => $uniqueId,
             "type_id" => "bundle",
             "price" => 50,
-            "attribute_set_id" => 1,
+            'attribute_set_id' => 4,
             "custom_attributes" => [
                 "bundle_product_options" => $bundleProductOptions,
                 "price_view" => [
@@ -166,7 +166,7 @@ class ProductServiceTest extends WebapiAbstract
             \Magento\Catalog\Api\Data\ProductInterface::PRICE => 3.62,
             \Magento\Catalog\Api\Data\ProductInterface::STATUS => 1,
             \Magento\Catalog\Api\Data\ProductInterface::TYPE_ID => 'simple',
-            \Magento\Catalog\Api\Data\ProductInterface::ATTRIBUTE_SET_ID => 1,
+            \Magento\Catalog\Api\Data\ProductInterface::ATTRIBUTE_SET_ID => 4,
         ];
     }
 }
