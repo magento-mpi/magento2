@@ -49,10 +49,6 @@ class Improved extends AbstractAlgorithm
             $aggregations['count']
         );
 
-        if (!empty($intervals)) {
-            $this->algorithm->setLimits($intervals[0], $intervals[1]);
-        }
-
         return $this->algorithm->calculateSeparators();
     }
 }
