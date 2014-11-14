@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule1\Service\V1\Entity;
 
-class CustomAttributeNestedDataObject extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class CustomAttributeNestedDataObject extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**
      * @return string

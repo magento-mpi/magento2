@@ -14,10 +14,13 @@
 $_item = $this->getItem();
 $escapedSku = $this->escapeHtml($_item->getSku());
 ?>
-<div class="product attibute sku"><strong class="type"><?php echo __('Sku')?></strong><div class="value"><?php echo $escapedSku ?></div></div>
+<dl class="item-options product-attibute-sku">
+    <dt><?php echo __('Sku')?></dt>
+    <dd><?php echo $escapedSku ?></dd>
+</dl>
 <?php echo $this->getProductTierPriceHtml(); ?>
-<div class="message error item"><div><?php echo $this->getMessage(); ?></div></div>
 <?php echo $this->getLink(); ?>
+<div class="message error item"><div><?php echo $this->getMessage(); ?></div></div>
 <input type="hidden" name="failed[<?php echo $escapedSku; ?>][sku]" value="<?php echo $this->escapeHtml($_item->getSku()); ?>" />
 <input type="hidden" name="failed[<?php echo $escapedSku; ?>][code]" value="<?php echo $_item->getCode(); ?>" />
 <input type="hidden" name="failed[<?php echo $escapedSku; ?>][qty]" value="<?php echo $_item->getQty(); ?>" class="sku_failed_qty" data-role="sku-failed-qty" />

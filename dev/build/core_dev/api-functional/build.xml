@@ -62,23 +62,16 @@
                 <isset property="app_mode"/>
             </not>
         </condition>
-        <copy file="${basedir}/dev/build/core_dev/api-functional/local-${db_vendor_name}.xml"
-              todir="${product_root_dir}/dev/tests/api-functional/etc" overwrite="true"/>
+        <copy file="${basedir}/dev/build/core_dev/api-functional/install-config-${db_vendor_name}.php"
+              todir="${product_root_dir}/dev/tests/api-functional/config" overwrite="true"/>
 
-
+        <!--Prepare configuration for magento installation-->
         <property name="db_config_file"
-                  value="${product_root_dir}/dev/tests/api-functional/etc/local-${db_vendor_name}.xml"/>
+                  value="${product_root_dir}/dev/tests/api-functional/config/install-config-${db_vendor_name}.php"/>
         <antcall target="_database_credential_substitution"/>
 
         <replace file="${db_config_file}">
             <replacefilter token="{{db_table_prefix}}" value="${db_table_prefix}"/>
-        </replace>
-
-        <!--Prepare configuration for magento installation-->
-        <copy file="${basedir}/${env.build_customization_dir}/install.php" failonerror="true" overwrite="true"
-              tofile="${product_root_dir}/dev/tests/api-functional/config/install.php"/>
-
-        <replace file="${product_root_dir}/dev/tests/api-functional/config/install.php">
             <replacefilter token="{{db_model}}" value="${env.db_model}"/>
             <replacefilter token="{{db_host}}" value="${env.db_host}"/>
             <replacefilter token="{{db_name}}" value="${env.db_name}"/>
@@ -98,7 +91,6 @@
             <!--URL rewrites are disabled on agents thus 'index.php' should be used as entry point-->
             <replacefilter token="{{base_url}}" value="${magento_instance_base_url}/index.php"/>
             <replacefilter token="{{web_api_adapter}}" value="${env.web_api_adapter}"/>
-            <replacefilter token="{{local_config_file}}" value="etc/local-${db_vendor_name}.xml"/>
             <replacefilter token="{{app_mode}}" value="${app_mode}"/>
             <replacefilter token="{{testsuite}}" value="${testsuite}"/>
         </replace>
@@ -108,9 +100,5 @@
             <fileset dir="${product_root_dir}/dev/tests/api-functional/_files/Magento" includes="TestModule*/**"/>
         </copy>
 
-        <!--Ensure that tmp directory fore tests is writable-->
-        <chmod perm="a+w">
-            <dirset dir="${product_root_dir}/dev/tests/api-functional/tmp"/>
-        </chmod>
     </target>
 </project>

@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule1\Service\V2\Entity;
 
-class ItemBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class ItemBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * @param int $id
@@ -16,7 +16,7 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObje
      */
     public function setId($id)
     {
-        $this->_data['id'] = $id;
+        $this->data['id'] = $id;
         return $this;
     }
 
@@ -27,7 +27,7 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObje
      */
     public function setName($name)
     {
-        $this->_data['name'] = $name;
+        $this->data['name'] = $name;
         return $this;
     }
 
@@ -38,7 +38,7 @@ class ItemBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObje
      */
     public function setPrice($price)
     {
-        $this->_data['price'] = $price;
+        $this->data['price'] = $price;
         return $this;
     }
 }

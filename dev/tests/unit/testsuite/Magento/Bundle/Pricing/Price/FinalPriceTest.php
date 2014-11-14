@@ -108,7 +108,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMaximalPrice($baseAmount)
     {
-        $result = rand(1, 10);
+        $result = 3;
         $this->baseAmount = $baseAmount;
         $this->prepareMock();
 
@@ -124,7 +124,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMinimalPrice($baseAmount)
     {
-        $result = rand(1, 10);
+        $result = 5;
         $this->baseAmount = $baseAmount;
         $this->prepareMock();
 
@@ -137,7 +137,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPriceWithoutOption()
     {
-        $result = rand(1, 10);
+        $result = 5;
         $this->prepareMock();
         $this->bundleCalculatorMock->expects($this->once())
             ->method('getAmountWithoutOption')

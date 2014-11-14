@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<scenarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../vendor/magento/mtf/Mtf/Config/etc/scenario.xsd">
+    <scenario name="PrintGiftCardOrderFrontendGuestTest" module="Magento_Sales">
+        <methods>
+            <method name="test">
+                <steps>
+                    <first>createProducts</first>
+                    <step name="createProducts" module="Magento_Catalog">
+                        <next>createCustomer</next>
+                    </step>
+                    <step name="createCustomer" module="Magento_Customer">
+                        <arguments>
+                            <items name="customer">
+                                <item name="dataSet">johndoe_with_addresses</item>
+                            </items>
+                        </arguments>
+                        <next>openSalesOrders</next>
+                    </step>
+                    <step name="openSalesOrders" module="Magento_Sales">
+                        <next>createNewOrder</next>
+                    </step>
+                    <step name="createNewOrder" module="Magento_Sales">
+                        <next>selectCustomerOrder</next>
+                    </step>
+                    <step name="selectCustomerOrder" module="Magento_Sales">
+                        <next>addProducts</next>
+                    </step>
+                    <step name="addProducts" module="Magento_Sales">
+                        <next>fillBillingAddress</next>
+                    </step>
+                    <step name="fillBillingAddress" module="Magento_Sales">
+                        <arguments>
+                            <items name="billingAddress">
+                                <item name="dataSet">customer_US</item>
+                            </items>
+                        </arguments>
+                        <next>selectPaymentMethodForOrder</next>
+                    </step>
+                    <step name="selectPaymentMethodForOrder" module="Magento_Sales">
+                        <arguments>
+                            <items name="payment">
+                                <item name="method">checkmo</item>
+                            </items>
+                        </arguments>
+                        <next>submitOrder</next>
+                    </step>
+                    <step name="submitOrder" module="Magento_Sales">
+                        <next>openSalesOrderOnFrontendForGuest</next>
+                    </step>
+                    <step name="openSalesOrderOnFrontendForGuest" module="Magento_Sales">
+                        <next>printOrderOnFrontend</next>
+                    </step>
+                    <step name="printOrderOnFrontend" module="Magento_Sales" />
+                </steps>
+            </method>
+        </methods>
+    </scenario>
+</scenarios>

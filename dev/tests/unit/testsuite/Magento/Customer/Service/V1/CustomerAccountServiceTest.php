@@ -10,14 +10,14 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\Converter;
 use Magento\Customer\Model\CustomerRegistry;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Framework\Service\Data\AttributeValueBuilder;
-use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Mail\Exception as MailException;
-use Magento\Framework\Service\ExtensibleDataObjectConverter;
+use Magento\Framework\Api\ExtensibleDataObjectConverter;
 
 /**
  * Test for \Magento\Customer\Service\V1\CustomerAccountService
@@ -141,10 +141,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $filterGroupBuilder = $this->_objectManager
-            ->getObject('Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
+            ->getObject('Magento\Framework\Api\Search\FilterGroupBuilder');
         /** @var SearchCriteriaBuilder $searchBuilder */
         $this->_searchBuilder = $this->_objectManager->getObject(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Api\SearchCriteriaBuilder',
             ['filterGroupBuilder' => $filterGroupBuilder]
         );
 
@@ -1259,13 +1259,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateCustomer()
     {
+        $password = 'password';
         $customerData = array(
             'customer_id' => self::ID,
             'email' => self::EMAIL,
             'firstname' => self::FIRSTNAME,
             'lastname' => self::LASTNAME,
             'create_in' => 'Admin',
-            'password' => 'password'
         );
         $this->_customerBuilder->populateWithArray($customerData);
         $customerEntity = $this->_customerBuilder->create();
@@ -1319,17 +1319,20 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $this->assertSame($customerEntity, $customerService->createCustomer($customerDetails));
+        $this->assertSame(
+            $customerEntity,
+            $customerService->createCustomer($customerDetails, $password)
+        );
     }
 
     public function testCreateNewCustomer()
     {
+        $password = 'password';
         $customerData = array(
             'email' => self::EMAIL,
             'firstname' => self::FIRSTNAME,
             'lastname' => self::LASTNAME,
             'create_in' => 'Admin',
-            'password' => 'password'
         );
         $this->_customerBuilder->populateWithArray($customerData);
         $customerEntity = $this->_customerBuilder->create();
@@ -1382,7 +1385,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $this->assertSame($customerEntity, $customerService->createCustomer($customerDetails));
+        $this->assertSame(
+            $customerEntity,
+            $customerService->createCustomer($customerDetails, $password)
+        );
     }
 
     /**
@@ -1391,12 +1397,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateCustomerWithException()
     {
+        $password = 'password';
         $customerData = array(
             'email' => self::EMAIL,
             'firstname' => self::FIRSTNAME,
             'lastname' => self::LASTNAME,
             'create_in' => 'Admin',
-            'password' => 'password'
         );
         $this->_customerBuilder->populateWithArray($customerData);
         $customerEntity = $this->_customerBuilder->create();
@@ -1447,17 +1453,17 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Exception('exception message')));
 
         $customerService = $this->_createService();
-        $customerService->createCustomer($customerDetails);
+        $customerService->createCustomer($customerDetails, $password);
     }
 
     public function testCreateCustomerWithInputException()
     {
+        $password = 'password';
         $customerData = array(
             'email' => self::EMAIL,
             'firstname' => self::FIRSTNAME,
             'lastname' => self::LASTNAME,
             'create_in' => 'Admin',
-            'password' => 'password'
         );
         $this->_customerBuilder->populateWithArray($customerData);
         $customerEntity = $this->_customerBuilder->create();
@@ -1495,7 +1501,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->createCustomer($customerDetails);
+            $customerService->createCustomer($customerDetails, $password);
         } catch (InputException $inputException) {
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getRawMessage());
             $this->assertEquals(InputException::DEFAULT_MESSAGE, $inputException->getMessage());
@@ -1639,7 +1645,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $customerService = $this->_createService();
-        $filterBuilder = $this->_objectManager->getObject('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $filterBuilder = $this->_objectManager->getObject('\Magento\Framework\Api\FilterBuilder');
         $filter = $filterBuilder->setField('email')->setValue('customer@search.example.com')->create();
         $this->_searchBuilder->addFilter([$filter]);
 
@@ -1709,7 +1715,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         );
 
         $customerService = $this->_createService();
-        $filterBuilder = $this->_objectManager->getObject('\Magento\Framework\Service\V1\Data\FilterBuilder');
+        $filterBuilder = $this->_objectManager->getObject('\Magento\Framework\Api\FilterBuilder');
         $filter = $filterBuilder->setField('email')->setValue(self::EMAIL)->create();
         $this->_searchBuilder->addFilter([$filter]);
 
@@ -1839,6 +1845,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateAccountMailException()
     {
+        $password = 'password';
+
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_customerModelMock));
@@ -1855,8 +1863,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerModelMock->expects($this->any())
             ->method('getEmail')
             ->will($this->returnValue('somebody@example.com'));
-
-
 
         $this->_customerModelMock->expects($this->any())
             ->method('getId')
@@ -1900,13 +1906,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockCustomer));
 
         $service = $this->_createService();
-        $service->createCustomer($mockCustomerDetail, 'abc123');
+        $service->createCustomer($mockCustomerDetail, $password);
         // If we get no mail exception, the test in considered a success
     }
 
     public function testGetCustomerByEmail()
     {
-
         $this->_converter = $this->getMockBuilder('Magento\Customer\Model\Converter')
             ->disableOriginalConstructor()->getMock();
 

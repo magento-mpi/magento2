@@ -12,20 +12,26 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Abstract Class Sidebar
- * Sidebar block
+ * Sidebar block.
  */
 abstract class Sidebar extends Block
 {
     /**
-     * 'Add to order' checkbox
+     * 'Add to order' checkbox.
      *
      * @var string
      */
     protected $addToOrder = '//tr[td[.="%s"]]//input[contains(@name,"add")]';
 
     /**
-     * Add product to order by name
+     * 'Add to order' checkbox.
+     *
+     * @var string
+     */
+    protected $addToOrderProductName = '//tr/td[.="%s"]';
+
+    /**
+     * Add product to order by name.
      *
      * @param string|array $names
      * @return void
@@ -34,6 +40,8 @@ abstract class Sidebar extends Block
     {
         $names = is_array($names) ? $names : [$names];
         foreach ($names as $name) {
+            $this->_rootElement->find(sprintf($this->addToOrderProductName, $name), Locator::SELECTOR_XPATH)->click();
+            $this->_rootElement->click();
             $this->_rootElement->find(sprintf($this->addToOrder, $name), Locator::SELECTOR_XPATH, 'checkbox')
                 ->setValue('Yes');
         }

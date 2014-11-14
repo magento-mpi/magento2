@@ -15,12 +15,111 @@
         margin: 0 0 5px;
     }
 }
+.items-info-tabs {
+    .item {
+        line-height: @tab-control-height;
+        margin: 0 0 -1px;
+        strong {
+            background: @tab-control-bg-active;
+            border: @border-width-base solid @border-color-base;
+            display: block;
+            font-weight: @tab-control-font-weight;
+            padding: 0 20px;
+        }
+        a {
+            background: @tab-control-bg;
+            color: @tab-control-color;
+            border: @border-width-base solid @border-color-base;
+            display: block;
+            font-weight: @tab-control-font-weight;
+            padding: 0 20px;
+            &:hover {
+                background: @tab-control-bg-hover;
+                text-decoration: @tab-control-text-decoration-hover;
+            }
+        }
+    }
+}
+.order-recurring-details {
+    > .actions-toolbar {
+        margin: 0 0 @indent-base;
+    }
+}
+.order-recurring-details-item {
+    border: @border-width-base solid @border-color-base;
+    margin-bottom: 40px;
+    padding: 10px;
+    .table.data {
+        .table-resize(
+            @_td-padding-left: 0,
+            @_td-padding-right: 0
+        );
+        .table-striped(
+            @_stripped-bg: @page-bg-color,
+            @_stripped-highlight: even
+        )
+    }
+}
+
 
 //
 //    Mobile
 //--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-xs) {
+    .table-recurring-payments {
+        td {
+            &:first-child {
+                span {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
 .responsive-smaller(@break) when (@break = @screen-s) {
     .table-wrapper.recurring-payments {
         &:extend(.abstract-account-table-border all);
+    }
+    .order-recurring-details {
+        .order-recurring-details-item {
+            .table.data {
+                .table-resize(
+                    @_td-padding-left: 0,
+                    @_td-padding-right: 0
+                );
+                th,
+                td {
+                    &:before {
+                        padding-right: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-m) {
+    .items-info-tabs {
+        &:extend(.abstract-add-clearfix-desktop all);
+        .item {
+            float: left;
+            margin: 0 @tab-control-margin-right 0 0;
+            strong {
+                border-bottom: 0;
+                margin-bottom: -1px;
+                padding: @tab-control-padding-top @tab-control-padding-right @tab-control-padding-bottom+1 @tab-control-padding-left;
+            }
+            a {
+                padding: 1px 35px;
+            }
+        }
+    }
+    .order-recurring-details-item {
+        margin-top: -1px;
+        padding: 25px;
     }
 }

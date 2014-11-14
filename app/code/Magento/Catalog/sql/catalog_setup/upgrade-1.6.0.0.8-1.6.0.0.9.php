@@ -6,10 +6,9 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Catalog\Model\Resource\Setup */
+/** @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 
-/** @var $connection \Magento\Framework\DB\Adapter\Pdo\Mysql */
 $connection = $installer->getConnection();
 $memoryTables = array(
     'catalog_category_anc_categs_index_tmp',

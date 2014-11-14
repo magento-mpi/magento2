@@ -12,14 +12,5 @@
         <type>flat</type>
         <entity_type>magento_rma</entity_type>
         <collection>Magento\Rma\Model\Resource\Rma\Collection</collection>
-        <identifier />
-        <fields>
-            <id>
-                <attribute_code>id</attribute_code>
-                <backend_type>virtual</backend_type>
-            </id>
-        </fields>
-        <data_set />
-        <data_config />
     </rma>
 </fixture>
