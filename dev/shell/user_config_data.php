@@ -48,8 +48,8 @@ try {
     $opt['data'] = $data->getFromString('--data=' . $opt['data']);
     $params[Bootstrap::PARAM_REQUIRE_MAINTENANCE] = null;
     $bootstrap = Bootstrap::create(BP, $params);
-    /** @var \Magento\Framework\App\Config\UserConfig $app */
-    $app = $bootstrap->createApplication('Magento\Framework\App\Config\UserConfig', ['request' => $opt]);
+    /** @var \Magento\Backend\App\UserConfig $app */
+    $app = $bootstrap->createApplication('Magento\Backend\App\UserConfig', ['request' => $opt]);
     $bootstrap->run($app);
 } catch (\Exception $e) {
     echo $e;

@@ -1,13 +1,13 @@
 <?php
 /**
- * Log shell application
+ * Application for managing user configuration
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\App\Config;
+namespace Magento\Backend\App;
 
 use Magento\Framework\App\Console\Response;
 use Magento\Framework\App\Bootstrap;
@@ -77,22 +77,11 @@ class UserConfig implements AppInterface
         $configData = [];
         $configData['website'] = isset($this->request['website']) ? $this->request['website'] : null;
         $configData['store'] = isset($this->request['store']) ? $this->request['store'] : null;
-        if (($configData['website'] !== null ) && ($configData['website'] !== null)
-            && ($configData['website'] === $configData['store'])) {
-            throwException('\'webiste\' and \'store\' both can not be 1 or 0 at the same time ');
+        if (($configData['website'] !== null) && ($configData['website'] === $configData['store'])) {
+            throw new \UnexpectedValueException("'website' and 'store' refer to the same ID");
         }
         foreach ($this->request['data'] as $key => $val) {
-            $pathParts = explode('/', trim(str_replace('\\', '/', $key), '/'));
-            if (count($pathParts) !== 3) {
-                throwException(
-                    'Only allowed path length for configuration data is 3, but you provided ' . count($pathParts)
-                );
-            }
-            $configData['section'] = $pathParts[0];
-            $groups = [];
-            $groups[$pathParts[1]]['fields'][$pathParts[2]]['value'] = $val;
-            $configData['groups'] = $groups;
-            $this->configModel->addData($configData);
+            $this->configModel->setDataByPath($key, $val);
             $this->configModel->save();
         }
     }
