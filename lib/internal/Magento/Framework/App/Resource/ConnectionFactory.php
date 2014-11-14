@@ -19,12 +19,12 @@ class ConnectionFactory extends ModelConnectionFactory
     private $objectManager;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\DB\LoggerInterface $logger
+     * @param \Magento\Framework\ObjectManager $objectManager
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Framework\DB\LoggerInterface $logger
+        \Magento\Framework\DB\LoggerInterface $logger,
+        \Magento\Framework\ObjectManager $objectManager
     ) {
         parent::__construct($logger);
         $this->objectManager = $objectManager;
