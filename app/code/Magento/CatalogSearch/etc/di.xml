@@ -108,7 +108,7 @@
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="categorySearchList" type="Magento\Catalog\Model\Layer\FilterList">
+    <virtualType name="searchFilterList" type="Magento\Catalog\Model\Layer\FilterList">
         <arguments>
             <argument name="filters" xsi:type="array">
                 <item name="attribute" xsi:type="string">Magento\CatalogSearch\Model\Layer\Filter\Attribute</item>
