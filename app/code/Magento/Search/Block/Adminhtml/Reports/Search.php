@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Reports\Block\Adminhtml;
+namespace Magento\Search\Block\Adminhtml\Reports;
 
 /**
  * Adminhtml search report page content block
  *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Search extends \Magento\Backend\Block\Widget\Grid\Container
 {
@@ -21,7 +20,7 @@ class Search extends \Magento\Backend\Block\Widget\Grid\Container
      */
     protected function _construct()
     {
-        $this->_blockGroup = 'Magento_Reports';
+        $this->_blockGroup = 'Magento_Search';
         $this->_controller = 'adminhtml_search';
         $this->_headerText = __('Search Terms');
         parent::_construct();

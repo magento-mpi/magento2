@@ -6,9 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Reports\Controller\Adminhtml\Index;
+namespace Magento\Search\Controller\Adminhtml\Term;
 
-class Search extends \Magento\Reports\Controller\Adminhtml\Index
+class Report extends \Magento\Reports\Controller\Adminhtml\Index
 {
     /**
      * Add reports to breadcrumb
@@ -40,5 +40,13 @@ class Search extends \Magento\Reports\Controller\Adminhtml\Index
             __('Search Terms')
         );
         $this->_view->renderLayout();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Magento_Reports::report_search');
     }
 }
