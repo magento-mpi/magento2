@@ -12,7 +12,7 @@ spl_autoload_register([$includePath, 'load']);
 $includePath->addIncludePath(
     array(__DIR__, dirname(__DIR__) . '/testsuite', BP . '/lib/internal')
 );
-\Magento\TestFramework\Utility\Files::setInstance(new \Magento\TestFramework\Utility\Files(BP));
+\Magento\Framework\Test\Utility\Files::setInstance(new \Magento\Framework\Test\Utility\Files(BP));
 
 function tool_autoloader($className)
 {

@@ -21,7 +21,7 @@ class JsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
      */
     protected $_parser;
 
-    /** @var \Magento\TestFramework\Utility\Files  */
+    /** @var \Magento\Framework\Test\Utility\Files  */
     protected $_utilityFiles;
 
     /** @var \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector */
@@ -30,7 +30,7 @@ class JsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
     protected function setUp()
     {
         $this->_parser = new \Magento\Tools\I18n\Code\Parser\Adapter\Js();
-        $this->_utilityFiles = \Magento\TestFramework\Utility\Files::init();
+        $this->_utilityFiles = \Magento\Framework\Test\Utility\Files::init();
         $this->_phraseCollector = new \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector(
             new \Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer()
         );

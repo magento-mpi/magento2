@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\TestFramework\Utility;
+namespace Magento\Framework\Test\Utility;
 
 /**
  * A helper to gather specific kind of files in Magento application
@@ -17,7 +17,7 @@ namespace Magento\TestFramework\Utility;
 class Files
 {
     /**
-     * @var \Magento\TestFramework\Utility\Files
+     * @var \Magento\Framework\Test\Utility\Files
      */
     protected static $_instance = null;
 
@@ -48,7 +48,7 @@ class Files
     /**
      * Getter for an instance of self
      *
-     * @return \Magento\TestFramework\Utility\Files
+     * @return \Magento\Framework\Test\Utility\Files
      * @throws \Exception when there is no instance set
      */
     public static function init()

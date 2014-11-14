@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestFramework\Utility;
+namespace Magento\Framework\Test\Utility;
 
 class AggregateInvokerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\TestFramework\Utility\AggregateInvoker
+     * @var \Magento\Framework\Test\Utility\AggregateInvoker
      */
     protected $_invoker;
 

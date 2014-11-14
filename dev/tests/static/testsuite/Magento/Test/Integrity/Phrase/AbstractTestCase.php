@@ -32,7 +32,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         $filesCollector = new \Magento\Tools\I18n\Code\FilesCollector();
 
         return $filesCollector->getFiles(
-            array(\Magento\TestFramework\Utility\Files::init()->getPathToSource()),
+            array(\Magento\Framework\Test\Utility\Files::init()->getPathToSource()),
             '/\.(php|phtml)$/'
         );
     }

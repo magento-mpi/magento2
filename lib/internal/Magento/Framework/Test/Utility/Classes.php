@@ -7,10 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestFramework\Utility;
+namespace Magento\Framework\Test\Utility;
 
-
-require_once __DIR__ . '/Files.php';
 class Classes
 {
     /**
@@ -140,7 +138,7 @@ class Classes
             )
         );
 
-        $classes = array_map(array('Magento\TestFramework\Utility\Classes', 'getCallbackClass'), $classes);
+        $classes = array_map(array('Magento\Framework\Test\Utility\Classes', 'getCallbackClass'), $classes);
         $classes = array_map('trim', $classes);
         $classes = array_unique($classes);
         $classes = array_filter(
@@ -189,11 +187,11 @@ class Classes
     public static function collectModuleClasses($subTypePattern = '[A-Za-z]+')
     {
         $pattern = '/^' . preg_quote(
-            \Magento\TestFramework\Utility\Files::init()->getPathToSource(),
+            \Magento\Framework\Test\Utility\Files::init()->getPathToSource(),
             '/'
         ) . '\/app\/code\/([A-Za-z]+)\/([A-Za-z]+)\/(' . $subTypePattern . '\/.+)\.php$/';
         $result = array();
-        foreach (\Magento\TestFramework\Utility\Files::init()->getPhpFiles(true, false, false, false) as $file) {
+        foreach (\Magento\Framework\Test\Utility\Files::init()->getPhpFiles(true, false, false, false) as $file) {
             if (preg_match($pattern, $file, $matches)) {
                 $module = "{$matches[1]}_{$matches[2]}";
                 $class = "{$module}" . '\\' . str_replace(
@@ -218,7 +216,7 @@ class Classes
         if (!empty(self::$_virtualClasses)) {
             return self::$_virtualClasses;
         }
-        $configFiles = \Magento\TestFramework\Utility\Files::init()->getDiConfigs();
+        $configFiles = \Magento\Framework\Test\Utility\Files::init()->getDiConfigs();
         foreach ($configFiles as $fileName) {
             $configDom = new \DOMDocument();
             $configDom->load($fileName);

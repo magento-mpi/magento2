@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestFramework\Utility;
+namespace Magento\Framework\Test\Utility;
 
 /**
  * Runs given callback across given array of data and collects all PhpUnit assertion results.
