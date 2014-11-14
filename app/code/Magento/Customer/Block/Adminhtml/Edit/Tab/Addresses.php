@@ -93,6 +93,7 @@ class Addresses extends GenericMetadata
      * @param AttributeMetadataBuilder $attributeMetadataBuilder
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param Mapper $addressMapper
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -115,6 +116,7 @@ class Addresses extends GenericMetadata
         AttributeMetadataBuilder $attributeMetadataBuilder,
         \Magento\Directory\Helper\Data $directoryHelper,
         Mapper $addressMapper,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;
@@ -131,7 +133,7 @@ class Addresses extends GenericMetadata
         $this->_attributeMetadataBuilder = $attributeMetadataBuilder;
         $this->_directoryHelper = $directoryHelper;
         $this->addressMapper = $addressMapper;
-        parent::__construct($context, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $dataObjectProcessor, $data);
     }
 
     /**

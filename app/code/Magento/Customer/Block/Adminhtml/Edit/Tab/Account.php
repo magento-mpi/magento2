@@ -85,6 +85,7 @@ class Account extends GenericMetadata
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -101,6 +102,7 @@ class Account extends GenericMetadata
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;
@@ -111,7 +113,7 @@ class Account extends GenericMetadata
         $this->_customerMetadataService = $customerMetadataService;
         $this->_customerBuilder = $customerBuilder;
         $this->_extensibleDataObjectConverter = $extensibleDataObjectConverter;
-        parent::__construct($context, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $dataObjectProcessor, $data);
     }
 
     /**
