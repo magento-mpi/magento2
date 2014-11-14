@@ -68,7 +68,6 @@ class BundleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @param array $options
      * @param \Magento\Framework\Pricing\PriceInfo\Base|\PHPUnit_Framework_MockObject_MockObject $priceInfo
      * @param string $priceType
@@ -80,11 +79,6 @@ class BundleTest extends \PHPUnit_Framework_TestCase
 
         $optionCollection = $this->getMockBuilder('\Magento\Bundle\Model\Resource\Option\Collection')
             ->disableOriginalConstructor()
-            ->setMethods(
-                [
-                    'appendSelections'
-                ]
-            )
             ->getMock();
         $optionCollection->expects($this->any())
             ->method('appendSelections')
@@ -92,14 +86,6 @@ class BundleTest extends \PHPUnit_Framework_TestCase
 
         $typeInstance = $this->getMockBuilder('\Magento\Bundle\Model\Product\Type')
             ->disableOriginalConstructor()
-            ->setMethods(
-                [
-                    'getOptionsCollection',
-                    'getStoreFilter',
-                    'getOptionsIds',
-                    'getSelectionsCollection',
-                ]
-            )
             ->getMock();
         $typeInstance->expects($this->any())
             ->method('getOptionsCollection')
@@ -139,12 +125,10 @@ class BundleTest extends \PHPUnit_Framework_TestCase
 
         $taxHelperMock = $this->getMockBuilder('\Magento\Tax\Helper\Data')
             ->disableOriginalConstructor()
-            ->setMethods(['priceIncludesTax', 'displayPriceIncludingTax'])
             ->getMock();
 
         $context = $this->getMockBuilder('\Magento\Catalog\Block\Product\Context')
             ->disableOriginalConstructor()
-            ->setMethods(['getRegistry', 'getTaxData'])
             ->getMock();
         $context->expects($this->any())
             ->method('getRegistry')
@@ -155,7 +139,6 @@ class BundleTest extends \PHPUnit_Framework_TestCase
 
         $jsonEncoderMock = $this->getMockBuilder('\Magento\Framework\Json\Encoder')
             ->disableOriginalConstructor()
-            ->setMethods(['encode'])
             ->getMock();
         $jsonEncoderMock->expects($this->any())
             ->method('encode')
@@ -163,7 +146,6 @@ class BundleTest extends \PHPUnit_Framework_TestCase
 
         $priceCurrencyMock = $this->getMockBuilder('Magento\Directory\Model\PriceCurrency')
             ->disableOriginalConstructor()
-            ->setMethods(['convert'])
             ->getMock();
         $priceCurrencyMock->expects($this->any())
             ->method('convert')
