@@ -235,8 +235,7 @@
             ],
             "Zend\\Soap\\": "app/code/Zend/Soap/",
             "Zend\\": "lib/internal/Zend/"
-        },
-        "classmap": ["app/code/"]
+        }
     },
     "include-path": [
         "/lib/internal/",
