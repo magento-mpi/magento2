@@ -28,7 +28,10 @@ class BackendConfig extends AbstractSegment
      */
     public function __construct(array $data)
     {
-        if (!preg_match('/^[a-zA-Z0-9]+$/', $data[self::KEY_FRONTNAME])) {
+        if (!isset($data[self::KEY_FRONTNAME])) {
+            throw new \InvalidArgumentException("No backend frontname provided.");
+        }
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $data[self::KEY_FRONTNAME])) {
             throw new \InvalidArgumentException("Invalid backend frontname {$data[self::KEY_FRONTNAME]}");
         }
         parent::__construct($data);

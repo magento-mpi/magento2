@@ -17,6 +17,14 @@ class InstallConfig extends AbstractSegment
      */
     const CONFIG_KEY = 'install';
 
+    public function __construct(array $data)
+    {
+        if (!isset($data[self::KEY_DATE])) {
+            throw new \InvalidArgumentException('Install date not provided');
+        }
+        parent::__construct($data);
+    }
+
     /**
      * {@inheritdoc}
      */

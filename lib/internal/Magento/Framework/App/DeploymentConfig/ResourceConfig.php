@@ -42,8 +42,8 @@ class ResourceConfig extends AbstractSegment
      */
     private function validate(array $data = [])
     {
-        foreach ($data as $resource) {
-            if (!isset($resource['name']) || !isset($resource[self::KEY_CONNECTION])) {
+        foreach ($data as $key => $resource) {
+            if (!isset($resource['name']) || $key !== $resource['name'] || !isset($resource[self::KEY_CONNECTION])) {
                 return false;
             }
         }

@@ -341,18 +341,24 @@ class Installer
      */
     private function createDbConfig($data)
     {
-        $dbConfigData = array(
+        $defaultConnection = [
             Config::$paramMap[Config::KEY_DB_HOST] => $data[Config::KEY_DB_HOST],
             Config::$paramMap[Config::KEY_DB_INIT_STATEMENTS] =>
                 isset($data[Config::KEY_DB_INIT_STATEMENTS]) ? $data[Config::KEY_DB_INIT_STATEMENTS] : null,
             Config::$paramMap[Config::KEY_DB_MODEL] => isset($data[Config::KEY_DB_MODEL]) ?
-                    $data[Config::KEY_DB_MODEL] : null,
+                $data[Config::KEY_DB_MODEL] : null,
             Config::$paramMap[Config::KEY_DB_NAME] => $data[Config::KEY_DB_NAME],
             Config::$paramMap[Config::KEY_DB_PASS] => isset($data[Config::KEY_DB_PASS]) ?
-                    $data[Config::KEY_DB_PASS] : null,
+                $data[Config::KEY_DB_PASS] : null,
+            Config::$paramMap[Config::KEY_DB_USER] => $data[Config::KEY_DB_USER],
+        ];
+
+        $dbConfigData = array(
             Config::$paramMap[Config::KEY_DB_PREFIX] => isset($data[Config::KEY_DB_PREFIX]) ?
                     $data[Config::KEY_DB_PREFIX] : null,
-            Config::$paramMap[Config::KEY_DB_USER] => $data[Config::KEY_DB_USER],
+            'connection' => [
+                'default' => $defaultConnection,
+            ]
         );
         return new DbConfig($dbConfigData);
     }

@@ -50,23 +50,9 @@ class DbConfig extends AbstractSegment
                 ],
             ]
         ];
-        parent::__construct($this->update($data));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function update(array $data)
-    {
-        $new = [];
-        $new[self::KEY_PREFIX] = isset($data[self::KEY_PREFIX]) ?
-            $data[self::KEY_PREFIX] : $this->data[self::KEY_PREFIX];
-        foreach (array_keys($this->data['connection']['default']) as $key) {
-            $new['connection']['default'][$key] =
-                isset($data[$key]) ? $data[$key] : $this->data['connection']['default'][$key];
-        }
-        $this->checkData($new);
-        return $new;
+        $data = $this->update($data);
+        $this->checkData($data);
+        parent::__construct($data);
     }
 
     /**
@@ -78,9 +64,6 @@ class DbConfig extends AbstractSegment
      */
     private function checkData(array $data)
     {
-        if (empty($data['connection']['default'][self::KEY_NAME])) {
-            throw new \InvalidArgumentException('The Database Name field cannot be empty.');
-        }
         $prefix = $data[self::KEY_PREFIX];
         if ($prefix != '') {
             $prefix = strtolower($prefix);
@@ -89,6 +72,14 @@ class DbConfig extends AbstractSegment
                     'The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_); '
                     . 'the first character should be a letter.'
                 );
+            }
+        }
+        foreach ($data['connection'] as $name => $db) {
+            if (empty($db[self::KEY_NAME])) {
+                throw new \InvalidArgumentException('The Database Name field cannot be empty.');
+            }
+            if ($name !== $db['name']) {
+                throw new \InvalidArgumentException('Connection name does not match.');
             }
         }
     }
