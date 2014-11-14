@@ -17,6 +17,9 @@
                         <next>addNewAttributeFromProductPage</next>
                     </step>
                     <step name="addNewAttributeFromProductPage" module="Magento_Catalog">
+                        <arguments>
+                            <item name="tabName">product-details</item>
+                        </arguments>
                         <next>fillAttributeFormOnProductPage</next>
                     </step>
                     <step name="fillAttributeFormOnProductPage" module="Magento_Catalog">

@@ -14,9 +14,9 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
 use Mtf\TestStep\TestStepInterface;
 
 /**
- * Delete Custom Product Attribute.
+ * Delete product attribute.
  */
-class DeleteCustomAttributeStep implements TestStepInterface
+class DeleteAttributeStep implements TestStepInterface
 {
     /**
      * Catalog Product Attribute Index page.
@@ -56,7 +56,7 @@ class DeleteCustomAttributeStep implements TestStepInterface
     }
 
     /**
-     * Delete custom product attribute step.
+     * Delete product attribute step.
      *
      * @return void
      */

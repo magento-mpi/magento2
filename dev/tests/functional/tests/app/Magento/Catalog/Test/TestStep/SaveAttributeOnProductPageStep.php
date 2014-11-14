@@ -12,7 +12,7 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Mtf\TestStep\TestStepInterface;
 
 /**
- * Click "Save" button on custom attribute form on product page.
+ * Click "Save" button on attribute form on product page.
  */
 class SaveAttributeOnProductPageStep implements TestStepInterface
 {
@@ -33,7 +33,7 @@ class SaveAttributeOnProductPageStep implements TestStepInterface
     }
 
     /**
-     * Click "Save" button on custom attribute form on product page.
+     * Click "Save" button on attribute form on product page.
      *
      * @return array
      */

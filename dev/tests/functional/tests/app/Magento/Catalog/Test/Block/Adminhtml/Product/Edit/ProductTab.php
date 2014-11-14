@@ -11,6 +11,7 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
+use Mtf\Client\Element\Locator;
 
 /**
  * General class for tabs on product FormTabs with "Add attribute" button.
@@ -22,7 +23,7 @@ class ProductTab extends Tab
      *
      * @var string
      */
-    protected $attributeSearch = '#product-attribute-search-container button.action-toggle span';
+    protected $attributeSearch = "//div[contains(@data-role, '%s')]//*[@id='product-attribute-search-container']";
 
     /**
      * Selector for 'New Attribute' button.
@@ -48,11 +49,12 @@ class ProductTab extends Tab
     /**
      * Click on 'New Attribute' button.
      *
+     * @param string $tabName
      * @return void
      */
-    public function addNewAttribute()
+    public function addNewAttribute($tabName)
     {
-        $this->_rootElement->find($this->attributeSearch)->click();
+        $this->_rootElement->find(sprintf($this->attributeSearch, $tabName), Locator::SELECTOR_XPATH)->click();
         $this->_rootElement->find($this->newAttributeButton)->click();
     }
 }

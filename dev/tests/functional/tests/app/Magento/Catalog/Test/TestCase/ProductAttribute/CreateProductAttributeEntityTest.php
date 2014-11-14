@@ -57,7 +57,7 @@ class CreateProductAttributeEntityTest extends Scenario
     public function tearDown()
     {
         ObjectManager::getInstance()->create(
-            'Magento\Catalog\Test\TestStep\DeleteCustomAttributeStep',
+            'Magento\Catalog\Test\TestStep\DeleteAttributeStep',
             ['attribute' => $this->attribute]
         )->run();
     }

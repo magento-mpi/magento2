@@ -445,7 +445,7 @@ class ProductForm extends FormTabs
         $tab = $this->getTabElement($tabName);
         if ($tab instanceof ProductTab) {
             $this->openTab($tabName);
-            $tab->addNewAttribute();
+            $tab->addNewAttribute($tabName);
         } else {
             throw new \Exception("$tabName hasn't 'Add attribute' button or is not instance of ProductTab class.");
         }

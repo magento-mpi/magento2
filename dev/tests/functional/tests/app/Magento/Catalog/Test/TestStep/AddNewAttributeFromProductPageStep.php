@@ -16,7 +16,6 @@ use Mtf\TestStep\TestStepInterface;
  */
 class AddNewAttributeFromProductPageStep implements TestStepInterface
 {
-
     /**
      * Catalog product index page.
      *
@@ -25,12 +24,21 @@ class AddNewAttributeFromProductPageStep implements TestStepInterface
     protected $catalogProductEdit;
 
     /**
+     * Tab name for adding attribute.
+     *
+     * @var string
+     */
+    protected $tabName;
+
+    /**
      * @constructor
      * @param CatalogProductEdit $catalogProductEdit
+     * @param string $tabName
      */
-    public function __construct(CatalogProductEdit $catalogProductEdit)
+    public function __construct(CatalogProductEdit $catalogProductEdit, $tabName)
     {
         $this->catalogProductEdit = $catalogProductEdit;
+        $this->tabName = $tabName;
     }
 
     /**
@@ -42,6 +50,6 @@ class AddNewAttributeFromProductPageStep implements TestStepInterface
     {
         $productForm = $this->catalogProductEdit->getProductForm();
         /** @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\ProductTab $productDetailsTab */
-        $productForm->addNewAttribute();
+        $productForm->addNewAttribute($this->tabName);
     }
 }
