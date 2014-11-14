@@ -84,6 +84,7 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
     {
         $config = ['host' => 'localhost', 'active' => false];
         $object = new Mysql($this->string, $this->dateTime, $config);
-        $this->assertNull($object->getConnection());
+        $logger = $this->getMockForAbstractClass('Magento\Framework\DB\LoggerInterface');
+        $this->assertNull($object->getConnection($logger));
     }
 }

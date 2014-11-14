@@ -20,10 +20,13 @@ class ConnectionFactory extends ModelConnectionFactory
 
     /**
      * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\DB\LoggerInterface $logger
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager
+        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\DB\LoggerInterface $logger
     ) {
+        parent::__construct($logger);
         $this->objectManager = $objectManager;
     }
 
@@ -39,10 +42,7 @@ class ConnectionFactory extends ModelConnectionFactory
         $connection = parent::create($connectionConfig);
         /** @var \Magento\Framework\App\CacheInterface $cache */
         $cache = $this->objectManager->get('Magento\Framework\App\CacheInterface');
-        /** @var \Magento\Framework\DB\LoggerInterface $logger */
-        $logger = $this->objectManager->get('Magento\Framework\DB\LoggerInterface');
         $connection->setCacheAdapter($cache->getFrontend());
-        $connection->setLogger($logger);
 
         return $connection;
     }

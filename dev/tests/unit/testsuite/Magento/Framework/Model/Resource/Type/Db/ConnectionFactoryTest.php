@@ -10,13 +10,15 @@ namespace Magento\Framework\Model\Resource\Type\Db;
 class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\Model\Resource\Type\Db\ConnectionFactory
+     * @var ConnectionFactory
      */
     private $model;
 
     protected function setUp()
     {
-        $this->model = new \Magento\Framework\Model\Resource\Type\Db\ConnectionFactory;
+        $this->model = new ConnectionFactory(
+            $this->getMockForAbstractClass('\Magento\Framework\DB\LoggerInterface')
+        );
     }
 
     /**
