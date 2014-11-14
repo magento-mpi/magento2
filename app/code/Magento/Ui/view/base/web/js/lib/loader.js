@@ -7,7 +7,8 @@
 define(['jquery'], function($) {
     'use strict';
     
-    var storage = window.localStorage;
+    var storage         = window.localStorage,
+        allowLocalCache = true;
 
     function getStoragePathFor(name, entity) {
         return '__' + entity + 'Cache__' + name;
@@ -62,6 +63,10 @@ define(['jquery'], function($) {
                 storagePath = getStoragePathFor(name, 'template'),
                 path        = formatTemplatePath(name),
                 cached;
+
+            if (allowLocalCache) {
+                cached = storage.getItem(storagePath) || null;
+            }
 
             if (cached) {
                 setTimeout(function () {

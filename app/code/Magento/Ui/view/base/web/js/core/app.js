@@ -39,23 +39,6 @@ define([
             return this; 
         },
 
-        get: function(source, callback){
-            var handler = this.onRouterLoad.bind(this, callback);
-
-            this.router.get({
-                url: source,
-                success: handler 
-            });
-            
-            return this;
-        },
-
-        onRouterLoad: function(callback, data){
-            this.layout.process(data);
-
-            callback(data);
-        },
-
         register: function () {
             registry.set('globalStorage', this);
 

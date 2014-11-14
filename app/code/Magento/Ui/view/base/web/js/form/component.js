@@ -16,10 +16,10 @@ define([
     /**
      * Private methods.
      */
-    function loadEach(elems, callback){
+    function loadEach(elems, callback, offset){
         elems.forEach(function(elem, index){
             registry.get(elem, function(elem){
-                callback(index, elem);
+                callback(elem, index+offset);
             });
         });
     }
@@ -81,20 +81,11 @@ define([
         }
     }
 
-    function delegate(elems){
-        var args = _.toArray(arguments).slice(1),
-            result;
-
-        result = elems.map(function(elem){
-            return elem.delegate.apply(elem, args);
-        });
-
-        return _.flatten(result);
-    }
-
     var Component = Scope.extend({
         initialize: function(config, additional){
             _.extend(this, config, additional);
+
+            _.bindAll(this, '_insertAt');
 
             this.initProperties()
                 .initObservable()
@@ -103,6 +94,7 @@ define([
 
         /**
          * Ment to define various properties.
+         *
          * @returns {Component} Chainable.
          */
         initProperties: function () {
@@ -111,6 +103,7 @@ define([
                 'parentScope':  this.getPart(this.dataScope, -2),
                 'provider':     registry.get(this.provider),
                 'renderer':     registry.get('globalStorage').renderer,
+                'containers':   [],
                 '_elems':       []
             });
 
@@ -119,12 +112,12 @@ define([
 
         /**
          * Initializes observable propertis.
+         *
          * @returns {Component} Chainable.
          */
         initObservable: function(){
             this.observe({
-                'containers': [],
-                'elems':      []
+                'elems': []
             });
 
             return this;
@@ -132,6 +125,7 @@ define([
 
         /**
          * Initializes storages listeners.
+         *
          * @returns {Component} Chainable.
          */
         initListeners: function(){
@@ -152,6 +146,7 @@ define([
         /**
          * Used as iterator for the listeners object.
          * Creates callbacks and assigns it to the specified storage.
+         *
          * @param {Object} data -
                 Data object that contains storage object and
                 it's property name that should be listened.
@@ -172,6 +167,7 @@ define([
 
         /**
          * Called when current element was injected to another component.
+         *
          * @param {Object} parent - Instance of a 'parent' component.
          * @returns {Component} Chainable.
          */
@@ -183,6 +179,7 @@ define([
 
         /**
          * Called when another element was added to current component.
+         *
          * @param {Object} elem - Instance of an element that was added.
          * @returns {Component} Chainable.
          */
@@ -194,6 +191,7 @@ define([
 
         /**
          * Splits incoming string and returns its' part specified by offset.
+         *
          * @param {String} parts
          * @param {Number} [offset] 
          * @param {String} [delimiter=.]
@@ -223,34 +221,44 @@ define([
      * Elements manipulation methods.
      */
     _.extend(Component.prototype, {
+        /**
+         * Requests specified components to insert
+         * them into 'elems' array starting from provided position.
+         *
+         * @param {Array} elems - An array of components names.
+         * @param {Number} [offset=-1] - Position at which to insert elements.
+         * @returns {Component} Chainable.
+         */
         insert: function(elems, offset){
             var size    = elems.length,
-                _elems  = this._elems,
-                callback;
+                _elems  = this._elems;
             
             offset      = getOffsetFor(_elems, offset);
-            callback    = this.insertAt.bind(this, offset);
             this._elems = utils.reserve(_elems, size, offset);
 
-            loadEach(elems, callback);
+            loadEach(elems, this._insertAt, offset);
 
             return this;
         },
 
-        insertAt: function(offset, index, elem){
+        /**
+         * Inserts provided component into 'elems' array at a specified position.
+         * @private
+         *
+         * @param {Object} elem - Element to insert.
+         * @param {Number} index - Position of the element.
+         */
+        _insertAt: function(elem, index){
             var _elems = this._elems;
 
-            _elems[index + offset] = elem;
+            _elems[index] = elem;
                 
             this.elems(_.compact(_elems));
             this.initElement(elem);
         },
 
-        remove: function (elem) {
-            var _elems   = this._elems,
-                position = _elems.indexOf(elem);
-
-            _elems.splice(position, 1);
+        remove: function(elem) {
+            utils.remove(this._elems, elem);
             this.elems.remove(elem);
 
             return this;
@@ -262,7 +270,7 @@ define([
 
             this.off();
 
-            this.containers.each(function(parent){
+            this.containers.forEach(function(parent){
                 parent.remove(this);
             }, this);
 
@@ -289,9 +297,17 @@ define([
                 return target.apply(this, args.slice(1));   
             }
 
-            args.unshift(this.elems());
+            return this._delegate(args);
+        },
 
-            return delegate.apply(null, args);
+        _delegate: function(args){
+            var result;
+
+            result = this.elems.map(function(elem){
+                return elem.delegate.apply(elem, args);
+            });
+
+            return _.flatten(result);
         },
 
         trigger: function(){
@@ -303,7 +319,7 @@ define([
                 return false; 
             }
 
-            this.containers.each(function(parent) {
+            this.containers.forEach(function(parent) {
                 result = parent.trigger.apply(parent, args);
 
                 if (result === false) {

@@ -6,8 +6,11 @@
  * @license     {license_link}
  */
 -->
-<div data-bind="visible: active">
-    <!-- ko foreach: elems -->
-        <!-- ko template: getTemplate() --><!-- /ko -->
-    <!-- /ko -->
-</div>
+
+<!-- ko if: wasActivated -->
+    <div data-bind="visible: active">
+        <!-- ko foreach: elems -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
+    </div>
+<!-- /ko -->

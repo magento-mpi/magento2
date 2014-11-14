@@ -85,7 +85,7 @@ define([
         initProperties: function () {
             __super__.initProperties.apply(this, arguments);
 
-            this.displayed  = {};
+            this.displayed = [];
 
             return this;
         },
@@ -191,22 +191,14 @@ define([
                 preview = elem ? elem.delegate('getPreview') : [];
                 preview = _.compact(preview).join(', ');
 
-                displayed[index] = !!preview;
+                utils.toggle(displayed, index, !!preview);
                 
                 return preview;
             });
 
-            this.updatePreview();
+            this.noPreview(!displayed.length);
 
             return _.compact(items);
-        },
-
-        /**
-         * Sets boolean value to noPreview observable based on whether display
-         *     object contains truthy values
-         */
-        updatePreview: function(){
-            this.noPreview(!_.some(this.displayed));
         }
     });
 });

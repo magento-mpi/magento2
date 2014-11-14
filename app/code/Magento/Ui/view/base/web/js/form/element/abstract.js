@@ -45,9 +45,7 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.initTemplate()
-                .store(this.value())
-                .setHidden(this.hidden());
+            this.setHidden(this.hidden());
         },
 
         /**
@@ -82,8 +80,11 @@ define([
         initProperties: function () {
             __super__.initProperties.apply(this, arguments);
 
-            this.uid        = utils.uniqueid();
-            this.inputName  = utils.serializeName(this.dataScope);
+            _.extend(this, {
+                'uid':        utils.uniqueid(),
+                'inputName':  utils.serializeName(this.dataScope),
+                'template':   this.template || (this.tmpPath + this.input_type)
+            });
 
             return this;
         },
@@ -102,17 +103,6 @@ define([
             data.on('reset', this.reset.bind(this));
             
             this.value.subscribe(this.onUpdate, this);
-
-            return this;
-        },
-
-        /**
-         * Overrides template property of instance
-         * 
-         * @return {Object} - reference to instance
-         */
-        initTemplate: function(){
-            this.template = this.template || (this.tmpPath + this.input_type);
 
             return this;
         },
@@ -144,7 +134,7 @@ define([
          * @param {Object} - reference to instance
          */
         setPreview: function(value){
-            this.preview(value);
+            this.preview(this.hidden() ? '' : value);
 
             return this;
         },
@@ -162,8 +152,7 @@ define([
          * Calls 'setHidden' passing true to it, sets 'value' property to ''  
          */
         hide: function(){
-            this.setHidden(true)
-                .setPreview('');
+            this.setHidden(true);
 
             return this;
         },
@@ -172,26 +161,27 @@ define([
          * Calls 'setHidden' passing false to it
          */
         show: function(value){
-            this.setHidden(false)
-                .setPreview(this.value());
+            this.setHidden(false);
 
             return this;
         },
 
         /**
          * Sets 'value' as 'hidden' propertie's value, triggers 'toggle' event,
-         *     sets instance's hidden identifier in params storage based on
-         *     'value'
+         * sets instance's hidden identifier in params storage based on
+         * 'value'.
          * 
          * @param {Object} value - reference to instance
          */
-        setHidden: function(value){
+        setHidden: function(isHidden){
             var params = this.provider.params;
 
-            this.hidden(value);
-            this.trigger('toggle', value);
+            this.hidden(isHidden);
+    
+            this.setPreview(this.value())
+                .trigger('toggle', isHidden);
 
-            params.set(this.name + '.hidden', value);
+            params.set(this.name + '.hidden', isHidden);
 
             return this;
         },
@@ -214,8 +204,6 @@ define([
 
             data.set(this.dataScope, value);
 
-            this.setPreview(value);
-
             return this;
         },
 
@@ -231,7 +219,9 @@ define([
          */
         onUpdate: function (value) {            
             this.store(value)
-            this.trigger('update', this.hasChanged());
+                .setPreview(value)
+                .trigger('update', this.hasChanged());
+
             this.validate();
         },
 

@@ -150,7 +150,6 @@ define([
         /**
          * Creates function that removes element
          * from collection using '_removeChild' method.
-         *
          * @param  {Object} elem - Element that should be removed.
          * @returns {Function}
          *      Since this method is used by 'click' binding,

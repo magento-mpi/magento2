@@ -11,7 +11,8 @@ define([
     'use strict';
 
     var defaults = {
-        active: false
+        active:         false,
+        wasActivated:   false
     };
 
     var __super__ = Component.prototype;
@@ -38,7 +39,7 @@ define([
         initObservable: function() {
             __super__.initObservable.apply(this, arguments);
 
-            this.observe('active');
+            this.observe('active wasActivated');
 
             return this;
         },
@@ -87,6 +88,7 @@ define([
          */
         activate: function(){
             this.active(true);
+            this.wasActivated(true);
 
             this.pushParams();
         }

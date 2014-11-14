@@ -71,8 +71,8 @@ define([
             var stored = this.params.get(),
                 params = _.extend({}, stored, options || {});
 
-            this.trigger('beforeRefresh')
-                .client.read(params);
+            this.trigger('beforeRefresh');
+            this.client.read(params);
 
             return this;
         },
