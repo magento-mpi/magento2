@@ -53,27 +53,12 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Api\GroupRepositoryInterface $groupRepository */
         $groupRepository = $objectManager->create('Magento\Customer\Api\GroupRepositoryInterface');
 
-
         /** @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder */
         $customerBuilder = $objectManager->create('Magento\Customer\Api\Data\CustomerInterfaceBuilder');
-
 
         /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
         $customerRepository = $objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
         $customer = $customerRepository->getById($fixtureCustomerId);
-
-
-//        /** @var \Magento\Customer\Model\Group $customerGroup */
-//        $customerGroup = $objectManager->create(
-//            'Magento\Customer\Model\Group'
-//        )->load(
-//            'custom_group',
-//            'customer_group_code'
-//        );
-
-
-
-        //$customerGroup = $groupManagement->getDefaultGroup();
 
         $customerGroup = $groupBuilder->setCode('custom_group')
             ->setTaxClassId($customerTaxClass->getId())
@@ -81,11 +66,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
 
         $customerGroup = $groupRepository->save($customerGroup);
 
-
         $customer = $customerBuilder->populate($customer)->setGroupId($customerGroup->getId())->create();
         $customer = $customerRepository->save($customer);
-
-        //$customer->getP
 
         /** @var \Magento\Customer\Api\AccountManagementInterface $accountManagement */
         $accountManagement = $objectManager->create('Magento\Customer\Api\AccountManagementInterface');
@@ -105,18 +87,10 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $customerAddress->setCountryId('US')->setRegionId(12)->save();
         /** @var \Magento\Sales\Model\Quote\Address $quoteShippingAddress */
         $quoteShippingAddress = $objectManager->create('Magento\Sales\Model\Quote\Address');
-//        /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
-//        $addressService = $objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
-//        $quoteShippingAddress->importCustomerAddressData($addressService->getAddress($fixtureCustomerAddressId));
 
         /** @var \Magento\Customer\Api\AddressRepositoryInterface $addressRepository */
         $addressRepository = $objectManager->create('Magento\Customer\Api\AddressRepositoryInterface');
         $quoteShippingAddress->importCustomerAddressData($addressRepository->getById(1));
-
-        /** @var \Magento\Customer\Api\AddressRepositoryInterface $addressRepository */
-        $addressRepository = $objectManager->create('Magento\Customer\Api\AddressRepositoryInterface');
-        $quoteShippingAddress->importCustomerAddressData($addressRepository->getById(1));
-
 
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $objectManager->create('Magento\Sales\Model\Quote');
