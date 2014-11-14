@@ -8,10 +8,8 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-class Config implements SegmentInterface
+abstract class AbstractSegment implements SegmentInterface
 {
-    const CONFIG_KEY = 'default_config';
-
     /**
      * Data
      *
@@ -68,10 +66,7 @@ class Config implements SegmentInterface
     /**
      * {@inheritdoc}
      */
-    public function getKey()
-    {
-        return static::CONFIG_KEY;
-    }
+    abstract public function getKey();
 
     /**
      * {@inheritdoc}

@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-class InstallConfig extends Config
+class InstallConfig extends AbstractSegment
 {
     const KEY_DATE = 'date';
 
@@ -16,4 +16,12 @@ class InstallConfig extends Config
      * Segment key
      */
     const CONFIG_KEY = 'install';
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey()
+    {
+        return self::CONFIG_KEY;
+    }
 }

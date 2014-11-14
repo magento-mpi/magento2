@@ -8,13 +8,8 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-class SessionConfig extends Config
+class SessionConfig extends AbstractSegment
 {
-    /**
-     * Parameter for setup tool
-     */
-    const KEY_SESSION_SAVE = 'session_save';
-
     /**
      * Key in config.php
      */
@@ -33,16 +28,22 @@ class SessionConfig extends Config
      */
     public function __construct(array $data)
     {
-        if (isset($data[self::KEY_SAVE])) {
-            if ($data[self::KEY_SAVE] !== 'files' && $data[self::KEY_SAVE] !== 'db') {
-                throw new \InvalidArgumentException("Invalid session_save location {$data[self::KEY_SAVE]}");
-            }
+        if (!isset($data[self::KEY_SAVE])) {
+            $data = [
+                self::KEY_SAVE => 'files',
+            ];
+        } else if ($data[self::KEY_SAVE] !== 'files' && $data[self::KEY_SAVE] !== 'db') {
+            throw new \InvalidArgumentException("Invalid session_save location {$data[self::KEY_SAVE]}");
         }
 
-        $this->data = [
-            self::KEY_SAVE => 'files',
-        ];
+        parent::__construct($data);
+    }
 
-        parent::__construct($this->update($data));
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey()
+    {
+        return self::CONFIG_KEY;
     }
 }

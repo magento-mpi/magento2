@@ -8,9 +8,9 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-class DbConfig extends Config
+class DbConfig extends AbstractSegment
 {
-    /**
+    /**#@+
      * Keys for config.php
      */
     const KEY_HOST = 'host';
@@ -21,17 +21,6 @@ class DbConfig extends Config
     const KEY_MODEL = 'model';
     const KEY_INIT_STATEMENTS = 'initStatements';
     const KEY_ACTIVE = 'active';
-
-    /**
-     * Parameters used in setup tool
-     */
-    const KEY_DB_HOST = 'db_host';
-    const KEY_DB_NAME = 'db_name';
-    const KEY_DB_USER = 'db_user';
-    const KEY_DB_PASS = 'db_pass';
-    const KEY_DB_PREFIX = 'db_prefix';
-    const KEY_DB_INIT_STATEMENTS = 'db_init_statements';
-    const KEY_DB_MODEL = 'db_model';
 
     /**
      * Segment key
@@ -102,5 +91,13 @@ class DbConfig extends Config
                 );
             }
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey()
+    {
+        return self::CONFIG_KEY;
     }
 }

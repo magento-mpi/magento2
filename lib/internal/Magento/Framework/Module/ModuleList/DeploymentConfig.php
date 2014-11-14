@@ -8,12 +8,12 @@
 
 namespace Magento\Framework\Module\ModuleList;
 
-use Magento\Framework\App\DeploymentConfig\Config;
+use Magento\Framework\App\DeploymentConfig\AbstractSegment;
 
 /**
  * Deployment configuration segment for modules
  */
-class DeploymentConfig extends Config
+class DeploymentConfig extends AbstractSegment
 {
     /**
      * Segment key
@@ -37,5 +37,13 @@ class DeploymentConfig extends Config
         }
 
         parent::__construct($modules);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey()
+    {
+        return self::CONFIG_KEY;
     }
 }

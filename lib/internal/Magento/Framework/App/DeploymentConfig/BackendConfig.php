@@ -8,13 +8,8 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-class BackendConfig extends Config
+class BackendConfig extends AbstractSegment
 {
-    /**
-     * Parameter used in setup tool
-     */
-    const KEY_BACKEND_FRONTNAME = 'backend_frontname';
-
     /**
      * Key for config.php
      */
@@ -37,5 +32,13 @@ class BackendConfig extends Config
             throw new \InvalidArgumentException("Invalid backend frontname {$data[self::KEY_FRONTNAME]}");
         }
         parent::__construct($data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey()
+    {
+        return self::CONFIG_KEY;
     }
 }

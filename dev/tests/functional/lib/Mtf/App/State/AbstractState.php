@@ -39,8 +39,12 @@ abstract class AbstractState implements StateInterface
     public function clearInstance()
     {
         $magentoBaseDir = dirname(dirname(dirname(MTF_BP)));
-        $config = include $magentoBaseDir . '/app/etc/config.php';
-        $dbInfo = $config['db']['connection']['default'];
+        $dirList = new \Magento\Framework\Filesystem\DirectoryList($magentoBaseDir);
+        $deploymentConfig = new \Magento\Framework\App\DeploymentConfig(
+            new \Magento\Framework\App\DeploymentConfig\Reader($dirList),
+            []
+        );
+        $dbInfo = $deploymentConfig->getConnection('default');
         $host = $dbInfo['host'];
         $user = $dbInfo['username'];
         $password = $dbInfo['password'];

@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-class EncryptConfig extends Config
+class EncryptConfig extends AbstractSegment
 {
     /**
      * Segment key
@@ -37,5 +37,13 @@ class EncryptConfig extends Config
             throw new \InvalidArgumentException("Invalid encryption key: '{$data[self::KEY_ENCRYPTION_KEY]}'");
         }
         parent::__construct($data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey()
+    {
+        return self::CONFIG_KEY;
     }
 }

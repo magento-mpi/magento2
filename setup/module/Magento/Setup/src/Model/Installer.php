@@ -31,6 +31,7 @@ use Magento\Framework\App\DeploymentConfig\EncryptConfig;
 use Magento\Framework\App\DeploymentConfig\InstallConfig;
 use Magento\Framework\App\DeploymentConfig\SessionConfig;
 use Magento\Framework\App\DeploymentConfig\ResourceConfig;
+use Magento\Setup\Module\Setup\Config;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -314,7 +315,9 @@ class Installer
      */
     private function createBackendConfig($data)
     {
-        $backendConfigData = array(BackendConfig::KEY_FRONTNAME => $data[BackendConfig::KEY_BACKEND_FRONTNAME]);
+        $backendConfigData = array(
+            Config::$paramMap[Config::KEY_BACKEND_FRONTNAME] => $data[Config::KEY_BACKEND_FRONTNAME]
+        );
         return new BackendConfig($backendConfigData);
     }
 
@@ -326,7 +329,7 @@ class Installer
      */
     private function createEncryptConfig($data)
     {
-        $cryptConfigData = array(EncryptConfig::KEY_ENCRYPTION_KEY => $data[EncryptConfig::KEY_ENCRYPTION_KEY]);
+        $cryptConfigData = array(Config::$paramMap[Config::KEY_ENCRYPTION_KEY] => $data[Config::KEY_ENCRYPTION_KEY]);
         return new EncryptConfig($cryptConfigData);
     }
 
@@ -339,14 +342,17 @@ class Installer
     private function createDbConfig($data)
     {
         $dbConfigData = array(
-            DbConfig::KEY_HOST => $data[DbConfig::KEY_DB_HOST],
-            DbConfig::KEY_INIT_STATEMENTS =>
-                isset($data[DbConfig::KEY_DB_INIT_STATEMENTS]) ? $data[DbConfig::KEY_DB_INIT_STATEMENTS] : null,
-            DbConfig::KEY_MODEL => isset($data[DbConfig::KEY_DB_MODEL]) ? $data[DbConfig::KEY_DB_MODEL] : null,
-            DbConfig::KEY_NAME => $data[DbConfig::KEY_DB_NAME],
-            DbConfig::KEY_PASS => isset($data[DbConfig::KEY_DB_PASS]) ? $data[DbConfig::KEY_DB_PASS] : null,
-            DbConfig::KEY_PREFIX => isset($data[DbConfig::KEY_DB_PREFIX]) ? $data[DbConfig::KEY_DB_PREFIX] : null,
-            DbConfig::KEY_USER => $data[DbConfig::KEY_DB_USER],
+            Config::$paramMap[Config::KEY_DB_HOST] => $data[Config::KEY_DB_HOST],
+            Config::$paramMap[Config::KEY_DB_INIT_STATEMENTS] =>
+                isset($data[Config::KEY_DB_INIT_STATEMENTS]) ? $data[Config::KEY_DB_INIT_STATEMENTS] : null,
+            Config::$paramMap[Config::KEY_DB_MODEL] => isset($data[Config::KEY_DB_MODEL]) ?
+                    $data[Config::KEY_DB_MODEL] : null,
+            Config::$paramMap[Config::KEY_DB_NAME] => $data[Config::KEY_DB_NAME],
+            Config::$paramMap[Config::KEY_DB_PASS] => isset($data[Config::KEY_DB_PASS]) ?
+                    $data[Config::KEY_DB_PASS] : null,
+            Config::$paramMap[Config::KEY_DB_PREFIX] => isset($data[Config::KEY_DB_PREFIX]) ?
+                    $data[Config::KEY_DB_PREFIX] : null,
+            Config::$paramMap[Config::KEY_DB_USER] => $data[Config::KEY_DB_USER],
         );
         return new DbConfig($dbConfigData);
     }
@@ -359,8 +365,8 @@ class Installer
      */
     private function createSessionConfig($data)
     {
-        $sessionConfigData = array(SessionConfig::KEY_SAVE =>
-            isset($data[SessionConfig::KEY_SESSION_SAVE]) ? $data[SessionConfig::KEY_SESSION_SAVE] : null);
+        $sessionConfigData = array(Config::$paramMap[Config::KEY_SESSION_SAVE] =>
+            isset($data[Config::KEY_SESSION_SAVE]) ? $data[Config::KEY_SESSION_SAVE] : null);
         return new SessionConfig($sessionConfigData);
     }
 
@@ -372,7 +378,7 @@ class Installer
      */
     private function createInstallConfig($data)
     {
-        $installConfigData = array(InstallConfig::KEY_DATE => $data[InstallConfig::KEY_DATE]);
+        $installConfigData = array(Config::$paramMap[Config::KEY_DATE] => $data[Config::KEY_DATE]);
         return new InstallConfig($installConfigData);
     }
 

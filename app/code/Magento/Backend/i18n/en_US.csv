@@ -462,7 +462,7 @@ Locale,Locale
 Host,Host
 "File extension not known or unsupported type.","File extension not known or unsupported type."
 Debug,Debug
-"System(config.xml, config.php) and modules configuration files(config.xml, menu.xml).","System(config.xml, config.php) and modules configuration files(config.xml, menu.xml)."
+"System(config.xml, local.xml) and modules configuration files(config.xml, menu.xml).","System(config.xml, local.xml) and modules configuration files(config.xml, menu.xml)."
 Services,Services
 "Disable Modules Output","Disable Modules Output"
 "Store Email Addresses","Store Email Addresses"

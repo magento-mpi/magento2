@@ -107,6 +107,13 @@ class Application
     protected $_factory;
 
     /**
+     * Directory List
+     *
+     * @var \Magento\Framework\App\Filesystem\DirectoryList
+     */
+    protected $_dirList;
+
+    /**
      * A factory method
      *
      * @param string $installConfigFile
@@ -161,16 +168,16 @@ class Application
         $this->_tmpDir = $tmpDir;
 
         $customDirs = $this->getCustomDirs();
-        $dirList = new \Magento\Framework\App\Filesystem\DirectoryList(BP, $customDirs);
+        $this->_dirList = new \Magento\Framework\App\Filesystem\DirectoryList(BP, $customDirs);
 
         $this->_initParams = array(
             \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => $customDirs,
             \Magento\Framework\App\State::PARAM_MODE => $appMode
         );
         $driverPool = new \Magento\Framework\Filesystem\DriverPool;
-        $this->_factory = new \Magento\TestFramework\ObjectManagerFactory($dirList, $driverPool);
+        $this->_factory = new \Magento\TestFramework\ObjectManagerFactory($this->_dirList, $driverPool);
 
-        $this->_configDir = $dirList->getPath(DirectoryList::CONFIG);
+        $this->_configDir = $this->_dirList->getPath(DirectoryList::CONFIG);
     }
 
     /**
@@ -182,9 +189,11 @@ class Application
     {
         if (null === $this->_db) {
             if ($this->isInstalled()) {
-                $localConfigFile = $this->getLocalConfig();
-                $localConfig = include $localConfigFile;
-                $dbInfo = $localConfig['db']['connection']['default'];
+                $deploymentConfig = new \Magento\Framework\App\DeploymentConfig(
+                    new \Magento\Framework\App\DeploymentConfig\Reader($this->_dirList),
+                    []
+                );
+                $dbInfo = $deploymentConfig->getConnection('default');
                 $host = $dbInfo['host'];
                 $user = $dbInfo['username'];
                 $password = $dbInfo['password'];
