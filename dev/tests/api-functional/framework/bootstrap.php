@@ -6,6 +6,8 @@
  * @license     {license_link}
  */
 
+use Magento\Framework\App\Filesystem\DirectoryList;
+
 require_once __DIR__ . '/../../../../app/bootstrap.php';
 
 $includePath = new \Magento\Framework\Autoload\IncludePath();
@@ -34,13 +36,20 @@ $logger = new \Zend_Log($logWriter);
 $settings = new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, get_defined_constants());
 $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer(), $logger);
 
-$application = \Magento\TestFramework\WebApiApplication::getInstance(
-    $settings->getAsConfigFile('TESTS_INSTALL_CONFIG_FILE'),
+$installConfigFile = $settings->getAsConfigFile('TESTS_INSTALL_CONFIG_FILE');
+if (!file_exists($installConfigFile)) {
+    $installConfigFile = $installConfigFile . '.dist';
+}
+$dirList = new \Magento\Framework\App\Filesystem\DirectoryList(BP);
+$application =  new \Magento\TestFramework\WebApiApplication(
+    $shell,
+    $dirList->getPath(DirectoryList::VAR_DIR),
+    $installConfigFile,
     BP . '/app/etc/',
     glob(BP . '/app/etc/*/module.xml'),
-    $settings->get('TESTS_MAGENTO_MODE'),
-    $shell
+    $settings->get('TESTS_MAGENTO_MODE')
 );
+
 if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {
     if (defined('TESTS_CLEANUP') && TESTS_CLEANUP === 'enabled') {
         $application->cleanup();
