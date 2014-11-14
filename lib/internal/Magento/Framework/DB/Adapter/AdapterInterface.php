@@ -76,14 +76,6 @@ interface AdapterInterface
     const ERROR_ASYMMETRIC_COMMIT_MESSAGE = 'Asymmetric transaction commit.';
 
     /**
-     * Set logger
-     *
-     * @param LoggerInterface $logger
-     * @return void
-     */
-    public function setLogger(LoggerInterface $logger);
-
-    /**
      * Begin new DB transaction for connection
      *
      * @return \Magento\Framework\DB\Adapter\Pdo\Mysql

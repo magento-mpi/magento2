@@ -31,7 +31,9 @@ class MysqlTest extends \PHPUnit_Framework_TestCase
             ['config' => $config]
         );
 
-        $connection = $object->getConnection();
+        $connection = $object->getConnection(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\DB\LoggerInterface')
+        );
         $this->assertInstanceOf('\Magento\Framework\DB\Adapter\Pdo\Mysql', $connection);
         $profiler = $connection->getProfiler();
         $this->assertInstanceOf('\Magento\Framework\DB\Profiler', $profiler);

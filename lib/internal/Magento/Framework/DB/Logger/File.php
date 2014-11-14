@@ -37,7 +37,7 @@ class File extends LoggerAbstract
      */
     public function __construct(
         Filesystem $filesystem,
-        $debugFile = 'debug/pdo_mysql.log',
+        $debugFile = 'debug/db.log',
         $logAllQueries = false,
         $logQueryTime = 0.05,
         $logCallStack = false
