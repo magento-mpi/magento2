@@ -74,13 +74,7 @@ class UserConfig implements AppInterface
      */
     private function updateUserConfigData()
     {
-        $configData = [];
-        $configData['website'] = isset($this->request['website']) ? $this->request['website'] : null;
-        $configData['store'] = isset($this->request['store']) ? $this->request['store'] : null;
-        if (($configData['website'] !== null) && ($configData['website'] === $configData['store'])) {
-            throw new \UnexpectedValueException("'website' and 'store' refer to the same ID");
-        }
-        foreach ($this->request['data'] as $key => $val) {
+        foreach ($this->request as $key => $val) {
             $this->configModel->setDataByPath($key, $val);
             $this->configModel->save();
         }

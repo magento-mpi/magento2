@@ -350,6 +350,7 @@ class Config extends \Magento\Framework\Object
      *
      * @param string $path
      * @param mixed $value
+     * @throws \Exception
      */
     public function setDataByPath($path, $value)
     {

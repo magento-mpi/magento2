@@ -543,19 +543,9 @@ class Installer
         if (count($configData) === 0) {
             return;
         }
-        $args = '';
-        $ampersandFlag = 0;
-        foreach ($configData as $path => $val) {
-            if ($ampersandFlag === 0) {
-                $args .= $path . '=' . $val;
-                $ampersandFlag = 1;
-            } else {
-                $args .= '&' . $path . '=' . $val;
-            }
-        }
-
-        $params = [$this->directoryList->getRoot() . '/dev/shell/user_config_data.php', $args];
-        $this->exec('-f %s -- --data=%s', $params);
+        $data = urldecode(http_build_query($configData));
+        $params = [$this->directoryList->getRoot() . '/dev/shell/user_config_data.php', $data, $this->execParams];
+        $this->exec('-f %s -- --data=%s --bootstrap=%s', $params);
     }
 
     /**
