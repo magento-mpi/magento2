@@ -98,6 +98,19 @@ class Converter implements ConverterInterface
                 'dataSet' => $dataSource['@attributes']['dataSet'],
             ];
             $fields = [];
+            if (isset($dataSource['fields']['@attributes']['entityType'])) {
+                $entityType = $this->entityTypeFactory->create()
+                    ->load($dataSource['fields']['@attributes']['entityType'], 'entity_type_code');
+                $attributeCollection = $entityType->getAttributeCollection();
+                foreach ($attributeCollection  as $attribute) {
+                    if ($attribute->getIsUserDefined()) {
+                        $fields[$attribute->getAttributeCode()] = [
+                            'name' => $attribute->getAttributeCode(),
+                            'source' => 'eav'
+                        ];
+                    }
+                }
+            }
             foreach ($dataSource['fields']['field'] as $field) {
                 foreach ($field['@attributes'] as $key => $value) {
                     $fields[$field['@attributes']['name']][$key] = $value;

@@ -52,12 +52,14 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
      * Saves default_billing and default_shipping flags for customer address
      *
      * @param array $addressIdList
-     * @param array $customerData
+     * @param array $extractedCustomerData
      * @return array
      */
-    protected function saveDefaultFlags(array $addressIdList, array $customerData)
+    protected function saveDefaultFlags(array $addressIdList, array & $extractedCustomerData)
     {
-        $result = array();
+        $result = [];
+        $extractedCustomerData[Customer::DEFAULT_BILLING] = null;
+        $extractedCustomerData[Customer::DEFAULT_SHIPPING] = null;
         /** @var \Magento\Customer\Helper\Data $customerHelper */
         $customerHelper = $this->_objectManager->get('Magento\Customer\Helper\Data');
         foreach ($addressIdList as $addressId) {
@@ -66,36 +68,33 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 $this->getRequest(),
                 'adminhtml_customer_address',
                 \Magento\Customer\Api\AddressMetadataInterface::ENTITY_TYPE_ADDRESS,
-                array(),
+                array('is_default_billing', 'is_default_shipping'),
                 $scope
             );
+
             if (is_numeric($addressId)) {
                 $addressData['id'] = $addressId;
             }
-            // Set default billing and shipping flags to address
-            $addressData[Customer::DEFAULT_BILLING] = isset(
-                $customerData[Customer::DEFAULT_BILLING]
-                ) &&
-                $customerData[Customer::DEFAULT_BILLING] &&
-                $customerData[Customer::DEFAULT_BILLING] == $addressId;
-            $addressData[Customer::DEFAULT_SHIPPING] = isset(
-                $customerData[Customer::DEFAULT_SHIPPING]
-                ) &&
-                $customerData[Customer::DEFAULT_SHIPPING] &&
-                $customerData[Customer::DEFAULT_SHIPPING] == $addressId;
+            // Set default billing and shipping flags to customer
+            if (isset($addressData['is_default_billing']) && $addressData['is_default_billing'] === 'true') {
+                $extractedCustomerData[Customer::DEFAULT_BILLING] = $addressId;
+            }
+            if (isset($addressData['is_default_shipping']) && $addressData['is_default_shipping'] === 'true') {
+                $extractedCustomerData[Customer::DEFAULT_SHIPPING] = $addressId;
+            }
 
             $result[] = $addressData;
         }
-
         return $result;
     }
 
     /**
      * Reformat customer addresses data to be compatible with customer service interface
      *
+     * @param array $extractedCustomerData
      * @return array
      */
-    protected function _extractCustomerAddressData()
+    protected function _extractCustomerAddressData(array & $extractedCustomerData)
     {
         $customerData = $this->getRequest()->getPost('account');
         $addresses = isset($customerData['customer_address']) ? $customerData['customer_address'] : [];
@@ -106,7 +105,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             }
 
             $addressIdList = array_keys($addresses);
-            $result = $this->saveDefaultFlags($addressIdList, $customerData);
+            $result = $this->saveDefaultFlags($addressIdList, $extractedCustomerData);
         }
 
         return $result;
@@ -128,7 +127,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             try {
                 // optional fields might be set in request for future processing by observers in other modules
                 $customerData = $this->_extractCustomerData();
-                $addressesData = $this->_extractCustomerAddressData();
+                $addressesData = $this->_extractCustomerAddressData($customerData);
                 $request = $this->getRequest();
                 $isExistingCustomer = (bool)$customerId;
                 $customerBuilder = $this->_customerBuilder;
@@ -139,8 +138,6 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                         $customerData
                     );
                 }
-                unset($customerData[Customer::DEFAULT_BILLING]);
-                unset($customerData[Customer::DEFAULT_SHIPPING]);
                 $customerBuilder->populateWithArray($customerData);
                 $addresses = array();
                 foreach ($addressesData as $addressData) {

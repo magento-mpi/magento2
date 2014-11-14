@@ -143,6 +143,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $mathRandom;
 
     /**
+     * @var \Magento\Framework\ObjectFactory
+     */
+    protected $objectFactory;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
@@ -152,6 +157,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Math\Random $mathRandom
+     * @param \Magento\Framework\ObjectFactory $objectFactory,
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -164,7 +170,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Framework\Escaper $escaper,
-        \Magento\Framework\Math\Random $mathRandom
+        \Magento\Framework\Math\Random $mathRandom,
+        \Magento\Framework\ObjectFactory $objectFactory
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_coreData = $coreData;
@@ -174,6 +181,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_formFactory = $formFactory;
         $this->_escaper = $escaper;
         $this->mathRandom = $mathRandom;
+        $this->objectFactory = $objectFactory;
         parent::__construct($context);
     }
 
@@ -675,7 +683,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             );
         }
         $filteredData = $metadataForm->extractData($request, $scope);
-        $requestData = $request->getPost($scope);
+        $object = $this->objectFactory->create(['data' => $request->getPost()]);
+        $requestData = $object->getData($scope);
         foreach ($additionalAttributes as $attributeCode) {
             $filteredData[$attributeCode] = isset($requestData[$attributeCode]) ? $requestData[$attributeCode] : false;
         }
