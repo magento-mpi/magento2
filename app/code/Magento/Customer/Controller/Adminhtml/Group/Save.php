@@ -62,7 +62,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Group
     {
         $taxClass = (int)$this->getRequest()->getParam('tax_class');
 
-        /** @var CustomerGroup $customerGroup */
+        /** @var \Magento\Customer\Api\Data\GroupInterface $customerGroup */
         $customerGroup = null;
         if ($taxClass) {
             $id = $this->getRequest()->getParam('id');
@@ -87,7 +87,10 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Group
                 $this->messageManager->addError($e->getMessage());
                 if ($customerGroup != null) {
                     $this->storeCustomerGroupDataToSession(
-                        $this->dataObjectProcessor->buildOutputDataArray($customerGroup, get_class($customerGroup))
+                        $this->dataObjectProcessor->buildOutputDataArray(
+                            $customerGroup,
+                            '\Magento\Customer\Api\Data\GroupInterface'
+                        )
                     );
                 }
                 $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
