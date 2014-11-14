@@ -47,6 +47,11 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
      */
     protected $productMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $linkTypeProviderMock;
+
     protected function setUp()
     {
         $this->productRepositoryMock = $this->getMock('\Magento\Catalog\Model\ProductRepository', [], [], '', false);
@@ -74,6 +79,14 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
         );
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
 
+        $this->linkTypeProviderMock = $this->getMock(
+            '\Magento\Catalog\Model\Product\LinkTypeProvider',
+            [],
+            [],
+            '',
+            false
+        );
+
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(
             '\Magento\Catalog\Model\ProductLink\Management',
@@ -82,7 +95,8 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
                 'collectionProvider' => $this->collectionProviderMock,
                 'productLinkBuilder' => $this->productLinkBuilderMock,
                 'linkInitializer' => $this->linkInitializerMock,
-                'productResource' => $this->productResourceMock
+                'productResource' => $this->productResourceMock,
+                'linkTypeProvider' => $this->linkTypeProviderMock
             ]
         );
     }
@@ -138,12 +152,13 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
         $this->model->getLinkedItemsByType($productSku, $linkType);
     }
 
-
     public function testSetProductLinks()
     {
         $type = 'type';
         $linkedProductsMock = [];
         $linksData = [];
+
+        $this->linkTypeProviderMock->expects($this->once())->method('getLinkTypes')->willReturn([$type => 'link']);
         for ($i = 0; $i < 2; $i++) {
             $linkMock = $this->getMockForAbstractClass(
                 '\Magento\Catalog\Api\Data\ProductLinkInterface',
@@ -177,12 +192,27 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage Provided link type "type2" does not exist
+     */
+    public function testSetProductLinksThrowExceptionIfProductLinkTypeDoesNotExist()
+    {
+        $type = 'type';
+        $linkedProductsMock = [];
+
+        $this->linkTypeProviderMock->expects($this->once())->method('getLinkTypes')->willReturn([$type => 'link']);
+        $this->assertTrue($this->model->setProductLinks('', 'type2', $linkedProductsMock));
+    }
+
+    /**
      * @dataProvider setProductLinksNoProductExceptionDataProvider
      */
     public function testSetProductLinksNoProductException($exceptionName, $exceptionMessage, $linkedProductIds)
     {
         $this->setExpectedException($exceptionName, $exceptionMessage);
         $linkedProductsMock = [];
+        $type = 'type';
+        $this->linkTypeProviderMock->expects($this->once())->method('getLinkTypes')->willReturn([$type => 'link']);
         for ($i = 0; $i < 2; $i++) {
             $productLinkMock = $this->getMock(
                 '\Magento\Catalog\Api\Data\ProductLinkInterface',
@@ -201,7 +231,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
         $linkedSkuList = ['linkedProduct0Sku', 'linkedProduct1Sku'];
         $this->productResourceMock->expects($this->any())->method('getProductsIdsBySkus')->with($linkedSkuList)
             ->willReturn($linkedProductIds);
-        $this->model->setProductLinks('', '', $linkedProductsMock);
+        $this->model->setProductLinks('', $type, $linkedProductsMock);
     }
 
     public function setProductLinksNoProductExceptionDataProvider()
@@ -228,6 +258,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
         $type = 'type';
         $linkedProductsMock = [];
         $linksData = [];
+        $this->linkTypeProviderMock->expects($this->once())->method('getLinkTypes')->willReturn([$type => 'link']);
         for ($i = 0; $i < 2; $i++) {
             $linkMock = $this->getMockForAbstractClass(
                 '\Magento\Catalog\Api\Data\ProductLinkInterface',
