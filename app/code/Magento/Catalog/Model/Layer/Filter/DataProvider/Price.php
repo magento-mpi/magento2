@@ -14,7 +14,6 @@ use Magento\Store\Model\ScopeInterface;
 
 class Price
 {
-
     /**
      * XML configuration paths for Price Layered Navigation
      */

@@ -68,8 +68,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setParam('price', '10-20');
         $this->_model->apply($request);
-
-        $this->assertEquals([10, 20], $this->_model->getData('interval'));
     }
 
     public function testGetSetCustomerGroupId()

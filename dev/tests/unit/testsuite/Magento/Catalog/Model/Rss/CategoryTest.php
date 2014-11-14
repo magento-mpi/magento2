@@ -28,7 +28,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Catalog\Model\Layer\Category|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $category;
+    protected $categoryLayer;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -42,7 +42,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->category = $this->getMock(
+        $this->categoryLayer = $this->getMock(
             'Magento\Catalog\Model\Layer\Category',
             ['setStore', '__wakeup'],
             [],
@@ -65,12 +65,21 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Layer\Resolver $layerResolver */
+        $layerResolver = $this->getMockBuilder('\Magento\Catalog\Model\Layer\Resolver')
+            ->disableOriginalConstructor()
+            ->setMethods(['get', 'create'])
+            ->getMock();
+        $layerResolver->expects($this->any())
+            ->method($this->anything())
+            ->will($this->returnValue($this->categoryLayer));
+
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         /** @var \Magento\Catalog\Model\Rss\Category model */
         $this->model = $this->objectManagerHelper->getObject(
             'Magento\Catalog\Model\Rss\Category',
             [
-                'catalogLayer' => $this->category,
+                'layerResolver' => $layerResolver,
                 'collectionFactory' => $this->collectionFactory,
                 'visibility' => $this->visibility
             ]
@@ -164,7 +173,17 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         );
         $layer->expects($this->once())->method('setCurrentCategory')->with($category)->will($this->returnSelf());
         $layer->expects($this->once())->method('getProductCollection')->will($this->returnValue($products));
-        $this->category->expects($this->once())->method('setStore')->with($storeId)->will($this->returnValue($layer));
+
+        /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Layer\Resolver $layerResolver */
+        $layerResolver = $this->getMockBuilder('\Magento\Catalog\Model\Layer\Resolver')
+            ->disableOriginalConstructor()
+            ->setMethods(['get', 'create'])
+            ->getMock();
+        $layerResolver->expects($this->any())
+            ->method($this->anything())
+            ->will($this->returnValue($layer));
+
+        $this->categoryLayer->expects($this->once())->method('setStore')->with($storeId)->will($this->returnValue($layer));
         $this->assertEquals($products, $this->model->getProductCollection($category, $storeId));
     }
 }

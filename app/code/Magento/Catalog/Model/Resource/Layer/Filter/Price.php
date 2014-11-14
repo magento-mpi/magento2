@@ -90,7 +90,6 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Retrieve clean select with joined price index table
      *
-     * @throws \Zend_Db_Select_Exception
      * @return \Magento\Framework\DB\Select
      */
     protected function _getSelect()

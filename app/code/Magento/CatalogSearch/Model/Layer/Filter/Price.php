@@ -12,8 +12,6 @@ use Magento\Catalog\Model\Layer\Filter\AbstractFilter;
 /**
  * Layer price filter based on Search API
  *
- * @method null|int[] getInterval()
- * @method $this setInterval(array $interval)
  */
 class Price extends AbstractFilter
 {
@@ -106,10 +104,10 @@ class Price extends AbstractFilter
             return $this;
         }
 
-        $this->setInterval($filter);
+        $this->dataProvider->setInterval($filter);
         $priorFilters = $this->dataProvider->getPriorFilters($filterParams);
         if ($priorFilters) {
-            $this->setPriorIntervals($priorFilters);
+            $this->dataProvider->setPriorIntervals($priorFilters);
         }
 
         list($from, $to) = $filter;
