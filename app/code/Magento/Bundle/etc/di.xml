@@ -48,7 +48,7 @@
     <virtualType name="Magento\Bundle\Pricing\Price\Pool" type="Magento\Framework\Pricing\Price\Pool">
         <arguments>
             <argument name="prices" xsi:type="array">
-                <item name="regular_price" xsi:type="string">Magento\Catalog\Pricing\Price\RegularPrice</item>
+                <item name="regular_price" xsi:type="string">Magento\Bundle\Pricing\Price\BundleRegularPrice</item>
                 <item name="final_price" xsi:type="string">Magento\Bundle\Pricing\Price\FinalPrice</item>
                 <item name="tier_price" xsi:type="string">Magento\Bundle\Pricing\Price\TierPrice</item>
                 <item name="group_price" xsi:type="string">Magento\Bundle\Pricing\Price\GroupPrice</item>
