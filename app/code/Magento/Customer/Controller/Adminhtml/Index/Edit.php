@@ -9,7 +9,9 @@
 namespace Magento\Customer\Controller\Adminhtml\Index;
 
 use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Framework\Convert\ConvertArray;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Api\ExtensibleDataObjectConverter;
 
 class Edit extends \Magento\Customer\Controller\Adminhtml\Index
 {
@@ -34,11 +36,11 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
         $isExistingCustomer = (bool)$customerId;
         if ($isExistingCustomer) {
             try {
-                $customer = $this->_customerAccountService->getCustomer($customerId);
-                $customerData['account'] = $this->_extensibleDataObjectConverter->toFlatArray($customer);
+                $customer = $this->_customerRepository->getById($customerId);
+                $customerData['account'] = $this->customerMapper->toFlatArray($customer);
                 $customerData['account']['id'] = $customerId;
                 try {
-                    $addresses = $this->_addressService->getAddresses($customerId);
+                    $addresses = $customer->getAddresses();
                     foreach ($addresses as $address) {
                         $customerData['address'][$address->getId()] = $this->addressMapper->toFlatArray($address);
                         $customerData['address'][$address->getId()]['id'] = $address->getId();
@@ -76,7 +78,7 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
                 );
                 $formData = $customerForm->extractData($request, 'account');
                 $customerData['account'] = $customerForm->restoreData($formData);
-                $customer = $this->_customerBuilder->populateWithArray($customerData['account'])->create();
+                $customer = $this->customerDataBuilder->populateWithArray($customerData['account'])->create();
             }
 
             if (isset($data['address']) && is_array($data['address'])) {
@@ -86,25 +88,25 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
                     }
 
                     try {
-                        $address = $this->_addressService->getAddress($addressId);
+                        $address = $this->addressRepository->getById($addressId);
                         if (!empty($customerId) && $address->getCustomerId() == $customerId) {
-                            $this->_addressBuilder->populate($address);
+                            $this->addressDataBuilder->populateWithArray($this->addressMapper->toFlatArray($address));
                         }
                     } catch (NoSuchEntityException $e) {
-                        $this->_addressBuilder->setId($addressId);
+                        $this->addressDataBuilder->setId($addressId);
                     }
                     if (!empty($customerId)) {
-                        $this->_addressBuilder->setCustomerId($customerId);
+                        $this->addressDataBuilder->setCustomerId($customerId);
                     }
-                    $this->_addressBuilder->setDefaultBilling(
+                    $this->addressDataBuilder->setDefaultBilling(
                         !empty($data['account'][\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING]) &&
                         $data['account'][\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING] == $addressId
                     );
-                    $this->_addressBuilder->setDefaultShipping(
+                    $this->addressDataBuilder->setDefaultShipping(
                         !empty($data['account'][\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING]) &&
                         $data['account'][\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING] == $addressId
                     );
-                    $address = $this->_addressBuilder->create();
+                    $address = $this->addressDataBuilder->create();
                     $requestScope = sprintf('address/%s', $addressId);
                     $addressForm = $this->_formFactory->create(
                         'customer_address',
