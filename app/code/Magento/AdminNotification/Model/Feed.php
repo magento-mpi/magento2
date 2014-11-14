@@ -58,7 +58,7 @@ class Feed extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
-     * @param \Magento\Framework\App\DeploymentConfig $args
+     * @param \Magento\Framework\App\DeploymentConfig $deploymentConfig
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\Framework\HTTP\Adapter\curlFactory $curlFactory
      * @param array $data

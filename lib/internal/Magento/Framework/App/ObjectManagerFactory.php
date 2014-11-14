@@ -25,11 +25,6 @@ class ObjectManagerFactory
     const INIT_PARAM_DEPLOYMENT_CONFIG_FILE = 'MAGE_CONFIG_FILE';
 
     /**
-     * Initialization parameter for custom deployment configuration data
-     */
-    const INIT_PARAM_DEPLOYMENT_CONFIG = 'MAGE_CONFIG';
-
-    /**
      * Locator class name
      *
      * @var string
@@ -176,11 +171,8 @@ class ObjectManagerFactory
         $customFile = isset($arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE])
             ? $arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE]
             : null;
-        $customData = isset($arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG])
-            ? $arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG]
-            : [];
         $loader = new DeploymentConfig\Reader($directoryList, $customFile);
-        return new DeploymentConfig($loader, $customData);
+        return new DeploymentConfig($loader, $arguments);
     }
 
     /**

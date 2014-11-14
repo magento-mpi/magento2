@@ -189,7 +189,7 @@ class DeploymentConfig
             if ($this->overrideData) {
                 $this->data = array_replace_recursive($this->data, $this->overrideData);
             }
-            // flatten data for more convenient config retrieval
+            // flatten data for config retrieval using get()
             $this->flatData = $this->_flattenParams($this->data);
         }
     }

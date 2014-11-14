@@ -28,15 +28,12 @@ class DeploymentConfig extends AbstractSegment
      */
     public function __construct(array $data)
     {
-        $modules = [];
         foreach ($data as $key => $value) {
             if (!preg_match('/^[A-Z][A-Za-z\d]+_[A-Z][A-Za-z\d]+$/', $key)) {
                 throw new \InvalidArgumentException("Incorrect module name: '{$key}'");
             }
-            $modules[$key] = (int)$value;
+            $this->data[$key] = (int)$value;
         }
-
-        parent::__construct($modules);
     }
 
     /**
