@@ -211,5 +211,46 @@
             ],
             "tinymce/tinymce": "lib/web/tiny_mce"
         }
+    },
+    "config": {
+        "use-include-path": true
+    },
+    "autoload": {
+        "psr-0": {
+            "Apache_": "lib/internal/",
+            "Cm_": "lib/internal/",
+            "Credis_": "lib/internal/",
+            "Less_": "lib/internal/",
+            "Symfony\\": "lib/internal/",
+            "Zend_Date": "app/code/",
+            "Zend_Mime": "app/code/",
+            "Zend_": "lib/internal/",
+            "Zend\\": "lib/internal/"
+        },
+        "psr-4": {
+            "Magento\\Framework\\": "lib/internal/Magento/Framework/",
+            "Magento\\": [
+                "var/generation/Magento/",
+                "app/code/Magento/"
+            ],
+            "Zend\\Soap\\": "app/code/Zend/Soap/",
+            "Zend\\": "lib/internal/Zend/"
+        },
+        "classmap": ["app/code/"]
+    },
+    "include-path": [
+        "/lib/internal/",
+        "/app/code/"
+    ],
+    "autoload-dev": {
+        "psr-4": {
+            "Magento\\Sniffs\\": "dev/tests/static/framework/Magento/Sniffs/",
+            "Magento\\Tools\\": "dev/tools/Magento/Tools/",
+            "Magento\\Tools\\License\\": "dev/build/publication/license/",
+            "Magento\\Tools\\Sanity\\": "dev/build/publication/sanity/Magento/Tools/Sanity/",
+            "Magento\\TestFramework\\Inspection\\": "dev/tests/static/framework/Magento/TestFramework/Inspection/",
+            "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/",
+            "Magento\\ToolkitFramework\\": "dev/tools/performance-toolkit/framework/Magento/ToolkitFramework/"
+        }
     }
 }

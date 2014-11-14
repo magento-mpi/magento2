@@ -13,7 +13,7 @@ namespace Magento\Catalog\Service\V1\Product\Link\Data;
  *
  * @codeCoverageIgnore
  */
-class LinkType extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class LinkType extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**#@+
      * Constants for Data Object keys

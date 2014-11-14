@@ -18,7 +18,7 @@ class Application
     /**
      * Area code
      */
-    const AREA_CODE = 'install';
+    const AREA_CODE = 'adminhtml';
 
     /**
      * Application object
@@ -170,6 +170,7 @@ class Application
     public function resetObjectManager()
     {
         $this->_objectManager = null;
+        $this->bootstrap();
         return $this;
     }
 }

@@ -11,8 +11,7 @@ namespace Magento\Sales\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class OrderInjectable Repository
- * Repository for order
+ * Repository for order.
  */
 class OrderInjectable extends AbstractRepository
 {
@@ -70,7 +69,7 @@ class OrderInjectable extends AbstractRepository
             'payment_auth_expiration' => ['method' => 'checkmo'],
             'payment_authorization_amount' => ['method' => 'free'],
             'billing_address_id' => ['dataSet' => 'US_address'],
-            'entity_id' => ['products' => 'downloadableProductInjectable::with_two_separately_links']
+            'entity_id' => ['products' => 'downloadableProductInjectable::with_two_bought_links']
         ];
 
         $this->_data['two_downloadable_product'] = [
@@ -84,8 +83,8 @@ class OrderInjectable extends AbstractRepository
             'billing_address_id' => ['dataSet' => 'US_address'],
             'entity_id' => [
                 'products' =>
-                    'downloadableProductInjectable::with_two_separately_links,'
-                    . 'downloadableProductInjectable::with_two_separately_links'
+                    'downloadableProductInjectable::with_two_bought_links,'
+                    . 'downloadableProductInjectable::with_two_bought_links'
             ]
         ];
 
@@ -113,6 +112,30 @@ class OrderInjectable extends AbstractRepository
             'payment_authorization_amount' => ['method' => 'free'],
             'billing_address_id' => ['dataSet' => 'US_address'],
             'entity_id' => ['products' => 'catalogProductSimple::default']
+        ];
+
+        $this->_data['simple_big_qty'] = [
+            'customer_id' => ['dataSet' => 'default'],
+            'base_currency_code' => false,
+            'store_id' => ['dataSet' => 'default_store_view'],
+            'order_currency_code' => 'USD',
+            'shipping_method' => 'flatrate_flatrate',
+            'payment_auth_expiration' => ['method' => 'checkmo'],
+            'payment_authorization_amount' => ['method' => 'free'],
+            'billing_address_id' => ['dataSet' => 'US_address'],
+            'entity_id' => ['products' => 'catalogProductSimple::simple_big_qty']
+        ];
+
+        $this->_data['virtual_big_qty'] = [
+            'customer_id' => ['dataSet' => 'default'],
+            'base_currency_code' => false,
+            'store_id' => ['dataSet' => 'default_store_view'],
+            'order_currency_code' => 'USD',
+            'shipping_method' => 'flatrate_flatrate',
+            'payment_auth_expiration' => ['method' => 'checkmo'],
+            'payment_authorization_amount' => ['method' => 'free'],
+            'billing_address_id' => ['dataSet' => 'US_address'],
+            'entity_id' => ['products' => 'catalogProductVirtual::virtual_big_qty']
         ];
     }
 }

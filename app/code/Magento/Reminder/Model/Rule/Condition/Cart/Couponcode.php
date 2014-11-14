@@ -82,7 +82,7 @@ class Couponcode extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function getConditionsSql($customer, $website)
     {
-        $table = $this->getResource()->getTable('sales_flat_quote');
+        $table = $this->getResource()->getTable('sales_quote');
         $inversion = (int)$this->getValue() ? '' : 'NOT';
 
         $select = $this->getResource()->createSelect();

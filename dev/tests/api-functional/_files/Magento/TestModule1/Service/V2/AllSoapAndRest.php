@@ -44,7 +44,7 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V2\AllSoapAndRestIn
 
         /** Simple filtration implementation */
         if (!empty($filters)) {
-            /** @var \Magento\Framework\Service\V1\Data\Filter $filter */
+            /** @var \Magento\Framework\Api\Filter $filter */
             foreach ($filters as $filter) {
                 if ('id' == $filter->getField() && $filter->getValue() == 1) {
                     $result[] = $firstItem;

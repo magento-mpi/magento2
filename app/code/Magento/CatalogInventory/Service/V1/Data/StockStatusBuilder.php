@@ -7,11 +7,11 @@
  */
 namespace Magento\CatalogInventory\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * Stock status data builder
  */
-class StockStatusBuilder extends AbstractExtensibleObjectBuilder
+class StockStatusBuilder extends ExtensibleObjectBuilder
 {
 }
