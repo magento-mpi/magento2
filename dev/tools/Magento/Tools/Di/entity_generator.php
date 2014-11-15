@@ -7,8 +7,10 @@
  */
 
 use Magento\Framework\Code\Generator;
+use Magento\Framework\Code\Generator\ClassValidator;
 use Magento\Framework\Code\Generator\Io;
 use Magento\Framework\Filesystem\Driver\File;
+use Magento\Framework\Filesystem\FileResolver;
 use Magento\Framework\ObjectManager\Code\Generator\Factory;
 use Magento\Framework\ObjectManager\Code\Generator\Proxy;
 use Magento\Framework\Interception\Code\Generator\Interceptor;
@@ -19,12 +21,12 @@ use Magento\Framework\ObjectManager\Code\Generator\Repository;
 use Magento\Framework\ObjectManager\Code\Generator\Converter;
 use Magento\Framework\Api\Code\Generator\SearchResults;
 use Magento\Framework\Api\Code\Generator\SearchResultsBuilder;
+use Magento\Framework\Autoload\AutoloaderRegistry;
 
 require __DIR__ . '/../../../../../app/bootstrap.php';
 
 // default generation dir
 $generationDir = BP . '/' . Io::DEFAULT_DIRECTORY;
-
 try {
     $opt = new \Zend_Console_Getopt(
         [
@@ -53,8 +55,10 @@ try {
     if ($opt->getOption('g')) {
         $generationDir = $opt->getOption('g');
     }
+    AutoloaderRegistry::getAutoloader()->addPsr4('Magento\\', $generationDir . '/Magento/');
+
 } catch (\Zend_Console_Getopt_Exception $e) {
-    $generator = new Generator(new \Magento\Framework\Code\Generator\FileResolver());
+    $generator = new Generator();
     $entities = $generator->getGeneratedEntities();
 
     $allowedTypes = 'Allowed entity types are: ' . implode(', ', $entities) . '.';
@@ -69,12 +73,10 @@ try {
     exit($example);
 }
 
-\Magento\Framework\Code\Generator\FileResolver::addIncludePath($generationDir);
-
 //reinit generator with correct generation path
-$io = new Io(new File(), null, $generationDir);
+$io = new Io(new File(), $generationDir);
 $generator = new Generator(
-    null,
+    $validator,
     $io,
     [
         DataBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\DataBuilder',

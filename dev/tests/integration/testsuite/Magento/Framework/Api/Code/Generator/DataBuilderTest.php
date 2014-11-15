@@ -21,9 +21,7 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $includePath = new \Magento\Framework\Autoload\IncludePath();
-        $includePath->addIncludePath([__DIR__ . '/../../_files']);
-        spl_autoload_register([$includePath, 'load']);
+        \Magento\Framework\Filesystem\FileResolver::addIncludePath([__DIR__ . '/../../_files']);
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_objectManager->configure(
             [
