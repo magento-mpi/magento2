@@ -9,51 +9,39 @@
  */
 namespace Magento\Framework\Model\Resource\Type\Db;
 
-use Magento\Framework\App\Resource\ConnectionAdapterInterface;
-use Magento\Framework\DB\LoggerInterface;
+use Magento\Framework\ObjectManager;
 
-class ConnectionFactory
+class ConnectionFactory implements ConnectionFactoryInterface
 {
     /**
-     * @var string
+     * @var ObjectManager
      */
-    private $adapterClass = 'Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql';
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    protected $objectManager;
 
     /**
-     * @param LoggerInterface $logger
+     * Constructor
+     *
+     * @param ObjectManager $objectManager
      */
-    public function __construct(LoggerInterface $logger)
+    public function __construct(ObjectManager $objectManager)
     {
-        $this->logger = $logger;
+        $this->objectManager = $objectManager;
     }
 
     /**
-     * Create connection adapter instance
-     *
-     * @param array $connectionConfig
-     * @return \Magento\Framework\DB\Adapter\AdapterInterface
-     * @throws \InvalidArgumentException
+     * {@inheritdoc}
      */
     public function create(array $connectionConfig)
     {
         if (!$connectionConfig || !isset($connectionConfig['active']) || !$connectionConfig['active']) {
             return null;
         }
-        $adapterClass = isset($connectionConfig['adapter']) ? $connectionConfig['adapter'] : $this->adapterClass;
-        $adapterInstance = new $adapterClass(
-            new \Magento\Framework\Stdlib\String,
-            new \Magento\Framework\Stdlib\DateTime,
-            $connectionConfig
+
+        $adapterInstance = $this->objectManager->create(
+            'Magento\Framework\App\Resource\ConnectionAdapterInterface',
+            ['config' => $connectionConfig]
         );
 
-        if (!$adapterInstance instanceof ConnectionAdapterInterface) {
-            throw new \InvalidArgumentException("Trying to create wrong connection adapter '$this->adapterClass'");
-        }
-
-        return $adapterInstance->getConnection($this->logger);
+        return $adapterInstance->getConnection($this->objectManager->get('Magento\Framework\DB\LoggerInterface'));
     }
 }

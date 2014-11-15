@@ -1,0 +1,81 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
+namespace Magento\Framework\App\DeploymentConfig;
+
+class CacheConfig extends AbstractSegment
+{
+    const KEY_FRONTEND = 'frontend';
+
+    const KEY_TYPE = 'type';
+
+    const CONFIG_KEY = 'cache';
+
+    /**
+     * Constructor
+     *
+     * @param array $data
+     */
+    public function __construct(array $data)
+    {
+        $this->validate($data);
+        parent::__construct($data);
+    }
+
+    /**
+     * Validate data
+     *
+     * @param array $data
+     * @return void
+     * @throws \InvalidArgumentException
+     */
+    private function validate(array $data)
+    {
+        if (!isset($data[self::KEY_FRONTEND])) {
+            throw \InvalidArgumentException('No cache frontend configuration provided.');
+        }
+        if (!is_array($data[self::KEY_FRONTEND])) {
+            throw \InvalidArgumentException('Invalid cache frontend configuration provided.');
+        }
+        foreach ($data[self::KEY_FRONTEND] as $settings) {
+            if (!is_array($settings)) {
+                throw \InvalidArgumentException('Invalid cache settings.');
+            }
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getKey()
+    {
+        return self::CONFIG_KEY;
+    }
+
+    /**
+     * Retrieve settings for all cache front-ends configured in the system
+     *
+     * @return array Format: array('<frontend_id>' => array(<cache_settings>), ...)
+     */
+    public function getCacheFrontendSettings()
+    {
+        return isset($this->data[self::KEY_FRONTEND]) ? $this->data[self::KEY_FRONTEND] : array();
+    }
+
+    /**
+     * Retrieve identifier of a cache frontend, configured to be used for a cache type
+     *
+     * @param string $cacheType Cache type identifier
+     * @return string|null
+     */
+    public function getCacheTypeFrontendId($cacheType)
+    {
+            return isset($this->data[self::KEY_TYPE][$cacheType][self::KEY_FRONTEND]) ?
+            $this->data[self::KEY_TYPE][$cacheType][self::KEY_FRONTEND] : null;
+    }
+}

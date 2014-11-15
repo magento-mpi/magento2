@@ -39,7 +39,6 @@ class DbConfig extends AbstractSegment
             self::KEY_PREFIX => '',
             'connection' => [
                 'default' => [
-                    'name' => 'default',
                     self::KEY_HOST => '',
                     self::KEY_NAME => '',
                     self::KEY_USER => '',
@@ -78,8 +77,11 @@ class DbConfig extends AbstractSegment
             if (empty($db[self::KEY_NAME])) {
                 throw new \InvalidArgumentException('The Database Name field cannot be empty.');
             }
-            if ($name !== $db['name']) {
-                throw new \InvalidArgumentException('Connection name does not match.');
+            if (empty($db[self::KEY_HOST])) {
+                throw new \InvalidArgumentException('The Database Host field cannot be empty.');
+            }
+            if (empty($db[self::KEY_USER])) {
+                throw new \InvalidArgumentException('The Database User field cannot be empty.');
             }
         }
     }
@@ -90,5 +92,26 @@ class DbConfig extends AbstractSegment
     public function getKey()
     {
         return self::CONFIG_KEY;
+    }
+
+    /**
+     * Retrieve connection configuration by connection name
+     *
+     * @param string $connectionName
+     * @return array
+     */
+    public function getConnection($connectionName)
+    {
+        return isset($this->data['connection'][$connectionName]) ? $this->data['connection'][$connectionName] : null;
+    }
+
+    /**
+     * Retrieve list of connections
+     *
+     * @return array
+     */
+    public function getConnections()
+    {
+        return isset($this->data['connection']) ? $this->data['connection'] : array();
     }
 }

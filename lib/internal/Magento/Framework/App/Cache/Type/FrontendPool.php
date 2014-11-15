@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\App\Cache\Type;
 
+use Magento\Framework\App\DeploymentConfig\CacheConfig;
 /**
  * In-memory readonly pool of cache front-ends with enforced access control, specific to cache types
  */
@@ -84,7 +85,12 @@ class FrontendPool
      */
     protected function _getCacheFrontendId($cacheType)
     {
-        $result = $this->_deploymentConfig->getCacheTypeFrontendId($cacheType);
+        $result = null;
+        $cacheInfo = $this->_deploymentConfig->getSegment(CacheConfig::CONFIG_KEY);
+        if (null !== $cacheInfo) {
+            $cacheConfig = new CacheConfig($cacheInfo);
+            $result = $cacheConfig->getCacheTypeFrontendId($cacheType);
+        }
         if (!$result) {
             if (isset($this->_typeFrontendMap[$cacheType])) {
                 $result = $this->_typeFrontendMap[$cacheType];

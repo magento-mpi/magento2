@@ -15,7 +15,7 @@ use Magento\Framework\Module\ModuleList\Loader as ModuleLoader;
 use Magento\Framework\Module\ModuleList\DeploymentConfig;
 use Magento\Store\Model\Store;
 use Magento\Framework\Math\Random;
-use Magento\Framework\Model\Resource\Type\Db\ConnectionFactory;
+use Magento\Setup\Module\ConnectionFactory;
 use Magento\Framework\Shell;
 use Magento\Framework\Shell\CommandRenderer;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -131,7 +131,7 @@ class Installer
     /**
      * DB connection factory
      *
-     * @var \Magento\Framework\Model\Resource\Type\Db\ConnectionFactory
+     * @var ConnectionFactory
      */
     private $connectionFactory;
 
@@ -716,7 +716,8 @@ class Installer
         if ($this->filesystem->getDirectoryWrite(DirectoryList::CONFIG)->isFile('config.php')) {
             $reader = new \Magento\Framework\App\DeploymentConfig\Reader($this->directoryList);
             $deploymentConfig = new \Magento\Framework\App\DeploymentConfig($reader, []);
-            $config = $deploymentConfig->getConnection(\Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION);
+            $dbConfig = new DbConfig($deploymentConfig->getSegment(DbConfig::CONFIG_KEY));
+            $config = $dbConfig->getConnection(\Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION);
             if ($config) {
                 try {
                     $connection = $this->connectionFactory->create($config);

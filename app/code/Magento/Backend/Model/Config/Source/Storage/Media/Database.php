@@ -12,6 +12,7 @@
 namespace Magento\Backend\Model\Config\Source\Storage\Media;
 
 use Magento\Framework\App\DeploymentConfig;
+use Magento\Framework\App\DeploymentConfig\ResourceConfig;
 
 class Database implements \Magento\Framework\Option\ArrayInterface
 {
@@ -36,11 +37,15 @@ class Database implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         $resourceOptions = array();
-        foreach (array_keys($this->_deploymentConfig->getResources()) as $resourceName) {
-            $resourceOptions[] = array('value' => $resourceName, 'label' => $resourceName);
+        $resourceInfo = $this->_deploymentConfig->getSegment(ResourceConfig::CONFIG_KEY);
+        if (null !== $resourceInfo) {
+            $resourceConfig = new ResourceConfig($resourceInfo);
+            foreach (array_keys($resourceConfig->getData()) as $resourceName) {
+                $resourceOptions[] = array('value' => $resourceName, 'label' => $resourceName);
+            }
+            sort($resourceOptions);
+            reset($resourceOptions);
         }
-        sort($resourceOptions);
-        reset($resourceOptions);
         return $resourceOptions;
     }
 }

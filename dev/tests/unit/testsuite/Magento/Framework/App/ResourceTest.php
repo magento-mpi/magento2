@@ -59,12 +59,28 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
 
         $this->deploymentConfig = $this->getMock('Magento\Framework\App\DeploymentConfig', [], [], '', false);
         $this->deploymentConfig->expects($this->any())
-            ->method('get')
-            ->willReturnArgument(0);
-        $this->deploymentConfig->expects($this->once())
-            ->method('getConnection')
-            ->with(self::CONNECTION_NAME)
-            ->will($this->returnValue(['host' => 'localhost']));
+            ->method('getSegment')
+            ->with(\Magento\Framework\App\DeploymentConfig\DbConfig::CONFIG_KEY)
+            ->will($this->returnValue(
+                    [
+                        'connection' =>
+                        [
+                            'default' =>
+                            [
+                                'host' => 'localhost',
+                                'dbname' => 'magento',
+                                'username' => 'username',
+                            ],
+                            self::CONNECTION_NAME =>
+                            [
+                                'host' => 'localhost',
+                                'dbname' => 'magento',
+                                'username' => 'username',
+                            ]
+                        ]
+                    ]
+                )
+            );
 
         $this->connection = $this->getMockForAbstractClass('Magento\Framework\DB\Adapter\AdapterInterface');
         $this->connection->expects($this->any())

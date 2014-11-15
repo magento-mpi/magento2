@@ -35,7 +35,7 @@ class ResourceFactory {
      */
     public function create(\Magento\Framework\App\DeploymentConfig $deploymentConfig)
     {
-        $connectionFactory = $this->serviceLocator->get('Magento\Framework\Model\Resource\Type\Db\ConnectionFactory');
+        $connectionFactory = $this->serviceLocator->get('Magento\Setup\Module\ConnectionFactory');
         $resource = new Resource(
             new ResourceConfig,
             $connectionFactory,

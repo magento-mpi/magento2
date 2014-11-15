@@ -8,6 +8,8 @@
 
 namespace Mtf\App\State;
 
+use \Magento\Framework\App\DeploymentConfig\DbConfig;
+
 /**
  * Abstract class AbstractState
  *
@@ -44,7 +46,8 @@ abstract class AbstractState implements StateInterface
             new \Magento\Framework\App\DeploymentConfig\Reader($dirList),
             []
         );
-        $dbInfo = $deploymentConfig->getConnection('default');
+        $dbConfig = new DbConfig($deploymentConfig->getSegment(DbConfig::CONFIG_KEY));
+        $dbInfo = $dbConfig->getConnection('default');
         $host = $dbInfo['host'];
         $user = $dbInfo['username'];
         $password = $dbInfo['password'];

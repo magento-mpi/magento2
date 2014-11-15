@@ -24,7 +24,6 @@ class ResourceConfig extends AbstractSegment
     {
         $this->data = [
             'default_setup' => [
-                'name' => 'default_setup',
                 self::KEY_CONNECTION => 'default',
             ]
         ];
@@ -43,7 +42,7 @@ class ResourceConfig extends AbstractSegment
     private function validate(array $data = [])
     {
         foreach ($data as $key => $resource) {
-            if (!isset($resource['name']) || $key !== $resource['name'] || !isset($resource[self::KEY_CONNECTION])) {
+            if (!isset($resource[self::KEY_CONNECTION])) {
                 return false;
             }
         }

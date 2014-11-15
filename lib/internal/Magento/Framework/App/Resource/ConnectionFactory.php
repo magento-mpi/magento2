@@ -14,23 +14,6 @@ use Magento\Framework\Model\Resource\Type\Db\ConnectionFactory as ModelConnectio
 class ConnectionFactory extends ModelConnectionFactory
 {
     /**
-     * @var \Magento\Framework\ObjectManager
-     */
-    private $objectManager;
-
-    /**
-     * @param \Magento\Framework\DB\LoggerInterface $logger
-     * @param \Magento\Framework\ObjectManager $objectManager
-     */
-    public function __construct(
-        \Magento\Framework\DB\LoggerInterface $logger,
-        \Magento\Framework\ObjectManager $objectManager
-    ) {
-        parent::__construct($logger);
-        $this->objectManager = $objectManager;
-    }
-
-    /**
      * Create connection adapter instance
      *
      * @param array $connectionConfig

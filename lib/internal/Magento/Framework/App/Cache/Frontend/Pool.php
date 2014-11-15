@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\App\Cache\Frontend;
 
+use Magento\Framework\App\DeploymentConfig\CacheConfig;
+
 /**
  * In-memory readonly pool of all cache front-end instances known to the system
  */
@@ -79,7 +81,12 @@ class Pool implements \Iterator
          * Merging is intentionally implemented through array_merge() instead of array_replace_recursive()
          * to avoid "inheritance" of the default settings that become irrelevant as soon as cache storage type changes
          */
-        return array_merge($this->_frontendSettings, $this->_deploymentConfig->getCacheFrontendSettings());
+        $cacheInfo = $this->_deploymentConfig->getSegment(CacheConfig::CONFIG_KEY);
+        if (null !== $cacheInfo) {
+            $cacheConfig = new CacheConfig($cacheInfo);
+            return array_merge($this->_frontendSettings, $cacheConfig->getCacheFrontendSettings());
+        }
+        return $this->_frontendSettings;
     }
 
     /**

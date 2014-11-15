@@ -10,7 +10,8 @@
 namespace Magento\Framework\App;
 
 use Magento\Framework\App\Resource\ConfigInterface as ResourceConfigInterface;
-use Magento\Framework\Model\Resource\Type\Db\ConnectionFactory;
+use Magento\Framework\Model\Resource\Type\Db\ConnectionFactoryInterface;
+use Magento\Framework\App\DeploymentConfig\DbConfig;
 
 class Resource
 {
@@ -50,14 +51,14 @@ class Resource
     /**
      * Resource connection adapter factory
      *
-     * @var \Magento\Framework\Model\Resource\Type\Db\ConnectionFactory
+     * @var ConnectionFactoryInterface
      */
     protected $_connectionFactory;
 
     /**
      * @var DeploymentConfig $localConfig
      */
-    private $localConfig;
+    private $deploymentConfig;
 
     /**
      * @var string
@@ -66,19 +67,19 @@ class Resource
 
     /**
      * @param ResourceConfigInterface $resourceConfig
-     * @param \Magento\Framework\Model\Resource\Type\Db\ConnectionFactory $adapterFactory
-     * @param DeploymentConfig $localConfig
+     * @param ConnectionFactoryInterface $adapterFactory
+     * @param DeploymentConfig $deploymentConfig
      * @param string $tablePrefix
      */
     public function __construct(
         ResourceConfigInterface $resourceConfig,
-        ConnectionFactory $adapterFactory,
-        DeploymentConfig $localConfig,
+        ConnectionFactoryInterface $adapterFactory,
+        DeploymentConfig $deploymentConfig,
         $tablePrefix = ''
     ) {
         $this->_config = $resourceConfig;
         $this->_connectionFactory = $adapterFactory;
-        $this->localConfig = $localConfig;
+        $this->deploymentConfig = $deploymentConfig;
         $this->_tablePrefix = $tablePrefix ?: null;
     }
 
@@ -95,7 +96,12 @@ class Resource
             return $this->_connections[$connectionName];
         }
 
-        $connectionConfig = $this->localConfig->getConnection($connectionName);
+        $dbInfo = $this->deploymentConfig->getSegment(DbConfig::CONFIG_KEY);
+        if (null === $dbInfo) {
+            return false;
+        }
+        $dbConfig = new DbConfig($dbInfo);
+        $connectionConfig = $dbConfig->getConnection($connectionName);
         if ($connectionConfig) {
             $connection = $this->_connectionFactory->create($connectionConfig);
         }
@@ -217,7 +223,7 @@ class Resource
     private function getTablePrefix()
     {
         if (null === $this->_tablePrefix) {
-            $this->_tablePrefix = (string)$this->localConfig->get(self::PARAM_TABLE_PREFIX);
+            $this->_tablePrefix = (string)$this->deploymentConfig->get(self::PARAM_TABLE_PREFIX);
         }
         return $this->_tablePrefix;
     }

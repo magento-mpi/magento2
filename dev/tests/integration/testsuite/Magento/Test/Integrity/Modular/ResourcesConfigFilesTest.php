@@ -40,7 +40,7 @@ class ResourcesConfigFilesTest extends \PHPUnit_Framework_TestCase
             array(
                 'fileResolver' => $fileResolverMock,
                 'validationState' => $validationStateMock,
-                'localConfig' => $localConfigMock
+                'deploymentConfig' => $localConfigMock
             )
         );
     }

@@ -9,6 +9,7 @@ namespace Magento\TestFramework;
 
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\DeploymentConfig;
 
 /**
  * Encapsulates application installation, initialization and uninstall
@@ -193,7 +194,8 @@ class Application
                     new \Magento\Framework\App\DeploymentConfig\Reader($this->_dirList),
                     []
                 );
-                $dbInfo = $deploymentConfig->getConnection('default');
+                $dbConfig = new DbConfig($deploymentConfig->getSegment(DbConfig::CONFIG_KEY));
+                $dbInfo = $dbConfig->getConnection('default');
                 $host = $dbInfo['host'];
                 $user = $dbInfo['username'];
                 $password = $dbInfo['password'];

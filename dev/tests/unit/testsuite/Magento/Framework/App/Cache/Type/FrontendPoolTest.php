@@ -49,22 +49,22 @@ class FrontendPoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string|null $fixtureFrontendId
+     * @param string|null $fixtureSegment
      * @param string $inputCacheType
      * @param string $expectedFrontendId
      *
      * @dataProvider getDataProvider
      */
-    public function testGet($fixtureFrontendId, $inputCacheType, $expectedFrontendId)
+    public function testGet($fixtureSegment, $inputCacheType, $expectedFrontendId)
     {
         $this->_deploymentConfig->expects(
             $this->once()
         )->method(
-            'getCacheTypeFrontendId'
+            'getSegment'
         )->with(
-            $inputCacheType
+            \Magento\Framework\App\DeploymentConfig\CacheConfig::CONFIG_KEY
         )->will(
-            $this->returnValue($fixtureFrontendId)
+            $this->returnValue($fixtureSegment)
         );
 
         $cacheFrontend = $this->getMock('Magento\Framework\Cache\FrontendInterface');
@@ -97,11 +97,14 @@ class FrontendPoolTest extends \PHPUnit_Framework_TestCase
 
     public function getDataProvider()
     {
+        $segment1 = array('type' => array('fixture_cache_type' => array('frontend' => 'configured_frontend_id')));
+        $segment2 = array('type' => array('fixture_cache_type' => array('frontend' => null)));
+        $segment3 = array('type' => array('unknown_cache_type' => array('frontend' => null)));
         return array(
-            'retrieval from config' => array('configured_frontend_id', 'fixture_cache_type', 'configured_frontend_id'),
-            'retrieval from map' => array(null, 'fixture_cache_type', 'fixture_frontend_id'),
+            'retrieval from config' => array($segment1, 'fixture_cache_type', 'configured_frontend_id'),
+            'retrieval from map' => array($segment2, 'fixture_cache_type', 'fixture_frontend_id'),
             'fallback to default id' => array(
-                null,
+                $segment3,
                 'unknown_cache_type',
                 \Magento\Framework\App\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID
             )

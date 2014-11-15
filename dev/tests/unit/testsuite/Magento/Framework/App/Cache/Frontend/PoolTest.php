@@ -44,9 +44,11 @@ class PoolTest extends \PHPUnit_Framework_TestCase
         $deploymentConfig->expects(
             $this->any()
         )->method(
-            'getCacheFrontendSettings'
+            'getSegment'
+        )->with(
+            \Magento\Framework\App\DeploymentConfig\CacheConfig::CONFIG_KEY
         )->will(
-            $this->returnValue(array('resource2' => array('r2d1' => 'value1', 'r2d2' => 'value2')))
+            $this->returnValue(array('frontend' => array('resource2' => array('r2d1' => 'value1', 'r2d2' => 'value2'))))
         );
 
         $frontendSettings = array(
@@ -88,7 +90,9 @@ class PoolTest extends \PHPUnit_Framework_TestCase
         $deploymentConfig->expects(
             $this->once()
         )->method(
-            'getCacheFrontendSettings'
+            'getSegment'
+        )->with(
+            \Magento\Framework\App\DeploymentConfig\CacheConfig::CONFIG_KEY
         )->will(
             $this->returnValue($fixtureCacheConfig)
         );
@@ -104,22 +108,23 @@ class PoolTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'default frontend, default settings' => array(
-                array(),
+                array('frontend' => array()),
                 array(Pool::DEFAULT_FRONTEND_ID => array('default_option' => 'default_value')),
                 array('default_option' => 'default_value')
             ),
             'default frontend, overridden settings' => array(
-                array(Pool::DEFAULT_FRONTEND_ID => array('configured_option' => 'configured_value')),
+                array('frontend' =>
+                    array(Pool::DEFAULT_FRONTEND_ID => array('configured_option' => 'configured_value'))),
                 array(Pool::DEFAULT_FRONTEND_ID => array('ignored_option' => 'ignored_value')),
                 array('configured_option' => 'configured_value')
             ),
             'custom frontend, default settings' => array(
-                array(),
+                array('frontend' => array()),
                 array('custom' => array('default_option' => 'default_value')),
                 array('default_option' => 'default_value')
             ),
             'custom frontend, overridden settings' => array(
-                array('custom' => array('configured_option' => 'configured_value')),
+                array('frontend' => array('custom' => array('configured_option' => 'configured_value'))),
                 array('custom' => array('ignored_option' => 'ignored_value')),
                 array('configured_option' => 'configured_value')
             )
