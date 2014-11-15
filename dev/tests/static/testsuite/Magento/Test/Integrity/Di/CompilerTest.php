@@ -9,9 +9,6 @@
  */
 namespace Magento\Test\Integrity\Di;
 
-use Magento\Framework\Code\Generator\ClassValidator;
-use Magento\Framework\Filesystem\FileResolver;
-
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */

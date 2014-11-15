@@ -10,10 +10,8 @@ namespace Magento\Framework\App;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Autoload\AutoloaderRegistry;
-use Magento\Framework\Autoload\ClassLoaderWrapper;
 use Magento\Framework\Autoload\Populator;
 use Magento\Framework\Filesystem\DriverPool;
-use Magento\Framework\Filesystem\FileResolver;
 use Magento\Framework\Profiler;
 use Magento\Framework\AppInterface;
 

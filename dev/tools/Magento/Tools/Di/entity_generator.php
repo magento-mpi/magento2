@@ -7,10 +7,8 @@
  */
 
 use Magento\Framework\Code\Generator;
-use Magento\Framework\Code\Generator\ClassValidator;
 use Magento\Framework\Code\Generator\Io;
 use Magento\Framework\Filesystem\Driver\File;
-use Magento\Framework\Filesystem\FileResolver;
 use Magento\Framework\ObjectManager\Code\Generator\Factory;
 use Magento\Framework\ObjectManager\Code\Generator\Proxy;
 use Magento\Framework\Interception\Code\Generator\Interceptor;
