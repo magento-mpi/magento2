@@ -75,8 +75,9 @@ class UserConfig implements AppInterface
     private function updateUserConfigData()
     {
         foreach ($this->request as $key => $val) {
-            $this->configModel->setDataByPath($key, $val);
-            $this->configModel->save();
+            $configModel = $this->configFactory->create();
+            $configModel->setDataByPath($key, $val);
+            $configModel->save();
         }
     }
 
