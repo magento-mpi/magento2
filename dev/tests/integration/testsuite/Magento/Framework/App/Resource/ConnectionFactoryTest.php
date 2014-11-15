@@ -17,7 +17,6 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->model = new \Magento\Framework\App\Resource\ConnectionFactory(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\DB\LoggerInterface'),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
         );
     }

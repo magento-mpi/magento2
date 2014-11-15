@@ -97,9 +97,12 @@ class FrontendPoolTest extends \PHPUnit_Framework_TestCase
 
     public function getDataProvider()
     {
-        $segment1 = array('type' => array('fixture_cache_type' => array('frontend' => 'configured_frontend_id')));
-        $segment2 = array('type' => array('fixture_cache_type' => array('frontend' => null)));
-        $segment3 = array('type' => array('unknown_cache_type' => array('frontend' => null)));
+        $segment1 = array(
+            'frontend' => array(),
+            'type' => array('fixture_cache_type' => array('frontend' => 'configured_frontend_id'))
+        );
+        $segment2 = array('frontend' => array(), 'type' => array('fixture_cache_type' => array('frontend' => null)));
+        $segment3 = array('frontend' => array(), 'type' => array('unknown_cache_type' => array('frontend' => null)));
         return array(
             'retrieval from config' => array($segment1, 'fixture_cache_type', 'configured_frontend_id'),
             'retrieval from map' => array($segment2, 'fixture_cache_type', 'fixture_frontend_id'),

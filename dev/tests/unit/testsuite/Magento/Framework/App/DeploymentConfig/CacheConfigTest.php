@@ -8,31 +8,23 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-
-class ResourceConfigTest extends \PHPUnit_Framework_TestCase
+class CacheConfigTest extends \PHPUnit_Framework_TestCase
 {
+    private $data = [
+        'frontend' => [
+            'default' => []
+        ]
+    ];
     public function testGetKey()
     {
-        $object = new ResourceConfig([]);
+        $object = new CacheConfig($this->data);
         $this->assertNotEmpty($object->getKey());
     }
 
     public function testGetData()
     {
-        $data = [
-            'test' => [
-                ResourceConfig::KEY_CONNECTION => 'default',
-            ]
-        ];
-        $expected = [
-            'default_setup' => [
-                ResourceConfig::KEY_CONNECTION => 'default',
-            ],
-            'test' => $data['test'],
-        ];
-
-        $object = new ResourceConfig($data);
-        $this->assertSame($expected, $object->getData());
+        $object = new CacheConfig($this->data);
+        $this->assertSame($this->data, $object->getData());
     }
 
     public function testEmptyData()
@@ -49,26 +41,28 @@ class ResourceConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $data
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid resource configuration.
      * @dataProvider invalidDataDataProvider
      */
     public function testInvalidData($data)
     {
-        new ResourceConfig($data);
+        new CacheConfig($data);
     }
 
     public function invalidDataDataProvider()
     {
         return [
             [
-                [
-                    'no_connection' => []
-                ],
-                [
-                    'other' => [
-                        'other' => 'default',
-                    ]
-                ],
+                'frontend' => [
+                    'default' => 'not setting array'
+                ]
+            ],
+            [
+                'no_frontend' => [
+                    'default' => []
+                ]
+            ],
+            [
+                ['frontend' => 'setting']
             ],
         ];
     }

@@ -15,7 +15,6 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
         DbConfig::KEY_PREFIX => 'mg2_',
         'connection' => [
             'default' => [
-                'name' => 'default',
                 DbConfig::KEY_HOST => 'magento.local',
                 DbConfig::KEY_NAME => 'magento2',
                 DbConfig::KEY_USER => 'mysql_user',
@@ -66,7 +65,6 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
                     DbConfig::KEY_PREFIX => 'mg2_',
                     'connection' => [
                             'default' => [
-                                'name' => 'default',
                                 DbConfig::KEY_HOST => 'magento.local',
                                 DbConfig::KEY_NAME => '',
                                 DbConfig::KEY_USER => 'mysql_user',
@@ -83,7 +81,6 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
                     DbConfig::KEY_PREFIX => 'mg2*',
                     'connection' => [
                         'default' => [
-                            'name' => 'default',
                             DbConfig::KEY_HOST => 'magento.local',
                             DbConfig::KEY_NAME => 'magento2',
                             DbConfig::KEY_USER => 'mysql_user',
@@ -97,13 +94,28 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [
-                    DbConfig::KEY_PREFIX => 'mg2_',
+                    DbConfig::KEY_PREFIX => '',
                     'connection' => [
                         'default' => [
-                            'name' => 'other_name',
                             DbConfig::KEY_HOST => 'magento.local',
                             DbConfig::KEY_NAME => 'magento2',
-                            DbConfig::KEY_USER => 'mysql_user',
+                            DbConfig::KEY_USER => '',
+                            DbConfig::KEY_PASS => 'mysql_pass',
+                            DbConfig::KEY_MODEL => 'mysql4',
+                            DbConfig::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
+                            DbConfig::KEY_ACTIVE => '1',
+                        ],
+                    ]
+                ]
+            ],
+            [
+                [
+                    DbConfig::KEY_PREFIX => '',
+                    'connection' => [
+                        'default' => [
+                            DbConfig::KEY_HOST => '',
+                            DbConfig::KEY_NAME => 'magento2',
+                            DbConfig::KEY_USER => 'user',
                             DbConfig::KEY_PASS => 'mysql_pass',
                             DbConfig::KEY_MODEL => 'mysql4',
                             DbConfig::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',

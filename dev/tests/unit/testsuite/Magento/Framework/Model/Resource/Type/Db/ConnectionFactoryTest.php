@@ -17,7 +17,7 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->model = new ConnectionFactory(
-            $this->getMockForAbstractClass('\Magento\Framework\DB\LoggerInterface')
+            $this->getMockForAbstractClass('\Magento\Framework\ObjectManager')
         );
     }
 
@@ -40,20 +40,5 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
             [['value']],
             [['active' => 0]],
         ];
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Trying to create wrong connection adapter
-     */
-    public function testCreateWrongAdapter()
-    {
-        $config = [
-            'host' => 'localhost',
-            'active' => 1,
-            'adapter' => 'StdClass',
-        ];
-
-        $this->model->create($config);
     }
 }

@@ -37,14 +37,14 @@ class CacheConfig extends AbstractSegment
     private function validate(array $data)
     {
         if (!isset($data[self::KEY_FRONTEND])) {
-            throw \InvalidArgumentException('No cache frontend configuration provided.');
+            throw new \InvalidArgumentException('No cache frontend configuration provided.');
         }
         if (!is_array($data[self::KEY_FRONTEND])) {
-            throw \InvalidArgumentException('Invalid cache frontend configuration provided.');
+            throw new \InvalidArgumentException('Invalid cache frontend configuration provided.');
         }
         foreach ($data[self::KEY_FRONTEND] as $settings) {
             if (!is_array($settings)) {
-                throw \InvalidArgumentException('Invalid cache settings.');
+                throw new \InvalidArgumentException('Invalid cache settings.');
             }
         }
     }
@@ -75,7 +75,7 @@ class CacheConfig extends AbstractSegment
      */
     public function getCacheTypeFrontendId($cacheType)
     {
-            return isset($this->data[self::KEY_TYPE][$cacheType][self::KEY_FRONTEND]) ?
+        return isset($this->data[self::KEY_TYPE][$cacheType][self::KEY_FRONTEND]) ?
             $this->data[self::KEY_TYPE][$cacheType][self::KEY_FRONTEND] : null;
     }
 }

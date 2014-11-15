@@ -109,10 +109,10 @@ class DeploymentConfig
      * @param bool
      * @return void
      */
-    public function reload($userOverride = true)
+    public function reload($useOverride = true)
     {
         $this->data = null;
-        $this->load($userOverride);
+        $this->load($useOverride);
     }
 
     /**
