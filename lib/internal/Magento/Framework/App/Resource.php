@@ -56,7 +56,7 @@ class Resource
     protected $_connectionFactory;
 
     /**
-     * @var DeploymentConfig $localConfig
+     * @var DeploymentConfig $deploymentConfig
      */
     private $deploymentConfig;
 

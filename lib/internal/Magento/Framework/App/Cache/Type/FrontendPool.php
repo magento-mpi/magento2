@@ -8,6 +8,7 @@
 namespace Magento\Framework\App\Cache\Type;
 
 use Magento\Framework\App\DeploymentConfig\CacheConfig;
+
 /**
  * In-memory readonly pool of cache front-ends with enforced access control, specific to cache types
  */

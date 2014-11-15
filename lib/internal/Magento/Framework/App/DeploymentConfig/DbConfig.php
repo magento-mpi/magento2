@@ -73,7 +73,7 @@ class DbConfig extends AbstractSegment
                 );
             }
         }
-        foreach ($data['connection'] as $name => $db) {
+        foreach ($data['connection'] as $db) {
             if (empty($db[self::KEY_NAME])) {
                 throw new \InvalidArgumentException('The Database Name field cannot be empty.');
             }

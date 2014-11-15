@@ -10,6 +10,7 @@ namespace Magento\TestFramework;
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\DeploymentConfig;
+use Magento\Framework\App\DeploymentConfig\DbConfig;
 
 /**
  * Encapsulates application installation, initialization and uninstall
@@ -190,7 +191,7 @@ class Application
     {
         if (null === $this->_db) {
             if ($this->isInstalled()) {
-                $deploymentConfig = new \Magento\Framework\App\DeploymentConfig(
+                $deploymentConfig = new DeploymentConfig(
                     new \Magento\Framework\App\DeploymentConfig\Reader($this->_dirList),
                     []
                 );

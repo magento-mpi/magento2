@@ -106,7 +106,7 @@ class DeploymentConfig
     /**
      * Reload config.php
      *
-     * @param bool
+     * @param bool $useOverride
      * @return void
      */
     public function reload($useOverride = true)
@@ -118,7 +118,7 @@ class DeploymentConfig
     /**
      * Loads the configuration data
      *
-     * @param bool
+     * @param bool $useOverride
      * @return void
      */
     private function load($useOverride = true)
