@@ -171,8 +171,8 @@ class ObjectManagerFactory
         $customFile = isset($arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE])
             ? $arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE]
             : null;
-        $loader = new DeploymentConfig\Reader($directoryList, $customFile);
-        return new DeploymentConfig($loader, $arguments);
+        $reader = new DeploymentConfig\Reader($directoryList, $customFile);
+        return new DeploymentConfig($reader, $arguments);
     }
 
     /**

@@ -45,6 +45,13 @@ class DeploymentConfig
     private $overrideData;
 
     /**
+     * Availability of deployment config file
+     *
+     * @var bool
+     */
+    private $isAvailable;
+
+    /**
      * Constructor
      *
      * Data can be optionally injected in the constructor. This object's public interface is intentionally immutable
@@ -81,8 +88,8 @@ class DeploymentConfig
      */
     public function isAvailable()
     {
-        $this->reload(false);
-        return !empty($this->data);
+        $this->load();
+        return $this->isAvailable;
     }
 
     /**
@@ -106,26 +113,25 @@ class DeploymentConfig
     /**
      * Reload config.php
      *
-     * @param bool $useOverride
      * @return void
      */
-    public function reload($useOverride = true)
+    public function reload()
     {
         $this->data = null;
-        $this->load($useOverride);
+        $this->load();
     }
 
     /**
      * Loads the configuration data
      *
-     * @param bool $useOverride
      * @return void
      */
-    private function load($useOverride = true)
+    private function load()
     {
         if (null === $this->data) {
             $this->data = $this->reader->load();
-            if ($this->overrideData && $useOverride) {
+            $this->isAvailable = !empty($this->data);
+            if ($this->overrideData) {
                 $this->data = array_replace_recursive($this->data, $this->overrideData);
             }
             // flatten data for config retrieval using get()
