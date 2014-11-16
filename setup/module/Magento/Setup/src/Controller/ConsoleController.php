@@ -18,7 +18,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
 use Magento\Setup\Model\AdminAccount;
 use Magento\Framework\App\MaintenanceMode;
-use Magento\Setup\Module\Setup\Config;
+use Magento\Setup\Module\Setup\ConfigMapper;
 
 /**
  * Controller that handles all setup commands via command line interface.
@@ -151,16 +151,16 @@ class ConsoleController extends AbstractActionController
      */
     private static function getCliConfig()
     {
-        $deployConfig = '--' . Config::KEY_DB_HOST . '='
-            . ' --' . Config::KEY_DB_NAME . '='
-            . ' --' . Config::KEY_DB_USER . '='
-            . ' --' . Config::KEY_BACKEND_FRONTNAME . '='
-            . ' [--' . Config::KEY_DB_PASS . '=]'
-            . ' [--' . Config::KEY_DB_PREFIX . '=]'
-            . ' [--' . Config::KEY_DB_MODEL . '=]'
-            . ' [--' . Config::KEY_DB_INIT_STATEMENTS . '=]'
-            . ' [--' . Config::KEY_SESSION_SAVE . '=]'
-            . ' [--' . Config::KEY_ENCRYPTION_KEY . '=]'
+        $deployConfig = '--' . ConfigMapper::KEY_DB_HOST . '='
+            . ' --' . ConfigMapper::KEY_DB_NAME . '='
+            . ' --' . ConfigMapper::KEY_DB_USER . '='
+            . ' --' . ConfigMapper::KEY_BACKEND_FRONTNAME . '='
+            . ' [--' . ConfigMapper::KEY_DB_PASS . '=]'
+            . ' [--' . ConfigMapper::KEY_DB_PREFIX . '=]'
+            . ' [--' . ConfigMapper::KEY_DB_MODEL . '=]'
+            . ' [--' . ConfigMapper::KEY_DB_INIT_STATEMENTS . '=]'
+            . ' [--' . ConfigMapper::KEY_SESSION_SAVE . '=]'
+            . ' [--' . ConfigMapper::KEY_ENCRYPTION_KEY . '=]'
             . ' [--' . Installer::ENABLE_MODULES . '=]'
             . ' [--' . Installer::DISABLE_MODULES . '=]';
         $userConfig = '[--' . UserConfig::KEY_BASE_URL . '=]'

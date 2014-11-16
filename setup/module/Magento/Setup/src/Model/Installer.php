@@ -31,7 +31,7 @@ use Magento\Framework\App\DeploymentConfig\EncryptConfig;
 use Magento\Framework\App\DeploymentConfig\InstallConfig;
 use Magento\Framework\App\DeploymentConfig\SessionConfig;
 use Magento\Framework\App\DeploymentConfig\ResourceConfig;
-use Magento\Setup\Module\Setup\Config;
+use Magento\Setup\Module\Setup\ConfigMapper;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -316,7 +316,7 @@ class Installer
     private function createBackendConfig($data)
     {
         $backendConfigData = array(
-            Config::$paramMap[Config::KEY_BACKEND_FRONTNAME] => $data[Config::KEY_BACKEND_FRONTNAME]
+            ConfigMapper::$paramMap[ConfigMapper::KEY_BACKEND_FRONTNAME] => $data[ConfigMapper::KEY_BACKEND_FRONTNAME]
         );
         return new BackendConfig($backendConfigData);
     }
@@ -329,7 +329,8 @@ class Installer
      */
     private function createEncryptConfig($data)
     {
-        $cryptConfigData = array(Config::$paramMap[Config::KEY_ENCRYPTION_KEY] => $data[Config::KEY_ENCRYPTION_KEY]);
+        $cryptConfigData =
+            array(ConfigMapper::$paramMap[ConfigMapper::KEY_ENCRYPTION_KEY] => $data[ConfigMapper::KEY_ENCRYPTION_KEY]);
         return new EncryptConfig($cryptConfigData);
     }
 
@@ -342,20 +343,20 @@ class Installer
     private function createDbConfig($data)
     {
         $defaultConnection = [
-            Config::$paramMap[Config::KEY_DB_HOST] => $data[Config::KEY_DB_HOST],
-            Config::$paramMap[Config::KEY_DB_INIT_STATEMENTS] =>
-                isset($data[Config::KEY_DB_INIT_STATEMENTS]) ? $data[Config::KEY_DB_INIT_STATEMENTS] : null,
-            Config::$paramMap[Config::KEY_DB_MODEL] => isset($data[Config::KEY_DB_MODEL]) ?
-                $data[Config::KEY_DB_MODEL] : null,
-            Config::$paramMap[Config::KEY_DB_NAME] => $data[Config::KEY_DB_NAME],
-            Config::$paramMap[Config::KEY_DB_PASS] => isset($data[Config::KEY_DB_PASS]) ?
-                $data[Config::KEY_DB_PASS] : null,
-            Config::$paramMap[Config::KEY_DB_USER] => $data[Config::KEY_DB_USER],
+            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_HOST] => $data[ConfigMapper::KEY_DB_HOST],
+            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_INIT_STATEMENTS] =>
+                isset($data[ConfigMapper::KEY_DB_INIT_STATEMENTS]) ? $data[ConfigMapper::KEY_DB_INIT_STATEMENTS] : null,
+            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_MODEL] => isset($data[ConfigMapper::KEY_DB_MODEL]) ?
+                $data[ConfigMapper::KEY_DB_MODEL] : null,
+            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_NAME] => $data[ConfigMapper::KEY_DB_NAME],
+            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_PASS] => isset($data[ConfigMapper::KEY_DB_PASS]) ?
+                $data[ConfigMapper::KEY_DB_PASS] : null,
+            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_USER] => $data[ConfigMapper::KEY_DB_USER],
         ];
 
         $dbConfigData = array(
-            Config::$paramMap[Config::KEY_DB_PREFIX] => isset($data[Config::KEY_DB_PREFIX]) ?
-                    $data[Config::KEY_DB_PREFIX] : null,
+            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_PREFIX] => isset($data[ConfigMapper::KEY_DB_PREFIX]) ?
+                    $data[ConfigMapper::KEY_DB_PREFIX] : null,
             'connection' => [
                 'default' => $defaultConnection,
             ]
@@ -371,8 +372,8 @@ class Installer
      */
     private function createSessionConfig($data)
     {
-        $sessionConfigData = array(Config::$paramMap[Config::KEY_SESSION_SAVE] =>
-            isset($data[Config::KEY_SESSION_SAVE]) ? $data[Config::KEY_SESSION_SAVE] : null);
+        $sessionConfigData = array(ConfigMapper::$paramMap[ConfigMapper::KEY_SESSION_SAVE] =>
+            isset($data[ConfigMapper::KEY_SESSION_SAVE]) ? $data[ConfigMapper::KEY_SESSION_SAVE] : null);
         return new SessionConfig($sessionConfigData);
     }
 
@@ -384,7 +385,7 @@ class Installer
      */
     private function createInstallConfig($data)
     {
-        $installConfigData = array(Config::$paramMap[Config::KEY_DATE] => $data[Config::KEY_DATE]);
+        $installConfigData = array(ConfigMapper::$paramMap[ConfigMapper::KEY_DATE] => $data[ConfigMapper::KEY_DATE]);
         return new InstallConfig($installConfigData);
     }
 

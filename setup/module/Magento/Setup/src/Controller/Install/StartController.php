@@ -14,10 +14,9 @@ use Zend\Json\Json;
 use Zend\View\Model\JsonModel;
 use Magento\Setup\Model\InstallerFactory;
 use Magento\Setup\Model\Installer;
-use Zend\Stdlib\Parameters;
 use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
 use Magento\Setup\Model\AdminAccount;
-use Magento\Setup\Module\Setup\Config;
+use Magento\Setup\Module\Setup\ConfigMapper;
 
 /**
  * UI Controller that handles installation
@@ -99,15 +98,15 @@ class StartController extends AbstractActionController
     {
         $source = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
         $result = [];
-        $result[Config::KEY_DB_HOST] = isset($source['db']['host']) ? $source['db']['host'] : '';
-        $result[Config::KEY_DB_NAME] = isset($source['db']['name']) ? $source['db']['name'] : '';
-        $result[Config::KEY_DB_USER] = isset($source['db']['user']) ? $source['db']['user'] :'';
-        $result[Config::KEY_DB_PASS] = isset($source['db']['password']) ? $source['db']['password'] : '';
-        $result[Config::KEY_DB_PREFIX] = isset($source['db']['tablePrefix']) ? $source['db']['tablePrefix'] : '';
-        $result[Config::KEY_BACKEND_FRONTNAME] = isset($source['config']['address']['admin'])
+        $result[ConfigMapper::KEY_DB_HOST] = isset($source['db']['host']) ? $source['db']['host'] : '';
+        $result[ConfigMapper::KEY_DB_NAME] = isset($source['db']['name']) ? $source['db']['name'] : '';
+        $result[ConfigMapper::KEY_DB_USER] = isset($source['db']['user']) ? $source['db']['user'] :'';
+        $result[ConfigMapper::KEY_DB_PASS] = isset($source['db']['password']) ? $source['db']['password'] : '';
+        $result[ConfigMapper::KEY_DB_PREFIX] = isset($source['db']['tablePrefix']) ? $source['db']['tablePrefix'] : '';
+        $result[ConfigMapper::KEY_BACKEND_FRONTNAME] = isset($source['config']['address']['admin'])
             ? $source['config']['address']['admin']
             : '';
-        $result[Config::KEY_ENCRYPTION_KEY] = isset($source['config']['encrypt']['key'])
+        $result[ConfigMapper::KEY_ENCRYPTION_KEY] = isset($source['config']['encrypt']['key'])
             ? $source['config']['encrypt']['key']
             : '';
         return $result;

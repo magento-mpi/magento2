@@ -14,7 +14,7 @@ use Magento\Framework\App\DeploymentConfig\EncryptConfig;
 use Magento\Framework\App\DeploymentConfig\InstallConfig;
 use Magento\Framework\App\DeploymentConfig\SessionConfig;
 
-class Config
+class ConfigMapper
 {
     /**#@+
      * Parameters for setup tool
