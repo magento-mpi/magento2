@@ -7,6 +7,9 @@
  */
 namespace Magento\Customer\Helper;
 
+/**
+ * Class DataTest
+ */
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     const FORM_CODE = 'FORM_CODE';
@@ -15,12 +18,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     const SCOPE = 'SCOPE';
 
-    protected $_expected = array(
+    protected $_expected = [
         'filter_key' => 'filter_value',
         'is_in_request_data' => 'request_data_value',
         'is_not_in_request_data' => false,
         'attribute_is_front_end_input' => true
-    );
+    ];
 
     /** @var \Magento\Customer\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $_dataHelper;
@@ -37,11 +40,22 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $scopeConfigMock;
 
+    /**
+     * @var \Magento\Framework\ObjectFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $objectFactoryMock;
+
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectManagerHelper;
+
     /** @var \Magento\Customer\Helper\Data */
     protected $model;
 
     public function setUp()
     {
+        $this->objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_mockRequest = $this->getMock(
             'Magento\Framework\App\RequestInterface',
             ['getPost', 'getModuleName', 'setModuleName', 'getActionName', 'setActionName', 'getParam', 'getCookie'],
@@ -49,7 +63,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_additionalAttributes = array('is_in_request_data', 'is_not_in_request_data');
+        $this->_additionalAttributes = ['is_in_request_data', 'is_not_in_request_data'];
         $this->_mockMetadataForm = $this->getMockBuilder(
             '\Magento\Customer\Model\Metadata\Form'
         )->disableOriginalConstructor()->getMock();
@@ -61,42 +75,54 @@ class DataTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->objectFactoryMock = $this->getMock(
+            'Magento\Framework\ObjectFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
     }
 
     protected function prepareExtractCustomerData()
     {
-        $this->_dataHelper = $this->getMockBuilder(
-            '\Magento\Customer\Helper\Data'
-        )->disableOriginalConstructor()->setMethods(
-            array('__construct')
-        )->getMock();
+        $requestData = ['is_in_request_data' => 'request_data_value'];
 
-        $filteredData = array(
+        $objectMock = $this->getMock(
+            'Magento\Framework\Object',
+            ['getData'],
+            [],
+            '',
+            false
+        );
+
+        $this->_dataHelper = $this->objectManagerHelper->getObject(
+            'Magento\Customer\Helper\Data',
+            [
+                'objectFactory' => $this->objectFactoryMock
+            ]
+        );
+        $this->objectFactoryMock->expects($this->once())
+            ->method('create')
+            ->with(['data' => $requestData])
+            ->will($this->returnValue($objectMock));
+        $objectMock->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($requestData));
+
+        $filteredData = [
             'filter_key' => 'filter_value',
             'attribute_is_not_front_end_input' => false,
             'attribute_is_front_end_input' => true
-        );
-        $this->_mockMetadataForm->expects(
-            $this->once()
-        )->method(
-            'extractData'
-        )->with(
-            $this->_mockRequest,
-            self::SCOPE
-        )->will(
-            $this->returnValue($filteredData)
-        );
+        ];
+        $this->_mockMetadataForm->expects($this->once())
+            ->method('extractData')
+            ->with($this->_mockRequest, self::SCOPE)
+            ->will($this->returnValue($filteredData));
 
-        $requestData = array('is_in_request_data' => 'request_data_value');
-        $this->_mockRequest->expects(
-            $this->once()
-        )->method(
-            'getPost'
-        )->with(
-            self::SCOPE
-        )->will(
-            $this->returnValue($requestData)
-        );
+        $this->_mockRequest->expects($this->once())
+            ->method('getPost')
+            ->will($this->returnValue($requestData));
 
         $attributeIsFrontEndInput = $this->getMockBuilder(
             '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata'
@@ -134,7 +160,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(false)
         );
 
-        $formAttributes = array($attributeIsFrontEndInput, $attributeIsNotFrontEndInput);
+        $formAttributes = [$attributeIsFrontEndInput, $attributeIsNotFrontEndInput];
         $this->_mockMetadataForm->expects(
             $this->once()
         )->method(
@@ -164,29 +190,28 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->prepareExtractCustomerData();
         /** @var \Magento\Customer\Model\Metadata\FormFactory|\PHPUnit_Framework_MockObject_MockObject */
-        $mockFormFactory = $this->getMockBuilder(
-            '\Magento\Customer\Model\Metadata\FormFactory'
-        )->disableOriginalConstructor()->setMethods(
-            array('create')
-        )->getMock();
+        $mockFormFactory = $this->getMockBuilder('Magento\Customer\Model\Metadata\FormFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
 
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $arguments = array('formFactory' => $mockFormFactory);
-        $this->_dataHelper = $objectManagerHelper->getObject('\Magento\Customer\Helper\Data', $arguments);
+        $mockFormFactory->expects($this->once())
+            ->method('create')
+            ->with(
+                self::ENTITY,
+                self::FORM_CODE,
+                [],
+                false,
+                \Magento\Customer\Model\Metadata\Form::DONT_IGNORE_INVISIBLE
+            )->will($this->returnValue($this->_mockMetadataForm));
 
-        $mockFormFactory->expects(
-            $this->once()
-        )->method(
-            'create'
-        )->with(
-            self::ENTITY,
-            self::FORM_CODE,
-            [],
-            false,
-            \Magento\Customer\Model\Metadata\Form::DONT_IGNORE_INVISIBLE
-        )->will(
-            $this->returnValue($this->_mockMetadataForm)
-        );
+        $this->_dataHelper = $this->objectManagerHelper->getObject(
+            'Magento\Customer\Helper\Data',
+            [
+                'objectFactory' => $this->objectFactoryMock,
+                'formFactory' => $mockFormFactory
+            ]
+        );;
 
         $this->assertEquals(
             $this->_expected,
@@ -202,11 +227,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomerGroupIdBasedOnVatNumberWithoutAutoAssign()
     {
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $arguments = array(
+        $arguments = [
             'scopeConfig' => $this->scopeConfigMock
-        );
-        $this->model = $objectManagerHelper->getObject('Magento\Customer\Helper\Data', $arguments);
+        ];
+        $this->model = $this->objectManagerHelper->getObject('Magento\Customer\Helper\Data', $arguments);
 
         $this->scopeConfigMock->expects($this->once())
             ->method('isSetFlag')
@@ -250,11 +274,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $vatError,
         $groupId
     ) {
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = [
             'scopeConfig' => $this->scopeConfigMock
         ];
-        $this->model = $objectManagerHelper->getObject('Magento\Customer\Helper\Data', $arguments);
+        $this->model = $this->objectManagerHelper->getObject('Magento\Customer\Helper\Data', $arguments);
 
         $this->scopeConfigMock->expects($this->once())
             ->method('isSetFlag')
@@ -320,6 +343,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderGetCustomerGroupIdBasedOnVatNumber()
     {
         return [
