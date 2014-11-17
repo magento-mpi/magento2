@@ -73,7 +73,17 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         } else {
             $union = $this->_collection->getSelect()->getPart('union');
             if (!is_null($period) && !is_null($dateFrom) && !is_null($dateTo) &&  $period != 'month') {
-                $this->assertEquals(count($union), 3);
+                $count = count($union);
+                if ($period == 'year') {
+                    if ($dbTableName == "report_viewed_product_aggregated_daily") {
+                        $this->assertEquals($count, 2);
+                    }
+                    if ($dbTableName == "report_viewed_product_aggregated_yearly") {
+                        $this->assertEquals($count, 3);
+                    }
+                } else {
+                    $this->assertEquals($count, 3);
+                }
             } else {
                 $this->assertEquals(count($union), 2);
             }
