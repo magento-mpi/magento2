@@ -182,7 +182,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
             );
             $this->attributeBuilder->setEntityTypeId(
                 $this->eavConfig
-                ->getEntityType(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE)
+                    ->getEntityType(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE)
                     ->getId()
             );
             $this->attributeBuilder->setIsUserDefined(1);

@@ -131,12 +131,12 @@ class ProductServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'get'
+                'operation' => self::SERVICE_NAME . 'Get'
             ]
         ];
 
         $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['id' => $productSku]) : $this->_webApiCall($serviceInfo);
+            $this->_webApiCall($serviceInfo, ['productSku' => $productSku]) : $this->_webApiCall($serviceInfo);
 
         return $response;
     }
@@ -154,7 +154,7 @@ class ProductServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'create'
+                'operation' => self::SERVICE_NAME . 'Save'
             ],
         ];
         $requestData = ['product' => $product];

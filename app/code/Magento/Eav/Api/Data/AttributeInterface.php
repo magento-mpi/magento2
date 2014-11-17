@@ -47,7 +47,7 @@ interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterf
     /**
      * Retrieve id of the attribute.
      *
-     * @return int
+     * @return int|null
      */
     public function getAttributeId();
 
@@ -68,7 +68,7 @@ interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterf
     /**
      * Retrieve entity type id
      *
-     * @return string
+     * @return string|null
      */
     public function getEntityTypeId();
 
@@ -89,7 +89,7 @@ interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterf
     /**
      * Whether current attribute has been defined by a user.
      *
-     * @return bool
+     * @return bool|null
      */
     public function getIsUserDefined();
 

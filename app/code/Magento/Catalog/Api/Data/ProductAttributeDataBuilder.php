@@ -211,7 +211,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
     }
 
     /**
-     * @param int $attributeId
+     * @param int|null $attributeId
      * @return $this
      */
     public function setAttributeId($attributeId)
@@ -241,7 +241,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
     }
 
     /**
-     * @param string $entityTypeId
+     * @param string|null $entityTypeId
      * @return $this
      */
     public function setEntityTypeId($entityTypeId)
@@ -271,7 +271,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
     }
 
     /**
-     * @param bool $isUserDefined
+     * @param bool|null $isUserDefined
      * @return $this
      */
     public function setIsUserDefined($isUserDefined)
