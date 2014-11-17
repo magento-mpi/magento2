@@ -151,6 +151,18 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'date_to'   => $dateYearAgo,
             ],
             [
+                'period'    => 'month',
+                'table'     => 'report_viewed_product_aggregated_monthly',
+                'date_from' => null,
+                'date_to'   => $dateYearAgo,
+            ],
+            [
+                'period'    => 'month',
+                'table'     => 'report_viewed_product_aggregated_monthly',
+                'date_from' => $dateYearAgo,
+                'date_to'   => null,
+            ],
+            [
                 'period'    => 'day',
                 'table'     => 'report_viewed_product_aggregated_daily',
                 'date_from' => null,
