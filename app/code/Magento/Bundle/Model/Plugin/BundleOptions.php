@@ -39,6 +39,8 @@ class BundleOptions
      * @param \Magento\Bundle\Service\V1\Product\Option\WriteService $optionWriteService
      * @param \Magento\Bundle\Service\V1\Product\Option\ReadService $optionReadService
      * @param \Magento\Catalog\Api\Data\ProductDataBuilder $productBuilder
+     * @param \Magento\Bundle\Service\V1\Data\Product\OptionBuilder $optionBuilder
+     * @param \Magento\Bundle\Service\V1\Data\Product\LinkBuilder $linkBuilder
      */
     public function __construct(
         \Magento\Bundle\Service\V1\Product\Option\WriteService $optionWriteService,
