@@ -161,7 +161,7 @@ class ProductForm extends FormTabs
             $this->showAdvancedSettings();
             $this->fillTabs($tabs, $element);
 
-            if ($product->hasData('custom_attribute')) {
+            if ($product instanceof InjectableFixture && $product->hasData('custom_attribute')) {
                 $this->createCustomAttribute($product);
             }
         }
@@ -352,6 +352,8 @@ class ProductForm extends FormTabs
      *
      * @param InjectableFixture $product
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getRequireNoticeAttributes(InjectableFixture $product)
     {
