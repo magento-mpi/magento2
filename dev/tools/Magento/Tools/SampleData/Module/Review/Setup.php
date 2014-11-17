@@ -8,6 +8,7 @@
 namespace Magento\Tools\SampleData\Module\Review;
 
 use Magento\Tools\SampleData\SetupInterface;
+use Magento\Tools\SampleData\Helper\PostInstaller;
 
 /**
  * Class Setup
@@ -21,12 +22,21 @@ class Setup implements SetupInterface
     protected $reviewSetup;
 
     /**
+     * @var PostInstaller
+     */
+    protected $postInstaller;
+
+    /**
      * @param Setup\Review $reviewSetup
+     * @param PostInstaller $postInstaller
      */
     public function __construct(
-        Setup\Review $reviewSetup
+        Setup\Review $reviewSetup,
+        PostInstaller $postInstaller
+
     ) {
         $this->reviewSetup = $reviewSetup;
+        $this->postInstaller = $postInstaller;
     }
 
     /**
@@ -34,6 +44,6 @@ class Setup implements SetupInterface
      */
     public function run()
     {
-        $this->reviewSetup->run();
+        $this->postInstaller->addSetupResource($this->reviewSetup);
     }
 }
