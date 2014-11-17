@@ -136,11 +136,11 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="Magento\CatalogSearch\Model\Layer\Category\ItemCollectionProvider" type="Magento\Catalog\Model\Layer\Search\ItemCollectionProvider">
+    <type name="Magento\CatalogSearch\Model\Layer\Category\ItemCollectionProvider">
         <arguments>
             <argument name="collectionFactory" xsi:type="object">Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory</argument>
         </arguments>
-    </virtualType>
+    </type>
     <virtualType name="Magento\CatalogSearch\Model\Layer\Search\ItemCollectionProvider" type="Magento\Catalog\Model\Layer\Search\ItemCollectionProvider">
         <arguments>
             <argument name="collectionFactory" xsi:type="object">Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory</argument>
