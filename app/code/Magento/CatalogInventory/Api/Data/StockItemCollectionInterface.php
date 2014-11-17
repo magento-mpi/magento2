@@ -25,4 +25,11 @@ interface StockItemCollectionInterface extends SearchResultsInterface
      * @return \Magento\CatalogInventory\Api\Data\StockItemInterface[]
      */
     public function getItems();
+
+    /**
+     * Get search criteria.
+     *
+     * @return \Magento\CatalogInventory\Api\StockItemCriteriaInterface
+     */
+    public function getSearchCriteria();
 }
