@@ -1,41 +1,41 @@
 0.1.0-alpha104
 =============
 * Various improvements:
-    * Merge SQL and Data Upgrades for Sales, SalesRule modules (MAGETWO-29968)
-    * Add getDefaultBilling and getDefaultShipping to Customer Interface (MAGETWO-30134)
-    * Stabilize Bundle module (MTA-600)
-    * Stabilize CatalogSearch module (MTA-604)
-    * Stabilize Cms module (MTA-608)
-    * Stabilize SalesRule module (MTA-639)
+    * Merge SQL and Data Upgrades for the Sales and SalesRule modules
+    * Add getDefaultBilling and getDefaultShipping to Customer Interface
+    * Stabilized the Bundle module
+    * Stabilized the CatalogSearch module
+    * Stabilized the Cms module
+    * Stabilized the SalesRule module
 * Performance improvements:
-    * Introduce CatalogRule indexers based on Mview (MAGETWO-28394)
-    * Drastically decrease amount of unused objects, mostly in category and product view scenarios: (MAGETWO-28043)
-		* Get rid of non-shared indexer instances all over the code introducing Magento\Indexer\Model\IndexerRegistry, this gave the most improvement in category and product model
-		* Create Magento\Catalog\Pricing\Price\BasePrice on demand only instead of unconditioned creation in constructor
-		* Proxify unused objects with big amount of dependencies
-		* Fix \Magento\Review\Block\Product\Review block which injected backend block context by mistake
-		* Create customer model in \Magento\Customer\Model\Layout\DepersonalizePlugin on demand only instead of constructor
-    * Introduce caching for product attribute metadata loading procedure (MAGETWO-28004)
-    * Improved SavePayment Checkout step to save only payment related data (MAGETWO-28025)
-    * Speeded up all Checkout steps on One Page Checkout (MAGETWO-29615)
-    * Updated performance toolkit benchmark.jmx jmeter script (MAGETWO-30080 and MAGETWO-30081)
+    * Introduce CatalogRule indexers based on Mview
+    * Significantly decreased the amount of unused objects, mostly in category and product view scenarios:
+		* Got rid of non-shared indexer instances all over the code introducing Magento\Indexer\Model\IndexerRegistry
+		* Magento\Catalog\Pricing\Price\BasePrice being created on demand only, instead of unconditioned creation in constructor
+		* Created proxies for unused objects with big amount of dependencies
+		* Fixed \Magento\Review\Block\Product\Review block which injected backend block context by mistake
+		* A customer model in \Magento\Customer\Model\Layout\DepersonalizePlugin being created on demand only, instead of constructor
+    * Introduced caching for product attribute metadata loading procedure
+    * Improved SavePayment Checkout step to save only payment related data
+    * Speed up all Checkout steps of the One Page Checkout
+    * Updated the benchmark.jmx jmeter script in the performance toolkit
 * Fixed bugs:
-    * Performance toolkit generator creates Products/Categories without URL Rewrites due to install area elimination (MAGETWO-30456)
-    * Custom Options fieldset shouldn't be collapsible on Product Information page (MAGETWO-9855)
-    * Base URL always adds to target path for Custom UrlRewrite (MAGETWO-29618)
-    * Invalid amount of Cross-sells is displayed in Shopping Cart (MAGETWO-26114)
-    * Integration test Mage_Catalog_Model_Product_Type_AbstractTest::testBeforeSave fails when Mage_Downloadable module is not available (MAGETWO-9199)
-    * Custom URL rewrite redirects to sub-folder when Request Path contains slash (MAGETWO-29958)
-    * Fixed: It is impossible to place order if proceeding checkout with registration (MAGETWO-30005)
-    * Fixed an issue where there was no possibility to save default billing and shipping addresses for customer on frontend (MAGETWO-30455)
-    * Widget with type Catalog Category Link does not show on frontend (MAGETWO-29008)
-    * Versions tab is absent on CMS page with version control (MAGETWO-28876)
-    * It's unable to insert Widgets and Images (MAGETWO-28366)
+    * Fixed an issue where performance toolkit generator created Products/Categories without URL Rewrites due to install area elimination
+    * Fixed an issue where the Custom Options fieldset on Product Information page was collapsible
+    * Fixed an issue where the Base URL was added to target path for Custom UrlRewrite
+    * Fixed an issue where an invalid Cross-sells amount was displayed in the Shopping Cart
+    * Fixed an issue where the Mage_Catalog_Model_Product_Type_AbstractTest::testBeforeSave integration test failed when Mage_Downloadable module was not available
+    * Fixed an issue where the custom URL rewrite redirected to sub-folder when Request Path contained slash
+    * Fixed an issue where it was impossible to place an order if registering during checkout
+    * Fixed an issue where there was no possibility to save default billing and shipping addresses for customer on the store front
+    * Fixed an issue where a widget of Catalog Category Link type was not displayed on the store front
+    * Fixed an issue where the Versions tab was absent on the CMS page with version control
+    * Fixed an issue where it was impossible to insert Widgets and Images to a CMS page
 * Added the following functional tests:
-    * Create widget (MTA-296)
-    * Print order from guest on frontend (MTA-420)
+    * Create widget
+    * Print order from guest on frontend
 * Framework Improvements:
-    * Removed duplicated logic from API Builders and Builder generators. Added support for populating builders from the objects, implementing data interface (MAGETWO-30275)
+    * Removed duplicated logic from API Builders and Builder generators. Added support for populating builders from the objects, implementing data interface
 * Processed GitHub requests:
     * [#674](https://github.com/magento/magento2/issues/674) -- Widgets in content pages
 
