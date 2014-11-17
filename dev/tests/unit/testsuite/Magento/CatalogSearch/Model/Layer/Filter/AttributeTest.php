@@ -92,7 +92,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['addFilter'])
             ->getMock();
-        $this->layer->expects($this->once())
+        $this->layer->expects($this->any())
             ->method('getState')
             ->will($this->returnValue($this->state));
 
@@ -194,11 +194,46 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->target, $result);
     }
 
-    public function testGetItems()
+    public function testGetItemsWithoutApply()
     {
         $attributeCode = 'attributeCode';
         $attributeValue = 'attributeValue';
         $attributeLabel = 'attributeLabel';
+
+        $this->attribute->expects($this->exactly(2))
+            ->method('getAttributeCode')
+            ->will($this->returnValue($attributeCode));
+        $this->target->setAttributeModel($this->attribute);
+
+        $this->request->expects($this->once())
+            ->method('getParam')
+            ->with($attributeCode)
+            ->will($this->returnValue($attributeValue));
+
+        $this->fulltextCollection->expects($this->once())
+            ->method('addFieldToFilter')
+            ->with($attributeCode, $attributeValue)
+            ->will($this->returnSelf());
+
+        $this->frontend->expects($this->once())
+            ->method('getOption')
+            ->with($attributeValue)
+            ->will($this->returnValue($attributeLabel));
+        $filterItem = $this->createFilterItem(0, $attributeLabel, $attributeValue, 0);
+
+        $this->state->expects($this->once())
+            ->method('addFilter')
+            ->with($filterItem)
+            ->will($this->returnSelf());
+
+        $result = $this->target->apply($this->request)->getItems();
+
+        $this->assertEquals([], $result);
+    }
+
+    public function testGetItemsWithApply()
+    {
+        $attributeCode = 'attributeCode';
         $selectedOptions = [
             [
                 'label' => 'selectedOptionLabel1',
@@ -229,7 +264,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $this->attribute->expects($this->exactly(3))
+        $this->attribute->expects($this->exactly(2))
             ->method('getAttributeCode')
             ->will($this->returnValue($attributeCode));
         $this->attribute->expects($this->exactly(count($selectedOptions)))
@@ -238,30 +273,9 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
         $this->target->setAttributeModel($this->attribute);
 
-        $this->request->expects($this->once())
-            ->method('getParam')
-            ->with($attributeCode)
-            ->will($this->returnValue($attributeValue));
-
-        $this->fulltextCollection->expects($this->once())
-            ->method('addFieldToFilter')
-            ->with($attributeCode, $attributeValue)
-            ->will($this->returnSelf());
-
-        $this->frontend->expects($this->once())
-            ->method('getOption')
-            ->with($attributeValue)
-            ->will($this->returnValue($attributeLabel));
         $this->frontend->expects($this->once())
             ->method('getSelectOptions')
             ->will($this->returnValue($selectedOptions));
-
-        $filterItem = $this->createFilterItem(0, $attributeLabel, $attributeValue, 0);
-
-        $this->state->expects($this->once())
-            ->method('addFilter')
-            ->with($filterItem)
-            ->will($this->returnSelf());
 
         $this->fulltextCollection->expects($this->once())
             ->method('getFacetedData')
@@ -288,11 +302,11 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($builtData));
 
         $expectedFilterItems = [
-            $this->createFilterItem(1, $builtData[0]['label'], $builtData[0]['value'], $builtData[0]['count']),
-            $this->createFilterItem(2, $builtData[1]['label'], $builtData[1]['value'], $builtData[1]['count']),
+            $this->createFilterItem(0, $builtData[0]['label'], $builtData[0]['value'], $builtData[0]['count']),
+            $this->createFilterItem(1, $builtData[1]['label'], $builtData[1]['value'], $builtData[1]['count']),
         ];
 
-        $result = $this->target->apply($this->request)->getItems();
+        $result = $this->target->getItems();
 
         $this->assertEquals($expectedFilterItems, $result);
     }
