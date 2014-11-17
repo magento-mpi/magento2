@@ -189,7 +189,6 @@ class AbstractStructure extends AbstractView
     protected function initElements()
     {
         $this->structure['elements'] = [
-            'type' => $this->ns,
             'children' => []
         ];
     }

@@ -13,17 +13,6 @@ define([
 ], function(_, utils, Scope, EventsBus, registry) {
     'use strict';
 
-    /**
-     * Private methods.
-     */
-    function loadEach(elems, callback, offset){
-        elems.forEach(function(elem, index){
-            registry.get(elem, function(elem){
-                callback(elem, index+offset);
-            });
-        });
-    }
-
     function getOffsetFor(elems, offset){
         if(typeof offset === 'undefined'){
             offset = -1;
@@ -225,18 +214,21 @@ define([
          * Requests specified components to insert
          * them into 'elems' array starting from provided position.
          *
-         * @param {Array} elems - An array of components names.
+         * @param {String} elem - Name of the component to insert.
          * @param {Number} [offset=-1] - Position at which to insert elements.
          * @returns {Component} Chainable.
          */
-        insert: function(elems, offset){
-            var size    = elems.length,
-                _elems  = this._elems;
+        insert: function(elem, offset){
+            var _elems  = this._elems,
+                insert  = this._insertAt;
             
-            offset      = getOffsetFor(_elems, offset);
-            this._elems = utils.reserve(_elems, size, offset);
+            offset = getOffsetFor(_elems, offset);
 
-            loadEach(elems, this._insertAt, offset);
+            _elems.splice(offset, 0, false);
+
+            registry.get(elem, function(elem){
+                insert(elem, offset);
+            });
 
             return this;
         },

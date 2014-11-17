@@ -72,7 +72,7 @@ define([
             data.form_key = FORM_KEY;
 
             if(!options.redirect){
-                url += '_current/true/back/edit';
+                url += 'back/edit';
             }
 
             utils.submit({
