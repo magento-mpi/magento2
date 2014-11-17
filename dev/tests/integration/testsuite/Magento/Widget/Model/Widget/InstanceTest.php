@@ -110,7 +110,7 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $model->generateLayoutUpdateXml('content'));
         $model->setId('test_id')->setPackageTheme('Magento/plushe');
         $result = $model->generateLayoutUpdateXml('content');
-        $this->assertContains('<referenceContainer name="content">', $result);
+        $this->assertContains('<body><referenceContainer name="content">', $result);
         $this->assertContains('<block class="' . $model->getType() . '"', $result);
         $this->assertEquals(count($params), substr_count($result, '<action method="setData">'));
         $this->assertContains('<argument name="name" xsi:type="string">display_mode</argument>', $result);
