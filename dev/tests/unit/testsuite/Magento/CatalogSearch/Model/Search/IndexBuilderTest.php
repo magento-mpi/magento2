@@ -16,7 +16,6 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  */
 class IndexBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var \Magento\Framework\DB\Adapter\AdapterInterface|MockObject */
     private $adapter;
 
@@ -84,22 +83,25 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildWithOutOfStock()
     {
+        $tableSuffix = '_table';
         $index = 'test_name_of_index';
-        $table = 'test_table_index_name';
 
         $this->request->expects($this->once())
             ->method('getIndex')
             ->will($this->returnValue($index));
 
-        $this->resource->expects($this->once())
+        $this->resource->expects($this->any())
             ->method('getTableName')
-            ->with($index)
-            ->will($this->returnValue($table));
+            ->will($this->returnCallback(
+                    function($index) use ($tableSuffix){
+                        return $index . $tableSuffix;
+                    }
+                ));
 
         $this->select->expects($this->once())
             ->method('from')
             ->with(
-                ['search_index' => $table],
+                ['search_index' => $index . $tableSuffix],
                 ['entity_id' => 'search_index.product_id']
             )
             ->will($this->returnSelf());
@@ -107,7 +109,7 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
         $this->select->expects($this->at(1))
             ->method('joinLeft')
             ->with(
-                ['category_index' => 'catalog_category_product_index'],
+                ['category_index' => 'catalog_category_product_index' . $tableSuffix],
                 'search_index.product_id = category_index.product_id'
                 . ' AND search_index.store_id = category_index.store_id',
                 []
@@ -125,22 +127,27 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testBuildWithoutOutOfStock()
     {
+        $tableSuffix = '_table';
         $index = 'test_index_name';
-        $table = 'test_index_table_name';
 
         $this->request->expects($this->once())
             ->method('getIndex')
             ->will($this->returnValue($index));
 
-        $this->resource->expects($this->once())
+        $this->resource->expects($this->any())
             ->method('getTableName')
-            ->with($index)
-            ->will($this->returnValue($table));
+            ->will(
+                $this->returnCallback(
+                    function ($index) use ($tableSuffix) {
+                        return $index . $tableSuffix;
+                    }
+                )
+            );
 
         $this->select->expects($this->once())
             ->method('from')
             ->with(
-                ['search_index' => $table],
+                ['search_index' => $index . $tableSuffix],
                 ['entity_id' => 'search_index.product_id']
             )
             ->will($this->returnSelf());
@@ -148,7 +155,7 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
         $this->select->expects($this->at(1))
             ->method('joinLeft')
             ->with(
-                ['category_index' => 'catalog_category_product_index'],
+                ['category_index' => 'catalog_category_product_index' . $tableSuffix],
                 'search_index.product_id = category_index.product_id'
                 . ' AND search_index.store_id = category_index.store_id',
                 []
@@ -163,7 +170,7 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
         $this->select->expects($this->at(2))
             ->method('joinLeft')
             ->with(
-                ['stock_index' => 'cataloginventory_stock_status'],
+                ['stock_index' => 'cataloginventory_stock_status' . $tableSuffix],
                 'search_index.product_id = stock_index.product_id'
                 . ' AND stock_index.website_id = 1 AND stock_index.stock_id = 1',
                 []
