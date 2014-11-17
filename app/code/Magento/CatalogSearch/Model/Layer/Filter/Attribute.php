@@ -68,7 +68,6 @@ class Attribute extends AbstractFilter
         $this->getLayer()
             ->getState()
             ->addFilter($this->_createItem($label, $attributeValue));
-        $this->_items = [];
 
         return $this;
     }
@@ -87,6 +86,8 @@ class Attribute extends AbstractFilter
             ->getProductCollection();
         $optionsFacetedData = $productCollection->getFacetedData($attribute->getAttributeCode());
 
+        $productSize = $productCollection->getSize();
+
         $options = $attribute->getFrontend()
             ->getSelectOptions();
         foreach ($options as $option) {
@@ -95,7 +96,8 @@ class Attribute extends AbstractFilter
             }
             // Check filter type
             if ($this->getAttributeIsFilterable($attribute) == static::ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS
-                && (empty($optionsFacetedData[$option['value']]['count']))
+                && (empty($optionsFacetedData[$option['value']]['count'])
+                    || $productSize <= $optionsFacetedData[$option['value']]['count'])
             ) {
                 continue;
             }
