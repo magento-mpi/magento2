@@ -68,9 +68,6 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
             $collection->getPriceStandardDeviation(),
             $collection->getSize()
         );
-        if (!is_null($intervalsNumber)) {
-            $this->assertEquals($intervalsNumber, $model->getIntervalsNumber());
-        }
 
         $items = $model->calculateSeparators();
         $this->assertEquals(array_keys($intervalItems), array_keys($items));

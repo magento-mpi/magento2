@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Solr\Model\Layer\Category\Filter;
+use Magento\Framework\Search\Dynamic\IntervalFactory;
 
 /**
  * Layer price filter
@@ -50,6 +51,11 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     protected $cacheStateTags;
 
     /**
+     * @var IntervalFactory
+     */
+    private $intervalFactory;
+
+    /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
@@ -81,6 +87,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         \Magento\Solr\Model\Resource\Solr\Engine $resourceEngine,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Solr\Model\Layer\Category\CacheStateTags $cacheStateTags,
+        IntervalFactory $intervalFactory,
         array $data = []
     ) {
         $this->_resourceEngine = $resourceEngine;
@@ -100,6 +107,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $algorithmFactory,
             $data
         );
+        $this->intervalFactory = $intervalFactory;
     }
 
     /**
@@ -313,9 +321,9 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                     $statistics['count']
                 );
             }
-
+            $interval = $this->intervalFactory->create();
             $cachedData = [];
-            foreach ($this->_priceAlgorithm->calculateSeparators() as $separator) {
+            foreach ($this->_priceAlgorithm->calculateSeparators($interval) as $separator) {
                 $cachedData[] = $separator['from'] . '-' . $separator['to'];
             }
             $cachedData = implode(',', $cachedData);

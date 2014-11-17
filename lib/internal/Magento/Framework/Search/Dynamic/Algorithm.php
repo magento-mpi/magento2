@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Framework\Search\Dynamic;
+use Magento\Framework\Search\Dynamic\IntervalInterface;
 
 
 /**
@@ -175,10 +176,12 @@ class Algorithm
     /**
      * Calculate separators, each contains 'from', 'to' and 'count'
      *
+     * @param IntervalInterface $interval
      * @return array
      */
-    public function calculateSeparators()
+    public function calculateSeparators(IntervalInterface $interval)
     {
+        $this->interval = $interval;
         $result = [];
         $lastCount = 0;
         $intervalFirstValue = $this->_minValue;
@@ -257,7 +260,7 @@ class Algorithm
      *
      * @return int
      */
-    public function getIntervalsNumber()
+    protected function getIntervalsNumber()
     {
         if (!is_null($this->_intervalsNumber)) {
             return $this->_intervalsNumber;

@@ -111,7 +111,11 @@ class Price extends AbstractFilter
         }
 
         list($from, $to) = $filter;
-        $this->getLayer()->getProductCollection()->addFieldToFilter('price', ['from' => $from, 'to' => $to]);
+
+        $this->getLayer()->getProductCollection()->addFieldToFilter(
+            'price',
+            ['from' => $from, 'to' =>  $from == $to ? $to : $to - 0.005]
+        );
 
         $this->getLayer()->getState()->addFilter(
             $this->_createItem($this->_renderRangeLabel(empty($from) ? 0 : $from, $to), $filter)

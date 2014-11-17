@@ -9,6 +9,7 @@ namespace Magento\Framework\Search\Dynamic\Algorithm;
 
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Dynamic\Algorithm;
+use Magento\Framework\Search\Dynamic\IntervalFactory;
 use Magento\Framework\Search\Request\BucketInterface;
 
 class Improved extends AbstractAlgorithm
@@ -20,13 +21,20 @@ class Improved extends AbstractAlgorithm
     private $algorithm;
 
     /**
+     * @var IntervalFactory
+     */
+    private $intervalFactory;
+
+    /**
      * @param DataProviderInterface $dataProvider
      * @param Algorithm $algorithm
+     * @param IntervalFactory $intervalFactory
      */
-    public function __construct(DataProviderInterface $dataProvider, Algorithm $algorithm)
+    public function __construct(DataProviderInterface $dataProvider, Algorithm $algorithm, IntervalFactory $intervalFactory)
     {
         parent::__construct($dataProvider);
         $this->algorithm = $algorithm;
+        $this->intervalFactory = $intervalFactory;
     }
 
 
@@ -38,17 +46,21 @@ class Improved extends AbstractAlgorithm
         $aggregations = $this->dataProvider->getAggregations($entityIds);
 
         $options = $this->dataProvider->getOptions();
-        if ($aggregations['count'] < $options['interval_division_limit'] ) { // minimum 2 intervals
+        if ($aggregations['count'] < $options['interval_division_limit'] ) {
             return [];
         }
+        $select = $this->dataProvider->getDataSet($bucket, $dimensions);
+        $select->where('main_table.entity_id IN (?)', $entityIds);
 
+        $interval = new \Magento\Framework\Search\Adapter\Mysql\Aggregation\Interval($select);
         $this->algorithm->setStatistics(
             $aggregations['min'],
             $aggregations['max'],
             $aggregations['std'],
             $aggregations['count']
         );
+        $this->algorithm->setLimits($aggregations['min'], $aggregations['max'] - 0.0001);
 
-        return $this->algorithm->calculateSeparators();
+        return $this->algorithm->calculateSeparators($interval);
     }
 }

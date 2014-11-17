@@ -134,6 +134,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addFieldToFilter($field, $condition = null)
     {
+        if ($this->queryResponse !== null) {
+            throw \Exception('Illeagal state');
+        }
         if (!is_array($condition) || !in_array(key($condition), ['from', 'to'])) {
             $this->requestBuilder->bind($field, $condition);
         } else {

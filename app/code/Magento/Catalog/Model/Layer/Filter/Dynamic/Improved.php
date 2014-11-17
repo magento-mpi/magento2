@@ -11,6 +11,7 @@ use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Catalog\Model\Layer\Filter\Price\Render;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Search\Dynamic\Algorithm;
+use Magento\Framework\Search\Dynamic\IntervalFactory;
 use Magento\Store\Model\ScopeInterface;
 
 class Improved implements AlgorithmInterface
@@ -36,23 +37,31 @@ class Improved implements AlgorithmInterface
      * @var Render
      */
     private $render;
+    /**
+     * @var IntervalFactory
+     */
+    private $intervalFactory;
 
     /**
      * @param Algorithm $algorithm
-     * @param Category $layer
+     * @param Resolver $layerResolver
      * @param ScopeConfigInterface $scopeConfig
      * @param Render $render
+     * @param IntervalFactory $intervalFactory
+     * @internal param Category $layer
      */
     public function __construct(
         Algorithm $algorithm,
         Resolver $layerResolver,
         ScopeConfigInterface $scopeConfig,
-        Render $render
+        Render $render,
+        IntervalFactory $intervalFactory
     ) {
         $this->algorithm = $algorithm;
         $this->layer = $layerResolver->get();
         $this->scopeConfig = $scopeConfig;
         $this->render = $render;
+        $this->intervalFactory = $intervalFactory;
     }
 
     /**
@@ -78,9 +87,9 @@ class Improved implements AlgorithmInterface
             }
             $this->algorithm->setLimits($appliedInterval[0], $appliedInterval[1]);
         }
-
+        $interval = $this->intervalFactory->create();
         $items = array();
-        foreach ($this->algorithm->calculateSeparators() as $separator) {
+        foreach ($this->algorithm->calculateSeparators($interval) as $separator) {
             $items[] = array(
                 'label' => $this->render->renderRangeLabel($separator['from'], $separator['to']),
                 'value' => ($separator['from'] == 0 ? ''
