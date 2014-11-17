@@ -26,6 +26,8 @@ define([
                 loginFormSelector: 'form[data-role=login]',
                 continueSelector: '#opc-login [data-role=opc-continue]',
                 registerCustomerPasswordSelector: '#co-billing-form .field.password,#co-billing-form .field.confirm',
+                captchaGuestCheckoutSelector: '#co-billing-form [role="guest_checkout"]',
+                registerDuringCheckoutSelector: '#co-billing-form [role="register_during_checkout"]',
                 suggestRegistration: false
             },
             pageMessages: '#maincontent .messages .message',
@@ -182,6 +184,8 @@ define([
                 );
 
                 this.element.find( checkout.registerCustomerPasswordSelector )[action]();
+                this.element.find( checkout.captchaGuestCheckoutSelector ).toggle(action !== 'show');
+                this.element.find( checkout.registerDuringCheckoutSelector )[action]();
             }
             else if( json.registrationUrl ){
                 window.location = json.registrationUrl;
@@ -198,7 +202,7 @@ define([
          * @param gotoSection - the section needs to show after ajax call
          * @param successCallback - custom callback function in ajax success
          */
-        _ajaxContinue: function(url, data, gotoSection, successCallback) {
+        _ajaxContinue: function(url, data, gotoSection, successCallback) {alert('here');
             $.ajax({
                 url: url,
                 type: 'post',
