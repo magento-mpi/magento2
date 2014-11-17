@@ -24,10 +24,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     protected $resourceMock;
     /**
-     * @var \Magento\Framework\Stdlib\DateTime|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $dateTimeMock;
-    /**
      * @var \Magento\Sales\Model\Resource\Attribute|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $attributeMock;
@@ -90,7 +86,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->resourceMock = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
-        $this->dateTimeMock = $this->getMock('Magento\Framework\Stdlib\DateTime', [], [], '', false);
         $this->attributeMock = $this->getMock('Magento\Sales\Model\Resource\Attribute', [], [], '', false);
         $this->addressHandlerMock = $this->getMock(
             'Magento\Sales\Model\Resource\Order\Handler\Address',
@@ -157,7 +152,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
         $this->resource = new Order(
             $this->resourceMock,
-            $this->dateTimeMock,
             $this->attributeMock,
             $this->salesIncrementMock,
             $this->addressHandlerMock,
