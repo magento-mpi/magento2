@@ -139,9 +139,9 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
             $this->attributeBuilder->setIsUserDefined($existingModel->getIsUserDefined());
             $this->attributeBuilder->setFrontendInput($existingModel->getFrontendInput());
 
-            if ($attribute->getStoreFrontendLabels() && is_array($attribute->getStoreFrontendLabels())) {
+            if ($attribute->getFrontendLabel() && is_array($attribute->getFrontendLabel())) {
                 $frontendLabel[0] = $existingModel->getFrontendLabel();
-                foreach ($attribute->getStoreFrontendLabels() as $item) {
+                foreach ($attribute->getFrontendLabel() as $item) {
                     $frontendLabel[$item->getStoreId()] = $item->getLabel();
                 }
                 $this->attributeBuilder->setFrontendLabel($frontendLabel);
@@ -153,11 +153,11 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
         } else {
             $this->attributeBuilder->setAttributeId(null);
 
-            if (!$attribute->getStoreFrontendLabels()) {
+            if (!$attribute->getFrontendLabel()) {
                 throw InputException::requiredField('frontend_label');
             }
             $frontendLabels = [];
-            foreach ($attribute->getStoreFrontendLabels() as $label) {
+            foreach ($attribute->getFrontendLabel() as $label) {
                 $frontendLabels[$label->getStoreId()] = $label->getLabel();
             }
             if (!isset($frontendLabels[0]) || !$frontendLabels[0]) {

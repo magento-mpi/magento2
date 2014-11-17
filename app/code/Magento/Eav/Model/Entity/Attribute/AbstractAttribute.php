@@ -973,14 +973,6 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractExtens
     /**
      * {@inheritdoc}
      */
-    public function getStoreFrontendLabels()
-    {
-        return $this->getData(self::STORE_FRONTEND_LABELS);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getNote()
     {
         return $this->getData(self::NOTE);

@@ -30,8 +30,6 @@ interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterf
 
     const FRONTEND_LABEL = 'frontend_label';
 
-    const STORE_FRONTEND_LABELS = 'store_frontend_labels';
-
     const NOTE = 'note';
 
     const BACKEND_TYPE = 'backend_type';
@@ -94,18 +92,11 @@ interface AttributeInterface extends \Magento\Framework\Api\ExtensibleDataInterf
     public function getIsUserDefined();
 
     /**
-     * Get label which supposed to be displayed on frontend.
-     *
-     * @return mixed|null
-     */
-    public function getFrontendLabel();
-
-    /**
      * Return frontend label for each store
      *
-     * @return \Magento\Eav\Api\Data\AttributeFrontendLabelInterface[]|null
+     * @return \Magento\Eav\Api\Data\AttributeFrontendLabelInterface[]|string
      */
-    public function getStoreFrontendLabels();
+    public function getFrontendLabel();
 
     /**
      * Get the note attribute for the element.
