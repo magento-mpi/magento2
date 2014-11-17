@@ -5,17 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Framework\Data\CollectionBuilder;
 
-use Magento\Framework\Api\AbstractExtensibleObjectBuilder;
-use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
  * Builder for FilterGroup Data.
  */
-class FilterGroupBuilder extends AbstractExtensibleObjectBuilder
+class FilterGroupBuilder extends ExtensibleObjectBuilder
 {
     /**
      * @var FilterBuilder
@@ -24,17 +23,19 @@ class FilterGroupBuilder extends AbstractExtensibleObjectBuilder
 
     /**
      * @param \Magento\Framework\Api\ObjectFactory $objectFactory
-     * @param AttributeValueBuilder $valueBuilder
+     * @param AttributeDataBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
      * @param FilterBuilder $filterBuilder
+     * @param null $modelClassInterface
      */
     public function __construct(
         \Magento\Framework\Api\ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder,
+        AttributeDataBuilder $valueBuilder,
         MetadataServiceInterface $metadataService,
-        FilterBuilder $filterBuilder
+        FilterBuilder $filterBuilder,
+        $modelClassInterface = null
     ) {
-        parent::__construct($objectFactory, $valueBuilder, $metadataService);
+        parent::__construct($objectFactory, $valueBuilder, $metadataService, $modelClassInterface);
         $this->_filterBuilder = $filterBuilder;
     }
 
@@ -46,7 +47,7 @@ class FilterGroupBuilder extends AbstractExtensibleObjectBuilder
      */
     public function addFilter(\Magento\Framework\Api\Filter $filter)
     {
-        $this->_data[FilterGroup::FILTERS][] = $filter;
+        $this->data[FilterGroup::FILTERS][] = $filter;
         return $this;
     }
 

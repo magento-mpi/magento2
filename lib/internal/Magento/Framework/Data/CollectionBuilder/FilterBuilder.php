@@ -5,15 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Framework\Data\CollectionBuilder;
+
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * Builder for Filter Service Data Object.
  *
  * @method Filter create()
  */
-class FilterBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuilder
+class FilterBuilder extends ExtensibleObjectBuilder
 {
     /**
      * Set field
@@ -23,7 +24,7 @@ class FilterBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuild
      */
     public function setField($field)
     {
-        $this->_data['field'] = $field;
+        $this->data['field'] = $field;
         return $this;
     }
 
@@ -35,7 +36,7 @@ class FilterBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuild
      */
     public function setValue($value)
     {
-        $this->_data['value'] = $value;
+        $this->data['value'] = $value;
         return $this;
     }
 
@@ -47,7 +48,7 @@ class FilterBuilder extends \Magento\Framework\Api\AbstractExtensibleObjectBuild
      */
     public function setConditionType($conditionType)
     {
-        $this->_data['condition_type'] = $conditionType;
+        $this->data['condition_type'] = $conditionType;
         return $this;
     }
 }
