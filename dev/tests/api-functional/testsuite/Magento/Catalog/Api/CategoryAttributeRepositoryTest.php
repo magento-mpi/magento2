@@ -73,7 +73,7 @@ class CategoryAttributeRepositoryTest extends \Magento\TestFramework\TestCase\We
         $this->assertTrue($response['total_count'] > 0);
         $this->assertTrue(count($response['items']) > 0);
 
-        $this->assertNotNull($response['items'][0]['frontend_label']);
+        $this->assertNotNull($response['items'][0]['default_frontend_label']);
         $this->assertNotNull($response['items'][0]['attribute_id']);
     }
 
