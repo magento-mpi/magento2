@@ -24,6 +24,41 @@ class ProductServiceTest extends WebapiAbstract
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products';
 
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\Collection
+     */
+    protected $productCollection;
+
+    /**
+     * Execute per test initialization
+     */
+    public function setUp()
+    {
+        $objectManager = Bootstrap::getObjectManager();
+        $this->productCollection = $objectManager->get('Magento\Catalog\Model\Resource\Product\Collection');
+    }
+
+    /**
+     * Execute per test cleanup
+     */
+    public function tearDown()
+    {
+        /** @var \Magento\Framework\Registry $registry */
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
+
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', true);
+
+        $this->productCollection->addFieldToFilter(
+            'sku',
+            ['in' => ['sku-test-product', 'sku-test-product-bundle']]
+        )->delete();
+        unset($this->productCollection);
+
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', false);
+    }
+
     public function testCreateBundle()
     {
         $response = $this->createProduct($this->getSimpleProductData());
@@ -42,7 +77,7 @@ class ProductServiceTest extends WebapiAbstract
             ]
         ];
 
-        $uniqueId = uniqid('sku-', true);
+        $uniqueId = 'sku-test-product-bundle';
         $product = [
             "sku" => $uniqueId,
             "name" => $uniqueId,
@@ -160,8 +195,8 @@ class ProductServiceTest extends WebapiAbstract
     private function getSimpleProductData()
     {
         return [
-            \Magento\Catalog\Api\Data\ProductInterface::SKU => uniqid('sku-', true),
-            \Magento\Catalog\Api\Data\ProductInterface::NAME => uniqid('sku-', true),
+            \Magento\Catalog\Api\Data\ProductInterface::SKU => 'sku-test-product',
+            \Magento\Catalog\Api\Data\ProductInterface::NAME => 'sku-test-product',
             \Magento\Catalog\Api\Data\ProductInterface::VISIBILITY => 4,
             \Magento\Catalog\Api\Data\ProductInterface::PRICE => 3.62,
             \Magento\Catalog\Api\Data\ProductInterface::STATUS => 1,
