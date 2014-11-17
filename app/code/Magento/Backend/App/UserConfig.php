@@ -70,7 +70,6 @@ class UserConfig implements AppInterface
      * Inserts provided user configuration data into database
      *
      * @return void
-     * @throws \Exception
      */
     private function updateUserConfigData()
     {

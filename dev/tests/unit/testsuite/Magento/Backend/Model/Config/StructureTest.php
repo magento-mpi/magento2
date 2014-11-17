@@ -190,7 +190,7 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($elementMock, $this->_model->getElement('section_1/group_level_1/field_3'));
     }
 
-    public function testGetElementReturnsProperElementByPathIfSectionDataIsEmpty()
+    public function testGetElementByPathPartsIfSectionDataIsEmpty()
     {
         $elementMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Field',

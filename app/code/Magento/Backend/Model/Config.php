@@ -351,7 +351,7 @@ class Config extends \Magento\Framework\Object
      * @param string $path
      * @param mixed $value
      * @return void
-     * @throws \Exception
+     * @throws \UnexpectedValueException
      */
     public function setDataByPath($path, $value)
     {
@@ -363,8 +363,8 @@ class Config extends \Magento\Framework\Object
         $keyDepth = count($pathParts);
         if ($keyDepth !== 3) {
             throw new \UnexpectedValueException(
-                "Allowed depth of configuration is 3 (<section>/<group>/<field>). Your depth is " . $keyDepth
-                . " for path '$path'"
+                "Allowed depth of configuration is 3 (<section>/<group>/<field>). Your configuration depth is "
+                . $keyDepth . " for path '$path'"
             );
         }
         $data = [
