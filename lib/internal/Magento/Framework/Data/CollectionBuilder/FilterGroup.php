@@ -8,12 +8,12 @@
 
 namespace Magento\Framework\Data\CollectionBuilder;
 
-use Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**
  * Groups two or more filters together using a logical OR
  */
-class FilterGroup extends AbstractExtensibleObject
+class FilterGroup extends AbstractExtensibleModel
 {
     const FILTERS = 'filters';
 
@@ -24,7 +24,7 @@ class FilterGroup extends AbstractExtensibleObject
      */
     public function getFilters()
     {
-        $filters = $this->_get(self::FILTERS);
+        $filters = $this->_getData(self::FILTERS);
         return is_null($filters) ? [] : $filters;
     }
 }
