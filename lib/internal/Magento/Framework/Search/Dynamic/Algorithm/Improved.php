@@ -9,7 +9,7 @@ namespace Magento\Framework\Search\Dynamic\Algorithm;
 
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Dynamic\Algorithm;
-use Magento\Framework\Search\Dynamic\IntervalFactory;
+use Magento\Framework\Search\Adapter\Mysql\Aggregation\IntervalFactory;
 use Magento\Framework\Search\Request\BucketInterface;
 
 class Improved extends AbstractAlgorithm
@@ -52,7 +52,7 @@ class Improved extends AbstractAlgorithm
         $select = $this->dataProvider->getDataSet($bucket, $dimensions);
         $select->where('main_table.entity_id IN (?)', $entityIds);
 
-        $interval = new \Magento\Framework\Search\Adapter\Mysql\Aggregation\Interval($select);
+        $interval = $this->intervalFactory->create(['select' => $select]);
         $this->algorithm->setStatistics(
             $aggregations['min'],
             $aggregations['max'],

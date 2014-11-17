@@ -14,7 +14,7 @@ use Magento\Framework\Search\Dynamic\IntervalInterface;
 class Interval implements IntervalInterface
 {
     /**
-     * Minimal possible price
+     * Minimal possible value
      */
     const DELTA = 0.005;
     /**
@@ -34,7 +34,6 @@ class Interval implements IntervalInterface
      * Get value field
      *
      * @return string
-     * @throws \Zend_Db_Select_Exception
      */
     private function getValueFiled()
     {
