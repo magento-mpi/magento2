@@ -13,13 +13,16 @@ use Magento\Framework\App\Bootstrap;
 
 require __DIR__ . '/../../app/bootstrap.php';
 
-$usage = escapeshellarg('Usage: php -f user_config_data.php --
-    ' . ' --data=<string> - pairs of \'path=value\' separated by \'&\', where
-    ' . '       \'path\' is path of the specified data group, e.g. web/unsecure/base_url, and
-    ' . '       \'value\' is value for the path specified, e.g. http://127.0.0.1/
-    ' . ' Example Usage: php -f user_config_data.php -- --website=1
-    ' . ' --data=web/seo/use_rewrites=1&web/unsecure/base_url=http://127.0.0.1/
-    ' . '--bootstrap - add or override parameters of the bootstrap') . PHP_EOL;
+$usage = escapeshellarg(
+        'Usage: php -f user_config_data.php --
+        ' . ' --data=<string> - pairs of \'path=value\' separated by \'&\', where
+        ' . '       \'path\' is path of the specified data group, e.g. web/unsecure/base_url, and
+        ' . '       \'value\' is value for the path specified, e.g. http://127.0.0.1/
+        ' . ' Example Usage: php -f user_config_data.php -- --website=1
+        ' . ' --data=web/seo/use_rewrites=1&web/unsecure/base_url=http://127.0.0.1/
+        ' . ' --bootstrap - add or override parameters of the bootstrap'
+    )
+    . PHP_EOL;
 
 $opt = getopt('', ['data:']);
 if (empty($opt)) {
