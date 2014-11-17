@@ -10,6 +10,7 @@ namespace Magento\Tax\Service\V1\Data;
 
 /**
  * A localized tax rate title associated with a store view.
+ * @deprecated @see \Magento\Tax\Api\Data\TaxRateTitleInterface
  */
 class TaxRateTitle extends \Magento\Framework\Api\AbstractExtensibleObject
 {

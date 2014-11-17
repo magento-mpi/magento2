@@ -10,6 +10,7 @@ namespace Magento\Tax\Service\V1\Data;
 
 /**
  * Service data object for a tax percentage rate associated with a location.
+ * @see \Magento\Tax\Api\Data\TaxRateInterface
  */
 class TaxRate extends \Magento\Framework\Api\AbstractExtensibleObject
 {

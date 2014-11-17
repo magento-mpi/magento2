@@ -53,4 +53,5 @@
     <type name="Magento\ConfigurableProduct\Pricing\Price\AttributePrice">
         <plugin name="prepareAdjustmentConfig" type="Magento\Tax\Pricing\Price\Plugin\AttributePrice" sortOrder="10"/>
     </type>
+    <preference for="\Magento\Tax\Api\Data\TaxRateSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
 </config>

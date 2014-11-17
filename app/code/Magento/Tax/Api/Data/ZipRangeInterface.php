@@ -1,16 +1,18 @@
 <?php
 /**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Tax\Service\V1\Data;
+
+namespace Magento\Tax\Api\Data;
 
 /**
- * @deprecated \Magento\Tax\Api\Data\ZipRangeInterface
+ * @see \Magento\Tax\Service\V1\Data\ZipRange
  */
-class ZipRange extends \Magento\Framework\Api\AbstractExtensibleObject
+interface ZipRangeInterface
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely
@@ -26,18 +28,12 @@ class ZipRange extends \Magento\Framework\Api\AbstractExtensibleObject
      *
      * @return int
      */
-    public function getFrom()
-    {
-        return $this->_get(self::KEY_FROM);
-    }
+    public function getFrom();
 
     /**
      * Get zip range ending point
      *
      * @return int
      */
-    public function getTo()
-    {
-        return $this->_get(self::KEY_TO);
-    }
+    public function getTo();
 }

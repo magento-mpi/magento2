@@ -18,6 +18,7 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
  * Builder for the TaxRateSearchResults Service Data Object
  *
  * @method TaxRateSearchResults create()
+ * @deprecated will be auto generated
  */
 class TaxRateSearchResultsBuilder extends AbstractSearchResultsBuilder
 {
