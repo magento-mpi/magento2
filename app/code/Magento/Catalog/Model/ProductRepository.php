@@ -120,12 +120,32 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     }
 
     /**
+     * Merge data from DB and updates from request
+     *
+     * @param array $productData
+     * @param bool $createNew
+     * @return \Magento\Catalog\Api\Data\ProductInterface|Product
+     * @throws NoSuchEntityException
+     */
+    protected function initializeProductData(array $productData, $createNew)
+    {
+        if ($createNew) {
+            $product = $this->productFactory->create();
+        } else {
+            $product = $this->get($productData['sku']);
+            $this->initializationHelper->initialize($product);
+        }
+        $product->setData($productData);
+        return $product;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function save(\Magento\Catalog\Api\Data\ProductInterface $product, $saveOptions = false)
     {
-        $this->initializationHelper->initialize($product);
-        $product->setData($product->toFlatArray());
+        $productId = $this->resourceModel->getIdBySku($product->getSku());
+        $product = $this->initializeProductData($product->toFlatArray(), empty($productId));
         $validationResult = $this->resourceModel->validate($product);
         if (true !== $validationResult) {
             throw new \Magento\Framework\Exception\CouldNotSaveException(
