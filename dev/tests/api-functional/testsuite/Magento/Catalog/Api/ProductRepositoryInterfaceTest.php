@@ -122,7 +122,6 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
      */
     public function testUpdate()
     {
-        $this->markTestIncomplete('MAGETWO-30759');
         $productData = [
             ProductInterface::NAME => 'Very Simple Product', //new name
             ProductInterface::SKU => 'simple', //sku from fixture

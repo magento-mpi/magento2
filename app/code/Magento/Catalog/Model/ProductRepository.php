@@ -106,7 +106,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         if (!isset($this->instances[$sku])) {
             $product = $this->productFactory->create();
 
-            $productId = $product->getIdBySku($sku);
+            $productId = $this->resourceModel->getIdBySku($sku);
             if (!$productId) {
                 throw new NoSuchEntityException('Requested product doesn\'t exist');
             }
@@ -135,7 +135,10 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
             $product = $this->get($productData['sku']);
             $this->initializationHelper->initialize($product);
         }
-        $product->setData($productData);
+        foreach ($productData as $key => $value) {
+            $product->setData($key, $value);
+        }
+
         return $product;
     }
 

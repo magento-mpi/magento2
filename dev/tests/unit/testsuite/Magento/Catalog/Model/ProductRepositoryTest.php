@@ -37,6 +37,14 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $productFactoryMock;
 
+    /**
+     * @var array data to create product
+     */
+    protected $productData = [
+        'sku' => 'exisiting',
+        'name' => 'existing product',
+    ];
+
     protected function setUp()
     {
         $this->productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
@@ -68,7 +76,7 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->productFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($this->productMock));
-        $this->productMock->expects($this->once())->method('getIdBySku')->with('test_sku')
+        $this->resourceModelMock->expects($this->once())->method('getIdBySku')->with('test_sku')
             ->will($this->returnValue(null));
         $this->productFactoryMock->expects($this->never())->method('setData');
         $this->model->get('test_sku');
@@ -78,7 +86,7 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->productFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($this->productMock));
-        $this->productMock->expects($this->once())->method('getIdBySku')->with('test_sku')
+        $this->resourceModelMock->expects($this->once())->method('getIdBySku')->with('test_sku')
             ->will($this->returnValue('test_id'));
         $this->productMock->expects($this->once())->method('load')->with('test_id');
         $this->assertEquals($this->productMock, $this->model->get('test_sku'));
@@ -88,20 +96,39 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->productFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($this->productMock));
-        $this->productMock->expects($this->once())->method('getIdBySku')->with('test_sku')
+        $this->resourceModelMock->expects($this->once())->method('getIdBySku')->with('test_sku')
             ->will($this->returnValue('test_id'));
         $this->productMock->expects($this->once())->method('setData')->with('_edit_mode', true);
         $this->productMock->expects($this->once())->method('load')->with('test_id');
         $this->assertEquals($this->productMock, $this->model->get('test_sku', true));
     }
 
-    public function testSave()
+    public function testSaveExisting()
     {
+        $this->resourceModelMock->expects($this->exactly(2))->method('getIdBySku')->will($this->returnValue(100));
+        $this->productMock->expects($this->once())->method('toFlatArray')->will($this->returnValue($this->productData));
+        $this->productFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->productMock));
         $this->initializationHelperMock->expects($this->once())->method('initialize')->with($this->productMock);
         $this->resourceModelMock->expects($this->once())->method('validate')->with($this->productMock)
             ->willReturn(true);
-        $this->productMock->expects($this->once())->method('toFlatArray')->will($this->returnValue(['Expected data']));
-        $this->productMock->expects($this->once())->method('setData')->with(['Expected data']);
+        $this->productMock->expects($this->once())->method('toFlatArray')->will($this->returnValue($this->productData));
+        $this->resourceModelMock->expects($this->once())->method('save')->with($this->productMock)->willReturn(true);
+        $this->assertEquals($this->productMock, $this->model->save($this->productMock));
+    }
+
+    public function testSaveNew()
+    {
+        $this->resourceModelMock->expects($this->exactly(1))->method('getIdBySku')->will($this->returnValue(null));
+        $this->productMock->expects($this->once())->method('toFlatArray')->will($this->returnValue($this->productData));
+        $this->productFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->productMock));
+        $this->initializationHelperMock->expects($this->never())->method('initialize')->with($this->productMock);
+        $this->resourceModelMock->expects($this->once())->method('validate')->with($this->productMock)
+            ->willReturn(true);
+        $this->productMock->expects($this->once())->method('toFlatArray')->will($this->returnValue($this->productData));
         $this->resourceModelMock->expects($this->once())->method('save')->with($this->productMock)->willReturn(true);
         $this->assertEquals($this->productMock, $this->model->save($this->productMock));
     }
@@ -112,7 +139,12 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveUnableToSaveException()
     {
-        $this->initializationHelperMock->expects($this->once())->method('initialize')->with($this->productMock);
+        $this->resourceModelMock->expects($this->exactly(1))->method('getIdBySku')->will($this->returnValue(null));
+        $this->productMock->expects($this->once())->method('toFlatArray')->will($this->returnValue($this->productData));
+        $this->productFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->productMock));
+        $this->initializationHelperMock->expects($this->never())->method('initialize')->with($this->productMock);
         $this->resourceModelMock->expects($this->once())->method('validate')->with($this->productMock)
             ->willReturn(true);
         $this->resourceModelMock->expects($this->once())->method('save')->with($this->productMock)
@@ -126,7 +158,12 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveException()
     {
-        $this->initializationHelperMock->expects($this->once())->method('initialize')->with($this->productMock);
+        $this->resourceModelMock->expects($this->exactly(1))->method('getIdBySku')->will($this->returnValue(null));
+        $this->productMock->expects($this->once())->method('toFlatArray')->will($this->returnValue($this->productData));
+        $this->productFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->productMock));
+        $this->initializationHelperMock->expects($this->never())->method('initialize')->with($this->productMock);
         $this->resourceModelMock->expects($this->once())->method('validate')->with($this->productMock)
             ->willReturn(true);
         $this->resourceModelMock->expects($this->once())->method('save')->with($this->productMock)
@@ -141,7 +178,12 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveInvalidProductException()
     {
-        $this->initializationHelperMock->expects($this->once())->method('initialize')->with($this->productMock);
+        $this->resourceModelMock->expects($this->exactly(1))->method('getIdBySku')->will($this->returnValue(null));
+        $this->productMock->expects($this->once())->method('toFlatArray')->will($this->returnValue($this->productData));
+        $this->productFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->productMock));
+        $this->initializationHelperMock->expects($this->never())->method('initialize')->with($this->productMock);
         $this->resourceModelMock->expects($this->once())->method('validate')->with($this->productMock)
             ->willReturn(['error1', 'error2']);
         $this->productMock->expects($this->never())->method('getId');
@@ -173,7 +215,7 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         $sku = 'product-42';
         $this->productFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($this->productMock));
-        $this->productMock->expects($this->once())->method('getIdBySku')->with($sku)
+        $this->resourceModelMock->expects($this->once())->method('getIdBySku')->with($sku)
             ->will($this->returnValue('42'));
         $this->productMock->expects($this->once())->method('load')->with('42');
         $this->assertTrue($this->model->deleteById($sku));
