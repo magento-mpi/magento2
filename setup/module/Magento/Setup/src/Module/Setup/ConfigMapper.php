@@ -30,7 +30,13 @@ class ConfigMapper
     const KEY_SESSION_SAVE = 'session_save';
     const KEY_BACKEND_FRONTNAME = 'backend_frontname';
     const KEY_ENCRYPTION_KEY = 'key';
+    /**#@-*/
 
+    /**
+     * Maps install parameter to array keys in deployment config file
+     *
+     * @var array
+     */
     public static $paramMap = [
         self::KEY_DATE => InstallConfig::KEY_DATE,
         self::KEY_DB_HOST => DbConfig::KEY_HOST,

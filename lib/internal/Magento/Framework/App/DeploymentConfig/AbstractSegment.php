@@ -15,7 +15,7 @@ abstract class AbstractSegment implements SegmentInterface
      *
      * @var array
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * Constructor

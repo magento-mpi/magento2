@@ -15,7 +15,7 @@ class Encryptor implements EncryptorInterface
     /**
      * Crypt key
      */
-    const PARAM_CRYPT_KEY = 'crypt.key';
+    const PARAM_CRYPT_KEY = 'crypt/key';
 
     /**
      * Default length of salt in bytes

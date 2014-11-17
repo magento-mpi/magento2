@@ -10,6 +10,7 @@
 
 use Magento\Framework\App\Cache\Frontend\Factory;
 use Magento\Framework\Module\ModuleList\DeploymentConfig;
+use Magento\Framework\App\ObjectManagerFactory;
 
 require dirname(__DIR__) . '/app/bootstrap.php';
 
@@ -64,7 +65,9 @@ if ($mediaDirectory) {
 // Materialize file in application
 $params = $_SERVER;
 if (empty($mediaDirectory)) {
-    $params[DeploymentConfig::CONFIG_KEY] = ['Magento_Core' => 1];
+    $params[ObjectManagerFactory::INIT_PARAM_DEPLOYMENT_CONFIG] = [
+        DeploymentConfig::CONFIG_KEY => ['Magento_Core' => 1]
+    ];
     $params[Factory::PARAM_CACHE_FORCED_OPTIONS] = ['frontend_options' => ['disable_save' => true]];
 }
 $bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);

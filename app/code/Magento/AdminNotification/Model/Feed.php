@@ -119,7 +119,7 @@ class Feed extends \Magento\Framework\Model\AbstractModel
 
         $feedXml = $this->getFeedData();
 
-        $installDate = strtotime($this->_deploymentConfig->get('install.date'));
+        $installDate = strtotime($this->_deploymentConfig->get('install/date'));
 
         if ($feedXml && $feedXml->channel && $feedXml->channel->item) {
             foreach ($feedXml->channel->item as $item) {

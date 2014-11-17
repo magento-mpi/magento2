@@ -11,7 +11,7 @@ namespace Magento\Framework\App\DeploymentConfig;
 class BackendConfig extends AbstractSegment
 {
     /**
-     * Key for config.php
+     * Array key for backend front name
      */
     const KEY_FRONTNAME = 'frontName';
 

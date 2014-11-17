@@ -117,7 +117,7 @@ class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         // prepare new key, encryptor and new configuration segment
         if (!$this->_writer->checkIfWritable()) {
-            throw new \Exception(__('File %1 is not writeable.', $this->_writer->getAbsolutePath()));
+            throw new \Exception(__('Deployment configuration file is not writable.'));
         }
 
         if (null === $key) {

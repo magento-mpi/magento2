@@ -65,16 +65,6 @@ class Reader
     }
 
     /**
-     * Get absolute path of config file
-     *
-     * @return string
-     */
-    public function getAbsolutePath()
-    {
-        return $this->dirList->getPath(DirectoryList::CONFIG) . '/' . $this->file;
-    }
-
-    /**
      * Loads the configuration file
      *
      * @return array

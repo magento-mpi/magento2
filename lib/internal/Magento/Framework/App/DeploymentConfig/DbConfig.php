@@ -11,7 +11,7 @@ namespace Magento\Framework\App\DeploymentConfig;
 class DbConfig extends AbstractSegment
 {
     /**#@+
-     * Keys for config.php
+     * Array keys for Database configuration
      */
     const KEY_HOST = 'host';
     const KEY_NAME = 'dbname';
@@ -98,7 +98,7 @@ class DbConfig extends AbstractSegment
      * Retrieve connection configuration by connection name
      *
      * @param string $connectionName
-     * @return array
+     * @return array|null
      */
     public function getConnection($connectionName)
     {

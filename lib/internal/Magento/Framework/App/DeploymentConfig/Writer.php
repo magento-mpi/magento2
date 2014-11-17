@@ -101,16 +101,6 @@ class Writer
     }
 
     /**
-     * Get absolute path of config file
-     *
-     * @return string
-     */
-    public function getAbsolutePath()
-    {
-        return $this->reader->getAbsolutePath();
-    }
-
-    /**
      * Persists the data into file
      *
      * @param array $data

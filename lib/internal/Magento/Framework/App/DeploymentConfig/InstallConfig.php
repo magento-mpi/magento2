@@ -10,6 +10,9 @@ namespace Magento\Framework\App\DeploymentConfig;
 
 class InstallConfig extends AbstractSegment
 {
+    /**
+     * Array Key for install date
+     */
     const KEY_DATE = 'date';
 
     /**

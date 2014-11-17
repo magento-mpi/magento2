@@ -25,6 +25,11 @@ class ObjectManagerFactory
     const INIT_PARAM_DEPLOYMENT_CONFIG_FILE = 'MAGE_CONFIG_FILE';
 
     /**
+     * Initialization parameter for custom deployment configuration data
+     */
+    const INIT_PARAM_DEPLOYMENT_CONFIG = 'MAGE_CONFIG';
+
+    /**
      * Locator class name
      *
      * @var string
@@ -92,7 +97,7 @@ class ObjectManagerFactory
             $this->driverPool->getDriver(DriverPool::FILE),
             $this->directoryList->getPath(DirectoryList::DI),
             $this->directoryList->getPath(DirectoryList::GENERATION),
-            $deploymentConfig->get('definition.format', 'serialized')
+            $deploymentConfig->get('definition/format', 'serialized')
         );
 
         $definitions = $definitionFactory->createClassDefinition($deploymentConfig->get('definitions'), $useCompiled);
@@ -100,7 +105,7 @@ class ObjectManagerFactory
         $configClass = $this->_configClassName;
         /** @var \Magento\Framework\ObjectManager\Config\Config $diConfig */
         $diConfig = new $configClass($relations, $definitions);
-        $appMode = $deploymentConfig->get(State::PARAM_MODE, State::MODE_DEFAULT);
+        $appMode = isset($arguments[State::PARAM_MODE]) ? $arguments[State::PARAM_MODE] : State::MODE_DEFAULT;
 
         $booleanUtils = new \Magento\Framework\Stdlib\BooleanUtils();
         $argInterpreter = $this->createArgumentInterpreter($booleanUtils);
@@ -117,10 +122,10 @@ class ObjectManagerFactory
             $diConfig,
             null,
             $definitions,
-            $deploymentConfig->get()
+            array_merge($deploymentConfig->get(), $arguments)
         );
 
-        if ($deploymentConfig->get('MAGE_PROFILER') == 2) {
+        if (isset($arguments['MAGE_PROFILER']) && $arguments['MAGE_PROFILER'] == 2) {
             $this->factory = new \Magento\Framework\ObjectManager\Profiler\FactoryDecorator(
                 $this->factory,
                 \Magento\Framework\ObjectManager\Profiler\Log::getInstance()
@@ -171,8 +176,11 @@ class ObjectManagerFactory
         $customFile = isset($arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE])
             ? $arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE]
             : null;
+        $customData = isset($arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG])
+            ? $arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG]
+            : [];
         $reader = new DeploymentConfig\Reader($directoryList, $customFile);
-        return new DeploymentConfig($reader, $arguments);
+        return new DeploymentConfig($reader, $customData);
     }
 
     /**

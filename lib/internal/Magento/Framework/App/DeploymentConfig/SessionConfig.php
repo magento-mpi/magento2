@@ -11,7 +11,7 @@ namespace Magento\Framework\App\DeploymentConfig;
 class SessionConfig extends AbstractSegment
 {
     /**
-     * Key in config.php
+     * Array Key for session save method
      */
     const KEY_SAVE = 'save';
 

@@ -10,8 +10,14 @@ namespace Magento\Framework\App\DeploymentConfig;
 
 class ResourceConfig extends AbstractSegment
 {
+    /**
+     * Array Key for connection
+     */
     const KEY_CONNECTION = 'connection';
 
+    /**
+     * Segment key
+     */
     const CONFIG_KEY = 'resource';
 
     /**

@@ -21,7 +21,7 @@ class Resource
 
     const AUTO_UPDATE_ALWAYS = 1;
 
-    const PARAM_TABLE_PREFIX = 'db.table_prefix';
+    const PARAM_TABLE_PREFIX = 'db/table_prefix';
 
     const DEFAULT_READ_RESOURCE = 'core_read';
 

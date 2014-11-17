@@ -132,10 +132,10 @@ class DeploymentConfig
             $this->data = $this->reader->load();
             $this->isAvailable = !empty($this->data);
             if ($this->overrideData) {
-                $this->data = array_replace_recursive($this->data, $this->overrideData);
+                $this->data = array_replace($this->data, $this->overrideData);
             }
             // flatten data for config retrieval using get()
-            $this->flatData = $this->_flattenParams($this->data);
+            $this->flatData = $this->flattenParams($this->data);
         }
     }
 
@@ -143,11 +143,11 @@ class DeploymentConfig
      * Convert associative array of arbitrary depth to a flat associative array with concatenated key path as keys
      *
      * @param array $params
-     * @param string $separator
      * @return array
      */
-    private function _flattenParams(array $params, $separator = '.')
+    private function flattenParams(array $params)
     {
+
         $result = array();
         $stack = $params;
         while ($stack) {
@@ -156,7 +156,7 @@ class DeploymentConfig
             if (is_array($value)) {
                 if (count($value)) {
                     foreach ($value as $subKey => $node) {
-                        $build[$key . $separator . $subKey] = $node;
+                        $build[$key . '/' . $subKey] = $node;
                     }
                     if (array_key_exists($key, $build)) {
                         unset($build[$key]);

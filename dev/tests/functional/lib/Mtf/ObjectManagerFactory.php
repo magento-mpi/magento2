@@ -100,7 +100,9 @@ class ObjectManagerFactory
     ) {
         return new \Magento\Framework\App\DeploymentConfig(
             new \Magento\Framework\App\DeploymentConfig\Reader($directoryList),
-            $arguments
+            isset($arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE])
+                ? $arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE]
+                : null
         );
     }
 

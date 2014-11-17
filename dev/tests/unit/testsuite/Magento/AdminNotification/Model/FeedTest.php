@@ -109,7 +109,7 @@ class FeedTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('http://feed.magento.com'));
         $this->cacheManager->expects($this->once())->method('load')->will(($this->returnValue($lastUpdate)));
         $this->deploymentConfig->expects($this->once())->method('get')
-            ->with('install.date')->will($this->returnValue('Sat, 6 Sep 2014 16:46:11 UTC'));
+            ->with('install/date')->will($this->returnValue('Sat, 6 Sep 2014 16:46:11 UTC'));
         if ($callInbox) {
             $this->inboxFactory->expects($this->once())->method('create')
                 ->will(($this->returnValue($this->inboxModel)));

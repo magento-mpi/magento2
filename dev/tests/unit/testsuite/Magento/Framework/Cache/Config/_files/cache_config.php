@@ -12,7 +12,7 @@ return array(
             'translate' => 'label,description',
             'instance' => 'Magento\Framework\App\Cache\Type\Config',
             'label' => 'Configuration',
-            'description' => 'System(config.xml, config.php) and modules configuration files(config.xml).'
+            'description' => 'Cache Description'
         ),
         'layout' => array(
             'name' => 'layout',

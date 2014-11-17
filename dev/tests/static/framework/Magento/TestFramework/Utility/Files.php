@@ -113,7 +113,6 @@ class Files
             if ($appCode) {
                 $files = array_merge(
                     glob($this->_path . '/app/*.php', GLOB_NOSORT),
-                    glob($this->_path . '/app/etc/config.php', GLOB_NOSORT),
                     self::getFiles(array("{$this->_path}/app/code/{$namespace}/{$module}"), '*.php')
                 );
             }
@@ -122,6 +121,7 @@ class Files
                     $files,
                     glob($this->_path . '/*.php', GLOB_NOSORT),
                     glob($this->_path . '/pub/*.php', GLOB_NOSORT),
+                    [$this->_path . '/app/etc/config.php'],
                     self::getFiles(array("{$this->_path}/lib/internal/Magento"), '*.php')
                 );
             }

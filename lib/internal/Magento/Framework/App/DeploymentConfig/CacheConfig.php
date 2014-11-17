@@ -10,10 +10,19 @@ namespace Magento\Framework\App\DeploymentConfig;
 
 class CacheConfig extends AbstractSegment
 {
+    /**
+     * Array key for cache frontend
+     */
     const KEY_FRONTEND = 'frontend';
 
+    /**
+     * Array key for cache type
+     */
     const KEY_TYPE = 'type';
 
+    /**
+     * Segment key
+     */
     const CONFIG_KEY = 'cache';
 
     /**

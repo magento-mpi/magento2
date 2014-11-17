@@ -15,7 +15,7 @@ class FrontNameResolver implements \Magento\Framework\App\Area\FrontNameResolver
 
     const XML_PATH_CUSTOM_ADMIN_PATH = 'admin/url/custom_path';
 
-    const PARAM_BACKEND_FRONT_NAME = 'backend.frontName';
+    const PARAM_BACKEND_FRONT_NAME = 'backend/frontName';
 
     /**
      * Backend area code

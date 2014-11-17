@@ -19,9 +19,7 @@ class Save extends \Magento\Pci\Controller\Adminhtml\Crypt\Key
     {
         try {
             $key = null;
-            if (!$this->_checkIsConfigPhpWritable()) {
-                throw new \Exception('');
-            }
+
             if (0 == $this->getRequest()->getPost('generate_random')) {
                 $key = $this->getRequest()->getPost('crypt_key');
                 if (empty($key)) {

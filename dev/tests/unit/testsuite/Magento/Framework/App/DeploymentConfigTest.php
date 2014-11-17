@@ -26,8 +26,8 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
      */
     private static $flattenedFixture = [
         'segment1' => 'scalar_value',
-        'segment2.foo' => 1,
-        'segment2.bar.baz' => 2,
+        'segment2/foo' => 1,
+        'segment2/bar/baz' => 2,
     ];
 
     /**
