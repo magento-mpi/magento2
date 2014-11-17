@@ -185,11 +185,9 @@
         </arguments>
     </type>
     <type name="Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider">
-          <arguments>
-              <argument name="range" xsi:type="object">Magento\Catalog\Model\Layer\Filter\Price\Range\Proxy</argument>
-          </arguments>
-    </type>
-    <type name="Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider">
+        <arguments>
+            <argument name="range" xsi:type="object">Magento\Catalog\Model\Layer\Filter\Price\Range\Proxy</argument>
+        </arguments>
         <plugin name="categoryIdAggregation" type="Magento\CatalogSearch\Model\Adapter\Mysql\Plugin\Aggregation\Category\DataProvider" />
     </type>
     <type name="Magento\Catalog\Model\Layer\Resolver">
