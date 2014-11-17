@@ -194,7 +194,7 @@
         </arguments>
     </type>
     <type name="Magento\Eav\Model\Entity\Attribute\Set">
-        <plugin name="invalidateEavIndexerOnAttributeSetSave" type="\Magento\Catalog\Model\Indexer\Product\Eav\Plugin\AttributeSet" />
+        <plugin name="invalidateEavIndexerOnAttributeSetSave" type="Magento\Catalog\Model\Indexer\Product\Eav\Plugin\AttributeSet" />
     </type>
     <type name="Magento\Catalog\Helper\Product\Flat\Indexer">
         <arguments>
@@ -439,6 +439,12 @@
                 <item name="special_products" xsi:type="string">Magento\Catalog\Block\Rss\Product\Special</item>
                 <item name="category" xsi:type="string">Magento\Catalog\Block\Rss\Category</item>
             </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Option\Type\File">
+        <arguments>
+            <argument name="validatorInfo" xsi:type="object">Magento\Catalog\Model\Product\Option\Type\File\ValidatorInfo\Proxy</argument>
+            <argument name="validatorFile" xsi:type="object">Magento\Catalog\Model\Product\Option\Type\File\ValidatorFile\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\Layer\Search\Context">
