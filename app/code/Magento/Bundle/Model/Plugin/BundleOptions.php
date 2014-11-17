@@ -26,6 +26,16 @@ class BundleOptions
     protected $productBuilder;
 
     /**
+     * @var \Magento\Bundle\Service\V1\Data\Product\OptionBuilder
+     */
+    protected $optionBuilder;
+
+    /**
+     * @var \Magento\Bundle\Service\V1\Data\Product\LinkBuilder
+     */
+    protected $linkBuilder;
+
+    /**
      * @param \Magento\Bundle\Service\V1\Product\Option\WriteService $optionWriteService
      * @param \Magento\Bundle\Service\V1\Product\Option\ReadService $optionReadService
      * @param \Magento\Catalog\Api\Data\ProductDataBuilder $productBuilder
@@ -33,11 +43,15 @@ class BundleOptions
     public function __construct(
         \Magento\Bundle\Service\V1\Product\Option\WriteService $optionWriteService,
         \Magento\Bundle\Service\V1\Product\Option\ReadService $optionReadService,
-        \Magento\Catalog\Api\Data\ProductDataBuilder $productBuilder
+        \Magento\Catalog\Api\Data\ProductDataBuilder $productBuilder,
+        \Magento\Bundle\Service\V1\Data\Product\OptionBuilder $optionBuilder,
+        \Magento\Bundle\Service\V1\Data\Product\LinkBuilder $linkBuilder
     ) {
         $this->optionWriteService = $optionWriteService;
         $this->optionReadService = $optionReadService;
         $this->productBuilder = $productBuilder;
+        $this->optionBuilder = $optionBuilder;
+        $this->linkBuilder = $linkBuilder;
     }
 
     /**
@@ -63,15 +77,17 @@ class BundleOptions
         }
 
         /* @var \Magento\Framework\Api\AttributeValue $bundleProductOptionsAttrValue */
-        $bundleProductOptionsAttrValue = $product->getCustomAttribute('bundle_product_options');
-        if (is_null($bundleProductOptionsAttrValue) || !is_array($bundleProductOptionsAttrValue->getValue())) {
+        $bundleProductOptionsAttrValue = $product->getData('bundle_product_options');
+        if (is_null($bundleProductOptionsAttrValue) || !is_array($bundleProductOptionsAttrValue[0]['product_links'])) {
             $bundleProductOptions = array();
         } else {
-            $bundleProductOptions = $bundleProductOptionsAttrValue->getValue();
+            $bundleProductOptions = $bundleProductOptionsAttrValue[0]['product_links'];
         }
 
         if (is_array($bundleProductOptions)) {
-            foreach ($bundleProductOptions as $option) {
+            foreach ($bundleProductOptions as $optionData) {
+                $productLink = $this->linkBuilder->setSku($optionData['sku'])->create();
+                $option = $this->optionBuilder->setProductLinks([$productLink])->create();
                 $this->optionWriteService->addOptionToProduct($result, $option);
             }
         }
