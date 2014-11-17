@@ -69,7 +69,7 @@ define([
         },
 
         iterator: function(parent, node, name){
-            var action = typeof node === 'string' ?
+            var action = _.isString(node) ?
                 this.addChild :
                 this.process;
 
@@ -189,16 +189,9 @@ define([
             return this;
         },
 
-        insert: function(items, targets, position){
-            items   = _.compact(utils.stringToArray(items));
-            targets = utils.stringToArray(targets);
-
-            _.each(targets, function(target){
-
-                registry.get(target, function(target){
-                
-                    target.insert(items, position);
-                });
+        insert: function(item, target, position){
+            registry.get(target, function(target){            
+                target.insert(item, position);
             });
 
             return this;
