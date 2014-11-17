@@ -9,56 +9,58 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="sales_order_grid_block"/>
-    <referenceBlock name="sales.order.grid">
-        <arguments>
-            <argument name="id" xsi:type="string">sales_order_grid_archive</argument>
-            <argument name="dataSource" xsi:type="object">Magento\SalesArchive\Model\Resource\Order\Collection</argument>
-            <argument name="default_sort" xsi:type="string">0</argument>
-            <argument name="grid_url" xsi:type="url" path="*/*/ordersgrid"/>
-            <argument name="rssList" xsi:type="string">null</argument>
-        </arguments>
-        <referenceBlock name="sales.order.grid.massaction">
-            <arguments>
-                <argument name="options" xsi:type="array">
-                    <updater>Magento\SalesArchive\Model\Order\Archive\Grid\Massaction\ItemsUpdater</updater>
-                    <item name="cancel_order" xsi:type="array">
-                        <item name="url" xsi:type="string">sales/archive/massCancel</item>
-                    </item>
-                    <item name="hold_order" xsi:type="array">
-                        <item name="url" xsi:type="string">sales/archive/massHold</item>
-                    </item>
-                    <item name="unhold_order" xsi:type="array">
-                        <item name="url" xsi:type="string">sales/archive/massUnhold</item>
-                    </item>
-                    <item name="remove_order_from_archive" xsi:type="array">
-                        <item name="label" xsi:type="string" translate="true">Move to Orders Management</item>
-                        <item name="url" xsi:type="string">sales/archive/massRemove</item>
-                    </item>
-                    <item name="pdfinvoices_order" xsi:type="array">
-                        <item name="url" xsi:type="string">sales/archive/massPrintInvoices</item>
-                    </item>
-                    <item name="pdfshipments_order" xsi:type="array">
-                        <item name="url" xsi:type="string">sales/archive/massPrintPackingSlips</item>
-                    </item>
-                    <item name="pdfcreditmemos_order" xsi:type="array">
-                        <item name="url" xsi:type="string">sales/archive/massPrintCreditMemos</item>
-                    </item>
-                    <item name="pdfdocs_order" xsi:type="array">
-                        <item name="url" xsi:type="string">sales/archive/massPrintAllDocuments</item>
-                    </item>
-                    <item name="print_shipping_label" xsi:type="array">
-                        <item name="url" xsi:type="string">sales/archive/massPrintShippingLabel</item>
-                    </item>
-                </argument>
-            </arguments>
-        </referenceBlock>
-        <referenceBlock name="sales.order.grid.columnSet">
+    <body>
+        <referenceBlock name="sales.order.grid">
             <arguments>
                 <argument name="id" xsi:type="string">sales_order_grid_archive</argument>
-                <argument name="rowUrl" xsi:type="array">
-                    <item name="generatorClass" xsi:type="string">Magento\SalesArchive\Model\Order\Archive\Grid\Row\UrlGenerator</item>
-                </argument>
+                <argument name="dataSource" xsi:type="object">Magento\SalesArchive\Model\Resource\Order\Collection</argument>
+                <argument name="default_sort" xsi:type="string">0</argument>
+                <argument name="grid_url" xsi:type="url" path="*/*/ordersgrid"/>
+                <argument name="rssList" xsi:type="string">null</argument>
             </arguments>
+            <referenceBlock name="sales.order.grid.massaction">
+                <arguments>
+                    <argument name="options" xsi:type="array">
+                        <updater>Magento\SalesArchive\Model\Order\Archive\Grid\Massaction\ItemsUpdater</updater>
+                        <item name="cancel_order" xsi:type="array">
+                            <item name="url" xsi:type="string">sales/archive/massCancel</item>
+                        </item>
+                        <item name="hold_order" xsi:type="array">
+                            <item name="url" xsi:type="string">sales/archive/massHold</item>
+                        </item>
+                        <item name="unhold_order" xsi:type="array">
+                            <item name="url" xsi:type="string">sales/archive/massUnhold</item>
+                        </item>
+                        <item name="remove_order_from_archive" xsi:type="array">
+                            <item name="label" xsi:type="string" translate="true">Move to Orders Management</item>
+                            <item name="url" xsi:type="string">sales/archive/massRemove</item>
+                        </item>
+                        <item name="pdfinvoices_order" xsi:type="array">
+                            <item name="url" xsi:type="string">sales/archive/massPrintInvoices</item>
+                        </item>
+                        <item name="pdfshipments_order" xsi:type="array">
+                            <item name="url" xsi:type="string">sales/archive/massPrintPackingSlips</item>
+                        </item>
+                        <item name="pdfcreditmemos_order" xsi:type="array">
+                            <item name="url" xsi:type="string">sales/archive/massPrintCreditMemos</item>
+                        </item>
+                        <item name="pdfdocs_order" xsi:type="array">
+                            <item name="url" xsi:type="string">sales/archive/massPrintAllDocuments</item>
+                        </item>
+                        <item name="print_shipping_label" xsi:type="array">
+                            <item name="url" xsi:type="string">sales/archive/massPrintShippingLabel</item>
+                        </item>
+                    </argument>
+                </arguments>
+            </referenceBlock>
+            <referenceBlock name="sales.order.grid.columnSet">
+                <arguments>
+                    <argument name="id" xsi:type="string">sales_order_grid_archive</argument>
+                    <argument name="rowUrl" xsi:type="array">
+                        <item name="generatorClass" xsi:type="string">Magento\SalesArchive\Model\Order\Archive\Grid\Row\UrlGenerator</item>
+                    </argument>
+                </arguments>
+            </referenceBlock>
         </referenceBlock>
-    </referenceBlock>
+    </body>
 </page>

@@ -9,14 +9,14 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
-use Magento\Framework\Service\Data\AttributeValueBuilder;
-use Magento\Framework\Service\Data\MetadataServiceInterface;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
  * Class CustomerDetailsBuilder
  */
-class CustomerDetailsBuilder extends AbstractExtensibleObjectBuilder
+class CustomerDetailsBuilder extends ExtensibleObjectBuilder
 {
     /**
      * Customer builder
@@ -33,15 +33,15 @@ class CustomerDetailsBuilder extends AbstractExtensibleObjectBuilder
     protected $_addressBuilder;
 
     /**
-     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
-     * @param AttributeValueBuilder $valueBuilder
+     * @param \Magento\Framework\Api\ObjectFactory $objectFactory
+     * @param AttributeDataBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
      * @param CustomerBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
      */
     public function __construct(
-        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder,
+        \Magento\Framework\Api\ObjectFactory $objectFactory,
+        AttributeDataBuilder $valueBuilder,
         MetadataServiceInterface $metadataService,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
@@ -105,11 +105,11 @@ class CustomerDetailsBuilder extends AbstractExtensibleObjectBuilder
      */
     public function create()
     {
-        if (!isset($this->_data[CustomerDetails::KEY_CUSTOMER])) {
-            $this->_data[CustomerDetails::KEY_CUSTOMER] = $this->_customerBuilder->create();
+        if (!isset($this->data[CustomerDetails::KEY_CUSTOMER])) {
+            $this->data[CustomerDetails::KEY_CUSTOMER] = $this->_customerBuilder->create();
         }
-        if (!isset($this->_data[CustomerDetails::KEY_ADDRESSES])) {
-            $this->_data[CustomerDetails::KEY_ADDRESSES] = null;
+        if (!isset($this->data[CustomerDetails::KEY_ADDRESSES])) {
+            $this->data[CustomerDetails::KEY_ADDRESSES] = null;
         }
         return parent::create();
     }

@@ -83,11 +83,14 @@ class SaveTest extends \PHPUnit_Framework_TestCase
 
         $this->stockItemBuilder = $this->getMock(
             'Magento\CatalogInventory\Service\V1\Data\StockItemBuilder',
-            ['mergeDataObjectWithArray'],
+            ['mergeDataObjectWithArray', 'create'],
             [],
             '',
             false
         );
+        $this->stockItemBuilder->expects($this->any())
+            ->method('mergeDataObjectWithArray')
+            ->willReturn($this->stockItemBuilder);
 
         $this->stockIndexerProcessor = $this->getMock(
             'Magento\CatalogInventory\Model\Indexer\Stock\Processor',
@@ -97,6 +100,18 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $resultRedirect = $this->getMockBuilder('Magento\Backend\Model\View\Result\Redirect')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $resultRedirectFactory = $this->getMockBuilder('Magento\Backend\Model\View\Result\RedirectFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+        $resultRedirectFactory->expects($this->atLeastOnce())
+            ->method('create')
+            ->willReturn($resultRedirect);
+
         $this->object = (new \Magento\TestFramework\Helper\ObjectManager($this))->getObject(
             'Magento\Catalog\Controller\Adminhtml\Product\Action\Attribute\Save',
             [
@@ -104,6 +119,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                 'attributeHelper' => $this->attributeHelper,
                 'stockIndexerProcessor' => $this->stockIndexerProcessor,
                 'stockItemBuilder' => $this->stockItemBuilder,
+                'resultRedirectFactory' => $resultRedirectFactory
             ]
         );
 

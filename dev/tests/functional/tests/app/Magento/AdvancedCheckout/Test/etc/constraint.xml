@@ -53,4 +53,7 @@
     <assertRequiringAttentionProductSuccessDeleteMessage module="Magento_AdvancedCheckout">
         <severeness>low</severeness>
     </assertRequiringAttentionProductSuccessDeleteMessage>
+    <assertWidgetOrderBySkuOnCategoryPage module="Magento_AdvancedCheckout">
+        <severeness>low</severeness>
+    </assertWidgetOrderBySkuOnCategoryPage>
 </constraint>

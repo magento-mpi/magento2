@@ -34,11 +34,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      */
     protected $_storeMock;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_appStateMock;
-
     protected function setUp()
     {
         $this->_scopePullMock = $this->getMock('Magento\Framework\App\Config\ScopePool', [], [], '', false);
@@ -55,9 +50,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->_storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $storeFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_storeMock));
 
-        $this->_appStateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
-        $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
-
         $placeholderProcessor = $this->getMock(
             'Magento\Store\Model\Config\Processor\Placeholder',
             [],
@@ -72,7 +64,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             new \Magento\Store\Model\Config\Converter($placeholderProcessor),
             $this->_collectionFactory,
             $storeFactoryMock,
-            $this->_appStateMock,
             $this->_storeManagerMock
         );
     }

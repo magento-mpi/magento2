@@ -10,7 +10,7 @@ namespace Magento\Catalog\Service\V1\Data\Eav;
 /**
  * @codeCoverageIgnore
  */
-class ValidationRuleBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class ValidationRuleBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * Set validation rule name

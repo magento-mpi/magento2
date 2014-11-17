@@ -9,10 +9,12 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
     <update handle="customer_account"/>
-    <referenceContainer name="content">
-        <block class="Magento\Framework\View\Element\Template" name="customerbalance.wrapper" template="Magento_CustomerBalance::account/wrapper.phtml">
-            <block class="Magento\CustomerBalance\Block\Account\Balance" name="balance" template="account/balance.phtml" before="-" cacheable="false"/>
-            <block class="Magento\CustomerBalance\Block\Account\History" name="history" template="account/history.phtml" after="-" cacheable="false"/>
-        </block>
-    </referenceContainer>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" name="customerbalance.wrapper" template="Magento_CustomerBalance::account/wrapper.phtml">
+                <block class="Magento\CustomerBalance\Block\Account\Balance" name="balance" template="account/balance.phtml" before="-" cacheable="false"/>
+                <block class="Magento\CustomerBalance\Block\Account\History" name="history" template="account/history.phtml" after="-" cacheable="false"/>
+            </block>
+        </referenceContainer>
+    </body>
 </page>

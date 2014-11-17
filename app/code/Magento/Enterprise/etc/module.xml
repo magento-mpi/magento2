@@ -11,13 +11,11 @@
     <module name="Magento_Enterprise" schema_version="1.11.0.3" active="false">
         <sequence>
             <module name="Magento_Cms"/>
-            <module name="Magento_Install"/>
             <module name="Magento_Widget"/>
             <module name="Magento_User"/>
         </sequence>
         <depends>
             <module name="Magento_Cms"/>
-            <module name="Magento_Install"/>
             <module name="Magento_Backend"/>
             <module name="Magento_CatalogEvent"/>
             <module name="Magento_CatalogPermissions"/>

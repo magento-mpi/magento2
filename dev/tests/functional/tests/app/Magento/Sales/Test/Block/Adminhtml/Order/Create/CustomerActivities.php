@@ -8,10 +8,12 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create;
 
+use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyViewedItems;
 use Mtf\Block\Block;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\LastOrderedItems;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\ProductsInComparison;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyComparedProducts;
+use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyViewedProducts;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\ShoppingCartItems;
 use Mtf\Client\Element\Locator;
 
@@ -36,6 +38,13 @@ class CustomerActivities extends Block
     protected $reorderSidebar = '#order-sidebar_reorder';
 
     /**
+     * Recently Viewed css selector.
+     *
+     * @var string
+     */
+    protected $recentlyViewedSidebar = '#sidebar_data_pviewed';
+
+    /**
      * Order sidebar compared css selector
      *
      * @var string
@@ -50,6 +59,7 @@ class CustomerActivities extends Block
     protected $recentlyComparedSidebar = '#order-sidebar_pcompared';
 
     /**
+     * Shopping cart sidebar selector
      * Shopping cart sidebar selector
      *
      * @var string
@@ -79,6 +89,19 @@ class CustomerActivities extends Block
     }
 
     /**
+     * Get viewed products block.
+     *
+     * @return RecentlyViewedItems
+     */
+    public function getRecentlyViewedItemsBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyViewedItems',
+            ['element' => $this->_rootElement->find($this->recentlyViewedSidebar)]
+        );
+    }
+
+    /**
      * Get products in comparison block
      *
      * @return ProductsInComparison
@@ -101,6 +124,19 @@ class CustomerActivities extends Block
         return $this->blockFactory->create(
             'Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyComparedProducts',
             ['element' => $this->_rootElement->find($this->recentlyComparedSidebar)]
+        );
+    }
+
+    /**
+     * Get products in view block
+     *
+     * @return RecentlyViewedProducts
+     */
+    public function getRecentlyViewedProductsBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyViewedProducts',
+            ['element' => $this->_rootElement->find($this->recentlyViewedSidebar)]
         );
     }
 

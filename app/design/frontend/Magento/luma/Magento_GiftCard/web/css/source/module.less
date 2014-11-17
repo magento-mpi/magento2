@@ -66,6 +66,14 @@
         white-space: nowrap;
         border: 0;
     }
+    .fieldset.giftcard {
+        >.legend {
+            &:extend(.abstract-visually-hidden all);
+        }
+        >.legend + br {
+            &:extend(.abstract-no-display all);
+        }
+    }
 }
 
 //

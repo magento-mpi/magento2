@@ -8,10 +8,12 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceContainer name="page.main.actions">
-        <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher" />
-    </referenceContainer>
-    <referenceContainer name="content">
-        <block class="Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit" name="giftwrapping_edit"/>
-    </referenceContainer>
+    <body>
+        <referenceContainer name="page.main.actions">
+            <block class="Magento\Backend\Block\Store\Switcher" name="store_switcher"/>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit" name="giftwrapping_edit"/>
+        </referenceContainer>
+    </body>
 </page>

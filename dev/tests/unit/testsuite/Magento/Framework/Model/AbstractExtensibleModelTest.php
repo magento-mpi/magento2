@@ -142,7 +142,7 @@ class AbstractExtensibleModelTest extends \PHPUnit_Framework_TestCase
      */
     public function testRestrictedCustomAttributesGet()
     {
-        $this->model->getData(\Magento\Framework\Model\AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY);
+        $this->model->getData(\Magento\Framework\Api\ExtensibleDataInterface::CUSTOM_ATTRIBUTES);
     }
 
     /**
@@ -150,19 +150,19 @@ class AbstractExtensibleModelTest extends \PHPUnit_Framework_TestCase
      */
     public function testRestrictedCustomAttributesSet()
     {
-        $this->model->setData(\Magento\Framework\Model\AbstractExtensibleModel::CUSTOM_ATTRIBUTES_KEY, 'value');
+        $this->model->setData(\Magento\Framework\Api\ExtensibleDataInterface::CUSTOM_ATTRIBUTES, 'value');
     }
 
     /**
      * @param string[] $attributesAsArray
      * @param \Magento\Framework\Model\AbstractExtensibleModel $model
-     * @return \Magento\Framework\Api\Data\AttributeInterface[]
+     * @return \Magento\Framework\Api\AttributeInterface[]
      */
     protected function addCustomAttributesToModel($attributesAsArray, $model)
     {
         $objectManager = new ObjectManagerHelper($this);
-        /** @var \Magento\Framework\Service\Data\AttributeValueBuilder $attributeValueBuilder */
-        $attributeValueBuilder = $objectManager->getObject('Magento\Framework\Service\Data\AttributeValueBuilder');
+        /** @var \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder */
+        $attributeValueBuilder = $objectManager->getObject('Magento\Framework\Api\AttributeDataBuilder');
         $addedAttributes = [];
         foreach ($attributesAsArray as $attributeCode => $attributeValue) {
             $addedAttributes[$attributeCode] = $attributeValueBuilder

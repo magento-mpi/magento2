@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 
+/* @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
-/* @var $installer \Magento\Tax\Model\Resource\Setup */
 
 /**
  * Add new field to 'sales_order_tax_item'

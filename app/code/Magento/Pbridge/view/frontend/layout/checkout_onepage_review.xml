@@ -8,19 +8,21 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="checkout.onepage.review.button">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="helper" helper="Magento\Pbridge\Helper\Data::getReviewButtonTemplate">
-                <param name="name">Magento_Pbridge::checkout/review/button.phtml</param>
-            </argument>
-        </action>
-        <action method="setTemplate">
-            <argument name="template" xsi:type="helper" helper="Magento\Pbridge\Helper\Data::getContinueButtonTemplate">
-                <param name="name">Magento_Pbridge::checkout/review/button.continue.phtml</param>
-            </argument>
-        </action>
-    </referenceBlock>
-    <referenceContainer name="checkout.onepage.review.info.items.after">
-        <block class="Magento\Pbridge\Block\Checkout\Payment\Review\Container" name="pbridge.checkout.payment.review.iframe" template="Magento_Pbridge::checkout/review/iframe.phtml" cacheable="false"/>
-    </referenceContainer>
+    <body>
+        <referenceBlock name="checkout.onepage.review.button">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="helper" helper="Magento\Pbridge\Helper\Data::getReviewButtonTemplate">
+                    <param name="name">Magento_Pbridge::checkout/review/button.phtml</param>
+                </argument>
+            </action>
+            <action method="setTemplate">
+                <argument name="template" xsi:type="helper" helper="Magento\Pbridge\Helper\Data::getContinueButtonTemplate">
+                    <param name="name">Magento_Pbridge::checkout/review/button.continue.phtml</param>
+                </argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="checkout.onepage.review.info.items.after">
+            <block class="Magento\Pbridge\Block\Checkout\Payment\Review\Container" name="pbridge.checkout.payment.review.iframe" template="Magento_Pbridge::checkout/review/iframe.phtml" cacheable="false"/>
+        </referenceContainer>
+    </body>
 </page>

@@ -32,7 +32,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     {
         $this->_importConfigMock = $this->getMock('Magento\ImportExport\Model\Import\ConfigInterface');
         $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
-        $indexerFactory = $this->getMock('Magento\Indexer\Model\IndexerFactory', array(), array(), '', false);
+        $indexerRegistry = $this->getMock('Magento\Indexer\Model\IndexerRegistry', array(), array(), '', false);
         $this->_model = new \Magento\ScheduledImportExport\Model\Import(
             $logger,
             $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false),
@@ -46,7 +46,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             $this->getMock('\Magento\Framework\HTTP\Adapter\FileTransferFactory', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\File\UploaderFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Source\Import\Behavior\Factory', array(), array(), '', false),
-            $indexerFactory
+            $indexerRegistry
         );
     }
 

@@ -195,13 +195,6 @@ define([
         },
 
         _create: function() {
-            this.template =
-                '<div class="popup popup-loading">' +
-                    '<div class="popup-inner">' + this.options.message + '</div>' +
-                '</div>';
-
-            this.popup = $(this.template);
-
             this._show();
             this._events();
         },
@@ -219,24 +212,26 @@ define([
         },
 
         _show: function() {
-            var self = this;
+            var options = this.options,
+                timeout = options.timeout;
 
-            this.element.append(this.popup);
+            $('body').trigger('processStart');
 
-            if (this.options.timeout) {
-                this.options.timeoutId = setTimeout(function() {
-                    self._hide();
-
-                    self.options.callback && self.options.callback();
-
-                    self.options.timeoutId && clearTimeout(self.options.timeoutId);
-                }, self.options.timeout);
+            if (timeout) {
+                options.timeoutId = setTimeout( this._delayedHide.bind(this), timeout);
             }
         },
 
         _hide: function() {
-            this.popup.remove();
-            this.destroy();
+            $('body').trigger('processStop');
+        },
+
+        _delayedHide: function(){
+            this._hide();
+
+            this.options.callback && this.options.callback();
+
+            this.options.timeoutId && clearTimeout(this.options.timeoutId);
         }
     });
 

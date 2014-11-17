@@ -110,14 +110,14 @@ define([
          * @param  {Object} elem
          * @return {Object} - reference to instance
          */
-        insertToArea: function (elem) {
+        insertToArea: function(elem) {
             var regions = [];
 
             elem.displayArea = elem.displayArea || this.displayArea;
 
             regions = this.elems.groupBy('displayArea');
 
-            _.each(regions, function (elems, region) {
+            _.each(regions, function(elems, region) {
                 this[region](elems);
             }, this);
 

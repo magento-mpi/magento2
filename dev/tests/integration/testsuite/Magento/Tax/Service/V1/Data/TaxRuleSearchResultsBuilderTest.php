@@ -7,7 +7,7 @@
  */
 namespace Magento\Tax\Service\V1\Data;
 
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Api\SearchCriteria;
 
 /**
  * Integration test for \Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder
@@ -47,7 +47,7 @@ class TaxRuleSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->builder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder');
         $this->searchCriteriaBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Api\SearchCriteriaBuilder'
         );
         $this->taxRuleBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
     }
@@ -175,7 +175,8 @@ class TaxRuleSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
         $taxRuleSearchResults = $this->builder->populateWithArray($dataMerged)->create();
         $taxRuleSearchResults1 = $this->builder->populateWithArray($data1)->create();
         $taxRuleSearchResults2 = $this->builder->populateWithArray($data2)->create();
-        $taxRuleSearchResultsMerged = $this->builder->mergeDataObjects($taxRuleSearchResults1, $taxRuleSearchResults2);
+        $taxRuleSearchResultsMerged = $this->builder->mergeDataObjects($taxRuleSearchResults1, $taxRuleSearchResults2)
+            ->create();
         $this->assertEquals($taxRuleSearchResults->__toArray(), $taxRuleSearchResultsMerged->__toArray());
     }
 
@@ -236,7 +237,8 @@ class TaxRuleSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
 
         $taxRuleSearchResults = $this->builder->populateWithArray($dataMerged)->create();
         $taxRuleSearchResults1 = $this->builder->populateWithArray($data1)->create();
-        $taxRuleSearchResultsMerged = $this->builder->mergeDataObjectWithArray($taxRuleSearchResults1, $data2);
+        $taxRuleSearchResultsMerged = $this->builder->mergeDataObjectWithArray($taxRuleSearchResults1, $data2)
+            ->create();
         $this->assertEquals($taxRuleSearchResults->__toArray(), $taxRuleSearchResultsMerged->__toArray());
     }
 

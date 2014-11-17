@@ -68,9 +68,9 @@ define([
 
             value = observable();
 
-            if (value) {
-                $(el).datepicker('setDate', observable());
-            }
+            value ? 
+                $(el).datepicker('setDate', value) :
+                (el.value = '');
         }
     }
 });

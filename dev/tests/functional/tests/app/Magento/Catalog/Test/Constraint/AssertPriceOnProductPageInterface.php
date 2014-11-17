@@ -9,7 +9,7 @@
 namespace Magento\Catalog\Test\Constraint;
 
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Catalog\Test\Block\Product\View;
 
 /**
  * Interface AssertPriceOnProductPageInterface
@@ -21,11 +21,10 @@ interface AssertPriceOnProductPageInterface
      * Verify product price on product view page
      *
      * @param FixtureInterface $product
-     * @param CatalogProductView $catalogProductView
-     * @param string $block
+     * @param View $productViewBlock
      * @return void
      */
-    public function assertPrice(FixtureInterface $product, CatalogProductView $catalogProductView, $block);
+    public function assertPrice(FixtureInterface $product, View $productViewBlock);
 
     /**
      * Set $errorMessage for constraint

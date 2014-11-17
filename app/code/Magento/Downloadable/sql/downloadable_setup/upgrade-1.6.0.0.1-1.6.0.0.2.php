@@ -6,9 +6,7 @@
  * @license     {license_link}
  */
 
-
-/** @var $this \Magento\Catalog\Model\Resource\Setup */
-/** @var $connection \Magento\Framework\DB\Adapter\Pdo\Mysql */
+/** @var $this \Magento\Setup\Module\SetupModule */
 $connection = $this->getConnection();
 $connection->changeTableEngine(
     $this->getTable('catalog_product_index_price_downlod_tmp'),

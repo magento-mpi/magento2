@@ -268,9 +268,12 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected function _getTargetLinkCollection()
     {
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
-        $collection = $this->_productLinkFactory->create()->useCrossSellLinks()->getProductCollection()->setStoreId(
-            $this->_storeManager->getStore()->getId()
-        )->setGroupBy();
+        $collection = $this->_productLinkFactory->create()
+            ->useCrossSellLinks()
+            ->getProductCollection()
+            ->setStoreId($this->_storeManager->getStore()->getId())
+            ->setPageSize($this->getPositionLimit())
+            ->setGroupBy();
         $this->_addProductAttributesAndPrices($collection);
         $collection->setVisibility($this->_visibility->getVisibleInSiteIds());
         $this->_status->addIsInStockFilterToCollection($collection);

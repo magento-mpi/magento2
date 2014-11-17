@@ -8,7 +8,7 @@
 
 namespace Magento\TestModule3\Service\V1\Entity;
 
-class WrappedErrorParameterBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class WrappedErrorParameterBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * Set field name.
@@ -18,7 +18,7 @@ class WrappedErrorParameterBuilder extends \Magento\Framework\Service\Data\Abstr
      */
     public function setFieldName($fieldName)
     {
-        $this->_data['field_name'] = $fieldName;
+        $this->data['field_name'] = $fieldName;
         return $this;
     }
 
@@ -30,7 +30,7 @@ class WrappedErrorParameterBuilder extends \Magento\Framework\Service\Data\Abstr
      */
     public function setValue($value)
     {
-        $this->_data['value'] = $value;
+        $this->data['value'] = $value;
         return $this;
     }
 }

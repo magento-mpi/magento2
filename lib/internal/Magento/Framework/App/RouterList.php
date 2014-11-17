@@ -20,7 +20,7 @@ class RouterList implements RouterListInterface
     /**
      * List of routers
      *
-     * @var array
+     * @var RouterInterface[]
      */
     protected $routerList;
 

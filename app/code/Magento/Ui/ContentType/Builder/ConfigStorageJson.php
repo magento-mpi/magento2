@@ -63,7 +63,7 @@ class ConfigStorageJson implements ConfigStorageBuilderInterface
     {
         $result = [];
         foreach ($storage->getDataSource() as $name => $dataSource) {
-            $dataSource['path'] = 'Magento_Ui/js/form/provider/provider';
+            $dataSource['path'] = 'Magento_Ui/js/form/provider';
             $result['providers'][$name] = $dataSource;
         }
         $result['renderer']= [

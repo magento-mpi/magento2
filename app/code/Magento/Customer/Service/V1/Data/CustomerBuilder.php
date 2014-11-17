@@ -8,28 +8,28 @@
 
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AbstractExtensibleObject as ExtensibleObject;
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
-use Magento\Framework\Service\Data\AttributeValueBuilder;
+use Magento\Framework\Api\AbstractExtensibleObject as ExtensibleObject;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
  * Builder for the Customer Service Data Object
  *
  * @method Customer create()
- * @method Customer mergeDataObjectWithArray(ExtensibleObject $dataObject, array $data)
- * @method Customer mergeDataObjects(ExtensibleObject $firstDataObject, ExtensibleObject $secondDataObject)
+ * @method CustomerBuilder mergeDataObjectWithArray(ExtensibleObject $dataObject, array $data)
+ * @method CustomerBuilder mergeDataObjects(ExtensibleObject $firstDataObject, ExtensibleObject $secondDataObject)
  */
-class CustomerBuilder extends AbstractExtensibleObjectBuilder
+class CustomerBuilder extends ExtensibleObjectBuilder
 {
     /**
-     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
-     * @param AttributeValueBuilder $valueBuilder
+     * @param \Magento\Framework\Api\ObjectFactory $objectFactory
+     * @param AttributeDataBuilder $valueBuilder
      * @param CustomerMetadataServiceInterface $metadataService
      */
     public function __construct(
-        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder,
+        \Magento\Framework\Api\ObjectFactory $objectFactory,
+        AttributeDataBuilder $valueBuilder,
         CustomerMetadataServiceInterface $metadataService
     ) {
         parent::__construct($objectFactory, $valueBuilder, $metadataService);

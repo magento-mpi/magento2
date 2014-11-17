@@ -8,13 +8,15 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="head.components">
-        <block class="Magento\Framework\View\Element\Js\Components" name="giftregistry_page_head_components" template="Magento_GiftRegistry::js/components.phtml"/>
-    </referenceBlock>
-    <referenceContainer name="content">
-        <block class="Magento\GiftRegistry\Block\Customer\Checkout\Multishipping" name="giftregistry.customer.checkout" template="customer/checkout/multishipping.phtml" cacheable="false"/>
-    </referenceContainer>
-    <referenceBlock name="additional.product.info">
-        <block class="Magento\GiftRegistry\Block\Cart\Product\Mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
-    </referenceBlock>
+    <body>
+        <referenceBlock name="head.components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="giftregistry_page_head_components" template="Magento_GiftRegistry::js/components.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Magento\GiftRegistry\Block\Customer\Checkout\Multishipping" name="giftregistry.customer.checkout" template="customer/checkout/multishipping.phtml" cacheable="false"/>
+        </referenceContainer>
+        <referenceBlock name="additional.product.info">
+            <block class="Magento\GiftRegistry\Block\Cart\Product\Mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>
+        </referenceBlock>
+    </body>
 </page>

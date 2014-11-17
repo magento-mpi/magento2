@@ -42,7 +42,7 @@
         </condition>
     </target>
 
-    <target name="_product_edition_files" depends="_product_location" description="Removal of files, which do not belong to a product edition, excluding internal files">
+    <target name="_product_edition_files" depends="_product_location, _composer_install" description="Removal of files, which do not belong to a product edition, excluding internal files">
         <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/edition.php --
@@ -53,7 +53,7 @@
         </exec>
     </target>
 
-    <target name="_product_edition_files_no_internal" depends="_product_location"
+    <target name="_product_edition_files_no_internal" depends="_product_location, _composer_install"
             description="Removal of files, which do not belong to a product edition, including internal files">
         <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
         <exec executable="php" failonerror="true">

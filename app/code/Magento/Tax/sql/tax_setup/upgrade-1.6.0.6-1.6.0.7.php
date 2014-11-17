@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\Tax\Model\Resource\Setup $installer */
+/** @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 $connection = $installer->getConnection();
 
@@ -89,9 +89,9 @@ $connection->changeColumn(
     ]
 );
 $connection->addForeignKey(
-    $installer->getFkName('sales_order_tax_item', 'associated_item_id', 'sales_flat_order_item', 'item_id'),
+    $installer->getFkName('sales_order_tax_item', 'associated_item_id', 'sales_order_item', 'item_id'),
     $installer->getTable('sales_order_tax_item'),
     'associated_item_id',
-    $installer->getTable('sales_flat_order_item'),
+    $installer->getTable('sales_order_item'),
     'item_id'
 );

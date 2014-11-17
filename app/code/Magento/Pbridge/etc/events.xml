@@ -11,4 +11,7 @@
     <event name="payment_method_is_active">
         <observer name="magento_pbridge" instance="Magento\Pbridge\Model\Observer" method="isPaymentMethodAvailable" />
     </event>
+    <event name="controller_front_send_response_before">
+        <observer name="magento_pbridge" instance="Magento\Pbridge\Model\Observer" method="addPrivacyHeader" />
+    </event>
 </config>
