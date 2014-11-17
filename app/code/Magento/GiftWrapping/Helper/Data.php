@@ -11,7 +11,7 @@ use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\GiftWrapping\Model\System\Config\Source\Display\Type as DisplayType;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
-use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
+use Magento\Tax\Api\TaxCalculationInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 
 /**
@@ -89,7 +89,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $quoteDetailsItemBuilder;
 
     /**
-     * @var \Magento\Tax\Service\V1\TaxCalculationServiceInterface
+     * @var \Magento\Tax\Api\TaxCalculationInterface
      */
     protected $taxCalculationService;
 
@@ -109,7 +109,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param QuoteDetailsBuilder $quoteDetailsBuilder
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
-     * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param TaxCalculationInterface $taxCalculationService
      * @param AddressConverter $addressConverter
      * @param PriceCurrencyInterface $priceCurrency
      */
@@ -119,7 +119,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\StoreManagerInterface $storeManager,
         QuoteDetailsBuilder $quoteDetailsBuilder,
         QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
-        TaxCalculationServiceInterface $taxCalculationService,
+        TaxCalculationInterface $taxCalculationService,
         AddressConverter $addressConverter,
         PriceCurrencyInterface $priceCurrency
     ) {

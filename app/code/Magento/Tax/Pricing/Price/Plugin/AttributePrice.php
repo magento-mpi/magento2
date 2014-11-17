@@ -18,17 +18,17 @@ class AttributePrice
     protected $taxHelper;
 
     /**
-     * @var \Magento\Tax\Service\V1\TaxCalculationServiceInterface
+     * @var \Magento\Tax\Api\TaxCalculationInterface
      */
     protected $taxCalculationService;
 
     /**
      * @param \Magento\Tax\Helper\Data $helper
-     * @param \Magento\Tax\Service\V1\TaxCalculationServiceInterface $taxCalculationService
+     * @param \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService
      */
     public function __construct(
         \Magento\Tax\Helper\Data $helper,
-        \Magento\Tax\Service\V1\TaxCalculationServiceInterface $taxCalculationService
+        \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService
     ) {
         $this->taxHelper = $helper;
         $this->taxCalculationService = $taxCalculationService;

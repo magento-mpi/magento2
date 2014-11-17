@@ -17,7 +17,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Tax\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $taxHelperMock;
 
-    /** @var \Magento\Tax\Service\V1\TaxCalculationServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Tax\Api\TaxCalculationInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $calculationServiceMock;
 
     /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject */

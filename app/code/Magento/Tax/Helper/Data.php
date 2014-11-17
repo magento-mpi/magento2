@@ -14,7 +14,7 @@ use Magento\Tax\Model\Config;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
 use Magento\Tax\Service\V1\Data\TaxClassKeyBuilder;
-use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
+use Magento\Tax\Api\TaxCalculationInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Tax\Service\V1\OrderTaxServiceInterface;
@@ -116,7 +116,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Tax calculation service
      *
-     * @var TaxCalculationServiceInterface
+     * @var TaxCalculationInterface
      */
     protected $taxCalculationService;
 
@@ -171,7 +171,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param QuoteDetailsBuilder $quoteDetailsBuilder
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
      * @param TaxClassKeyBuilder $taxClassKeyBuilder
-     * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param TaxCalculationInterface $taxCalculationService
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
      * @param \Magento\Catalog\Helper\Data $catalogHelper
@@ -193,7 +193,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         QuoteDetailsBuilder $quoteDetailsBuilder,
         QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
         TaxClassKeyBuilder $taxClassKeyBuilder,
-        TaxCalculationServiceInterface $taxCalculationService,
+        TaxCalculationInterface $taxCalculationService,
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
         \Magento\Catalog\Helper\Data $catalogHelper,

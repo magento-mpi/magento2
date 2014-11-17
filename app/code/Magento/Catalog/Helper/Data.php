@@ -166,7 +166,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Tax calculation service interface
      *
-     * @var \Magento\Tax\Service\V1\TaxCalculationServiceInterface
+     * @var \Magento\Tax\Api\TaxCalculationInterface
      */
     protected $_taxCalculationService;
 
@@ -194,7 +194,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param Config $taxConfig
      * @param QuoteDetailsBuilder $quoteDetailsBuilder
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
-     * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param TaxCalculationInterface $taxCalculationService
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
      * @param PriceCurrencyInterface $priceCurrency
@@ -216,7 +216,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Tax\Model\Config $taxConfig,
         QuoteDetailsBuilder $quoteDetailsBuilder,
         QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
-        \Magento\Tax\Service\V1\TaxCalculationServiceInterface $taxCalculationService,
+        \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService,
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
         PriceCurrencyInterface $priceCurrency

@@ -66,7 +66,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->taxCalcServiceMock = $this->getMock('\Magento\Tax\Service\V1\TaxCalculationServiceInterface');
+        $this->taxCalcServiceMock = $this->getMock('\Magento\Tax\Api\TaxCalculationInterface');
         $this->addressConverterMock = $this->getMock('\Magento\Customer\Model\Address\Converter', [], [], '', false);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
