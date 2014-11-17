@@ -12,6 +12,7 @@ use Magento\Sales\Model\Quote\Address;
 use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
 use Magento\Paypal\Model\Config as PaypalConfig;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use Magento\Paypal\Model\Express\Checkout\Quote as PaypalQuote;
 
 /**
  * Wrapper that performs Paypal Express and Checkout communication
@@ -246,16 +247,6 @@ class Checkout
     protected $_accountManagement;
 
     /**
-     * @var \Magento\Customer\Api\Data\AddressInterfaceBuilderFactory
-     */
-    protected $_addressBuilderFactory;
-
-    /**
-     * @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder
-     */
-    protected $_customerBuilder;
-
-    /**
      * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
@@ -270,37 +261,8 @@ class Checkout
      */
     protected $orderSender;
 
-    /**
-     * Set config, session and quote instances
-     *
-     * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Checkout\Helper\Data $checkoutData
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Paypal\Model\Info $paypalInfo
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\UrlInterface $coreUrl
-     * @param \Magento\Paypal\Model\CartFactory $cartFactory
-     * @param \Magento\Framework\Logger\AdapterFactory $logFactory
-     * @param \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory
-     * @param \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory
-     * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
-     * @param \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory
-     * @param \Magento\Framework\Object\Copy $objectCopyService
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Customer\Api\Data\AddressInterfaceBuilderFactory $addressBuilderFactory
-     * @param \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder
-     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-     * @param AccountManagement $accountManagement
-     * @param OrderSender $orderSender
-     * @param array $params
-     * @throws \Exception
-     */
+    protected $paypalQuote;
+
     public function __construct(
         \Magento\Framework\Logger $logger,
         \Magento\Customer\Helper\Data $customerData,
@@ -320,12 +282,11 @@ class Checkout
         \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory,
         \Magento\Framework\Object\Copy $objectCopyService,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Customer\Api\Data\AddressInterfaceBuilderFactory $addressBuilderFactory,
-        \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         AccountManagement $accountManagement,
+        PaypalQuote $paypalQuote,
         OrderSender $orderSender,
         $params = array()
     ) {
@@ -347,12 +308,11 @@ class Checkout
         $this->_objectCopyService = $objectCopyService;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerRepository = $customerRepository;
-        $this->_addressBuilderFactory = $addressBuilderFactory;
-        $this->_customerBuilder = $customerBuilder;
         $this->_encryptor = $encryptor;
         $this->_messageManager = $messageManager;
         $this->orderSender = $orderSender;
         $this->_accountManagement = $accountManagement;
+        $this->paypalQuote = $paypalQuote;
         $this->_customerSession = isset($params['session'])
             && $params['session'] instanceof \Magento\Customer\Model\Session ? $params['session'] : $customerSession;
 
@@ -1136,62 +1096,7 @@ class Checkout
      */
     protected function _prepareNewCustomerQuote()
     {
-        $quote      = $this->_quote;
-        $billing    = $quote->getBillingAddress();
-        $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
-
-        $billingAddressBuilder = $this->_addressBuilderFactory->create();
-        $customerBilling = $billingAddressBuilder
-            ->populate($billing->exportCustomerAddressData())
-            ->setDefaultBilling(true);
-        if ($shipping && !$shipping->getSameAsBilling()) {
-            $shippingAddressBuilder = $this->_addressBuilderFactory->create();
-            $customerShipping = $shippingAddressBuilder
-                ->populate($shipping->exportCustomerAddressData())
-                ->setDefaultShipping(true)
-                ->create();
-            $shipping->setCustomerAddressData($customerShipping);
-        } elseif ($shipping) {
-            $customerBilling->setDefaultShipping(true);
-        }
-        $customerBilling = $customerBilling->create();
-        $billing->setCustomerAddressData($customerBilling);
-        /**
-         * @todo integration with dynamic attributes customer_dob, customer_taxvat, customer_gender
-         */
-        if ($quote->getCustomerDob() && !$billing->getCustomerDob()) {
-            $billing->setCustomerDob($quote->getCustomerDob());
-        }
-
-        if ($quote->getCustomerTaxvat() && !$billing->getCustomerTaxvat()) {
-            $billing->setCustomerTaxvat($quote->getCustomerTaxvat());
-        }
-
-        if ($quote->getCustomerGender() && !$billing->getCustomerGender()) {
-            $billing->setCustomerGender($quote->getCustomerGender());
-        }
-
-        $customerData = $this->_objectCopyService->getDataFromFieldset(
-            'checkout_onepage_billing',
-            'to_customer',
-            $billing
-        );
-
-        $customer = $this->_customerBuilder->populateWithArray($customerData);
-
-        $customer->setEmail($quote->getCustomerEmail());
-        $customer->setPrefix($quote->getCustomerPrefix());
-        $customer->setFirstname($quote->getCustomerFirstname());
-        $customer->setMiddlename($quote->getCustomerMiddlename());
-        $customer->setLastname($quote->getCustomerLastname());
-        $customer->setSuffix($quote->getCustomerSuffix());
-
-        $quote->setCustomerData($customer->create());
-        $quote->addCustomerAddressData($customerBilling);
-
-        if (isset($customerShipping)) {
-            $quote->addCustomerAddressData($customerShipping);
-        }
+        $this->paypalQuote->prepareQuoteForNewCustomer($this->_quote);
     }
 
     /**
@@ -1201,50 +1106,7 @@ class Checkout
      */
     protected function _prepareCustomerQuote()
     {
-        $quote      = $this->_quote;
-        $billing    = $quote->getBillingAddress();
-        $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
-
-        $customer = $this->_customerRepository->getById($this->getCustomerSession()->getCustomerId());
-        if (!$billing->getCustomerId() || $billing->getSaveInAddressBook()) {
-            $billingAddress = $billing->exportCustomerAddressData();
-            $billing->setCustomerAddressData($billingAddress);
-        }
-        if ($shipping
-            && !$shipping->getSameAsBilling()
-            && (!$shipping->getCustomerId() || $shipping->getSaveInAddressBook())
-        ) {
-            $shippingAddress = $shipping->exportCustomerAddressData();
-            $shipping->setCustomerAddressData($shippingAddress);
-        }
-
-        $isBillingAddressDefaultBilling = false;
-        $isBillingAddressDefaultShipping = false;
-        if (!$customer->getDefaultBilling()) {
-            $isBillingAddressDefaultBilling = true;
-        }
-
-        if ($shipping && isset($shippingAddress) && !$customer->getDefaultShipping()) {
-            $shippingAddressBuilder = $this->_addressBuilderFactory->create();
-            $shippingAddress = $shippingAddressBuilder->populate($shippingAddress)
-                ->setDefaultBilling(false)
-                ->setDefaultShipping(true)
-                ->create();
-            $quote->addCustomerAddressData($shippingAddress);
-        } else if (!$customer->getDefaultShipping()) {
-            $isBillingAddressDefaultShipping = true;
-        }
-
-        if (isset($billingAddress)) {
-            $billingAddressBuilder = $this->_addressBuilderFactory->create();
-            $billingAddress = $billingAddressBuilder
-                ->populate($billingAddress)
-                ->setDefaultBilling($isBillingAddressDefaultBilling)
-                ->setDefaultShipping($isBillingAddressDefaultShipping)
-                ->create();
-            $quote->addCustomerAddressData($billingAddress);
-        }
-        $quote->setCustomerData($customer);
+        $this->paypalQuote->prepareRegisteredCustomerQuote($this->_quote);
     }
 
     /**
