@@ -12,14 +12,42 @@ use Magento\Framework\App;
 use Zend\Code\Scanner\FileScanner;
 use Magento\Tools\Di\Code\Scanner;
 use Magento\Tools\Di\Definition\Collection as DefinitionsCollection;
-use Magento\Tools\Di\Compiler\ArgumentsResolver;
+use Magento\Tools\Di\Compiler\ArgumentsResolverFactory;
+use Magento\Tools\Di\Code\Reader\ClassReaderDecorator;
+use Magento\Tools\Di\Compiler\Log\Log;
 
 class Compiler implements \Magento\Framework\AppInterface
 {
     /**
      * @var \Magento\Framework\ObjectManager\Config
      */
-    protected $config;
+    private $diContainerConfig;
+
+    /**
+     * @var App\AreaList
+     */
+    private $areaList;
+
+    /**
+     * @var App\ObjectManager\ConfigLoader
+     */
+    private $configLoader;
+
+    /**
+     * @var ArgumentsResolverFactory
+     */
+    private $argumentsResolverFactory;
+
+    /**
+     * @var ClassReaderDecorator
+     */
+    private $classReaderDecorator;
+
+    /**
+     * @todo introduce log
+     * @var Log
+     */
+    private $log;
 
     protected $assertions = [
         'adminhtml.ser' => 'e576720abbc6538849772ffee9a5bd89',
@@ -31,28 +59,28 @@ class Compiler implements \Magento\Framework\AppInterface
     ];
 
     /**
-     * @param \Magento\Framework\ObjectManager\Config $config
+     * @param \Magento\Framework\ObjectManager\Config $diContainerConfig
+     * @param App\AreaList $areaList
+     * @param App\ObjectManager\ConfigLoader $configLoader
+     * @param ArgumentsResolverFactory $argumentsResolverFactory
+     * @param ClassReaderDecorator $classReaderDecorator
      */
     public function __construct(
-        \Magento\Framework\ObjectManager\Config $config,
-        \Magento\Framework\App\AreaList $areaList,
-        \Magento\Framework\App\ObjectManager\ConfigLoader $configLoader
+        \Magento\Framework\ObjectManager\Config $diContainerConfig,
+        App\AreaList $areaList,
+        App\ObjectManager\ConfigLoader $configLoader,
+        ArgumentsResolverFactory $argumentsResolverFactory,
+        ClassReaderDecorator $classReaderDecorator
     ) {
-        $this->config = $config;
+        $this->diContainerConfig = $diContainerConfig;
         $this->areaList = $areaList;
         $this->configLoader = $configLoader;
+        $this->argumentsResolverFactory = $argumentsResolverFactory;
+        $this->classReaderDecorator = $classReaderDecorator;
     }
 
     /**
-     * Returns array of
-     * ['class-name'] => [
-     *      0 => [
-     *          0 => , // string: Parameter name
-     *          1 => , // string|null: Parameter type
-     *          2 => , // bool: whether this param is required
-     *          3 => , // mixed: default value
-     *      ]
-     * ]
+     * Returns definitions collection
      *
      * @param string $path
      * @return DefinitionsCollection
@@ -61,7 +89,6 @@ class Compiler implements \Magento\Framework\AppInterface
     {
         $recursiveIterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(realpath($path)), 1);
         $definitions = new DefinitionsCollection;
-        $signatureReader = new \Magento\Framework\Code\Reader\ClassReader();
         /** @var $fileItem \SplFileInfo */
         foreach ($recursiveIterator as $fileItem) {
             if (!$this->isPhpFile($fileItem)) {
@@ -74,11 +101,11 @@ class Compiler implements \Magento\Framework\AppInterface
                     require_once $fileItem->getRealPath();
                 }
                 try {
-                    $definitions->addDefinition($className, $signatureReader->getConstructor($className));
+                    $definitions->addDefinition($className, $this->classReaderDecorator->getConstructor($className));
                 } catch (\Magento\Framework\Code\ValidationException $exception) {
-                    $this->_log->add(Log::COMPILATION_ERROR, $className, $exception->getMessage());
+                    $this->log->add(Log::COMPILATION_ERROR, $className, $exception->getMessage());
                 } catch (\ReflectionException $e) {
-                    $this->_log->add(Log::COMPILATION_ERROR, $className, $e->getMessage());
+                    $this->log->add(Log::COMPILATION_ERROR, $className, $e->getMessage());
                 }
             }
         }
@@ -94,31 +121,33 @@ class Compiler implements \Magento\Framework\AppInterface
     protected function getConfigForScope($definitionsCollection, $config)
     {
         $arguments = array();
-        $signatureReader = new \Magento\Framework\Code\Reader\ClassReader();
-        foreach ($definitionsCollection->getInstancesNamesList() as $instanceName) {
-            $refl = new \ReflectionClass($instanceName);
-
+        $argumentsResolver = $this->argumentsResolverFactory->create($config);
+        foreach ($definitionsCollection->getInstancesNamesList() as $instanceType) {
+            $refl = new \ReflectionClass($instanceType);
             if ($refl->isInterface() || $refl->isAbstract()) {
                 continue;
             }
-            $arguments[$instanceName] = ArgumentsResolver::processConstructor(
-                $config,
-                $instanceName,
-                $definitionsCollection->getInstanceArguments($instanceName)
+            $constructor = $definitionsCollection->getInstanceArguments($instanceType);
+            $arguments[$instanceType] = $argumentsResolver->getResolvedConstructorArguments(
+                $instanceType,
+                $constructor
             );
         }
-        foreach (array_keys($config->getVirtualTypes()) as $type) {
-            $originalType = $config->getInstanceType($type);
+        foreach (array_keys($config->getVirtualTypes()) as $instanceType) {
+            $originalType = $config->getInstanceType($instanceType);
             if (!$definitionsCollection->hasInstance($originalType)) {
                 $refl = new \ReflectionClass($originalType);
                 if ($refl->isInterface() || $refl->isAbstract()) {
                     continue;
                 }
-                $constructor = $signatureReader->getConstructor($originalType);
+                $constructor = $this->classReaderDecorator->getConstructor($originalType);
             } else {
                 $constructor = $definitionsCollection->getInstanceArguments($originalType);
             }
-            $arguments[$type] = ArgumentsResolver::processConstructor($config, $type, $constructor);
+            $arguments[$instanceType] = $argumentsResolver->getResolvedConstructorArguments(
+                $instanceType,
+                $constructor
+            );
         }
         return $arguments;
     }
@@ -201,7 +230,7 @@ class Compiler implements \Magento\Framework\AppInterface
      */
     private function generateCachePerScope($definitionsCollection, $areaCode, $extendConfig = false)
     {
-        $areaConfig = clone $this->config;
+        $areaConfig = clone $this->diContainerConfig;
         if ($extendConfig) {
             $areaConfig->extend($this->configLoader->load($areaCode));
         }

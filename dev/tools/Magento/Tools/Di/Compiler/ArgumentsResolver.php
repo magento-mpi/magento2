@@ -12,18 +12,81 @@ namespace Magento\Tools\Di\Compiler;
 class ArgumentsResolver
 {
     /**
-     * @param \Magento\Framework\ObjectManager\Config $config
-     * @param $class
+     * @var \Magento\Framework\ObjectManager\Config
+     */
+    private $diContainerConfig;
+
+    /**
+     * @param \Magento\Framework\ObjectManager\Config $diContainerConfig
+     */
+    public function __construct(\Magento\Framework\ObjectManager\Config $diContainerConfig)
+    {
+        $this->diContainerConfig = $diContainerConfig;
+    }
+
+    /**
+     * Returns resolved constructor arguments for given instance type
+     *
+     * @param $instanceType
      * @param $constructor
      * @return mixed
      */
-    static function processConstructor($config, $class, $constructor)
+    public function getResolvedConstructorArguments($instanceType, $constructor)
     {
         if (!$constructor) {
             return null;
         }
-        $configuredArguments = $config->getArguments($class);
-        $configuredArguments = array_map(
+        $configuredArguments = $this->getConfiguredArguments($instanceType);
+
+        $arguments = [];
+        /** @var ConstructorArgument $constructorArgument */
+        foreach ($constructor as $constructorArgument) {
+            $argument = self::getNonObjectArgument(null);
+            if (!$constructorArgument->isRequired()) {
+                $argument = self::getNonObjectArgument($constructorArgument->getDefaultValue());
+            } elseif ($constructorArgument->getType()) {
+                $argument = $this->getInstanceArgument($constructorArgument->getType());
+            }
+
+            if (isset($configuredArguments[$constructorArgument->getName()])) {
+                $argument = $this->getConfiguredArgument(
+                    $configuredArguments[$constructorArgument->getName()],
+                    $constructorArgument
+                );
+            }
+            $arguments[$constructorArgument->getName()] = $argument;
+        }
+        return $arguments;
+    }
+
+    /**
+     * Returns formatted configured argument
+     *
+     * @param array $configuredArgument
+     * @param ConstructorArgument $constructorArgument
+     * @return array|mixed
+     */
+    private function getConfiguredArgument($configuredArgument, ConstructorArgument $constructorArgument)
+    {
+        if ($constructorArgument->getType()) {
+            return $this->getInstanceArgument($configuredArgument['instance']);
+        } elseif (isset($configuredArgument['argument'])) {
+            return self::getGlobalArgument($configuredArgument['argument'], $constructorArgument->getDefaultValue());
+        }
+
+        return self::getNonObjectArgument($configuredArgument);
+    }
+
+    /**
+     * Return configured arguments
+     *
+     * @param string $instanceType
+     * @return array
+     */
+    private function getConfiguredArguments($instanceType)
+    {
+        $configuredArguments = $this->diContainerConfig->getArguments($instanceType);
+        return array_map(
             function ($type) {
                 if (isset($type['instance'])) {
                     $type['instance'] = ltrim($type['instance'], '\\');
@@ -33,59 +96,28 @@ class ArgumentsResolver
             },
             $configuredArguments
         );
+    }
 
-        $arguments = [];
-        foreach ($constructor as $parameter) {
-            $argument = self::getNonObjectArgument(null);
-            list ($paramName, $paramType, $paramRequired, $paramDefault) = $parameter;
-            if (isset($configuredArguments[$paramName])) {
-                if ($paramType) {
-                    if ($config->isShared($configuredArguments[$paramName]['instance'])) {
-                        $argument = self::getSharedInstanceArgument($configuredArguments[$paramName]['instance']);
-                    } else {
-                        $argument = self::getNonSharedInstance(
-                            $configuredArguments[$paramName]['instance']
-                        );
-                    }
-                } else {
-                    if (isset($configuredArguments[$paramName]['argument'])) {
-                        $argument = self::getGlobalArgument(
-                            $configuredArguments[$paramName]['argument'],
-                            $paramDefault
-                        );
-                    } else {
-                        $argument = self::getNonObjectArgument($configuredArguments[$paramName]);
-                    }
-                }
-            } else {
-                if ($paramType) {
-                    if (!$paramRequired) {
-                        $argument = self::getNonObjectArgument($paramDefault);
-                    } else {
-                        if ($config->isShared($paramType)) {
-                            $argument = self::getSharedInstanceArgument($paramType);
-                        } else {
-                            $argument = self::getNonSharedInstance($paramType);
-                        }
-                    }
-                } else {
-                    if (!$paramRequired) {
-                        $argument = self::getNonObjectArgument($paramDefault);
-                    }
-                }
-            }
-            $arguments[$paramName] = $argument;
-        }
-        return $arguments;
+    /**
+     * Returns instance argument
+     *
+     * @param string $instanceType
+     * @return array|mixed
+     */
+    private function getInstanceArgument($instanceType)
+    {
+        return $this->diContainerConfig->isShared($instanceType)
+            ? $instanceType
+            : self::getNonSharedInstance($instanceType);
     }
 
     /**
      * Returns argument of non shared instance
      *
-     * @param true $instanceType
+     * @param string $instanceType
      * @return array
      */
-    static function getNonSharedInstance($instanceType)
+    private static function getNonSharedInstance($instanceType)
     {
         return [
             '__non_shared__' => true,
@@ -99,7 +131,7 @@ class ArgumentsResolver
      * @param mixed $value
      * @return array
      */
-    static function getNonObjectArgument($value)
+    private static function getNonObjectArgument($value)
     {
         return ['__val__' => $value];
     }
@@ -111,22 +143,11 @@ class ArgumentsResolver
      * @param string $default
      * @return array
      */
-    static function getGlobalArgument($argument, $default)
+    private static function getGlobalArgument($argument, $default)
     {
         return [
             '__arg__' => $argument,
             '__default__' => $default
         ];
-    }
-
-    /**
-     * Returns shared instance argument
-     *
-     * @param string $instanceType
-     * @return mixed
-     */
-    static function getSharedInstanceArgument($instanceType)
-    {
-        return $instanceType;
     }
 }

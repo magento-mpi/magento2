@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Code\Reader;
 
-class ClassReader
+class ClassReader implements ClassReaderInterface
 {
     /**
      * Read class constructor signature
