@@ -64,9 +64,11 @@ class RowTest extends \PHPUnit_Framework_TestCase
 
         // todo fix builder
         $id = $stockItem->getId();
-        $stockItemToSave = $stockItemBuilder->mergeDataObjectWithArray($stockItem, $stockItemData);
-        $stockItemToSave->setItemId($id);
-        $stockItemRepository->save($stockItemToSave);
+        $stockItemBuilder = $stockItemBuilder->mergeDataObjectWithArray($stockItem, $stockItemData);
+        $stockItemBuilder->setId($id);
+        $stockItemSave = $stockItemBuilder->create();
+        $stockItemSave->setItemId($id);
+        $stockItemRepository->save($stockItemSave);
 
         $category = $categoryFactory->create()->load(2);
         $layer = $listProduct->getLayer();

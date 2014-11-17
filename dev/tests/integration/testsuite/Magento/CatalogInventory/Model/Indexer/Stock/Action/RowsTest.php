@@ -64,11 +64,13 @@ class RowsTest extends \PHPUnit_Framework_TestCase
 
         // todo fix builder
         $id = $stockItem->getId();
-        $stockItemToSave = $stockItemBuilder->mergeDataObjectWithArray($stockItem, $stockItemData);
-        $stockItemToSave->setItemId($id);
+        $stockItemBuilder = $stockItemBuilder->mergeDataObjectWithArray($stockItem, $stockItemData);
+        $stockItemBuilder->setId($id);
+        $stockItemSave = $stockItemBuilder->create();
+        $stockItemSave->setItemId($id);
         $stockItemResource->setProcessIndexEvents(false);
 
-        $stockItemRepository->save($stockItemToSave);
+        $stockItemRepository->save($stockItemSave);
 
         $this->_processor->reindexList(array(1));
 
