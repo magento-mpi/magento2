@@ -23,7 +23,7 @@ class AttributeSetRepositoryTest extends WebapiAbstract
 
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/attribute-sets/' . $attributeSetId,
+                'resourcePath' => '/V1/eav/attribute-sets/' . $attributeSetId,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ),
             'soap' => array(
@@ -52,7 +52,7 @@ class AttributeSetRepositoryTest extends WebapiAbstract
 
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/attribute-sets/' . $attributeSetId,
+                'resourcePath' => '/V1/eav/attribute-sets/' . $attributeSetId,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ),
             'soap' => array(
@@ -76,7 +76,7 @@ class AttributeSetRepositoryTest extends WebapiAbstract
         $attributeSet = $this->getAttributeSetByName($attributeSetName);
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/attribute-sets',
+                'resourcePath' => '/V1/eav/attribute-sets',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ),
             'soap' => array(
@@ -119,7 +119,7 @@ class AttributeSetRepositoryTest extends WebapiAbstract
 
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/attribute-sets/' . $attributeSetId,
+                'resourcePath' => '/V1/eav/attribute-sets/' . $attributeSetId,
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ),
             'soap' => array(
@@ -145,7 +145,7 @@ class AttributeSetRepositoryTest extends WebapiAbstract
 
         $serviceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/attribute-sets/' . $attributeSetId,
+                'resourcePath' => '/V1/eav/attribute-sets/' . $attributeSetId,
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ),
             'soap' => array(
@@ -186,7 +186,7 @@ class AttributeSetRepositoryTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => '/V1/products/attribute-sets/sets/list',
+                'resourcePath' => '/V1/eav/attribute-sets/list',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ],
             'soap' => array(

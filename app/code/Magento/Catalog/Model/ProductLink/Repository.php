@@ -121,9 +121,11 @@ class Repository implements \Magento\Catalog\Api\ProductLinkRepositoryInterface
         }
         throw new NoSuchEntityException(
             'Product %s doesn\'t have linked %s as %s',
-            $productSku,
-            $linkedProductSku,
-            $type
+            [
+                $productSku,
+                $linkedProductSku,
+                $type
+            ]
         );
     }
 }

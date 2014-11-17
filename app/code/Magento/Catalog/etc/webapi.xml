@@ -103,31 +103,31 @@
         </resources>
     </route>
     <route url="/V1/products/attribute-sets/sets/list" method="PUT">
-        <service class="Magento\Eav\Api\AttributeSetRepositoryInterface" method="getList"/>
+        <service class="Magento\Catalog\Api\AttributeSetRepositoryInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
     <route url="/V1/products/attribute-sets/:attributeSetId" method="GET">
-        <service class="Magento\Eav\Api\AttributeSetRepositoryInterface" method="get"/>
+        <service class="Magento\Catalog\Api\AttributeSetRepositoryInterface" method="get"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
     <route url="/V1/products/attribute-sets/:attributeSetId" method="DELETE">
-        <service class="\Magento\Eav\Api\AttributeSetRepositoryInterface" method="deleteById"/>
+        <service class="Magento\Catalog\Api\AttributeSetRepositoryInterface" method="deleteById"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
     <route url="/V1/products/attribute-sets" method="POST">
-        <service class="Magento\Eav\Api\AttributeSetManagementInterface" method="create"/>
+        <service class="Magento\Catalog\Api\AttributeSetManagementInterface" method="create"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>
     </route>
-    <route url="/V1/products/attribute-sets/:id" method="PUT">
-        <service class="Magento\Eav\Api\AttributeSetRepositoryInterface" method="save"/>
+    <route url="/V1/products/attribute-sets/:attributeSetId" method="PUT">
+        <service class="Magento\Catalog\Api\AttributeSetRepositoryInterface" method="save"/>
         <resources>
             <resource ref="Magento_Catalog::sets"/>
         </resources>

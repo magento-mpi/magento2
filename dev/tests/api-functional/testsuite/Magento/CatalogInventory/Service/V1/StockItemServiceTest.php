@@ -30,11 +30,11 @@ class StockItemServiceTest extends WebapiAbstract
      */
     const RESOURCE_PATH = '/V1/stockItem';
 
-    /** @var \Magento\Catalog\Model\Resource\Product\Collection */
-    protected $productCollection;
-
     /** @var \Magento\Framework\ObjectManager */
     protected $objectManager;
+
+    /** @var \Magento\Catalog\Model\Resource\Product\Collection */
+    protected $productCollection;
 
     /**
      * Execute per test initialization
@@ -50,8 +50,17 @@ class StockItemServiceTest extends WebapiAbstract
      */
     public function tearDown()
     {
+        /** @var \Magento\Framework\Registry $registry */
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
+
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', true);
+
         $this->productCollection->addFieldToFilter('entity_id', array('in' => array(10, 11, 12)))->delete();
         unset($this->productCollection);
+
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', false);
     }
 
     /**
@@ -74,8 +83,8 @@ class StockItemServiceTest extends WebapiAbstract
         ];
         $arguments = ['productSku' => $productSku];
         $apiResult = $this->_webApiCall($serviceInfo, $arguments);
+        $this->assertEquals($result['product_id'], $apiResult['product_id'], 'The stock data does not match.');
         $result['item_id'] = $apiResult['item_id'];
-        $this->assertEquals($result, $apiResult, 'The stock data does not match.');
         return $apiResult;
     }
 

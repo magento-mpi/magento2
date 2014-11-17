@@ -9,20 +9,54 @@
 
 namespace Magento\Catalog\Api\Data;
 
-use Magento\Framework\Api\CompositeExtensibleDataBuilder;
+use Magento\Framework\Api\ObjectFactory;
+use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
  * DataBuilder class for \Magento\Catalog\Api\Data\ProductAttributeInterface
  */
-class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtensibleDataBuilder
+class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
 {
+
+    /**
+     * @param ObjectFactory $objectFactory
+     * @param MetadataServiceInterface $metadataService
+     * @param \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
+     * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
+     * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
+     * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
+     * @param string $modelClassInterface
+     */
+    public function __construct(
+        ObjectFactory $objectFactory,
+        MetadataServiceInterface $metadataService,
+        \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder,
+        \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor,
+        \Magento\Framework\Reflection\TypeProcessor $typeProcessor,
+        \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory,
+        \Magento\Framework\ObjectManager\Config $objectManagerConfig,
+        $modelClassInterface = 'Magento\Catalog\Api\Data\ProductAttributeInterface'
+    ) {
+        parent::__construct(
+            $objectFactory,
+            $metadataService,
+            $attributeValueBuilder,
+            $objectProcessor,
+            $typeProcessor,
+            $dataBuilderFactory,
+            $objectManagerConfig,
+            $modelClassInterface
+        );
+    }
+
     /**
      * @param bool|null $isWysiwygEnabled
      * @return $this
      */
     public function setIsWysiwygEnabled($isWysiwygEnabled)
     {
-        $this->set('is_wysiwyg_enabled', $isWysiwygEnabled);
+        $this->_set('is_wysiwyg_enabled', $isWysiwygEnabled);
         return $this;
     }
 
@@ -32,7 +66,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setIsHtmlAllowedOnFront($isHtmlAllowedOnFront)
     {
-        $this->set('is_html_allowed_on_front', $isHtmlAllowedOnFront);
+        $this->_set('is_html_allowed_on_front', $isHtmlAllowedOnFront);
         return $this;
     }
 
@@ -42,7 +76,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setUsedForSortBy($usedForSortBy)
     {
-        $this->set('used_for_sort_by', $usedForSortBy);
+        $this->_set('used_for_sort_by', $usedForSortBy);
         return $this;
     }
 
@@ -52,7 +86,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setIsFilterable($isFilterable)
     {
-        $this->set('is_filterable', $isFilterable);
+        $this->_set('is_filterable', $isFilterable);
         return $this;
     }
 
@@ -62,7 +96,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setIsFilterableInSearch($isFilterableInSearch)
     {
-        $this->set('is_filterable_in_search', $isFilterableInSearch);
+        $this->_set('is_filterable_in_search', $isFilterableInSearch);
         return $this;
     }
 
@@ -72,7 +106,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setPosition($position)
     {
-        $this->set('position', $position);
+        $this->_set('position', $position);
         return $this;
     }
 
@@ -82,7 +116,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setApplyTo($applyTo)
     {
-        $this->set('apply_to', $applyTo);
+        $this->_set('apply_to', $applyTo);
         return $this;
     }
 
@@ -92,7 +126,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setIsConfigurable($isConfigurable)
     {
-        $this->set('is_configurable', $isConfigurable);
+        $this->_set('is_configurable', $isConfigurable);
         return $this;
     }
 
@@ -102,7 +136,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setIsSearchable($isSearchable)
     {
-        $this->set('is_searchable', $isSearchable);
+        $this->_set('is_searchable', $isSearchable);
         return $this;
     }
 
@@ -112,7 +146,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setIsVisibleInAdvancedSearch($isVisibleInAdvancedSearch)
     {
-        $this->set('is_visible_in_advanced_search', $isVisibleInAdvancedSearch);
+        $this->_set('is_visible_in_advanced_search', $isVisibleInAdvancedSearch);
         return $this;
     }
 
@@ -122,7 +156,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setIsComparable($isComparable)
     {
-        $this->set('is_comparable', $isComparable);
+        $this->_set('is_comparable', $isComparable);
         return $this;
     }
 
@@ -132,7 +166,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setIsUsedForPromoRules($isUsedForPromoRules)
     {
-        $this->set('is_used_for_promo_rules', $isUsedForPromoRules);
+        $this->_set('is_used_for_promo_rules', $isUsedForPromoRules);
         return $this;
     }
 
@@ -142,7 +176,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setIsVisibleOnFront($isVisibleOnFront)
     {
-        $this->set('is_visible_on_front', $isVisibleOnFront);
+        $this->_set('is_visible_on_front', $isVisibleOnFront);
         return $this;
     }
 
@@ -152,7 +186,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setUsedInProductListing($usedInProductListing)
     {
-        $this->set('used_in_product_listing', $usedInProductListing);
+        $this->_set('used_in_product_listing', $usedInProductListing);
         return $this;
     }
 
@@ -162,7 +196,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setIsVisible($isVisible)
     {
-        $this->set('is_visible', $isVisible);
+        $this->_set('is_visible', $isVisible);
         return $this;
     }
 
@@ -172,37 +206,37 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setScope($scope)
     {
-        $this->set('scope', $scope);
+        $this->_set('scope', $scope);
         return $this;
     }
 
     /**
-     * @param string|null $attributeId
+     * @param int|null $attributeId
      * @return $this
      */
     public function setAttributeId($attributeId)
     {
-        $this->set('attribute_id', $attributeId);
+        $this->_set('attribute_id', $attributeId);
         return $this;
     }
 
     /**
-     * @param string|null $attributeCode
+     * @param string $attributeCode
      * @return $this
      */
     public function setAttributeCode($attributeCode)
     {
-        $this->set('attribute_code', $attributeCode);
+        $this->_set('attribute_code', $attributeCode);
         return $this;
     }
 
     /**
-     * @param string|null $frontendInput
+     * @param string $frontendInput
      * @return $this
      */
     public function setFrontendInput($frontendInput)
     {
-        $this->set('frontend_input', $frontendInput);
+        $this->_set('frontend_input', $frontendInput);
         return $this;
     }
 
@@ -212,17 +246,17 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setEntityTypeId($entityTypeId)
     {
-        $this->set('entity_type_id', $entityTypeId);
+        $this->_set('entity_type_id', $entityTypeId);
         return $this;
     }
 
     /**
-     * @param bool|null $isRequired
+     * @param bool $isRequired
      * @return $this
      */
     public function setIsRequired($isRequired)
     {
-        $this->set('is_required', $isRequired);
+        $this->_set('is_required', $isRequired);
         return $this;
     }
 
@@ -232,7 +266,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setOptions($options)
     {
-        $this->set('options', $options);
+        $this->_set('options', $options);
         return $this;
     }
 
@@ -242,7 +276,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setIsUserDefined($isUserDefined)
     {
-        $this->set('is_user_defined', $isUserDefined);
+        $this->_set('is_user_defined', $isUserDefined);
         return $this;
     }
 
@@ -252,7 +286,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setFrontendLabel($frontendLabel)
     {
-        $this->set('frontend_label', $frontendLabel);
+        $this->_set('frontend_label', $frontendLabel);
         return $this;
     }
 
@@ -263,7 +297,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setStoreFrontendLabels($storeFrontendLabels)
     {
-        $this->set('store_frontend_labels', $storeFrontendLabels);
+        $this->_set('store_frontend_labels', $storeFrontendLabels);
         return $this;
     }
 
@@ -273,7 +307,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setNote($note)
     {
-        $this->set('note', $note);
+        $this->_set('note', $note);
         return $this;
     }
 
@@ -283,7 +317,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setBackendType($backendType)
     {
-        $this->set('backend_type', $backendType);
+        $this->_set('backend_type', $backendType);
         return $this;
     }
 
@@ -293,7 +327,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setBackendModel($backendModel)
     {
-        $this->set('backend_model', $backendModel);
+        $this->_set('backend_model', $backendModel);
         return $this;
     }
 
@@ -303,7 +337,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setSourceModel($sourceModel)
     {
-        $this->set('source_model', $sourceModel);
+        $this->_set('source_model', $sourceModel);
         return $this;
     }
 
@@ -313,7 +347,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setDefaultValue($defaultValue)
     {
-        $this->set('default_value', $defaultValue);
+        $this->_set('default_value', $defaultValue);
         return $this;
     }
 
@@ -323,7 +357,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setIsUnique($isUnique)
     {
-        $this->set('is_unique', $isUnique);
+        $this->_set('is_unique', $isUnique);
         return $this;
     }
 
@@ -333,7 +367,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setFrontendClass($frontendClass)
     {
-        $this->set('frontend_class', $frontendClass);
+        $this->_set('frontend_class', $frontendClass);
         return $this;
     }
 
@@ -343,20 +377,8 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\CompositeExtens
      */
     public function setValidationRules($validationRules)
     {
-        $this->set('validation_rules', $validationRules);
+        $this->_set('validation_rules', $validationRules);
         return $this;
-    }
-
-    /**
-     * Initialize the builder
-     *
-     * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
-     * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
-     */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\Framework\Api\MetadataServiceInterface $metadataService, \Magento\Framework\ObjectManager\Config $objectManagerConfig)
-    {
-        parent::__construct($objectManager, $metadataService, $objectManagerConfig, 'Magento\Catalog\Api\Data\ProductAttributeInterface');
     }
 
     /**

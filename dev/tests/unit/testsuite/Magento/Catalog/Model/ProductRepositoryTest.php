@@ -149,6 +149,8 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->initializationHelperMock->expects($this->once())->method('initialize')->with($this->productMock);
         $this->resourceModelMock->expects($this->once())->method('validate')->with($this->productMock)
             ->willReturn(true);
+        $this->productMock->expects($this->once())->method('toFlatArray')->will($this->returnValue(['Expected data']));
+        $this->productMock->expects($this->once())->method('setData')->with(['Expected data']);
         $this->resourceModelMock->expects($this->once())->method('save')->with($this->productMock)->willReturn(true);
         $this->assertEquals($this->productMock, $this->model->save($this->productMock));
     }

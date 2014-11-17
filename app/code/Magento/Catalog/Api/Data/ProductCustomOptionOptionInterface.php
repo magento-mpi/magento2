@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Api\Data;
 
-interface ProductCustomOptionOptionInterface extends \Magento\Framework\Api\ExtensibleDataInterface
+interface ProductCustomOptionOptionInterface
 {
     /**
      * Get product SKU

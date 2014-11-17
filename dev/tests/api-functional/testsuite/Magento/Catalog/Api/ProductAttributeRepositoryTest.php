@@ -115,7 +115,7 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
         $attributeData = [
             'attribute' => [
                 'attribute_code' => $attributeCode,
-                'store_frontend_labels' => [
+                'frontend_label' => [
                     ['store_id' => 0, 'label' => 'front_lbl_new']
                 ],
                 'default_value' => 'default value new',
@@ -201,7 +201,7 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
         $attributeData = [
             'attribute' => [
                 'attribute_code' => $attributeCode,
-                'store_frontend_labels' => [
+                'frontend_label' => [
                     ['store_id' => 0, 'label' => 'front_lbl']
                 ],
                 'default_value' => 'default value',

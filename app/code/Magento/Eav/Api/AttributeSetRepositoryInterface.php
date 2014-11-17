@@ -11,17 +11,6 @@ namespace Magento\Eav\Api;
 interface AttributeSetRepositoryInterface
 {
     /**
-     * Save attribute set data
-     *
-     * @param \Magento\Eav\Api\Data\AttributeSetInterface $attributeSet
-     * @return \Magento\Eav\Api\Data\AttributeSetInterface saved attribute set
-     * @throws \Magento\Framework\Exception\InputException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Model\Exception If attribute set is not found
-     */
-    public function save(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSet);
-
-    /**
      * Retrieve list of Attribute Sets
      *
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
@@ -39,14 +28,15 @@ interface AttributeSetRepositoryInterface
     public function get($attributeSetId);
 
     /**
-     * Remove given attribute set
+     * Save attribute set data
      *
      * @param \Magento\Eav\Api\Data\AttributeSetInterface $attributeSet
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @return \Magento\Eav\Api\Data\AttributeSetInterface saved attribute set
      * @throws \Magento\Framework\Exception\InputException
-     * @return bool
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Model\Exception If attribute set is not found
      */
-    public function delete(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSet);
+    public function save(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSet);
 
     /**
      * Remove attribute set by given ID
@@ -57,4 +47,14 @@ interface AttributeSetRepositoryInterface
      * @return bool
      */
     public function deleteById($attributeSetId);
+
+    /**
+     * Remove given attribute set
+     *
+     * @param \Magento\Eav\Api\Data\AttributeSetInterface $attributeSet
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\InputException
+     * @return bool
+     */
+    public function delete(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSet);
 }

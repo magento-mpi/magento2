@@ -23,7 +23,7 @@ class AttributeSetManagementTest extends WebapiAbstract
     {
         $this->createServiceInfo = array(
             'rest' => array(
-                'resourcePath' => '/V1/attribute-sets',
+                'resourcePath' => '/V1/eav/attribute-sets',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
             ),
             'soap' => array(

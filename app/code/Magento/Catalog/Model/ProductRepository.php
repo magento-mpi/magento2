@@ -155,6 +155,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     public function save(\Magento\Catalog\Api\Data\ProductInterface $product, $saveOptions = false)
     {
         $this->initializationHelper->initialize($product);
+        $product->setData($product->toFlatArray());
         $validationResult = $this->resourceModel->validate($product);
         if (true !== $validationResult) {
             throw new \Magento\Framework\Exception\CouldNotSaveException(

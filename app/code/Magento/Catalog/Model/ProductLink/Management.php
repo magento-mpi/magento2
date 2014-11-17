@@ -46,12 +46,18 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
     protected $valueBuilder;
 
     /**
+     * @var \Magento\Catalog\Model\Product\LinkTypeProvider
+     */
+    protected $linkTypeProvider;
+
+    /**
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param CollectionProvider $collectionProvider
      * @param Data\ProductLinkDataBuilder $productLinkBuilder
      * @param LinksInitializer $linkInitializer
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Framework\Api\AttributeValueBuilder $valueBuilder
+     * @param \Magento\Catalog\Model\Product\LinkTypeProvider $linkTypeProvider
      */
     public function __construct(
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
@@ -59,7 +65,8 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
         \Magento\Catalog\Api\Data\ProductLinkDataBuilder $productLinkBuilder,
         LinksInitializer $linkInitializer,
         \Magento\Catalog\Model\Resource\Product $productResource,
-        \Magento\Framework\Api\AttributeValueBuilder $valueBuilder
+        \Magento\Framework\Api\AttributeValueBuilder $valueBuilder,
+        \Magento\Catalog\Model\Product\LinkTypeProvider $linkTypeProvider
     ) {
         $this->productRepository = $productRepository;
         $this->entityCollectionProvider = $collectionProvider;
@@ -67,6 +74,7 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
         $this->productResource = $productResource;
         $this->linkInitializer = $linkInitializer;
         $this->valueBuilder = $valueBuilder;
+        $this->linkTypeProvider = $linkTypeProvider;
     }
 
     /**
@@ -108,6 +116,14 @@ class Management implements \Magento\Catalog\Api\ProductLinkManagementInterface
      */
     public function setProductLinks($productSku, $type, array $items)
     {
+        $linkTypes = $this->linkTypeProvider->getLinkTypes();
+
+        if (!isset($linkTypes[$type])) {
+            throw new NoSuchEntityException(
+                sprintf("Provided link type \"%s\" does not exist", $type)
+            );
+        }
+
         $product = $this->productRepository->get($productSku);
         $assignedSkuList = [];
         /** @var \Magento\Catalog\Api\Data\ProductLinkInterface $link */

@@ -75,6 +75,8 @@
     <preference for="Magento\Catalog\Api\Data\CategoryAttributeSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
     <preference for="Magento\Catalog\Api\Data\ProductSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
     <preference for="Magento\Catalog\Api\ProductAttributeManagementInterface" type="Magento\Catalog\Model\Product\Attribute\Management" />
+    <preference for="Magento\Catalog\Api\AttributeSetManagementInterface" type="Magento\Catalog\Model\Product\Attribute\SetManagement" />
+    <preference for="Magento\Catalog\Api\AttributeSetRepositoryInterface" type="Magento\Catalog\Model\Product\Attribute\SetRepository" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
@@ -475,7 +477,16 @@
     <type name="Magento\Catalog\Model\Resource\Config">
         <plugin name="productListingAttributesCaching" type="Magento\Catalog\Plugin\Model\Resource\Config" />
     </type>
-
+    <type name="Magento\Catalog\Api\Data\CategoryDataBuilder">
+        <arguments>
+            <argument name="metadataService" xsi:type="object">Magento\Catalog\Model\Category\AttributeRepository\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Api\Data\ProductDataBuilder">
+        <arguments>
+            <argument name="metadataService" xsi:type="object">Magento\Catalog\Model\Product\Attribute\Repository\Proxy</argument>
+        </arguments>
+    </type>
     <preference for="Magento\Catalog\Api\ProductLinkTypeListInterface" type="Magento\Catalog\Model\Product\LinkTypeProvider" />
     <preference for="Magento\Catalog\Api\Data\ProductLinkAttributeInterface" type="\Magento\Catalog\Model\ProductLink\Attribute" />
     <preference for="Magento\Catalog\Api\Data\ProductLinkTypeInterface" type="Magento\Catalog\Model\ProductLink\Type" />
