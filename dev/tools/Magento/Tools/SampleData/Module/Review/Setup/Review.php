@@ -53,7 +53,7 @@ class Review implements SetupInterface
     protected $customerAccount;
 
     /**
-     * @var \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
+     * @var \Magento\Review\Model\Resource\Rating\Collection
      */
     protected $ratings;
 
@@ -114,7 +114,7 @@ class Review implements SetupInterface
      * @param string $sku
      * @return int|null
      */
-    public function getProductIdBySku($sku)
+    protected function getProductIdBySku($sku)
     {
         if (empty($this->productIds)) {
             foreach ($this->productCollection as $product) {
@@ -131,7 +131,7 @@ class Review implements SetupInterface
      * @param array $row
      * @return \Magento\Review\Model\Review
      */
-    public function prepareReview($row)
+    protected function prepareReview($row)
     {
         /** @var $review \Magento\Review\Model\Review */
         $review = $this->reviewFactory->create();
@@ -152,39 +152,33 @@ class Review implements SetupInterface
         )->setStores(
             array(1)
         );
-
         return $review;
     }
 
-    public function getRatings()
+    protected function getRatings()
     {
         if (!isset($this->ratings)) {
             $ratingModel = $this->ratingFactory->create();
             $this->ratings = $ratingModel->getResourceCollection();
         }
         return $this->ratings;
-
     }
     /**
      * @param \Magento\Review\Model\Review $review
      * @param array $row
      * @return void
      */
-    public function setReviewRating(\Magento\Review\Model\Review $review, $row)
+    protected function setReviewRating(\Magento\Review\Model\Review $review, $row)
     {
         $reviewRatings = unserialize($row['rating']);
         foreach ($this->getRatings() as $rating) {
             foreach ($rating->getOptions() as $option) {
-                if ($option->getValue() == $reviewRatings[$rating->getId()]) {
-                    $optionId = $option->getOptionId();
-                    if (!empty($optionId)) {
-                        $rating->setReviewId(
-                            $review->getId()
-                        )->addOptionVote(
-                            $optionId,
-                            $this->getProductIdBySku($row['sku'])
-                        );
-                    }
+                $optionId = $option->getOptionId();
+                if (($option->getValue() == $reviewRatings[$rating->getId()]) && !empty($optionId)) {
+                    $rating->setReviewId($review->getId())->addOptionVote(
+                        $optionId,
+                        $this->getProductIdBySku($row['sku'])
+                    );
                 }
             }
         }
@@ -194,13 +188,11 @@ class Review implements SetupInterface
      * @param array $stores
      * @return void
      */
-    public function assignRatingsToWebsite($stores = ['1'])
+    protected function assignRatingsToWebsite($stores = ['1'])
     {
         $stores[] = '0';
         foreach ($this->getRatings() as $rating) {
-            $rating->setStores(
-                $stores
-            )->save();
+            $rating->setStores($stores)->save();
         }
     }
 
