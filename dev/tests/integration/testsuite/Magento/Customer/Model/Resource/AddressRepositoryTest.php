@@ -45,12 +45,12 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             ->setRegionId(1)
             ->create();
         $this->_addressBuilder
-            ->setId(1)
+            ->setId('1')
             ->setCountryId('US')
-            ->setCustomerId(1)
+            ->setCustomerId('1')
             ->setPostcode('75477')
             ->setRegion($region)
-            ->setStreet('Green str, 67')
+            ->setStreet(['Green str, 67'])
             ->setTelephone('3468676')
             ->setCity('CityM')
             ->setFirstname('John')
@@ -58,12 +58,12 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             ->setCompany('CompanyName');
         $address = $this->_addressBuilder->create();
         $this->_addressBuilder
-            ->setId(2)
+            ->setId('2')
             ->setCountryId('US')
-            ->setCustomerId(1)
+            ->setCustomerId('1')
             ->setPostcode('47676')
             ->setRegion($region)
-            ->setStreet('Black str, 48')
+            ->setStreet(['Black str, 48'])
             ->setCity('CityX')
             ->setTelephone('3234676')
             ->setFirstname('John')
