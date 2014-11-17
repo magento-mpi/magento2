@@ -115,7 +115,7 @@ class Converter
      */
     protected function getMatches($content)
     {
-        $regexp = '/{.((?:category.+))(?:url=(?:"([^"]*)")).?(?:attribute=(?:"([^"]*)"))?(?:.}+)/';
+        $regexp = '/{{((?:category[^"]+))(?:url=(?:"([^"]*)")).?(?:attribute=(?:"([^"]*)"))?(?:}}+)/';
         preg_match_all($regexp, $content, $matches);
         return array('path' => $matches[2], 'attribute' => $matches[3], 'type' => $matches[1]);
     }
@@ -127,15 +127,6 @@ class Converter
     protected function getReplaces($matches)
     {
         $replaceData = array();
-
-        array_walk(
-            $matches['path'],
-            'doReplaceCallback',
-            array(
-                $matches,
-                array('category' => array($this, 'matchCategory'), 'categoryId' => array($this, 'matchCategoryId'))
-            )
-        );
 
         foreach ($matches['path'] as $matchKey => $matchValue) {
             $category = $this->getCategoryByUrlKey($matchValue);
@@ -152,7 +143,8 @@ class Converter
                         $matchValue = $matchValue . '?' . $urlAttributes;
 
                         $key = array_filter(explode("?", $matchValue));
-                        $replaceData['regexp'][] = '/{.(category).*(url="(' . $key[0] . ')").*(attribute="('. $key[1] .')").*(.})/';
+                        $replaceData['regexp'][] =
+                            '/{.(category).*(url="(' . $key[0] . ')").*(attribute="('. $key[1] .')").*(.})/';
                     } else {
                         $replaceData['regexp'][] = '/{.(category).*(url="(' . $matchValue .')").*(.})/';
                     }
