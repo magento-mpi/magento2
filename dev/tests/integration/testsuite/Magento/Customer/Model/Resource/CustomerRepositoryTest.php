@@ -33,6 +33,9 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Api\Data\RegionDataBuilder */
     private $regionBuilder;
 
+    /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter */
+    private $converter;
+
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
@@ -40,8 +43,8 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->customerBuilder = $this->objectManager->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         $this->addressBuilder = $this->objectManager->create('Magento\Customer\Api\Data\AddressDataBuilder');
         $this->regionBuilder = $this->objectManager->create('Magento\Customer\Api\Data\RegionDataBuilder');
-        $this->accountManagement = $this->objectManager
-            ->create('Magento\Customer\Api\AccountManagementInterface');
+        $this->accountManagement = $this->objectManager->create('Magento\Customer\Api\AccountManagementInterface');
+        $this->converter = $this->objectManager->create('Magento\Framework\Api\ExtensibleDataObjectConverter');
     }
 
     protected function tearDown()
@@ -140,8 +143,8 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Admin', $customerAfter->getCreatedIn());
         $passwordFromFixture = 'password';
         $this->accountManagement->authenticate($customerAfter->getEmail(), $passwordFromFixture);
-        $attributesBefore = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerBefore);
-        $attributesAfter = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = $this->converter->toFlatArray($customerBefore);
+        $attributesAfter = $this->converter->toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
