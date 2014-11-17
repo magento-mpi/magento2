@@ -82,7 +82,7 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
         $product = $this->getMock('\Magento\Framework\Object', array("getAttribute"), array(), '', false);
         $product->setId(1);
         $time = '04/19/2012 11:59 am';
-        $product->setData('someAttribute',$time);
+        $product->setData('someAttribute', $time);
         $this->_condition->setAttribute('someAttribute');
         $this->_entityAttributeValuesProperty->setValue($this->_condition, array());
 
@@ -104,14 +104,13 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
         $newResource->expects($this->any())
             ->method('getAttribute')
             ->with('someAttribute')
-            ->will($this->returnValue($attribute)
-            );
+            ->will($this->returnValue($attribute));
         $newResource->_config = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
 
         $product->setResource($newResource);
         $this->assertFalse($this->_condition->validate($product));
 
-        $product->setData('someAttribute','option1,option2,option3');
+        $product->setData('someAttribute', 'option1,option2,option3');
         $attribute->setBackendType('null');
         $attribute->setFrontendInput('multiselect');
 
@@ -147,13 +146,13 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
         $newResource->expects($this->any())
             ->method('getAttribute')
             ->with('someAttribute')
-            ->will($this->returnValue($attribute)
-            );
+            ->will($this->returnValue($attribute));
         $newResource->_config = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
 
         $product->setResource($newResource);
 
-        $this->_entityAttributeValuesProperty->setValue($this->_condition,
+        $this->_entityAttributeValuesProperty->setValue(
+            $this->_condition,
             array(
                 1 => array('Dec. 1979 17:30'),
                 2 => array('Dec. 1979 17:30'),
@@ -171,7 +170,8 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
         $product->setAtribute('attribute');
         $product->setId(12);
 
-        $this->_configProperty->setValue($this->_condition,
+        $this->_configProperty->setValue(
+            $this->_condition,
             $this->getMock(
                 'Magento\Eav\Model\Config',
                 array(),
@@ -199,8 +199,7 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
         $newResource->expects($this->any())
             ->method('getAttribute')
             ->with('someAttribute')
-            ->will($this->returnValue($attribute)
-            );
+            ->will($this->returnValue($attribute));
         $newResource->_config = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
 
         $product->setResource($newResource);
@@ -224,8 +223,7 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
         $newResource->expects($this->any())
             ->method('getAttribute')
             ->with('someAttribute')
-            ->will($this->returnValue($attribute)
-            );
+            ->will($this->returnValue($attribute));
         $newResource->_config = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
 
         $product->setResource($newResource);
