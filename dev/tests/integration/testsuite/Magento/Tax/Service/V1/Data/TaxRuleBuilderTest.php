@@ -131,7 +131,8 @@ class TaxRuleBuilderTest extends \PHPUnit_Framework_TestCase
         $taxRuleExpected = $this->builder->populateWithArray($taxRuleDataExpected)->create();
         $taxRuleSomeFields = $this->builder->populateWithArray($taxRuleDataSomeFields)->create();
         $taxRuleMoreFields = $this->builder->populateWithArray($taxRuleDataMoreFields)->create();
-        $taxRuleMerged = $this->builder->mergeDataObjects($taxRuleSomeFields, $taxRuleMoreFields);
+        $taxRuleMerged = $this->builder->mergeDataObjects($taxRuleSomeFields, $taxRuleMoreFields)
+            ->create();
         $this->assertEquals($taxRuleExpected->__toArray(), $taxRuleMerged->__toArray());
     }
 
@@ -164,7 +165,8 @@ class TaxRuleBuilderTest extends \PHPUnit_Framework_TestCase
 
         $taxRuleExpected = $this->builder->populateWithArray($taxRuleDataExpected)->create();
         $taxRuleSomeFields = $this->builder->populateWithArray($taxRuleDataSomeFields)->create();
-        $taxRuleMerged = $this->builder->mergeDataObjectWithArray($taxRuleSomeFields, $taxRuleDataMoreFields);
+        $taxRuleMerged = $this->builder->mergeDataObjectWithArray($taxRuleSomeFields, $taxRuleDataMoreFields)
+            ->create();
         $this->assertEquals($taxRuleExpected->__toArray(), $taxRuleMerged->__toArray());
     }
 

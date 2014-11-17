@@ -2050,4 +2050,5 @@ return array(
     ['getCategoryIndexer', 'Magento\Catalog\Model\Product'],
     ['getCategoryIndexer', 'Magento\Catalog\Model\Product\Action'],
     ['getIndexer', 'Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\AbstractPlugin'],
+    ['_getNewConditionModelInstance', 'Magento\Rule\Model\Condition\Combine'],
 );

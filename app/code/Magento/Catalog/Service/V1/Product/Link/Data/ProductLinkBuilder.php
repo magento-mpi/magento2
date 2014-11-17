@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Service\V1\Product\Link\Data;
 
-use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Builder for the ProductLink Service Data Object
@@ -25,13 +25,13 @@ class ProductLinkBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 
     /**
      * @param \Magento\Framework\Api\ObjectFactory $objectFactory
-     * @param AttributeValueBuilder $valueBuilder
+     * @param AttributeDataBuilder $valueBuilder
      * @param \Magento\Framework\Api\Config\MetadataConfig $metadataService
      * @param array $customAttributesCodes
      */
     public function __construct(
         \Magento\Framework\Api\ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder,
+        AttributeDataBuilder $valueBuilder,
         \Magento\Framework\Api\Config\MetadataConfig $metadataService,
         array $customAttributesCodes = array()
     ) {
