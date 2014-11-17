@@ -27,6 +27,7 @@ use Magento\Framework\Api\SortOrder;
 
 /**
  * Tax class service.
+ * @deprecated @see \Magento\Tax\Api\TaxClassRepositoryInterface
  */
 class TaxClassService implements TaxClassServiceInterface
 {

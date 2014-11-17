@@ -1,18 +1,19 @@
 <?php
 /**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1\Data;
+namespace Magento\Tax\Api\Data;
 
 /**
- * Tax class data
- * @deprecated @see \Magento\Tax\Api\Data\TaxClassInterface
+ * will be implemented by \Magento\Tax\Model\ClassModel
+ * @see \Magento\Tax\Service\V1\Data\TaxClass
  */
-class TaxClass extends \Magento\Framework\Api\AbstractExtensibleObject
+interface TaxClassInterface
 {
     /**#@+
      *
@@ -28,28 +29,19 @@ class TaxClass extends \Magento\Framework\Api\AbstractExtensibleObject
      *
      * @return int|null
      */
-    public function getClassId()
-    {
-        return $this->_get(self::KEY_ID);
-    }
+    public function getClassId();
 
     /**
      * Get tax class name.
      *
      * @return string
      */
-    public function getClassName()
-    {
-        return $this->_get(self::KEY_NAME);
-    }
+    public function getClassName();
 
     /**
      * Get tax class type.
      *
      * @return string
      */
-    public function getClassType()
-    {
-        return $this->_get(self::KEY_TYPE);
-    }
+    public function getClassType();
 }
