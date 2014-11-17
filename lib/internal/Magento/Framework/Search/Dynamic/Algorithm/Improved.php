@@ -59,8 +59,6 @@ class Improved extends AbstractAlgorithm
             $aggregations['std'],
             $aggregations['count']
         );
-        $this->algorithm->setLimits($aggregations['min'], $aggregations['max'] - 0.0001);
-
         return $this->algorithm->calculateSeparators($interval);
     }
 }
