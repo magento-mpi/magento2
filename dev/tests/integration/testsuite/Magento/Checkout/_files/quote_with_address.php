@@ -42,12 +42,12 @@ $quote->setStoreId(
 )->setBillingAddress(
     $quoteShippingAddress
 )->setCheckoutMethod(
-    $customer->getMode()
+    'customer'
 )->setPasswordHash(
     $accountManagement->getPasswordHash('password')
 )->setReservedOrderId(
     'test_order_1'
-)->setEmail(
+)->setCustomerEmail(
     'aaa@aaa.com'
 )->addProduct(
     $product->load($product->getId()),
