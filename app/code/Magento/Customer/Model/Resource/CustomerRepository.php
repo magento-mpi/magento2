@@ -171,7 +171,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         if ($customer->getAddresses() !== null) {
             if ($customer->getId()) {
                 $existingAddresses = $this->getById($customer->getId())->getAddresses();
-                $getIdFunc = function($address) {
+                $getIdFunc = function ($address) {
                     return $address->getId();
                 };
                 $existingAddressIds = array_map($getIdFunc, $existingAddresses);

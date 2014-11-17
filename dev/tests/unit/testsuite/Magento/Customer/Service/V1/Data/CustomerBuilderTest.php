@@ -474,7 +474,8 @@ class CustomerBuilderTest extends \PHPUnit_Framework_TestCase
         );
         $customer = $this->_customerBuilder->populateWithArray($customerData)->create();
 
-        // website_id gets returned because of the typecasting in \Magento\Customer\Service\V1\Data\Customer::getWebsiteId
+        /* website_id gets returned because of the typecasting in
+        \Magento\Customer\Service\V1\Data\Customer::getWebsiteId */
         $this->assertEquals(
             $expectedCustomerData,
             $this->_extensibleDataObjectConverter->toFlatArray($customer)

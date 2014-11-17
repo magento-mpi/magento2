@@ -973,7 +973,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                     $this->assertArrayNotHasKey($key, $dataInService);
                 } else {
                     if ($key === 'website_id') {
-                        continue; // website_id gets returned because of the typecasting in \Magento\Customer\Service\V1\Data\Customer::getWebsiteId
+                        continue;
+                        /* website_id gets returned because of the typecasting in
+                        \Magento\Customer\Service\V1\Data\Customer::getWebsiteId */
                     }
                     $this->assertEquals($value, $dataInService[$key], 'Failed asserting value for ' . $key);
                 }
