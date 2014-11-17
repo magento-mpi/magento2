@@ -70,7 +70,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->fulltextCollection = $this->getMockBuilder('\Magento\CatalogSearch\Model\Resource\Fulltext\Collection')
             ->disableOriginalConstructor()
-            ->setMethods(['addFieldToFilter', 'getFacetedData'])
+            ->setMethods(['addFieldToFilter', 'getFacetedData', 'getSize'])
             ->getMock();
         $this->layer->expects($this->atLeastOnce())
             ->method('getProductCollection')
@@ -199,10 +199,43 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $attributeCode = 'attributeCode';
         $attributeValue = 'attributeValue';
         $attributeLabel = 'attributeLabel';
+        $selectedOptions = [
+            [
+                'label' => 'selectedOptionLabel1',
+                'value' => 'selectedOptionValue1',
+                'count' => 25,
+            ],
+            [
+                'label' => 'selectedOptionLabel2',
+                'value' => 'selectedOptionValue2',
+                'count' => 13,
+            ],
+        ];
+        $facetedData = [
+            'selectedOptionValue1' => ['count' => 10],
+            'selectedOptionValue2' => ['count' => 45],
+        ];
 
-        $this->attribute->expects($this->exactly(2))
+        $builtData = [
+            [
+                'label' => $selectedOptions[0]['label'],
+                'value' => $selectedOptions[0]['value'],
+                'count' => $facetedData[$selectedOptions[0]['value']]['count'],
+            ],
+            [
+                'label' => $selectedOptions[1]['label'],
+                'value' => $selectedOptions[1]['value'],
+                'count' => $facetedData[$selectedOptions[1]['value']]['count'],
+            ]
+        ];
+
+        $this->attribute->expects($this->exactly(3))
             ->method('getAttributeCode')
             ->will($this->returnValue($attributeCode));
+        $this->attribute->expects($this->exactly(count($selectedOptions)))
+            ->method('getIsFilterable')
+            ->will($this->returnValue(true));
+
         $this->target->setAttributeModel($this->attribute);
 
         $this->request->expects($this->once())
@@ -215,10 +248,18 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ->with($attributeCode, $attributeValue)
             ->will($this->returnSelf());
 
+        $this->fulltextCollection->expects($this->once())
+            ->method('getSize')
+            ->will($this->returnValue(50));
+
         $this->frontend->expects($this->once())
             ->method('getOption')
             ->with($attributeValue)
             ->will($this->returnValue($attributeLabel));
+        $this->frontend->expects($this->once())
+            ->method('getSelectOptions')
+            ->will($this->returnValue($selectedOptions));
+
         $filterItem = $this->createFilterItem(0, $attributeLabel, $attributeValue, 0);
 
         $this->state->expects($this->once())
@@ -226,9 +267,38 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ->with($filterItem)
             ->will($this->returnSelf());
 
+        $this->fulltextCollection->expects($this->once())
+            ->method('getFacetedData')
+            ->will($this->returnValue($facetedData));
+
+        $this->itemDataBuilder->expects($this->at(0))
+            ->method('addItemData')
+            ->with(
+                $selectedOptions[0]['label'],
+                $selectedOptions[0]['value'],
+                $facetedData[$selectedOptions[0]['value']]['count']
+            )
+            ->will($this->returnSelf());
+        $this->itemDataBuilder->expects($this->at(1))
+            ->method('addItemData')
+            ->with(
+                $selectedOptions[1]['label'],
+                $selectedOptions[1]['value'],
+                $facetedData[$selectedOptions[1]['value']]['count']
+            )
+            ->will($this->returnSelf());
+        $this->itemDataBuilder->expects($this->once())
+            ->method('build')
+            ->will($this->returnValue($builtData));
+
+        $expectedFilterItems = [
+            $this->createFilterItem(1, $builtData[0]['label'], $builtData[0]['value'], $builtData[0]['count']),
+            $this->createFilterItem(2, $builtData[1]['label'], $builtData[1]['value'], $builtData[1]['count']),
+        ];
+
         $result = $this->target->apply($this->request)->getItems();
 
-        $this->assertEquals([], $result);
+        $this->assertEquals($expectedFilterItems, $result);
     }
 
     public function testGetItemsWithApply()
@@ -300,6 +370,10 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->itemDataBuilder->expects($this->once())
             ->method('build')
             ->will($this->returnValue($builtData));
+
+        $this->fulltextCollection->expects($this->once())
+            ->method('getSize')
+            ->will($this->returnValue(50));
 
         $expectedFilterItems = [
             $this->createFilterItem(0, $builtData[0]['label'], $builtData[0]['value'], $builtData[0]['count']),
