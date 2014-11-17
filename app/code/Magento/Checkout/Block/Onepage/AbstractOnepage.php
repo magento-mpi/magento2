@@ -7,7 +7,6 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
-use bar\C;
 use Magento\Customer\Model\Context;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
