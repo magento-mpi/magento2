@@ -8,7 +8,7 @@
     * Stabilized the Cms module
     * Stabilized the SalesRule module
 * Performance improvements:
-    * Introduce CatalogRule indexers based on Mview
+    * Introduced CatalogRule indexers based on Mview
     * Significantly decreased the amount of unused objects, mostly in category and product view scenarios:
 		* Got rid of non-shared indexer instances all over the code introducing Magento\Indexer\Model\IndexerRegistry
 		* Magento\Catalog\Pricing\Price\BasePrice being created on demand only, instead of unconditioned creation in constructor
@@ -20,7 +20,7 @@
     * Speed up all Checkout steps of the One Page Checkout
     * Updated the benchmark.jmx jmeter script in the performance toolkit
 * Fixed bugs:
-    * Fixed an issue where performance toolkit generator created Products/Categories without URL Rewrites due to install area elimination
+    * Fixed an issue where performance toolkit generator created Products/Categories without URL rewrites due to install area elimination
     * Fixed an issue where the Custom Options fieldset on Product Information page was collapsible
     * Fixed an issue where the Base URL was added to target path for Custom UrlRewrite
     * Fixed an issue where an invalid Cross-sells amount was displayed in the Shopping Cart
