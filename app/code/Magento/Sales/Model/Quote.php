@@ -162,6 +162,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_payments;
 
     /**
+     * @var \Magento\Sales\Model\Quote\Payment
+     */
+    protected $_currentPayment;
+
+    /**
      * Different groups of error infos
      *
      * @var array
@@ -315,6 +320,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $customerBuilder;
 
     /**
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     */
+    protected $customerRepository;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
@@ -343,6 +353,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder
      * @param \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -376,6 +387,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder,
         \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
@@ -405,6 +417,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->objectFactory = $objectFactory;
         $this->addressBuilder = $addressBuilder;
         $this->customerBuilder = $customerBuilder;
+        $this->customerRepository = $customerRepository;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -544,6 +557,10 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         if (null !== $this->_payments) {
             $this->getPaymentsCollection()->save();
         }
+
+        if (null !== $this->_currentPayment) {
+            $this->getPayment()->save();
+        }
         return $this;
     }
 
@@ -673,7 +690,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Retrieve customer model object
      *
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return \Magento\Customer\Api\Data\CustomerInterface|\Magento\Framework\Api\ExtensibleDataInterface
      */
     public function getCustomer()
     {
@@ -682,15 +699,13 @@ class Quote extends \Magento\Framework\Model\AbstractModel
          * _customer and _customerFactory variables should be eliminated as well
          */
         if (null === $this->_customer) {
-            $this->_customer = $this->_customerFactory->create();
-            $customerId = $this->getCustomerId();
-            if ($customerId) {
-                $this->_customer->load($customerId);
-                if (!$this->_customer->getId()) {
-                    $this->_customer->setCustomerId(null);
-                }
+            try {
+                $this->_customer = $this->customerRepository->getById($this->getCustomerId());
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                $this->_customer = $this->customerBuilder->setId(null)->create();
             }
         }
+
         return $this->_customer;
     }
 
@@ -720,10 +735,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function addCustomerAddress(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        $this->addressBuilder->mergeDataObjectWithArray(
+        $address = $this->addressBuilder->mergeDataObjectWithArray(
             $address,
             [\Magento\Customer\Api\Data\AddressInterface::CUSTOMER_ID => $this->getCustomer()->getId()]
-        );
+        )->create();
+        $this->addressRepository->save($address);
 
         return $this;
     }
@@ -736,7 +752,10 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function updateCustomerData(\Magento\Customer\Api\Data\CustomerInterface $customer)
     {
-        $this->setCustomer($this->customerBuilder->mergeDataObjects($this->getCustomer(), $customer));
+        $customer = $this->customerBuilder->mergeDataObjects($this->getCustomer(), $customer)
+            ->create();
+        $customer = $this->customerRepository->save($customer);
+        $this->setCustomer($customer);
         return $this;
     }
 
@@ -1550,7 +1569,15 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function getPayment()
     {
-        foreach ($this->getPaymentsCollection() as $payment) {
+        if (null === $this->_currentPayment || !$this->_currentPayment) {
+            $this->_currentPayment = $this->_quotePaymentCollectionFactory->create()
+                ->setQuoteFilter($this->getId())
+                ->getFirstItem();
+        }
+        if ($payment = $this->_currentPayment) {
+            if ($this->getId()) {
+                $payment->setQuote($this);
+            }
             if (!$payment->isDeleted()) {
                 return $payment;
             }

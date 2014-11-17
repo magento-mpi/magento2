@@ -55,14 +55,14 @@ interface CustomerInterface extends ExtensibleDataInterface
     /**
      * Get default billing address id
      *
-     * @return \Magento\Customer\Api\Data\AddressInterface|null
+     * @return string|null
      */
     public function getDefaultBilling();
 
     /**
      * Get default shipping address id
      *
-     * @return \Magento\Customer\Api\Data\AddressInterface|null
+     * @return string|null
      */
     public function getDefaultShipping();
 

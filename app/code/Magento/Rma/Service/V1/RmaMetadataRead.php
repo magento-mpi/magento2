@@ -38,6 +38,7 @@ class RmaMetadataRead implements RmaMetadataReadInterface
      * Constructor
      *
      * @param MetadataConfig $metadataConfig
+     * @param \Magento\Customer\Api\MetadataInterface $metadata
      */
     public function __construct(MetadataConfig $metadataConfig, \Magento\Customer\Api\MetadataInterface $metadata)
     {

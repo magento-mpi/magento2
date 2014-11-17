@@ -24,19 +24,11 @@ class Page extends Block
     protected $cmsPageContentClass = ".column.main";
 
     /**
-     * Widgets selectors
+     * Cms page title
      *
-     * @var array
+     * @var string
      */
-    protected $widgetSelectors = [
-        'CMS Page Link' => '.widget.widget-cms-link',
-        'Catalog Category Link' => '.widget.category.link',
-        'Catalog Product Link' => '.widget.product.link',
-        'Recently Compared Products' => '.block.compare',
-        'Recently Viewed Products' => '.block.viewed.links',
-        'Catalog New Products List' => '.widget.new',
-        'CMS Static Block' => '.widget.static.block'
-    ];
+    protected $cmsPageTitle = ".page-title";
 
     /**
      * Get page content text
@@ -49,18 +41,12 @@ class Page extends Block
     }
 
     /**
-     * Check is visible widget selector
+     * Get page title
      *
-     * @param string $widgetType
-     * @return bool
-     * @throws \Exception
+     * @return string
      */
-    public function isWidgetVisible($widgetType)
+    public function getPageTitle()
     {
-        if (isset($this->widgetSelectors[$widgetType])) {
-            return $this->_rootElement->find($this->widgetSelectors[$widgetType])->isVisible();
-        } else {
-            throw new \Exception('Determine how to find the widget on the page.');
-        }
+        return $this->_rootElement->find($this->cmsPageTitle)->getText();
     }
 }

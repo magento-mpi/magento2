@@ -22,7 +22,7 @@ use Magento\Framework\StoreManagerInterface;
 class Converter
 {
     /**
-     * @var CustomerDataObjectBuilder
+     * @var \Magento\Customer\Api\Data\CustomerInterface
      */
     protected $_customerBuilder;
 
@@ -37,12 +37,12 @@ class Converter
     protected $storeManager;
 
     /**
-     * @param CustomerDataObjectBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder
      * @param CustomerFactory $customerFactory
      * @param StoreManagerInterface $storeManager
      */
     public function __construct(
-        CustomerDataObjectBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder,
         CustomerFactory $customerFactory,
         StoreManagerInterface $storeManager
     ) {

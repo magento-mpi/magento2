@@ -34,6 +34,7 @@ class Info extends \Magento\Backend\Block\Template implements \Magento\Backend\B
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param CustomerRepositoryInterface $customerRepository
      * @param array $data
      */
     public function __construct(

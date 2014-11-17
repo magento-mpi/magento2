@@ -237,12 +237,12 @@ class Checkout
     protected $_checkoutSession;
 
     /**
-     * @var
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
     protected $_customerRepository;
 
     /**
-     * @var
+     * @var \Magento\Customer\Model\AccountManagement
      */
     protected $_accountManagement;
 
