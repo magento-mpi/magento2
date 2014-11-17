@@ -122,12 +122,15 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
      */
     public function testUpdate()
     {
+        $this->markTestIncomplete('MAGETWO-30759');
         $productData = [
             ProductInterface::NAME => 'Very Simple Product', //new name
             ProductInterface::SKU => 'simple', //sku from fixture
         ];
         $product = $this->getSimpleProductData($productData);
-        $product[ProductInterface::SKU] = null;
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+            $product[ProductInterface::SKU] = null;
+        }
 
         $serviceInfo = [
             'rest' => [
@@ -146,6 +149,7 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
         $this->assertArrayHasKey(ProductInterface::SKU, $response);
         $this->assertArrayHasKey(ProductInterface::NAME, $response);
         $this->assertEquals($productData[ProductInterface::NAME], $response[ProductInterface::NAME]);
+        $this->assertEquals($productData[ProductInterface::SKU], $response[ProductInterface::SKU]);
     }
 
     /**
