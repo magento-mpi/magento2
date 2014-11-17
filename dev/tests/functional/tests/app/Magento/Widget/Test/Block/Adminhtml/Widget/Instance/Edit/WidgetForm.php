@@ -8,28 +8,30 @@
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit;
 
+use Mtf\Client\Element;
+use Mtf\Fixture\FixtureInterface;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
- * Class Form
+ * Class WidgetForm
  * Widget Instance edit form
  */
 class WidgetForm extends FormTabs
 {
     /**
-     * 'Continue' button locator
+     * Fill form with tabs
      *
-     * @var string
+     * @param FixtureInterface $fixture
+     * @param Element|null $element
+     * @return FormTabs
      */
-    protected $continueButton = '[data-ui-id="widget-button"]';
-
-    /**
-     * Click 'Continue' button
-     *
-     * @return void
-     */
-    public function clickContinue()
+    public function fill(FixtureInterface $fixture, Element $element = null)
     {
-        $this->_rootElement->find($this->continueButton)->click();
+        $tabs = $this->getFieldsByTabs($fixture);
+        $this->fillTabs(['settings' => $tabs['settings']]);
+        unset($tabs['settings']);
+        $this->reinitRootElement();
+
+        return $this->fillTabs($tabs, $element);
     }
 }
