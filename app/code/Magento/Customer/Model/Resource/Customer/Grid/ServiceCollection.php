@@ -65,7 +65,7 @@ class ServiceCollection extends AbstractServiceCollection
     /**
      * Creates a collection item that represents a customer for the customer Grid.
      *
-     * @param CustomerInterface $customerDetail Input data for creating the item.
+     * @param CustomerInterface $customer Input data for creating the item.
      * @return \Magento\Framework\Object Collection item that represents a customer
      */
     protected function createCustomerItem(CustomerInterface $customer)
