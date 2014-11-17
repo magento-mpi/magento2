@@ -16,15 +16,10 @@
             <field name="entity_id" dataType="text" visible="false"/>
             <field name="default_billing" source="eav" dataType="boolean" visible="false"/>
             <field name="default_shipping" source="eav" dataType="boolean" visible="false"/>
-            <field name="website_code" dataType="number" formElement="select" source="option"
-                   label="Associate to Website">
+            <field name="website_id" dataType="number" formElement="select" source="eav" label="Associate to Website">
                 <constraints>
                     <validate name="required-entry"/>
                 </constraints>
-                <reference target="website"
-                           referencedField="website_id"
-                           targetField="website_id"
-                           neededField="name"/>
                 <tooltip>
                     <link>http://www.magentocommerce.com/knowledge-base/entry/understanding-store-scopes</link>
                     <description>If your Magento Go site has multiple views, you can set the scope to apply to a specific view.</description>
