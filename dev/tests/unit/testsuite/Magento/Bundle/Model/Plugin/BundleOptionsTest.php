@@ -41,6 +41,21 @@ class BundleOptionsTest extends \PHPUnit_Framework_TestCase
      */
     protected $linkBuilderMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $productRepositoryMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $productMock;
+
+    /**
+     * @var \Closure
+     */
+    protected $closureMock;
+
     protected function setUp()
     {
         $this->writeServiceMock =
@@ -52,6 +67,11 @@ class BundleOptionsTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Bundle\Service\V1\Data\Product\OptionBuilder', [], [], '', false);
         $this->linkBuilderMock =
             $this->getMock('Magento\Bundle\Service\V1\Data\Product\LinkBuilder', [], [], '', false);
+        $this->productRepositoryMock = $this->getMock('Magento\Catalog\Api\ProductRepositoryInterface');
+        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->closureMock = function () {
+            return $this->productMock;
+        };
         $this->plugin = new BundleOptions(
             $this->writeServiceMock,
             $this->readServiceMock,
@@ -59,6 +79,49 @@ class BundleOptionsTest extends \PHPUnit_Framework_TestCase
             $this->optionBuilderMock,
             $this->linkBuilderMock
         );
+    }
+
+    public function testAroundSaveWhenProductIsSimple()
+    {
+        $this->productMock->expects($this->once())->method('getTypeId')->willReturn('simple');
+        $this->productMock->expects($this->never())->method('getData')->with('bundle_product_options');
+        $this->assertEquals($this->productMock,
+            $this->plugin->aroundSave($this->productRepositoryMock, $this->closureMock, $this->productMock, false));
+    }
+
+    public function testAroundSaveWhenProductIsBundle()
+    {
+        $bundleProductOptions = [
+            [
+                "product_links" => [
+                    [
+                        "sku" => 'product_sku'
+                    ]
+                ]
+            ]
+        ];
+
+        $this->productMock
+            ->expects($this->once())
+            ->method('getTypeId')
+            ->willReturn(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE);
+        $this->productMock
+            ->expects($this->once())
+            ->method('getData')
+            ->with('bundle_product_options')
+            ->willReturn($bundleProductOptions);
+        $linkMock = $this->getMock('Magento\Bundle\Service\V1\Data\Product\Link', [], [], '', false);
+        $this->linkBuilderMock->expects($this->once())->method('setSku')->willReturnSelf();
+        $this->linkBuilderMock->expects($this->once())->method('create')->willReturn($linkMock);
+        $optionMock = $this->getMock('Magento\Bundle\Service\V1\Data\Product\Option', [], [], '', false);
+        $this->optionBuilderMock->expects($this->once())->method('setProductLinks')->willReturnSelf();
+        $this->optionBuilderMock->expects($this->once())->method('create')->willReturn($optionMock);
+        $this->writeServiceMock
+            ->expects($this->once())
+            ->method('addOptionToProduct')
+            ->with($this->productMock, $optionMock);
+        $this->assertEquals($this->productMock,
+            $this->plugin->aroundSave($this->productRepositoryMock, $this->closureMock, $this->productMock, false));
     }
 
     public function testAroundGet()
