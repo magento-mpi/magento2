@@ -15,6 +15,9 @@ use Magento\Catalog\Model\Layer\Filter\AbstractFilter;
  */
 class Price extends AbstractFilter
 {
+    /** Price delta for filter  */
+    const PRICE_DELTA = 0.005;
+
     /**
      * @var \Magento\Catalog\Model\Layer\Filter\DataProvider\Price
      */
@@ -113,7 +116,7 @@ class Price extends AbstractFilter
 
         $this->getLayer()->getProductCollection()->addFieldToFilter(
             'price',
-            ['from' => $from, 'to' =>  $from == $to ? $to : $to - 0.005]
+            ['from' => $from, 'to' =>  empty($to) || $from == $to ? $to : $to - self::PRICE_DELTA]
         );
 
         $this->getLayer()->getState()->addFilter(
@@ -189,8 +192,6 @@ class Price extends AbstractFilter
                 }
                 if ($to == '*') {
                     $to = '';
-                } else {
-                    $to = $to - 0.001;
                 }
                 $label = $this->_renderRangeLabel(
                     empty($from) ? 0 : $from * $this->getCurrencyRate(),
