@@ -11,6 +11,7 @@ use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Model\Customer\Mapper;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Service\V1\Data\AddressConverter;
@@ -46,6 +47,17 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
      */
     private $_extensibleDataObjectConverter;
 
+    /**
+     * @var Mapper
+     */
+    private $customerMapper;
+
+    /**
+     * @var \Magento\Customer\Model\Address\Mapper
+     */
+    private $addressMapper;
+
+
     public function setUp()
     {
         $this->_objectManager = Bootstrap::getObjectManager();
@@ -62,6 +74,14 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
 
         $this->_extensibleDataObjectConverter = $this->_objectManager->get(
             'Magento\Framework\Api\ExtensibleDataObjectConverter'
+        );
+
+        $this->customerMapper = $this->_objectManager->get(
+            'Magento\Customer\Model\Customer\Mapper'
+        );
+
+        $this->addressMapper = $this->_objectManager->get(
+            'Magento\Customer\Model\Address\Mapper'
         );
     }
 
@@ -160,13 +180,13 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_customerRepository->getById(1);
         $this->_customerData = array(
             'customer_id' => $customer->getId(),
-            'account' => $this->_extensibleDataObjectConverter->toFlatArray($customer)
+            'account' => $this->customerMapper->toFlatArray($customer)
         );
         $this->_customerData['account']['id'] = $customer->getId();
         /** @var Address[] $addresses */
-        $addresses = $this->_addressService->getById(1);
+        $addresses = $customer->getAddresses();
         foreach ($addresses as $addressData) {
-            $this->_customerData['address'][$addressData->getId()] = AddressConverter::toFlatArray($addressData);
+            $this->_customerData['address'][$addressData->getId()] = $this->addressMapper->toFlatArray($addressData);
             $this->_customerData['address'][$addressData->getId()]['id'] = $addressData->getId();
         }
         $this->_backendSession->setCustomerData($this->_customerData);
