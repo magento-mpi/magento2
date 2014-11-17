@@ -16,7 +16,7 @@ use Magento\Catalog\Model\Layer\Filter\AbstractFilter;
 class Price extends AbstractFilter
 {
     /** Price delta for filter  */
-    const PRICE_DELTA = 0.005;
+    const PRICE_DELTA = 0.001;
 
     /**
      * @var \Magento\Catalog\Model\Layer\Filter\DataProvider\Price
@@ -188,10 +188,10 @@ class Price extends AbstractFilter
                 $count = $aggregation['count'];
                 list($from, $to) = explode('_', $key);
                 if ($from == '*') {
-                    $from = '';
+                    $from = $this->getFrom($to);
                 }
                 if ($to == '*') {
-                    $to = '';
+                    $to = $this->getTo($to);
                 }
                 $label = $this->_renderRangeLabel(
                     empty($from) ? 0 : $from * $this->getCurrencyRate(),
@@ -222,6 +222,20 @@ class Price extends AbstractFilter
         $interval = $this->dataProvider->getInterval();
         if ($interval && is_numeric($interval[1]) && $interval[1] > $from) {
             $to = $interval[1];
+        }
+        return $to;
+    }
+
+    /**
+     * @param float $from
+     * @return float
+     */
+    protected function getFrom($from)
+    {
+        $to = '';
+        $interval = $this->dataProvider->getInterval();
+        if ($interval && is_numeric($interval[0]) && $interval[0] < $from) {
+            $to = $interval[0];
         }
         return $to;
     }
