@@ -27,12 +27,12 @@ interface TaxClassRepositoryInterface
     /**
      * Retrieve tax classes which match a specific criteria.
      *
-     * @param \Magento\Framework\Api\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Tax\Service\V1\Data\TaxClassSearchResults containing Data\TaxClass
      * @throws \Magento\Framework\Exception\InputException
      * @see \Magento\Tax\Service\V1\TaxClassServiceInterface::searchTaxClass
      */
-    public function getList(\Magento\Framework\Api\SearchCriteria $searchCriteria);
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 
     /**
      * Create a Tax Class

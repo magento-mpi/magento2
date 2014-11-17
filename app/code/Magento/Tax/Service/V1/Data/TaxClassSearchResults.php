@@ -12,6 +12,7 @@ use Magento\Framework\Api\SearchResults;
 
 /**
  * Data object for Tax class search results.
+ * @see TaxClassSearchResultsInterface
  */
 class TaxClassSearchResults extends SearchResults
 {

@@ -15,12 +15,9 @@ use Magento\Framework\Exception\CouldNotDeleteException;
  *
  * @method \Magento\Tax\Model\Resource\TaxClass _getResource()
  * @method \Magento\Tax\Model\Resource\TaxClass getResource()
- * @method string getClassName()
- * @method \Magento\Tax\Model\ClassModel setClassName(string $value)
- * @method string getClassType()
  * @method \Magento\Tax\Model\ClassModel setClassType(string $value)
  */
-class ClassModel extends \Magento\Framework\Model\AbstractModel
+class ClassModel extends \Magento\Framework\Model\AbstractModel implements \Magento\Tax\Api\Data\TaxClassInterface
 {
     /**
      * Defines Customer Tax Class string
@@ -106,5 +103,29 @@ class ClassModel extends \Magento\Framework\Model\AbstractModel
     {
         $this->checkClassCanBeDeleted();
         return parent::_beforeDelete();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getClassId()
+    {
+        return $this->getData('class_id');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getClassName()
+    {
+        return $this->getData('class_name');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getClassType()
+    {
+        return $this->getData('class_type');
     }
 }
