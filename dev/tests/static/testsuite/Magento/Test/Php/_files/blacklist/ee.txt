@@ -7,3 +7,4 @@ app/code/Magento/Banner/Controller/Adminhtml/Banner.php
 app/code/Magento/Banner/Model/Resource/Setup.php
 app/code/Magento/Banner/view
 dev/tests/functional/tests/app/Magento/Core/Test/Repository/Config.php
+app/code/Magento/Solr
