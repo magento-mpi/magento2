@@ -62,7 +62,13 @@ class BundleOptionsTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Bundle\Service\V1\Product\Option\WriteService', [], [], '', false);
         $this->readServiceMock =
             $this->getMock('Magento\Bundle\Service\V1\Product\Option\ReadService', [], [], '', false);
-        $this->productBuilderMock = $this->getMock('Magento\Catalog\Api\Data\ProductDataBuilder', [], [], '', false);
+        $this->productBuilderMock = $this->getMock(
+            'Magento\Catalog\Api\Data\ProductDataBuilder',
+            ['populate', 'setCustomAttribute', 'create'],
+            [],
+            '',
+            false
+        );
         $this->optionBuilderMock =
             $this->getMock('Magento\Bundle\Service\V1\Data\Product\OptionBuilder', [], [], '', false);
         $this->linkBuilderMock =
