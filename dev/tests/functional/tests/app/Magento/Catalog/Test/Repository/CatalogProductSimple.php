@@ -11,8 +11,7 @@ namespace Magento\Catalog\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class CatalogProductSimple
- * Data for creation Catalog Product Simple
+ * Data for creation Catalog Product Simple.
  */
 class CatalogProductSimple extends AbstractRepository
 {
@@ -31,6 +30,7 @@ class CatalogProductSimple extends AbstractRepository
             'attribute_set_id' => ['dataSet' => 'default'],
             'name' => 'Simple Product %isolation%',
             'sku' => 'sku_simple_product_%isolation%',
+            'is_virtual' => 'No',
             'weight' => 1,
             'quantity_and_stock_status' => [
                 'qty' => 25.0000,
@@ -203,7 +203,7 @@ class CatalogProductSimple extends AbstractRepository
         ];
 
         $this->_data['adc_123_simple_for_advancedsearch'] = [
-            'name' => 'adc_123',
+            'name' => 'adc_123_%isolation%',
             'sku' => 'adc_123',
             'price' => ['value' => 100.00, 'preset' => '-'],
             'tax_class_id' => ['dataSet' => 'None'],
@@ -251,7 +251,7 @@ class CatalogProductSimple extends AbstractRepository
         ];
 
         $this->_data['abc_dfj_simple_for_advancedsearch'] = [
-            'name' => 'abc_dfj',
+            'name' => 'abc_dfj_%isolation%',
             'sku' => 'abc_dfj',
             'price' => ['value' => 50.00, 'preset' => '-'],
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],

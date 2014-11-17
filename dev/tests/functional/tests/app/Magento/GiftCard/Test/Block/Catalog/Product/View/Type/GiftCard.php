@@ -16,75 +16,75 @@ use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class GiftCard
- * Catalog gift card product info block
+ * Catalog gift card product info block.
  */
 class GiftCard extends Form
 {
     /**
-     * Selector for price
+     * Selector for price.
      *
      * @var string
      */
     protected $price = '.price-box .regular-price > .price';
 
     /**
-     * Gift Card Amount field
+     * Gift Card Amount field.
      *
      * @var string
      */
     protected $amountInput = '[name="custom_giftcard_amount"]';
 
     /**
-     * Selector for giftcard amount
+     * Selector for giftcard amount.
      *
      * @var string
      */
     protected $amountSelect = '[name="giftcard_amount"]';
 
     /**
-     * Selector for "Custom amount" option of select
+     * Selector for "Custom amount" option of select.
      *
      * @var string
      */
     protected $amountCustomOption = 'Other Amount...';
 
     /**
-     * Gift Card Sender Name field
+     * Gift Card Sender Name field.
      *
      * @var string
      */
     protected $senderName = '[name="giftcard_sender_name"]';
 
     /**
-     * Gift Card Sender Email field
+     * Gift Card Sender Email field.
      *
      * @var string
      */
     protected $senderEmail = '[name="giftcard_sender_email"]';
 
     /**
-     * Gift Card Recipient Name field
+     * Gift Card Recipient Name field.
      *
      * @var string
      */
     protected $recipientName = '[name="giftcard_recipient_name"]';
 
     /**
-     * Gift Card Recipient Email field
+     * Gift Card Recipient Email field.
      *
      * @var string
      */
     protected $recipientEmail = '[name="giftcard_recipient_email"]';
 
     /**
-     * Selector for Gift card message
+     * Selector for Gift card message.
      *
      * @var string
      */
     protected $message = '[name="giftcard_message"]';
 
     /**
-     * Get amount values
+     * Get amount values.
      *
      * @return array
      */
@@ -114,7 +114,7 @@ class GiftCard extends Form
     }
 
     /**
-     * Select "Custom amount" option
+     * Select "Custom amount" option.
      *
      * @return void
      */
@@ -125,7 +125,7 @@ class GiftCard extends Form
     }
 
     /**
-     * Verify that text field for Gift Card amount is present
+     * Verify that text field for Gift Card amount is present.
      *
      * @return bool
      */
@@ -135,7 +135,7 @@ class GiftCard extends Form
     }
 
     /**
-     * Verify that select of Gift Card amount is present
+     * Verify that select of Gift Card amount is present.
      *
      * @return bool
      */
@@ -145,7 +145,7 @@ class GiftCard extends Form
     }
 
     /**
-     * Verify that text field for "Sender Name" is present
+     * Verify that text field for "Sender Name" is present.
      *
      * @return bool
      */
@@ -155,7 +155,7 @@ class GiftCard extends Form
     }
 
     /**
-     * Verify that text field for "Sender Email" is present
+     * Verify that text field for "Sender Email" is present.
      *
      * @return bool
      */
@@ -165,7 +165,7 @@ class GiftCard extends Form
     }
 
     /**
-     * Verify that text field for "Recipient Name" is present
+     * Verify that text field for "Recipient Name" is present.
      *
      * @return bool
      */
@@ -175,7 +175,7 @@ class GiftCard extends Form
     }
 
     /**
-     * Verify that text field for "Recipient Email" is present
+     * Verify that text field for "Recipient Email" is present.
      *
      * @return bool
      */
@@ -185,7 +185,7 @@ class GiftCard extends Form
     }
 
     /**
-     * Verify that text field for "Message" is present
+     * Verify that text field for "Message" is present.
      *
      * @return bool
      */
@@ -196,7 +196,7 @@ class GiftCard extends Form
 
     /**
      * Verifying that Gift Card fields on fronted correspond to Gift Card type:
-     * Virtual and Combined - Sender Name, Sender Email, Recipient Name, Recipient Email
+     * Virtual and Combined - Sender Name, Sender Email, Recipient Name, Recipient Email.
      *
      * @return bool
      */
@@ -209,7 +209,7 @@ class GiftCard extends Form
     }
 
     /**
-     * Fill the GiftCard options
+     * Fill the GiftCard options.
      *
      * @param FixtureInterface $product
      * @param Element|null $element
@@ -220,14 +220,14 @@ class GiftCard extends Form
         /** @var GiftCardProduct $product */
         $giftcardAmounts = $product->getGiftcardAmounts();
         $checkoutData = $product->getCheckoutData();
-        $checkoutGiftCardOptions = $checkoutData['options']['giftcard_options'];
-
-        // Replace option key to value
-        $amountOptionKey = str_replace('option_key_', '', $checkoutGiftCardOptions['giftcard_amount']);
-        $checkoutGiftCardOptions['giftcard_amount'] = $giftcardAmounts[$amountOptionKey]['price'];
-
-        $mapping = $this->dataMapping($checkoutGiftCardOptions);
-        $this->_fill($mapping, $element);
+        if (isset($checkoutData['options']['giftcard_options'])) {
+            $checkoutGiftCardOptions = $checkoutData['options']['giftcard_options'];
+            // Replace option key to value
+            $amountOptionKey = str_replace('option_key_', '', $checkoutGiftCardOptions['giftcard_amount']);
+            $checkoutGiftCardOptions['giftcard_amount'] = $giftcardAmounts[$amountOptionKey]['price'];
+            $mapping = $this->dataMapping($checkoutGiftCardOptions);
+            $this->_fill($mapping, $element);
+        }
 
         return $this;
     }

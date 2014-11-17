@@ -44,6 +44,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
     public function testIsQtyCheckApplicable()
     {
+        $this->_model->setData('backorders', \Magento\CatalogInventory\Model\Stock::BACKORDERS_YES_NONOTIFY);
         $this->assertTrue($this->_model->checkQty(1.0));
     }
 
@@ -55,5 +56,10 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->_model->setData('backorders', 3);
         $result = $this->_model->checkQuoteItemQty(1, 1);
         $this->assertEquals('We don\'t have as many "qwerty" as you requested.', $result->getMessage());
+    }
+
+    public function testHasAdminArea()
+    {
+        $this->assertTrue($this->_model->hasAdminArea());
     }
 }

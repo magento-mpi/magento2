@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\CatalogEvent\Model\Resource\Setup $this */
 
+/** @var $this \Magento\CatalogEvent\Model\Resource\Setup */
 $this->addAttribute('quote_item', 'event_id', array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER));
 $this->addAttribute('order_item', 'event_id', array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER));
 
@@ -18,6 +18,6 @@ $cmsBlock = array(
     'stores' => 0
 );
 
-/** @var \Magento\Cms\Model\Block $block */
+/** @var $block \Magento\Cms\Model\Block */
 $block = $this->getBlockFactory()->create();
 $block->setData($cmsBlock)->save();

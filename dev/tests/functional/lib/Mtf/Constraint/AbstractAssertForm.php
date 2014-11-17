@@ -20,14 +20,21 @@ namespace Mtf\Constraint;
 abstract class AbstractAssertForm extends AbstractConstraint
 {
     /**
-     * Skipped fields for verify data
+     * Notice message.
+     *
+     * @var string
+     */
+    protected $notice = "\nForm data not equals to passed from fixture:\n";
+
+    /**
+     * Skipped fields for verify data.
      *
      * @var array
      */
     protected $skippedFields = [];
 
     /**
-     * Verify fixture and form data
+     * Verify fixture and form data.
      *
      * @param array $fixtureData
      * @param array $formData
@@ -83,7 +90,7 @@ abstract class AbstractAssertForm extends AbstractConstraint
     }
 
     /**
-     * Sort array by value
+     * Sort array by value.
      *
      * @param array $data
      * @return array
@@ -112,7 +119,7 @@ abstract class AbstractAssertForm extends AbstractConstraint
     }
 
     /**
-     * Sort multidimensional array by paths
+     * Sort multidimensional array by paths.
      * Pattern path: key/subKey::sorkKey.
      * Exapmle:
      * $data = [
@@ -177,7 +184,7 @@ abstract class AbstractAssertForm extends AbstractConstraint
     }
 
     /**
-     * Sort multidimensional array by key
+     * Sort multidimensional array by key.
      *
      * @param array $data
      * @param string $orderKey
@@ -200,7 +207,7 @@ abstract class AbstractAssertForm extends AbstractConstraint
     }
 
     /**
-     * Convert array to string
+     * Convert array to string.
      *
      * @param array $array
      * @return string
@@ -217,7 +224,7 @@ abstract class AbstractAssertForm extends AbstractConstraint
     }
 
     /**
-     * Prepare errors to string
+     * Prepare errors to string.
      *
      * @param array $errors
      * @param string|null $notice
@@ -238,7 +245,7 @@ abstract class AbstractAssertForm extends AbstractConstraint
         }
 
         if (null === $notice) {
-            $notice = "\nForm data not equals to passed from fixture:\n";
+            $notice = $this->notice;
         }
         return $notice . implode("\n", $result);
     }

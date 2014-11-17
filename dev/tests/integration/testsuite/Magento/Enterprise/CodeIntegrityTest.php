@@ -18,7 +18,6 @@ class CodeIntegrityTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\View\Design'
         );
         $this->assertEquals('Magento/blank', $design->getConfigurationDesignTheme('frontend'));
-        $this->assertEquals('Magento/enterprise', $design->getConfigurationDesignTheme('install'));
         $this->assertEquals('Magento/backend', $design->getConfigurationDesignTheme('adminhtml'));
     }
 }

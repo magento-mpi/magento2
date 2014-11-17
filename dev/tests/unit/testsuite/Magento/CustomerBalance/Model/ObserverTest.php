@@ -7,27 +7,41 @@
  */
 namespace Magento\CustomerBalance\Model;
 
+/**
+ * Class ObserverTest
+ */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\CustomerBalance\Model\Observer */
-    protected $_model;
+    protected $model;
 
     /**
      * @var \Magento\Framework\Event\Observer
      */
-    protected $_observer;
+    protected $observer;
 
     /**
      * @var \Magento\Framework\Object
      */
-    protected $_event;
+    protected $event;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceCurrencyMock;
 
     protected function setUp()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento\CustomerBalance\Model\Observer');
-        $this->_event = new \Magento\Framework\Object();
-        $this->_observer = new \Magento\Framework\Event\Observer(array('event' => $this->_event));
+        $this->priceCurrencyMock = $this->getMockBuilder('Magento\Directory\Model\PriceCurrency')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->model = $objectManagerHelper->getObject(
+            'Magento\CustomerBalance\Model\Observer',
+            ['priceCurrency' => $this->priceCurrencyMock]
+        );
+        $this->event = new \Magento\Framework\Object();
+        $this->observer = new \Magento\Framework\Event\Observer(array('event' => $this->event));
     }
 
     /**
@@ -53,8 +67,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         } else {
             $cart->expects($this->never())->method('addDiscount');
         }
-        $this->_event->setCart($cart);
-        $this->_model->addPaymentCustomerBalanceItem($this->_observer);
+        $this->event->setCart($cart);
+        $this->model->addPaymentCustomerBalanceItem($this->observer);
     }
 
     public function addPaymentCustomerBalanceItemDataProvider()
@@ -68,15 +82,19 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @param integer $expectedRewardAmount
      *
      * @dataProvider testModifyRewardedAmountOnRefundDataProvider
-     * @covers \Magento\CustomerBalance\Model\Observer::modifyRewardedAmountOnRefund
+     * @covers       \Magento\CustomerBalance\Model\Observer::modifyRewardedAmountOnRefund
      */
     public function testModifyRewardedAmountOnRefund($orderData, $baseRewardAmount, $expectedRewardAmount)
     {
         $orderMock = $this->getMock(
             '\Magento\Sales\Model\Order',
             array(
-                'getBaseCustomerBalanceTotalRefunded', 'getBaseTotalRefunded',
-                'getBaseTaxRefunded', 'getBaseShippingRefunded', '__wakeup', '__sleep'
+                'getBaseCustomerBalanceTotalRefunded',
+                'getBaseTotalRefunded',
+                'getBaseTaxRefunded',
+                'getBaseShippingRefunded',
+                '__wakeup',
+                '__sleep'
             ),
             array(), '', false
         );
@@ -100,9 +118,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($baseRewardAmount));
 
         $creditMemoMock->expects($this->once())->method('setRewardedAmountAfterRefund')->with($expectedRewardAmount);
-        $this->_event->setCreditmemo($creditMemoMock);
+        $this->event->setCreditmemo($creditMemoMock);
 
-        $this->_model->modifyRewardedAmountOnRefund($this->_observer);
+        $this->model->modifyRewardedAmountOnRefund($this->observer);
     }
 
     /**
@@ -132,5 +150,65 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'expectedRewardAmount' => 20
             )
         );
+    }
+
+    public function testCreditmemoDataImport()
+    {
+        $refundAmount = 10;
+        $rate = 2;
+        $dataInput = [
+            'refund_customerbalance_return' => $refundAmount,
+            'refund_customerbalance_return_enable' => true,
+            'refund_customerbalance' => true,
+            'refund_real_customerbalance' => true
+        ];
+
+        $observerMock = $this->getMockBuilder('Magento\Framework\Event\Observer')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $creditmemoMock = $this->getMockBuilder('Magento\Sales\Model\Order\Creditmemo')
+            ->disableOriginalConstructor()
+            ->setMethods(['getBaseCustomerBalanceReturnMax', 'getOrder'])
+            ->getMock();
+        $creditmemoMock->expects($this->once())
+            ->method('getBaseCustomerBalanceReturnMax')
+            ->willReturn($refundAmount);
+
+        $this->priceCurrencyMock->expects($this->at(0))
+            ->method('round')
+            ->with($refundAmount)
+            ->willReturnArgument(0);
+        $this->priceCurrencyMock->expects($this->at(1))
+            ->method('round')
+            ->with($refundAmount * $rate)
+            ->willReturnArgument(0);
+
+        $orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
+            ->disableOriginalConstructor()
+            ->setMethods(['getBaseToOrderRate'])
+            ->getMock();
+        $orderMock->expects($this->once())
+            ->method('getBaseToOrderRate')
+            ->willReturn($rate);
+
+        $creditmemoMock->expects($this->any())
+            ->method('getOrder')
+            ->willReturn($orderMock);
+
+        $eventMock = $this->getMockBuilder('Magento\Framework\Event')
+            ->disableOriginalConstructor()
+            ->setMethods(['getCreditmemo', 'getInput'])
+            ->getMock();
+        $eventMock->expects($this->once())
+            ->method('getCreditmemo')
+            ->willReturn($creditmemoMock);
+        $eventMock->expects($this->once())
+            ->method('getInput')
+            ->willReturn($dataInput);
+        $observerMock->expects($this->any())
+            ->method('getEvent')
+            ->willReturn($eventMock);
+
+        $this->assertInstanceOf(get_class($this->model), $this->model->creditmemoDataImport($observerMock));
     }
 }

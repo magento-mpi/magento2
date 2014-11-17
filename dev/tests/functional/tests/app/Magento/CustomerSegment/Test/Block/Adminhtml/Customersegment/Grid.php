@@ -29,7 +29,7 @@ class Grid extends AbstractGrid
      *
      * @var string
      */
-    protected $firstRowSelector = '[data-role="row"] td[data-column="grid_segment_id"]';
+    protected $firstRowSelector = '//tr[./td[contains(@class, "col-grid_segment_name")]][1]';
 
     /**
      * Filters array mapping

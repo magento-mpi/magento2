@@ -21,7 +21,7 @@ class ReportGrid extends WidgetGrid
      *
      * @var string
      */
-    protected $status = 'select[name="view_mode"]';
+    protected $option = 'select[name="view_mode"]';
 
     /**
      * Filters array mapping

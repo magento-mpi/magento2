@@ -43,8 +43,7 @@ class AssertProductAttributeIsConfigurable extends AbstractConstraint
      * @param FixtureFactory $fixtureFactory
      * @param CatalogProductNew $newProductPage
      */
-    public function processAssert
-    (
+    public function processAssert(
         CatalogProductAttribute $attribute,
         CatalogProductIndex $productGrid,
         FixtureFactory $fixtureFactory,

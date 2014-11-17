@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <reminder module="Magento_Reminder">
+        <type>flat</type>
+        <entity_type>magento_reminder_rule</entity_type>
+        <collection>Magento\Reminder\Model\Resource\Reminder\Collection</collection>
+    </reminder>
+</fixture>

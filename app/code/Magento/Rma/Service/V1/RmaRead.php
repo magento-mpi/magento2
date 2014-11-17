@@ -69,10 +69,10 @@ class RmaRead implements RmaReadInterface
     /**
      * Return list of rma data objects based on search criteria
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteria $searchCriteria
      * @return \Magento\Rma\Service\V1\Data\RmaSearchResults
      */
-    public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria)
+    public function search(\Magento\Framework\Api\SearchCriteria $searchCriteria)
     {
         /** @todo Find a way to place this logic somewhere else(not to plugins!) */
         $this->permissionChecker->checkRmaForCustomerContext();

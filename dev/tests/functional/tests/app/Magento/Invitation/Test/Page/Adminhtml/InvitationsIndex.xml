@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="invitations/index" module="Magento_Invitation">
+    <blocks>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>#messages .messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <gridPageActions>
+            <class>Magento\Backend\Test\Block\GridPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </gridPageActions>
+        <invitationGrid>
+            <class>Magento\Invitation\Test\Block\Adminhtml\Invitation\Grid</class>
+            <locator>#invitationGrid</locator>
+            <strategy>css selector</strategy>
+        </invitationGrid>
+    </blocks>
+</page>

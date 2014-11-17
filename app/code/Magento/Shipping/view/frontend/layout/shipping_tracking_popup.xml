@@ -7,8 +7,10 @@
  * @license     {license_link}
  */
 -->
-<page layout="empty" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceContainer name="content">
-        <block class="Magento\Shipping\Block\Tracking\Popup" name="shipping.tracking.popup" template="tracking/popup.phtml"/>
-    </referenceContainer>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="empty" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Shipping\Block\Tracking\Popup" name="shipping.tracking.popup" template="tracking/popup.phtml"/>
+        </referenceContainer>
+    </body>
 </page>

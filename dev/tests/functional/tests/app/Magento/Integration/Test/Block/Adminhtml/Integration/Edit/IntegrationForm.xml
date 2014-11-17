@@ -17,6 +17,12 @@
             <email />
             <endpoint />
             <identity_link_url />
+            <key>
+                <selector>[name="consumer_key"]</selector>
+            </key>
+            <consumer_secret />
+            <token />
+            <token_secret />
         </fields>
     </integration_info>
     <api>

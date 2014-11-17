@@ -107,12 +107,12 @@ class DeleteProductsFromShoppingCartTest extends Injectable
      */
     protected function prepareProducts($productList)
     {
-        $addToCartStep = ObjectManager::getInstance()->create(
+        $createProductsStep = ObjectManager::getInstance()->create(
             'Magento\Catalog\Test\TestStep\CreateProductsStep',
             ['products' => $productList]
         );
 
-        $result = $addToCartStep->run();
+        $result = $createProductsStep->run();
         return $result['products'];
     }
 

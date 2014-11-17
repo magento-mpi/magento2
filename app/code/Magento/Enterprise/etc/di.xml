@@ -13,7 +13,6 @@
             <argument name="themes" xsi:type="array">
                 <item name="frontend" xsi:type="string">Magento/blank</item>
                 <item name="adminhtml" xsi:type="string">Magento/backend</item>
-                <item name="install" xsi:type="string">Magento/enterprise</item>
             </argument>
         </arguments>
     </type>

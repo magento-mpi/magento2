@@ -7,8 +7,6 @@
  */
 
 /** @var $this \Magento\Catalog\Model\Resource\Setup */
-
-/** @var $installer \Magento\Framework\Module\Setup\Migration */
 $installer = $this->createMigrationSetup();
 $installer->startSetup();
 

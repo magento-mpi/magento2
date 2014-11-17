@@ -11,4 +11,5 @@
     <head>
         <css src="Magento_GiftCard::styles.css"/>
     </head>
+    <body/>
 </page>

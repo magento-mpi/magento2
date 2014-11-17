@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<constraint>
+    <assertInvitationFrontendSuccessSentMessage module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationFrontendSuccessSentMessage>
+    <assertInvitationInGridOnFrontend module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationInGridOnFrontend>
+    <assertInvitationInGrid module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationInGrid>
+    <assertInvitationFrontendErrorSendDuplicateMessage module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationFrontendErrorSendDuplicateMessage>
+    <assertInvitationOneEntry module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationOneEntry>
+    <assertInvitationSuccessSentMessage module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationSuccessSentMessage>
+    <assertInvitationForm module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationForm>
+    <assertInvitationSuccessDiscardMessage module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationSuccessDiscardMessage>
+    <assertInvitationSuccessSentMessageOnBackend module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationSuccessSentMessageOnBackend>
+    <assertInvitationNoticeMessage module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationNoticeMessage>
+    <assertInvitationErrorSentMessage module="Magento_Invitation">
+        <severeness>low</severeness>
+    </assertInvitationErrorSentMessage>
+</constraint>

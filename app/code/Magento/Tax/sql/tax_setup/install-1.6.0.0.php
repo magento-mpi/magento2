@@ -5,10 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $installer \Magento\Tax\Model\Resource\Setup */
+
+/** @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 $installer->startSetup();
-//
+
 /**
  * Create table 'tax/class'
  */

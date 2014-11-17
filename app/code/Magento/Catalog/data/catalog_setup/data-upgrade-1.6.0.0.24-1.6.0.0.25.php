@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-/** @var \Magento\Catalog\Model\Resource\Setup $this */
+/** @var $this \Magento\Catalog\Model\Resource\Setup */
 $this->updateAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'status',

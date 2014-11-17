@@ -92,11 +92,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test is theme present in file system
+     * Test if theme present in file system
      *
      * @magentoAppIsolation enabled
      * @covers \Magento\Core\Model\Theme\Collection::hasTheme
-     * @magentoAppArea install
      */
     public function testHasThemeInCollection()
     {
@@ -117,7 +116,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->_model->addDefaultPattern('*');
+        $this->_model->addDefaultPattern();
         $this->assertFalse($this->_model->hasTheme($themeModel));
     }
 }

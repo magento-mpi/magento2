@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page module="Magento_Reminder">
+    <reminderIndex>
+        <mca>admin/reminder</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reminder\Test\Page\Adminhtml\ReminderIndex</class>
+    </reminderIndex>
+    <reminderView>
+        <mca>admin/reminder/view</mca>
+        <area>adminhtml</area>
+        <class>Magento\Reminder\Test\Page\Adminhtml\ReminderView</class>
+    </reminderView>
+</page>

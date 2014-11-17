@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixture>
+    <invitation module="Magento_Invitation">
+        <entity_type>magento_invitation</entity_type>
+        <type>flat</type>
+        <collection>Magento\Invitation\Model\Resource\Invitation\Collection</collection>
+    </invitation>
+</fixture>

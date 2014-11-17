@@ -43,6 +43,7 @@ use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
  *
  * @group Tax_(CS)
  * @ZephyrId MAGETWO-29052
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class TaxWithCrossBorderTest extends Injectable
 {

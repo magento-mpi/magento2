@@ -51,6 +51,10 @@ class Grid extends ParentGrid
         'status' => [
             'selector' => '#productGrid_product_filter_status',
             'input' => 'select'
+        ],
+        'set_name' => [
+            'selector' => '#productGrid_product_filter_set_name',
+            'input' => 'select'
         ]
     ];
 

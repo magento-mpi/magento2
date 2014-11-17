@@ -31,6 +31,9 @@
     <type name="Magento\Catalog\Model\Product\CartConfiguration">
         <plugin name="GiftCard" type="Magento\GiftCard\Model\Product\CartConfiguration\Plugin\GiftCard" />
     </type>
+    <type name="Magento\Catalog\Block\Product\View">
+        <plugin name="getWishlistOptions" type="Magento\GiftCard\Block\Product\View\Plugin" />
+    </type>
     <type name="Magento\Catalog\Model\Product\CatalogPrice">
         <arguments>
             <argument name="priceModelPool" xsi:type="array">

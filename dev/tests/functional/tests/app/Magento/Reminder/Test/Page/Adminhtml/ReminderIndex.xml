@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="admin/reminder" module="Magento_Reminder">
+    <blocks>
+        <messagesBlock>
+            <class>Magento\Core\Test\Block\Messages</class>
+            <locator>.messages .messages</locator>
+            <strategy>css selector</strategy>
+        </messagesBlock>
+        <pageActionsBlock>
+            <class>Magento\Backend\Test\Block\GridPageActions</class>
+            <locator>.page-main-actions</locator>
+            <strategy>css selector</strategy>
+        </pageActionsBlock>
+        <remindersGrid>
+            <class>Magento\Reminder\Test\Block\Adminhtml\Reminder\Grid</class>
+            <locator>#reminderGrid</locator>
+            <strategy>css selector</strategy>
+        </remindersGrid>
+    </blocks>
+</page>

@@ -37,7 +37,7 @@ class AssertProductInCustomWishlist extends AbstractConstraint
      * @param MultipleWishlist $multipleWishlist
      * @param WishlistIndex $wishlistIndex
      * @param InjectableFixture $product
-     * @param string $qtyToMove
+     * @param int $qtyToAction
      * @return void
      */
     public function processAssert(
@@ -46,16 +46,16 @@ class AssertProductInCustomWishlist extends AbstractConstraint
         MultipleWishlist $multipleWishlist,
         WishlistIndex $wishlistIndex,
         InjectableFixture $product,
-        $qtyToMove
+        $qtyToAction
     ) {
         $cmsIndex->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Wish List');
         $wishlistIndex->getManagementBlock()->selectedWishlistByName($multipleWishlist->getName());
         $formData = $wishlistIndex->getMultipleItemsBlock()->getItemProduct($product)->getData();
-        $actualQuantity = $product instanceof GroupedProductInjectable ? '-' : $formData['qty'];
+        $actualQuantity = ($qtyToAction == '-') ? '-' : $formData['qty'];
 
         \PHPUnit_Framework_Assert::assertEquals(
-            $qtyToMove,
+            $qtyToAction,
             $actualQuantity,
             'Actual quantity of ' . $product->getName() . ' in custom wishlist doesn\'t match to expected.'
         );

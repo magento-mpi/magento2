@@ -7,15 +7,15 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
-use Magento\Framework\Service\Data\AttributeMetadataBuilderInterface;
-use Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder;
-use Magento\Framework\Service\Data\AttributeValueBuilder;
-use Magento\Framework\Service\Data\MetadataServiceInterface;
+use Magento\Framework\Api\AttributeMetadataBuilderInterface;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
  * Class AttributeMetadataBuilder
  */
-class AttributeMetadataBuilder extends AbstractExtensibleObjectBuilder implements AttributeMetadataBuilderInterface
+class AttributeMetadataBuilder extends ExtensibleObjectBuilder implements AttributeMetadataBuilderInterface
 {
     /**
      * Option builder
@@ -32,15 +32,15 @@ class AttributeMetadataBuilder extends AbstractExtensibleObjectBuilder implement
     protected $_validationRuleBuilder;
 
     /**
-     * @param \Magento\Framework\Service\Data\ObjectFactory $objectFactory
-     * @param AttributeValueBuilder $valueBuilder
+     * @param \Magento\Framework\Api\ObjectFactory $objectFactory
+     * @param AttributeDataBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
      * @param OptionBuilder $optionBuilder
      * @param ValidationRuleBuilder $validationRuleBuilder
      */
     public function __construct(
-        \Magento\Framework\Service\Data\ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder,
+        \Magento\Framework\Api\ObjectFactory $objectFactory,
+        AttributeDataBuilder $valueBuilder,
         MetadataServiceInterface $metadataService,
         \Magento\Customer\Service\V1\Data\Eav\OptionBuilder $optionBuilder,
         \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder $validationRuleBuilder
@@ -48,8 +48,8 @@ class AttributeMetadataBuilder extends AbstractExtensibleObjectBuilder implement
         parent::__construct($objectFactory, $valueBuilder, $metadataService);
         $this->_optionBuilder = $optionBuilder;
         $this->_validationRuleBuilder = $validationRuleBuilder;
-        $this->_data[AttributeMetadata::OPTIONS] = array();
-        $this->_data[AttributeMetadata::VALIDATION_RULES] = array();
+        $this->data[AttributeMetadata::OPTIONS] = array();
+        $this->data[AttributeMetadata::VALIDATION_RULES] = array();
     }
 
     /**
