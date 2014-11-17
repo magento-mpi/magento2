@@ -48,7 +48,6 @@ class Improved implements AlgorithmInterface
      * @param ScopeConfigInterface $scopeConfig
      * @param Render $render
      * @param IntervalFactory $intervalFactory
-     * @internal param Category $layer
      */
     public function __construct(
         Algorithm $algorithm,
