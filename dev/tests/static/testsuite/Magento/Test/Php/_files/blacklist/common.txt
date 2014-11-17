@@ -12,7 +12,6 @@ app/code/Magento/DesignEditor/view
 app/code/Magento/Email/view
 app/code/Magento/Integration/view
 app/code/Magento/Msrp/view
-app/code/Magento/Solr
 app/code/Magento/Theme/view
 app/code/Magento/User/view
 app/code/Magento/Webapi/view
