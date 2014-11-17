@@ -34,7 +34,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->option = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\Option', [], [], '', false);
-        $this->optionFactory = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory', ['create']);
+        $this->optionFactory = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory', ['create'], [], '', false);
         $this->optionFactory->expects($this->any())->method('create')->will($this->returnValue($this->option));
         $this->attribute = $this->getMock('Magento\Eav\Model\Entity\Attribute\AbstractAttribute', [], [], '', false);
 

@@ -57,15 +57,15 @@ class Mapper
      * @param Builder $filterBuilder
      * @param Dimensions $dimensionsBuilder
      * @param ConditionManager $conditionManager
-     * @param IndexBuilder $selectBuilder
+     * @param \Magento\Framework\Search\Adapter\Mysql\IndexBuilderInterface[] $indexProviders
      */
     public function __construct(
-        array $indexProviders,
         ScoreBuilderFactory $scoreBuilderFactory,
         MatchQueryBuilder $matchQueryBuilder,
         Builder $filterBuilder,
         Dimensions $dimensionsBuilder,
-        ConditionManager $conditionManager
+        ConditionManager $conditionManager,
+        array $indexProviders
     ) {
         $this->scoreBuilderFactory = $scoreBuilderFactory;
         $this->matchQueryBuilder = $matchQueryBuilder;
@@ -79,6 +79,7 @@ class Mapper
      * Build adapter dependent query
      *
      * @param RequestInterface $request
+     * @throws \Exception
      * @return Select
      */
     public function buildQuery(RequestInterface $request)

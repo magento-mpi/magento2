@@ -11,13 +11,14 @@ namespace Magento\CatalogSearch\Model\Search;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Resource;
 use Magento\Framework\DB\Select;
+use Magento\Framework\Search\Adapter\Mysql\IndexBuilderInterface;
 use Magento\Framework\Search\RequestInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
  * Build base Query for Index
  */
-class IndexBuilder
+class IndexBuilder implements IndexBuilderInterface
 {
     /**
      * @var Resource
@@ -30,7 +31,8 @@ class IndexBuilder
     private $config;
 
     /**
-     * @param Resource $resource
+     * @param \Magento\Framework\App\Resource $resource
+     * @param ScopeConfigInterface $config
      */
     public function __construct(Resource $resource, ScopeConfigInterface $config)
     {
