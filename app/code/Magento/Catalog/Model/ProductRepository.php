@@ -139,7 +139,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
             if ($storeId !== null) {
                 $product->setData('store_id', $storeId);
             }
-            $this->resourceModel->load($product, $productId);
+            $product->load($productId);
             if (!$product->getId()) {
                 throw new NoSuchEntityException('Requested product doesn\'t exist');
             }

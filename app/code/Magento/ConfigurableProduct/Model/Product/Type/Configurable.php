@@ -1054,7 +1054,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
         $this->_prepareAttributeSetToBeBaseForNewVariations($parentProduct);
         $generatedProductIds = array();
         foreach ($productsData as $simpleProductData) {
-            $newSimpleProduct = $this->_productFactory->create();
+            $newSimpleProduct = $this->productFactory->create();
             $configurableAttribute = $this->_coreData->jsonDecode($simpleProductData['configurable_attribute']);
             unset($simpleProductData['configurable_attribute']);
 
