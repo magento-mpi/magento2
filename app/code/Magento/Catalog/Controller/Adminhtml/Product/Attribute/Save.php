@@ -64,13 +64,13 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Attribute
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Cache\FrontendInterface $attributeLabelCache,
         \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Catalog\Model\Product\AttributeSet\BuildFactory $buildFactory,
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory $validatorFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupCollectionFactory,
         \Magento\Framework\Filter\FilterManager $filterManager,
         \Magento\Catalog\Helper\Product $productHelper,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
     ) {
         parent::__construct($context, $attributeLabelCache, $coreRegistry, $resultPageFactory);

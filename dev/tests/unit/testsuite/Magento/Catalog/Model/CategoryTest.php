@@ -70,6 +70,9 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Model\Resource\AbstractResource|\PHPUnit_Framework_MockObject_MockObject */
     protected $resource;
 
+    /** @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject */
+    protected $indexerRegistry;
+
     protected function setUp()
     {
         $this->context = $this->getMock(
@@ -109,13 +112,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->flatState = $this->getMock(
-            'Magento\Catalog\Model\Indexer\Category\Flat\State',
-            ['isAvailable'],
-            [],
-            '',
-            false
-        );
+        $this->flatState = $this->getMock('Magento\Catalog\Model\Indexer\Category\Flat\State', [], [], '', false);
         $this->flatIndexer = $this->getMock('Magento\Indexer\Model\IndexerInterface');
         $this->productIndexer = $this->getMock('Magento\Indexer\Model\IndexerInterface');
         $this->categoryUrlPathGenerator = $this->getMock(
@@ -133,29 +130,9 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->indexerRegistry = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
 
-        $this->category = (new \Magento\TestFramework\Helper\ObjectManager($this))->getObject(
-            'Magento\Catalog\Model\Category',
-            [
-                'context' => $this->context,
-                'registry' => $this->registry,
-                'storeManager' => $this->storeManager,
-                'categoryTreeResource' => $this->categoryTreeResource,
-                'categoryTreeFactory' => $this->categoryTreeFactory,
-                'categoryFactory' => $this->categoryFactory,
-                'storeCollectionFactory' => $this->storeCollectionFactory,
-                'url' => $this->url,
-                'productCollectionFactory' => $this->productCollectionFactory,
-                'catalogConfig' => $this->catalogConfig,
-                'filter' => $this->filterManager,
-                'flatState' => $this->flatState,
-                'flatIndexer' => $this->flatIndexer,
-                'productIndexer' => $this->productIndexer,
-                'categoryUrlPathGenerator' => $this->categoryUrlPathGenerator,
-                'urlFinder' => $this->urlFinder,
-                'resource' => $this->resource
-            ]
-        );
+        $this->category = $this->getCategoryModel();
     }
 
     public function testFormatUrlKey()
@@ -249,6 +226,12 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     public function testMovePrimaryWorkflow()
     {
+        $indexer = $this->getMock('stdClass', ['isScheduled']);
+        $indexer->expects($this->once())->method('isScheduled')->will($this->returnValue(true));
+        $this->indexerRegistry->expects($this->once())
+            ->method('get')
+            ->with('catalog_category_product')
+            ->will($this->returnValue($indexer));
         $parentCategory = $this->getMock(
             'Magento\Catalog\Model\Category',
             ['getId', 'setStoreId', 'load'],
@@ -279,6 +262,34 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             ->method('isAvailable')
             ->will($this->returnValue(true));
 
-        $this->assertEquals(true, $this->category->getUseFlatResource());
+        $category = $this->getCategoryModel();
+        $this->assertEquals(true, $category->getUseFlatResource());
+    }
+
+    protected function getCategoryModel()
+    {
+        return (new \Magento\TestFramework\Helper\ObjectManager($this))->getObject(
+            'Magento\Catalog\Model\Category',
+            [
+                'context' => $this->context,
+                'registry' => $this->registry,
+                'storeManager' => $this->storeManager,
+                'categoryTreeResource' => $this->categoryTreeResource,
+                'categoryTreeFactory' => $this->categoryTreeFactory,
+                'categoryFactory' => $this->categoryFactory,
+                'storeCollectionFactory' => $this->storeCollectionFactory,
+                'url' => $this->url,
+                'productCollectionFactory' => $this->productCollectionFactory,
+                'catalogConfig' => $this->catalogConfig,
+                'filter' => $this->filterManager,
+                'flatState' => $this->flatState,
+                'flatIndexer' => $this->flatIndexer,
+                'productIndexer' => $this->productIndexer,
+                'categoryUrlPathGenerator' => $this->categoryUrlPathGenerator,
+                'urlFinder' => $this->urlFinder,
+                'resource' => $this->resource,
+                'indexerRegistry' => $this->indexerRegistry,
+            ]
+        );
     }
 }
