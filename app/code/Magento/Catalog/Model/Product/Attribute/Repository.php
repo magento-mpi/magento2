@@ -153,7 +153,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
         } else {
             $this->attributeBuilder->setAttributeId(null);
 
-            if (empty($attribute->getFrontendLabels()) && empty($attribute->getDefaultFrontendLabel())) {
+            if (!$attribute->getFrontendLabels() && !$attribute->getDefaultFrontendLabel()) {
                 throw InputException::requiredField('frontend_label');
             }
 
