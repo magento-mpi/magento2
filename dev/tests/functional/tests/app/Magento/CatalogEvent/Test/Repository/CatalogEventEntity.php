@@ -33,7 +33,7 @@ class CatalogEventEntity extends AbstractRepository
                 'category_page' => 'Yes',
                 'product_page' => 'Yes'
             ],
-            'category_ids' => ['presets' => 'default_subcategory']
+            'category_id' => ['presets' => 'default_subcategory']
         ];
     }
 }
