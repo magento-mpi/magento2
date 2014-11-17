@@ -180,8 +180,6 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->paymentMethodInstanceMock);
 
         $this->paymentMethodInstanceMock->expects($this->once())
-            ->method('setStore')
-            ->with(null);
+            ->method('setStore');
     }
-
 }

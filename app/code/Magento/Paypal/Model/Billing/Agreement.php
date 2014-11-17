@@ -180,6 +180,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
             ->setStatus(self::STATUS_ACTIVE)
             ->setAgreementLabel($paymentMethodInstance->getTitle())
             ->save();
+
         return $this;
     }
 

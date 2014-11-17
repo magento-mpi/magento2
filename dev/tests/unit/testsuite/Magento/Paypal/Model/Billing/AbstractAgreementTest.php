@@ -43,12 +43,10 @@ class AbstractAgreementTest extends \PHPUnit_Framework_TestCase
             ->getMockForAbstractClass();
 
         $paymentMethodInstance->expects($this->once())
-            ->method('setStore')
-            ->with(null);
+            ->method('setStore');
 
         $this->paymentDataMock->expects($this->once())
             ->method('getMethodInstance')
-            ->with(null)
             ->willReturn($paymentMethodInstance);
 
         $this->assertSame($paymentMethodInstance, $this->model->getPaymentMethodInstance());
