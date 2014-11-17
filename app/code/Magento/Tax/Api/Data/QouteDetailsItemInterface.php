@@ -10,7 +10,7 @@ namespace Magento\Tax\Api\Data;
 /**
  * previous implementation @see \Magento\Tax\Service\V1\Data\QuoteDetails\Item
  */
-interface QuoteDetailsItemInterface
+interface QuoteDetailsItemInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely

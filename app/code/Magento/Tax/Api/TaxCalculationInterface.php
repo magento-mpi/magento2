@@ -8,9 +8,6 @@
 
 namespace Magento\Tax\Api;
 
-/**
- * previous implementation @see \Magento\Tax\Service\V1\TaxCalculationServiceInterface
- */
 interface TaxCalculationInterface
 {
     /**#@+

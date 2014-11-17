@@ -11,7 +11,7 @@ namespace Magento\Tax\Api\Data;
 /**
  * previous implementation @see \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxRate
  */
-interface AppliedTaxRateInterface
+interface AppliedTaxRateInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely

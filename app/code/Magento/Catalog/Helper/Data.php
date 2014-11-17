@@ -8,7 +8,6 @@
 namespace Magento\Catalog\Helper;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
 use Magento\Tax\Service\V1\Data\TaxClassKey;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
@@ -140,7 +139,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Quote details builder
      *
-     * @var QuoteDetailsBuilder
+     * @var \Magento\Tax\Api\Data\QuoteDetailsDataBuilder
      */
     protected $_quoteDetailsBuilder;
 
@@ -192,7 +191,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param string $templateFilterModel
      * @param TaxClassKeyBuilder $taxClassKeyBuilder
      * @param Config $taxConfig
-     * @param QuoteDetailsBuilder $quoteDetailsBuilder
+     * @param \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
      * @param TaxCalculationInterface $taxCalculationService
      * @param CustomerSession $customerSession
@@ -214,7 +213,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $templateFilterModel,
         \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder,
         \Magento\Tax\Model\Config $taxConfig,
-        QuoteDetailsBuilder $quoteDetailsBuilder,
+        \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder,
         QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
         \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService,
         CustomerSession $customerSession,

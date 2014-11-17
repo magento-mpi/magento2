@@ -2829,4 +2829,5 @@ return array(
     ['Magento\Install\Model\Resource\Resource', 'Magento\Framework\Module\Resource'],
     ['Magento\Framework\App\View\Deployment\Version\Generator\Timestamp', 'Magento\Framework\Stdlib\DateTime'],
     ['Magento\Framework\App\View\Deployment\Version\GeneratorInterface'],
+    ['Magento\Tax\Service\V1\TaxCalculationServiceInterface', 'Magento\Tax\Api\TaxCalculationInterface'],
 );

@@ -8,7 +8,7 @@
 
 namespace Magento\Tax\Api\Data;
 
-interface TaxDetailsItemInterface
+interface TaxDetailsItemInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely
