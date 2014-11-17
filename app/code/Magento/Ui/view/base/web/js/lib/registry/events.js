@@ -6,7 +6,8 @@
  */
 define([
     'underscore',
-], function(_) {
+    'mage/utils'
+], function(_, utils) {
     'use strict';
 
     function Events(storage){
@@ -30,7 +31,7 @@ define([
         resolve: function(elem) {
             var pending = this.map[elem];
 
-            if (typeof pending !== 'undefined') {
+            if (Array.isArray(pending)) {
                 pending
                     .filter(this._resolve)
                     .forEach(this._clear);
@@ -77,8 +78,7 @@ define([
          * @returns {Boolean} Whether specified request was successfully resolved.
          */
         _resolve: function(id) {
-            var requests    = this.requests,
-                request     = requests[id],
+            var request     = this.requests[id],
                 elems       = request.deps,
                 storage     = this.storage,
                 isResolved;
@@ -98,23 +98,14 @@ define([
          * @param {Number} id - Id of request.
          */
         _clear: function(id) {
-            var map         = this.map,
-                requests    = this.requests,
-                elems       = requests[id].deps,
-                index,
-                handlers;
+            var map     = this.map,
+                elems   = this.requests[id].deps;
 
             elems.forEach(function(elem){
-                handlers = map[elem];
-
-                index = handlers.indexOf(id);
-
-                if (~index) {
-                    handlers.splice(index, 1);
-                }
+                utils.remove(map[elem], id);
             });
 
-            delete requests[id];
+            delete this.requests[id];
         }
     };
 

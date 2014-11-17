@@ -23,9 +23,11 @@
                         <item name="name" xsi:type="string">account</item>
                         <item name="submit_url" xsi:type="url" path="customer/index/save">
                             <param name="_current">1</param>
+                            <param name="back"></param>
                         </item>
                         <item name="validate_url" xsi:type="url" path="customer/index/validate">
                             <param name="_current">1</param>
+                            <param name="back"></param>
                         </item>
                     </item>
                 </argument>
