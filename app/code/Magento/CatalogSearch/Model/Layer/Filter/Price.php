@@ -24,6 +24,26 @@ class Price extends AbstractFilter
     private $dataProvider;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    private $priceCurrency;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Layer\Filter\Price
+     */
+    private $resource;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    private $customerSession;
+
+    /**
+     * @var \Magento\Framework\Search\Dynamic\Algorithm
+     */
+    private $priceAlgorithm;
+
+    /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
