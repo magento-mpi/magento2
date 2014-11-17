@@ -93,7 +93,7 @@ class CollectTotals
             $customerData = $this->customerBuilder->mergeDataObjectWithArray(
                 $customerData,
                 array('group_id' => $groupId)
-            );
+            )->create();
             $quote->setCustomerData($customerData);
         }
     }
