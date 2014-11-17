@@ -8,6 +8,7 @@
 namespace Magento\Sales\Model\Resource\Quote;
 
 use \Magento\Framework\Model\Resource\Db\AbstractDb;
+
 /**
  * Quote resource model
  *

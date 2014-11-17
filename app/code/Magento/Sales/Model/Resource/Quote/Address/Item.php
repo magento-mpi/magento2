@@ -8,6 +8,7 @@
 namespace Magento\Sales\Model\Resource\Quote\Address;
 
 use \Magento\Framework\Model\Resource\Db\AbstractDb;
+
 /**
  * Quote address item resource model
  *

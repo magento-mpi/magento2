@@ -8,6 +8,7 @@
 namespace Magento\RecurringPayment\Model\Resource;
 
 use \Magento\Framework\Model\Resource\Db\AbstractDb;
+
 /**
  * Recurring payment resource model
  */
