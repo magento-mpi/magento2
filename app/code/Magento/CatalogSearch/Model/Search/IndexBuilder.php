@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: akasian
- * Date: 11/13/2014
- * Time: 11:28 AM
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\CatalogSearch\Model\Search;
