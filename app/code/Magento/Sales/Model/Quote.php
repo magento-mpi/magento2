@@ -780,7 +780,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      *
      * @return string
      */
-     public function getCustomerTaxClassId()
+    public function getCustomerTaxClassId()
     {
         /**
          * tax class can vary at any time. so instead of using the value from session,
