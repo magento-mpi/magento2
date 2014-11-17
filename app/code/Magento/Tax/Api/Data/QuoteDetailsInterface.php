@@ -6,13 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1\Data;
+namespace Magento\Tax\Api\Data;
 
 /**
- * @deprecated
- * @see \Magento\Tax\Api\Data\QuoteDetailsInterface
+ * previous implementation @see \Magento\Tax\Service\V1\Data\QuoteDetails
  */
-class QuoteDetails extends \Magento\Framework\Api\AbstractExtensibleObject
+interface QuoteDetailsInterface
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely
@@ -35,58 +34,40 @@ class QuoteDetails extends \Magento\Framework\Api\AbstractExtensibleObject
      *
      * @return \Magento\Customer\Service\V1\Data\Address|null
      */
-    public function getBillingAddress()
-    {
-        return $this->_get(self::KEY_BILLING_ADDRESS);
-    }
+    public function getBillingAddress();
 
     /**
      * Get customer shipping address
      *
      * @return \Magento\Customer\Service\V1\Data\Address|null
      */
-    public function getShippingAddress()
-    {
-        return $this->_get(self::KEY_SHIPPING_ADDRESS);
-    }
+    public function getShippingAddress();
 
     /**
      * Get customer tax class key
      *
-     * @return \Magento\Tax\Service\V1\Data\TaxClassKey|null
+     * @return \Magento\Tax\Api\Data\TaxClassKeyInterface|null
      */
-    public function getCustomerTaxClassKey()
-    {
-        return $this->_get(self::KEY_CUSTOMER_TAX_CLASS_KEY);
-    }
+    public function getCustomerTaxClassKey();
 
     /**
      * Get customer id
      *
      * @return int|null
      */
-    public function getCustomerId()
-    {
-        return $this->_get(self::KEY_CUSTOMER_ID);
-    }
+    public function getCustomerId();
 
     /**
      * Get customer data
      *
-     * @return \Magento\Tax\Service\V1\Data\QuoteDetails\Item[]|null
+     * @return \Magento\Tax\Api\Data\QuoteDetailsItemInterface[]|null
      */
-    public function getItems()
-    {
-        return $this->_get(self::KEY_ITEMS);
-    }
+    public function getItems();
 
     /**
      * Get customer tax class id
      *
      * @return int
      */
-    public function getCustomerTaxClassId()
-    {
-        return $this->_get(self::CUSTOMER_TAX_CLASS_ID);
-    }
+    public function getCustomerTaxClassId();
 }

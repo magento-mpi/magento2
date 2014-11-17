@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1;
+namespace Magento\Tax\Api;
+
 /**
- * @deprecated
- * @see \Magento\Tax\Api\TaxCalculationInterface
+ * previous implementation @see \Magento\Tax\Service\V1\TaxCalculationServiceInterface
  */
-interface TaxCalculationServiceInterface
+interface TaxCalculationInterface
 {
     /**#@+
      * Type of calculation used
@@ -24,11 +24,11 @@ interface TaxCalculationServiceInterface
     /**
      * Calculate Tax
      *
-     * @param \Magento\Tax\Service\V1\Data\QuoteDetails $quoteDetails
+     * @param \Magento\Tax\Api\Data\QuoteDetailsInterface $quoteDetails
      * @param null|int $storeId
-     * @return \Magento\Tax\Service\V1\Data\TaxDetails
+     * @return \Magento\Tax\Api\Data\QuoteDetailsInterface
      */
-    public function calculateTax(\Magento\Tax\Service\V1\Data\QuoteDetails $quoteDetails, $storeId = null);
+    public function calculateTax(\Magento\Tax\Api\Data\QuoteDetailsInterface $quoteDetails, $storeId = null);
 
     /**
      * Get default rate request

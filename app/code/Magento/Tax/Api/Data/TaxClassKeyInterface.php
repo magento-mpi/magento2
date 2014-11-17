@@ -6,16 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1\Data;
-
-use Magento\Framework\Api\AbstractExtensibleObject;
+namespace Magento\Tax\Api\Data;
 
 /**
- * Class TaxClassKey
- * @deprecated
- * @see \Magento\Tax\Api\Data\TaxClassKeyInterface
+ * previous implementation @see \Magento\Tax\Service\V1\Data\TaxClassKey
  */
-class TaxClassKey extends AbstractExtensibleObject
+interface TaxClassKeyInterface
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely
@@ -38,18 +34,12 @@ class TaxClassKey extends AbstractExtensibleObject
      *
      * @return string
      */
-    public function getType()
-    {
-        return $this->_get(self::KEY_TYPE);
-    }
+    public function getType();
 
     /**
      * Get value of tax class key
      *
      * @return string
      */
-    public function getValue()
-    {
-        return $this->_get(self::KEY_VALUE);
-    }
+    public function getValue();
 }

@@ -7,6 +7,10 @@
  */
 namespace Magento\Tax\Service\V1\Data\TaxDetails;
 
+/**
+ * @deprecated
+ * @see \Magento\Tax\Api\Data\AppliedTaxInterface
+ */
 class AppliedTax extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**#@+

@@ -5,13 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Tax\Service\V1\Data\QuoteDetails;
+namespace Magento\Tax\Api\Data;
 
 /**
- * @deprecated
- * @see \Magento\Tax\Api\Data\QuoteDetailsItem
+ * previous implementation @see \Magento\Tax\Service\V1\Data\QuoteDetails\Item
  */
-class Item extends \Magento\Framework\Api\AbstractExtensibleObject
+interface QuoteDetailsItemInterface
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely
@@ -44,108 +43,75 @@ class Item extends \Magento\Framework\Api\AbstractExtensibleObject
      *
      * @return string|null
      */
-    public function getCode()
-    {
-        return $this->_get(self::KEY_CODE);
-    }
+    public function getCode();
 
     /**
      * Get type (e.g., shipping, product, wee, gift wrapping, etc.)
      *
      * @return string|null
      */
-    public function getType()
-    {
-        return $this->_get(self::KEY_TYPE);
-    }
+    public function getType();
 
     /**
      * Get tax class key
      *
-     * @return \Magento\Tax\Service\V1\Data\TaxClassKey
+     * @return \Magento\Tax\Api\Data\TaxClassKeyInterface
      */
-    public function getTaxClassKey()
-    {
-        return $this->_get(self::KEY_TAX_CLASS_KEY);
-    }
+    public function getTaxClassKey();
 
     /**
      * Get unit price
      *
      * @return float
      */
-    public function getUnitPrice()
-    {
-        return $this->_get(self::KEY_UNIT_PRICE);
-    }
+    public function getUnitPrice();
 
     /**
      * Get quantity
      *
      * @return float
      */
-    public function getQuantity()
-    {
-        return $this->_get(self::KEY_QUANTITY);
-    }
+    public function getQuantity();
 
     /**
      * Get indicate that if the tax is included in the unit price and row total
      *
      * @return bool
      */
-    public function getTaxIncluded()
-    {
-        return $this->_get(self::KEY_TAX_INCLUDED);
-    }
+    public function getTaxIncluded();
 
     /**
      * Get short description
      *
      * @return string|null
      */
-    public function getShortDescription()
-    {
-        return $this->_get(self::KEY_SHORT_DESCRIPTION);
-    }
+    public function getShortDescription();
 
     /**
      * Get discount amount
      *
      * @return float
      */
-    public function getDiscountAmount()
-    {
-        return $this->_get(self::KEY_DISCOUNT_AMOUNT);
-    }
+    public function getDiscountAmount();
 
     /**
      * Get parent code if this item is a child, null if this is a top level item.
      *
      * @return string|null
      */
-    public function getParentCode()
-    {
-        return $this->_get(self::KEY_PARENT_CODE);
-    }
+    public function getParentCode();
 
     /**
      * Get associated item code if this item is associated with another item, null otherwise
      *
      * @return mixed|null
      */
-    public function getAssociatedItemCode()
-    {
-        return $this->_get(self::KEY_ASSOCIATED_ITEM_CODE);
-    }
+    public function getAssociatedItemCode();
 
     /**
      * Get associated item tax class id
      *
      * @return int
      */
-    public function getTaxClassId()
-    {
-        return $this->_get(self::KEY_TAX_CLASS_ID);
-    }
+    public function getTaxClassId();
 }

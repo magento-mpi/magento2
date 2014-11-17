@@ -6,13 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1\Data\TaxDetails;
+namespace Magento\Tax\Api\Data;
 
 /**
- * @deprecated
- * @see \Magento\Tax\Api\Data\AppliedTaxRateInterface
+ * previous implementation @see \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxRate
  */
-class AppliedTaxRate extends \Magento\Framework\Api\AbstractExtensibleObject
+interface AppliedTaxRateInterface
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely
@@ -29,28 +28,19 @@ class AppliedTaxRate extends \Magento\Framework\Api\AbstractExtensibleObject
      *
      * @return string|null
      */
-    public function getCode()
-    {
-        return $this->_get(self::KEY_CODE);
-    }
+    public function getCode();
 
     /**
      * Get Title
      *
      * @return string|null
      */
-    public function getTitle()
-    {
-        return $this->_get(self::KEY_TITLE);
-    }
+    public function getTitle();
 
     /**
      * Get Tax Percent
      *
      * @return float|null
      */
-    public function getPercent()
-    {
-        return $this->_get(self::KEY_PERCENT);
-    }
+    public function getPercent();
 }
