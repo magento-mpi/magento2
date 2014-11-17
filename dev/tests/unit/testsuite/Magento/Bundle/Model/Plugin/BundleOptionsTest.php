@@ -60,4 +60,59 @@ class BundleOptionsTest extends \PHPUnit_Framework_TestCase
             $this->linkBuilderMock
         );
     }
+
+    public function testAroundGet()
+    {
+        $sku = 'productSku';
+        $editMode = false;
+        $productRepositoryMock = $this->getMock('\Magento\Catalog\Api\ProductRepositoryInterface');
+        $productMock = $this->getMock('\Magento\Catalog\Api\Data\ProductInterface');
+        $closure = function () use ($productMock) {
+            return $productMock;
+        };
+
+        $productMock->expects($this->once())
+            ->method('getTypeId')
+            ->willReturn(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE);
+
+        $optionMock = $this->getMock('\Magento\Bundle\Service\V1\Data\Product\Option', [], [], '', false);
+        $this->readServiceMock->expects($this->once())
+            ->method('getListForProduct')
+            ->with($productMock)
+            ->willReturn([$optionMock]);
+
+        $this->productBuilderMock->expects($this->once())->method('populate')->with($productMock)->willReturnSelf();
+        $this->productBuilderMock->expects($this->once())
+            ->method('setCustomAttribute')
+            ->with('bundle_product_options', [$optionMock])
+            ->willReturnSelf();
+
+        $newProductMock = $this->getMock('\Magento\Catalog\Api\Data\ProductInterface');
+        $this->productBuilderMock->expects($this->once())->method('create')->willReturn($newProductMock);
+
+        $this->assertEquals(
+            $newProductMock,
+            $this->plugin->aroundGet($productRepositoryMock, $closure, $sku, $editMode)
+        );
+    }
+
+    public function testAroundGetIfProductTypeNotBundle()
+    {
+        $sku = 'productSku';
+        $editMode = false;
+        $productRepositoryMock = $this->getMock('\Magento\Catalog\Api\ProductRepositoryInterface');
+        $productMock = $this->getMock('\Magento\Catalog\Api\Data\ProductInterface');
+        $closure = function () use ($productMock) {
+            return $productMock;
+        };
+
+        $productMock->expects($this->once())
+            ->method('getTypeId')
+            ->willReturn(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
+
+        $this->assertEquals(
+            $productMock,
+            $this->plugin->aroundGet($productRepositoryMock, $closure, $sku, $editMode)
+        );
+    }
 }
