@@ -202,7 +202,7 @@ define([
          * @param gotoSection - the section needs to show after ajax call
          * @param successCallback - custom callback function in ajax success
          */
-        _ajaxContinue: function(url, data, gotoSection, successCallback) {alert('here');
+        _ajaxContinue: function(url, data, gotoSection, successCallback) {
             $.ajax({
                 url: url,
                 type: 'post',
