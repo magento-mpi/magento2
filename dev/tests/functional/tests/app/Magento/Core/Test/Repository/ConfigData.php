@@ -183,6 +183,52 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
+        $this->_data['config_base_currency_ch_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'currency/options/allow',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => ['USD'],
+                ],
+                [
+                    'path' => 'currency/options/base',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => 'USD',
+                ],
+                [
+                    'path' => 'currency/options/default',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => 'USD',
+                ],
+            ]
+        ];
+
+        $this->_data['config_base_currency_gb_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'currency/options/allow',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => ['USD'],
+                ],
+                [
+                    'path' => 'currency/options/base',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => 'USD',
+                ],
+                [
+                    'path' => 'currency/options/default',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => 'USD',
+                ],
+            ]
+        ];
+
         // Reward settings
         $this->_data['reward_points_with_registration_reward'] = [
             'section' => [

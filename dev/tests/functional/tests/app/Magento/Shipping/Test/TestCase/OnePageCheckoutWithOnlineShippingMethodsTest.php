@@ -77,11 +77,10 @@ class OnePageCheckoutWithOnlineShippingMethodsTest extends Scenario
      */
     public function tearDown()
     {
-        $setConfigStep = $this->objectManager->create(
+        $this->objectManager->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
             ['configData' => $this->currentVariation['arguments']['configData'], 'rollback' => true]
-        );
-        $setConfigStep->run();
+        )->run();
         $this->customerAccountLogout->open();
     }
 }
