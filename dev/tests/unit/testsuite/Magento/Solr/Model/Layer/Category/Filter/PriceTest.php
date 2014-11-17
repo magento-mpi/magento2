@@ -67,6 +67,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->_store = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->_storeManager = $this->getMock(
             '\Magento\Framework\StoreManagerInterface',
