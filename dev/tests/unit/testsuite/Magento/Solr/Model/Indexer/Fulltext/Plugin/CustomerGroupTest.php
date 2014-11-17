@@ -55,6 +55,7 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
      */
     public function testAroundSave($isThirdPartyEngineAvailable, $isObjectNew, $isTaxClassIdChanged, $invalidateCounter)
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->helperMock->expects($this->once())
             ->method('isThirdPartyEngineAvailable')
             ->will($this->returnValue($isThirdPartyEngineAvailable));

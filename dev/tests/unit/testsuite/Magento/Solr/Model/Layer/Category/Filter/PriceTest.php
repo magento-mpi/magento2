@@ -127,6 +127,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMaxPriceIntCached()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->_productCollection->expects(
             $this->once()
         )->method(
@@ -147,6 +148,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddFacetConditionImprovedAndCached()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->_scopeConfig->expects(
             $this->once()
         )->method(

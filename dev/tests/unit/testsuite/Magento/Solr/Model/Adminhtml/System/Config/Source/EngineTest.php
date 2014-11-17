@@ -24,6 +24,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
      */
     public function testToOptionArrayExistence()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->assertTrue(method_exists($this->_model, 'toOptionArray'), 'Required method toOptionArray not exists');
     }
 
@@ -33,6 +34,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
      */
     public function testToOptionArrayFormat()
     {
+        $this->markTestSkipped('Solr module disabled');
         $options = $this->_model->toOptionArray();
         $this->assertNotEmpty($options);
         $labels = array('MySql Fulltext', 'Solr');

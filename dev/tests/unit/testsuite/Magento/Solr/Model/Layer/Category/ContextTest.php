@@ -88,6 +88,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollectionProviderEngineAvailable()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->helperMock->expects($this->once())
             ->method('getIsEngineAvailableForNavigation')
             ->will($this->returnValue(true));
@@ -100,6 +101,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollectionProviderEngineUnavailable()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->helperMock->expects($this->once())
             ->method('getIsEngineAvailableForNavigation')
             ->will($this->returnValue(false));
@@ -112,6 +114,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStateKey()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->assertSame($this->stateKeyMock, $this->model->getStateKey());
     }
 
@@ -120,6 +123,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollectionFilter()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->assertSame($this->collectionFilterMock, $this->model->getCollectionFilter());
     }
 }
