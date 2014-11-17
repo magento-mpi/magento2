@@ -33,6 +33,7 @@ class SolrFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->_objectManager = $this->getMockBuilder('Magento\Framework\ObjectManager')->getMock();
         $this->_solrFactoryMock = $this->getMock(
             'Magento\Solr\Model\SolrFactory',
@@ -59,7 +60,6 @@ class SolrFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetClient()
     {
-        $this->markTestSkipped('Solr module disabled');
         $options = array('attr1' => 'value1', 'attr2' => 'value2');
         $this->_objectManager->expects(
             $this->once()
@@ -79,7 +79,6 @@ class SolrFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateAdapter()
     {
-        $this->markTestSkipped('Solr module disabled');
         $this->_objectManager->expects(
             $this->once()
         )->method(

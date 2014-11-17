@@ -37,6 +37,7 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->objectManagerMock = $this->getMock('\Magento\Framework\ObjectManager');
         $this->attributeListMock = $this->getMock(
             '\Magento\Solr\Model\Layer\Search\FilterableAttributeList',
@@ -57,7 +58,6 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFiltersThirdPartSearchEngineIsTurnedOff()
     {
-        $this->markTestSkipped('Solr module disabled');
         $this->objectManagerMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue('filter'));
@@ -74,7 +74,6 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFiltersThirdPartSearchEngineIsAvailable()
     {
-        $this->markTestSkipped('Solr module disabled');
         $filterMock = $this->getMock(
             '\Magento\Solr\Model\Layer\Category\Filter\Category',
             array(),

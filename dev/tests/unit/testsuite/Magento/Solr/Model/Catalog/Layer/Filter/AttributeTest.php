@@ -76,6 +76,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->_filterItem = $this->getMock(
             '\Magento\Catalog\Model\Layer\Filter\Item',
             array('setFilter', 'setLabel', 'setValue', 'setCount'),
@@ -185,7 +186,6 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
      */
     public function testApply($submittedValue, $expectedFilterApplied, $expectedAttributeId = null)
     {
-        $this->markTestSkipped('Solr module disabled');
         // Call expectations
         $options = array(
             array('label' => 'attribute_label1', 'value' => 'attribute_id1'),

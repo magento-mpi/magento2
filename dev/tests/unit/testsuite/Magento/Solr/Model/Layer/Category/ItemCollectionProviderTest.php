@@ -22,6 +22,7 @@ class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->engineProviderMock = $this->getMock(
             '\Magento\CatalogSearch\Model\Resource\EngineProvider',
             array(),
@@ -39,7 +40,6 @@ class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollection()
     {
-        $this->markTestSkipped('Solr module disabled');
         $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', array(), array(), '', false);
         $categoryMock->expects($this->once())->method('getStoreId');
 

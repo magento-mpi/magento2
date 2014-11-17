@@ -46,6 +46,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->_engineProviderMock = $this->getMock(
             'Magento\CatalogSearch\Model\Resource\EngineProvider',
             array(),
@@ -94,7 +95,6 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeRebuildIndexNoThirdPartyEngine()
     {
-        $this->markTestSkipped('Solr module disabled');
         $this->_searchHelperMock->expects(
             $this->once()
         )->method(
@@ -113,7 +113,6 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeRebuildIndexThirdPartyEngineNoHoldCommit()
     {
-        $this->markTestSkipped('Solr module disabled');
         $this->_searchHelperMock->expects(
             $this->once()
         )->method(
@@ -142,7 +141,6 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeRebuildIndexThirdPartyEngineHoldCommit()
     {
-        $this->markTestSkipped('Solr module disabled');
         $this->_searchHelperMock->expects(
             $this->once()
         )->method(
@@ -171,7 +169,6 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterRebuildIndexNoThirdPartyEngine()
     {
-        $this->markTestSkipped('Solr module disabled');
         $this->_searchHelperMock->expects(
             $this->once()
         )->method(
@@ -190,7 +187,6 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterRebuildIndexThirdPartyEngine()
     {
-        $this->markTestSkipped('Solr module disabled');
         $this->_searchHelperMock->expects(
             $this->once()
         )->method(
@@ -219,7 +215,6 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterRebuildIndexThirdPartyEngineAllowCommitOptimizationNeeded()
     {
-        $this->markTestSkipped('Solr module disabled');
         $this->_searchHelperMock->expects(
             $this->once()
         )->method(
@@ -263,7 +258,6 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterRebuildIndexThirdPartyEngineAllowCommitOptimizationNotNeeded()
     {
-        $this->markTestSkipped('Solr module disabled');
         $this->_searchHelperMock->expects(
             $this->once()
         )->method(

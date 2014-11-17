@@ -57,6 +57,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->filterMock = $this->getMock(
             'Magento\Catalog\Model\Layer\Filter\AbstractFilter', array(), array(), '', false
         );
@@ -79,7 +80,6 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEnabledWithThirdPartEngineOff($isThirdPart, $isActive)
     {
-        $this->markTestSkipped('Solr module disabled');
         $this->helperMock->expects($this->once())->method('isThirdPartSearchEngine')
             ->will($this->returnValue($isThirdPart));
         $this->helperMock->expects($this->any())->method('isActiveEngine')->will($this->returnValue($isActive));
@@ -121,7 +121,6 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAroundIsEnabled($itemsCount, $filters, $expectedResult)
     {
-        $this->markTestSkipped('Solr module disabled');
         $this->helperMock->expects($this->once())->method('isThirdPartSearchEngine')->will($this->returnValue(true));
         $this->helperMock->expects($this->once())->method('isActiveEngine')->will($this->returnValue(true));
 

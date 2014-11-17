@@ -16,12 +16,12 @@ class CacheStateTagsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->model = new CacheStateTags();
     }
 
     public function testGetListComposesListWithCacheTagsForGivenCategory()
     {
-        $this->markTestSkipped('Solr module disabled');
         $categoryMock = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
         $categoryMock->expects($this->any())->method('getId')->will($this->returnValue(1));
         $expectedResult = array(

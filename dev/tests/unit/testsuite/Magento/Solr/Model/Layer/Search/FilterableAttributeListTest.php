@@ -75,7 +75,6 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetListWithEmptyIds()
     {
-        $this->markTestSkipped('Solr module disabled');
         $productCollectionMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Collection',
             array(),
@@ -93,7 +92,6 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetList()
     {
-        $this->markTestSkipped('Solr module disabled');
         //retriving set ids
         $productCollectionMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Collection',
