@@ -84,14 +84,14 @@ class Title
      */
     protected function build()
     {
-        return array_merge($this->prependedValues, [$this->prepare($this->textValue)], $this->appendedValues);
+        return array_merge($this->prependedValues, [$this->addConfigValues($this->textValue)], $this->appendedValues);
     }
 
     /**
      * @param string $title
      * @return string
      */
-    protected function prepare($title)
+    protected function addConfigValues($title)
     {
         $preparedTitle = $this->scopeConfig->getValue(
             'design/head/title_prefix',
@@ -114,7 +114,7 @@ class Title
             'design/head/default_title',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        return $this->prepare($defaultTitle);
+        return $this->addConfigValues($defaultTitle);
     }
 
     /**
