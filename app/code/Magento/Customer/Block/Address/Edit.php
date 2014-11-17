@@ -32,11 +32,6 @@ class Edit extends \Magento\Directory\Block\Data
     protected $_addressRepository;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
-     */
-    protected $_searchCriteriaBuilder;
-
-    /**
      * @var \Magento\Customer\Api\Data\AddressDataBuilder
      */
     protected $_addressBuilder;
@@ -57,7 +52,6 @@ class Edit extends \Magento\Directory\Block\Data
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
      * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
@@ -73,14 +67,12 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
-        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
         $this->_addressRepository = $addressRepository;
-        $this->_searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->_addressBuilder = $addressBuilder;
         $this->currentCustomer = $currentCustomer;
         parent::__construct(
