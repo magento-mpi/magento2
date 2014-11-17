@@ -23,12 +23,6 @@ use Magento\Search\Model\Resource\Query\Collection;
  */
 class Data extends AbstractHelper
 {
-    const XML_PATH_CATALOG_SEARCH_TYPE = 'catalog/search/search_type';
-
-    const SEARCH_TYPE_LIKE = 1;
-    const SEARCH_TYPE_FULLTEXT = 2;
-    const SEARCH_TYPE_COMBINE = 3;
-
     /**
      * @var array
      */
