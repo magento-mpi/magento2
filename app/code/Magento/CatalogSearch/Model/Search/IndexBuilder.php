@@ -52,7 +52,7 @@ class IndexBuilder
                 ['entity_id' => 'search_index.product_id']
             )
             ->joinLeft(
-                ['category_index' => 'catalog_category_product_index'],
+                ['category_index' => $this->resource->getTableName('catalog_category_product_index')],
                 'search_index.product_id = category_index.product_id'
                     . ' AND search_index.store_id = category_index.store_id',
                 []
@@ -65,7 +65,7 @@ class IndexBuilder
         );
         if ($isShowOutOfStock === false) {
             $select->joinLeft(
-                ['stock_index' => 'cataloginventory_stock_status'],
+                ['stock_index' => $this->resource->getTableName('cataloginventory_stock_status')],
                 'search_index.product_id = stock_index.product_id'
                 . ' AND stock_index.website_id = 1 AND stock_index.stock_id = 1',
                 []

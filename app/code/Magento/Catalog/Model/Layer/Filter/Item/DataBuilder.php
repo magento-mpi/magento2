@@ -46,15 +46,11 @@ class DataBuilder
     /**
      * Get Items Data
      *
-     * @param boolean $buildMoreThanOne
      * @return array
      */
-    public function build($buildMoreThanOne = false)
+    public function build()
     {
         $result = $this->_itemsData;
-        if ($buildMoreThanOne && count($result) == 1) {
-            $result = [];
-        }
         $this->_itemsData = [];
         return $result;
     }
