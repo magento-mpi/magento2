@@ -18,6 +18,10 @@ $quoteShippingAddress = $objectManager->create('Magento\Sales\Model\Quote\Addres
 /** @var \Magento\Customer\Api\AccountManagementInterface $accountManagement */
 $accountManagement = $objectManager->create('Magento\Customer\Api\AccountManagementInterface');
 
+/** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+$customerRepository = $objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
+$customer = $customerRepository->getById(1);
+
 /** @var \Magento\Customer\Api\AddressRepositoryInterface $addressRepository */
 $addressRepository = $objectManager->create('Magento\Customer\Api\AddressRepositoryInterface');
 $quoteShippingAddress->importCustomerAddressData($addressRepository->getById(1));

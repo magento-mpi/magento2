@@ -81,7 +81,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $product = $objectManager->create('Magento\Catalog\Model\Product')->load($fixtureProductId);
         $product->setTaxClassId($productTaxClass->getId())->save();
 
-        $fixtureCustomerAddressId = 1;
         $customerAddress = $objectManager->create('Magento\Customer\Model\Address')->load($fixtureCustomerId);
         /** Set data which corresponds tax class fixture */
         $customerAddress->setCountryId('US')->setRegionId(12)->save();
