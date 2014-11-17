@@ -40,7 +40,6 @@ abstract class AbstractState implements StateInterface
      */
     public function clearInstance()
     {
-        $magentoBaseDir = dirname(dirname(dirname(MTF_BP)));
         $dirList = \Mtf\ObjectManagerFactory::getObjectManager()->get('\Magento\Framework\Filesystem\DirectoryList');
         $deploymentConfig = new \Magento\Framework\App\DeploymentConfig(
             new \Magento\Framework\App\DeploymentConfig\Reader($dirList),

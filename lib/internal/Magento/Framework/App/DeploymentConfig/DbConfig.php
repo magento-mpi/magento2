@@ -21,6 +21,7 @@ class DbConfig extends AbstractSegment
     const KEY_MODEL = 'model';
     const KEY_INIT_STATEMENTS = 'initStatements';
     const KEY_ACTIVE = 'active';
+    /**#@-*/
 
     /**
      * Segment key
