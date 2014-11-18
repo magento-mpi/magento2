@@ -46,7 +46,6 @@ class UpdateQty extends \Magento\Backend\App\Action
     public function execute()
     {
         try {
-            $this->_title->add(__('Invoices'));
             $orderId = $this->getRequest()->getParam('order_id');
             $invoiceId = $this->getRequest()->getParam('invoice_id');
             $invoiceData = $this->getRequest()->getParam('invoice', []);
@@ -57,6 +56,7 @@ class UpdateQty extends \Magento\Backend\App\Action
             $invoice->setCommentText($invoiceRawCommentText);
 
             $this->_view->loadLayout();
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Invoices'));
             $response = $this->_view->getLayout()->getBlock('order_items')->toHtml();
         } catch (Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());

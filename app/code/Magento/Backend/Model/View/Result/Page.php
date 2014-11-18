@@ -14,11 +14,6 @@ use Magento\Framework\App;
 class Page extends View\Result\Page
 {
     /**
-     * @var \Magento\Framework\App\Action\Title
-     */
-    protected $title;
-
-    /**
      * Constructor
      *
      * @param View\Element\Template\Context $context
@@ -29,7 +24,6 @@ class Page extends View\Result\Page
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
      * @param string $template
-     * @param App\Action\Title $title
      */
     public function __construct(
         View\Element\Template\Context $context,
@@ -39,8 +33,7 @@ class Page extends View\Result\Page
         View\Layout\BuilderFactory $layoutBuilderFactory,
         View\Page\Config\RendererFactory $pageConfigRendererFactory,
         View\Page\Layout\Reader $pageLayoutReader,
-        $template,
-        App\Action\Title $title
+        $template
     ) {
         parent::__construct(
             $context,
@@ -52,7 +45,6 @@ class Page extends View\Result\Page
             $pageLayoutReader,
             $template
         );
-        $this->title = $title;
     }
 
     /**
@@ -67,10 +59,9 @@ class Page extends View\Result\Page
         $menuBlock = $this->layout->getBlock('menu');
         $menuBlock->setActive($itemId);
         $parents = $menuBlock->getMenuModel()->getParentItems($itemId);
-        $parents = array_reverse($parents);
         foreach ($parents as $item) {
             /** @var $item \Magento\Backend\Model\Menu\Item */
-            $this->title->add($item->getTitle(), true);
+            $this->getConfig()->getTitle()->prepend($item->getTitle());
         }
         return $this;
     }

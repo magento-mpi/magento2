@@ -61,7 +61,6 @@ class AddComment extends \Magento\Backend\App\Action
             if (empty($data['comment'])) {
                 throw new Exception(__('The Comment Text field cannot be empty.'));
             }
-            $this->_title->add(__('Invoices'));
             $orderId = $this->getRequest()->getParam('order_id');
             $invoiceId = $this->getRequest()->getParam('invoice_id');
             $invoiceData = $this->getRequest()->getParam('invoice', []);
@@ -78,6 +77,7 @@ class AddComment extends \Magento\Backend\App\Action
             $invoice->save();
 
             $this->_view->loadLayout();
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Invoices'));
             $response = $this->_view->getLayout()->getBlock('invoice_comments')->toHtml();
         } catch (Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());

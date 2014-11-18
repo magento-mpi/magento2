@@ -25,11 +25,6 @@ class Customer extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Framework\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager;
