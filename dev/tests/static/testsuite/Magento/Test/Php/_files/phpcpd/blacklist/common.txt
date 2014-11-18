@@ -132,5 +132,3 @@ setup/vendor
 Magento/CatalogSearch/Model/Resource/Fulltext
 lib/internal/Magento/Framework/Data
 lib/internal/Magento/Framework/Service
-Magento/CatalogInventory/Api/Data/StockItemCollectionInterface
-Magento/CatalogInventory/Api/Data/StockStatusCollectionInterface
