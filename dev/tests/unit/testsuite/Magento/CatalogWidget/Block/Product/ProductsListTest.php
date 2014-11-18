@@ -74,6 +74,7 @@ class ProductsListTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->collectionFactory = $this->getMockBuilder('Magento\Catalog\Model\Resource\Product\CollectionFactory')
+            ->setMethods(['create'])
             ->disableOriginalConstructor()->getMock();
         $this->visibility = $this->getMockBuilder('Magento\Catalog\Model\Product\Visibility')
             ->setMethods(['getVisibleInCatalogIds'])
