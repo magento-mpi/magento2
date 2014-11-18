@@ -3,7 +3,7 @@
 namespace Magento\Tax\Api\Data;
 
 /**
- * @see
+ * @see \Magento\Tax\Service\V1\Data\OrderTaxDetails
  */
 interface OrderTaxDetailsInterface
 {

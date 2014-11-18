@@ -9,7 +9,7 @@
 namespace Magento\Tax\Api;
 
 /**
- * @see
+ * @see \Magento\Tax\Service\V1\OrderTaxServiceInterface
  */
 interface OrderTaxInterface
 {

@@ -8,6 +8,10 @@
 
 namespace Magento\Tax\Service\V1\Data;
 
+/**
+ * @deprecated
+ * @see \Magento\Tax\Api\Data\OrderTaxDetailsInterface
+ */
 class OrderTaxDetails extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**#@+
