@@ -29,6 +29,7 @@ class CloseOrderTest extends Functional
      */
     public function testCloseOrder(OrderCheckout $fixture)
     {
+        $this->markTestIncomplete('Bug: MAGETWO-30090');
         $fixture->persist();
 
         //Data

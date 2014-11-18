@@ -28,6 +28,7 @@ class OnlineRefundTest extends RefundTest
      */
     public function testRefund(OrderCheckout $fixture)
     {
+        $this->markTestIncomplete('Bug: MAGETWO-30090');
         // Setup preconditions
         parent::setupPreconditions($fixture);
 
