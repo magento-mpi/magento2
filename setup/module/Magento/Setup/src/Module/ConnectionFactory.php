@@ -9,23 +9,23 @@
  */
 namespace Magento\Setup\Module;
 
-use Magento\Framework\DB\LoggerInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ConnectionFactory implements \Magento\Framework\Model\Resource\Type\Db\ConnectionFactoryInterface
 {
     /**
-     * @var LoggerInterface
+     * @var ServiceLocatorInterface
      */
-    private $logger;
+    private $serviceLocator;
 
     /**
      * Constructor
      *
-     * @param LoggerInterface $logger
+     * @param ServiceLocatorInterface $serviceLocator
      */
-    public function __construct(LoggerInterface $logger)
+    public function __construct(ServiceLocatorInterface $serviceLocator)
     {
-        $this->logger = $logger;
+        $this->serviceLocator = $serviceLocator;
     }
 
     /**
@@ -43,6 +43,6 @@ class ConnectionFactory implements \Magento\Framework\Model\Resource\Type\Db\Con
             $connectionConfig
         );
 
-        return $adapterInstance->getConnection($this->logger);
+        return $adapterInstance->getConnection($this->serviceLocator->get('Magento\Framework\DB\Logger\Null'));
     }
 }

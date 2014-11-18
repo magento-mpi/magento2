@@ -94,4 +94,28 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
         $object = new DeploymentConfig($this->reader);
         $this->assertFalse($object->isAvailable());
     }
+
+    /**
+     * @param array $data
+     * @expectedException \Exception
+     * @expectedExceptionMessage Array key collision in deployment configuration file.
+     * @dataProvider keyCollisionDataProvider
+     */
+    public function testKeyCollision(array $data)
+    {
+        $this->reader->expects($this->once())->method('load')->willReturn($data);
+        $object = new DeploymentConfig($this->reader);
+        $object->reload();
+    }
+
+    public function keyCollisionDataProvider()
+    {
+        return [
+            [
+                ['foo' => ['bar' => '1'], 'foo/bar' => '2'],
+                ['foo/bar' => '1', 'foo' => ['bar' => '2']],
+            ]
+        ];
+    }
+
 }

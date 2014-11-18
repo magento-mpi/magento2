@@ -121,7 +121,6 @@ class Files
                     $files,
                     glob($this->_path . '/*.php', GLOB_NOSORT),
                     glob($this->_path . '/pub/*.php', GLOB_NOSORT),
-                    [$this->_path . '/app/etc/config.php'],
                     self::getFiles(array("{$this->_path}/lib/internal/Magento"), '*.php')
                 );
             }

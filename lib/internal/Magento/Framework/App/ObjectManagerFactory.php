@@ -122,7 +122,7 @@ class ObjectManagerFactory
             $diConfig,
             null,
             $definitions,
-            array_merge($deploymentConfig->get(), $arguments)
+            $arguments
         );
 
         if (isset($arguments['MAGE_PROFILER']) && $arguments['MAGE_PROFILER'] == 2) {

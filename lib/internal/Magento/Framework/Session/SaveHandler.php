@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\Session;
 
+use Magento\Framework\App\DeploymentConfig;
+
 /**
  * Magento session save handler
  */
@@ -23,11 +25,15 @@ class SaveHandler implements SaveHandlerInterface
      * Constructor
      *
      * @param SaveHandlerFactory $saveHandlerFactory
-     * @param string $saveMethod
+     * @param DeploymentConfig $deploymentConfig
      * @param string $default
      */
-    public function __construct(SaveHandlerFactory $saveHandlerFactory, $saveMethod, $default = self::DEFAULT_HANDLER)
+    public function __construct(
+        SaveHandlerFactory $saveHandlerFactory,
+        DeploymentConfig $deploymentConfig,
+        $default = self::DEFAULT_HANDLER)
     {
+        $saveMethod = $deploymentConfig->get(\Magento\Framework\Session\Config::PARAM_SESSION_SAVE_METHOD);
         try {
             $adapter = $saveHandlerFactory->create($saveMethod);
         } catch (SaveHandlerException $e) {

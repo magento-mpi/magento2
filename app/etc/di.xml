@@ -103,11 +103,6 @@
         </arguments>
     </type>
     <preference for="Magento\Framework\Session\SaveHandlerInterface" type="Magento\Framework\Session\SaveHandler" />
-    <type name="Magento\Framework\Session\SaveHandler">
-        <arguments>
-            <argument name="saveMethod" xsi:type="init_parameter">Magento\Framework\Session\Config::PARAM_SESSION_SAVE_METHOD</argument>
-        </arguments>
-    </type>
     <type name="Magento\Framework\Session\SaveHandlerFactory">
         <arguments>
             <argument name="handlers" xsi:type="array">

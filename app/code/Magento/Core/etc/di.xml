@@ -445,13 +445,6 @@
             <argument name="cryptKey" xsi:type="init_parameter">Magento\Framework\Encryption\Encryptor::PARAM_CRYPT_KEY</argument>
         </arguments>
     </type>
-    <type name="Magento\Framework\Session\Config">
-        <arguments>
-            <argument name="savePath" xsi:type="init_parameter">Magento\Framework\Session\Config::PARAM_SESSION_SAVE_PATH</argument>
-            <argument name="cacheLimiter" xsi:type="init_parameter">Magento\Framework\Session\Config::PARAM_SESSION_CACHE_LIMITER</argument>
-            <argument name="saveMethod" xsi:type="init_parameter">Magento\Framework\Session\Config::PARAM_SESSION_SAVE_METHOD</argument>
-        </arguments>
-    </type>
     <type name="Magento\Framework\App\Helper\Context">
         <arguments>
             <argument name="urlBuilder" xsi:type="object">Magento\Framework\UrlInterface\Proxy</argument>

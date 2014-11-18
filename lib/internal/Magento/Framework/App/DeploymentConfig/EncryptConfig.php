@@ -11,7 +11,7 @@ namespace Magento\Framework\App\DeploymentConfig;
 class EncryptConfig extends AbstractSegment
 {
     /**
-     * Array Key for encryption key
+     * Array Key for encryption key in deployment config file
      */
     const KEY_ENCRYPTION_KEY = 'key';
 

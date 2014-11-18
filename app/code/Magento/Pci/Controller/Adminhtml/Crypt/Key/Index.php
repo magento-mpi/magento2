@@ -22,11 +22,7 @@ class Index extends \Magento\Pci\Controller\Adminhtml\Crypt\Key
         /** @var \Magento\Framework\App\DeploymentConfig\Writer $writer */
         $writer = $this->_objectManager->get('Magento\Framework\App\DeploymentConfig\Writer');
         if (!$writer->checkIfWritable()) {
-            $this->messageManager->addError(
-                __(
-                    'Deployment configuration file is not writable.'
-                )
-            );
+            $this->messageManager->addError(__('Deployment configuration file is not writable.'));
         }
 
         $this->_view->loadLayout();

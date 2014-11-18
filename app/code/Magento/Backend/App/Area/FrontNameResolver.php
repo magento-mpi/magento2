@@ -9,6 +9,8 @@
  */
 namespace Magento\Backend\App\Area;
 
+use Magento\Framework\App\DeploymentConfig;
+
 class FrontNameResolver implements \Magento\Framework\App\Area\FrontNameResolverInterface
 {
     const XML_PATH_USE_CUSTOM_ADMIN_PATH = 'admin/url/use_custom_path';
@@ -25,21 +27,23 @@ class FrontNameResolver implements \Magento\Framework\App\Area\FrontNameResolver
     /**
      * @var string
      */
-    protected $_defaultFrontName;
+    protected $defaultFrontName;
 
     /**
      * @var \Magento\Backend\App\ConfigInterface
      */
-    protected $_config;
+    protected $config;
+
+    protected $deploymentConfig;
 
     /**
      * @param \Magento\Backend\App\Config $config
-     * @param string $defaultFrontName
+     * @param DeploymentConfig $deploymentConfig
      */
-    public function __construct(\Magento\Backend\App\Config $config, $defaultFrontName)
+    public function __construct(\Magento\Backend\App\Config $config, DeploymentConfig $deploymentConfig)
     {
-        $this->_config = $config;
-        $this->_defaultFrontName = $defaultFrontName;
+        $this->config = $config;
+        $this->defaultFrontName = $deploymentConfig->get(self::PARAM_BACKEND_FRONT_NAME);
     }
 
     /**
@@ -49,10 +53,10 @@ class FrontNameResolver implements \Magento\Framework\App\Area\FrontNameResolver
      */
     public function getFrontName()
     {
-        $isCustomPathUsed = (bool)(string)$this->_config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH);
+        $isCustomPathUsed = (bool)(string)$this->config->getValue(self::XML_PATH_USE_CUSTOM_ADMIN_PATH);
         if ($isCustomPathUsed) {
-            return (string)$this->_config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH);
+            return (string)$this->config->getValue(self::XML_PATH_CUSTOM_ADMIN_PATH);
         }
-        return $this->_defaultFrontName;
+        return $this->defaultFrontName;
     }
 }

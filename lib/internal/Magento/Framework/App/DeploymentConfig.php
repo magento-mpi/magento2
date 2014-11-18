@@ -144,30 +144,26 @@ class DeploymentConfig
      *
      * @param array $params
      * @return array
+     * @throws \Exception
      */
     private function flattenParams(array $params)
     {
-
-        $result = array();
-        $stack = $params;
-        while ($stack) {
-            list($key, $value) = each($stack);
-            unset($stack[$key]);
+        $result = [];
+        foreach ($params as $key => $value) {
             if (is_array($value)) {
-                if (count($value)) {
-                    foreach ($value as $subKey => $node) {
-                        $build[$key . '/' . $subKey] = $node;
+                $subParams = $this->flattenParams($value);
+                foreach ($subParams as $subKey => $subValue) {
+                    if (array_key_exists($key . '/' . $subKey, $result)) {
+                        throw new \Exception('Array key collision in deployment configuration file.');
                     }
-                    if (array_key_exists($key, $build)) {
-                        unset($build[$key]);
-                    }
-                } else {
-                    $build[$key] = null;
+                    $result[$key . '/' . $subKey] = $subValue;
                 }
-                $stack = $build + $stack;
-                continue;
+            } else {
+                if (array_key_exists($key, $result)) {
+                    throw new \Exception('Array key collision in deployment configuration file.');
+                }
+                $result[$key] = $value;
             }
-            $result[$key] = $value;
         }
         return $result;
     }
