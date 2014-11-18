@@ -21,7 +21,7 @@ interface TaxClassManagementInterface
     /**
      * Get tax class id
      *
-     * @param \Magento\Tax\Service\V1\Data\TaxClassKey|null $taxClassKey
+     * @param \Magento\Tax\Api\Data\TaxClassKeyInterface|null $taxClassKey
      * @param string $taxClassType
      * @return int|null
      * @see \Magento\Tax\Service\V1\TaxClassServiceInterface::getTaxClassId

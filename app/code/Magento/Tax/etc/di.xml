@@ -59,4 +59,7 @@
     <preference for="Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxInterface" type="Magento\Tax\Model\Sales\Order\Tax" />
     <preference for="Magento\Tax\Api\Data\OrderTaxDetailsInterface" type="Magento\Tax\Model\Sales\Order\Details" />
     <preference for="Magento\Tax\Api\Data\OrderTaxDetailsItemInterface" type="Magento\Tax\Model\Sales\Order\Tax\Item" />
+    <preference for="Magento\Tax\Api\TaxClassManagementInterface" type="Magento\Tax\Model\TaxClass\Repository" />
+    <preference for="Magento\Tax\Api\TaxClassRepositoryInterface" type="Magento\Tax\Model\TaxClass\Repository" />
+    <preference for="Magento\Tax\Api\Data\TaxClassInterface" type="Magento\Tax\Model\ClassModel" />
 </config>
