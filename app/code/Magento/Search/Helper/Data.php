@@ -215,21 +215,6 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Retrieve maximum query words count for like search
-     *
-     * @param mixed $store
-     * @return int
-     */
-    public function getMaxQueryWords($store = null)
-    {
-        return $this->_scopeConfig->getValue(
-            SearchQuery::XML_PATH_MAX_QUERY_WORDS,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
      * Add Note message
      *
      * @param string $message

@@ -17,7 +17,6 @@
                 <engine>Magento\CatalogSearch\Model\Resource\Engine</engine>
                 <min_query_length>1</min_query_length>
                 <max_query_length>128</max_query_length>
-                <max_query_words>10</max_query_words>
                 <use_layered_navigation_count>0</use_layered_navigation_count>
             </search>
         </catalog>
