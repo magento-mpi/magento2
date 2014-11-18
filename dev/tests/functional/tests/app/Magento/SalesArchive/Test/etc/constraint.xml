@@ -29,9 +29,6 @@
     <assertArchiveCreditMemoInGrid module="Magento_SalesArchive">
         <severeness>low</severeness>
     </assertArchiveCreditMemoInGrid>
-    <assertArchiveOrderInOrderGrid module="Magento_SalesArchive">
-        <severeness>high</severeness>
-    </assertArchiveOrderInOrderGrid>
     <assertArchiveOrderStatusInGrid module="Magento_SalesArchive">
         <severeness>high</severeness>
     </assertArchiveOrderStatusInGrid>
