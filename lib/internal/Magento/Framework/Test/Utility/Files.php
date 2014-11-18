@@ -39,6 +39,7 @@ class Files
      * Also can unset the current instance, if no arguments are specified
      *
      * @param Files|null $instance
+     * @return void
      */
     public static function setInstance(Files $instance = null)
     {
@@ -533,6 +534,7 @@ class Files
      * @param string $filePattern
      * @param array $result
      * @param bool $subroutine
+     * @return void
      */
     protected function _accumulateFilesByPatterns(array $patterns, $filePattern, array &$result, $subroutine = false)
     {
@@ -643,6 +645,7 @@ class Files
     /**
      * Returns list of Javascript files in Magento by certain area
      *
+     * @param string $area
      * @return array
      */
     public function getJsFilesForArea($area)
@@ -808,6 +811,7 @@ class Files
      *
      * @param array $dirPatterns
      * @param string $fileNamePattern
+     * @param bool $recursive
      * @return array
      */
     public static function getFiles(array $dirPatterns, $fileNamePattern, $recursive = true)
@@ -828,6 +832,8 @@ class Files
 
     /**
      * Look for DI config through the system
+     *
+     * @param bool $asDataSet
      * @return array
      */
     public function getDiConfigs($asDataSet = false)

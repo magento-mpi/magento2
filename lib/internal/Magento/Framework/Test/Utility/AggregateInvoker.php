@@ -43,6 +43,7 @@ class AggregateInvoker
      *
      * @param callable $callback
      * @param array[] $dataSource
+     * @return void
      */
     public function __invoke(callable $callback, array $dataSource)
     {
@@ -99,6 +100,7 @@ class AggregateInvoker
      *
      * @param array $results
      * @param int $passed
+     * @return void
      */
     protected function processResults(array $results, $passed)
     {
