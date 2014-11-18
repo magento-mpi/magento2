@@ -10,7 +10,6 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Framework\Api\ExtensibleDataObjectConverter;
 
 /**
  * Create order account form
@@ -40,10 +39,10 @@ class Account extends AbstractForm
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
-     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
      * @param array $data
      */
     public function __construct(
@@ -52,10 +51,10 @@ class Account extends AbstractForm
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         CustomerAccountServiceInterface $customerAccountService,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
-        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
         array $data = array()
     ) {
         $this->_metadataFormFactory = $metadataFormFactory;

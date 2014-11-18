@@ -39,7 +39,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerRepositoryInterface $customerRepository
-     * @param AccountManagementInterface $customerAccount
+     * @param AccountManagementInterface $customerAccountManagement
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Customer\Helper\View $customerView
      * @param array $data
@@ -49,7 +49,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerRepositoryInterface $customerRepository,
-        AccountManagementInterface $customerAccount,
+        AccountManagementInterface $customerAccountManagement,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Customer\Helper\View $customerView,
         array $data = array()
@@ -61,7 +61,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
             $customerSession,
             $subscriberFactory,
             $customerRepository,
-            $customerAccount,
+            $customerAccountManagement,
             $data
         );
     }

@@ -39,7 +39,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param CustomerRepositoryInterface $customerRepository
-     * @param AccountManagementInterface $customerAccount
+     * @param AccountManagementInterface $customerAccountManagement
      * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
@@ -49,7 +49,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerRepositoryInterface $customerRepository,
-        AccountManagementInterface $customerAccount,
+        AccountManagementInterface $customerAccountManagement,
         \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
@@ -60,7 +60,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
             $customerSession,
             $subscriberFactory,
             $customerRepository,
-            $customerAccount,
+            $customerAccountManagement,
             $data
         );
         $this->currentCustomer = $currentCustomer;
