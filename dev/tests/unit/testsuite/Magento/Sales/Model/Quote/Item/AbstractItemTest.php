@@ -79,7 +79,7 @@ class AbstractItemTest extends \PHPUnit_Framework_TestCase
             ->method('getDiscountAmount')
             ->will($this->returnValue($childTwoDiscountAmount));
 
-        $NO_EFFECT = 0;
+        $valueHasNoEffect = 0;
 
         $data = [
             'no_children' => [
@@ -98,13 +98,13 @@ class AbstractItemTest extends \PHPUnit_Framework_TestCase
                 $childOneDiscountAmount,
                 [$childOneItemMock],
                 true,
-                $NO_EFFECT
+                $valueHasNoEffect
             ],
             'two_kids' => [
                 $childOneDiscountAmount + $childTwoDiscountAmount,
                 [$childOneItemMock, $childTwoItemMock],
                 true,
-                $NO_EFFECT
+                $valueHasNoEffect
             ]
         ];
         return $data;

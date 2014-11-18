@@ -674,7 +674,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
      *
      * @return float
      */
-     public function getTotalDiscountAmount()
+    public function getTotalDiscountAmount()
     {
         $totalDiscountAmount = 0;
         /* \Magento\Sales\Model\Quote\Item\AbstractItem[] */
