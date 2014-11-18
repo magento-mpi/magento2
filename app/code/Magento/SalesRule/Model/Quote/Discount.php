@@ -108,6 +108,7 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 $this->_calculator->process($item);
                 $this->distributeDiscount($item);
                 foreach ($item->getChildren() as $child) {
+                    $eventArgs['item'] = $child;
                     $this->_eventManager->dispatch('sales_quote_address_discount_item', $eventArgs);
 
                     $this->_aggregateItemDiscount($child);
