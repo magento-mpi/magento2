@@ -31,6 +31,13 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     protected $sortLinkName = 'giftcardaccount_id';
 
     /**
+     * First row xpath selector.
+     *
+     * @var string
+     */
+    protected $firstRow = '//div[@class="grid"]//tbody/tr[1]';
+
+    /**
      * Initialize block elements.
      *
      * @var array
@@ -59,21 +66,34 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      * @param array $filter
      * @param bool $isSearchable [optional]
      * @param bool $isStrict [optional]
+     * @throws \Exception
      * @return Element
      */
     protected function getRow(array $filter, $isSearchable = true, $isStrict = true)
     {
-        $this->sortGridByField($this->sortLinkName);
-        if ($isSearchable) {
-            $this->search($filter);
+        try {
+            $this->sortGridByField($this->sortLinkName);
+            if ($isSearchable) {
+                $this->search($filter);
+            }
+            $browser = $this->browser;
+            $selector = $this->firstRow;
+            $browser->waitUntil(
+                function () use ($browser, $selector) {
+                    $element = $browser->find($selector, Locator::SELECTOR_XPATH);
+                    return $element->isVisible() ? true : null;
+                }
+            );
+            $location = $this->firstRow . '[';
+            $rows = [];
+            foreach ($filter as $value) {
+                $rows[] = 'td[contains(.,"' . $value . '")]';
+            }
+            $location = $location . implode(' and ', $rows) . ']';
+            return $this->_rootElement->find($location, Locator::SELECTOR_XPATH);
+        } catch (\Exception $e) {
+            throw new \Exception('Row is absent in grid.');
         }
-        $location = '//div[@class="grid"]//tbody/tr[1][';
-        $rows = [];
-        foreach ($filter as $value) {
-            $rows[] = 'td[contains(.,"' . $value . '")]';
-        }
-        $location = $location . implode(' and ', $rows) . ']';
-        return $this->_rootElement->find($location, Locator::SELECTOR_XPATH);
     }
 
     /**
