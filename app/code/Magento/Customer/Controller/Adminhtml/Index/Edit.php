@@ -38,7 +38,7 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
             try {
                 $customer = $this->_customerRepository->getById($customerId);
                 $customerData['account'] = $this->customerMapper->toFlatArray($customer);
-                $customerData['account']['id'] = $customerId;
+                $customerData['account'][CustomerInterface::ID] = $customerId;
                 try {
                     $addresses = $customer->getAddresses();
                     foreach ($addresses as $address) {
@@ -99,12 +99,12 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
                         $this->addressDataBuilder->setCustomerId($customerId);
                     }
                     $this->addressDataBuilder->setDefaultBilling(
-                        !empty($data['account'][\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING]) &&
-                        $data['account'][\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING] == $addressId
+                        !empty($data['account'][CustomerInterface::DEFAULT_BILLING]) &&
+                        $data['account'][CustomerInterface::DEFAULT_BILLING] == $addressId
                     );
                     $this->addressDataBuilder->setDefaultShipping(
-                        !empty($data['account'][\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING]) &&
-                        $data['account'][\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING] == $addressId
+                        !empty($data['account'][CustomerInterface::DEFAULT_SHIPPING]) &&
+                        $data['account'][CustomerInterface::DEFAULT_SHIPPING] == $addressId
                     );
                     $address = $this->addressDataBuilder->create();
                     $requestScope = sprintf('address/%s', $addressId);
@@ -115,7 +115,7 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
                     );
                     $formData = $addressForm->extractData($request, $requestScope);
                     $customerData['address'][$addressId] = $addressForm->restoreData($formData);
-                    $customerData['address'][$addressId]['id'] = $addressId;
+                    $customerData['address'][$addressId][\Magento\Customer\Api\Data\AddressInterface::ID] = $addressId;
                 }
             }
         }

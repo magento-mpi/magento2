@@ -138,7 +138,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
      * @magentoDataFixture Magento/Customer/_files/customer_no_address.php
-     * @dataProvider getPrimaryShippingAddressEditUrlDataProvider
+     * @dataProvider getPrimaryAddressEditUrlDataProvider
      */
     public function testGetPrimaryShippingAddressEditUrl($customerId, $expected)
     {
@@ -149,19 +149,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $url);
     }
 
-    public function getPrimaryShippingAddressEditUrlDataProvider()
-    {
-        return [
-            '0' => [0, 'http://localhost/index.php/customer/address/edit/'],
-            '1' => [1, 'http://localhost/index.php/customer/address/edit/id/1/'],
-        ];
-    }
-
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
      * @magentoDataFixture Magento/Customer/_files/customer_no_address.php
-     * @dataProvider getPrimaryBillingAddressEditUrlDataProvider
+     * @dataProvider getPrimaryAddressEditUrlDataProvider
      */
     public function testGetPrimaryBillingAddressEditUrl($customerId, $expected)
     {
@@ -172,10 +164,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $url);
     }
 
-    public function getPrimaryBillingAddressEditUrlDataProvider()
+    public function getPrimaryAddressEditUrlDataProvider()
     {
         return [
-            '0' => [0, 'http://localhost/index.php/customer/address/edit/'],
             '1' => [1, 'http://localhost/index.php/customer/address/edit/id/1/'],
         ];
     }

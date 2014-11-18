@@ -15,7 +15,7 @@ use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Model\Address\Mapper;
+use Magento\Customer\Model\Address\Mapper as AddressMapper;
 
 /**
  * Customer addresses forms
@@ -71,7 +71,7 @@ class Addresses extends GenericMetadata
     protected $_attributeMetadataBuilder;
 
     /**
-     * @var Mapper
+     * @var AddressMapper
      */
     protected $addressMapper;
 
@@ -92,7 +92,8 @@ class Addresses extends GenericMetadata
      * @param CustomerDataBuilder $customerBuilder
      * @param AttributeMetadataDataBuilder $attributeMetadataBuilder
      * @param \Magento\Directory\Helper\Data $directoryHelper
-     * @param Mapper $addressMapper
+     * @param AddressMapper $addressMapper
+     * @param CustomerMapper $customerMapper
      * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param array $data
      *
@@ -115,7 +116,7 @@ class Addresses extends GenericMetadata
         CustomerDataBuilder $customerBuilder,
         AttributeMetadataDataBuilder $attributeMetadataBuilder,
         \Magento\Directory\Helper\Data $directoryHelper,
-        Mapper $addressMapper,
+        AddressMapper $addressMapper,
         \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         array $data = array()
     ) {
@@ -201,7 +202,7 @@ class Addresses extends GenericMetadata
         }
 
         try {
-            return !$this->_customerAccountManagement->isReadonly($customerId);
+            return $this->_customerAccountManagement->isReadonly($customerId);
         } catch (NoSuchEntityException $e) {
             return false;
         }

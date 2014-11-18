@@ -53,7 +53,7 @@ class AttributeMetadataConverter
      * Create AttributeMetadata Data object from the Attribute Model
      *
      * @param \Magento\Customer\Model\Attribute $attribute
-     * @return AttributeMetadata
+     * @return \Magento\Customer\Api\Data\AttributeMetadataInterface
      */
     public function createMetadataAttribute($attribute)
     {

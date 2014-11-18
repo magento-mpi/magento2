@@ -111,6 +111,11 @@ class Index extends \Magento\Backend\App\Action
     protected $customerMapper;
 
     /**
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
+     */
+    protected $dataObjectProcessor;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
@@ -129,6 +134,7 @@ class Index extends \Magento\Backend\App\Action
      * @param CustomerDataBuilder $customerDataBuilder
      * @param AddressDataBuilder $addressDataBuilder
      * @param \Magento\Customer\Model\Customer\Mapper $customerMapper
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -150,7 +156,8 @@ class Index extends \Magento\Backend\App\Action
         AddressRepositoryInterface $addressRepository,
         CustomerDataBuilder $customerDataBuilder,
         AddressDataBuilder $addressDataBuilder,
-        \Magento\Customer\Model\Customer\Mapper $customerMapper
+        \Magento\Customer\Model\Customer\Mapper $customerMapper,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
@@ -169,6 +176,7 @@ class Index extends \Magento\Backend\App\Action
         $this->customerDataBuilder = $customerDataBuilder;
         $this->addressDataBuilder = $addressDataBuilder;
         $this->customerMapper = $customerMapper;
+        $this->dataObjectProcessor = $dataObjectProcessor;
         parent::__construct($context);
     }
 
