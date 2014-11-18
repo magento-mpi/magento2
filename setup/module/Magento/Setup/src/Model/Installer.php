@@ -162,6 +162,11 @@ class Installer
     private $execParams;
 
     /**
+     * @var SampleData
+     */
+    private $sampleData;
+
+    /**
      * Constructor
      *
      * @param FilePermissions $filePermissions
@@ -176,6 +181,7 @@ class Installer
      * @param MaintenanceMode $maintenanceMode
      * @param Filesystem $filesystem
      * @param ServiceLocatorInterface $serviceManager
+     * @param SampleData $sampleData
      */
     public function __construct(
         FilePermissions $filePermissions,
@@ -189,7 +195,8 @@ class Installer
         ConnectionFactory $connectionFactory,
         MaintenanceMode $maintenanceMode,
         Filesystem $filesystem,
-        ServiceLocatorInterface $serviceManager
+        ServiceLocatorInterface $serviceManager,
+        SampleData $sampleData
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigFactory = $deploymentConfigFactory;
@@ -205,6 +212,7 @@ class Installer
         $this->maintenanceMode = $maintenanceMode;
         $this->filesystem = $filesystem;
         $this->execParams = urldecode(http_build_query($serviceManager->get(InitParamListener::BOOTSTRAP_PARAM)));
+        $this->sampleData = $sampleData;
     }
 
     /**
@@ -236,6 +244,9 @@ class Installer
         $script[] = ['Enabling caches:', 'enableCaches', []];
         $script[] = ['Disabling Maintenance Mode:', 'setMaintenanceMode', [0]];
         $script[] = ['Post installation file permissions check...', 'checkApplicationFilePermissions', []];
+        if (!empty($request[UserConfigurationData::KEY_SAMPLE_DATA]) && $this->sampleData->isDeployed()) {
+            $script[] = ['Installing Sample Data...', 'installSampleData', []];
+        }
 
         $total = count($script) + count($this->moduleList->getModules());
         $this->progress = new Installer\Progress($total, 0);
@@ -604,5 +615,17 @@ class Installer
         } catch (FilesystemException $e) {
             $this->log->log($e->getMessage());
         }
+    }
+
+    /**
+     * Run installation process for Sample Data
+     */
+    private function installSampleData()
+    {
+        $handle = popen($this->sampleData->getRunCommand(), 'r');
+        while (!feof($handle)) {
+            $this->log->log(fread($handle, 8192), false);
+        }
+        pclose($handle);
     }
 }

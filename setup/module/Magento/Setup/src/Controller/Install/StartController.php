@@ -144,6 +144,8 @@ class StartController extends AbstractActionController
             ? $source['store']['timezone'] : '';
         $result[UserConfig::KEY_CURRENCY] = isset($source['store']['currency'])
             ? $source['store']['currency'] : '';
+        $result[UserConfig::KEY_SAMPLE_DATA] = isset($source['store']['useSampleData'])
+            ? $source['store']['useSampleData'] : '';
         return $result;
     }
 

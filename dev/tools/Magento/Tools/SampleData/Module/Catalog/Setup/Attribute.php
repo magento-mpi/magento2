@@ -65,6 +65,11 @@ class Attribute implements SetupInterface
     protected $entityTypeId;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
@@ -72,6 +77,7 @@ class Attribute implements SetupInterface
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param FixtureHelper $fixtureHelper
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param CsvReaderFactory $csvReaderFactory
      */
     public function __construct(
@@ -82,6 +88,7 @@ class Attribute implements SetupInterface
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         FixtureHelper $fixtureHelper,
+        \Magento\Tools\SampleData\Logger $logger,
         CsvReaderFactory $csvReaderFactory
     ) {
         $this->attributeFactory = $attributeFactory;
@@ -92,6 +99,7 @@ class Attribute implements SetupInterface
         $this->moduleList = $moduleList;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -99,7 +107,7 @@ class Attribute implements SetupInterface
      */
     public function run()
     {
-        echo "Installing catalog attributes\n";
+        $this->logger->log('Installing catalog attributes' . PHP_EOL);
         $attributeCount = 0;
 
         foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
@@ -156,10 +164,10 @@ class Attribute implements SetupInterface
                     }
                 }
 
-                echo '.';
+                $this->logger->log('.');
             }
         }
-        echo "\n";
+        $this->logger->log(PHP_EOL);
 
         $this->eavConfig->clear();
     }

@@ -48,10 +48,16 @@ class Review implements SetupInterface
     protected $productCollection;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      */
     public function __construct(
@@ -59,6 +65,7 @@ class Review implements SetupInterface
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
+        \Magento\Tools\SampleData\Logger $logger,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
     ) {
         $this->reviewFactory = $reviewFactory;
@@ -66,6 +73,7 @@ class Review implements SetupInterface
         $this->csvReaderFactory = $csvReaderFactory;
         $this->ratingFactory = $ratingFactory;
         $this->productCollection = $productCollectionFactory->create()->addAttributeToSelect('sku');
+        $this->logger = $logger;
     }
 
     /**
@@ -73,7 +81,7 @@ class Review implements SetupInterface
      */
     public function run()
     {
-        echo 'Installing product reviews' . PHP_EOL;
+        $this->logger->log('Installing product reviews' . PHP_EOL);
 
         $review = $this->reviewFactory->create();
         $fixtureFile = 'Review/products_reviews.csv';
@@ -116,9 +124,9 @@ class Review implements SetupInterface
                 $row['rating'],
                 $productId
             );
-            echo '.';
+            $this->logger->log('.');
         }
-        echo PHP_EOL;
+        $this->logger->log(PHP_EOL);
     }
 
     /**

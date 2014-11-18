@@ -54,6 +54,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         Product\Gallery $gallery,
+        \Magento\Tools\SampleData\Logger $logger,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProductType,
         \Magento\Eav\Model\Config $eavConfig,
         $fixtures = array(
@@ -74,6 +75,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
             $fixtureHelper,
             $csvReaderFactory,
             $gallery,
+            $logger,
             $fixtures
         );
     }

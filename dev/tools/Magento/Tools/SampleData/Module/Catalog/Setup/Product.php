@@ -63,12 +63,18 @@ class Product implements SetupInterface
     protected $gallery;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param Product\Converter $converter
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param Product\Gallery $gallery
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param array $fixtures
      */
     public function __construct(
@@ -78,6 +84,7 @@ class Product implements SetupInterface
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         Product\Gallery $gallery,
+        \Magento\Tools\SampleData\Logger $logger,
         $fixtures = array(
             'Catalog/SimpleProduct/products_gear_bags.csv',
             'Catalog/SimpleProduct/products_gear_fitness_equipment.csv',
@@ -93,6 +100,7 @@ class Product implements SetupInterface
         $this->csvReaderFactory = $csvReaderFactory;
         $this->gallery = $gallery;
         $this->fixtures = $fixtures;
+        $this->logger = $logger;
     }
 
     /**
@@ -100,7 +108,7 @@ class Product implements SetupInterface
      */
     public function run()
     {
-        echo "Installing {$this->productType} products\n";
+        $this->logger->log("Installing {$this->productType} products" . PHP_EOL);
 
         $product = $this->productFactory->create();
 
@@ -134,10 +142,10 @@ class Product implements SetupInterface
 
                 $product->save();
                 $this->gallery->install($product);
-                echo '.';
+                $this->logger->log('.');
             }
         }
-        echo "\n";
+        $this->logger->log(PHP_EOL);
     }
 
     /**

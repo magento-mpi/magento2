@@ -26,11 +26,6 @@ class Installer implements \Magento\Framework\AppInterface
     protected $appState;
 
     /**
-     * @var array
-     */
-    protected $resources;
-
-    /**
      * @var SetupFactory
      */
     protected $setupFactory;
@@ -68,7 +63,6 @@ class Installer implements \Magento\Framework\AppInterface
      * @param ConfigLoader $configLoader
      * @param Console\Response $response
      * @param Helper\PostInstaller $postInstaller
-     * @param array $resources
      */
     public function __construct(
         State $appState,
@@ -77,17 +71,16 @@ class Installer implements \Magento\Framework\AppInterface
         ObjectManager $objectManager,
         ConfigLoader $configLoader,
         Console\Response $response,
-        Helper\PostInstaller $postInstaller,
-        array $resources = []
+        Helper\PostInstaller $postInstaller
     ) {
         $this->appState = $appState;
-        $this->resources = $resources;
         $this->setupFactory = $setupFactory;
         $this->moduleList = $moduleList;
         $this->objectManager = $objectManager;
         $this->configLoader = $configLoader;
         $this->response = $response;
         $this->postInstaller = $postInstaller;
+        $this->initResources();
     }
 
     /**
@@ -99,9 +92,10 @@ class Installer implements \Magento\Framework\AppInterface
         $this->appState->setAreaCode($areaCode);
         $this->objectManager->configure($this->configLoader->load($areaCode));
 
+        $resources = $this->initResources();
         foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
-            if (isset($this->resources[$moduleName])) {
-                $resourceType = $this->resources[$moduleName];
+            if (isset($resources[$moduleName])) {
+                $resourceType = $resources[$moduleName];
                 $this->setupFactory->create($resourceType)->run();
                 $this->postInstaller->addModule($moduleName);
             }
@@ -119,5 +113,21 @@ class Installer implements \Magento\Framework\AppInterface
     public function catchException(Bootstrap $bootstrap, \Exception $exception)
     {
         return false;
+    }
+
+    /**
+     * Init resources
+     * @return array
+     */
+    private function initResources()
+    {
+        $config = [];
+        foreach (glob(__DIR__ . '/config/*.php') as $filename) {
+            if (is_file($filename)) {
+                $configPart = include $filename;
+                $config = array_merge_recursive($config, $configPart);
+            }
+        }
+        return isset($config['setup_resources']) ? $config['setup_resources'] : [];
     }
 }
