@@ -10,7 +10,7 @@ namespace Magento\Tax\Model\Calculation;
 use Magento\Tax\Model\Calculation\Rule as TaxRuleModel;
 use Magento\Tax\Model\Calculation\RuleFactory as TaxRuleModelFactory;
 use Magento\Tax\Api\Data\TaxRuleInterface as TaxRuleDataObject;
-use Magento\Tax\Api\Data\TaxRuleDataBuilder as TaxRuleDataObjectBuilder;
+use Magento\Tax\Api\Data\TaxRuleDataBuilder;
 
 /**
  * Tax Rule Model converter.
@@ -30,7 +30,7 @@ class TaxRuleConverter
     protected $taxRuleModelFactory;
 
     /**
-     * @param TaxRuleDataObjectBuilder $taxRuleDataObjectBuilder
+     * @param TaxRuleDataBuilder $taxRuleDataObjectBuilder
      * @param TaxRuleModelFactory $taxRuleModelFactory
      */
     public function __construct(

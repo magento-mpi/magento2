@@ -21,14 +21,12 @@ use Magento\Tax\Model\Calculation\RuleFactory as TaxRuleModelFactory;
 use Magento\Tax\Model\Calculation\TaxRuleConverter;
 use Magento\Tax\Model\Calculation\TaxRuleRegistry;
 use Magento\Tax\Model\Resource\Calculation\Rule\Collection;
-use Magento\Tax\Service\V1\Data\TaxRule;
-use Magento\Tax\Service\V1\Data\TaxRuleBuilder;
 use Magento\Framework\Api\SortOrder;
 
 /**
  * TaxRuleService implementation.
  */
-class TaxRuleService implements TaxRuleRepositoryInterface
+class TaxRuleService
 {
     /**
      * Builder for TaxRule data objects.
@@ -76,38 +74,6 @@ class TaxRuleService implements TaxRuleRepositoryInterface
      * @var TaxClassService
      */
     protected $taxClassService;
-    /**
-     * @param TaxRuleBuilder $taxRuleBuilder
-     * @param TaxRuleConverter $converter
-     * @param TaxRuleRegistry $taxRuleRegistry
-     * @param Data\TaxRuleSearchResultsBuilder $taxRuleSearchResultsBuilder
-     * @param TaxRuleModelFactory $taxRuleModelFactory
-     * @param FilterBuilder $filterBuilder
-     * @param TaxRateServiceInterface $taxRateService
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param TaxClassService $taxClassService
-     */
-    public function __construct(
-        TaxRuleBuilder $taxRuleBuilder,
-        TaxRuleConverter $converter,
-        TaxRuleRegistry $taxRuleRegistry,
-        Data\TaxRuleSearchResultsBuilder $taxRuleSearchResultsBuilder,
-        TaxRuleModelFactory $taxRuleModelFactory,
-        FilterBuilder $filterBuilder,
-        TaxRateServiceInterface $taxRateService,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        TaxClassService $taxClassService
-    ) {
-        $this->taxRuleBuilder = $taxRuleBuilder;
-        $this->converter = $converter;
-        $this->taxRuleRegistry = $taxRuleRegistry;
-        $this->taxRuleSearchResultsBuilder = $taxRuleSearchResultsBuilder;
-        $this->taxRuleModelFactory = $taxRuleModelFactory;
-        $this->filterBuilder = $filterBuilder;
-        $this->taxRateService = $taxRateService;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->taxClassService = $taxClassService;
-    }
 
     /**
      * {@inheritdoc}

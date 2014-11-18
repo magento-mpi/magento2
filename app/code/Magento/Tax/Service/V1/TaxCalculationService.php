@@ -28,7 +28,7 @@ use Magento\Tax\Model\Calculation\CalculatorFactory;
  * Tax Calculation Service
  *
  */
-class TaxCalculationService implements TaxCalculationInterface
+class TaxCalculationService
 {
     /**
      * Tax calculation model
