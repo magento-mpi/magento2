@@ -36,9 +36,12 @@ class EncryptConfig extends AbstractSegment
         if (!isset($data[self::KEY_ENCRYPTION_KEY])) {
             throw new \InvalidArgumentException('No encryption key provided');
         }
-        if (strlen($data[self::KEY_ENCRYPTION_KEY]) != self::KEY_LENGTH ||
-            !preg_match('/^[a-zA-Z0-9]+$/', $data[self::KEY_ENCRYPTION_KEY])) {
-            throw new \InvalidArgumentException("Invalid encryption key: '{$data[self::KEY_ENCRYPTION_KEY]}'");
+        foreach (explode("\n", $data[self::KEY_ENCRYPTION_KEY]) as $key) {
+            if (strlen($key) != self::KEY_LENGTH ||
+                !preg_match('/^[a-zA-Z0-9]+$/', $key)
+            ) {
+                throw new \InvalidArgumentException("Invalid encryption key: '{$key}'");
+            }
         }
         parent::__construct($data);
     }
