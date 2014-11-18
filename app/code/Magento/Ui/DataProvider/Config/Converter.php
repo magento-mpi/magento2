@@ -102,7 +102,7 @@ class Converter implements ConverterInterface
                 $entityType = $this->entityTypeFactory->create()
                     ->load($dataSource['fields']['@attributes']['entityType'], 'entity_type_code');
                 $attributeCollection = $entityType->getAttributeCollection();
-                foreach ($attributeCollection  as $attribute) {
+                foreach ($attributeCollection as $attribute) {
                     if ($attribute->getIsUserDefined()) {
                         $fields[$attribute->getAttributeCode()] = [
                             'name' => $attribute->getAttributeCode(),
