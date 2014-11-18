@@ -9,6 +9,7 @@
 namespace Mtf\App\State;
 
 use \Magento\Framework\App\DeploymentConfig\DbConfig;
+use \Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Abstract class AbstractState
@@ -76,7 +77,7 @@ abstract class AbstractState implements StateInterface
         }
 
         // Clear cache
-        exec("rm -rf {$magentoBaseDir}/var/*", $output, $result);
+        exec("rm -rf {$dirList->getPath(DirectoryList::ROOT)}/var/*", $output, $result);
         if ($result) {
             throw new \Exception('Cleaning Magento cache has been failed: ' . $output);
         }
