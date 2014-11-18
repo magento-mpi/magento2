@@ -47,7 +47,7 @@
             var mainlineRepo = project.getProperty('env.bamboo_mainline_repo');
 
             if (currentRepoUrl.contains("com:")) {
-                var teamRepo = substring(currentRepoUrl.lastIndexOf(":") +1, currentRepoUrl.lastIndexOf("/"));
+                var teamRepo = currentRepoUrl.substring(currentRepoUrl.lastIndexOf(":") +1, currentRepoUrl.lastIndexOf("/"));
             } else {
                 var parts = currentRepoUrl.split("/");
                 var teamRepo = parts[parts.length - 2];
