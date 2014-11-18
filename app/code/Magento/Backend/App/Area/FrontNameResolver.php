@@ -34,6 +34,11 @@ class FrontNameResolver implements \Magento\Framework\App\Area\FrontNameResolver
      */
     protected $config;
 
+    /**
+     * Deployment configuration
+     *
+     * @var DeploymentConfig
+     */
     protected $deploymentConfig;
 
     /**
