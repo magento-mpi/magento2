@@ -111,17 +111,6 @@ class DeploymentConfig
     }
 
     /**
-     * Reload config.php
-     *
-     * @return void
-     */
-    public function reload()
-    {
-        $this->data = null;
-        $this->load();
-    }
-
-    /**
      * Loads the configuration data
      *
      * @return void

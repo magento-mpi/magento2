@@ -13,15 +13,14 @@ class EncryptConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetKey()
     {
-        $object = new EncryptConfig(['key' => str_pad('1', EncryptConfig::KEY_LENGTH, '1')]);
+        $object = new EncryptConfig(['key' => 'testKey']);
         $this->assertNotEmpty($object->getKey());
     }
 
     public function testGetData()
     {
-        $key = str_pad('1', EncryptConfig::KEY_LENGTH, '1');
-        $object = new EncryptConfig(['key' => $key]);
-        $this->assertSame(['key' => $key], $object->getData());
+        $object = new EncryptConfig(['key' => 'testKey']);
+        $this->assertSame(['key' => 'testKey'], $object->getData());
     }
 
     /**
@@ -31,25 +30,5 @@ class EncryptConfigTest extends \PHPUnit_Framework_TestCase
     public function testEmptyData()
     {
         new EncryptConfig([]);
-    }
-
-    /**
-     * @param array $data
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Invalid encryption key:
-     * @dataProvider invalidDataDataProvider
-     */
-    public function testInvalidData($data)
-    {
-        new EncryptConfig($data);
-    }
-
-    public function invalidDataDataProvider()
-    {
-        return [
-            [['key' => 'a']],
-            [['key' => str_pad('1', EncryptConfig::KEY_LENGTH + 1, '1')]],
-            [['key' => str_pad('*', EncryptConfig::KEY_LENGTH, '*')]],
-        ];
     }
 }

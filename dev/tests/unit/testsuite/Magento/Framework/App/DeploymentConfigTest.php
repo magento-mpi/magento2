@@ -105,7 +105,7 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->reader->expects($this->once())->method('load')->willReturn($data);
         $object = new DeploymentConfig($this->reader);
-        $object->reload();
+        $object->get();
     }
 
     public function keyCollisionDataProvider()
