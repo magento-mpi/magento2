@@ -71,22 +71,37 @@ class Metadata implements \Iterator, \ArrayAccess
     ) {
         $this->config = $config;
         if (isset($this->config['children'])) {
-            $this->config['fields'][self::CHILD_DATA_SOURCES] = array_keys($config['children']);
+            $this->config['fields'][self::CHILD_DATA_SOURCES] = $config['children'];
         }
         $this->dataSet = $objectManager->get($this->config['dataSet']);
         $this->manager = $manager;
         $this->universalFactory = $universalFactory;
         $this->initAttributes();
+
+        foreach ($this->config['fields'] as $name => & $field) {
+            $this->prepare($name, $field);
+        }
     }
 
     /**
+     * Return Data Source fields
+     *
+     * @return array
+     */
+    public function getFields()
+    {
+        return isset($this->config['fields']) ? $this->config['fields'] : [];
+    }
+
+    /**
+     * Return Data Source label
+     *
      * @return string
      */
     public function getLabel()
     {
         return $this->config['label'];
     }
-
 
     /**
      * Reset the Collection to the first element
@@ -99,106 +114,13 @@ class Metadata implements \Iterator, \ArrayAccess
     }
 
     /**
-     * @return void
-     */
-    protected function initAttributes()
-    {
-        if (empty($this->attributes)) {
-            foreach ($this->config['fields'] as $field) {
-                if (isset($field['source']) && $field['source'] == 'eav') {
-                    $attribute = $this->dataSet->getEntity()->getAttribute($field['name']);
-                    $this->attributes[$field['name']] = $attribute->getData();
-
-                    $options = [];
-                    if ($attribute->usesSource()) {
-                        $options = $attribute->getSource()->getAllOptions();
-                    }
-                    $this->attributes[$field['name']]['options'] = $options;
-                    $this->attributes[$field['name']]['is_required'] = $attribute->getIsRequired();
-                }
-            }
-        }
-    }
-
-    /**
      * Return the current element
      *
      * @return mixed
      */
     public function current()
     {
-        if ($this->key() == self::CHILD_DATA_SOURCES) {
-            foreach ($this->config['fields'][$this->key()] as $child) {
-                $this->metadata[$this->key()][$child] = $this->manager->getMetadata($child);
-            }
-            return $this->metadata[$this->key()];
-        }
-        $this->metadata[$this->key()] = [
-            'name' => $this->key()
-        ];
-        $options = [];
-        if (isset($this->config['fields'][$this->key()]['source'])) {
-            if ($this->config['fields'][$this->key()]['source'] == 'option') {
-                $rawOptions = $this->manager->getData(
-                    $this->config['fields'][$this->key()]['reference']['target']
-                );
-                $options[] = [
-                    'label' => __('Please, select...'),
-                    'value' => null
-                ];
-                foreach ($rawOptions as $rawOption) {
-                    $options[] = [
-                        'label' => $rawOption[$this->config['fields'][$this->key()]['reference']['neededField']],
-                        'value' => $rawOption[$this->config['fields'][$this->key()]['reference']['targetField']]
-
-                    ];
-                }
-            }
-        } else {
-            if (isset($this->config['fields'][$this->key()]['optionProvider'])) {
-                list($source, $method) = explode('::', $this->config['fields'][$this->key()]['optionProvider']);
-                $sourceModel = $this->universalFactory->create($source);
-                $options = $sourceModel->$method();
-            }
-        }
-
-        $attributeCodes = [
-            'options' => ['eav_map' => 'options', 'default' => $options],
-            'dataType' => ['eav_map' => 'frontend_input', 'default' => 'text'],
-            'filterType' => ['default' => 'input_filter'],
-            'formElement' => ['default' => 'input'],
-            'displayArea' => ['default' => 'body'],
-            'visible' => ['eav_map' => 'is_visible', 'default' => true],
-            'required' => ['eav_map' => 'is_required', 'default' => false],
-            'label' => ['eav_map' => 'frontend_label'],
-            'sortOrder' => ['eav_map' => 'sort_order'],
-            'notice' => ['eav_map' => 'note'],
-            'default' => ['eav_map' => 'default_value'],
-            'unique' => [],
-            'description' => [],
-            'constraints' => [],
-            'customEntry' => [],
-            'size' => [],
-            'tooltip' => [],
-            'fieldGroup' => []
-        ];
-
-        foreach ($attributeCodes as $code => $info) {
-            if (isset($this->config['fields'][$this->key()][$code])) {
-                $this->metadata[$this->key()][$code] = $this->config['fields'][$this->key()][$code];
-            } else {
-                if (isset($this->attributes[$this->key()]) && isset($info['eav_map'])) {
-                    $this->metadata[$this->key()][$code] = $this->attributes[$this->key()][$info['eav_map']];
-                } else {
-                    $this->metadata[$this->key()][$code] = null;
-                }
-            }
-            if (empty($this->metadata[$this->key()][$code]) && isset($info['default'])) {
-                $this->metadata[$this->key()][$code] = $info['default'];
-            }
-        }
-
-        return $this->metadata[$this->key()];
+        return current($this->config['fields']);
     }
 
     /**
@@ -289,5 +211,97 @@ class Metadata implements \Iterator, \ArrayAccess
     public function offsetGet($offset)
     {
         return isset($this->config['fields'][$offset]) ? $this->config['fields'][$offset] : null;
+    }
+
+    /**
+     * @return void
+     */
+    protected function initAttributes()
+    {
+        if (empty($this->attributes)) {
+            foreach ($this->config['fields'] as $field) {
+                if (isset($field['source']) && $field['source'] == 'eav') {
+                    $attribute = $this->dataSet->getEntity()->getAttribute($field['name']);
+                    $this->attributes[$field['name']] = $attribute->getData();
+                    $options = [];
+                    if ($attribute->usesSource()) {
+                        $options = $attribute->getSource()->getAllOptions();
+                    }
+                    $this->attributes[$field['name']]['options'] = $options;
+                    $this->attributes[$field['name']]['is_required'] = $attribute->getIsRequired();
+                }
+            }
+        }
+    }
+
+    /**
+     * @param string $name
+     * @param array $field
+     */
+    protected function prepare($name, array & $field)
+    {
+        if ($name == self::CHILD_DATA_SOURCES) {
+            foreach ($field as $childName => $childConfig) {
+                $field[$childName] = $this->manager->getMetadata($childName);
+            }
+            return;
+        }
+
+        $options = [];
+        if (isset($field['source'])) {
+            if ($field['source'] == 'option') {
+                $rawOptions = $this->manager->getData(
+                    $field['reference']['target']
+                );
+                $options[] = [
+                    'label' => __('Please, select...'),
+                    'value' => null
+                ];
+                foreach ($rawOptions as $rawOption) {
+                    $options[] = [
+                        'label' => $rawOption[$field['reference']['neededField']],
+                        'value' => $rawOption[$field['reference']['targetField']]
+
+                    ];
+                }
+            }
+        } else {
+            if (isset($field['optionProvider'])) {
+                list($source, $method) = explode('::', $field['optionProvider']);
+                $sourceModel = $this->universalFactory->create($source);
+                $options = $sourceModel->$method();
+            }
+        }
+
+        $attributeCodes = [
+            'options' => ['eav_map' => 'options', 'default' => $options],
+            'dataType' => ['eav_map' => 'frontend_input', 'default' => 'text'],
+            'filterType' => ['default' => 'input_filter'],
+            'formElement' => ['default' => 'input'],
+            'displayArea' => ['default' => 'body'],
+            'visible' => ['eav_map' => 'is_visible', 'default' => true],
+            'required' => ['eav_map' => 'is_required', 'default' => false],
+            'label' => ['eav_map' => 'frontend_label'],
+            'sortOrder' => ['eav_map' => 'sort_order'],
+            'notice' => ['eav_map' => 'note'],
+            'default' => ['eav_map' => 'default_value'],
+            'unique' => [],
+            'description' => [],
+            'constraints' => [],
+            'customEntry' => [],
+            'size' => [],
+            'tooltip' => [],
+            'fieldGroup' => []
+        ];
+
+        foreach ($attributeCodes as $code => $info) {
+            if (!isset($field[$code])) {
+                if (isset($this->attributes[$name]) && isset($info['eav_map'])) {
+                    $field[$code] = $this->attributes[$name][$info['eav_map']];
+                } else if (empty($field[$code]) && !empty($info['default'])) {
+                    $field[$code] = $info['default'];
+                }
+            }
+        }
     }
 }

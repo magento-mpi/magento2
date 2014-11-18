@@ -234,7 +234,9 @@ class AbstractStructure extends AbstractView
             ]
         );
 
-        foreach ($meta as $key => $value) {
+        $fields = $meta->getFields();
+        uasort($fields, [$this, 'sortChildren']);
+        foreach ($fields as $key => $value) {
             if (isset($value['visible']) && $value['visible'] === 'false') {
                 continue;
             }
@@ -243,11 +245,13 @@ class AbstractStructure extends AbstractView
             }
         }
 
+
+
         $this->addToArea($dataSource, $referenceGroupName);
 
         $children = $meta->get(Metadata::CHILD_DATA_SOURCES);
-        foreach ($children as $childName) {
-            $this->processChildDataSource($dataSource, $childName);
+        foreach ($children as $childName => $childMeta) {
+            $this->processChildDataSource($dataSource, $childName, $childMeta);
         }
 
         $preparedData = [];
@@ -271,12 +275,11 @@ class AbstractStructure extends AbstractView
     /**
      * @param string $dataSource
      * @param string $childName
+     * @param \Magento\Ui\DataProvider\Metadata $childMeta
      * @return void
      */
-    protected function processChildDataSource($dataSource, $childName)
+    protected function processChildDataSource($dataSource, $childName, \Magento\Ui\DataProvider\Metadata $childMeta)
     {
-        $childMeta = $this->dataManager->getMetadata($childName);
-
         $this->addArea(
             $childName,
             [
@@ -308,7 +311,9 @@ class AbstractStructure extends AbstractView
             ]
         ];
 
-        foreach ($childMeta as $key => $value) {
+        $fields = $childMeta->getFields();
+        uasort($fields, [$this, 'sortChildren']);
+        foreach ($fields as $key => $value) {
             if (isset($value['visible']) && $value['visible'] === 'false') {
                 continue;
             }
@@ -546,5 +551,28 @@ class AbstractStructure extends AbstractView
     {
         $this->sortInc += 10;
         return $this->sortInc;
+    }
+
+    /**
+     * Sort child elements
+     *
+     * @param array $one
+     * @param array $two
+     * @return int
+     */
+    public function sortChildren(array $one, array $two)
+    {
+        if (!isset($one['sortOrder'])) {
+            return 1;
+        }
+        if (!isset($two['sortOrder'])) {
+            return -1;
+        }
+        $sortOrderA = isset($one['sortOrder']) ? intval($one['sortOrder']) : -1;
+        $sortOrderB = isset($two['sortOrder']) ? intval($two['sortOrder']) : -1;
+        if ($sortOrderA == $sortOrderB) {
+            return 0;
+        }
+        return ($sortOrderA < $sortOrderB) ? -1 : 1;
     }
 }
