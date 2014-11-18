@@ -6,16 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1\Data;
-
-use Magento\Framework\Api\AbstractExtensibleObject;
+namespace Magento\Tax\Api\Data;
 
 /**
- * Class TaxRule
- * @deprecated
- * @see \Magento\Tax\Api\Data\TaxRuleInterface
+ * previous implementation @see \Magento\Tax\Service\V1\Data\TaxRule
  */
-class TaxRule extends AbstractExtensibleObject
+interface TaxRuleInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely
@@ -42,78 +38,54 @@ class TaxRule extends AbstractExtensibleObject
      *
      * @return int|null
      */
-    public function getId()
-    {
-        return $this->_get(self::ID);
-    }
+    public function getId();
 
     /**
      * Get tax rule code
      *
      * @return string
      */
-    public function getCode()
-    {
-        return $this->_get(self::CODE);
-    }
+    public function getCode();
 
     /**
      * Get customer tax class id
      *
      * @return int[]
      */
-    public function getCustomerTaxClassIds()
-    {
-        return $this->_get(self::CUSTOMER_TAX_CLASS_IDS);
-    }
+    public function getCustomerTaxClassIds();
 
     /**
      * Get product tax class id
      *
      * @return int[]
      */
-    public function getProductTaxClassIds()
-    {
-        return $this->_get(self::PRODUCT_TAX_CLASS_IDS);
-    }
+    public function getProductTaxClassIds();
 
     /**
      * Get tax rate ids
      *
      * @return int[]
      */
-    public function getTaxRateIds()
-    {
-        return $this->_get(self::TAX_RATE_IDS);
-    }
+    public function getTaxRateIds();
 
     /**
      * Get priority
      *
      * @return int
      */
-    public function getPriority()
-    {
-        return $this->_get(self::PRIORITY);
-    }
+    public function getPriority();
 
     /**
      * Get sort order.
      *
      * @return int
      */
-    public function getSortOrder()
-    {
-        return $this->_get(self::SORT_ORDER);
-    }
+    public function getSortOrder();
 
     /**
      * Get calculate subtotal.
      *
      * @return bool|null
      */
-    public function getCalculateSubtotal()
-    {
-        return $this->_get(self::CALCULATE_SUBTOTAL);
-    }
+    public function getCalculateSubtotal();
 }

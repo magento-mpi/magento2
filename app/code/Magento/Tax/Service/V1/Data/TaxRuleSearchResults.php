@@ -12,6 +12,8 @@ use Magento\Framework\Api\SearchResults;
 
 /**
  * TaxRuleSearchResults Service Data Object used for the search service requests
+ * @deprecated
+ * @see \Magento\Tax\Api\Data\TaxRuleSearchResultsInterface
  */
 class TaxRuleSearchResults extends SearchResults
 {
