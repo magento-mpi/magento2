@@ -52,7 +52,7 @@
         </resources>
     </route>
     <route url="/V1/taxRules/:ruleId" method="DELETE">
-        <service class="Magento\Tax\Api\TaxRuleRepositoryInterface" method="deleteById"/>
+        <service class="Magento\Tax\Api\TaxRuleRepositoryInterface" method="deleteByIdentifier"/>
         <resources>
             <resource ref="Magento_Tax::manage_tax"/>
         </resources>
