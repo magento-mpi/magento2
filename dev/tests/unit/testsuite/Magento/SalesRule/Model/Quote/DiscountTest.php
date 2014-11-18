@@ -7,6 +7,8 @@
  */
 namespace Magento\SalesRule\Model\Quote;
 
+use \Magento\Framework\Object as MagentoObject;
+
 /**
  * Class DiscountTest
  */
@@ -64,13 +66,24 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $priceCurrencyMock = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')
+            ->getMock();
+        $priceCurrencyMock->expects($this->any())
+            ->method('round')
+            ->will($this->returnCallback(
+                function ($argument) {
+                    return round($argument, 2);
+                }
+            ));
+
         /** @var \Magento\SalesRule\Model\Quote\Discount $discount */
         $this->discount = $this->objectManager->getObject(
             'Magento\SalesRule\Model\Quote\Discount',
             [
                 'storeManager' => $this->storeManagerMock,
                 'validator' => $this->validatorMock,
-                'eventManager' => $this->eventManagerMock
+                'eventManager' => $this->eventManagerMock,
+                'priceCurrency' => $priceCurrencyMock,
             ]
         );
     }
@@ -172,20 +185,15 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCollectItemHasChildren()
+    /**
+     * @dataProvider collectItemHasChildrenDataProvider
+     */
+    public function testCollectItemHasChildren($childItemData, $parentData, $expectedChildData)
     {
-        $child = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $child->expects($this->any())
-            ->method('getParentItem')
-            ->willReturnSelf();
-        $child->expects($this->any())
-            ->method('getPrice')
-            ->willReturn(1);
-        $child->expects($this->any())
-            ->method('getBaseOriginalPrice')
-            ->willReturn(1);
+        $childItems = [];
+        foreach ($childItemData as $itemId => $itemData) {
+            $childItems[$itemId] = new MagentoObject($itemData);
+        }
 
         $itemWithChildren = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
             ->disableOriginalConstructor()
@@ -212,9 +220,12 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
         $itemWithChildren->expects($this->once())
             ->method('isChildrenCalculated')
             ->willReturn(true);
-        $itemWithChildren->expects($this->once())
+        $itemWithChildren->expects($this->any())
             ->method('getChildren')
-            ->willReturn([$child]);
+            ->willReturn($childItems);
+        foreach ($parentData as $key => $value) {
+            $itemWithChildren->setData($key, $value);
+        }
 
         $this->validatorMock->expects($this->any())
             ->method('canApplyDiscount')
@@ -256,6 +267,61 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
             'Magento\SalesRule\Model\Quote\Discount',
             $this->discount->collect($addressMock)
         );
+
+        foreach ($expectedChildData as $itemId => $expectedItemData) {
+            $childItem = $childItems[$itemId];
+            foreach ($expectedItemData as $key => $value) {
+                $this->assertEquals($value, $childItem->getData($key), 'Incorrect value for ' . $key);
+            }
+        }
+    }
+
+    public function collectItemHasChildrenDataProvider()
+    {
+        $data = [
+            // 3 items, each $100, testing that discount are distributed to item correctly
+            'three_items' => [
+                'child_item_data' => [
+                    'item1' => [
+                        'base_row_total' => 100,
+                    ],
+                    'item2' => [
+                        'base_row_total' => 100,
+                    ],
+                    'item3' => [
+                        'base_row_total' => 100,
+                    ],
+                ],
+                'parent_item_data' => [
+                    'discount_amount' => 20,
+                    'base_discount_amount' => 10,
+                    'original_discount_amount' => 40,
+                    'base_original_discount_amount' => 20,
+                    'base_row_total' => 300,
+                ],
+                'expected_child_item_data' => [
+                    'item1' => [
+                        'discount_amount' => 6.67,
+                        'base_discount_amount' => 3.33,
+                        'original_discount_amount' => 13.33,
+                        'base_original_discount_amount' => 6.67,
+                    ],
+                    'item2' => [
+                        'discount_amount' => 6.66,
+                        'base_discount_amount' => 3.34,
+                        'original_discount_amount' => 13.34,
+                        'base_original_discount_amount' => 6.66,
+                    ],
+                    'item3' => [
+                        'discount_amount' => 6.67,
+                        'base_discount_amount' => 3.33,
+                        'original_discount_amount' => 13.33,
+                        'base_original_discount_amount' => 6.67,
+                    ],
+                ],
+            ],
+        ];
+        return $data;
     }
 
     public function testCollectItemHasNoChildren()
