@@ -73,11 +73,10 @@ abstract class AbstractAssertGiftCardAccountOnFrontend extends AbstractConstrain
      */
     protected function login(CustomerInjectable $customer)
     {
-        $customerLogin = $this->objectManager->create(
+        $this->objectManager->create(
             'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
             ['customer' => $customer]
-        );
-        $customerLogin->run();
+        )->run();
     }
 
     /**

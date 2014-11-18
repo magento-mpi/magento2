@@ -46,19 +46,20 @@ class WebsiteId implements FixtureInterface
      * @constructor
      * @param FixtureFactory $fixtureFactory
      * @param array $params
-     * @param array|string $data
+     * @param array $data
      */
     public function __construct(FixtureFactory $fixtureFactory, array $params, $data = [])
     {
         $this->params = $params;
-        $arguments = isset($data['dataSet']) ? ['dataSet' => $data['dataSet']] : [];
-        /** @var Website $website */
-        $website = $fixtureFactory->createByCode('website', $arguments);
-        if (!$website->hasData('website_id')) {
-            $website->persist();
+        if (isset($data['dataSet'])) {
+            /** @var Website $website */
+            $website = $fixtureFactory->createByCode('website', ['dataSet' => $data['dataSet']]);
+            if (!$website->hasData('website_id')) {
+                $website->persist();
+            }
+            $this->website = $website;
+            $this->data = $website->getName();
         }
-        $this->website = $website;
-        $this->data = $website->getName();
     }
 
     /**

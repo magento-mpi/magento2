@@ -42,34 +42,30 @@ class Check extends Block
      */
     public function getGiftCardAccountData(array $filter)
     {
-        try {
-            $pattern = '';
-            $count = 0;
-            $result = [];
-            foreach ($filter as $key => $value) {
-                if (isset($this->filter[$key])) {
-                    $pattern .= $this->filter[$key];
-                    $count++;
-                }
+        $pattern = '';
+        $count = 0;
+        $result = [];
+        foreach ($filter as $key => $value) {
+            if (isset($this->filter[$key])) {
+                $pattern .= $this->filter[$key];
+                $count++;
             }
-            $browser = $this->browser;
-            $selector = $this->infoBlock;
-            $browser->waitUntil(
-                function () use ($browser, $selector) {
-                    $element = $browser->find($selector);
-                    return $element->isVisible() ? true : null;
-                }
-            );
-            preg_match('/' . $pattern . '/', $this->_rootElement->getText(), $matches);
-            if ($count == count($matches) - 1) {
-                $index = 1;
-                foreach ($filter as $key => $value) {
-                    $result[$key] = $matches[$index++];
-                }
-            }
-            return $result;
-        } catch (\Exception $e) {
-            throw new \Exception('Gift Cards info block is absent.');
         }
+        $browser = $this->browser;
+        $selector = $this->infoBlock;
+        $browser->waitUntil(
+            function () use ($browser, $selector) {
+                $element = $browser->find($selector);
+                return $element->isVisible() ? true : null;
+            }
+        );
+        preg_match('/' . $pattern . '/', $this->_rootElement->getText(), $matches);
+        if ($count == count($matches) - 1) {
+            $index = 1;
+            foreach ($filter as $key => $value) {
+                $result[$key] = $matches[$index++];
+            }
+        }
+        return $result;
     }
 }
