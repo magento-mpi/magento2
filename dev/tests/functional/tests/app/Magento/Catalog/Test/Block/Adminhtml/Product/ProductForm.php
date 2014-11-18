@@ -132,6 +132,8 @@ class ProductForm extends FormTabs
      * @param Element|null $element [optional]
      * @param FixtureInterface|null $category [optional]
      * @return FormTabs
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function fill(FixtureInterface $product, Element $element = null, FixtureInterface $category = null)
     {
