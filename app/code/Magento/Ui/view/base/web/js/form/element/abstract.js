@@ -45,7 +45,8 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.setHidden(this.hidden());
+            this.setHidden(this.hidden())
+                .store(this.value());
         },
 
         /**
