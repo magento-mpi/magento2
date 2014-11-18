@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Block\Reorder;
 
+use Magento\Customer\Model\Context;
+
 /**
  * Class SidebarTest
  *
@@ -194,7 +196,7 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
 
         $this->httpContext->expects($this->once())
             ->method('getValue')
-            ->with($this->equalTo(\Magento\Customer\Helper\Data::CONTEXT_AUTH))
+            ->with($this->equalTo(Context::CONTEXT_AUTH))
             ->will($this->returnValue(true));
 
         $this->customerSession->expects($this->once())

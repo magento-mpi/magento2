@@ -8,6 +8,8 @@
 
 namespace Magento\Persistent\Model;
 
+use Magento\Customer\Model\Context;
+
 /**
  * @magentoDataFixture Magento/Persistent/_files/persistent.php
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -99,7 +101,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_customerSession->loginById(1);
 
         $httpContext = new \Magento\Framework\App\Http\Context();
-        $httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, 1, 1);
+        $httpContext->setValue(Context::CONTEXT_AUTH, 1, 1);
         $block = $this->_objectManager->create(
             'Magento\Sales\Block\Reorder\Sidebar',
             [

@@ -157,11 +157,6 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $_customerBuilder;
 
     /**
-     * @var \Magento\Customer\Helper\Data
-     */
-    protected $_customerHelper;
-
-    /**
      * @var CustomerGroupServiceInterface
      */
     protected $_customerGroupService;
@@ -211,7 +206,6 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      * @param CustomerAddressBuilder $customerAddressBuilder
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param CustomerBuilder $customerBuilder
-     * @param \Magento\Customer\Helper\Data $customerHelper
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param EmailSender $emailSender
@@ -236,7 +230,6 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         CustomerAddressBuilder $customerAddressBuilder,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         CustomerBuilder $customerBuilder,
-        \Magento\Customer\Helper\Data $customerHelper,
         CustomerGroupServiceInterface $customerGroupService,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\AdminOrder\EmailSender $emailSender,
@@ -260,7 +253,6 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->_customerAddressBuilder = $customerAddressBuilder;
         $this->_metadataFormFactory = $metadataFormFactory;
         $this->_customerBuilder = $customerBuilder;
-        $this->_customerHelper = $customerHelper;
         $this->_customerGroupService = $customerGroupService;
         $this->_scopeConfig = $scopeConfig;
         $this->emailSender = $emailSender;

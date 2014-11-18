@@ -7,6 +7,7 @@
  */
 namespace Magento\Sales\Block\Reorder;
 
+use Magento\Customer\Model\Context;
 use Magento\Framework\View\Block\IdentityInterface;
 
 /**
@@ -87,7 +88,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements Identi
     protected function _construct()
     {
         parent::_construct();
-        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+        if ($this->httpContext->getValue(Context::CONTEXT_AUTH)) {
             $this->initOrders();
         }
     }
@@ -180,7 +181,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements Identi
      */
     protected function _toHtml()
     {
-        $isValid = $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH) || $this->getCustomerId();
+        $isValid = $this->httpContext->getValue(Context::CONTEXT_AUTH) || $this->getCustomerId();
         return $isValid ? parent::_toHtml() : '';
     }
 
