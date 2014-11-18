@@ -15,24 +15,17 @@ use Magento\Framework\Exception\CouldNotDeleteException;
  *
  * @method \Magento\Tax\Model\Resource\Calculation\Rate _getResource()
  * @method \Magento\Tax\Model\Resource\Calculation\Rate getResource()
- * @method string getTaxCountryId()
  * @method \Magento\Tax\Model\Calculation\Rate setTaxCountryId(string $value)
- * @method int getTaxRegionId()
  * @method \Magento\Tax\Model\Calculation\Rate setTaxRegionId(int $value)
- * @method string getTaxPostcode()
  * @method \Magento\Tax\Model\Calculation\Rate setTaxPostcode(string $value)
- * @method string getCode()
  * @method \Magento\Tax\Model\Calculation\Rate setCode(string $value)
- * @method float getRate()
  * @method \Magento\Tax\Model\Calculation\Rate setRate(float $value)
  * @method int getZipIsRange()
  * @method \Magento\Tax\Model\Calculation\Rate setZipIsRange(int $value)
- * @method int getZipFrom()
  * @method \Magento\Tax\Model\Calculation\Rate setZipFrom(int $value)
- * @method int getZipTo()
  * @method \Magento\Tax\Model\Calculation\Rate setZipTo(int $value)
  */
-class Rate extends \Magento\Framework\Model\AbstractModel
+class Rate extends \Magento\Framework\Model\AbstractExtensibleModel implements \Magento\Tax\Api\Data\TaxRateInterface
 {
     /**
      * List of tax titles
@@ -59,8 +52,9 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Tax\Model\Calculation\Rate\TitleFactory $taxTitleFactory
+     * @param Rate\TitleFactory $taxTitleFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -68,6 +62,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Tax\Model\Calculation\Rate\TitleFactory $taxTitleFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
@@ -76,7 +71,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     ) {
         $this->_regionFactory = $regionFactory;
         $this->_titleFactory = $taxTitleFactory;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -233,9 +228,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Returns the list of tax titles
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getTitles()
     {
@@ -277,5 +270,77 @@ class Rate extends \Magento\Framework\Model\AbstractModel
     protected function _isInRule()
     {
         return $this->getResource()->isInRule($this->getId());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTaxCalculationRateId()
+    {
+        return $this->getData(self::KEY_ID);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTaxCountryId()
+    {
+        return $this->getData(self::KEY_COUNTRY_ID);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTaxRegionId()
+    {
+        return $this->getData(self::KEY_REGION_ID);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRegionName()
+    {
+        return $this->getData(self::KEY_REGION_NAME);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTaxPostcode()
+    {
+        return $this->getData(self::KEY_POSTCODE);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getZipFrom()
+    {
+        return $this->getData(self::KEY_ZIP_RANGE_FROM);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getZipTo()
+    {
+        return $this->getData(self::KEY_ZIP_RANGE_TO);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRate()
+    {
+        return $this->getData(self::KEY_PERCENTAGE_RATE);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCode()
+    {
+        return $this->getData(self::KEY_CODE);
     }
 }

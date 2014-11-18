@@ -8,7 +8,7 @@
 namespace Magento\Tax\Service\V1\Data;
 
 /**
- * @deprecated \Magento\Tax\Api\Data\ZipRangeInterface
+ * @deprecated will be remove data moved to @see \Magento\Tax\Api\Data\TaxRateInterface
  */
 class ZipRange extends \Magento\Framework\Api\AbstractExtensibleObject
 {
