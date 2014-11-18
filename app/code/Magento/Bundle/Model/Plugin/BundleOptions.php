@@ -80,15 +80,20 @@ class BundleOptions
 
         /* @var \Magento\Framework\Api\AttributeValue $bundleProductOptionsAttrValue */
         $bundleProductOptionsAttrValue = $product->getData('bundle_product_options');
-        if (is_null($bundleProductOptionsAttrValue) || !is_array($bundleProductOptionsAttrValue[0]['product_links'])) {
-            $bundleProductOptions = array();
-        } else {
-            $bundleProductOptions = $bundleProductOptionsAttrValue[0]['product_links'];
+        $bundleProductOptions = array();
+        if (is_object($bundleProductOptionsAttrValue)) {
+            $optionsAttrValue = $bundleProductOptionsAttrValue->getValue();
+            if (is_array($optionsAttrValue) && !empty($optionsAttrValue)) {
+                $firstItem = array_shift($optionsAttrValue);
+                if (is_object($firstItem)) {
+                    $bundleProductOptions = $firstItem->getProductLinks();
+                }
+            }
         }
 
         if (is_array($bundleProductOptions)) {
             foreach ($bundleProductOptions as $optionData) {
-                $productLink = $this->linkBuilder->setSku($optionData['sku'])->create();
+                $productLink = $this->linkBuilder->setSku($optionData->getSku())->create();
                 $option = $this->optionBuilder->setProductLinks([$productLink])->create();
                 $this->optionWriteService->addOptionToProduct($result, $option);
             }
