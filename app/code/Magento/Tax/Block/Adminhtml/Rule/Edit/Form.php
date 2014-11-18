@@ -105,7 +105,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $taxRuleId = $this->_coreRegistry->registry('tax_rule_id');
         try {
-            $taxRule = $this->ruleService->getTaxRule($taxRuleId);
+            $taxRule = $this->ruleService->get($taxRuleId);
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             /** Tax rule not found */
         }
