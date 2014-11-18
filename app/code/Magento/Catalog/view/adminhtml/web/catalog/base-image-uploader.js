@@ -25,7 +25,14 @@ define([
                 $dropPlaceholder = this.element.find('.image-placeholder'),
                 $galleryContainer = $('#media_gallery_content'),
                 mainClass = 'base-image',
-                maximumImageCount = 5;
+                maximumImageCount = 5,
+                $parentField = $container.closest('.field'),
+                $fieldCheckBox = $parentField.find('input:checkbox'),
+                isDefaultChecked = $fieldCheckBox.is(':checked');
+
+            if (isDefaultChecked) {
+                $fieldCheckBox.trigger('click');
+            }
 
             var findElement = function(data) {
                 return $container.find('.image:not(.image-placeholder)').filter(function() {
