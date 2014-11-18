@@ -136,8 +136,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $options = $this->customerTaxClassSource->getAllOptions(false);
         if (!empty($options)) {
             $selected = $options[0];
-        }
-        else {
+        } else {
             $selected = null;
         }
 
@@ -166,8 +165,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $options = $this->productTaxClassSource->getAllOptions(false);
         if (!empty($options)) {
             $selected = $options[0];
-        }
-        else {
+        } else {
             $selected = null;
         }
 

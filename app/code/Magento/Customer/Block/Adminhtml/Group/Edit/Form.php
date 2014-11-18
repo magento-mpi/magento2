@@ -8,6 +8,7 @@
 namespace Magento\Customer\Block\Adminhtml\Group\Edit;
 
 use Magento\Customer\Controller\RegistryConstants;
+
 /**
  * Adminhtml customer groups edit form
  */
