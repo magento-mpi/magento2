@@ -87,7 +87,7 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             /**
              * Child item discount we calculate for parent
              */
-            if ($item->getParentItemId()) {
+            if ($item->getParentItem()) {
                 continue;
             }
 

@@ -196,7 +196,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     }
 
     /**
-     * Get chil items
+     * Get child items
      *
      * @return array
      */
@@ -666,5 +666,26 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns the total discount amounts of all the child items.  If there are no children, returns the discount
+     * amount of this item.
+     *
+     * @return float
+     */
+     public function getTotalDiscountAmount()
+    {
+        $totalDiscountAmount = 0;
+        /* \Magento\Sales\Model\Quote\Item\AbstractItem[] */
+        $children = $this->getChildren();
+        if (!empty($children) && $this->isChildrenCalculated()) {
+            foreach ($children as $child) {
+                $totalDiscountAmount += $child->getDiscountAmount();
+            }
+        } else {
+            $totalDiscountAmount = $this->getDiscountAmount();
+        }
+        return $totalDiscountAmount;
     }
 }
