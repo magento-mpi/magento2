@@ -237,6 +237,7 @@ class Metadata implements \Iterator, \ArrayAccess
     /**
      * @param string $name
      * @param array $field
+     * @return void
      */
     protected function prepare($name, array & $field)
     {
