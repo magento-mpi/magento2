@@ -139,7 +139,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
             $this->attributeBuilder->setIsUserDefined($existingModel->getIsUserDefined());
             $this->attributeBuilder->setFrontendInput($existingModel->getFrontendInput());
 
-            if ($attribute->getFrontendLabels() && is_array($attribute->getFrontendLabels())) {
+            if (is_array($attribute->getFrontendLabels())) {
                 $frontendLabel[0] = $existingModel->getDefaultFrontendLabel();
                 foreach ($attribute->getFrontendLabels() as $item) {
                     $frontendLabel[$item->getStoreId()] = $item->getLabel();

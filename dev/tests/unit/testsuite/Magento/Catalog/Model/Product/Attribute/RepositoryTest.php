@@ -251,7 +251,13 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveInputExceptionRequiredField()
     {
-        $attributeMock = $this->getMock('Magento\Catalog\Model\Resource\Eav\Attribute', [], [], '', false);
+        $attributeMock = $this->getMock(
+            'Magento\Catalog\Model\Resource\Eav\Attribute',
+            ['getFrontendLabels', 'getDefaultFrontendLabel', '__wakeup', 'getAttributeId'],
+            [],
+            '',
+            false
+        );
         $this->attributeBuilderMock->expects($this->once())
             ->method('populate')
             ->with($attributeMock)
@@ -270,7 +276,13 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveInputExceptionInvalidFieldValue()
     {
-        $attributeMock = $this->getMock('Magento\Catalog\Model\Resource\Eav\Attribute', [], [], '', false);
+        $attributeMock = $this->getMock(
+            'Magento\Catalog\Model\Resource\Eav\Attribute',
+            ['getFrontendLabels', 'getDefaultFrontendLabel', 'getAttributeId', '__wakeup'],
+            [],
+            '',
+            false
+        );
         $this->attributeBuilderMock->expects($this->once())
             ->method('populate')
             ->with($attributeMock)
