@@ -36,11 +36,11 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_config;
 
     /**
-     * Tax Rule Service
+     * Tax Rule Management
      *
-     * @var \Magento\Tax\Service\V1\TaxRuleService
+     * @var \Magento\Tax\Api\TaxRuleManagementInterface
      */
-    protected $_taxRuleService;
+    protected $_taxRuleManagement;
 
     /**
      * Tax Calculation Service
@@ -94,7 +94,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Tax\Service\V1\TaxRuleService $taxRuleService
+     * @param \Magento\Tax\Api\TaxRuleManagementInterface $taxRuleManagement
      * @param \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService
      * @param \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder
      * @param \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder
@@ -113,7 +113,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Tax\Service\V1\TaxRuleService $taxRuleService,
+        \Magento\Tax\Api\TaxRuleManagementInterface $taxRuleManagement,
         \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService,
         \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder,
         \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder,
@@ -124,7 +124,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     ) {
         $this->_config = $config;
         $this->_taxData = $taxData;
-        $this->_taxRuleService = $taxRuleService;
+        $this->_taxRuleManagement = $taxRuleManagement;
         $this->_taxCalculationService = $taxCalculationService;
         $this->_quoteDetailsBuilder = $quoteDetailsBuilder;
         $this->_quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
@@ -159,7 +159,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         }
 
         $defaultCustomerTaxClassId = $this->_getDefaultCustomerTaxClassId($product->getStoreId());
-        $rates = $this->_taxRuleService->getRatesByCustomerAndProductTaxClassId(
+        $rates = $this->_taxRuleManagement->getRatesByCustomerAndProductTaxClassId(
             $defaultCustomerTaxClassId,
             $product->getTaxClassId()
         );
