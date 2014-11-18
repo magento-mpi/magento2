@@ -21,6 +21,9 @@
             <orderStatus class="Magento\Sales\Test\Fixture\OrderStatus" />
         </require>
     </assertOrderStatusInGrid>
+    <assertOrderStatusIsCorrect module="Magento_Sales">
+        <severeness>high</severeness>
+    </assertOrderStatusIsCorrect>
     <assertOrderStatusDuplicateStatus module="Magento_Sales">
         <severeness>high</severeness>
         <require>

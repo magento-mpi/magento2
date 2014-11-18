@@ -113,13 +113,13 @@ class CreditMemoSalesArchiveEntityTest extends Injectable
      */
     public function test(OrderInjectable $order, array $data)
     {
-        //$this->markTestIncomplete('MAGETWO-28867');
         // Preconditions
         $order->persist();
         $this->objectManager->create('Magento\Sales\Test\TestStep\CreateInvoiceStep', ['order' => $order])->run();
         $this->objectManager->create('Magento\Sales\Test\TestStep\CreateShipmentStep', ['order' => $order])->run();
         $this->orderIndex->open();
-        $this->orderIndex->getSalesOrderGrid()->massaction([['id' => $order->getId()]], 'Move to Archive');
+        $orderId = $order->getId();
+        $this->orderIndex->getSalesOrderGrid()->massaction([['id' => $orderId]], 'Move to Archive');
 
         // Steps
         $this->archiveOrders->open();
@@ -136,6 +136,7 @@ class CreditMemoSalesArchiveEntityTest extends Injectable
             'ids' => [
                 'creditMemoIds' => $creditMemoIds
             ],
+            'orderId' => $orderId
         ];
     }
 }
