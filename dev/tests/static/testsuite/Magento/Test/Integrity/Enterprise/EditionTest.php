@@ -13,7 +13,7 @@ class EditionTest extends \PHPUnit_Framework_TestCase
 {
     public function testCongruence()
     {
-        $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
+        $root = \Magento\Framework\Test\Utility\Files::init()->getPathToSource();
 
         $xmlFile = $root . '/app/etc/enterprise/module.xml.dist';
         $dom = new \DOMDocument();

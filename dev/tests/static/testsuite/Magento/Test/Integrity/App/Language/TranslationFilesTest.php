@@ -49,7 +49,7 @@ class TranslationFilesTest extends TranslationFiles
 
         $optionResolverFactory = new \Magento\Tools\I18n\Dictionary\Options\ResolverFactory();
         $optionResolver = $optionResolverFactory->create(
-            \Magento\TestFramework\Utility\Files::init()->getPathToSource(),
+            \Magento\Framework\Test\Utility\Files::init()->getPathToSource(),
             true
         );
 
@@ -79,7 +79,7 @@ class TranslationFilesTest extends TranslationFiles
     protected function buildFilePath($phrase, $context)
     {
         $path = $this->getContext()->buildPathToLocaleDirectoryByContext($phrase->getContextType(), $context);
-        return \Magento\TestFramework\Utility\Files::init()->getPathToSource() . '/'
+        return \Magento\Framework\Test\Utility\Files::init()->getPathToSource() . '/'
         . $path . \Magento\Tools\I18n\Locale::DEFAULT_SYSTEM_LOCALE
         . '.' . \Magento\Tools\I18n\Pack\Writer\File\Csv::FILE_EXTENSION;
     }

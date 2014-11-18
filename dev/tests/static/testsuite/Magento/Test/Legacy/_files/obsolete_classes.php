@@ -2830,4 +2830,7 @@ return array(
     ['Magento\Framework\App\View\Deployment\Version\Generator\Timestamp', 'Magento\Framework\Stdlib\DateTime'],
     ['Magento\Framework\App\View\Deployment\Version\GeneratorInterface'],
     ['Magento\Tools\I18n\Code', 'Magento\Tools\I18n'],
+    ['Magento\TestFramework\Utility\AggregateInvoker', 'Magento\Framework\Test\Utility\AggregateInvoker'],
+    ['Magento\TestFramework\Utility\Classes', 'Magento\Framework\Test\Utility\Classes'],
+    ['Magento\TestFramework\Utility\Files', 'Magento\Framework\Test\Utility\Files'],
 );

@@ -79,7 +79,7 @@ class TranslationFilesNonEnglishTest extends TranslationFiles
      */
     protected function getDeclaredLocales()
     {
-        $pathToSource = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
+        $pathToSource = \Magento\Framework\Test\Utility\Files::init()->getPathToSource();
         $result = [];
         foreach (Package::readDeclarationFiles($pathToSource) as $row) {
             $languageConfig = new Config(file_get_contents($row[0]));
