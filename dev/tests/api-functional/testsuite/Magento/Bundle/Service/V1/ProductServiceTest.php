@@ -68,6 +68,8 @@ class ProductServiceTest extends WebapiAbstract
             "attribute_code" => "bundle_product_options",
             "value" => [
                 [
+                    "type" => "checkbox",
+                    "required" => 1,
                     "product_links" => [
                         [
                             "sku" => $simpleProductSku

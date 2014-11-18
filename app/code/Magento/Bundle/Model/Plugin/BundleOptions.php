@@ -74,27 +74,20 @@ class BundleOptions
         /** @var \Magento\Catalog\Api\Data\ProductInterface $result */
         $result = $proceed($product, $saveOptions);
 
-        if ($result->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+        if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             return $result;
         }
 
         /* @var \Magento\Framework\Api\AttributeValue $bundleProductOptionsAttrValue */
-        $bundleProductOptionsAttrValue = $product->getData('bundle_product_options');
-        $bundleProductOptions = array();
-        if (is_object($bundleProductOptionsAttrValue)) {
-            $optionsAttrValue = $bundleProductOptionsAttrValue->getValue();
-            if (is_array($optionsAttrValue) && !empty($optionsAttrValue)) {
-                $firstItem = array_shift($optionsAttrValue);
-                if (is_object($firstItem)) {
-                    $bundleProductOptions = $firstItem->getProductLinks();
-                }
-            }
+        $bundleProductOptionsAttrValue = $product->getCustomAttribute('bundle_product_options');
+        if (is_null($bundleProductOptionsAttrValue) || !is_array($bundleProductOptionsAttrValue->getValue())) {
+            $bundleProductOptions = array();
+        } else {
+            $bundleProductOptions = $bundleProductOptionsAttrValue->getValue();
         }
 
         if (is_array($bundleProductOptions)) {
-            foreach ($bundleProductOptions as $optionData) {
-                $productLink = $this->linkBuilder->setSku($optionData->getSku())->create();
-                $option = $this->optionBuilder->setProductLinks([$productLink])->create();
+            foreach ($bundleProductOptions as $option) {
                 $this->optionWriteService->addOptionToProduct($result, $option);
             }
         }
