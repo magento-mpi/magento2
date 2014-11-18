@@ -33,7 +33,10 @@
     <div class="address-item-edit" data-bind="visible: element.active">
         <div class="address-item-edit-content">
             <fieldset class="fieldset">
-                <legend class="legend"><span data-bind="text: $parent.label"></span></legend><br>
+                <legend style="display: none;" class="legend">
+                    <span data-bind="text: $parent.label"></span>
+                </legend>
+                <br>
                 <!-- ko foreach: { data: element.body, as: 'element' } -->
                     <!-- ko template: element.getTemplate() --><!-- /ko -->
                 <!-- /ko -->

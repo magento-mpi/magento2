@@ -111,7 +111,9 @@ define([
 
             this.registry.set(node.name, node);
 
-            return node.isTemplate ? (node.isTemplate = false) : node;
+            return node.isTemplate ?
+                (node.isTemplate = false) :
+                node;
         },
 
         initComponent: function(node){
@@ -143,6 +145,8 @@ define([
             this.registry.get(node.template, function(){
                 this.applyTemplate.apply(this, args);
             }.bind(this));
+
+            return this;
         },
 
         waitParent: function(node, name){
@@ -182,10 +186,6 @@ define([
                 this.insertTo(name, node.insertTo);
             }
 
-            if (node.wrapIn) {
-                this.wrap(node.wrapIn, node);
-            }
-
             return this;
         },
 
@@ -201,15 +201,6 @@ define([
             _.each(targets, function(info, target){
                 this.insert(item, target, info.position);
             }, this);
-
-            return this;
-        },
-
-        wrap: function(node, child){
-            node = this.build('', node);
-
-            this.insert(child.name, node.name)
-                .run([node]);
 
             return this;
         },
