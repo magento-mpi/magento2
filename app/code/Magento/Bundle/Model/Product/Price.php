@@ -593,8 +593,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
                     // higher tier qty already found
                     continue;
                 }
-                if (
-                    $price['price_qty'] == $prevQty
+                if ($price['price_qty'] == $prevQty
                     && $prevGroup != $allCustomersGroupId
                     && $price['cust_group'] == $allCustomersGroupId
                 ) {
