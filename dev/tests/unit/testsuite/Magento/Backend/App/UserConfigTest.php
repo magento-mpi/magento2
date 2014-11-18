@@ -21,7 +21,7 @@ class UserConfigTest extends \PHPUnit_Framework_TestCase
         $request = [$key => $value];
         $model = new UserConfig($factoryMock, $responseMock, $request);
         $factoryMock->expects($this->once())->method('create')->will($this->returnValue($configMock));
-        $configMock->expects($this->once())->method('setDataByPath')->with($key,$value);
+        $configMock->expects($this->once())->method('setDataByPath')->with($key, $value);
         $configMock->expects($this->once())->method('save');
 
         $model->launch();
