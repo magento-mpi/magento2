@@ -534,6 +534,10 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()
             ->getMock();
 
+        $filterBuilder = $this->objectManager->getObject(
+            'Magento\Framework\Api\FilterBuilder'
+        );
+
         $taxClassService = $this->objectManager->getObject(
             'Magento\Tax\Service\V1\TaxClassService',
             [
@@ -541,7 +545,8 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
                 'taxClassCollectionFactory' => $this->taxClassCollectionFactory,
                 'classModelRegistry' => $this->classModelRegistryMock,
                 'searchResultsBuilder' => $this->searchResultBuilder,
-                'converter' => $this->converterMock
+                'converter' => $this->converterMock,
+                'filterBuilder' => $filterBuilder
             ]
         );
 

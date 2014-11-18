@@ -164,6 +164,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_payments;
 
     /**
+     * @var \Magento\Sales\Model\Quote\Payment
+     */
+    protected $_currentPayment;
+
+    /**
      * Different groups of error infos
      *
      * @var array
@@ -516,6 +521,10 @@ class Quote extends \Magento\Framework\Model\AbstractModel
 
         if (null !== $this->_payments) {
             $this->getPaymentsCollection()->save();
+        }
+
+        if (null !== $this->_currentPayment) {
+            $this->getPayment()->save();
         }
         return $this;
     }
@@ -1338,7 +1347,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             if (!$parentItem) {
                 $parentItem = $item;
             }
-            if ($parentItem && $candidate->getParentProductId()) {
+            if ($parentItem && $candidate->getParentProductId() && !$item->getParentItem()) {
                 $item->setParentItem($parentItem);
             }
 
@@ -1577,7 +1586,15 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function getPayment()
     {
-        foreach ($this->getPaymentsCollection() as $payment) {
+        if (null === $this->_currentPayment || !$this->_currentPayment) {
+            $this->_currentPayment = $this->_quotePaymentCollectionFactory->create()
+                ->setQuoteFilter($this->getId())
+                ->getFirstItem();
+        }
+        if ($payment = $this->_currentPayment) {
+            if ($this->getId()) {
+                $payment->setQuote($this);
+            }
             if (!$payment->isDeleted()) {
                 return $payment;
             }
