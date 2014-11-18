@@ -42,6 +42,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     protected $customerBuilderMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
     public function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -93,6 +98,13 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
         $this->storeManagerMock = $this->getMock(
             'Magento\Framework\StoreManagerInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->extensibleDataObjectConverter = $this->getMock(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter',
             array(),
             array(),
             '',
@@ -162,7 +174,12 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Model\CustomerFactory'
         )->disableOriginalConstructor()->getMock();
 
-        $converter = new Converter($customerBuilder, $customerFactory, $this->storeManagerMock);
+        $converter = new Converter(
+            $this->customerBuilderMock,
+            $this->customerFactoryMock,
+            $this->storeManagerMock,
+            $this->extensibleDataObjectConverter
+        );
         $customerDataObject = $converter->createCustomerFromModel($customerModelMock);
 
 
@@ -204,7 +221,12 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($customerMock));
 
-        $converter = new Converter($this->customerBuilderMock, $this->customerFactoryMock, $this->storeManagerMock);
+        $converter = new Converter(
+            $this->customerBuilderMock,
+            $this->customerFactoryMock,
+            $this->storeManagerMock,
+            $this->extensibleDataObjectConverter
+        );
         return $converter;
     }
 
@@ -273,7 +295,12 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->method('getDefaultStoreView')
             ->will($this->returnValue($storeMock));
 
-        $converter = new Converter($this->customerBuilderMock, $this->customerFactoryMock, $this->storeManagerMock);
+        $converter = new Converter(
+            $this->customerBuilderMock,
+            $this->customerFactoryMock,
+            $this->storeManagerMock,
+            $this->extensibleDataObjectConverter
+        );
         $this->assertInstanceOf(
             'Magento\Customer\Model\Customer',
             $converter->getCustomerModelByEmail('test@example.com')
@@ -293,7 +320,12 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $this->storeManagerMock->expects($this->never())->method('getDefaultStoreView');
 
-        $converter = new Converter($this->customerBuilderMock, $this->customerFactoryMock, $this->storeManagerMock);
+        $converter = new Converter(
+            $this->customerBuilderMock,
+            $this->customerFactoryMock,
+            $this->storeManagerMock,
+            $this->extensibleDataObjectConverter
+        );
         $this->assertInstanceOf(
             'Magento\Customer\Model\Customer',
             $converter->getCustomerModelByEmail('test@example.com', $websiteId)
