@@ -47,6 +47,11 @@ class Tablerate implements SetupInterface
     protected $cacheTypeList;
 
     /**
+     * @var \Magento\Framework\App\Config\Storage\WriterInterface
+     */
+    protected $configWriter;
+
+    /**
      * @param \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate $tablerate,
      * @param \Magento\Tools\SampleData\Helper\Fixture $fixtureHelper
      * @param \Magento\Tools\SampleData\Helper\Csv\ReaderFactory $csvReaderFactory
@@ -60,7 +65,8 @@ class Tablerate implements SetupInterface
         CsvReaderFactory $csvReaderFactory,
         \Magento\Framework\App\Resource $resource,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
+        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
+        \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
     ) {
         $this->tablerate = $tablerate;
         $this->fixtureHelper = $fixtureHelper;
@@ -68,6 +74,7 @@ class Tablerate implements SetupInterface
         $this->resource = $resource;
         $this->regionCollectionFactory = $regionCollectionFactory;
         $this->cacheTypeList = $cacheTypeList;
+        $this->configWriter = $configWriter;
     }
 
     /**
@@ -102,24 +109,8 @@ class Tablerate implements SetupInterface
             );
             echo '.';
         }
-        $adapter->insert(
-            $adapter->getTableName('core_config_data'),
-            [
-                'scope' => 'default',
-                'scope_id' => 0,
-                'path' => 'carriers/tablerate/active',
-                'value' => 1,
-            ]
-        );
-        $adapter->insert(
-            $adapter->getTableName('core_config_data'),
-            [
-                'scope' => 'default',
-                'scope_id' => 0,
-                'path' => 'carriers/tablerate/condition_name',
-                'value' => 'package_value',
-            ]
-        );
+        $this->configWriter->save('carriers/tablerate/active', 1);
+        $this->configWriter->save('carriers/tablerate/condition_name', 'package_value');
         $this->cacheTypeList->cleanType('config');
         echo PHP_EOL;
     }
