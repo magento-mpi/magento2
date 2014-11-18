@@ -124,13 +124,13 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
     {
         $itemWithParentId = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
             ->disableOriginalConstructor()
-            ->setMethods(['getNoDiscount', 'getParentItemId', '__wakeup'])
+            ->setMethods(['getNoDiscount', 'getParentItem', '__wakeup'])
             ->getMock();
         $itemWithParentId->expects($this->once())
             ->method('getNoDiscount')
             ->willReturn(false);
         $itemWithParentId->expects($this->once())
-            ->method('getParentItemId')
+            ->method('getParentItem')
             ->willReturn(true);
 
         $this->validatorMock->expects($this->any())
@@ -192,7 +192,7 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
             ->setMethods(
                 [
                     'getNoDiscount',
-                    'getParentItemId',
+                    'getParentItem',
                     'getHasChildren',
                     'isChildrenCalculated',
                     'getChildren',
@@ -204,7 +204,7 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
             ->method('getNoDiscount')
             ->willReturn(false);
         $itemWithChildren->expects($this->once())
-            ->method('getParentItemId')
+            ->method('getParentItem')
             ->willReturn(false);
         $itemWithChildren->expects($this->once())
             ->method('getHasChildren')
@@ -265,7 +265,7 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
             ->setMethods(
                 [
                     'getNoDiscount',
-                    'getParentItemId',
+                    'getParentItem',
                     'getHasChildren',
                     'isChildrenCalculated',
                     'getChildren',
@@ -277,7 +277,7 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
             ->method('getNoDiscount')
             ->willReturn(false);
         $itemWithChildren->expects($this->once())
-            ->method('getParentItemId')
+            ->method('getParentItem')
             ->willReturn(false);
         $itemWithChildren->expects($this->once())
             ->method('getHasChildren')
