@@ -17,14 +17,23 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     /**
      * Customer Account Service
      *
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\AccountManagementInterface
      */
-    private $accountService;
+    protected $accountManagement;
+
+    /**
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     */
+    protected $customerRepository;
 
     public function setUp()
     {
-        $this->accountService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->accountManagement = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\AccountManagementInterface'
+        );
+        $this->customerRepository = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
+        );
     }
 
     public function tearDown()
@@ -50,20 +59,19 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($subscriber->isSubscribed());
         $this->assertEquals(0, (int)$subscriber->getCustomerId());
 
-        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
-        $customerBuilder = $objectManager->get('Magento\Customer\Api\Data\CustomerDataBuilder');
+        /** @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder */
+        $customerBuilder = $objectManager->get('Magento\Customer\Api\Data\CustomerInterfaceBuilder');
         $customerBuilder->setFirstname('Firstname')
             ->setLastname('Lastname')
             ->setEmail('customer_two@example.com');
-        /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
-        $customerDetailsBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
-        $customerDetailsBuilder->setCustomer($customerBuilder->create());
-        $createdCustomer = $this->accountService
-            ->createCustomer($customerDetailsBuilder->create(), 'password');
+        $createdCustomer = $this->customerRepository->save(
+            $customerBuilder->create(),
+            $this->accountManagement->getPasswordHash('password')
+        );
 
         $subscriber->loadByEmail('customer_two@example.com');
         $this->assertTrue($subscriber->isSubscribed());
-        $this->assertEquals($createdCustomer->getId(), (int)$subscriber->getCustomerId());
+        $this->assertEquals((int)$createdCustomer->getId(), (int)$subscriber->getCustomerId());
     }
 
 
@@ -76,15 +84,12 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->verifySubscriptionNotExist('customer@example.com');
 
         $objectManager = Bootstrap::getObjectManager();
-        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
-        $customerBuilder = $objectManager->get('Magento\Customer\Api\Data\CustomerDataBuilder');
+        /** @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder */
+        $customerBuilder = $objectManager->get('Magento\Customer\Api\Data\CustomerInterfaceBuilder');
         $customerBuilder->setFirstname('Firstname')
             ->setLastname('Lastname')
             ->setEmail('customer@example.com');
-        /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
-        $customerDetailsBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
-        $customerDetailsBuilder->setCustomer($customerBuilder->create());
-        $this->accountService->createCustomer($customerDetailsBuilder->create());
+        $this->accountManagement->createAccount($customerBuilder->create());
 
         $this->verifySubscriptionNotExist('customer@example.com');
     }
@@ -103,15 +108,12 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($subscriber->isSubscribed());
         $this->assertEquals(1, (int)$subscriber->getCustomerId());
 
-        $customer = $this->accountService->getCustomer(1);
-        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
-        $customerBuilder = $objectManager->get('Magento\Customer\Api\Data\CustomerDataBuilder');
+        $customer = $this->customerRepository->getById(1);
+        /** @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder */
+        $customerBuilder = $objectManager->get('Magento\Customer\Api\Data\CustomerInterfaceBuilder');
         $customerBuilder->populate($customer)
             ->setEmail('new@example.com');
-        /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
-        $customerDetailsBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
-        $customerDetailsBuilder->setCustomer($customerBuilder->create());
-        $this->accountService->updateCustomer(1, $customerDetailsBuilder->create());
+        $this->customerRepository->save($customerBuilder->create());
 
         $subscriber->loadByEmail('new@example.com');
         $this->assertTrue($subscriber->isSubscribed());
@@ -131,7 +133,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $subscriber->loadByEmail('customer@example.com');
         $this->assertTrue($subscriber->isSubscribed());
 
-        $this->accountService->deleteCustomer(1);
+        $this->customerRepository->deleteById(1);
 
         $this->verifySubscriptionNotExist('customer@example.com');
     }

@@ -116,6 +116,10 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
 
     const RATES_RECALCULATE = 2;
 
+    const ADDRESS_TYPE_BILLING = 'billing';
+
+    const ADDRESS_TYPE_SHIPPING = 'shipping';
+
     /**
      * Prefix of model events
      *

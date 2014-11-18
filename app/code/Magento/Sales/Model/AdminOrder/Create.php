@@ -7,6 +7,7 @@
  */
 namespace Magento\Sales\Model\AdminOrder;
 
+use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Sales\Model\Quote\Item;
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Customer\Model\Metadata\Form as CustomerForm;
@@ -1701,13 +1702,13 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $addressType = $quoteCustomerAddress->getAddressType();
         if ($quoteAddressId) {
             /** Update existing address */
-            $existingAddressDataObject = $this->addressRepository->get($quoteAddressId);
+            $existingAddressDataObject = $this->addressRepository->getById($quoteAddressId);
             /** Update customer address data */
             $customerAddress = $this->addressBuilder->mergeDataObjects(
                 $existingAddressDataObject,
                 $customerAddress
             )->create();
-        } elseif ($addressType == CustomerAddressDataObject::ADDRESS_TYPE_SHIPPING) {
+        } elseif ($addressType == \Magento\Sales\Model\Quote\Address::ADDRESS_TYPE_SHIPPING) {
             try {
                 $billingAddressDataObject = $customer->getDefaultBilling();
             } catch (\Exception $e) {
@@ -1723,14 +1724,14 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         }
 
         switch ($addressType) {
-            case \Magento\Customer\Api\Data\AddressInterface::ADDRESS_TYPE_BILLING:
+            case \Magento\Sales\Model\Quote\Address::ADDRESS_TYPE_BILLING:
                 if (is_null($customer->getDefaultBilling())) {
                     $customerAddress = $this->addressBuilder->populate($customerAddress)
                         ->setDefaultBilling(true)
                         ->create();
                 }
                 break;
-            case \Magento\Customer\Api\Data\AddressInterface::ADDRESS_TYPE_SHIPPING:
+            case \Magento\Sales\Model\Quote\Address::ADDRESS_TYPE_SHIPPING:
                 if (is_null($customer->getDefaultShipping())) {
                     $customerAddress = $this->addressBuilder->populate($customerAddress)
                         ->setDefaultShipping(true)
