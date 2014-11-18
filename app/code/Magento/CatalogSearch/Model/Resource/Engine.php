@@ -191,7 +191,16 @@ class Engine extends AbstractDb implements EngineInterface
         } elseif ($this->isTermFilterableAttribute($attribute)
             || in_array($attribute->getAttributeCode(), ['visibility', 'status'])
         ) {
-            return self::ATTRIBUTE_PREFIX . $attribute->getAttributeCode() . '_' . $value;
+            if ($attribute->getFrontendInput() == 'multiselect') {
+                $value = explode(',', $value);
+            }
+            if (!is_array($value)) {
+                $value = [$value];
+            }
+            $valueMapper = function ($value) use ($attribute) {
+                return Engine::ATTRIBUTE_PREFIX . $attribute->getAttributeCode() . '_' . $value;
+            };
+            return implode (' ', array_map($valueMapper, $value));
         }
     }
 
