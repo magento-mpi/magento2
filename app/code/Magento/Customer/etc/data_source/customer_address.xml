@@ -12,7 +12,7 @@
     <dataSource name="customer_address"
                 label="Customer Address"
                 dataSet="Magento\Customer\Model\Resource\Address\Collection">
-        <fields>
+        <fields entityType="customer_address">
             <field name="parent_id" dataType="number" visible="false"/>
             <field name="prefix" source="eav"/>
             <field name="firstname" source="eav">
