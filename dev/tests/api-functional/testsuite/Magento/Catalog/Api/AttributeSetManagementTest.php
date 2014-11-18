@@ -85,7 +85,7 @@ class AttributeSetManagementTest extends WebapiAbstract
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage Invalid value
+     * @expectedExceptionMessage Can not create attribute set based on not existing attribute set
      */
     public function testCreateThrowsExceptionIfGivenSkeletonIdIsInvalid()
     {
@@ -102,7 +102,24 @@ class AttributeSetManagementTest extends WebapiAbstract
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage No such entity
+     * @expectedExceptionMessage Can not create attribute set based on non product attribute set.
+     */
+    public function testCreateThrowsExceptionIfGivenSkeletonIdHasWrongEntityType()
+    {
+        $attributeSetName = 'new_attribute_set';
+        $arguments = array(
+            'attributeSet' => array(
+                'attribute_set_name' => $attributeSetName,
+                'sort_order' => 200,
+            ),
+            'skeletonId' => 7,
+        );
+        $this->_webApiCall($this->createServiceInfo, $arguments);
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Can not create attribute set based on not existing attribute set
      */
     public function testCreateThrowsExceptionIfGivenSkeletonAttributeSetDoesNotExist()
     {

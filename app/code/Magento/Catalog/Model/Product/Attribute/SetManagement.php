@@ -62,10 +62,14 @@ class SetManagement implements \Magento\Catalog\Api\AttributeSetManagementInterf
      */
     protected function validateSkeletonSet($skeletonId)
     {
-        $skeletonSet = $this->attributeSetRepository->get($skeletonId);
-        $productEntityId = $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
-        if ($skeletonSet->getEntityTypeId() != $productEntityId) {
-            throw new StateException('Can not create attribute set based on non product attribute set.');
+        try {
+            $skeletonSet = $this->attributeSetRepository->get($skeletonId);
+            $productEntityId = $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
+            if ($skeletonSet->getEntityTypeId() != $productEntityId) {
+                throw new StateException('Can not create attribute set based on non product attribute set.');
+            }
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $exception) {
+            throw new StateException('Can not create attribute set based on not existing attribute set');
         }
     }
 }
