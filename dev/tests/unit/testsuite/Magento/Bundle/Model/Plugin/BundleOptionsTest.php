@@ -97,6 +97,7 @@ class BundleOptionsTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundSaveWhenProductIsBundle()
     {
+        $this->markTestSkipped('This test should be rewritten on MAGETWO-29422');
         $bundleProductOptions = [
             [
                 "product_links" => [
