@@ -85,6 +85,12 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     protected $httpContext;
 
     /**
+     * @var \Magento\Customer\Model\Address\Mapper
+     */
+    protected $dataObjectConverter;
+
+    /**
+     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -92,12 +98,13 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
-     * @param CustomerRepositoryInterface $customerAccountService
+     * @param CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
+        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
@@ -110,6 +117,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         \Magento\Framework\App\Http\Context $httpContext,
         array $data = array()
     ) {
+        $this->dataObjectConverter = $dataObjectConverter;
         $this->_coreData = $coreData;
         $this->_configCacheType = $configCacheType;
         $this->_customerSession = $customerSession;
@@ -230,7 +238,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
             }
 
             foreach ($addresses as $address) {
-                $builtOutputAddressData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($address);
+                $builtOutputAddressData = $this->dataObjectConverter->toFlatArray($address);
                 $label = $this->_addressConfig
                     ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
                     ->getRenderer()
