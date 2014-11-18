@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\Api\Code\Generator;
 
+use Magento\Framework\Autoload\AutoloaderRegistry;
 use Magento\Wonderland\Api\Data\FakeAddressInterface;
 use Magento\Wonderland\Api\Data\FakeRegionInterface;
 use Magento\Wonderland\Model\Data\FakeAddress;
@@ -21,7 +22,8 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        \Magento\Framework\Filesystem\FileResolver::addIncludePath([__DIR__ . '/../../_files']);
+        $autoloadWrapper = AutoloaderRegistry::getAutoloader();
+        $autoloadWrapper->addPsr4('Magento\\', [__DIR__ . '/../../_files/Magento/']);
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_objectManager->configure(
             [
