@@ -17,7 +17,7 @@ $usage = 'Usage: php -f user_config_data.php -- '
     . '--data=<string> - pairs of \'path=value\' separated by \'&\', where '. PHP_EOL
     . '       \'path\' is path of the specified data group, e.g. web/unsecure/base_url, and ' . PHP_EOL
     . '       \'value\' is value for the path specified, e.g. http://127.0.0.1/ ' . PHP_EOL
-    . '       --bootstrap - add or override parameters of the bootstrap' . PHP_EOL
+    . '--bootstrap - add or override parameters of the bootstrap' . PHP_EOL
     . ' NOTE: this tool supports writing data only in global scope ' . PHP_EOL
     . ' Example Usage: php -f user_config_data.php -- '
     . ' --data=' . escapeshellarg('web/seo/use_rewrites=1&web/unsecure/base_url=http://127.0.0.1/') . PHP_EOL;
