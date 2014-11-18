@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Api\Data\AttributeMetadataDataBuilder;
+use Magento\Customer\Api\Data\AttributeMetadataBuilder;
 use Magento\Customer\Api\Data\OptionDataBuilder;
-use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
+use Magento\Customer\Api\Data\ValidationRuleBuilder;
 
 /**
  * Converter for AttributeMetadata
@@ -23,12 +22,12 @@ class AttributeMetadataConverter
     private $_optionBuilder;
 
     /**
-     * @var ValidationRuleDataBuilder
+     * @var ValidationRuleBuilder
      */
     private $_validationRuleBuilder;
 
     /**
-     * @var AttributeMetadataDataBuilder
+     * @var AttributeMetadataBuilder
      */
     private $_attributeMetadataBuilder;
 
@@ -36,13 +35,13 @@ class AttributeMetadataConverter
      * Initialize the Converter
      *
      * @param OptionDataBuilder $optionBuilder
-     * @param ValidationRuleDataBuilder $validationRuleBuilder
-     * @param AttributeMetadataDataBuilder $attributeMetadataBuilder
+     * @param ValidationRuleBuilder $validationRuleBuilder
+     * @param AttributeMetadataBuilder $attributeMetadataBuilder
      */
     public function __construct(
         OptionDataBuilder $optionBuilder,
-        ValidationRuleDataBuilder $validationRuleBuilder,
-        AttributeMetadataDataBuilder $attributeMetadataBuilder
+        ValidationRuleBuilder $validationRuleBuilder,
+        AttributeMetadataBuilder $attributeMetadataBuilder
     ) {
         $this->_optionBuilder = $optionBuilder;
         $this->_validationRuleBuilder = $validationRuleBuilder;
@@ -53,7 +52,7 @@ class AttributeMetadataConverter
      * Create AttributeMetadata Data object from the Attribute Model
      *
      * @param \Magento\Customer\Model\Attribute $attribute
-     * @return AttributeMetadata
+     * @return \Magento\Customer\Api\Data\AttributeMetadataInterface
      */
     public function createMetadataAttribute($attribute)
     {

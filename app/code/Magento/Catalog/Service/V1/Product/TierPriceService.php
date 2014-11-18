@@ -14,6 +14,9 @@ use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class TierPriceService implements TierPriceServiceInterface
 {
     /**

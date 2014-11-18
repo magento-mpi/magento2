@@ -22,7 +22,11 @@ class MassAssignGroup extends \Magento\Customer\Controller\Adminhtml\Index
             function ($customerId) {
                 // Verify customer exists
                 $customer = $this->_customerRepository->getById($customerId);
-                $this->customerDataBuilder->populateWithArray($customer->__toArray());
+                $customerData = $this->dataObjectProcessor->buildOutputDataArray(
+                    $customer,
+                    '\Magento\Customer\Api\Data\CustomerInterface'
+                );
+                $this->customerDataBuilder->populateWithArray($customerData);
                 $customer = $this->customerDataBuilder->setGroupId($this->getRequest()->getParam('group'))->create();
                 $this->_customerRepository->save($customer);
             },
