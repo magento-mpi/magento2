@@ -42,5 +42,3 @@ dev/tests/unit/testsuite/Magento
 app/code/Magento/Sales/Model/Order/Payment/Transaction.php
 vendor
 setup/vendor
-app/code/Magento/CatalogInventory/Api/Data/StockItemCollectionInterface.php
-app/code/Magento/CatalogInventory/Api/Data/StockStatusCollectionInterface.php
