@@ -17,6 +17,7 @@ Magento/Paypal
 Magento/Downloadable
 Magento/Core/Model/Resource/Helper
 Magento/Catalog/Block/Adminhtml
+Magento/Catalog/Model/Resource/Collection/AbstractCollection
 Magento/Catalog/Model/Resource/Product/Indexer
 Magento/CatalogInventory/Model/Resource/Indexer/Stock
 Magento/Sales/Model/Order
