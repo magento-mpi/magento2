@@ -58,6 +58,21 @@ define([
         },
 
         /**
+         * Calls initProperties of parent class, initializes properties 
+         *     of instance
+         *     
+         * @return {Object} - reference to instance
+         */
+        initProperties: function () {
+            __super__.initProperties.apply(this, arguments);
+
+            this.displayed = [];
+            utils.add(this.regions, 'body', 'head');
+
+            return this;
+        },
+
+        /**
          * Calls initObservable of parent class, initializes observable
          *     properties of instance
          *     
@@ -68,24 +83,8 @@ define([
 
             this.observe({
                 'noPreview': true,
-                'body':      [],
-                'head':      [],
                 'indexed':   {}
             });
-
-            return this;
-        },
-
-        /**
-         * Calls initProperties of parent class, initializes properties 
-         *     of instance
-         *     
-         * @return {Object} - reference to instance
-         */
-        initProperties: function () {
-            __super__.initProperties.apply(this, arguments);
-
-            this.displayed = [];
 
             return this;
         },
@@ -100,28 +99,7 @@ define([
         initElement: function (elem) {
             __super__.initElement.apply(this, arguments);
 
-            this.insertToArea(elem)
-                .insertToIndexed(elem);
-        },
-
-        /**
-         * Inserts element to it's display area
-         * 
-         * @param  {Object} elem
-         * @return {Object} - reference to instance
-         */
-        insertToArea: function(elem) {
-            var regions = [];
-
-            elem.displayArea = elem.displayArea || this.displayArea;
-
-            regions = this.elems.groupBy('displayArea');
-
-            _.each(regions, function(elems, region) {
-                this[region](elems);
-            }, this);
-
-            return this;
+            this.insertToIndexed(elem);
         },
 
         /**

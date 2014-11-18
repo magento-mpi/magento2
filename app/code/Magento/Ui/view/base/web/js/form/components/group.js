@@ -36,7 +36,7 @@ define([
             return !item.hidden() && (data = value);
         });
 
-        return data;
+        return data || '';
     }
 
     return Component.extend({
@@ -50,6 +50,8 @@ define([
         initialize: function() {
             _.extend(this, defaults);
             
+            _.bindAll(this, 'toggle');
+
             __super__.initialize.apply(this, arguments);
         },
 
@@ -75,7 +77,7 @@ define([
             __super__.initElement.apply(this, arguments);
 
             elem.on({
-                'toggle': this.toggle.bind(this)
+                'toggle': this.toggle
             });
 
             this.extractData();

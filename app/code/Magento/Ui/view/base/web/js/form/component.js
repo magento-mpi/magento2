@@ -74,7 +74,7 @@ define([
         initialize: function(config, additional){
             _.extend(this, config, additional);
 
-            _.bindAll(this, '_insertAt');
+            _.bindAll(this, '_insert');
 
             this.initProperties()
                 .initObservable()
@@ -93,6 +93,7 @@ define([
                 'provider':     registry.get(this.provider),
                 'renderer':     registry.get('globalStorage').renderer,
                 'containers':   [],
+                'regions':      [],
                 '_elems':       []
             });
 
@@ -108,6 +109,10 @@ define([
             this.observe({
                 'elems': []
             });
+
+            this.regions.forEach(function(region){
+                this.observe(region, []);
+            }, this);
 
             return this;
         },
@@ -220,7 +225,7 @@ define([
          */
         insert: function(elem, offset){
             var _elems  = this._elems,
-                insert  = this._insertAt;
+                insert  = this._insert;
             
             offset = getOffsetFor(_elems, offset);
 
@@ -234,22 +239,6 @@ define([
         },
 
         /**
-         * Inserts provided component into 'elems' array at a specified position.
-         * @private
-         *
-         * @param {Object} elem - Element to insert.
-         * @param {Number} index - Position of the element.
-         */
-        _insertAt: function(elem, index){
-            var _elems = this._elems;
-
-            _elems[index] = elem;
-                
-            this.elems(_.compact(_elems));
-            this.initElement(elem);
-        },
-
-        /**
          * Removes specified element from the 'elems' array.
          *
          * @param {Object} elem - Element to be removed.
@@ -257,7 +246,7 @@ define([
          */
         remove: function(elem) {
             utils.remove(this._elems, elem);
-            this.elems.remove(elem);
+            this._update();
 
             return this;
         },
@@ -281,7 +270,44 @@ define([
             this.elems().forEach(function(child){ 
                 child.destroy();
             });
-        }
+        },
+
+        /**
+         * Inserts provided component into 'elems' array at a specified position.
+         * @private
+         *
+         * @param {Object} elem - Element to insert.
+         * @param {Number} index - Position of the element.
+         */
+        _insert: function(elem, index){            
+            this._elems[index] = elem;
+                
+            this._update()
+                .initElement(elem);
+        },
+
+        /**
+         * Synchronizes multiple elements arrays with a core '_elems' container.
+         * Performs elemets grouping by theirs 'displayArea' property.
+         * @private
+         *
+         * @returns {Component} Chainable.
+         */
+        _update: function(){
+            var _elems  = _.compact(this._elems),
+                grouped = _.groupBy(_elems, 'displayArea'),
+                group;
+
+            this.regions.forEach(function(region) {
+                if ((group = grouped[region])) {
+                    this[region](group);
+                }
+            }, this);
+
+            this.elems(_elems);
+
+            return this;
+        },
     });
 
 
