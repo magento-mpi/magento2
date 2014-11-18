@@ -175,7 +175,7 @@ class FilterPool extends AbstractView
      */
     protected function prepareFilterString($filterString)
     {
-        $data = array();
+        $data = [];
         $filterString = base64_decode($filterString);
         parse_str($filterString, $data);
         array_walk_recursive(
