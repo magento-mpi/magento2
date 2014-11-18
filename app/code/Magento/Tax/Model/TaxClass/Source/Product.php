@@ -84,7 +84,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
                 ->setValue(\Magento\Tax\Service\V1\TaxClassServiceInterface::TYPE_PRODUCT)
                 ->create();
             $searchCriteria = $this->_searchCriteriaBuilder->addFilter([$filter])->create();
-            $searchResults = $this->_taxClassRepository->get($searchCriteria);
+            $searchResults = $this->_taxClassRepository->getList($searchCriteria);
             foreach ($searchResults->getItems() as $taxClass) {
                 $this->_options[] = array(
                     'value' => $taxClass->getClassId(),
