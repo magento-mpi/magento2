@@ -159,7 +159,7 @@ define([
                 guestChecked    = $( checkout.loginGuestSelector ).is( ':checked' ),
                 registerChecked = $( checkout.loginRegisterSelector ).is( ':checked' ),
                 method          = 'register',
-                action          = 'show';
+                isRegistration  = true;
 
             //Remove page messages
             $(this.options.pageMessages).remove();
@@ -174,7 +174,7 @@ define([
 
                 if( guestChecked ){
                     method = 'guest';
-                    action = 'hide';
+                    isRegistration = false;
                 }
 
                 this._ajaxContinue(
@@ -183,9 +183,9 @@ define([
                     this.options.billingSection
                 );
 
-                this.element.find( checkout.registerCustomerPasswordSelector )[action]();
-                this.element.find( checkout.captchaGuestCheckoutSelector ).toggle(action !== 'show');
-                this.element.find( checkout.registerDuringCheckoutSelector )[action]();
+                this.element.find(checkout.registerCustomerPasswordSelector).toggle(isRegistration);
+                this.element.find(checkout.captchaGuestCheckoutSelector).toggle(!isRegistration);
+                this.element.find(checkout.registerDuringCheckoutSelector).toggle(isRegistration);
             }
             else if( json.registrationUrl ){
                 window.location = json.registrationUrl;
