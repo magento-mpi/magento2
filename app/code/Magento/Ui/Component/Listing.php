@@ -55,11 +55,11 @@ class Listing extends AbstractView
      * @param ContentTypeFactory $contentTypeFactory
      * @param ConfigFactory $configFactory
      * @param ConfigBuilderInterface $configBuilder
+     * @param DataProviderFactory $dataProviderFactory
+     * @param Manager $dataProviderManager
      * @param OptionsFactory $optionsFactory
      * @param ActionPool $actionPool
      * @param RowPool $dataProviderRowPool
-     * @param DataProviderFactory $dataProviderFactory
-     * @param Manager $dataProviderManager
      * @param array $data
      */
     public function __construct(
@@ -68,11 +68,11 @@ class Listing extends AbstractView
         ContentTypeFactory $contentTypeFactory,
         ConfigFactory $configFactory,
         ConfigBuilderInterface $configBuilder,
+        DataProviderFactory $dataProviderFactory,
+        Manager $dataProviderManager,
         OptionsFactory $optionsFactory,
         ActionPool $actionPool,
         RowPool $dataProviderRowPool,
-        DataProviderFactory $dataProviderFactory,
-        Manager $dataProviderManager,
         array $data = []
     ) {
         $this->actionPool = $actionPool;
