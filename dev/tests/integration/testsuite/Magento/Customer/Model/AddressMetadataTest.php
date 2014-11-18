@@ -7,14 +7,12 @@
  */
 namespace Magento\Customer\Service\V1;
 
+use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
-class AddressMetadataServiceTest extends \PHPUnit_Framework_TestCase
+class AddressMetadataTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var CustomerAccountServiceInterface */
-    private $_customerAccountService;
-
-    /** @var AddressMetadataServiceInterface */
+    /** @var AddressMetadataInterface */
     private $_service;
 
     protected function setUp()
@@ -24,15 +22,12 @@ class AddressMetadataServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'Magento\Framework\Api\Config\Reader' => [
                     'arguments' => [
-                        'fileResolver' => ['instance' => 'Magento\Customer\Service\V1\FileResolverStub']
+                        'fileResolver' => ['instance' => 'Magento\Customer\Model\FileResolverStub']
                     ]
                 ]
             ]
         );
-        $this->_customerAccountService = $objectManager->create(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
-        );
-        $this->_service = $objectManager->create('Magento\Customer\Service\V1\AddressMetadataServiceInterface');
+        $this->_service = $objectManager->create('Magento\Customer\Api\AddressMetadataInterface');
     }
 
     public function testGetCustomAttributesMetadata()
@@ -109,7 +104,7 @@ class AddressMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         /** Check some fields of one attribute metadata */
         $attributeMetadata = $formAttributesMetadata['company'];
-        $this->assertInstanceOf('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', $attributeMetadata);
+        $this->assertInstanceOf('Magento\Customer\Model\Data\AttributeMetadata', $attributeMetadata);
         $this->assertEquals('company', $attributeMetadata->getAttributeCode(), 'Attribute code is invalid');
         $this->assertNotEmpty($attributeMetadata->getValidationRules(), 'Validation rules are not set');
         $this->assertEquals('varchar', $attributeMetadata->getBackendType(), 'Backend type is invalid');
