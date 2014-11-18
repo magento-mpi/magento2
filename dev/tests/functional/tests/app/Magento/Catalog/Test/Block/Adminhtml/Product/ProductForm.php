@@ -132,6 +132,8 @@ class ProductForm extends FormTabs
      * @param Element|null $element [optional]
      * @param FixtureInterface|null $category [optional]
      * @return FormTabs
+     *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function fill(FixtureInterface $product, Element $element = null, FixtureInterface $category = null)
     {
@@ -161,7 +163,7 @@ class ProductForm extends FormTabs
             $this->showAdvancedSettings();
             $this->fillTabs($tabs, $element);
 
-            if ($product->hasData('custom_attribute')) {
+            if ($product instanceof InjectableFixture && $product->hasData('custom_attribute')) {
                 $this->createCustomAttribute($product);
             }
         }
@@ -352,6 +354,8 @@ class ProductForm extends FormTabs
      *
      * @param InjectableFixture $product
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getRequireNoticeAttributes(InjectableFixture $product)
     {
