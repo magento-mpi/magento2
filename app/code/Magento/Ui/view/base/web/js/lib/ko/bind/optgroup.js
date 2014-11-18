@@ -137,7 +137,7 @@ define([ 'ko' ], function (ko) {
 
                     ko.utils.setTextContent(option, allBindings.get('optionsCaption'));
                     ko.selectExtensions.writeValue(option, undefined);
-                } else if (!arrayEntry[optionsValue]) { // empty value === optgroup
+                } else if (Array.isArray(arrayEntry[optionsValue])) { // empty value === optgroup
                     option = element.ownerDocument.createElement("optgroup");
                     option.setAttribute('label', arrayEntry[optionsText]);
                 } else {

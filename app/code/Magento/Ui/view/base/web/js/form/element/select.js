@@ -46,10 +46,13 @@ define([
      * @return {Object}
      */
     function parseOptions(nodes){
-        var caption;
+        var caption,
+            value;
 
         nodes = _.map(nodes, function(node) {
-            if (node.value == null || node.value === '') {
+            value = node.value;
+
+            if (value == null || value === '') {
                 if (_.isUndefined(caption)) {
                     caption = node.label;
                 }

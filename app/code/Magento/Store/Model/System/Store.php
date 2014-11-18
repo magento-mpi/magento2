@@ -217,7 +217,7 @@ class Store extends \Magento\Framework\Object
     {
         $options = array();
         if ($empty) {
-            $options[] = array('label' => __('-- Please Select --'), 'value' => '');
+            $options[] = array('label' => __('-- Please Select --'), 'value' => null);
         }
         if ($all && $this->_isAdminScopeAllowed) {
             $options[] = array('label' => __('Admin'), 'value' => 0);
