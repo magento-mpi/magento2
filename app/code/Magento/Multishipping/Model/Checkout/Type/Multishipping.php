@@ -7,7 +7,7 @@
  */
 namespace Magento\Multishipping\Model\Checkout\Type;
 
-use \Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 
@@ -100,6 +100,16 @@ class Multishipping extends \Magento\Framework\Object
     protected $priceCurrency;
 
     /**
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     */
+    protected $searchCriteriaBuilder;
+
+    /**
+     * @var \Magento\Framework\Api\FilterBuilder
+     */
+    protected $filterBuilder;
+
+    /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -114,6 +124,7 @@ class Multishipping extends \Magento\Framework\Object
      * @param \Magento\Multishipping\Helper\Data $helper
      * @param OrderSender $orderSender
      * @param PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param array $data
      */
     public function __construct(
@@ -131,6 +142,8 @@ class Multishipping extends \Magento\Framework\Object
         \Magento\Multishipping\Helper\Data $helper,
         OrderSender $orderSender,
         PriceCurrencyInterface $priceCurrency,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder,
         array $data = []
     ) {
         $this->_eventManager = $eventManager;
@@ -147,6 +160,8 @@ class Multishipping extends \Magento\Framework\Object
         $this->addressRepository = $addressRepository;
         $this->orderSender = $orderSender;
         $this->priceCurrency = $priceCurrency;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
         parent::__construct($data);
         $this->_init();
     }
@@ -178,9 +193,11 @@ class Multishipping extends \Magento\Framework\Object
                 $quote->removeAddress($address->getId());
             }
 
-            $defaultShipping = $this->getCustomerDefaultShippingAddress();
-            if ($defaultShipping) {
-                $quote->getShippingAddress()->importCustomerAddressData($defaultShipping);
+            $defaultShippingId = $this->getCustomerDefaultShippingAddress();
+            if ($defaultShippingId) {
+                $quote->getShippingAddress()->importCustomerAddressData(
+                    $this->addressRepository->getById($defaultShippingId)
+                );
 
                 foreach ($this->getQuoteItems() as $item) {
                     /**
@@ -194,8 +211,11 @@ class Multishipping extends \Magento\Framework\Object
                 }
             }
 
-            if ($this->getCustomerDefaultBillingAddress()) {
-                $quote->getBillingAddress()->importCustomerAddressData($this->getCustomerDefaultBillingAddress());
+            $defaultBillingAddressId = $this->getCustomerDefaultBillingAddress();
+            if ($defaultBillingAddressId) {
+                $quote->getBillingAddress()->importCustomerAddressData(
+                    $this->addressRepository->getById($defaultBillingAddressId)
+                );
                 foreach ($this->getQuoteItems() as $item) {
                     if ($item->getParentItemId()) {
                         continue;
@@ -357,9 +377,11 @@ class Multishipping extends \Magento\Framework\Object
                 $quote->removeAddress($billingAddress->getId());
             }
 
-            $customerDefaultBilling = $this->getCustomerDefaultBillingAddress();
-            if ($customerDefaultBilling) {
-                $quote->getBillingAddress()->importCustomerAddressData($customerDefaultBilling);
+            $customerDefaultBillingId = $this->getCustomerDefaultBillingAddress();
+            if ($customerDefaultBillingId) {
+                $quote->getBillingAddress()->importCustomerAddressData(
+                    $this->addressRepository->getById($customerDefaultBillingId)
+                );
             }
 
             foreach ($quote->getAllItems() as $_item) {
@@ -409,7 +431,7 @@ class Multishipping extends \Magento\Framework\Object
             $quoteItem->setMultishippingQty((int)$quoteItem->getMultishippingQty() + $qty);
             $quoteItem->setQty($quoteItem->getMultishippingQty());
             try {
-                $address = $this->addressRepository->get($addressId);
+                $address = $this->addressRepository->getById($addressId);
             } catch (\Exception $e) {
             }
             if (isset($address)) {
@@ -443,7 +465,7 @@ class Multishipping extends \Magento\Framework\Object
     public function updateQuoteCustomerShippingAddress($addressId)
     {
         try {
-            $address = $this->addressRepository->get($addressId);
+            $address = $this->addressRepository->getById($addressId);
         } catch (\Exception $e) {
             //
         }
@@ -467,7 +489,7 @@ class Multishipping extends \Magento\Framework\Object
     public function setQuoteCustomerBillingAddress($addressId)
     {
         try {
-            $address = $this->addressRepository->get($addressId);
+            $address = $this->addressRepository->getById($addressId);
         } catch (\Exception $e) {
             //
         }
@@ -755,43 +777,61 @@ class Multishipping extends \Magento\Framework\Object
     /**
      * Retrieve customer default billing address
      *
-     * @return \Magento\Customer\Api\Data\AddressInterface|null
+     * @return int|null
      */
     public function getCustomerDefaultBillingAddress()
     {
-        $address = $this->getData('customer_default_billing_address');
-        if (is_null($address)) {
-            $address = $this->getCustomer()->getDefaultBilling();
-            if (!$address) {
+        $addressId = $this->getData('customer_default_billing_address');
+        if (is_null($addressId)) {
+            $addressId = $this->getCustomer()->getDefaultBilling();
+            if (!$addressId) {
                 /** Default billing address is not available, try to find any customer address */
-                $allAddresses = $this->getCustomer()->getAddresses();
-                $address = !empty($allAddresses) ? reset($allAddresses) : null;
+                $filter =  $this->filterBuilder->setField('parent_id')
+                    ->setValue($this->getCustomer()->getId())
+                    ->setConditionType('eq')
+                    ->create();
+                $addresses = (array)($this->addressRepository->getList(
+                    $this->searchCriteriaBuilder->addFilter([$filter])->create()
+                )->getItems());
+                $address = reset($addresses);
+                if ($address) {
+                    $addressId = $address->getId();
+                }
             }
-            $this->setData('customer_default_billing_address', $address);
+            $this->setData('customer_default_billing_address', $addressId);
         }
 
-        return $address;
+        return $addressId;
     }
 
     /**
      * Retrieve customer default shipping address
      *
-     * @return \Magento\Customer\Api\Data\AddressInterface|null
+     * @return int|null
      */
     public function getCustomerDefaultShippingAddress()
     {
-        $address = $this->getData('customer_default_shipping_address');
-        if (is_null($address)) {
-            $address = $this->getCustomer()->getDefaultShipping();
-            if (!$address) {
+        $addressId = $this->getData('customer_default_shipping_address');
+        if (is_null($addressId)) {
+            $addressId = $this->getCustomer()->getDefaultShipping();
+            if (!$addressId) {
                 /** Default shipping address is not available, try to find any customer address */
-                $allAddresses = $this->getCustomer()->getAddresses();
-                $address = !empty($allAddresses) ? reset($allAddresses) : null;
+                $filter =  $this->filterBuilder->setField('parent_id')
+                    ->setValue($this->getCustomer()->getId())
+                    ->setConditionType('eq')
+                    ->create();
+                $addresses = (array)($this->addressRepository->getList(
+                    $this->searchCriteriaBuilder->addFilter([$filter])->create()
+                )->getItems());
+                $address = reset($addresses);
+                if ($address) {
+                    $addressId = $address->getId();
+                }
             }
-            $this->setData('customer_default_shipping_address', $address);
+            $this->setData('customer_default_shipping_address', $addressId);
         }
 
-        return $address;
+        return $addressId;
     }
 
     /**

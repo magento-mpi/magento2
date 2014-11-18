@@ -7,11 +7,12 @@
  */
 namespace Magento\Newsletter\Model\Plugin;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Newsletter\Model\SubscriberFactory;
 
+/**
+ * Class CustomerPlugin
+ */
 class CustomerPlugin
 {
     /**
@@ -26,48 +27,30 @@ class CustomerPlugin
      *
      * @param SubscriberFactory $subscriberFactory
      */
-    public function __construct(
-        SubscriberFactory $subscriberFactory
-    ) {
-        $this->subscriberFactory = $subscriberFactory;
-    }
-
-    /**
-     * Plugin after create customer that updates any newsletter subscription that may have existed.
-     *
-     * @param CustomerAccountServiceInterface $subject
-     * @param Customer $customer
-     * @return Customer
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function afterCreateCustomer(CustomerAccountServiceInterface $subject, Customer $customer)
+    public function __construct(SubscriberFactory $subscriberFactory)
     {
-        $this->subscriberFactory->create()->updateSubscription($customer->getId());
-
-        return $customer;
+        $this->subscriberFactory = $subscriberFactory;
     }
 
     /**
      * Plugin around updating a customer account that updates any newsletter subscription that may have existed.
      *
-     * @param CustomerAccountServiceInterface $subject
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $subject
      * @param callable $updateCustomer
-     * @param string $customerId
-     * @param CustomerDetails $customerDetails
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
+     * @param string|null $passwordHash
      * @return bool
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundUpdateCustomer(
-        CustomerAccountServiceInterface $subject,
+    public function aroundSave(
+        \Magento\Customer\Api\CustomerRepositoryInterface $subject,
         callable $updateCustomer,
-        $customerId,
-        CustomerDetails $customerDetails
+        \Magento\Customer\Api\Data\CustomerInterface $customer,
+        $passwordHash = null
     ) {
-        $result = $updateCustomer($customerId, $customerDetails);
-
-        $this->subscriberFactory->create()->updateSubscription($customerDetails->getCustomer()->getId());
+        $result = $updateCustomer($customer, $passwordHash);
+        $this->subscriberFactory->create()->updateSubscription($result->getId());
 
         return $result;
     }
@@ -75,17 +58,17 @@ class CustomerPlugin
     /**
      * Plugin after delete customer that updates any newsletter subscription that may have existed.
      *
-     * @param CustomerAccountServiceInterface $subject
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $subject
      * @param callable $deleteCustomer Function we are wrapping around
      * @param int $customerId Input to the function
      * @return bool
      */
-    public function aroundDeleteCustomer(
-        CustomerAccountServiceInterface $subject,
+    public function aroundDeleteById(
+        \Magento\Customer\Api\CustomerRepositoryInterface $subject,
         callable $deleteCustomer,
         $customerId
     ) {
-        $customer = $subject->getCustomer($customerId);
+        $customer = $subject->getById($customerId);
 
         $result = $deleteCustomer($customerId);
 
