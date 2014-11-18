@@ -58,6 +58,12 @@ $table = $installer->getConnection()->newTable(
     '2M',
     array(),
     'Condition Sql'
+)->addColumn(
+    'apply_to',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Customer types to which this segment applies'
 )->setComment(
     'Enterprise Customersegment Segment'
 );

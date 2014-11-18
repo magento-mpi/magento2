@@ -81,6 +81,12 @@ $table = $installer->getConnection()->newTable(
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '1'),
     'Is Active'
+)->addColumn(
+    'disable_auto_group_change',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    'Disable automatic group change based on VAT ID'
 )->addIndex(
     $installer->getIdxName('customer_entity', array('store_id')),
     array('store_id')
@@ -88,8 +94,13 @@ $table = $installer->getConnection()->newTable(
     $installer->getIdxName('customer_entity', array('entity_type_id')),
     array('entity_type_id')
 )->addIndex(
-    $installer->getIdxName('customer_entity', array('email', 'website_id')),
-    array('email', 'website_id')
+    $installer->getIdxName(
+        'customer_entity',
+        array('email', 'website_id'),
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+    ),
+    array('email', 'website_id'),
+    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )->addIndex(
     $installer->getIdxName('customer_entity', array('website_id')),
     array('website_id')
