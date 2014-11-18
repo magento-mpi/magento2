@@ -37,7 +37,6 @@ class Check extends Block
      * Get gift card account data.
      *
      * @param array $filter
-     * @throws \Exception
      * @return array
      */
     public function getGiftCardAccountData(array $filter)
