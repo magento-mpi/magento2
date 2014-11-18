@@ -23,7 +23,7 @@ class ShippingOptionsCallback extends \Magento\Paypal\Controller\Express\Abstrac
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
      * @param \Magento\Framework\Session\Generic $paypalSession
      * @param \Magento\Core\Helper\Url $urlHelper
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Model\Url $customerUrl
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      */
     public function __construct(
@@ -34,7 +34,7 @@ class ShippingOptionsCallback extends \Magento\Paypal\Controller\Express\Abstrac
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
         \Magento\Framework\Session\Generic $paypalSession,
         \Magento\Core\Helper\Url $urlHelper,
-        \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Model\Url $customerUrl,
         \Magento\Sales\Model\QuoteRepository $quoteRepository
     ) {
         $this->quoteRepository = $quoteRepository;
@@ -46,7 +46,7 @@ class ShippingOptionsCallback extends \Magento\Paypal\Controller\Express\Abstrac
             $checkoutFactory,
             $paypalSession,
             $urlHelper,
-            $customerHelper
+            $customerUrl
         );
     }
 
