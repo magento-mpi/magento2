@@ -69,6 +69,7 @@ class Attribute extends AbstractFilter
             ->getState()
             ->addFilter($this->_createItem($label, $attributeValue));
 
+        $this->setItems([]); // set items to disable show filtering
         return $this;
     }
 

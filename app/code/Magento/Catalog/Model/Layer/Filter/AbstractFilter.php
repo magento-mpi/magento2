@@ -153,7 +153,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object implements Filte
      */
     public function getItems()
     {
-        if (empty($this->_items)) {
+        if (is_null($this->_items)) {
             $this->_initItems();
         }
         return $this->_items;
