@@ -68,7 +68,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 $this->getRequest(),
                 'adminhtml_customer_address',
                 \Magento\Customer\Api\AddressMetadataInterface::ENTITY_TYPE_ADDRESS,
-                array('is_default_billing', 'is_default_shipping'),
+                array('default_billing', 'default_shipping'),
                 $scope
             );
 
@@ -76,10 +76,10 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 $addressData['id'] = $addressId;
             }
             // Set default billing and shipping flags to customer
-            if (isset($addressData['is_default_billing']) && $addressData['is_default_billing'] === 'true') {
+            if (isset($addressData['default_billing']) && $addressData['default_billing'] === 'true') {
                 $extractedCustomerData[Customer::DEFAULT_BILLING] = $addressId;
             }
-            if (isset($addressData['is_default_shipping']) && $addressData['is_default_shipping'] === 'true') {
+            if (isset($addressData['default_shipping']) && $addressData['default_shipping'] === 'true') {
                 $extractedCustomerData[Customer::DEFAULT_SHIPPING] = $addressId;
             }
 

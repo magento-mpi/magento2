@@ -9,7 +9,6 @@
 namespace Magento\Ui\DataProvider\Config;
 
 use Magento\Framework\Config\ConverterInterface;
-use Zend\XmlRpc\Generator\DomDocument;
 
 /**
  * Class Converter
@@ -20,6 +19,23 @@ class Converter implements ConverterInterface
      * @var \Magento\Eav\Model\Entity\TypeFactory
      */
     protected $entityTypeFactory;
+
+    /**
+     * Map EAV frontend_input property to form element types
+     *
+     * @var array
+     */
+    protected $inputTypeMap = [
+        'text' => 'input',
+        'textarea' => 'textarea',
+        'multiline' => 'multiline',
+        'date' => 'input',
+        'select' => 'select',
+        'multiselect' => 'multiselect',
+        'boolean' => 'input',
+        'file' => 'media',
+        'image' => 'media'
+    ];
 
     /**
      * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
@@ -106,7 +122,8 @@ class Converter implements ConverterInterface
                     if ($attribute->getIsUserDefined()) {
                         $fields[$attribute->getAttributeCode()] = [
                             'name' => $attribute->getAttributeCode(),
-                            'source' => 'eav'
+                            'source' => 'eav',
+                            'formElement' => $this->mapFrontendInput($attribute->getFrontendInput())
                         ];
                     }
                 }
@@ -207,5 +224,14 @@ class Converter implements ConverterInterface
             }
         }
         return false;
+    }
+
+    /**
+     * @param string $input
+     * @return string
+     */
+    protected function mapFrontendInput($input)
+    {
+        return isset($this->inputTypeMap[$input]) ? $this->inputTypeMap[$input] : 'input';
     }
 }
