@@ -9,7 +9,7 @@ namespace Magento\Tax\Service\V1\Data\QuoteDetails;
 
 /**
  * @deprecated
- * @see \Magento\Tax\Api\Data\QuoteDetailsItem
+ * @see \Magento\Tax\Api\Data\QuoteDetailsItemInterface
  */
 class Item extends \Magento\Framework\Api\AbstractExtensibleObject
 {

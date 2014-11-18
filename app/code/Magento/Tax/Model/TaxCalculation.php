@@ -8,42 +8,44 @@
 
 namespace Magento\Tax\Model;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use \Magento\Tax\Api\Data\TaxDetailsInterface;
+use \Magento\Tax\Api\Data\TaxDetailsItemInterface;
+use \Magento\Tax\Api\Data\QuoteDetailsItemInterface;
+use \Magento\Tax\Api\Data\TaxDetailsDataBuilder;
+use \Magento\Tax\Api\Data\TaxDetailsItemDataBuilder;
+use \Magento\Tax\Api\Data\AppliedTaxRateInterface;
+use \Magento\Tax\Api\Data\AppliedTaxInterface;
+use \Magento\Tax\Api\TaxClassManagementInterface;
+use \Magento\Tax\Model\Calculation\CalculatorFactory;
+use \Magento\Tax\Model\Config;
+use \Magento\Tax\Model\Calculation\AbstractCalculator;
 use Magento\Framework\StoreManagerInterface;
-use Magento\Tax\Model\Calculation;
-use Magento\Tax\Model\Resource\Sales\Order\Tax;
-use Magento\Tax\Service\V1\Data\QuoteDetails;
-use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
-use Magento\Tax\Service\V1\Data\TaxDetails;
-use Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax;
-use Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxRate;
-use Magento\Tax\Service\V1\Data\TaxDetails\Item as TaxDetailsItem;
-use Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder as TaxDetailsItemBuilder;
-use Magento\Tax\Service\V1\Data\TaxDetailsBuilder;
-use Magento\Tax\Model\Calculation\CalculatorFactory;
+use \Magento\Tax\Api\TaxCalculationInterface;
 
-class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+
+class TaxCalculation implements TaxCalculationInterface
 {
+    /**
+     * Tax Details builder
+     *
+     * @var TaxDetailsDataBuilder
+     */
+    protected $taxDetailsBuilder;
+
+    /**
+     * Tax configuration object
+     *
+     * @var Config
+     */
+    protected $config;
+
     /**
      * Tax calculation model
      *
      * @var Calculation
      */
     protected $calculationTool;
-
-    /**
-     * Tax configuration object
-     *
-     * @var \Magento\Tax\Model\Config
-     */
-    protected $config;
-
-    /**
-     * Tax Details builder
-     *
-     * @var TaxDetailsBuilder
-     */
-    protected $taxDetailsBuilder;
 
     /**
      * Array to hold discount compensations for items
@@ -55,7 +57,7 @@ class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
     /**
      * Tax details item builder
      *
-     * @var TaxDetailsBuilderItem
+     * @var TaxDetailsItemDataBuilder
      */
     protected $taxDetailsItemBuilder;
 
@@ -67,14 +69,14 @@ class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
     /**
      * Item code to Item object array.
      *
-     * @var QuoteDetailsItem[]
+     * @var QuoteDetailsItemInterface[]
      */
     private $keyedItems;
 
     /**
      * parent item code to children item array.
      *
-     * @var QuoteDetailsItem[][]
+     * @var QuoteDetailsItemInterface[][]
      */
     private $parentToChildren;
 
@@ -84,11 +86,11 @@ class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
     protected $customerAccountService;
 
     /**
-     * Tax Class Service
+     * Tax Class Management
      *
-     * @var TaxClassService
+     * @var TaxClassManagementInterface
      */
-    protected $taxClassService;
+    protected $taxClassManagement;
 
     /**
      * Calculator Factory
@@ -98,26 +100,24 @@ class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
     protected $calculatorFactory;
 
     /**
-     * Constructor
-     *
      * @param Calculation $calculation
      * @param CalculatorFactory $calculatorFactory
-     * @param \Magento\Tax\Model\Config $config
-     * @param TaxDetailsBuilder $taxDetailsBuilder
-     * @param TaxDetailsItemBuilder $taxDetailsItemBuilder
+     * @param Config $config
+     * @param TaxDetailsDataBuilder $taxDetailsBuilder
+     * @param TaxDetailsItemDataBuilder $taxDetailsItemBuilder
      * @param StoreManagerInterface $storeManager
      * @param CustomerAccountServiceInterface $customerAccountService
-     * @param TaxClassService $taxClassService
+     * @param TaxClassManagementInterface $taxClassManagement
      */
     public function __construct(
         Calculation $calculation,
         CalculatorFactory $calculatorFactory,
-        \Magento\Tax\Model\Config $config,
-        TaxDetailsBuilder $taxDetailsBuilder,
-        TaxDetailsItemBuilder $taxDetailsItemBuilder,
+        Config $config,
+        TaxDetailsDataBuilder $taxDetailsBuilder,
+        TaxDetailsItemDataBuilder $taxDetailsItemBuilder,
         StoreManagerInterface $storeManager,
         CustomerAccountServiceInterface $customerAccountService,
-        TaxClassService $taxClassService
+        TaxClassManagementInterface $taxClassManagement
     ) {
         $this->calculationTool = $calculation;
         $this->calculatorFactory = $calculatorFactory;
@@ -126,13 +126,13 @@ class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
         $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
         $this->storeManager = $storeManager;
         $this->customerAccountService = $customerAccountService;
-        $this->taxClassService = $taxClassService;
+        $this->taxClassManagement = $taxClassManagement;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function calculateTax(QuoteDetails $quoteDetails, $storeId = null)
+    public function calculateTax(\Magento\Tax\Api\Data\QuoteDetailsInterface $quoteDetails, $storeId = null)
     {
         if (is_null($storeId)) {
             $storeId = $this->storeManager->getStore()->getStoreId();
@@ -140,13 +140,12 @@ class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
 
         // initial TaxDetails data
         $taxDetailsData = [
-            TaxDetails::KEY_SUBTOTAL => 0.0,
-            TaxDetails::KEY_TAX_AMOUNT => 0.0,
-            TaxDetails::KEY_DISCOUNT_TAX_COMPENSATION_AMOUNT => 0.0,
-            TaxDetails::KEY_APPLIED_TAXES => [],
-            TaxDetails::KEY_ITEMS => [],
+            TaxDetailsInterface::KEY_SUBTOTAL => 0.0,
+            TaxDetailsInterface::KEY_TAX_AMOUNT => 0.0,
+            TaxDetailsInterface::KEY_DISCOUNT_TAX_COMPENSATION_AMOUNT => 0.0,
+            TaxDetailsInterface::KEY_APPLIED_TAXES => [],
+            TaxDetailsInterface::KEY_ITEMS => [],
         ];
-
         $items = $quoteDetails->getItems();
         if (empty($items)) {
             return $this->taxDetailsBuilder->populateWithArray($taxDetailsData)->create();
@@ -158,12 +157,12 @@ class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
             $storeId,
             $quoteDetails->getBillingAddress(),
             $quoteDetails->getShippingAddress(),
-            $this->taxClassService->getTaxClassId($quoteDetails->getCustomerTaxClassKey(), 'customer'),
+            $this->taxClassManagement->getTaxClassId($quoteDetails->getCustomerTaxClassKey(), 'customer'),
             $quoteDetails->getCustomerId()
         );
 
         $processedItems = [];
-        /** @var QuoteDetailsItem $item */
+        /** @var QuoteDetailsItemInterface $item */
         foreach ($this->keyedItems as $item) {
             if (isset($this->parentToChildren[$item->getCode()])) {
                 $processedChildren = [];
@@ -239,7 +238,7 @@ class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
     /**
      * Computes relationships between items, primarily the child to parent relationship.
      *
-     * @param QuoteDetailsItem[] $items
+     * @param QuoteDetailsItemInterface[] $items
      * @return void
      */
     private function computeRelationships($items)
@@ -258,13 +257,13 @@ class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
     /**
      * Calculate item tax with customized rounding level
      *
-     * @param QuoteDetailsItem $item
-     * @param Calculation\AbstractCalculator $calculator
-     * @return TaxDetailsItem
+     * @param QuoteDetailsItemInterface $item
+     * @param AbstractCalculator $calculator
+     * @return TaxDetailsItemInterface
      */
     protected function processItem(
-        QuoteDetailsItem $item,
-        Calculation\AbstractCalculator $calculator
+        QuoteDetailsItemInterface $item,
+        AbstractCalculator $calculator
     ) {
         $quantity = $this->getTotalQuantity($item);
         return $calculator->calculate($item, $quantity);
@@ -273,9 +272,9 @@ class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
     /**
      * Calculate row information for item based on children calculation
      *
-     * @param TaxDetailsItem[] $children
+     * @param TaxDetailsItemInterface[] $children
      * @param int $quantity
-     * @return TaxDetailsItemBuilder
+     * @return TaxDetailsItemDataBuilder
      */
     protected function calculateParent($children, $quantity)
     {
@@ -307,26 +306,26 @@ class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
      * Add row total item amount to subtotal
      *
      * @param array $taxDetailsData
-     * @param TaxDetailsItem $item
+     * @param TaxDetailsItemInterface $item
      * @return array
      */
-    protected function aggregateItemData($taxDetailsData, TaxDetailsItem $item)
+    protected function aggregateItemData($taxDetailsData, TaxDetailsItemInterface $item)
     {
-        $taxDetailsData[TaxDetails::KEY_SUBTOTAL]
-            = $taxDetailsData[TaxDetails::KEY_SUBTOTAL] + $item->getRowTotal();
+        $taxDetailsData[TaxDetailsInterface::KEY_SUBTOTAL]
+            = $taxDetailsData[TaxDetailsInterface::KEY_SUBTOTAL] + $item->getRowTotal();
 
-        $taxDetailsData[TaxDetails::KEY_TAX_AMOUNT]
-            = $taxDetailsData[TaxDetails::KEY_TAX_AMOUNT] + $item->getRowTax();
+        $taxDetailsData[TaxDetailsInterface::KEY_TAX_AMOUNT]
+            = $taxDetailsData[TaxDetailsInterface::KEY_TAX_AMOUNT] + $item->getRowTax();
 
-        $taxDetailsData[TaxDetails::KEY_DISCOUNT_TAX_COMPENSATION_AMOUNT] =
-            $taxDetailsData[TaxDetails::KEY_DISCOUNT_TAX_COMPENSATION_AMOUNT]
+        $taxDetailsData[TaxDetailsInterface::KEY_DISCOUNT_TAX_COMPENSATION_AMOUNT] =
+            $taxDetailsData[TaxDetailsInterface::KEY_DISCOUNT_TAX_COMPENSATION_AMOUNT]
             + $item->getDiscountTaxCompensationAmount();
 
         $itemAppliedTaxes = $item->getAppliedTaxes();
         if (is_null($itemAppliedTaxes)) {
             return $taxDetailsData;
         }
-        $appliedTaxes = $taxDetailsData[TaxDetails::KEY_APPLIED_TAXES];
+        $appliedTaxes = $taxDetailsData[TaxDetailsInterface::KEY_APPLIED_TAXES];
         foreach ($itemAppliedTaxes as $taxId => $itemAppliedTax) {
             if (!isset($appliedTaxes[$taxId])) {
                 //convert rate data object to array
@@ -334,23 +333,23 @@ class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
                 $rateDataObjects = $itemAppliedTax->getRates();
                 foreach ($rateDataObjects as $rateDataObject) {
                     $rates[$rateDataObject->getCode()] = [
-                        AppliedTaxRate::KEY_CODE => $rateDataObject->getCode(),
-                        AppliedTaxRate::KEY_TITLE => $rateDataObject->getTitle(),
-                        AppliedTaxRate::KEY_PERCENT => $rateDataObject->getPercent(),
+                        AppliedTaxRateInterface::KEY_CODE => $rateDataObject->getCode(),
+                        AppliedTaxRateInterface::KEY_TITLE => $rateDataObject->getTitle(),
+                        AppliedTaxRateInterface::KEY_PERCENT => $rateDataObject->getPercent(),
                     ];
                 }
                 $appliedTaxes[$taxId] = [
-                    AppliedTax::KEY_AMOUNT => $itemAppliedTax->getAmount(),
-                    AppliedTax::KEY_PERCENT => $itemAppliedTax->getPercent(),
-                    AppliedTax::KEY_RATES => $rates,
-                    AppliedTax::KEY_TAX_RATE_KEY => $itemAppliedTax->getTaxRateKey(),
+                    AppliedTaxInterface::KEY_AMOUNT => $itemAppliedTax->getAmount(),
+                    AppliedTaxInterface::KEY_PERCENT => $itemAppliedTax->getPercent(),
+                    AppliedTaxInterface::KEY_RATES => $rates,
+                    AppliedTaxInterface::KEY_TAX_RATE_KEY => $itemAppliedTax->getTaxRateKey(),
                 ];
             } else {
-                $appliedTaxes[$taxId][AppliedTax::KEY_AMOUNT] += $itemAppliedTax->getAmount();
+                $appliedTaxes[$taxId][AppliedTaxInterface::KEY_AMOUNT] += $itemAppliedTax->getAmount();
             }
         }
 
-        $taxDetailsData[TaxDetails::KEY_APPLIED_TAXES] = $appliedTaxes;
+        $taxDetailsData[TaxDetailsInterface::KEY_APPLIED_TAXES] = $appliedTaxes;
         return $taxDetailsData;
     }
 
@@ -360,10 +359,10 @@ class TaxCalculation implements \Magento\Tax\Api\TaxCalculationInterface
      * What this really means is that if this is a child item, it return the parent quantity times
      * the child quantity and return that as the child's quantity.
      *
-     * @param QuoteDetailsItem $item
+     * @param QuoteDetailsItemInterface $item
      * @return float
      */
-    protected function getTotalQuantity(QuoteDetailsItem $item)
+    protected function getTotalQuantity(QuoteDetailsItemInterface $item)
     {
         if ($item->getParentCode()) {
             $parentQuantity = $this->keyedItems[$item->getParentCode()]->getQuantity();
