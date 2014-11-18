@@ -6,18 +6,18 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Tax\Model\Resource\Setup */
-$installer = $this;
+/** @var $this \Magento\Tax\Model\Resource\Setup */
 
 /**
  * Add tax_class_id attribute to the 'eav_attribute' table
  */
-$catalogInstaller = $installer->getCatalogResourceSetup(array('resourceName' => 'catalog_setup'));
+$catalogInstaller = $this->getCatalogResourceSetup(array('resourceName' => 'catalog_setup'));
 $catalogInstaller->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'tax_class_id',
     array(
-        'group' => 'Prices',
+        'group' => 'Product Details',
+        'sort_order' => 40,
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -27,9 +27,9 @@ $catalogInstaller->addAttribute(
         'source' => 'Magento\Tax\Model\TaxClass\Source\Product',
         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
         'visible' => true,
-        'required' => true,
+        'required' => false,
         'user_defined' => false,
-        'default' => '',
+        'default' => '2',
         'searchable' => true,
         'filterable' => false,
         'comparable' => false,
@@ -57,7 +57,7 @@ $data = array(
     )
 );
 foreach ($data as $row) {
-    $installer->getConnection()->insertForce($installer->getTable('tax_class'), $row);
+    $this->getConnection()->insertForce($this->getTable('tax_class'), $row);
 }
 
 /**
@@ -82,5 +82,5 @@ $data = array(
     )
 );
 foreach ($data as $row) {
-    $installer->getConnection()->insertForce($installer->getTable('tax_calculation_rate'), $row);
+    $this->getConnection()->insertForce($this->getTable('tax_calculation_rate'), $row);
 }
