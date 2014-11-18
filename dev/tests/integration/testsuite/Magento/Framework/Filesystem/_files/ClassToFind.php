@@ -7,5 +7,5 @@
  * 
  * Exists for testing FileResolver.
  *
- * \Magento\Framework\Code\Generator\FileResolverTest
+ * \Magento\Framework\Filesystem\FileResolverTest
  */

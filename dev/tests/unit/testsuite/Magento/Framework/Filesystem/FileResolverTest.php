@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test for \Magento\Framework\Code\Generator\FileResolver
+ * Unit test for \Magento\Framework\Filesystem\FileResolver
  *
  * Only one method is unit testable, other methods require integration testing.
  *
@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Code\Generator;
+namespace Magento\Framework\Filesystem;
 
 use \Magento\TestFramework\Helper\ObjectManager;
 
@@ -17,13 +17,13 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var \Magento\Framework\Code\Generator\FileResolver
+     * @var \Magento\Framework\Filesystem\FileResolver
      */
     protected $model;
 
     public function setUp()
     {
-        $this->model = (new ObjectManager($this))->getObject('Magento\Framework\Code\Generator\FileResolver');
+        $this->model = (new ObjectManager($this))->getObject('Magento\Framework\Filesystem\FileResolver');
     }
 
     public function testGetFilePath()
