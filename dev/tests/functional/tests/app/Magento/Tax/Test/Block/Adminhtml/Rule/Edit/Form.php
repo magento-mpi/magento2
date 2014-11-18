@@ -41,6 +41,13 @@ class Form extends FormInterface
     protected $taxRateBlock = '[class*="tax_rate"]';
 
     /**
+     * Tax rate default multiple select selector.
+     *
+     * @var string
+     */
+    protected $taxRateDefaultMultiSelect = '#tax_rate';
+
+    /**
      * Tax rate form.
      *
      * @var string
@@ -154,6 +161,14 @@ class Form extends FormInterface
     {
         $rootForm = $this;
         $taxRateMultiSelectList = $this->taxRateMultiSelectList;
+        $taxRateDefaultMultiSelect = $this->taxRateDefaultMultiSelect;
+        $this->browser->waitUntil(
+            function () use ($rootForm, $taxRateDefaultMultiSelect) {
+                $rootForm->reinitRootElement();
+                $element = $rootForm->browser->find($taxRateDefaultMultiSelect);
+                return $element->isVisible() ? null : true;
+            }
+        );
         $this->browser->waitUntil(
             function () use ($rootForm, $taxRateMultiSelectList) {
                 $rootForm->reinitRootElement();
@@ -161,6 +176,7 @@ class Form extends FormInterface
                 return $element->isVisible() ? true : null;
             }
         );
+
         $taxRateBlock = $this->_rootElement->find($this->taxRateBlock, Locator::SELECTOR_CSS, 'multiselectlist');
         /** @var \Magento\Tax\Test\Block\Adminhtml\Rule\Edit\TaxRate $taxRateForm */
         $taxRateForm = $this->blockFactory->create(

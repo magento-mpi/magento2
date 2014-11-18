@@ -65,7 +65,6 @@ class CreateTaxRateEntityTest extends Injectable
      */
     public function testCreateTaxRate(TaxRate $taxRate)
     {
-        $this->markTestIncomplete("Bug: MAGETWO-30476");
         // Steps
         $this->taxRateIndexPage->open();
         $this->taxRateIndexPage->getGridPageActions()->addNew();

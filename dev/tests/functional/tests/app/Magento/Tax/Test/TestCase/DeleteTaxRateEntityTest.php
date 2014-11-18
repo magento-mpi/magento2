@@ -68,7 +68,6 @@ class DeleteTaxRateEntityTest extends Injectable
      */
     public function testDeleteTaxRate(TaxRate $taxRate)
     {
-        $this->markTestIncomplete("Bug: MAGETWO-30476");
         // Precondition
         $taxRate->persist();
 

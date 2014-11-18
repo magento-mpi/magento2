@@ -73,7 +73,6 @@ class UpdateTaxRateEntityTest extends Injectable
         TaxRate $initialTaxRate,
         TaxRate $taxRate
     ) {
-        $this->markTestIncomplete("Bug: MAGETWO-30476");
         // Precondition
         $initialTaxRate->persist();
 
