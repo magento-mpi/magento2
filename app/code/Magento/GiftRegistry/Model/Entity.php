@@ -1074,7 +1074,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     {
         $this->_validateItems($items);
         foreach ($items as $id => $item) {
-            $model = $this->itemModel->load($id);
+            $model = $this->itemFactory->create()->load($id);
             if (isset($item['delete'])) {
                 $model->delete();
             } else {
