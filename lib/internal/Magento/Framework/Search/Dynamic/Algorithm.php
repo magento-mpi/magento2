@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 namespace Magento\Framework\Search\Dynamic;
-use Magento\Framework\Search\Dynamic\IntervalInterface;
 
+use Magento\Framework\Search\Dynamic\IntervalInterface;
 
 /**
  * Algorithm for layer value filter
@@ -138,6 +138,7 @@ class Algorithm
     {
         $this->_lowerLimit = empty($lowerLimit) ? null : (double)$lowerLimit;
         $this->_upperLimit = empty($upperLimit) ? null : (double)$upperLimit;
+
         return $this;
     }
 
@@ -159,6 +160,7 @@ class Algorithm
         if ($count < 2 || $valueRange <= 0) {
             //Same value couldn't be separated with several intervals
             $this->_intervalsNumber = 1;
+
             return $this;
         }
 
@@ -359,6 +361,7 @@ class Algorithm
 
         if (empty($bestRoundValue)) {
             $this->_skippedQuantilesUpperLimits[$quantileNumber] = $quantileInterval[1];
+
             return $bestRoundValue;
         }
 
@@ -375,6 +378,7 @@ class Algorithm
                 sort($bestRoundValueValues);
             }
         }
+
         return array_reverse($bestRoundValue);
     }
 
@@ -405,6 +409,7 @@ class Algorithm
             $left = $this->_skippedQuantilesUpperLimits[$quantileNumber - 1];
         }
         $right = min(ceil($quantile + $deflection), $limits[1], $this->_count - 1);
+
         return [$left, $right];
     }
 

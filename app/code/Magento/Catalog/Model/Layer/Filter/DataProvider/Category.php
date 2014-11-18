@@ -14,7 +14,6 @@ use Magento\Framework\Registry;
 
 class Category
 {
-
     /**
      * @var Registry
      */
@@ -76,8 +75,10 @@ class Category
                 }
                 $category = $category->getParentCategory();
             }
+
             return true;
         }
+
         return false;
     }
 
@@ -90,6 +91,7 @@ class Category
         $this->isApplied = true;
         $this->category = null;
         $this->categoryId = $categoryId;
+
         return $this;
     }
 
@@ -113,17 +115,23 @@ class Category
             $category = null;
             if (!is_null($this->categoryId)) {
                 $category = $this->categoryFactory->create()
-                    ->setStoreId($this->getLayer()->getCurrentStore()->getId())
+                    ->setStoreId(
+                        $this->getLayer()
+                            ->getCurrentStore()
+                            ->getId()
+                    )
                     ->load($this->categoryId);
             }
 
             if (is_null($category) || !$category->getId()) {
-                $category = $this->getLayer()->getCurrentCategory();
+                $category = $this->getLayer()
+                    ->getCurrentCategory();
             }
 
             $this->coreRegistry->register('current_category_filter', $category, true);
             $this->category = $category;
         }
+
         return $this->category;
     }
 
@@ -140,11 +148,14 @@ class Category
              */
             $category = $this->getCategory();
             $pathIds = array_reverse($category->getPathIds());
-            $curCategoryId = $this->getLayer()->getCurrentCategory()->getId();
+            $curCategoryId = $this->getLayer()
+                ->getCurrentCategory()
+                ->getId();
             if (isset($pathIds[1]) && $pathIds[1] != $curCategoryId) {
                 return $pathIds[1];
             }
         }
+
         return null;
     }
 
@@ -155,4 +166,4 @@ class Category
     {
         return $this->layer;
     }
-} 
+}

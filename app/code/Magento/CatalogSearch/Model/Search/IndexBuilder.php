@@ -56,14 +56,14 @@ class IndexBuilder implements IndexBuilderInterface
             ->joinLeft(
                 ['category_index' => $this->resource->getTableName('catalog_category_product_index')],
                 'search_index.product_id = category_index.product_id'
-                    . ' AND search_index.store_id = category_index.store_id',
+                . ' AND search_index.store_id = category_index.store_id',
                 []
             );
 
 
         $isShowOutOfStock = $this->config->isSetFlag(
-                'cataloginventory/options/show_out_of_stock',
-                ScopeInterface::SCOPE_STORE
+            'cataloginventory/options/show_out_of_stock',
+            ScopeInterface::SCOPE_STORE
         );
         if ($isShowOutOfStock === false) {
             $select->joinLeft(
@@ -71,8 +71,10 @@ class IndexBuilder implements IndexBuilderInterface
                 'search_index.product_id = stock_index.product_id'
                 . ' AND stock_index.website_id = 1 AND stock_index.stock_id = 1',
                 []
-            )->where('stock_index.stock_status = ?', 1);
+            )
+                ->where('stock_index.stock_status = ?', 1);
         }
+
         return $select;
     }
 
@@ -83,6 +85,7 @@ class IndexBuilder implements IndexBuilderInterface
      */
     private function getSelect()
     {
-        return $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE)->select();
+        return $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE)
+            ->select();
     }
 }

@@ -14,7 +14,6 @@ use Magento\Framework\Search\Request\BucketInterface;
 
 class Improved extends AbstractAlgorithm
 {
-
     /**
      * @var Algorithm
      */
@@ -30,13 +29,15 @@ class Improved extends AbstractAlgorithm
      * @param Algorithm $algorithm
      * @param IntervalFactory $intervalFactory
      */
-    public function __construct(DataProviderInterface $dataProvider, Algorithm $algorithm, IntervalFactory $intervalFactory)
-    {
+    public function __construct(
+        DataProviderInterface $dataProvider,
+        Algorithm $algorithm,
+        IntervalFactory $intervalFactory
+    ) {
         parent::__construct($dataProvider);
         $this->algorithm = $algorithm;
         $this->intervalFactory = $intervalFactory;
     }
-
 
     /**
      * {@inheritdoc}
@@ -46,7 +47,7 @@ class Improved extends AbstractAlgorithm
         $aggregations = $this->dataProvider->getAggregations($entityIds);
 
         $options = $this->dataProvider->getOptions();
-        if ($aggregations['count'] < $options['interval_division_limit'] ) {
+        if ($aggregations['count'] < $options['interval_division_limit']) {
             return [];
         }
         $select = $this->dataProvider->getDataSet($bucket, $dimensions);
@@ -59,6 +60,7 @@ class Improved extends AbstractAlgorithm
             $aggregations['std'],
             $aggregations['count']
         );
+
         return $this->algorithm->calculateSeparators($interval);
     }
 }

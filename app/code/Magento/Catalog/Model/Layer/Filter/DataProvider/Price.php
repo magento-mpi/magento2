@@ -114,6 +114,7 @@ class Price
 
     /**
      * @param array $interval
+     * @return void
      */
     public function setInterval($interval)
     {
@@ -277,7 +278,7 @@ class Price
     }
 
     /**
-     * @param $filterParams
+     * @param string $filterParams
      * @return array
      */
     public function getPriorFilters($filterParams)
@@ -300,7 +301,7 @@ class Price
     /**
      * Validate and parse filter request param
      *
-     * @param $filter
+     * @param string $filter
      * @return array|bool
      */
     public function validateFilter($filter)
@@ -348,6 +349,7 @@ class Price
 
     /**
      * @param array $priorInterval
+     * @return void
      */
     public function setPriorIntervals($priorInterval)
     {

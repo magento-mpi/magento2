@@ -12,7 +12,6 @@ use Magento\Framework\Search\Request\BucketInterface;
 
 class Auto extends AbstractAlgorithm
 {
-
     /**
      * {@inheritdoc}
      */
@@ -30,11 +29,12 @@ class Auto extends AbstractAlgorithm
     }
 
     /**
-     * @param DataProviderInterface $dataProvider
+     * @param BucketInterface $bucket
+     * @param array $dimensions
      * @param int[] $entityIds
      * @return number
      */
-    private function getRange($bucket, array $dimensions ,array $entityIds)
+    private function getRange($bucket, array $dimensions, array $entityIds)
     {
         $maxPrice = $this->getMaxPriceInt($entityIds);
         $index = 1;

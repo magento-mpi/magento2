@@ -67,6 +67,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Framework\Escaper $escaper
+     * @param CategoryFactory $categoryDataProviderFactory
      * @param array $data
      */
     public function __construct(
@@ -76,7 +77,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Framework\Escaper $escaper,
         CategoryFactory $categoryDataProviderFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_escaper = $escaper;
         parent::__construct($filterItemFactory, $storeManager, $layer, $itemDataBuilder, $data);
