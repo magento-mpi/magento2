@@ -111,7 +111,7 @@ class InvoiceSalesArchiveEntityTest extends Injectable
      */
     public function test(OrderInjectable $order, array $data)
     {
-        $this->markTestIncomplete('MAGETWO-28872, MAGETWO-28867');
+        $this->markTestIncomplete('MAGETWO-30796');
         // Preconditions
         $order->persist();
         $this->orderIndex->open();
@@ -130,6 +130,7 @@ class InvoiceSalesArchiveEntityTest extends Injectable
             'ids' => [
                 'invoiceIds' => $this->orderView->getOrderForm()->getTabElement('invoices')->getGridBlock()->getIds(),
             ],
+            'orderId' => $order->getId()
         ];
     }
 }
