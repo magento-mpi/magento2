@@ -104,7 +104,7 @@ class Converter
         $matches = $this->getMatches($content);
         if (!empty($matches['path'])) {
             $replaces = $this->getReplaces($matches);
-            preg_replace($replaces['regexp'], $replaces['value'], $content);
+            $content = preg_replace($replaces['regexp'], $replaces['value'], $content);
         }
         return $content;
     }
@@ -144,14 +144,14 @@ class Converter
 
                         $key = array_filter(explode("?", $matchValue));
                         $replaceData['regexp'][] =
-                            '/{.(category).*(url="(' . $key[0] . ')").*(attribute="('. $key[1] .')").*(.})/';
+                            '/{{category url="' . $key[0] . '" attribute="'. $key[1] .'"}}/';
                     } else {
-                        $replaceData['regexp'][] = '/{.(category).*(url="(' . $matchValue .')").*(.})/';
+                        $replaceData['regexp'][] = '/{{category url="' . $matchValue .'"}}/';
                     }
                     $replaceData['value'][] = '{{store url=""}}' . $categoryUrl;
                     break;
                 case 'categoryId':
-                    $replaceData['regexp'][] = '/{.(categoryId).*(url="(' . $matchValue .')").*(.})/';
+                    $replaceData['regexp'][] = '/{{categoryId url="' . $matchValue .'"}}/';
                     $replaceData['value'][] = sprintf('%03d', $category->getId());
                     break;
             }
