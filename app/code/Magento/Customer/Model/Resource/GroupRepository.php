@@ -59,9 +59,9 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
     protected $searchResultsBuilder;
 
     /**
-     * @var TaxClassServiceInterface
+     * @var \Magento\Tax\Api\TaxClassRepositoryInterface
      */
-    private $taxClassService;
+    private $taxClassRepository;
 
     /**
      * @param \Magento\Customer\Model\GroupRegistry $groupRegistry
@@ -70,7 +70,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
      * @param \Magento\Customer\Model\Resource\Group $groupResourceModel
      * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param \Magento\Customer\Api\Data\GroupSearchResultsDataBuilder $searchResultsBuilder
-     * @param TaxClassServiceInterface $taxClassServiceInterface
+     * @param \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassRepositoryInterface
      */
     public function __construct(
         \Magento\Customer\Model\GroupRegistry $groupRegistry,
@@ -79,7 +79,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
         \Magento\Customer\Model\Resource\Group $groupResourceModel,
         \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         \Magento\Customer\Api\Data\GroupSearchResultsDataBuilder $searchResultsBuilder,
-        TaxClassServiceInterface $taxClassServiceInterface
+        \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassRepositoryInterface
     ) {
         $this->groupRegistry = $groupRegistry;
         $this->groupFactory = $groupFactory;
@@ -87,7 +87,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
         $this->groupResourceModel = $groupResourceModel;
         $this->dataObjectProcessor = $dataObjectProcessor;
         $this->searchResultsBuilder = $searchResultsBuilder;
-        $this->taxClassService = $taxClassServiceInterface;
+        $this->taxClassRepository = $taxClassRepositoryInterface;
     }
 
     /**
@@ -305,7 +305,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
     {
         try {
             /* @var TaxClass $taxClassData */
-            $taxClassData = $this->taxClassService->getTaxClass($taxClassId);
+            $taxClassData = $this->taxClassRepository->get($taxClassId);
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             throw InputException::invalidFieldValue('taxClassId', $group->getTaxClassId());
         }

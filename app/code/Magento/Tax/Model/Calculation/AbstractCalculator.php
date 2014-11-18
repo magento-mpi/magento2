@@ -15,7 +15,7 @@ use Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder as TaxDetailsItemBuilder;
 use Magento\Tax\Service\V1\Data\TaxDetails\Item as TaxDetailsItem;
 use Magento\Tax\Service\V1\Data\TaxClassKey;
 use \Magento\Tax\Service\V1\Data\TaxClass;
-use Magento\Tax\Service\V1\TaxClassService;
+use Magento\Tax\Api\TaxClassManagementInterface;
 
 /**
  * @todo MAGETWO-30349 adopt this interface
@@ -118,14 +118,14 @@ abstract class AbstractCalculator
     /**
      * Tax Class Service
      *
-     * @var TaxClassService
+     * @var TaxClassManagementInterface
      */
-    protected $taxClassService;
+    protected $taxClassManagement;
 
     /**
      * Constructor
      *
-     * @param TaxClassService $taxClassService
+     * @param TaxClassManagementInterface $taxClassService
      * @param TaxDetailsItemBuilder $taxDetailsItemBuilder
      * @param Calculation $calculationTool
      * @param \Magento\Tax\Model\Config $config
@@ -133,14 +133,14 @@ abstract class AbstractCalculator
      * @param \Magento\Framework\Object $addressRateRequest
      */
     public function __construct(
-        TaxClassService $taxClassService,
+        TaxClassManagementInterface $taxClassService,
         TaxDetailsItemBuilder $taxDetailsItemBuilder,
         Calculation $calculationTool,
         \Magento\Tax\Model\Config $config,
         $storeId,
         \Magento\Framework\Object $addressRateRequest = null
     ) {
-        $this->taxClassService = $taxClassService;
+        $this->taxClassManagement = $taxClassService;
         $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
         $this->calculationTool = $calculationTool;
         $this->config = $config;

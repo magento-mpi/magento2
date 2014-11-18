@@ -18,9 +18,9 @@ use Magento\Framework\Exception\InputException;
 class Tax extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\Tax\Service\V1\TaxClassServiceInterface
+     * @var \Magento\Tax\Api\TaxClassRepositoryInterface
      */
-    protected $taxClassService;
+    protected $taxClassRepository;
 
     /**
      * @var \Magento\Tax\Service\V1\Data\TaxClassBuilder
@@ -29,15 +29,15 @@ class Tax extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService
-     * @param \Magento\Tax\Service\V1\Data\TaxClassBuilder $taxClassBuilder
+     * @param \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassService
+     * @param \Magento\Tax\Api\Data\TaxClassDataBuilder $taxClassBuilder
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService,
-        \Magento\Tax\Service\V1\Data\TaxClassBuilder $taxClassBuilder
+        \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassService,
+        \Magento\Tax\Api\Data\TaxClassDataBuilder $taxClassBuilder
     ) {
-        $this->taxClassService = $taxClassService;
+        $this->taxClassRepository = $taxClassService;
         $this->taxClassBuilder = $taxClassBuilder;
         parent::__construct($context);
     }
