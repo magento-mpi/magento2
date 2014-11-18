@@ -36,6 +36,7 @@ class SetRepository implements \Magento\Catalog\Api\AttributeSetRepositoryInterf
      * @param \Magento\Eav\Api\AttributeSetRepositoryInterface $attributeSetRepository
      * @param \Magento\Framework\Api\SearchCriteriaDataBuilder $searchCriteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
+     * @param \Magento\Eav\Model\Config $eavConfig
      */
     public function __construct(
         \Magento\Eav\Api\AttributeSetRepositoryInterface $attributeSetRepository,
@@ -54,6 +55,7 @@ class SetRepository implements \Magento\Catalog\Api\AttributeSetRepositoryInterf
      */
     public function save(\Magento\Eav\Api\Data\AttributeSetInterface $attributeSet)
     {
+        $this->validate($attributeSet);
         return $this->attributeSetRepository->save($attributeSet);
     }
 
@@ -115,7 +117,7 @@ class SetRepository implements \Magento\Catalog\Api\AttributeSetRepositoryInterf
     {
         $productEntityId = $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
         if ($attributeSet->getEntityTypeId() != $productEntityId) {
-            throw InputException::invalidFieldValue('id', $attributeSet->getAttributeSetId());
+            throw new \Magento\Framework\Exception\StateException('Provided Attribute set non product Attribute set.');
         }
     }
 }
