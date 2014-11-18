@@ -17,6 +17,9 @@ use Magento\Tax\Service\V1\Data\TaxClassKey;
 use \Magento\Tax\Service\V1\Data\TaxClass;
 use Magento\Tax\Service\V1\TaxClassService;
 
+/**
+ * @todo MAGETWO-30349 adopt this interface
+ */
 abstract class AbstractCalculator
 {
     /**#@+
