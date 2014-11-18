@@ -39,7 +39,7 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * TaxRuleService
      *
-     * @var \Magento\Tax\Service\V1\TaxRuleServiceInterface
+     * @var \Magento\Tax\Api\TaxRuleRepositoryInterface
      */
     private $taxRuleService;
 
@@ -87,7 +87,7 @@ class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
-        $this->taxRuleService = $this->objectManager->get('Magento\Tax\Service\V1\TaxRuleServiceInterface');
+        $this->taxRuleService = $this->objectManager->get('Magento\Tax\Api\TaxRuleRepositoryInterface');
         $this->taxRateService = $this->objectManager->get('Magento\Tax\Service\V1\TaxRateServiceInterface');
         $this->taxRuleBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
         $this->taxRuleFixtureFactory = new TaxRuleFixtureFactory();

@@ -26,7 +26,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $formKey;
 
     /**
-     * @var \Magento\Tax\Service\V1\TaxRuleServiceInterface
+     * @var \Magento\Tax\Api\TaxRuleRepositoryInterface
      */
     protected $ruleService;
 
@@ -55,7 +55,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Tax\Model\Rate\Source $rateSource
-     * @param \Magento\Tax\Service\V1\TaxRuleServiceInterface $ruleService
+     * @param \Magento\Tax\Api\TaxRuleRepositoryInterface $ruleService
      * @param \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService
      * @param \Magento\Tax\Model\TaxClass\Source\Customer $customerTaxClassSource
      * @param \Magento\Tax\Model\TaxClass\Source\Product $productTaxClassSource
@@ -67,7 +67,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Tax\Model\Rate\Source $rateSource,
-        \Magento\Tax\Service\V1\TaxRuleServiceInterface $ruleService,
+        \Magento\Tax\Api\TaxRuleRepositoryInterface $ruleService,
         \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService,
         \Magento\Tax\Model\TaxClass\Source\Customer $customerTaxClassSource,
         \Magento\Tax\Model\TaxClass\Source\Product $productTaxClassSource,

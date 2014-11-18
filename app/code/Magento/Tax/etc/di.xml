@@ -10,7 +10,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
     <preference for="Magento\Tax\Service\V1\TaxRateServiceInterface"
                 type="Magento\Tax\Service\V1\TaxRateService"/>
-    <preference for="Magento\Tax\Service\V1\TaxRuleServiceInterface"
+    <preference for="Magento\Tax\Api\TaxRuleRepositoryInterface"
                 type="Magento\Tax\Service\V1\TaxRuleService"/>
     <preference for="Magento\Tax\Api\TaxCalculationInterface"
                 type="Magento\Tax\Model\TaxCalculation"/>

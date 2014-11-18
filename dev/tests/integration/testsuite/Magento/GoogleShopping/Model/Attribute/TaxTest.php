@@ -45,7 +45,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     /**
      * TaxRuleService
      *
-     * @var \Magento\Tax\Service\V1\TaxRuleServiceInterface
+     * @var \Magento\Tax\Api\TaxRuleRepositoryInterface
      */
     private $taxRuleService;
 
@@ -89,7 +89,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $this->googleShoppingTaxAttribute = $this->objectManager
             ->create('Magento\GoogleShopping\Model\Attribute\Tax');
         $this->taxRateBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
-        $this->taxRuleService = $this->objectManager->get('Magento\Tax\Service\V1\TaxRuleServiceInterface');
+        $this->taxRuleService = $this->objectManager->get('Magento\Tax\Api\TaxRuleRepositoryInterface');
         $this->taxRuleBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
         $this->taxRuleFixtureFactory = new TaxRuleFixtureFactory();
         $this->setUpDefaultRules();

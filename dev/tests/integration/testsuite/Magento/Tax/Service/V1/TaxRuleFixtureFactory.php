@@ -36,8 +36,8 @@ class TaxRuleFixtureFactory
     {
         /** @var \Magento\Tax\Service\V1\Data\TaxRuleBuilder $taxRuleBuilder */
         $taxRuleBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
-        /** @var \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService */
-        $taxRuleService = $this->objectManager->create('Magento\Tax\Service\V1\TaxRuleServiceInterface');
+        /** @var \Magento\Tax\Api\TaxRuleRepositoryInterface $taxRuleService */
+        $taxRuleService = $this->objectManager->create('Magento\Tax\Api\TaxRuleRepositoryInterface');
 
         $rules = [];
         foreach ($rulesData as $ruleData) {
@@ -56,8 +56,8 @@ class TaxRuleFixtureFactory
      */
     public function deleteTaxRules($ruleIds)
     {
-        /** @var \Magento\Tax\Service\V1\TaxRuleServiceInterface $taxRuleService */
-        $taxRuleService = $this->objectManager->create('Magento\Tax\Service\V1\TaxRuleServiceInterface');
+        /** @var \Magento\Tax\Api\TaxRuleRepositoryInterface $taxRuleService */
+        $taxRuleService = $this->objectManager->create('Magento\Tax\Api\TaxRuleRepositoryInterface');
 
         foreach ($ruleIds as $ruleId) {
             $taxRuleService->deleteTaxRule($ruleId);

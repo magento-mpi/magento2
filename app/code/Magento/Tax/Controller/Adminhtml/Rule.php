@@ -24,7 +24,7 @@ class Rule extends \Magento\Backend\App\Action
      */
     protected $_coreRegistry = null;
 
-    /** @var \Magento\Tax\Service\V1\TaxRuleServiceInterface */
+    /** @var \Magento\Tax\Api\TaxRuleRepositoryInterface */
     protected $ruleService;
 
     /** @var \Magento\Tax\Service\V1\Data\TaxRuleBuilder */
@@ -33,13 +33,13 @@ class Rule extends \Magento\Backend\App\Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Tax\Service\V1\TaxRuleServiceInterface $ruleService
+     * @param \Magento\Tax\Api\TaxRuleRepositoryInterface $ruleService
      * @param \Magento\Tax\Service\V1\Data\TaxRuleBuilder $ruleBuilder
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Tax\Service\V1\TaxRuleServiceInterface $ruleService,
+        \Magento\Tax\Api\TaxRuleRepositoryInterface $ruleService,
         \Magento\Tax\Service\V1\Data\TaxRuleBuilder $ruleBuilder
     ) {
         $this->_coreRegistry = $coreRegistry;

@@ -13,7 +13,7 @@ use Magento\Framework\Api\AbstractServiceCollection;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Tax\Model\Calculation\TaxRuleConverter;
-use Magento\Tax\Service\V1\TaxRuleServiceInterface;
+use Magento\Tax\Api\TaxRuleRepositoryInterface;
 use Magento\Tax\Service\V1\Data\TaxRule;
 use Magento\Framework\Api\SortOrderBuilder;
 
