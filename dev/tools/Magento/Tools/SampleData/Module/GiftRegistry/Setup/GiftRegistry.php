@@ -134,7 +134,7 @@ class GiftRegistry implements SetupInterface
             $validationPassed = $giftRegistry->validate();
             if ($validationPassed) {
                 $giftRegistry->save();
-                foreach($data['items'] as $productId) {
+                foreach ($data['items'] as $productId) {
                     $parentId = $this->productIndexer->getRelationsByChild($productId);
                     $itemProduct = $parentId ? $parentId[0] : $productId;
                     $itemOptions = $this->formItemOptions($productId);
@@ -155,7 +155,7 @@ class GiftRegistry implements SetupInterface
      * @param array $giftRegistryData
      * @return array
      */
-    private function generateData(array $giftRegistryData)
+    protected function generateData(array $giftRegistryData)
     {
         $giftRegistryData['sku'] = explode("\n", $giftRegistryData['sku']);
         $customer = $this->customerFactory->create()->setWebsiteId(1)->loadByEmail($giftRegistryData['customer_email']);
