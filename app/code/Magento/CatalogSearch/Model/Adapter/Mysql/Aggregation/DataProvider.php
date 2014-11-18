@@ -106,20 +106,10 @@ class DataProvider implements DataProviderInterface
 
         } else {
             $currentScopeId = $this->scopeResolver->getScope($currentScope)->getId();
-            $table = $attribute->getBackendTable();
-            $ifNullCondition = $this->getConnection()
-                ->getIfNullSql('current_store.value', 'main_table.value');
-
             $select = $this->getSelect();
-            $select->from(['main_table' => $table], null)
-                ->joinLeft(
-                    ['current_store' => $table],
-                    'current_store.attribute_id = main_table.attribute_id AND current_store.store_id = ' . $currentScopeId,
-                    null
-                )
-                ->columns([BucketInterface::FIELD_VALUE => $ifNullCondition])
+            $select->from(['main_table' => 'catalog_product_index_eav'], ['value'])
                 ->where('main_table.attribute_id = ?', $attribute->getAttributeId())
-                ->where('main_table.store_id = ?', Store::DEFAULT_STORE_ID);
+                ->where('main_table.store_id = ? ', $currentScopeId);
         }
 
         return $select;
