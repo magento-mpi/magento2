@@ -17,6 +17,14 @@ use \Magento\Tax\Api\Data\TaxRuleSearchResultsInterface;
 interface TaxRuleRepositoryInterface
 {
     /**
+     * Get TaxRule
+     *
+     * @param int $ruleId
+     * @return TaxRuleInterface
+     */
+    public function get($ruleId);
+
+    /**
      * Save TaxRule
      *
      * @param TaxRuleInterface $rule
@@ -45,14 +53,6 @@ interface TaxRuleRepositoryInterface
      * @throws \Exception If something went wrong while performing the delete.
      */
     public function deleteByIdentifier($ruleId);
-
-    /**
-     * Get TaxRule
-     *
-     * @param int $ruleId
-     * @return TaxRuleInterface
-     */
-    public function get($ruleId);
 
     /**
      * Search TaxRules

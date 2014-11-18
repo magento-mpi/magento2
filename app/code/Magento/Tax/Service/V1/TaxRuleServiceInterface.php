@@ -12,7 +12,7 @@ namespace Magento\Tax\Service\V1;
  * Interface TaxRuleServiceInterface
  * @deprecated
  * @see \Magento\Tax\Api\TaxRuleRepositoryInterface
- * @see \Magento\Tax\Api\TaxRuleManagementInterface
+ * @see \Magento\Tax\Api\TaxRateManagementInterface
  */
 interface TaxRuleServiceInterface
 {

@@ -11,7 +11,7 @@
     <preference for="Magento\Tax\Service\V1\TaxRateServiceInterface"
                 type="Magento\Tax\Service\V1\TaxRateService"/>
     <preference for="Magento\Tax\Api\TaxRuleRepositoryInterface"
-                type="Magento\Tax\Service\V1\TaxRuleService"/>
+                type="Magento\Tax\Model\TaxRuleRepository"/>
     <preference for="Magento\Tax\Api\TaxCalculationInterface"
                 type="Magento\Tax\Model\TaxCalculation"/>
     <preference for="Magento\Tax\Service\V1\TaxClassServiceInterface" type="Magento\Tax\Service\V1\TaxClassService" />
@@ -62,4 +62,7 @@
     <preference for="Magento\Tax\Api\TaxClassManagementInterface" type="Magento\Tax\Model\TaxClass\Repository" />
     <preference for="Magento\Tax\Api\TaxClassRepositoryInterface" type="Magento\Tax\Model\TaxClass\Repository" />
     <preference for="Magento\Tax\Api\Data\TaxClassInterface" type="Magento\Tax\Model\ClassModel" />
+    <preference for="Magento\Tax\Api\Data\TaxRuleInterface" type="Magento\Tax\Model\Calculation\Rule" />
+    <preference for="Magento\Tax\Api\Data\TaxRuleSearchResultsInterface"
+                type="Magento\Tax\Model\TaxRuleSearchResults" />
 </config>

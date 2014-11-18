@@ -8,19 +8,16 @@
 
 namespace Magento\Tax\Api;
 
-use \Magento\Tax\Api\Data\TaxRuleInterface;
+use \Magento\Tax\Api\Data\TaxRateInterface;
 
-/**
- * previous implementation @see \Magento\Tax\Service\V1\TaxRuleServiceInterface::getRatesByCustomerAndProductTaxClassId
- */
-interface TaxRuleManagementInterface
+interface TaxRateManagementInterface
 {
     /**
      * Get rates by customerTaxClassId and productTaxClassId
      *
      * @param int $customerTaxClassId
      * @param int $productTaxClassId
-     * @return TaxRuleInterface[]
+     * @return TaxRateInterface[]
      */
     public function getRatesByCustomerAndProductTaxClassId($customerTaxClassId, $productTaxClassId);
 }

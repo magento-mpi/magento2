@@ -2051,4 +2051,9 @@ return array(
     ['getCategoryIndexer', 'Magento\Catalog\Model\Product\Action'],
     ['getIndexer', 'Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\AbstractPlugin'],
     ['_getNewConditionModelInstance', 'Magento\Rule\Model\Condition\Combine'],
+    [
+        'getRatesByCustomerAndProductTaxClassId',
+        'Magento\Tax\Service\V1\TaxRuleServiceInterface',
+        'Magento\Tax\Api\TaxRateManagementInterface::getRatesByCustomerAndProductTaxClassId'
+    ]
 );

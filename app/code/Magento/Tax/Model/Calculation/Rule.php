@@ -7,19 +7,17 @@
  */
 namespace Magento\Tax\Model\Calculation;
 
+use \Magento\Tax\Api\Data\TaxRuleInterface;
+
 /**
  * Tax Rule Model
  *
  * @method \Magento\Tax\Model\Resource\Calculation\Rule _getResource()
  * @method \Magento\Tax\Model\Resource\Calculation\Rule getResource()
- * @method string getCode()
- * @method \Magento\Tax\Model\Calculation\Rule setCode(string $value)
- * @method int getPriority()
- * @method \Magento\Tax\Model\Calculation\Rule setPriority(int $value)
  * @method int getPosition()
  * @method \Magento\Tax\Model\Calculation\Rule setPosition(int $value)
  */
-class Rule extends \Magento\Framework\Model\AbstractModel
+class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements TaxRuleInterface
 {
     /**
      * Prefix of model events names
@@ -161,5 +159,61 @@ class Rule extends \Magento\Framework\Model\AbstractModel
     public function fetchRuleCodes($rateId, $customerTaxClassIds, $productTaxClassIds)
     {
         return $this->getResource()->fetchRuleCodes($rateId, $customerTaxClassIds, $productTaxClassIds);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCode()
+    {
+        return $this->getData('code');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCustomerTaxClassIds()
+    {
+        return $this->getData('customer_tax_class_ids');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProductTaxClassIds()
+    {
+        return $this->getData('product_tax_class_ids');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTaxRateIds()
+    {
+        return $this->getData('tax_rate_ids');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPriority()
+    {
+        return $this->getData('priority');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSortOrder()
+    {
+        return $this->getData('sort_order');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCalculateSubtotal()
+    {
+        return $this->getData('calculate_subtotal');
     }
 }

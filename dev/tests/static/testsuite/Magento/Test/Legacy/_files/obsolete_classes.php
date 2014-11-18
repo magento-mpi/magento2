@@ -2830,4 +2830,9 @@ return array(
     ['Magento\Framework\App\View\Deployment\Version\Generator\Timestamp', 'Magento\Framework\Stdlib\DateTime'],
     ['Magento\Framework\App\View\Deployment\Version\GeneratorInterface'],
     ['Magento\Tax\Service\V1\TaxCalculationServiceInterface', 'Magento\Tax\Api\TaxCalculationInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxRule', 'Magento\Tax\Api\Data\TaxRuleInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxRuleSearchResults', 'Magento\Tax\Model\TaxRuleSearchResults'],
+    ['Magento\Tax\Service\V1\Data\TaxRuleBuilder'],
+    ['Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder'],
+
 );

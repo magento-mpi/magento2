@@ -8,31 +8,10 @@
 
 namespace Magento\Tax\Api\Data;
 
-/**
- * previous implementation @see \Magento\Tax\Service\V1\Data\TaxRule
- */
-interface TaxRuleInterface extends \Magento\Framework\Api\ExtensibleDataInterface
+use \Magento\Framework\Api\ExtensibleDataInterface;
+
+interface TaxRuleInterface extends ExtensibleDataInterface
 {
-    /**#@+
-     * Constants defined for keys of array, makes typos less likely
-     */
-    const ID = 'id';
-
-    const CODE = 'code';
-
-    const CUSTOMER_TAX_CLASS_IDS = 'customer_tax_class_ids';
-
-    const PRODUCT_TAX_CLASS_IDS = 'product_tax_class_ids';
-
-    const TAX_RATE_IDS = 'tax_rate_ids';
-
-    const PRIORITY = 'priority';
-
-    const SORT_ORDER = 'sort_order';
-
-    const CALCULATE_SUBTOTAL = 'calculate_subtotal';
-    /**#@-*/
-
     /**
      * Get id
      *
