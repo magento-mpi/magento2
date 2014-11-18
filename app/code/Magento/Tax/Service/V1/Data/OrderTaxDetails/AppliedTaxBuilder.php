@@ -11,6 +11,7 @@ namespace Magento\Tax\Service\V1\Data\OrderTaxDetails;
  * Builder for the AppliedTax Data Object
  *
  * @method AppliedTax create()
+ * @deprecated @use \Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxDataBuilder
  */
 class AppliedTaxBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {

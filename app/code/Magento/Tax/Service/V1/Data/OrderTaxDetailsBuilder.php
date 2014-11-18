@@ -17,6 +17,8 @@ use Magento\Framework\Api\MetadataServiceInterface;
  * Builder for the OrderTaxDetails Data Object
  *
  * @method OrderTaxDetails create()
+ * @deprecated
+ * @use \Magento\Tax\Api\Data\OrderTaxDetailsDataBuilder
  */
 class OrderTaxDetailsBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {

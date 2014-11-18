@@ -10,7 +10,7 @@ namespace Magento\Tax\Service\V1;
 
 /**
  * @deprecated
- * @see \Magento\Tax\Api\OrderTaxInterface
+ * @see \Magento\Tax\Api\OrderTaxManagementInterface
  */
 interface OrderTaxServiceInterface
 {

@@ -1,18 +1,18 @@
 <?php
 /**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1\Data\OrderTaxDetails;
+namespace Magento\Tax\Api\Data;
 
 /**
- * @deprecated
- * @see \Magento\Tax\Api\Data\OrderTaxDetailsItemInterface
+ * @see \Magento\Tax\Service\V1\Data\OrderTaxDetails\Item
  */
-class Item extends \Magento\Framework\Api\AbstractExtensibleObject
+interface OrderTaxDetailsItemInterface
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely
@@ -31,38 +31,26 @@ class Item extends \Magento\Framework\Api\AbstractExtensibleObject
      *
      * @return string|null
      */
-    public function getType()
-    {
-        return $this->_get(self::KEY_TYPE);
-    }
+    public function getType();
 
     /**
      * Return item id if this item is a product
      *
      * @return int|null
      */
-    public function getItemId()
-    {
-        return $this->_get(self::KEY_ITEM_ID);
-    }
+    public function getItemId();
 
     /**
      * Return associated item id if this item is associated with another item, null otherwise
      *
      * @return int|null
      */
-    public function getAssociatedItemId()
-    {
-        return $this->_get(self::KEY_ASSOCIATED_ITEM_ID);
-    }
+    public function getAssociatedItemId();
 
     /**
      * Get applied taxes
      *
-     * @return \Magento\Tax\Service\V1\Data\OrderTaxDetails\AppliedTax[]|null
+     * @return \Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxInterface[]|null
      */
-    public function getAppliedTaxes()
-    {
-        return $this->_get(self::KEY_APPLIED_TAXES);
-    }
+    public function getAppliedTaxes();
 }

@@ -55,4 +55,8 @@
     </type>
     <preference for="Magento\Tax\Api\Data\TaxRateSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
     <preference for="Magento\Tax\Api\Data\TaxClassSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Magento\Tax\Api\OrderTaxManagementInterface" type="Magento\Tax\Model\Sales\Order\TaxManagement" />
+    <preference for="Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxInterface" type="Magento\Tax\Model\Sales\Order\Tax" />
+    <preference for="Magento\Tax\Api\Data\OrderTaxDetailsInterface" type="Magento\Tax\Model\Sales\Order\Details" />
+    <preference for="Magento\Tax\Api\Data\OrderTaxDetailsItemInterface" type="Magento\Tax\Model\Sales\Order\Tax\Item" />
 </config>

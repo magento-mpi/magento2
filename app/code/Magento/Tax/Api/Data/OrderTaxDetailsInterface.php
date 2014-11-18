@@ -14,15 +14,14 @@ interface OrderTaxDetailsInterface
     /**
      * Get applied taxes at order level
      *
-     * @return \Magento\Tax\Service\V1\Data\OrderTaxDetails\AppliedTax[] | null
+     * @return \Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxInterface[] | null
      */
     public function getAppliedTaxes();
 
     /**
      * Get order item tax details
      *
-     * @return \Magento\Tax\Service\V1\Data\OrderTaxDetails\Item[] | null
+     * @return \Magento\Tax\Api\Data\OrderTaxDetailsItemInterface[] | null
      */
     public function getItems();
-
 }

@@ -17,7 +17,7 @@ use Magento\Tax\Service\V1\Data\TaxClassKeyBuilder;
 use Magento\Tax\Api\TaxCalculationInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\Session as CustomerSession;
-use Magento\Tax\Service\V1\OrderTaxServiceInterface;
+use \Magento\Tax\Api\OrderTaxManagementInterface;
 
 /**
  * Catalog data helper
@@ -147,9 +147,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $catalogHelper;
 
     /**
-     * @var \Magento\Tax\Service\V1\OrderTaxServiceInterface
+     * @var OrderTaxManagementInterface
      */
-    protected $orderTaxService;
+    protected $orderTaxManagement;
 
     /**
      * @var PriceCurrencyInterface
@@ -175,7 +175,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
      * @param \Magento\Catalog\Helper\Data $catalogHelper
-     * @param OrderTaxServiceInterface $orderTaxService
+     * @param OrderTaxManagementInterface $orderTaxService
      * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
@@ -197,7 +197,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
         \Magento\Catalog\Helper\Data $catalogHelper,
-        OrderTaxServiceInterface $orderTaxService,
+        OrderTaxManagementInterface $orderTaxService,
         PriceCurrencyInterface $priceCurrency
     ) {
         parent::__construct($context);
@@ -219,7 +219,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->customerSession = $customerSession;
         $this->addressConverter = $addressConverter;
         $this->catalogHelper = $catalogHelper;
-        $this->orderTaxService = $orderTaxService;
+        $this->orderTaxManagement = $orderTaxService;
     }
 
     /**
@@ -721,7 +721,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $source = $current->getOrder();
         }
         if ($current == $source) {
-            $orderTaxDetails = $this->orderTaxService->getOrderTaxDetails($current->getId());
+            $orderTaxDetails = $this->orderTaxManagement->getOrderTaxDetails($current->getId());
             $appliedTaxes = $orderTaxDetails->getAppliedTaxes();
             foreach ($appliedTaxes as $appliedTax) {
                 $taxCode = $appliedTax->getCode();
@@ -731,7 +731,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $taxClassAmount[$taxCode]['percent'] = $appliedTax->getPercent();
             }
         } else {
-            $orderTaxDetails = $this->orderTaxService->getOrderTaxDetails($source->getId());
+            $orderTaxDetails = $this->orderTaxManagement->getOrderTaxDetails($source->getId());
 
             // Apply any taxes for shipping
             $shippingTaxAmount = $current->getShippingTaxAmount();

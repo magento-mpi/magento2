@@ -14,8 +14,9 @@ use Magento\Framework\Api\MetadataServiceInterface;
  * Builder for the Item Data Object
  *
  * @method Item create()
+ * @derecated
+ * @use \Magento\Tax\Api\Data\OrderTaxDetailsItemDataBuilder
  */
-
 class ItemBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
