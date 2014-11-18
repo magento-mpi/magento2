@@ -31,8 +31,8 @@ class SaveHandler implements SaveHandlerInterface
     public function __construct(
         SaveHandlerFactory $saveHandlerFactory,
         DeploymentConfig $deploymentConfig,
-        $default = self::DEFAULT_HANDLER)
-    {
+        $default = self::DEFAULT_HANDLER
+    ) {
         $saveMethod = $deploymentConfig->get(\Magento\Framework\Session\Config::PARAM_SESSION_SAVE_METHOD);
         try {
             $adapter = $saveHandlerFactory->create($saveMethod);

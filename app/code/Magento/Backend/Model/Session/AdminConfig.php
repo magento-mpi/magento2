@@ -61,7 +61,6 @@ class AdminConfig extends Config
         $scopeType,
         FrontNameResolver $frontNameResolver,
         \Magento\Framework\StoreManagerInterface $storeManager,
-
         $lifetimePath = self::XML_PATH_COOKIE_LIFETIME,
         $sessionName = self::SESSION_NAME_ADMIN
     ) {
