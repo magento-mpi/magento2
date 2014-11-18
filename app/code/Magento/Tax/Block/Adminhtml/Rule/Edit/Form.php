@@ -331,7 +331,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Extract tax rule data in a format which is
      *
-     * @param \Magento\Tax\Service\V1\Data\TaxRule $taxRule
+     * @param \Magento\Tax\Api\Data\TaxRuleInterface $taxRule
      * @return array
      */
     protected function extractTaxRuleData($taxRule)

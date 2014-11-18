@@ -9,7 +9,7 @@
 namespace Magento\GoogleShopping\Model\Attribute;
 
 use Magento\Tax\Model\ClassModel;
-use Magento\Tax\Service\V1\Data\TaxRuleBuilder;
+use Magento\Tax\Api\Data\TaxRuleDataBuilder;
 use Magento\Tax\Service\V1\Data\TaxRateBuilder;
 use Magento\Tax\Service\V1\TaxRuleFixtureFactory;
 
@@ -31,7 +31,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     /**
      * TaxRule builder
      *
-     * @var TaxRuleBuilder
+     * @var TaxRuleDataBuilder
      */
     private $taxRuleBuilder;
 
@@ -88,9 +88,9 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->googleShoppingTaxAttribute = $this->objectManager
             ->create('Magento\GoogleShopping\Model\Attribute\Tax');
-        $this->taxRateBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
+        $this->taxRateBuilder = $this->objectManager->create('Magento\Tax\Api\Data\TaxRuleDataBuilder');
         $this->taxRuleService = $this->objectManager->get('Magento\Tax\Api\TaxRuleRepositoryInterface');
-        $this->taxRuleBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
+        $this->taxRuleBuilder = $this->objectManager->create('Magento\Tax\Api\Data\TaxRuleDataBuilder');
         $this->taxRuleFixtureFactory = new TaxRuleFixtureFactory();
         $this->setUpDefaultRules();
     }

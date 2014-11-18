@@ -27,20 +27,20 @@ class Rule extends \Magento\Backend\App\Action
     /** @var \Magento\Tax\Api\TaxRuleRepositoryInterface */
     protected $ruleService;
 
-    /** @var \Magento\Tax\Service\V1\Data\TaxRuleBuilder */
+    /** @var \Magento\Tax\Api\Data\TaxRuleDataBuilder */
     protected $ruleBuilder;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Tax\Api\TaxRuleRepositoryInterface $ruleService
-     * @param \Magento\Tax\Service\V1\Data\TaxRuleBuilder $ruleBuilder
+     * @param \Magento\Tax\Api\Data\TaxRuleDataBuilder $ruleBuilder
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Tax\Api\TaxRuleRepositoryInterface $ruleService,
-        \Magento\Tax\Service\V1\Data\TaxRuleBuilder $ruleBuilder
+        \Magento\Tax\Api\Data\TaxRuleDataBuilder $ruleBuilder
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->ruleService = $ruleService;
@@ -82,7 +82,7 @@ class Rule extends \Magento\Backend\App\Action
      * Initialize tax rule service object with form data.
      *
      * @param array $postData
-     * @return \Magento\Tax\Service\V1\Data\TaxRule
+     * @return \Magento\Tax\Api\Data\TaxRuleInterface
      */
     protected function populateTaxRule($postData)
     {
