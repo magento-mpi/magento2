@@ -24,7 +24,7 @@ use Magento\Framework\Api\SearchCriteria;
 class TaxRuleServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var TaxRuleServiceInterface
+     * @var TaxRuleRepositoryInterface
      */
     private $taxRuleService;
 

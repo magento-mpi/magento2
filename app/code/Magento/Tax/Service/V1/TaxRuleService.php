@@ -28,7 +28,7 @@ use Magento\Framework\Api\SortOrder;
 /**
  * TaxRuleService implementation.
  */
-class TaxRuleService implements TaxRuleServiceInterface
+class TaxRuleService implements TaxRuleRepositoryInterface
 {
     /**
      * Builder for TaxRule data objects.

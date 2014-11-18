@@ -23,7 +23,7 @@ use Magento\Framework\Api\SortOrderBuilder;
 class TaxRuleCollection extends AbstractServiceCollection
 {
     /**
-     * @var TaxRuleServiceInterface
+     * @var TaxRuleRepositoryInterface
      */
     protected $ruleService;
 
@@ -38,7 +38,7 @@ class TaxRuleCollection extends AbstractServiceCollection
      * @param EntityFactory $entityFactory
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param TaxRuleServiceInterface $ruleService
+     * @param TaxRuleRepositoryInterface $ruleService
      * @param TaxRuleConverter $ruleConverter
      * @param SortOrderBuilder $sortOrderBuilder
      */
@@ -47,7 +47,7 @@ class TaxRuleCollection extends AbstractServiceCollection
         FilterBuilder $filterBuilder,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SortOrderBuilder $sortOrderBuilder,
-        TaxRuleServiceInterface $ruleService,
+        TaxRuleRepositoryInterface $ruleService,
         TaxRuleConverter $ruleConverter
     ) {
         parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder, $sortOrderBuilder);
