@@ -75,7 +75,7 @@ class GroupManagementTest extends \PHPUnit_Framework_TestCase
     public function testIsReadonlyWithGroupId()
     {
         $testGroup = ['id' => 3, 'code' => 'General', 'tax_class_id' => 3, 'tax_class_name' => 'Retail Customer'];
-        $this->assertEquals(true, $this->groupManagement->isReadonly($testGroup['id']));
+        $this->assertEquals(false, $this->groupManagement->isReadonly($testGroup['id']));
     }
 
     /**
