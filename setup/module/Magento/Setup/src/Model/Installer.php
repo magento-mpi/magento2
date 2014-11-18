@@ -265,7 +265,7 @@ class Installer
         $script[] = ['Post installation file permissions check...', 'checkApplicationFilePermissions', []];
 
         $estimatedModules = $this->createModulesConfig($request);
-        $total = count($script) + count($estimatedModules->getData());
+        $total = count($script) + count(array_filter($estimatedModules->getData()));
         $this->progress = new Installer\Progress($total, 0);
 
         $this->log->log('Starting Magento installation:');
