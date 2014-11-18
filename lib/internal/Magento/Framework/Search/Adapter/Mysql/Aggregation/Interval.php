@@ -10,7 +10,6 @@ namespace Magento\Framework\Search\Adapter\Mysql\Aggregation;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Dynamic\IntervalInterface;
 
-
 class Interval implements IntervalInterface
 {
     /**
@@ -27,7 +26,7 @@ class Interval implements IntervalInterface
      */
     public function __construct(Select $select)
     {
-       $this->select = $select;
+        $this->select = $select;
     }
 
     /**
@@ -38,7 +37,9 @@ class Interval implements IntervalInterface
     private function getValueFiled()
     {
         $field = $this->select->getPart(Select::COLUMNS)[0];
-        return $this->select->getAdapter()->quoteIdentifier($field[1]);
+
+        return $this->select->getAdapter()
+            ->quoteIdentifier($field[1]);
     }
 
     /**
@@ -49,14 +50,18 @@ class Interval implements IntervalInterface
         $select = clone $this->select;
         $value = $this->getValueFiled();
         if (!is_null($lower)) {
-            $select->where("${value} >= ?" , $lower - self::DELTA);
+            $select->where("${value} >= ?", $lower - self::DELTA);
         }
         if (!is_null($upper)) {
             $select->where("${value} < ?", $upper - self::DELTA);
         }
-        $select->order("value ASC")->limit($limit, $offset);
+        $select->order("value ASC")
+            ->limit($limit, $offset);
 
-        return $this->arrayValuesToFloat($this->select->getAdapter()->fetchCol($select));
+        return $this->arrayValuesToFloat(
+            $this->select->getAdapter()
+                ->fetchCol($select)
+        );
     }
 
     /**
@@ -66,11 +71,13 @@ class Interval implements IntervalInterface
     {
         $select = clone $this->select;
         $value = $this->getValueFiled();
-        $select->columns(['count' => 'COUNT(*)'])->where("${value} <  ?", $data - self::DELTA);
+        $select->columns(['count' => 'COUNT(*)'])
+            ->where("${value} <  ?", $data - self::DELTA);
         if (!is_null($lower)) {
             $select->where("${value} >= ?", $lower - self::DELTA);
         }
-        $offset = $this->select->getAdapter()->fetchRow($select)['count'];
+        $offset = $this->select->getAdapter()
+            ->fetchRow($select)['count'];
         if (!$offset) {
             return false;
         }
@@ -85,13 +92,15 @@ class Interval implements IntervalInterface
     {
         $select = clone $this->select;
         $value = $this->getValueFiled();
-        $select->columns(['count' => 'COUNT(*)'])->where("${value} > ?" , $data + self::DELTA);
+        $select->columns(['count' => 'COUNT(*)'])
+            ->where("${value} > ?", $data + self::DELTA);
 
         if (!is_null($upper)) {
             $select->where("${value} < ? ", $data - self::DELTA);
         }
 
-        $offset = $this->select->getAdapter()->fetchRow($select)['count'];
+        $offset = $this->select->getAdapter()
+            ->fetchRow($select)['count'];
 
         if (!$offset) {
             return false;
@@ -100,11 +109,17 @@ class Interval implements IntervalInterface
         $select = clone $this->select;
         $select->where("${value} >= ?", $data - self::DELTA);
         if (!is_null($upper)) {
-            $select->where("${value} < ? ", $data) - self::DELTA;
+            $select->where("${value} < ? ", $data - self::DELTA);
         }
-        $select->order("${value} DESC")->limit($rightIndex - $offset + 1, $offset - 1);
+        $select->order("${value} DESC")
+            ->limit($rightIndex - $offset + 1, $offset - 1);
 
-        return $this->arrayValuesToFloat(array_reverse($this->select->getAdapter()->fetchCol($select)));
+        return $this->arrayValuesToFloat(
+            array_reverse(
+                $this->select->getAdapter()
+                    ->fetchCol($select)
+            )
+        );
     }
 
     /**
@@ -117,6 +132,7 @@ class Interval implements IntervalInterface
         if (is_array($prices) && !empty($prices)) {
             $returnPrices = array_map('floatval', $prices);
         }
+
         return $returnPrices;
     }
 }

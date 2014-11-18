@@ -103,7 +103,6 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
         $this->flatState = $flatState;
         $this->_categoryInstance = $categoryFactory->create();
         parent::__construct($context, $data);
-        $this->_isScopePrivate = true;
     }
 
     /**

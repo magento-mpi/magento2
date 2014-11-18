@@ -33,6 +33,7 @@ class DataBuilder
      * @param string $label
      * @param string $label
      * @param int $count
+     * @return void
      */
     public function addItemData($label, $value, $count)
     {

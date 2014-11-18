@@ -69,6 +69,7 @@ class Decimal
 
     /**
      * @param int $range
+     * @return void
      */
     public function setRange($range)
     {
@@ -86,6 +87,7 @@ class Decimal
         if (is_null($this->max)) {
             $this->loadValues($filter);
         }
+
         return $this->max;
     }
 
@@ -100,6 +102,7 @@ class Decimal
         if (is_null($this->min)) {
             $this->loadValues($filter);
         }
+
         return $this->min;
     }
 
@@ -114,9 +117,11 @@ class Decimal
     {
         $count = array_key_exists($range, $this->rangeItemsCount) ? $this->rangeItemsCount[$range] : null;
         if (is_null($count)) {
-            $count = $this->getResource()->getCount($filter, $range);
+            $count = $this->getResource()
+                ->getCount($filter, $range);
             $this->rangeItemsCount[$range] = $count;
         }
+
         return $count;
     }
 
@@ -134,9 +139,11 @@ class Decimal
      */
     private function loadValues(FilterInterface $filter)
     {
-        list($min, $max) = $this->getResource()->getMinMax($filter);
+        list($min, $max) = $this->getResource()
+            ->getMinMax($filter);
         $this->min = $min;
         $this->max = $max;
+
         return $this;
     }
-} 
+}
