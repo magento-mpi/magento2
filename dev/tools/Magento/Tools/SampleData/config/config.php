@@ -20,6 +20,7 @@ return [
         'Magento_Tax' => 'Magento\Tools\SampleData\Module\Tax\Setup',
         'Magento_Customer' => 'Magento\Tools\SampleData\Module\Customer\Setup',
         'Magento_Sales' => 'Magento\Tools\SampleData\Module\Sales\Setup',
-        'Magento_Wishlist' => 'Magento\Tools\SampleData\Module\Wishlist\Setup'
+        'Magento_Wishlist' => 'Magento\Tools\SampleData\Module\Wishlist\Setup',
+        'Magento_OfflineShipping' => 'Magento\Tools\SampleData\Module\OfflineShipping\Setup'
     ],
 ];
