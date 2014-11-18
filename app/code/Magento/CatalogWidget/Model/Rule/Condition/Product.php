@@ -142,6 +142,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         switch ($attribute->getBackendType()) {
             case 'decimal':
             case 'datetime':
+            case 'int':
                 $collection->addAttributeToSelect($attribute->getAttributeCode(), 'inner');
                 break;
             default:

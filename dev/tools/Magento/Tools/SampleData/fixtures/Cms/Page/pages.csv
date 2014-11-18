@@ -15,25 +15,6 @@ title,page_layout,meta_keywords,meta_description,identifier,content_heading,cont
   </div>
 ",,,1,,,,,,,
 "Privacy Policy",1column,,,privacy-policy,"Privacy Policy","<div class=""privacy-policy cms-content"">
-    <div class=""block block-collapsible-nav"">
-        <div class=""title block-collapsible-nav-title"" data-mage-init=""{&quot;toggleAdvanced&quot;: {&quot;toggleContainers&quot;: &quot;#privacy-policy-nav-content&quot;, &quot;selectorsToggleClass&quot;: &quot;active&quot;}}"">Privacy Menu</div>
-        <div class=""block-collapsible-content content"" id=""privacy-policy-nav-content"">
-            <ul class=""items"">
-                <li class=""item current""><a href=""#privacy-policy-title-1"">Luma Security</a></li>
-                <li class=""item""><a href=""#privacy-policy-title-2"">Luma Privacy Policy</a></li>
-                <li class=""item""><a href=""#privacy-policy-title-3"">The Information We Collect</a></li>
-                <li class=""item""><a href=""#privacy-policy-title-4"">How We Use The Information We Collect</a></li>
-                <li class=""item""><a href=""#privacy-policy-title-5"">Others With Whom We Share Your Information.</a></li>
-                <li class=""item""><a href=""#privacy-policy-title-6"">Your Choices Regarding Use Of The Information We Collect</a></li>
-                <li class=""item""><a href=""#privacy-policy-title-7"">Your California Privacy Rights</a></li>
-                <li class=""item""><a href=""#privacy-policy-title-8"">Cookies, Web Beacons, and How We Use Them</a></li>
-                <li class=""item""><a href=""#privacy-policy-title-9"">Online Account Registration</a></li>
-                <li class=""item""><a href=""#privacy-policy-title-10"">Emails</a></li>
-                <li class=""item""><a href=""#privacy-policy-title-11"">Acceptance</a></li>
-                <li class=""item""><a href=""#privacy-policy-title-12"">Questions for Luma?</a></li>
-            </ul>
-        </div>
-    </div>
     <div class=""privacy-policy-content"">
         <p>This website (""website"") is operated by Luma Inc., which includes Luma stores, and Luma Private Sales. This privacy policy only covers information collected at this website, and does not cover any information collected offline by Luma. All Luma websites are currently covered by this privacy policy. </p>
 
@@ -125,6 +106,25 @@ title,page_layout,meta_keywords,meta_description,identifier,content_heading,cont
         <h2 id=""privacy-policy-title-12"">Questions for Luma?</h2>
         <p><a href=""{{store url=""contact""}}"">Contact Us</a></p>
     </div>
+    <div class=""block block-collapsible-nav"">
+        <div class=""title block-collapsible-nav-title"" data-mage-init=""{&quot;toggleAdvanced&quot;: {&quot;toggleContainers&quot;: &quot;#privacy-policy-nav-content&quot;, &quot;selectorsToggleClass&quot;: &quot;active&quot;}}"">Privacy Menu</div>
+        <div class=""block-collapsible-content content"" id=""privacy-policy-nav-content"">
+            <ul class=""items"">
+                <li class=""item current""><a href=""#privacy-policy-title-1"">Luma Security</a></li>
+                <li class=""item""><a href=""#privacy-policy-title-2"">Luma Privacy Policy</a></li>
+                <li class=""item""><a href=""#privacy-policy-title-3"">The Information We Collect</a></li>
+                <li class=""item""><a href=""#privacy-policy-title-4"">How We Use The Information We Collect</a></li>
+                <li class=""item""><a href=""#privacy-policy-title-5"">Others With Whom We Share Your Information.</a></li>
+                <li class=""item""><a href=""#privacy-policy-title-6"">Your Choices Regarding Use Of The Information We Collect</a></li>
+                <li class=""item""><a href=""#privacy-policy-title-7"">Your California Privacy Rights</a></li>
+                <li class=""item""><a href=""#privacy-policy-title-8"">Cookies, Web Beacons, and How We Use Them</a></li>
+                <li class=""item""><a href=""#privacy-policy-title-9"">Online Account Registration</a></li>
+                <li class=""item""><a href=""#privacy-policy-title-10"">Emails</a></li>
+                <li class=""item""><a href=""#privacy-policy-title-11"">Acceptance</a></li>
+                <li class=""item""><a href=""#privacy-policy-title-12"">Questions for Luma?</a></li>
+            </ul>
+        </div>
+    </div>
 </div>
 ",,,1,,,,,,,
 "Customer Service",1column,,,customer-service,"Customer Service","<div class=""customer-service cms-content"">
@@ -197,57 +197,4 @@ title,page_layout,meta_keywords,meta_description,identifier,content_heading,cont
   <p>Please allow 10 to 14 days for Luma to process your return.</p>
 </div>
 ",,,1,,,,,,,
-"Home Page",1column,,,home,"Home Page","<div class=""blocks-promo"">
-    <a href=""#"" class=""block-promo home-main"">
-        <img src=""{{media url=""wysiwyg/home/home-main.jpg""}}"" alt="""" />
-        <span class=""content bg-white"">
-            <span class=""info"">New Luma Yoga Collection</span>
-            <strong class=""title"">Get fit and look fab in new seasonal styles</strong>
-            <span class=""action more button"">Shop New Yoga</span>
-        </span>
-    </a>
-
-    <div class=""block-promo-wrapper block-promo-hp"">
-        <a href=""#"" class=""block-promo home-pants"">
-            <img src=""{{media url=""wysiwyg/home/home-pants.jpg""}}"" alt="""" />
-            <span class=""content"">
-                <strong class=""title"">20% OFF</strong>
-                <span class=""info"">Luma pants when you shop today*</span>
-                <span class=""action more icon"">Shop Pants</span>
-            </span>
-        </a>
-        <a href=""#"" class=""block-promo home-t-shirts"">
-            <span class=""image""><img src=""{{media url=""wysiwyg/home/home-t-shirts.png""}}"" alt="""" /></span>
-            <span class=""content"">
-                <strong class=""title"">Even more ways to mix and match</strong>
-                <span class=""info"">Buy 3 Luma tees get a 4th free</span>
-                <span class=""action more icon"">Shop Tees</span>
-            </span>
-        </a>
-        <a href=""#"" class=""block-promo home-erin"">
-            <img src=""{{media url=""wysiwyg/home/home-erin.jpg""}}"" alt="""" />
-            <span class=""content"">
-                <strong class=""title"">Take it from Erin</strong>
-                <span class=""info"">Luma founder Erin Renny shares her favorites!</span>
-                <span class=""action more icon"">Shop Erin Recommends</span>
-            </span>
-        </a>
-        <a href=""#"" class=""block-promo home-performance"">
-            <img src=""{{media url=""wysiwyg/home/home-performance.jpg""}}"" alt="""" />
-            <span class=""content bg-white"">
-                <strong class=""title"">Science meets performance</strong>
-                <span class=""info"">Wicking to raingear, Luma covers&nbsp;you</span>
-                <span class=""action more icon"">Shop Performance</span>
-            </span>
-        </a>
-        <a href=""#"" class=""block-promo home-eco"">
-            <img src=""{{media url=""wysiwyg/home/home-eco.jpg""}}"" alt="""" />
-            <span class=""content bg-white"">
-                <strong class=""title"">Twice around, twice as nice</strong>
-                <span class=""info"">Find conscientious, comfy clothing in our <nobr>eco-friendly</nobr> collection</span>
-                <span class=""action more icon"">Shop Eco-Friendly</span>
-            </span>
-        </a>
-    </div>
-</div>
-",,,1,,,,,,,
+"Home Page",1column,,,home,"Home Page","",,,1,,,,,,,

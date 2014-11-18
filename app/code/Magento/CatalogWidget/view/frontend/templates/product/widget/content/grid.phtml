@@ -12,14 +12,16 @@
  *
  * @var $this \Magento\CatalogWidget\Block\Product\ProductsList
  */
-if ($exist = ($this->getProductCollection() && $this->getProductCollection()->getSize())) {
+?>
+<?php if ($exist = ($this->getProductCollection() && $this->getProductCollection()->getSize())):?>
+<?php
     $type = 'widget-product-grid';
 
     $mode = 'grid';
 
     $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
     $image ='new_products_content_widget_grid';
-    $title = __($this->getTitle());
+    $title = $this->getTitle() ? __($this->getTitle()) : '';
     $items = $this->getProductCollection()->getItems();
 
     $showWishlist = true;
@@ -27,14 +29,13 @@ if ($exist = ($this->getProductCollection() && $this->getProductCollection()->ge
     $showCart = true;
     $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::DEFAULT_VIEW;
     $description = false;
-}
 ?>
-
-<?php if ($exist):?>
     <div class="block widget block-products-list <?php echo $mode; ?>">
+        <?php if ($title):?>
         <div class="block-title">
             <strong><?php echo $title; ?></strong>
         </div>
+        <?php endif ?>
         <div class="block-content">
             <?php echo '<!-- ' . $image . '-->' ?>
             <div class="products-<?php echo $mode; ?> <?php echo $mode; ?>">

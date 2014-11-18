@@ -348,6 +348,6 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
      */
     public function getTitle()
     {
-        return $this->getData('title') ? $this->getData('title') : 'Products List';
+        return $this->getData('title');
     }
 }
