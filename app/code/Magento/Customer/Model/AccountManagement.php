@@ -481,7 +481,7 @@ class AccountManagement implements AccountManagementInterface
         $password = null,
         $redirectUrl = ''
     ) {
-        if ($password) {
+        if (!is_null($password)) {
             $this->checkPasswordStrength($password);
         } else {
             $password = $this->mathRandom->getRandomString(self::MIN_PASSWORD_LENGTH);

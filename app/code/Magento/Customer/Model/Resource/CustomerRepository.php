@@ -218,9 +218,9 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     /**
      * {@inheritdoc}
      */
-    public function getById($customerId, $websiteId = null)
+    public function getById($customerId)
     {
-        $customerModel = $this->customerRegistry->retrieve($customerId, $websiteId);
+        $customerModel = $this->customerRegistry->retrieve($customerId);
         return $customerModel->getDataModel();
     }
 
