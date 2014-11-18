@@ -98,8 +98,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         return array(
             '0' => array(0, 'You have not set a default shipping address.'),
-//            '1' => array(1, $expected),
-//            '5' => array(5, 'You have not set a default shipping address.')
+            '1' => array(1, $expected),
+            '5' => array(5, 'You have not set a default shipping address.')
         );
     }
 
@@ -124,8 +124,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             . "\nUnited States<br/>\nT: 3468676\n\n";
         return [
             '0' => [0, 'You have not set a default billing address.'],
-//            '1' => [1, $expected],
-//            '5' => [5, 'You have not set a default billing address.'],
+            '1' => [1, $expected],
+            '5' => [5, 'You have not set a default billing address.'],
         ];
     }
 
