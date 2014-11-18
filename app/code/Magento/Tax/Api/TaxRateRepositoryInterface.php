@@ -12,7 +12,7 @@ namespace Magento\Tax\Api;
 /**
  * @see \Magento\Tax\Service\V1\TaxRateServiceInterface
  */
-interface TaxRateInterface
+interface TaxRateRepositoryInterface
 {
     /**
      * Create or update tax rate
