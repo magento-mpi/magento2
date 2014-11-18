@@ -117,7 +117,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         );
 
         if (!$class) {
-            throw new \UnexpectedValueException('getMethodModelConfigName: class not found by code!');
+            throw new \UnexpectedValueException('Payment model name is not provided in config!');
         }
 
         return $this->_methodFactory->create($class);
