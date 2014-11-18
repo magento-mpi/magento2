@@ -11,13 +11,12 @@ namespace Magento\GiftCardAccount\Test\Block;
 use Mtf\Block\Block;
 
 /**
- * Class Check
- * Check block on customer account page
+ * Check block on customer account page.
  */
 class Check extends Block
 {
     /**
-     * Filter for get data
+     * Filter for get data.
      *
      * @var array
      */
@@ -28,9 +27,10 @@ class Check extends Block
     ];
 
     /**
-     * Get gift card account data
+     * Get gift card account data.
      *
      * @param array $filter
+     * @throws \Exception
      * @return array
      */
     public function getGiftCardAccountData(array $filter)
@@ -43,6 +43,9 @@ class Check extends Block
                 $pattern .= $this->filter[$key];
                 $count++;
             }
+        }
+        if (!$this->_rootElement->isVisible()) {
+            throw new \Exception('Gift Cards info block is absent.');
         }
         preg_match('/' . $pattern . '/', $this->_rootElement->getText(), $matches);
         if ($count == count($matches) - 1) {

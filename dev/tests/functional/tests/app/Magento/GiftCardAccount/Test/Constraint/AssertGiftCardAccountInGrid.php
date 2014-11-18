@@ -13,47 +13,45 @@ use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
- * Class AssertGiftCardAccountInGrid
- * Assert that gift card account in grid
+ * Assert that gift card account in grid.
  */
 class AssertGiftCardAccountInGrid extends AbstractConstraint
 {
     /**
-     * Constraint severeness
+     * Constraint severeness.
      *
      * @var string
      */
     protected $severeness = 'low';
 
     /**
-     * Assert that gift card account in grid
+     * Assert that gift card account in grid.
      *
      * @param GiftCardAccount $giftCardAccount
      * @param Index $index
      * @return void
      */
-    public function processAssert(
-        GiftCardAccount $giftCardAccount,
-        Index $index
-    ) {
+    public function processAssert(GiftCardAccount $giftCardAccount, Index $index)
+    {
         $index->open();
         if ($giftCardAccount->hasData('date_expires')) {
             $dateExpires = strftime("%b %#d, %Y", strtotime($giftCardAccount->getDateExpires()));
         } else {
             $dateExpires = '--';
         }
+        $balance = $giftCardAccount->getBalance();
         $filter = [
-            'balance' => $giftCardAccount->getBalance(),
+            'balance' => $balance,
             'date_expires' => $dateExpires,
         ];
         \PHPUnit_Framework_Assert::assertTrue(
             $index->getGiftCardAccount()->isRowVisible($filter, false),
-            'Gift card is absent in gift card account grid.'
+            "Gift card with balance = '$balance' and date expires = '$dateExpires' is absent in gift card account grid."
         );
     }
 
     /**
-     * Success assert of  gift card account in grid
+     * Success assert of  gift card account in grid.
      *
      * @return string
      */
