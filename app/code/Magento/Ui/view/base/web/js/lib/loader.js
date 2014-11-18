@@ -8,7 +8,7 @@ define(['jquery'], function($) {
     'use strict';
     
     var storage         = window.localStorage,
-        allowLocalCache = true;
+        allowLocalCache = false;
 
     function getStoragePathFor(name, entity) {
         return '__' + entity + 'Cache__' + name;
