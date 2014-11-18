@@ -137,6 +137,98 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
+        $this->_data['config_base_currency_ch'] = [
+            'section' => [
+                [
+                    'path' => 'currency/options/allow',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => ['CHF'],
+                ],
+                [
+                    'path' => 'currency/options/base',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => 'CHF',
+                ],
+                [
+                    'path' => 'currency/options/default',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => 'CHF',
+                ],
+            ]
+        ];
+
+        $this->_data['config_base_currency_gb'] = [
+            'section' => [
+                [
+                    'path' => 'currency/options/allow',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => ['GBP'],
+                ],
+                [
+                    'path' => 'currency/options/base',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => 'GBP',
+                ],
+                [
+                    'path' => 'currency/options/default',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => 'GBP',
+                ],
+            ]
+        ];
+
+        $this->_data['config_base_currency_ch_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'currency/options/allow',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => ['USD'],
+                ],
+                [
+                    'path' => 'currency/options/base',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => 'USD',
+                ],
+                [
+                    'path' => 'currency/options/default',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => 'USD',
+                ],
+            ]
+        ];
+
+        $this->_data['config_base_currency_gb_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'currency/options/allow',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => ['USD'],
+                ],
+                [
+                    'path' => 'currency/options/base',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => 'USD',
+                ],
+                [
+                    'path' => 'currency/options/default',
+                    'scope' => 'default',
+                    'scope_id' => 1,
+                    'value' => 'USD',
+                ],
+            ]
+        ];
+
         // Reward settings
         $this->_data['reward_points_with_registration_reward'] = [
             'section' => [
@@ -232,6 +324,82 @@ class ConfigData extends AbstractRepository
                     'scope' => 'shipping',
                     'scope_id' => 1,
                     'value' => 'Suite 200',
+                ],
+            ]
+        ];
+
+        $this->_data['shipping_origin_gb'] = [
+            'section' => [
+                [
+                    'path' => 'shipping/origin/country_id',
+                    'scope' => 'shipping',
+                    'scope_id' => 1,
+                    'value' => 'GB',
+                ],
+                [
+                    'path' => 'shipping/origin/region_id',
+                    'scope' => 'shipping',
+                    'scope_id' => 1,
+                    'value' => 'London',
+                ],
+                [
+                    'path' => 'shipping/origin/postcode',
+                    'scope' => 'shipping',
+                    'scope_id' => 1,
+                    'value' => 'SE10 8SE',
+                ],
+                [
+                    'path' => 'shipping/origin/city',
+                    'scope' => 'shipping',
+                    'scope_id' => 1,
+                    'value' => 'London',
+                ],
+                [
+                    'path' => 'shipping/origin/street_line1',
+                    'scope' => 'shipping',
+                    'scope_id' => 1,
+                    'value' => '89 Royal Hill',
+                ],
+            ]
+        ];
+
+        $this->_data['shipping_origin_ch'] = [
+            'section' => [
+                [
+                    'path' => 'shipping/origin/country_id',
+                    'scope' => 'shipping',
+                    'scope_id' => 1,
+                    'value' => 'CH',
+                ],
+                [
+                    'path' => 'shipping/origin/region_id',
+                    'scope' => 'shipping',
+                    'scope_id' => 1,
+                    'value' => 107,
+                ],
+                [
+                    'path' => 'shipping/origin/postcode',
+                    'scope' => 'shipping',
+                    'scope_id' => 1,
+                    'value' => 3005,
+                ],
+                [
+                    'path' => 'shipping/origin/city',
+                    'scope' => 'shipping',
+                    'scope_id' => 1,
+                    'value' => 'Bern',
+                ],
+                [
+                    'path' => 'shipping/origin/street_line1',
+                    'scope' => 'shipping',
+                    'scope_id' => 1,
+                    'value' => 'Weinbergstrasse 4',
+                ],
+                [
+                    'path' => 'shipping/origin/street_line2',
+                    'scope' => 'shipping',
+                    'scope_id' => 1,
+                    'value' => 'Suite 1',
                 ],
             ]
         ];
@@ -512,6 +680,17 @@ class ConfigData extends AbstractRepository
             ]
         ];
 
+        $this->_data['ups_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'carriers/ups/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ]
+            ]
+        ];
+
         $this->_data['usps'] = [
             'section' => [
                 [
@@ -544,6 +723,17 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => '326ZL84XF990',
                 ],
+            ]
+        ];
+
+        $this->_data['usps_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'carriers/usps/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ]
             ]
         ];
 
@@ -591,6 +781,17 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => 1,
                 ],
+            ]
+        ];
+
+        $this->_data['dhl_eu_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'carriers/dhl/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ]
             ]
         ];
 
@@ -662,6 +863,17 @@ class ConfigData extends AbstractRepository
                     'scope_id' => 1,
                     'value' => '1419 Westwood Blvd',
                 ],
+            ]
+        ];
+
+        $this->_data['fedex_rollback'] = [
+            'section' => [
+                [
+                    'path' => 'carriers/fedex/active',
+                    'scope' => 'carriers',
+                    'scope_id' => 1,
+                    'value' => 0,
+                ]
             ]
         ];
 
