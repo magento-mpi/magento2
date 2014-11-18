@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogInventory\Service\V1;
 
-use Magento\Catalog\Service\V1\Product\ProductLoader;
+use \Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
@@ -38,26 +38,26 @@ class StockItemService implements StockItemServiceInterface
     protected $stockItemBuilder;
 
     /**
-     * @var ProductLoader
+     * @var ProductRepositoryInterface
      */
-    protected $productLoader;
+    protected $productRepository;
 
     /**
      * @param \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      * @param Data\StockItemBuilder $stockItemBuilder
-     * @param ProductLoader $productLoader
+     * @param ProductRepositoryInterface $productRepository
      */
     public function __construct(
         \Magento\CatalogInventory\Model\Stock\ItemRegistry $stockItemRegistry,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
         Data\StockItemBuilder $stockItemBuilder,
-        ProductLoader $productLoader
+        ProductRepositoryInterface $productRepository
     ) {
         $this->stockItemRegistry = $stockItemRegistry;
         $this->config = $config;
         $this->stockItemBuilder = $stockItemBuilder;
-        $this->productLoader = $productLoader;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -78,7 +78,7 @@ class StockItemService implements StockItemServiceInterface
      */
     public function getStockItemBySku($productSku)
     {
-        $product = $this->productLoader->load($productSku);
+        $product = $this->productRepository->get($productSku);
         if (!$product->getId()) {
             throw new NoSuchEntityException("Product with SKU \"{$productSku}\" does not exist");
         }
@@ -108,7 +108,7 @@ class StockItemService implements StockItemServiceInterface
      */
     public function saveStockItemBySku($productSku, Data\StockItemDetails $stockItemDetailsDo)
     {
-        $product = $this->productLoader->load($productSku);
+        $product = $this->productRepository->get($productSku);
         if (!$product->getId()) {
             throw new NoSuchEntityException("Product with SKU \"{$productSku}\" does not exist");
         }

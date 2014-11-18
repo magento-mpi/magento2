@@ -99,10 +99,10 @@ class ClassModel extends \Magento\Framework\Model\AbstractModel implements \Mage
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         $this->checkClassCanBeDeleted();
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**

@@ -876,9 +876,9 @@ class Item extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->productFactory->create();
         $product->load($this->getProductId());
@@ -950,9 +950,9 @@ class Item extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
 
         if ($this->_processIndexEvents) {
             $this->_stockIndexerProcessor->reindexRow($this->getProductId());

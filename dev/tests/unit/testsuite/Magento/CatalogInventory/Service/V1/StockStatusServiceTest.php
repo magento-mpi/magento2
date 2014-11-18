@@ -23,9 +23,9 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
     protected $stockStatus;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Product\ProductLoader|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $productLoader;
+    protected $productRepository;
 
     /**
      * @var \Magento\Store\Model\Resolver\Website|\PHPUnit_Framework_MockObject_MockObject
@@ -58,7 +58,7 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->productLoader = $this->getMockBuilder('Magento\Catalog\Service\V1\Product\ProductLoader')
+        $this->productRepository = $this->getMockBuilder('Magento\Catalog\Api\ProductRepositoryInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -94,7 +94,7 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\CatalogInventory\Service\V1\StockStatusService',
             [
                 'stockStatus' => $this->stockStatus,
-                'productLoader' => $this->productLoader,
+                'productRepository' => $this->productRepository,
                 'scopeResolver' => $this->scopeResolver,
                 'stockStatusBuilder' => $this->stockStatusBuilder,
                 'stockItemService' => $this->stockItemService,
@@ -184,8 +184,8 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         // 2. Set fixtures
-        $this->productLoader->expects($this->any())->method('load')->will($this->returnValueMap([
-            [$productSku, $product]
+        $this->productRepository->expects($this->any())->method('get')->will($this->returnValueMap([
+            [$productSku, false, $product]
         ]));
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
         $this->scopeResolver->expects($this->any())->method('getScope')->will($this->returnValue($scope));
@@ -266,8 +266,8 @@ class StockStatusServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         // 2. Set fixtures
-        $this->productLoader->expects($this->any())->method('load')->will($this->returnValueMap([
-            [$productSku, $product]
+        $this->productRepository->expects($this->any())->method('get')->will($this->returnValueMap([
+            [$productSku, false, $product]
         ]));
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
 

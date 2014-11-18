@@ -27,9 +27,9 @@ class StockStatusService implements StockStatusServiceInterface
     protected $scopeResolver;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Product\ProductLoader
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
-    protected $productLoader;
+    protected $productRepository;
 
     /**
      * @var StockItemService
@@ -54,7 +54,7 @@ class StockStatusService implements StockStatusServiceInterface
     /**
      * @param Status $stockStatus
      * @param StockItemService $stockItemService
-     * @param \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Store\Model\Resolver\Website $scopeResolver
      * @param Data\StockStatusBuilder $stockStatusBuilder
      * @param \Magento\CatalogInventory\Model\Resource\Stock\Status\CollectionFactory $itemsFactory
@@ -63,7 +63,7 @@ class StockStatusService implements StockStatusServiceInterface
     public function __construct(
         Status $stockStatus,
         \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
-        \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Store\Model\Resolver\Website $scopeResolver,
         Data\StockStatusBuilder $stockStatusBuilder,
         \Magento\CatalogInventory\Model\Resource\Stock\Status\CollectionFactory $itemsFactory,
@@ -71,7 +71,7 @@ class StockStatusService implements StockStatusServiceInterface
     ) {
         $this->stockStatus = $stockStatus;
         $this->stockItemService = $stockItemService;
-        $this->productLoader = $productLoader;
+        $this->productRepository = $productRepository;
         $this->scopeResolver = $scopeResolver;
         $this->stockStatusBuilder = $stockStatusBuilder;
         $this->itemsFactory = $itemsFactory;
@@ -111,7 +111,7 @@ class StockStatusService implements StockStatusServiceInterface
      */
     public function getProductStockStatusBySku($sku)
     {
-        $product = $this->productLoader->load($sku);
+        $product = $this->productRepository->get($sku);
         $productId = $product->getId();
         if (!$productId) {
             throw new NoSuchEntityException("Product with SKU \"{$sku}\" does not exist");

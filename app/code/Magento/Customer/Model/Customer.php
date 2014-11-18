@@ -384,9 +384,9 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         $storeId = $this->getStoreId();
         if ($storeId === null) {
@@ -400,7 +400,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     /**
      * {@inheritdoc}
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $customerData = (array)$this->getData();
         $customerData[CustomerData::ID] = $this->getId();
@@ -412,7 +412,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
             'customer_save_after_data_object',
             array('customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject)
         );
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -1118,10 +1118,10 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      *
      * @return $this
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         //TODO : Revisit and figure handling permissions in MAGETWO-11084 Implementation: Service Context Provider
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**
