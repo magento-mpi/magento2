@@ -35,7 +35,7 @@ class AssertGiftCardAccountInGrid extends AbstractConstraint
     {
         $index->open();
         if ($giftCardAccount->hasData('date_expires')) {
-            $dateExpires = strftime("%b %e, %Y", strtotime($giftCardAccount->getDateExpires()));
+            $dateExpires = date("M j, Y", strtotime($giftCardAccount->getDateExpires()));
         } else {
             $dateExpires = '--';
         }
