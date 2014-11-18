@@ -125,7 +125,12 @@ class DimensionsTest extends \PHPUnit_Framework_TestCase
 
         $query = $this->builder->build($this->dimension);
         $this->assertEquals(
-            sprintf('`%s.%s` = `%s`', $tableAlias, \Magento\Framework\Search\Adapter\Mysql\Dimensions::STORE_FIELD_NAME, $scopeId),
+            sprintf(
+                '`%s.%s` = `%s`',
+                $tableAlias,
+                \Magento\Framework\Search\Adapter\Mysql\Dimensions::STORE_FIELD_NAME,
+                $scopeId
+            ),
             $query
         );
     }

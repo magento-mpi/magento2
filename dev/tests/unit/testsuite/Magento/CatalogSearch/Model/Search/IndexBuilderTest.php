@@ -80,7 +80,6 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
     public function testBuildWithOutOfStock()
     {
         $tableSuffix = '_table';
@@ -92,11 +91,13 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->resource->expects($this->any())
             ->method('getTableName')
-            ->will($this->returnCallback(
-                    function($index) use ($tableSuffix){
+            ->will(
+                $this->returnCallback(
+                    function ($index) use ($tableSuffix) {
                         return $index . $tableSuffix;
                     }
-                ));
+                )
+            );
 
         $this->select->expects($this->once())
             ->method('from')

@@ -23,9 +23,10 @@ class DecimalTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Catalog\Model\Category'
-        );
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create(
+                'Magento\Catalog\Model\Category'
+            );
         $category->load(4);
 
         $layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -37,13 +38,14 @@ class DecimalTest extends \PHPUnit_Framework_TestCase
             );
 
         /** @var $attribute \Magento\Catalog\Model\Entity\Attribute */
-        $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Catalog\Model\Entity\Attribute'
-        );
+        $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create(
+                'Magento\Catalog\Model\Entity\Attribute'
+            );
         $attribute->loadByCode('catalog_product', 'weight');
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Filter\Decimal', ['layer' => $layer,]);
+            ->create('Magento\Catalog\Model\Layer\Filter\Decimal', ['layer' => $layer]);
         $this->_model->setAttributeModel($attribute);
     }
 

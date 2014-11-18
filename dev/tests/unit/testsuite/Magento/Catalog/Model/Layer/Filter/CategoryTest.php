@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Layer\Filter;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
@@ -16,7 +15,9 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  */
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
-
+    /**
+     * @var \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder
+     */
     private $itemDataBuilder;
 
     /**
@@ -152,7 +153,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
 
     /** @var  \Magento\Catalog\Model\Layer\State|MockObject */
-private $state;
+    private $state;
 
     /**
      * @param $requestValue
@@ -220,6 +221,7 @@ private $state;
                 $this->returnCallback(
                     function ($field) use ($requestVar, $categoryId) {
                         $this->assertTrue(in_array($field, [$requestVar, 'id']));
+
                         return $categoryId;
                     }
                 )
