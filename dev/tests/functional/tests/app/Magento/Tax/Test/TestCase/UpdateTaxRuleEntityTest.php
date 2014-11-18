@@ -8,17 +8,17 @@
 
 namespace Magento\Tax\Test\TestCase;
 
+use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\TestStep\TestStepFactory;
 use Magento\Tax\Test\Fixture\TaxRule;
 use Magento\Tax\Test\Page\Adminhtml\TaxRuleNew;
 use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
-use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
- * Test Creation for Update TaxRuleEntity
- *
  * Test Flow:
+ *
  * Preconditions:
  * 1. 1 simple product is created.
  * 2. Tax Rule is created.
@@ -27,7 +27,7 @@ use Magento\Customer\Test\Fixture\AddressInjectable;
  * 1. Login to backend
  * 2. Navigate to Stores > Tax Rules
  * 3. Click Tax Rule from grid
- * 4. Edit test value(s) according to dataset.
+ * 4. Edit test value(s) according to dataSet.
  * 5. Click 'Save' button.
  * 6. Perform all asserts.
  *
@@ -37,26 +37,26 @@ use Magento\Customer\Test\Fixture\AddressInjectable;
 class UpdateTaxRuleEntityTest extends Injectable
 {
     /**
-     * Tax Rule grid page
+     * Tax Rule grid page.
      *
      * @var TaxRuleIndex
      */
     protected $taxRuleIndexPage;
 
     /**
-     * Tax Rule new and edit page
+     * Tax Rule new and edit page.
      *
      * @var TaxRuleNew
      */
     protected $taxRuleNewPage;
 
     /**
-     * Prepare data
+     * Prepare data.
      *
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
-    public function __prepare(FixtureFactory $fixtureFactory)
+    public function __prepare(FixtureFactory $fixtureFactory, TestStepFactory $testStepFactory)
     {
         $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'johndoe_retailer']);
         $customer->persist();
@@ -65,7 +65,7 @@ class UpdateTaxRuleEntityTest extends Injectable
     }
 
     /**
-     * Injection data
+     * Injection data.
      *
      * @param TaxRuleIndex $taxRuleIndexPage
      * @param TaxRuleNew $taxRuleNewPage
@@ -78,21 +78,15 @@ class UpdateTaxRuleEntityTest extends Injectable
     }
 
     /**
-     * Update Tax Rule Entity test
+     * Update Tax Rule Entity test.
      *
      * @param TaxRule $initialTaxRule
      * @param TaxRule $taxRule
-     * @param AddressInjectable $address
-     * @param array $shipping
      * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function testUpdateTaxRule(
         TaxRule $initialTaxRule,
-        TaxRule $taxRule,
-        AddressInjectable $address,
-        array $shipping
+        TaxRule $taxRule
     ) {
         // Precondition
         $initialTaxRule->persist();
@@ -102,5 +96,15 @@ class UpdateTaxRuleEntityTest extends Injectable
         $this->taxRuleIndexPage->getTaxRuleGrid()->searchAndOpen(['code' => $initialTaxRule->getCode()]);
         $this->taxRuleNewPage->getTaxRuleForm()->fill($taxRule);
         $this->taxRuleNewPage->getFormPageActions()->save();
+    }
+
+    /**
+     * Delete all tax rules.
+     *
+     * @return void
+     */
+    public static function tearDownAfterClass()
+    {
+        ObjectManager::getInstance()->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep', [])->run();
     }
 }

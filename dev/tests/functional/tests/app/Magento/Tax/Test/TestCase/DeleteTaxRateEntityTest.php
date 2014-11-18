@@ -8,15 +8,14 @@
 
 namespace Magento\Tax\Test\TestCase;
 
-use Magento\Tax\Test\Fixture\TaxRate;
-use Magento\Tax\Test\Page\Adminhtml\TaxRateIndex;
-use Magento\Tax\Test\Page\Adminhtml\TaxRateNew;
 use Mtf\TestCase\Injectable;
+use Magento\Tax\Test\Fixture\TaxRate;
+use Magento\Tax\Test\Page\Adminhtml\TaxRateNew;
+use Magento\Tax\Test\Page\Adminhtml\TaxRateIndex;
 
 /**
- * Test creation for delete TaxRateEntity
- *
  * Test Flow:
+ *
  * Preconditions:
  * 1. Create Tax Rate
  *
@@ -33,21 +32,21 @@ use Mtf\TestCase\Injectable;
 class DeleteTaxRateEntityTest extends Injectable
 {
     /**
-     * Tax Rate grid page
+     * Tax Rate grid page.
      *
      * @var TaxRateIndex
      */
     protected $taxRateIndex;
 
     /**
-     * Tax Rate new/edit page
+     * Tax Rate new/edit page.
      *
      * @var TaxRateNew
      */
     protected $taxRateNew;
 
     /**
-     * Injection data
+     * Injection data.
      *
      * @param TaxRateIndex $taxRateIndex
      * @param TaxRateNew $taxRateNew
@@ -62,13 +61,14 @@ class DeleteTaxRateEntityTest extends Injectable
     }
 
     /**
-     * Delete Tax Rate Entity test
+     * Delete Tax Rate Entity test.
      *
      * @param TaxRate $taxRate
      * @return void
      */
     public function testDeleteTaxRate(TaxRate $taxRate)
     {
+        $this->markTestIncomplete("Bug: MAGETWO-30476");
         // Precondition
         $taxRate->persist();
 
