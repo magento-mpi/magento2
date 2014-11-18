@@ -190,8 +190,7 @@ Women Block,women-block,"<div class=""blocks-promo"">
     <h2 class=""title"">Hot Sellers</h2>
     <p class=""info"">Favorites from Luma shoppers</p>
 </div>
-{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""8"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:22:`WS12, WT09, WH05, WP12`;]]""}}
-{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""6"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:3:`{{categoryId url=""women""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:15:`erin_recommends`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:22:`WS12, WT09, WH05, WP12`;]]""}}
 "
 Training Block,training-block,"<div class=""blocks-promo"">
 
@@ -236,10 +235,10 @@ Training Block,training-block,"<div class=""blocks-promo"">
 
 </div>
 <div class=""content-heading"">
-    <h2 class=""title"">Hot Sellers</h2>
-    <p class=""info"">Favorites from Luma shoppers</p>
+    <h2 class=""title"">Top Videos</h2>
+    <p class=""info"">Stream free with subscription</p>
 </div>
-{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""8"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:38:`241-MB08, 240-LV05, 240-LV09, 240-LV07`;]]""}}
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:38:`241-MB08, 240-LV05, 240-LV09, 240-LV07`;]]""}}
 "
 Men Block,men-block,"<div class=""blocks-promo"">
     <a href=""{{category url=""men""}}"" class=""block-promo mens-main"">
@@ -301,7 +300,7 @@ Men Block,men-block,"<div class=""blocks-promo"">
     <h2 class=""title"">Hot Sellers</h2>
     <p class=""info"">Favorites from Luma shoppers</p>
 </div>
-{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""8"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:23:`MT07, MH07, MSH03, MP03`;]]""}}
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:23:`MT07, MH07, MSH03, MP03`;]]""}}
 "
 Gear Block,gear-block,"<div class=""blocks-promo"">
     <a href=""{{category url=""gear""}}"" class=""block-promo gear-main"">
@@ -363,7 +362,7 @@ Gear Block,gear-block,"<div class=""blocks-promo"">
     <h2 class=""title"">Hot Sellers</h2>
     <p class=""info"">Favorites from Luma shoppers</p>
 </div>
-{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""8"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:35:`24-MB02, 24-WB04, 24-UG06, 24-WG080`;]]""}}
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:35:`24-MB02, 24-WB04, 24-UG06, 24-WG080`;]]""}}
 "
 Sale Block,sale-block,"<div class=""blocks-promo"">
     <a href=""#"" class=""block-promo sale-main"">
@@ -428,7 +427,7 @@ New Block,new-block,"<div class=""blocks-promo"">
     <h2 class=""title"">Luma's Latest</h2>
     <p class=""info"">Just in time for the new season!</p>
 </div>
-{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""6"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`new`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`new`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
 "
 "Home Page Block",home-page-block,"<div class=""blocks-promo"">
    <a href=""#"" class=""block-promo home-main"">
@@ -500,11 +499,11 @@ New Block,new-block,"<div class=""blocks-promo"">
 <div class=""content-heading"">
    <h2 class=""title"">Mens Tops</h2>
 </div>
-{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""6"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:3:`{{categoryId url=""tops-men""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:15:`erin_recommends`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:3:`{{categoryId url=""tops-men""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:15:`erin_recommends`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
 <div class=""content-heading"">
    <h2 class=""title"">Tops</h2>
 </div>
-{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""6"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:3:`{{categoryId url=""tops-women""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:15:`erin_recommends`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:3:`{{categoryId url=""tops-women""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:15:`erin_recommends`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
 "
 "Performance Fabrics Block",performance-fabrics-block,"<div class=""blocks-promo"">
    <a href=""#"" class=""block-promo collection-performance"">
@@ -518,15 +517,15 @@ New Block,new-block,"<div class=""blocks-promo"">
 <div class=""content-heading"">
    <h2 class=""title"">Cocona</h2>
 </div>
-{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""8"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:18:`performance_fabric`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:18:`performance_fabric`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
 <div class=""content-heading"">
    <h2 class=""title"">CoolTech</h2>
 </div>
-{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""8"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:18:`performance_fabric`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:18:`performance_fabric`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
 <div class=""content-heading"">
    <h2 class=""title"">Cocona + CoolTech</h2>
 </div>
-{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""8"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:18:`performance_fabric`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:18:`performance_fabric`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
 "
 "Eco Friendly Block",eco-friendly-block,"<div class=""blocks-promo"">
     <a href=""#"" class=""block-promo collection-eco"">
@@ -540,9 +539,9 @@ New Block,new-block,"<div class=""blocks-promo"">
 <div class=""content-heading"">
    <h2 class=""title"">Tops</h2>
 </div>
-{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""6"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:7:`{{categoryId url=""tops-men""}},{{categoryId url=""tops-women""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:14:`eco_collection`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:7:`{{categoryId url=""tops-men""}},{{categoryId url=""tops-women""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:14:`eco_collection`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
 <div class=""content-heading"">
    <h2 class=""title"">Bottoms</h2>
 </div>
-{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""6"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:7:`{{categoryId url=""bottoms-men""}},{{categoryId url=""bottoms-women""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:14:`eco_collection`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
+{{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:12:`category_ids`;s:8:`operator`;s:2:`==`;s:5:`value`;s:7:`{{categoryId url=""bottoms-men""}},{{categoryId url=""bottoms-women""}}`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:14:`eco_collection`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
 "
