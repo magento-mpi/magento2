@@ -6,7 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Service\V1\Data\Eav;
+namespace Magento\Customer\Model;
+
+use Magento\Customer\Api\Data\AttributeMetadataDataBuilder;
+use Magento\Customer\Api\Data\OptionDataBuilder;
+use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
 
 /**
  * Converter for AttributeMetadata
@@ -14,31 +18,31 @@ namespace Magento\Customer\Service\V1\Data\Eav;
 class AttributeMetadataConverter
 {
     /**
-     * @var OptionBuilder
+     * @var OptionDataBuilder
      */
     private $_optionBuilder;
 
     /**
-     * @var ValidationRuleBuilder
+     * @var ValidationRuleDataBuilder
      */
     private $_validationRuleBuilder;
 
     /**
-     * @var AttributeMetadataBuilder
+     * @var AttributeMetadataDataBuilder
      */
     private $_attributeMetadataBuilder;
 
     /**
      * Initialize the Converter
      *
-     * @param OptionBuilder $optionBuilder
-     * @param ValidationRuleBuilder $validationRuleBuilder
-     * @param AttributeMetadataBuilder $attributeMetadataBuilder
+     * @param OptionDataBuilder $optionBuilder
+     * @param ValidationRuleDataBuilder $validationRuleBuilder
+     * @param AttributeMetadataDataBuilder $attributeMetadataBuilder
      */
     public function __construct(
-        OptionBuilder $optionBuilder,
-        ValidationRuleBuilder $validationRuleBuilder,
-        AttributeMetadataBuilder $attributeMetadataBuilder
+        OptionDataBuilder $optionBuilder,
+        ValidationRuleDataBuilder $validationRuleBuilder,
+        AttributeMetadataDataBuilder $attributeMetadataBuilder
     ) {
         $this->_optionBuilder = $optionBuilder;
         $this->_validationRuleBuilder = $validationRuleBuilder;
@@ -89,8 +93,8 @@ class AttributeMetadataConverter
             ->setFrontendClass($attribute->getFrontend()->getClass())
             ->setFrontendLabel($attribute->getFrontendLabel())
             ->setNote((string)$attribute->getNote())
-            ->setIsSystem((boolean)$attribute->getIsSystem())
-            ->setIsUserDefined((boolean)$attribute->getIsUserDefined())
+            ->setSystem((boolean)$attribute->getIsSystem())
+            ->setUserDefined((boolean)$attribute->getIsUserDefined())
             ->setBackendType($attribute->getBackendType())
             ->setSortOrder((int)$attribute->getSortOrder());
 

@@ -19,6 +19,8 @@ use Magento\Tax\Service\V1\TaxClassServiceInterface;
 
 /**
  * Customer group CRUD class
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
 {

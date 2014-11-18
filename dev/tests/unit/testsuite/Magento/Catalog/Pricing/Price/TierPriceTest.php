@@ -9,6 +9,7 @@
 namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Customer\Model\Group;
+use Magento\Customer\Model\GroupManagement;
 
 /**
  * Test for \Magento\Catalog\Pricing\Price\TierPrice
@@ -53,6 +54,11 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $groupManagement;
+
+    /**
      * Initialize base dependencies
      */
     protected function setUp()
@@ -73,8 +79,21 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->customerGroup));
 
         $this->calculator = $this->getMock('Magento\Framework\Pricing\Adjustment\Calculator', [], [], '', false);
+        $this->groupManagement = $this->getMock(
+            'Magento\Customer\Api\GroupManagementInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
 
-        $this->model = new TierPrice($this->product, $this->quantity, $this->calculator, $this->session);
+        $this->model = new TierPrice(
+            $this->product,
+            $this->quantity,
+            $this->calculator,
+            $this->session,
+            $this->groupManagement
+        );
     }
 
 
@@ -90,6 +109,15 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     public function testBaseInitialization($tierPrices, $expectedValue)
     {
         $this->product->setData(TierPrice::PRICE_CODE, $tierPrices);
+        $group = $this->getMock(
+            '\Magento\Customer\Model\Data\Group',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $group->expects($this->any())->method('getId')->willReturn(GroupManagement::CUST_GROUP_ALL);
+        $this->groupManagement->expects($this->any())->method('getAllCustomersGroup')->will($this->returnValue($group));
         $this->assertEquals($expectedValue, $this->model->getValue());
     }
 
@@ -147,7 +175,23 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->product->expects($this->once())->method('getResource')->will($this->returnValue($productResource));
 
-        $tierPrice = new TierPrice($this->product, $this->quantity, $this->calculator, $this->session);
+        $tierPrice = new TierPrice(
+            $this->product,
+            $this->quantity,
+            $this->calculator,
+            $this->session,
+            $this->groupManagement
+        );
+        $group = $this->getMock(
+            '\Magento\Customer\Model\Data\Group',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $group->expects($this->once())->method('getId')->willReturn(GroupManagement::CUST_GROUP_ALL);
+        $this->groupManagement->expects($this->once())->method('getAllCustomersGroup')
+            ->will($this->returnValue($group));
         $this->assertFalse($tierPrice->getValue());
     }
 
@@ -173,6 +217,16 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         $this->calculator->expects($this->atLeastOnce())->method('getAmount')
             ->will($this->returnArgument(0));
 
+        $group = $this->getMock(
+            '\Magento\Customer\Model\Data\Group',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $group->expects($this->any())->method('getId')->willReturn(GroupManagement::CUST_GROUP_ALL);
+        $this->groupManagement->expects($this->any())->method('getAllCustomersGroup')
+            ->will($this->returnValue($group));
         $this->assertEquals($expectedResult, $this->model->getTierPriceList());
         $this->assertEquals(count($expectedResult), $this->model->getTierPriceCount());
     }
@@ -256,7 +310,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         $priceAmount->expects($this->once())
             ->method('getBaseAmount')
             ->will($this->returnValue($basePrice));
-        
+
         $price = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');
         $price->expects($this->any())
             ->method('getAmount')

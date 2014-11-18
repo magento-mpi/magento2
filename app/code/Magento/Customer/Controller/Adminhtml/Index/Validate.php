@@ -8,7 +8,7 @@
  */
 namespace Magento\Customer\Controller\Adminhtml\Index;
 
-use \Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Message\Error;
 
 class Validate extends \Magento\Customer\Controller\Adminhtml\Index
@@ -17,7 +17,7 @@ class Validate extends \Magento\Customer\Controller\Adminhtml\Index
      * Customer validation
      *
      * @param \Magento\Framework\Object $response
-     * @return Customer|null
+     * @return CustomerInterface|null
      */
     protected function _validateCustomer($response)
     {
@@ -25,13 +25,13 @@ class Validate extends \Magento\Customer\Controller\Adminhtml\Index
         $errors = null;
 
         try {
-            /** @var Customer $customer */
-            $customer = $this->_customerBuilder->create();
+            /** @var CustomerInterface $customer */
+            $customer = $this->customerDataBuilder->create();
 
             $customerForm = $this->_formFactory->create(
                 'customer',
                 'adminhtml_customer',
-                \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer),
+                $this->_extensibleDataObjectConverter->toFlatArray($customer),
                 true
             );
             $customerForm->setInvisibleIgnored(true);
@@ -42,8 +42,8 @@ class Validate extends \Magento\Customer\Controller\Adminhtml\Index
                 unset($data['website_id']);
             }
 
-            $customer = $this->_customerBuilder->populateWithArray($data)->create();
-            $errors = $this->_customerAccountService->validateCustomerData($customer);
+            $customer = $this->customerDataBuilder->populateWithArray($data)->create();
+            $errors = $this->customerAccountManagement->validate($customer);
         } catch (\Magento\Framework\Model\Exception $exception) {
             /* @var $error Error */
             foreach ($exception->getMessages(\Magento\Framework\Message\MessageInterface::TYPE_ERROR) as $error) {

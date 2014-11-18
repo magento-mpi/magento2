@@ -263,6 +263,34 @@ class Checkout
 
     protected $paypalQuote;
 
+    /**
+     * @param \Magento\Framework\Logger $logger
+     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Checkout\Helper\Data $checkoutData
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Paypal\Model\Info $paypalInfo
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\UrlInterface $coreUrl
+     * @param \Magento\Paypal\Model\CartFactory $cartFactory
+     * @param \Magento\Framework\Logger\AdapterFactory $logFactory
+     * @param \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory
+     * @param \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory
+     * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
+     * @param \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory
+     * @param \Magento\Framework\Object\Copy $objectCopyService
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param AccountManagement $accountManagement
+     * @param PaypalQuote $paypalQuote
+     * @param OrderSender $orderSender
+     * @param array $params
+     * @throws \Exception
+     */
     public function __construct(
         \Magento\Framework\Logger $logger,
         \Magento\Customer\Helper\Data $customerData,

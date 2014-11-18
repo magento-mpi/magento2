@@ -60,7 +60,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->_httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', [], [], '', false);
         $this->urlFactoryMock = $this->getMock('Magento\Framework\UrlFactory', [], [], '', false);
         $this->customerRepositoryMock = $this->getMock(
-            '\Magento\Customer\Api\CustomerRepositoryInterface',
+            'Magento\Customer\Api\CustomerRepositoryInterface',
             [],
             [],
             '',
@@ -83,34 +83,30 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testSetCustomerAsLoggedIn()
     {
         $customer = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
-        $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
+        $customerDto = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         $this->_converterMock->expects($this->any())
             ->method('createCustomerFromModel')
-            ->with($customer)
-            ->will($this->returnValue($customerDataMock));
-
+            ->will($this->returnValue($customerDto));
 
         $this->_eventManagerMock->expects($this->at(0))
             ->method('dispatch')
             ->with('customer_login', ['customer' => $customer]);
         $this->_eventManagerMock->expects($this->at(1))
             ->method('dispatch')
-            ->with('customer_data_object_login', ['customer' => $customerDataMock]);
+            ->with('customer_data_object_login', ['customer' => $customerDto]);
 
         $_SESSION = array();
-        $result = $this->_model->setCustomerAsLoggedIn($customer);
-        $this->assertEquals($result, $this->_model);
+        $this->_model->setCustomerAsLoggedIn($customer);
+        $this->assertSame($customer, $this->_model->getCustomer());
     }
 
     public function testSetCustomerDataAsLoggedIn()
     {
-        $this->markTestSkipped('Service Layer');
         $customer = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
-        $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
+        $customerDto = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
 
         $this->_converterMock->expects($this->any())
             ->method('createCustomerModel')
-            ->with($customer)
             ->will($this->returnValue($customer));
 
         $this->_eventManagerMock->expects($this->at(0))
@@ -118,10 +114,10 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             ->with('customer_login', ['customer' => $customer]);
         $this->_eventManagerMock->expects($this->at(1))
             ->method('dispatch')
-            ->with('customer_data_object_login', ['customer' => $customerDataMock]);
+            ->with('customer_data_object_login', ['customer' => $customerDto]);
 
-        $result = $this->_model->setCustomerDataAsLoggedIn($customerDataMock);
-        $this->assertEquals($result, $this->_model);
+        $this->_model->setCustomerDataAsLoggedIn($customerDto);
+        $this->assertSame($customer, $this->_model->getCustomer());
     }
 
     public function testAuthenticate()
@@ -153,7 +149,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     public function testLoginById()
     {
-        $this->markTestSkipped('Service Layer');
         $customerId = 1;
 
         $customerDataMock = $this->prepareLoginDataMock($customerId);
@@ -172,7 +167,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     protected function prepareLoginDataMock($customerId)
     {
-        $customerDataMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', array(), array(), '', false);
+        $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', array(), array(), '', false);
         $customerDataMock->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($customerId));

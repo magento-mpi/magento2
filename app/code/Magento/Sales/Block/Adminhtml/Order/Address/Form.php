@@ -29,8 +29,6 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
     protected $_coreRegistry = null;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
@@ -45,6 +43,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -64,7 +63,8 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Framework\Registry $registry,
-        array $data = []
+        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
+        array $data = array()
     ) {
         $this->_coreRegistry = $registry;
 
@@ -82,6 +82,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
             $addressService,
             $criteriaBuilder,
             $filterBuilder,
+            $simpleDataObjectConverter,
             $data
         );
     }

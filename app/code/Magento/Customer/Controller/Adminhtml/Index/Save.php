@@ -9,7 +9,7 @@
 namespace Magento\Customer\Controller\Adminhtml\Index;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Customer\Service\V1\CustomerMetadataService as CustomerMetadata;
 
@@ -25,8 +25,8 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
         $customerData = array();
         if ($this->getRequest()->getPost('account')) {
             $serviceAttributes = array(
-                Customer::DEFAULT_BILLING,
-                Customer::DEFAULT_SHIPPING,
+                \Magento\Customer\Model\Data\Customer::DEFAULT_BILLING,
+                \Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING,
                 'confirmation',
                 'sendemail'
             );
@@ -35,7 +35,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             $customerData = $customerHelper->extractCustomerData(
                 $this->getRequest(),
                 'adminhtml_customer',
-                CustomerMetadata::ENTITY_TYPE_CUSTOMER,
+                \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
                 $serviceAttributes,
                 'account'
             );
@@ -79,16 +79,16 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                     $addressData['id'] = $addressId;
                 }
                 // Set default billing and shipping flags to address
-                $addressData[Customer::DEFAULT_BILLING] = isset(
-                    $customerData[Customer::DEFAULT_BILLING]
+                $addressData[\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING] = isset(
+                    $customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING]
                     ) &&
-                    $customerData[Customer::DEFAULT_BILLING] &&
-                    $customerData[Customer::DEFAULT_BILLING] == $addressId;
-                $addressData[Customer::DEFAULT_SHIPPING] = isset(
-                    $customerData[Customer::DEFAULT_SHIPPING]
+                    $customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING] &&
+                    $customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING] == $addressId;
+                $addressData[\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING] = isset(
+                    $customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING]
                     ) &&
-                    $customerData[Customer::DEFAULT_SHIPPING] &&
-                    $customerData[Customer::DEFAULT_SHIPPING] == $addressId;
+                    $customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING] &&
+                    $customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING] == $addressId;
 
                 $result[] = $addressData;
             }
@@ -116,36 +116,35 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 $addressesData = $this->_extractCustomerAddressData();
                 $request = $this->getRequest();
                 $isExistingCustomer = (bool)$customerId;
-                $customerBuilder = $this->_customerBuilder;
+                $customerBuilder = $this->customerDataBuilder;
                 if ($isExistingCustomer) {
-                    $savedCustomerData = $this->_customerAccountService->getCustomer($customerId);
+                    $savedCustomerData = $this->_customerRepository->getById($customerId);
                     $customerData = array_merge(
-                        \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($savedCustomerData),
+                        $this->customerMapper->toFlatArray($savedCustomerData),
                         $customerData
                     );
+                    $customerData['id'] = $customerId;
                 }
-                unset($customerData[Customer::DEFAULT_BILLING]);
-                unset($customerData[Customer::DEFAULT_SHIPPING]);
+                unset($customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING]);
+                unset($customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING]);
                 $customerBuilder->populateWithArray($customerData);
                 $addresses = array();
                 foreach ($addressesData as $addressData) {
-                    $addresses[] = $this->_addressBuilder->populateWithArray($addressData)->create();
+                    $addresses[] = $this->addressDataBuilder->populateWithArray($addressData)->create();
                 }
 
                 $this->_eventManager->dispatch(
                     'adminhtml_customer_prepare_save',
                     array('customer' => $customerBuilder, 'request' => $request)
                 );
+                $customerBuilder->setAddresses($addresses);
                 $customer = $customerBuilder->create();
 
                 // Save customer
-                $customerDetails = $this->_customerDetailsBuilder->setCustomer(
-                    $customer
-                )->setAddresses($addresses)->create();
                 if ($isExistingCustomer) {
-                    $this->_customerAccountService->updateCustomer($customerId, $customerDetails);
+                    $this->_customerRepository->save($customer);
                 } else {
-                    $customer = $this->_customerAccountService->createCustomer($customerDetails);
+                    $customer = $this->customerAccountManagement->createAccount($customer);
                     $customerId = $customer->getId();
                 }
 

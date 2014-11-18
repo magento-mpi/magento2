@@ -310,6 +310,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $objectFactory;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
      * @var \Magento\Customer\Api\Data\AddressInterfaceBuilder
      */
     protected $addressBuilder;

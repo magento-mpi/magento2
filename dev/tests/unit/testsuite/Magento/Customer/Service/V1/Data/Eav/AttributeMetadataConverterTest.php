@@ -112,7 +112,7 @@ class AttributeMetadataConverterTest extends \PHPUnit_Framework_TestCase
         $attribute->expects($this->once())->method('getSortOrder')->will($this->returnValue($sortOrder));
 
         $converter = $this->objectManager->getObject(
-            'Magento\Customer\Service\V1\Data\Eav\AttributeMetadataConverter'
+            'Magento\Customer\Model\AttributeMetadataConverter'
         );
 
         $metadataAttribute = $converter->createMetadataAttribute($attribute);

@@ -167,10 +167,37 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         $this->customerResourceModel->save($customerModel);
         $this->customerRegistry->push($customerModel);
         $customerId = $customerModel->getId();
-        foreach ($customer->getAddresses() as $address) {
-            $address = $this->addressBuilder->populate($address)->setCustomerId($customerId)->create();
-            $this->addressRepository->save($address);
+
+        if ($customer->getAddresses() !== null) {
+            if ($customer->getId()) {
+                $existingAddresses = $this->getById($customer->getId())->getAddresses();
+                $getIdFunc = function($address) {
+                    return $address->getId();
+                };
+                $existingAddressIds = array_map($getIdFunc, $existingAddresses);
+            } else {
+                $existingAddressIds = [];
+            }
+
+            $savedAddressIds = [];
+            foreach ($customer->getAddresses() as $address) {
+                $address = $this->addressBuilder
+                    ->populate($address)
+                    ->setCustomerId($customerId)
+                    ->setRegion($address->getRegion())
+                    ->create();
+                $this->addressRepository->save($address);
+                if ($address->getId()) {
+                    $savedAddressIds[] = $address->getId();
+                }
+            }
+
+            $addressIdsToDelete = array_diff($existingAddressIds, $savedAddressIds);
+            foreach ($addressIdsToDelete as $addressId) {
+                $this->addressRepository->deleteById($addressId);
+            }
         }
+
         $savedCustomer = $this->get($customer->getEmail(), $customer->getWebsiteId());
         $this->eventManager->dispatch(
             'customer_save_after_data_object',

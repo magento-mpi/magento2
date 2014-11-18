@@ -76,8 +76,7 @@ class CurrentCustomerAddressTest extends \PHPUnit_Framework_TestCase
 
         $this->currentCustomerAddress = new \Magento\Customer\Helper\Session\CurrentCustomerAddress(
             $this->currentCustomerMock,
-            $this->accountManagementMock,
-            $this->customerRepositoryMock
+            $this->customerAddressServiceMock
         );
     }
 

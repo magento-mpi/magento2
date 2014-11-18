@@ -81,7 +81,7 @@ class View extends \Magento\Rma\Block\Form
     /**
      * @var \Magento\Customer\Api\Data\CustomerInterface
      */
-    protected $customer;
+    protected $customerData;
 
     /**
      * @var \Magento\Customer\Helper\Session\CurrentCustomer
@@ -412,15 +412,16 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
-     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @return \Magento\Customer\Api\Data\CustomerInterface|null
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getCustomerData()
     {
-        if (empty($this->customer)) {
+        if (empty($this->customerData)) {
             $customerId = $this->currentCustomer->getCustomerId();
-            $this->customer = $this->customerRepository->get($customerId);
+            $this->customerData = $this->customerRepository->get($customerId);
         }
-        return $this->customer;
+        return $this->customerData;
     }
 
     /**

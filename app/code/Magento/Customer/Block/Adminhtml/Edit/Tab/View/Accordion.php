@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
-use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Controller\RegistryConstants;
 
@@ -37,10 +37,10 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
     /** @var \Magento\Customer\Model\Config\Share  */
     protected $_shareConfig;
 
-    /** @var CustomerAccountServiceInterface  */
-    protected $_customerAccountService;
+    /** @var CustomerRepositoryInterface */
+    protected $_customerRepositoryInterface;
 
-    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder  */
+    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder  */
     protected $_customerBuilder;
 
     /**
@@ -49,8 +49,8 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\Config\Share $shareConfig
-     * @param CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+     * @param CustomerRepositoryInterface $customerRepositoryInterface
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param array $data
      */
     public function __construct(
@@ -59,15 +59,15 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory,
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Config\Share $shareConfig,
-        CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
+        CustomerRepositoryInterface $customerRepositoryInterface,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_quoteFactory = $quoteFactory;
         $this->_itemsFactory = $itemsFactory;
         $this->_shareConfig = $shareConfig;
-        $this->_customerAccountService = $customerAccountService;
+        $this->_customerRepositoryInterface = $customerRepositoryInterface;
         $this->_customerBuilder = $customerBuilder;
         parent::__construct($context, $data);
     }
@@ -143,7 +143,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
      * Get customer data from session or service.
      *
      * @param int|null $customerId possible customer ID from DB
-     * @return Customer
+     * @return CustomerInterface
      * @throws NoSuchEntityException
      */
     protected function getCustomer($customerId)
@@ -152,7 +152,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         if (!empty($customerData['account'])) {
             return $this->_customerBuilder->populateWithArray($customerData['account'])->create();
         } elseif ($customerId) {
-            return $this->_customerAccountService->getCustomer($customerId);
+            return $this->_customerRepositoryInterface->getById($customerId);
         } else {
             return $this->_customerBuilder->create();
         }

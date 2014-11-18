@@ -33,8 +33,11 @@ class Account extends AbstractForm
     protected $customerRepository;
 
     /**
-     * Constructor
-     *
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $_extensibleDataObjectConverter;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
@@ -42,6 +45,8 @@ class Account extends AbstractForm
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param ExtensibleDataObjectConverter $extensibleDataObjectConverter
+     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
      * @param array $data
      */
     public function __construct(
@@ -52,11 +57,22 @@ class Account extends AbstractForm
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
-        array $data = []
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
+        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
+        array $data = array()
     ) {
         $this->_metadataFormFactory = $metadataFormFactory;
         $this->customerRepository = $customerRepository;
-        parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $formFactory, $data);
+        $this->_extensibleDataObjectConverter = $extensibleDataObjectConverter;
+        parent::__construct(
+            $context,
+            $sessionQuote,
+            $orderCreate,
+            $priceCurrency,
+            $formFactory,
+            $simpleDataObjectConverter,
+            $data
+        );
     }
 
     /**
@@ -147,9 +163,7 @@ class Account extends AbstractForm
         } catch (\Exception $e) {
             /** If customer does not exist do nothing. */
         }
-        $data = isset($customer)
-            ? ExtensibleDataObjectConverter::toFlatArray($customer)
-            : [];
+        $data = isset($customer) ? $this->_extensibleDataObjectConverter->toFlatArray($customer) : array();
         foreach ($this->getQuote()->getData() as $key => $value) {
             if (strpos($key, 'customer_') === 0) {
                 $data[substr($key, 9)] = $value;

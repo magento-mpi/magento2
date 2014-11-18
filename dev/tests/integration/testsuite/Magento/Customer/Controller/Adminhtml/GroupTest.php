@@ -138,7 +138,10 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
         $groupService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-        $customerGroupData = \Magento\Framework\Api\SimpleDataObjectConverter::toFlatArray(
+        /** @var \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter */
+        $simpleDataObjectConverter = Bootstrap::getObjectManager()
+            ->get('Magento\Framework\Api\SimpleDataObjectConverter');
+        $customerGroupData = $simpleDataObjectConverter->toFlatArray(
             $groupService->getGroup($groupId)
         );
         ksort($customerGroupData);
@@ -171,7 +174,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/customer/group/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(['Invalid value of "" provided for the code field.']),
+            $this->equalTo(['code is a required field.']),
             MessageInterface::TYPE_ERROR
         );
         $this->assertSessionMessages($this->isEmpty(), MessageInterface::TYPE_SUCCESS);
@@ -256,7 +259,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/customer/group/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(['Invalid value of "" provided for the code field.']),
+            $this->equalTo(['code is a required field.']),
             MessageInterface::TYPE_ERROR
         );
         $this->assertSessionMessages($this->isEmpty(), MessageInterface::TYPE_SUCCESS);

@@ -16,7 +16,7 @@ class FormPost extends \Magento\Customer\Controller\Address
     /**
      * Extract address from request
      *
-     * @return \Magento\Customer\Service\V1\Data\Address
+     * @return \Magento\Customer\Api\Data\AddressInterface
      */
     protected function _extractAddress()
     {

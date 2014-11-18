@@ -7,6 +7,9 @@
  */
 namespace Magento\Rma\Service\V1;
 
+use Magento\Customer\Model\AttributeMetadataConverter;
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Api\Config\MetadataConfig;
 use Magento\Framework\Api\SimpleDataObjectConverter;
 
@@ -28,22 +31,28 @@ class RmaMetadataRead implements RmaMetadataReadInterface
     private $metadataConfig;
 
     /**
-     * Metadata
-     *
-     * @var \Magento\Customer\Api\MetadataInterface
+     * @var AttributeMetadataConverter
      */
-    protected $metadata;
+    private $attributeMetadataConverter;
 
     /**
-     * Constructor
-     *
-     * @param MetadataConfig $metadataConfig
-     * @param \Magento\Customer\Api\MetadataInterface $metadata
+     * @var \Magento\Customer\Model\AttributeMetadataDataProvider
      */
-    public function __construct(MetadataConfig $metadataConfig, \Magento\Customer\Api\MetadataInterface $metadata)
-    {
+    private $attributeMetadataDataProvider;
+
+    /**
+     * @param MetadataConfig $metadataConfig
+     * @param AttributeMetadataConverter $attributeMetadataConverter
+     * @param \Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider
+     */
+    public function __construct(
+        MetadataConfig $metadataConfig,
+        AttributeMetadataConverter $attributeMetadataConverter,
+        \Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider
+    ) {
         $this->metadataConfig = $metadataConfig;
-        $this->metadata = $metadata;
+        $this->attributeMetadataConverter = $attributeMetadataConverter;
+        $this->attributeMetadataDataProvider = $attributeMetadataDataProvider;
     }
 
     /**
@@ -51,7 +60,17 @@ class RmaMetadataRead implements RmaMetadataReadInterface
      */
     public function getAttributes($formCode)
     {
-        return $this->metadata->getAttributes($formCode);
+        $attributes = [];
+        $attributesFormCollection = $this->attributeMetadataDataProvider->loadAttributesCollection(
+            self::ENTITY_TYPE,
+            $formCode
+        );
+        foreach ($attributesFormCollection as $attribute) {
+            /** @var $attribute \Magento\Customer\Model\Attribute */
+            $attributes[$attribute->getAttributeCode()] = $this->attributeMetadataConverter
+                ->createMetadataAttribute($attribute);
+        }
+        return $attributes;
     }
 
     /**
@@ -59,7 +78,22 @@ class RmaMetadataRead implements RmaMetadataReadInterface
      */
     public function getAttributeMetadata($attributeCode)
     {
-        return $this->metadata->getAttributeMetadata($attributeCode);
+        /** @var AbstractAttribute $attribute */
+        $attribute = $this->attributeMetadataDataProvider->getAttribute(self::ENTITY_TYPE, $attributeCode);
+        if ($attribute && (int)$attribute->getIsVisible()) {
+            $attributeMetadata = $this->attributeMetadataConverter->createMetadataAttribute($attribute);
+            return $attributeMetadata;
+        } else {
+            throw new NoSuchEntityException(
+                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
+                [
+                    'fieldName' => 'entityType',
+                    'fieldValue' => self::ENTITY_TYPE,
+                    'field2Name' => 'attributeCode',
+                    'field2Value' => $attributeCode,
+                ]
+            );
+        }
     }
 
     /**
@@ -67,7 +101,23 @@ class RmaMetadataRead implements RmaMetadataReadInterface
      */
     public function getAllAttributesMetadata()
     {
-        return $this->metadata->getAllAttributesMetadata();
+        /** @var AbstractAttribute[] $attribute */
+        $attributeCodes = $this->attributeMetadataDataProvider->getAllAttributeCodes(
+            self::ENTITY_TYPE,
+            self::ATTRIBUTE_SET_ID
+        );
+
+        $attributesMetadata = [];
+
+        foreach ($attributeCodes as $attributeCode) {
+            try {
+                $attributesMetadata[] = $this->getAttributeMetadata($attributeCode);
+            } catch (NoSuchEntityException $e) {
+                //If no such entity, skip
+            }
+        }
+
+        return $attributesMetadata;
     }
 
     /**

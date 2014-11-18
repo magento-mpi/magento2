@@ -21,11 +21,28 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function testToModel()
     {
+        $dataObjectProcessor = $this->getMockBuilder('Magento\Framework\Reflection\DataObjectProcessor')->setMethods(
+            ['buildOutputDataArray']
+        )->disableOriginalConstructor()->getMock();
+
+        $dataObjectProcessor->expects($this->any())->method('buildOutputDataArray')->will(
+            $this->returnValue(['test_code' => 'test_value'])
+        );
+
+        /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter */
+        $extensibleDataObjectConverter = $this->objectManagerHelper->getObject(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter',
+            ['dataObjectProcessor' => $dataObjectProcessor]
+        );
+
         $categoryFactory = $this->getMock('Magento\Catalog\Model\CategoryFactory', ['create'], [], '', false);
+
+        /** @var \Magento\Catalog\Service\V1\Data\Category\Mapper $categoryMapper */
         $categoryMapper = $this->objectManagerHelper->getObject(
             'Magento\Catalog\Service\V1\Data\Category\Mapper',
             [
-                'categoryFactory' => $categoryFactory
+                'categoryFactory' => $categoryFactory,
+                'extensibleDataObjectConverter' => $extensibleDataObjectConverter
             ]
         );
 
@@ -40,14 +57,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $categoryFactory->expects($this->at(0))->method('create')->will($this->returnValue($categoryModel));
 
         $categoryObj = $this->getMock('Magento\Catalog\Service\V1\Data\Category', [], [], '', false);
-        $categoryObj->expects($this->any())->method('__toArray')
-            ->will(
-                $this->returnValue(
-                    [
-                        'test_code' => 'test_value',
-                    ]
-                )
-            );
 
         $this->assertEquals($categoryModel, $categoryMapper->toModel($categoryObj));
     }

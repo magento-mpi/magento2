@@ -72,6 +72,30 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     protected $filterBuilder;
 
     /**
+     * Get config
+     *
+     * @param string $path
+     * @return string|null
+     */
+    public function getConfig($path)
+    {
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Retrieve current customer address DATA collection.
+     *
+     * @return \Magento\Customer\Service\V1\Data\Address[]
+     */
+    public function getAddressCollection()
+    {
+        if ($this->getCustomerId()) {
+            return $this->_addressService->getAddresses($this->getCustomerId());
+        }
+        return array();
+    }
+
+    /**
      * Constructor
      *
      * @param \Magento\Backend\Block\Template\Context $context
@@ -87,6 +111,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -105,7 +130,8 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Customer\Api\AddressRepositoryInterface $addressService,
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        array $data = []
+        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
+        array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;
         $this->_coreData = $coreData;
@@ -115,35 +141,15 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $this->addressService = $addressService;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->filterBuilder = $filterBuilder;
-        parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $formFactory, $data);
-    }
-
-    /**
-     * Get config
-     *
-     * @param string $path
-     * @return string|null
-     */
-    public function getConfig($path)
-    {
-        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * Retrieve current customer address DATA collection.
-     *
-     * @return \Magento\Customer\Api\Data\AddressInterface[]
-     */
-    public function getAddressCollection()
-    {
-        if ($this->getCustomerId()) {
-            $this->criteriaBuilder->addFilter(
-                ['eq' => $this->filterBuilder->setField('parent_id')->setValue($this->getCustomerId())->create()]
-            );
-            $criteria = $this->criteriaBuilder->create();
-            return $this->addressService->getList($criteria)->getItems();
-        }
-        return [];
+        parent::__construct(
+            $context,
+            $sessionQuote,
+            $orderCreate,
+            $priceCurrency,
+            $formFactory,
+            $simpleDataObjectConverter,
+            $data
+        );
     }
 
     /**

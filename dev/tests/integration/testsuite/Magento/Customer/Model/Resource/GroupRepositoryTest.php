@@ -176,6 +176,14 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->groupRepository->deleteById(9999));
     }
 
+    public function testGetAllGroups()
+    {
+        $searchResults = $this->groupRepository->getList($this->searchCriteriaBuilder->create());
+        /** @var GroupInterface[] $results */
+        $results = $searchResults->getItems();
+        $this->assertEquals(4, count($results));
+    }
+
     /**
      * @param array $filters
      * @param array $filterGroup

@@ -7,6 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Product;
 
+use Magento\Customer\Model\GroupManagement;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
@@ -56,6 +57,11 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
      */
     protected $productMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $groupManagementMock;
+
     protected function setUp()
     {
         $this->repositoryMock = $this->getMock(
@@ -73,7 +79,7 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
-        $this->groupServiceMock = $this->getMock('\Magento\Customer\Service\V1\CustomerGroupServiceInterface');
+        $this->groupServiceMock = $this->getMock('\Magento\Customer\Api\GroupRepositoryInterface');
         $this->websiteMock =
             $this->getMock('Magento\Store\Model\Website', array('getId', '__wakeup'), array(), '', false);
         $this->productMock = $this->getMock(
@@ -88,6 +94,8 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Catalog\Model\Product\PriceModifier', array(), array(), '', false);
         $this->repositoryMock->expects($this->any())->method('get')->with('product_sku')
             ->will($this->returnValue($this->productMock));
+        $this->groupManagementMock =
+            $this->getMock('Magento\Customer\Api\GroupManagementInterface', array(), array(), '', false);
 
         $this->service = new TierPriceService(
             $this->repositoryMock,
@@ -95,7 +103,8 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             $this->storeManagerMock,
             $this->priceModifierMock,
             $this->configMock,
-            $this->groupServiceMock
+            $this->groupServiceMock,
+            $this->groupManagementMock
         );
     }
 
@@ -265,6 +274,15 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->productMock->expects($this->once())->method('save');
+        $group = $this->getMock('\Magento\Customer\Model\Data\Group',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $group->expects($this->once())->method('getId')->willReturn(GroupManagement::CUST_GROUP_ALL);
+        $this->groupManagementMock->expects($this->once())->method('getAllCustomersGroup')
+            ->will($this->returnValue($group));
         $this->service->set('product_sku', 'all', $price);
     }
 
@@ -286,16 +304,9 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
         $price = new \Magento\Catalog\Service\V1\Data\Product\TierPrice($priceBuilder);
-        $groupBuilder = $this->getMock(
-            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $groupBuilder->expects($this->any())->method('getData')->will($this->returnValue(array('id' => 1)));
-        $group = new \Magento\Customer\Service\V1\Data\CustomerGroup($groupBuilder);
-        $this->groupServiceMock->expects($this->once())->method('getGroup')->will($this->returnValue($group));
+        $group = $this->getMock('\Magento\Customer\Model\Data\Group', [], [], '', false);
+        $group->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $this->groupServiceMock->expects($this->once())->method('getById')->will($this->returnValue($group));
         $this->productMock
             ->expects($this->once())
             ->method('getData')
@@ -387,22 +398,15 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
         $price = new \Magento\Catalog\Service\V1\Data\Product\TierPrice($priceBuilder);
-        $groupBuilder = $this->getMock(
-            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $groupBuilder->expects($this->any())->method('getData')->will($this->returnValue(array('id' => 1)));
-        $group = new \Magento\Customer\Service\V1\Data\CustomerGroup($groupBuilder);
+        $group = $this->getMock('\Magento\Customer\Model\Data\Group', [], [], '', false);
+        $group->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->productMock
             ->expects($this->once())
             ->method('getData')
             ->with('tier_price')
             ->will($this->returnValue(array()));
 
-        $this->groupServiceMock->expects($this->once())->method('getGroup')->will($this->returnValue($group));
+        $this->groupServiceMock->expects($this->once())->method('getById')->will($this->returnValue($group));
         $this->productMock->expects($this->once())->method('validate')->will(
             $this->returnValue(
                 array('attr1' => '', 'attr2' => '')
@@ -433,22 +437,15 @@ class TierPriceServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
         $price = new \Magento\Catalog\Service\V1\Data\Product\TierPrice($priceBuilder);
-        $groupBuilder = $this->getMock(
-            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $groupBuilder->expects($this->any())->method('getData')->will($this->returnValue(array('id' => 1)));
-        $group = new \Magento\Customer\Service\V1\Data\CustomerGroup($groupBuilder);
+        $group = $this->getMock('\Magento\Customer\Model\Data\Group', [], [], '', false);
+        $group->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->productMock
             ->expects($this->once())
             ->method('getData')
             ->with('tier_price')
             ->will($this->returnValue(array()));
 
-        $this->groupServiceMock->expects($this->once())->method('getGroup')->will($this->returnValue($group));
+        $this->groupServiceMock->expects($this->once())->method('getById')->will($this->returnValue($group));
         $this->productMock->expects($this->once())->method('save')->will($this->throwException(new \Exception()));
         $this->service->set('product_sku', 1, $price);
     }

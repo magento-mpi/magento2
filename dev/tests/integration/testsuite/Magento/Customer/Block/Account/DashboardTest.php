@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Block\Account;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class DashboardTest extends \PHPUnit_Framework_TestCase

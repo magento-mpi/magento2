@@ -21,13 +21,10 @@ class MassAssignGroup extends \Magento\Customer\Controller\Adminhtml\Index
         $customersUpdated = $this->actUponMultipleCustomers(
             function ($customerId) {
                 // Verify customer exists
-                $customer = $this->_customerAccountService->getCustomer($customerId);
-                $this->_customerBuilder->populate($customer);
-                $customer = $this->_customerBuilder->setGroupId($this->getRequest()->getParam('group'))->create();
-                $customerDetails = $this->_customerDetailsBuilder
-                    ->setCustomer($customer)
-                    ->create();
-                $this->_customerAccountService->updateCustomer($customerId, $customerDetails);
+                $customer = $this->_customerRepository->getById($customerId);
+                $this->customerDataBuilder->populateWithArray($customer->__toArray());
+                $customer = $this->customerDataBuilder->setGroupId($this->getRequest()->getParam('group'))->create();
+                $this->_customerRepository->save($customer);
             },
             $customerIds
         );

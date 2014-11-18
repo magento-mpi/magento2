@@ -14,6 +14,7 @@ use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrderBuilder;
+use Magento\Framework\Api\SimpleDataObjectConverter;
 
 /**
  * Customer group collection backed by services
@@ -26,21 +27,29 @@ class ServiceCollection extends AbstractServiceCollection
     protected $groupService;
 
     /**
+     * @var SimpleDataObjectConverter
+     */
+    protected $simpleDataObjectConverter;
+
+    /**
      * @param EntityFactory $entityFactory
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param CustomerGroupServiceInterface $groupService
      * @param SortOrderBuilder $sortOrderBuilder
+     * @param SimpleDataObjectConverter $simpleDataObjectConverter
      */
     public function __construct(
         EntityFactory $entityFactory,
         FilterBuilder $filterBuilder,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SortOrderBuilder $sortOrderBuilder,
-        CustomerGroupServiceInterface $groupService
+        CustomerGroupServiceInterface $groupService,
+        SimpleDataObjectConverter $simpleDataObjectConverter
     ) {
         parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder, $sortOrderBuilder);
         $this->groupService = $groupService;
+        $this->simpleDataObjectConverter = $simpleDataObjectConverter;
     }
 
     /**
@@ -60,7 +69,7 @@ class ServiceCollection extends AbstractServiceCollection
             $groups = $searchResults->getItems();
             foreach ($groups as $group) {
                 $groupItem = new \Magento\Framework\Object();
-                $groupItem->addData(\Magento\Framework\Api\SimpleDataObjectConverter::toFlatArray($group));
+                $groupItem->addData($this->simpleDataObjectConverter->toFlatArray($group));
                 $this->_addItem($groupItem);
             }
             $this->_setIsLoaded();

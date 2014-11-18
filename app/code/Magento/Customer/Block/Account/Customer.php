@@ -7,12 +7,12 @@
  */
 namespace Magento\Customer\Block\Account;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 class Customer extends \Magento\Framework\View\Element\Template
 {
-    /** @var CustomerAccountServiceInterface */
-    protected $_customerAccountService;
+    /** @var CustomerRepositoryInterface */
+    protected $customerRepository;
 
     /** @var \Magento\Customer\Helper\View */
     protected $_viewHelper;
@@ -29,7 +29,7 @@ class Customer extends \Magento\Framework\View\Element\Template
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param CustomerRepositoryInterface $accountManagement
      * @param \Magento\Customer\Helper\View $viewHelper
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
@@ -37,14 +37,14 @@ class Customer extends \Magento\Framework\View\Element\Template
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        CustomerAccountServiceInterface $customerAccountService,
+        CustomerRepositoryInterface $accountManagement,
         \Magento\Customer\Helper\View $viewHelper,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_customerAccountService = $customerAccountService;
+        $this->customerRepository = $accountManagement;
         $this->_viewHelper = $viewHelper;
         $this->httpContext = $httpContext;
         $this->currentCustomer = $currentCustomer;
@@ -69,7 +69,7 @@ class Customer extends \Magento\Framework\View\Element\Template
     public function getCustomerName()
     {
         try {
-            $customer = $this->_customerAccountService->getCustomer($this->currentCustomer->getCustomerId());
+            $customer = $this->customerRepository->getById($this->currentCustomer->getCustomerId());
             return $this->escapeHtml($this->_viewHelper->getCustomerName($customer));
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             return null;

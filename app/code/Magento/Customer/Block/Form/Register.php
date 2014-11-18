@@ -38,7 +38,7 @@ class Register extends \Magento\Directory\Block\Data
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(

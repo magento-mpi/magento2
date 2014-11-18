@@ -31,6 +31,9 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Sales\Model\Quote\Item\Updater|\PHPUnit_Framework_MockObject_MockObject */
     protected $itemUpdater;
 
+    /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter|\PHPUnit_Framework_MockObject_MockObject */
+    protected $extensibleDataObjectConverterMock;
+
     /**
      * @var Product\Quote\Initializer|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -94,6 +97,9 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->customerBuilderMock = $this->getMock(
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            array(),
+            array(),
             'Magento\Customer\Api\Data\CustomerInterfaceBuilder',
             ['mergeDataObjectWithArray', 'populateWithArray', 'create'],
             [],
@@ -109,6 +115,10 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
+
+        $this->extensibleDataObjectConverterMock = $this->getMockBuilder(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter'
+        )->setMethods(['toFlatArray'])->disableOriginalConstructor()->getMock();
 
         $this->quoteInitializerMock = $this->getMock(
             'Magento\Sales\Model\AdminOrder\Product\Quote\Initializer',
@@ -184,6 +194,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
                 'scopeConfig' => $this->scopeConfigMock,
                 'emailSender' => $this->emailSenderMock,
                 'quoteItemUpdater' => $this->itemUpdater,
+                'extensibleDataObjectConverter' => $this->extensibleDataObjectConverterMock,
                 'objectFactory' => $this->objectFactory,
                 'accountManagement' => $this->accountManagementMock,
                 'customerBuilder' => $this->customerBuilderMock
@@ -233,25 +244,11 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             ->method('prepareRequest')
             ->will($this->returnValue($this->getMock('Magento\Framework\App\RequestInterface')));
 
-        $customerMock = $this->getMock(
-            'Magento\Customer\Model\Data\Customer',
-            [],
-            [],
-            '',
-            false
-        );
-        $customerMock->expects($this->any())
-            ->method('__toArray')
-            ->will($this->returnValue(['email' => 'user@example.com', 'group_id' => 1]));
-        $quoteMock = $this->getMock(
-            'Magento\Sales\Model\Quote',
-            ['getCustomer', 'updateCustomerData', 'addData'],
-            [],
-            '',
-            false
-        );
+        $customerMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', array(), array(), '', false);
+        $this->extensibleDataObjectConverterMock->expects($this->any())->method('toFlatArray')
+            ->will($this->returnValue(array('email' => 'user@example.com', 'group_id' => 1)));
+        $quoteMock = $this->getMock('Magento\Sales\Model\Quote', array(), array(), '', false);
         $quoteMock->expects($this->any())->method('getCustomer')->will($this->returnValue($customerMock));
-
         $quoteMock->expects($this->once())
             ->method('addData')
             ->with(

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Service\V1\Data\Eav;
+namespace Magento\Customer\Model;
 
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 

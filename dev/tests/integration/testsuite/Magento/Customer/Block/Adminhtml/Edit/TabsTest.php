@@ -10,7 +10,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Api\Data\CustomerInterface;
 
 /**
  * Class TabsTest
@@ -113,11 +113,11 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $this->coreRegistry->unregister(RegistryConstants::CURRENT_CUSTOMER_ID);
 
         $customerData['account'] = array(
-            Customer::FIRSTNAME => 'John',
-            Customer::LASTNAME => 'Doe',
-            Customer::EMAIL => 'john.doe@gmail.com',
-            Customer::GROUP_ID => 1,
-            Customer::WEBSITE_ID => 1
+            \Magento\Customer\Model\Data\Customer::FIRSTNAME => 'John',
+            \Magento\Customer\Model\Data\Customer::LASTNAME => 'Doe',
+            \Magento\Customer\Model\Data\Customer::EMAIL => 'john.doe@gmail.com',
+            \Magento\Customer\Model\Data\Customer::GROUP_ID => 1,
+            \Magento\Customer\Model\Data\Customer::WEBSITE_ID => 1
         );
         $customerData['address'] = array();
 

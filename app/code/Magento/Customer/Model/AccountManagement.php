@@ -13,6 +13,7 @@ use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Helper\Data as CustomerDataHelper;
+use Magento\Customer\Helper\View as CustomerViewHelper;
 use Magento\Customer\Model\Config\Share as ConfigShare;
 use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Customer\Model\CustomerFactory;
@@ -210,6 +211,11 @@ class AccountManagement implements AccountManagementInterface
     protected $customerDataHelper;
 
     /**
+     * @var CustomerViewHelper
+     */
+    protected $customerViewHelper;
+
+    /**
      * @var DateTime
      */
     protected $dateTime;
@@ -218,6 +224,11 @@ class AccountManagement implements AccountManagementInterface
      * @var \Magento\Framework\ObjectFactory
      */
     protected $objectFactory;
+
+    /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
 
     /**
      * @param CustomerFactory $customerFactory
@@ -242,8 +253,10 @@ class AccountManagement implements AccountManagementInterface
      * @param DataObjectProcessor $dataProcessor
      * @param \Magento\Framework\Registry $registry
      * @param CustomerDataHelper $customerDataHelper
+     * @param CustomerViewHelper $customerViewHelper
      * @param DateTime $dateTime
      * @param \Magento\Framework\ObjectFactory $objectFactory
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -270,8 +283,10 @@ class AccountManagement implements AccountManagementInterface
         DataObjectProcessor $dataProcessor,
         \Magento\Framework\Registry $registry,
         CustomerDataHelper $customerDataHelper,
+        CustomerViewHelper $customerViewHelper,
         DateTime $dateTime,
-        \Magento\Framework\ObjectFactory $objectFactory
+        \Magento\Framework\ObjectFactory $objectFactory,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->customerFactory = $customerFactory;
         $this->eventManager = $eventManager;
@@ -295,8 +310,10 @@ class AccountManagement implements AccountManagementInterface
         $this->dataProcessor = $dataProcessor;
         $this->registry = $registry;
         $this->customerDataHelper = $customerDataHelper;
+        $this->customerViewHelper = $customerViewHelper;
         $this->dateTime = $dateTime;
         $this->objectFactory = $objectFactory;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
     }
 
     /**
@@ -583,12 +600,12 @@ class AccountManagement implements AccountManagementInterface
         try {
             $customer = $this->customerRepository->get($email);
         } catch (NoSuchEntityException $e) {
-            throw new InvalidEmailOrPasswordException("Password doesn't match for this account.");
+            throw new InvalidEmailOrPasswordException('Invalid login or password.');
         }
         $customerSecure = $this->customerRegistry->retrieveSecureData($customer->getId());
         $hash = $customerSecure->getPasswordHash();
         if (!$this->encryptor->validateHash($currentPassword, $hash)) {
-            throw new InvalidEmailOrPasswordException('Invalid login or password.', []);
+            throw new InvalidEmailOrPasswordException("Password doesn't match for this account.", []);
         }
         $customerSecure->setRpToken(null);
         $customerSecure->setRpTokenCreatedAt(null);
@@ -643,14 +660,14 @@ class AccountManagement implements AccountManagementInterface
     public function validate(\Magento\Customer\Api\Data\CustomerInterface $customer)
     {
         $customerErrors = $this->validator->validateData(
-            \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer),
+            $this->extensibleDataObjectConverter->toFlatArray($customer),
             [],
             'customer'
         );
 
         if ($customerErrors !== true) {
             return $this->validationResultsDataBuilder
-                ->setIsValid(false)
+                ->setValid(false)
                 ->setMessages($this->validator->getMessages())
                 ->create();
         }
@@ -660,12 +677,12 @@ class AccountManagement implements AccountManagementInterface
         $result = $customerModel->validate();
         if (true !== $result && is_array($result)) {
             return $this->validationResultsDataBuilder
-                ->setIsValid(false)
+                ->setValid(false)
                 ->setMessages($result)
                 ->create();
         }
         return $this->validationResultsDataBuilder
-            ->setIsValid(true)
+            ->setValid(true)
             ->setMessages([])
             ->create();
     }
@@ -749,7 +766,7 @@ class AccountManagement implements AccountManagementInterface
     public function isReadonly($customerId)
     {
         $customer = $this->customerRegistry->retrieveSecureData($customerId);
-        return $customer->getDeleteable();
+        return !$customer->getDeleteable();
     }
 
     /**
@@ -827,7 +844,7 @@ class AccountManagement implements AccountManagementInterface
             )
         )->addTo(
             $customer->getEmail(),
-            $this->getName($customer)
+            $this->customerViewHelper->getCustomerName($customer)
         )->getTransport();
         $transport->sendMessage();
 
@@ -892,39 +909,11 @@ class AccountManagement implements AccountManagementInterface
             $this->scopeConfig->getValue($sender, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
         )->addTo(
             $customer->getEmail(),
-            $this->getName($customer)
+            $this->customerViewHelper->getCustomerName($customer)
         )->getTransport();
         $transport->sendMessage();
 
         return $this;
-    }
-
-    /**
-     * Get full customer name
-     *
-     * @param CustomerInterface $customer
-     * @return string
-     */
-    protected function getName($customer)
-    {
-        $name = '';
-
-        if ($this->customerMetadataService->getAttributeMetadata('prefix')->isVisible() && $customer->getPrefix()) {
-            $name .= $customer->getPrefix() . ' ';
-        }
-        $name .= $customer->getFirstname();
-        if ($this->customerMetadataService->getAttributeMetadata('middlename')->isVisible()
-            && $customer->getMiddlename()
-        ) {
-            $name .= ' ' . $customer->getMiddlename();
-        }
-        $name .= ' ' . $customer->getLastname();
-        if ($this->customerMetadataService->getAttributeMetadata('suffix')->isVisible()
-            && $customer->getSuffix()
-        ) {
-            $name .= ' ' . $customer->getSuffix();
-        }
-        return $name;
     }
 
     /**
@@ -1118,7 +1107,7 @@ class AccountManagement implements AccountManagementInterface
         $customerData = $this->dataProcessor
             ->buildOutputDataArray($customer, '\Magento\Customer\Api\Data\CustomerInterface');
         $mergedCustomerData->addData($customerData);
-        $mergedCustomerData->setData('name', $this->getName($customer));
+        $mergedCustomerData->setData('name', $this->customerViewHelper->getCustomerName($customer));
         return $mergedCustomerData;
     }
 

@@ -7,10 +7,7 @@
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
+use Magento\Customer\Api\Data\AttributeMetadataInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
@@ -47,8 +44,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     /**#@-*/
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject | AttributeMetadata */
-    private $_attributeMetadata;
+    /** @var  \PHPUnit_Framework_MockObject_MockObject | AttributeMetadataInterface */
+    private $attribute;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Helper\Data */
     private $_customerHelper;
@@ -59,11 +56,11 @@ class NameTest extends \PHPUnit_Framework_TestCase
     /** @var  Name */
     private $_block;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject | CustomerMetadataServiceInterface */
-    private $customerMetadataService;
+    /** @var  \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Api\CustomerMetadataInterface */
+    private $customerMetadata;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|AddressMetadataServiceInterface */
-    private $addressMetadataService;
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Api\AddressMetadataInterface */
+    private $addressMetadata;
 
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
@@ -80,36 +77,30 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $addressHelper = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
 
         $this->_customerHelper = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
-        $this->_attributeMetadata = $this->getMock(
-            'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
-            [],
-            [],
-            '',
-            false
-        );
-        $this->customerMetadataService = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataService')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->customerMetadataService
+
+        $this->attribute = $this->getMockBuilder('\Magento\Customer\Api\Data\AttributeMetadataInterface')
+            ->getMockForAbstractClass();
+        $this->customerMetadata = $this->getMockBuilder('\Magento\Customer\Api\CustomerMetadataInterface')
+            ->getMockForAbstractClass();
+        $this->customerMetadata->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->returnValue($this->attribute));
+        $this->customerMetadata
             ->expects($this->any())
             ->method('getCustomAttributesMetadata')
             ->will($this->returnValue([]));
-        $this->customerMetadataService->expects($this->any())
-            ->method('getAttributeMetadata')
-            ->will($this->returnValue($this->_attributeMetadata));
 
-        $this->addressMetadataService = $this->getMockBuilder('Magento\Customer\Service\V1\AddressMetadataService')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->addressMetadataService->expects($this->any())
+        $this->addressMetadata = $this->getMockBuilder('\Magento\Customer\Api\AddressMetadataInterface')
+            ->getMockForAbstractClass();
+        $this->addressMetadata->expects($this->any())
             ->method('getAttributeMetadata')
-            ->will($this->returnValue($this->_attributeMetadata));
+            ->will($this->returnValue($this->attribute));
 
         $this->_block = new Name(
             $context,
             $addressHelper,
-            $this->customerMetadataService,
-            $this->addressMetadataService,
+            $this->customerMetadata,
+            $this->addressMetadata,
             $this->_customerHelper
         );
     }
@@ -119,16 +110,16 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     public function testShowPrefix()
     {
-        $this->_setUpShowAttribute([Customer::PREFIX => self::PREFIX]);
+        $this->_setUpShowAttribute([\Magento\Customer\Model\Data\Customer::PREFIX => self::PREFIX]);
         $this->assertTrue($this->_block->showPrefix());
 
-        $this->_attributeMetadata->expects($this->at(0))->method('isVisible')->will($this->returnValue(false));
+        $this->attribute->expects($this->at(0))->method('isVisible')->will($this->returnValue(false));
         $this->assertFalse($this->_block->showPrefix());
     }
 
     public function testShowPrefixWithException()
     {
-        $this->customerMetadataService->expects(
+        $this->customerMetadata->expects(
             $this->any()
         )->method(
             'getAttributeMetadata'
@@ -148,7 +139,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     public function testMethodWithNoSuchEntityException($method)
     {
-        $this->customerMetadataService->expects(
+        $this->customerMetadata->expects(
             $this->any()
         )->method(
             'getAttributeMetadata'
@@ -185,7 +176,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testShowMiddlename()
     {
-        $this->_setUpShowAttribute(array(Customer::MIDDLENAME => self::MIDDLENAME));
+        $this->_setUpShowAttribute(array(\Magento\Customer\Model\Data\Customer::MIDDLENAME => self::MIDDLENAME));
         $this->assertTrue($this->_block->showMiddlename());
     }
 
@@ -197,7 +188,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testShowSuffix()
     {
-        $this->_setUpShowAttribute([Customer::SUFFIX => self::SUFFIX]);
+        $this->_setUpShowAttribute([\Magento\Customer\Model\Data\Customer::SUFFIX => self::SUFFIX]);
         $this->assertTrue($this->_block->showSuffix());
     }
 
@@ -213,8 +204,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
          * Added some padding so that the trim() call on Customer::getPrefix() will remove it. Also added
          * special characters so that the escapeHtml() method returns a htmlspecialchars translated value.
          */
-        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
-            ->setPrefix('  <' . self::PREFIX . '>  ')->create();
+        $customer = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerInterface')->getMockForAbstractClass();
+        $customer->expects($this->once())->method('getPrefix')->willReturn('  <' . self::PREFIX . '>  ');
 
         $this->_block->setObject($customer);
 
@@ -238,8 +229,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPrefixOptionsEmpty()
     {
-        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
-            ->setPrefix(self::PREFIX)->create();
+        $customer = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerInterface')->getMockForAbstractClass();
         $this->_block->setObject($customer);
 
         $this->_customerHelper->expects(
@@ -259,8 +249,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
          * Added padding and special characters to show that trim() works on Customer::getSuffix() and that
          * a properly htmlspecialchars translated value is returned.
          */
-        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
-            ->setSuffix('  <' . self::SUFFIX . '>  ')->create();
+        $customer = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerInterface')->getMockForAbstractClass();
+        $customer->expects($this->once())->method('getSuffix')->willReturn('  <' . self::SUFFIX . '>  ');
         $this->_block->setObject($customer);
 
         $suffixOptions = ['Sr' => 'Sr'];
@@ -283,8 +273,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSuffixOptionsEmpty()
     {
-        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
-            ->setSuffix('  <' . self::SUFFIX . '>  ')->create();
+        $customer = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerInterface')->getMockForAbstractClass();
         $this->_block->setObject($customer);
 
         $this->_customerHelper->expects(
@@ -318,21 +307,21 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetContainerClassName($isPrefixVisible, $isMiddlenameVisible, $isSuffixVisible, $expectedValue)
     {
-        $this->_attributeMetadata->expects(
+        $this->attribute->expects(
             $this->at(0)
         )->method(
             'isVisible'
         )->will(
             $this->returnValue($isPrefixVisible)
         );
-        $this->_attributeMetadata->expects(
+        $this->attribute->expects(
             $this->at(1)
         )->method(
             'isVisible'
         )->will(
             $this->returnValue($isMiddlenameVisible)
         );
-        $this->_attributeMetadata->expects(
+        $this->attribute->expects(
             $this->at(2)
         )->method(
             'isVisible'
@@ -377,7 +366,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStoreLabel($attributeCode, $storeLabel, $expectedValue)
     {
-        $this->_attributeMetadata->expects(
+        $this->attribute->expects(
             $this->once()
         )->method(
             'getStoreLabel'
@@ -404,7 +393,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testGetStoreLabelWithException()
     {
-        $this->customerMetadataService->expects(
+        $this->customerMetadata->expects(
             $this->any()
         )->method(
             'getAttributeMetadata'
@@ -425,8 +414,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     private function _setUpShowAttribute(array $data)
     {
-        $customer = $this->_objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerBuilder')
-            ->populateWithArray($data)->create();
+        $customer = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerInterface')
+            ->getMockForAbstractClass();
 
         /**
          * These settings cause the first code path in Name::_getAttribute() to be executed, which
@@ -440,7 +429,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
          * first call to the method. Subsequent calls may return true or false depending on the returnValue
          * of the at({0, 1, 2, 3, ...}), etc. calls as set and configured in a particular test.
          */
-        $this->_attributeMetadata->expects($this->at(0))->method('isVisible')->will($this->returnValue(true));
+        $this->attribute->expects($this->at(0))->method('isVisible')->will($this->returnValue(true));
     }
 
     /**
@@ -463,8 +452,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
          * all code paths in Name::_getAttribute() will be executed. Returning true for the third isRequired()
          * call causes the is*Required() method of the block to return true for the attribute.
          */
-        $this->_attributeMetadata->expects($this->at(0))->method('isRequired')->will($this->returnValue(false));
-        $this->_attributeMetadata->expects($this->at(1))->method('isRequired')->will($this->returnValue(true));
-        $this->_attributeMetadata->expects($this->at(2))->method('isRequired')->will($this->returnValue(true));
+        $this->attribute->expects($this->at(0))->method('isRequired')->will($this->returnValue(false));
+        $this->attribute->expects($this->at(1))->method('isRequired')->will($this->returnValue(true));
+        $this->attribute->expects($this->at(2))->method('isRequired')->will($this->returnValue(true));
     }
 }
