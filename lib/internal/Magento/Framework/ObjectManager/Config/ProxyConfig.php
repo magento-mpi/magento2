@@ -1,32 +1,26 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Framework\ObjectManager\Config;
 
 use Magento\Framework\ObjectManager\ConfigCache;
 use Magento\Framework\ObjectManager\Relations;
 
-class Compiled implements \Magento\Framework\ObjectManager\Config
+class ProxyConfig implements \Magento\Framework\ObjectManager\Config
 {
-    private $arguments;
+    /**
+     * @var \Magento\Framework\ObjectManager\Config
+     */
+    private $subjectConfig;
 
-    private $nonShared;
-
-    private $virtualTypes;
-
-    private $preferences;
-
-    public function __construct($data)
+    public function __construct(\Magento\Framework\ObjectManager\Config $config)
     {
-        $this->arguments = $data['arguments'];
-        $this->nonShared = $data['nonShared'];
-        $this->virtualTypes = $data['instanceTypes'];
-        $this->preferences = $data['preferences'];
+        $this->subjectConfig = $config;
     }
 
     /**
@@ -38,7 +32,7 @@ class Compiled implements \Magento\Framework\ObjectManager\Config
      */
     public function setRelations(Relations $relations)
     {
-
+        $this->subjectConfig->setRelations($relations);
     }
 
     /**
@@ -50,79 +44,77 @@ class Compiled implements \Magento\Framework\ObjectManager\Config
      */
     public function setCache(ConfigCache $cache)
     {
-
+        $this->subjectConfig->setCache($cache);
     }
 
     /**
      * Retrieve list of arguments per type
      *
      * @param string $type
+     *
      * @return array
      */
     public function getArguments($type)
     {
-        if (isset($this->arguments[$type])) {
-            return $this->arguments[$type];
-        } else {
-            return ['Magento\Framework\ObjectManager'];
-        }
+        return $this->subjectConfig->getArguments($type);
     }
 
     /**
      * Check whether type is shared
      *
      * @param string $type
+     *
      * @return bool
      */
     public function isShared($type)
     {
-        return !isset($this->nonShared[$type]);
+        return $this->subjectConfig->isShared($type);
     }
 
     /**
      * Retrieve instance type
      *
      * @param string $instanceName
+     *
      * @return mixed
      */
     public function getInstanceType($instanceName)
     {
-        return isset($this->virtualTypes[$instanceName]) ? $this->virtualTypes[$instanceName] : $instanceName;
+        return $this->subjectConfig->getInstanceType($instanceName);
     }
 
     /**
      * Retrieve preference for type
      *
      * @param string $type
+     *
      * @return string
      * @throws \LogicException
      */
     public function getPreference($type)
     {
-        return isset($this->preferences[$type]) ? $this->preferences[$type] : $type;
+        return $this->subjectConfig->getPreference($type);
     }
 
     /**
      * Extend configuration
      *
      * @param array $configuration
+     *
      * @return void
      */
     public function extend(array $configuration)
     {
-        $this->arguments = $configuration['arguments'];
-        $this->nonShared = $configuration['nonShared'];
-        $this->virtualTypes = $configuration['instanceTypes'];
-        $this->preferences = $configuration['preferences'];
+        $this->subjectConfig->extend($configuration);
     }
 
     /**
-     * Retrieve all virtual types
+     * Returns list of virtual types
      *
-     * @return string
+     * @return array
      */
     public function getVirtualTypes()
     {
-        return $this->virtualTypes;
+        return $this->subjectConfig->getVirtualTypes();
     }
 }

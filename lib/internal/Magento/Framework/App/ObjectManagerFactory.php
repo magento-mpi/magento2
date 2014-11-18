@@ -54,6 +54,8 @@ class ObjectManagerFactory
      */
     protected $factory;
 
+    private $compiledConfig = false;
+
     /**
      * Constructor
      *
@@ -88,25 +90,29 @@ class ObjectManagerFactory
 
         $definitions = $definitionFactory->createClassDefinition($appArguments->get('definitions'), $useCompiled);
         $relations = $definitionFactory->createRelations();
-        $configClass = $this->_configClassName;
-        $compiledConfig = null;
-        if (file_exists(BP . '/var/di/config.ser')) {
-            $compiledConfig = \unserialize(\file_get_contents(BP . '/var/di/config.ser'));
+
+        if (file_exists(BP . '/var/di/global.ser')) {
+            $this->compiledConfig = \unserialize(\file_get_contents(BP . '/var/di/global.ser'));
         }
 
-        /** @var \Magento\Framework\ObjectManager\Config\Config $diConfig */
-        if ($compiledConfig) {
-            $diConfig = new \Magento\Framework\Interception\ObjectManager\Config($compiledConfig);
+        /** @var \Magento\Framework\Interception\ObjectManager\Config $diConfig */
+        if ($this->compiledConfig) {
+            $diConfig = new $this->_configClassName(
+                new \Magento\Framework\ObjectManager\Config\Compiled($this->compiledConfig)
+            );
         } else {
-            $diConfig = new $configClass($relations, $definitions);
+            $diConfig = new $this->_configClassName(
+                new \Magento\Framework\ObjectManager\Config\Config($relations, $definitions)
+            );
         }
+
         $appMode = $appArguments->get(State::PARAM_MODE, State::MODE_DEFAULT);
 
         $booleanUtils = new \Magento\Framework\Stdlib\BooleanUtils();
         $argInterpreter = $this->createArgumentInterpreter($booleanUtils);
 
         $argumentMapper = new \Magento\Framework\ObjectManager\Config\Mapper\Dom($argInterpreter);
-        if (!$compiledConfig) {
+        if (!$this->compiledConfig) {
 
             $configData = $this->_loadPrimaryConfig($this->directoryList, $this->driverPool, $argumentMapper, $appMode);
 
@@ -114,7 +120,7 @@ class ObjectManagerFactory
                 $diConfig->extend($configData);
             }
         }
-        $factoryClass = $compiledConfig
+        $factoryClass = $this->compiledConfig
             ? '\Magento\Framework\ObjectManager\Factory\Compiled'
             : '\Magento\Framework\ObjectManager\Factory\Dynamic\Developer';
 
@@ -144,22 +150,22 @@ class ObjectManagerFactory
             'Magento\Framework\ObjectManager\DefinitionInterface' => $definitions,
             'Magento\Framework\Stdlib\BooleanUtils' => $booleanUtils,
             'Magento\Framework\ObjectManager\Config\Mapper\Dom' => $argumentMapper,
-            $configClass => $diConfig
+            $this->_configClassName => $diConfig
         ];
 
-        $className = $this->_locatorClassName;
-        if ($compiledConfig) {
-            $sharedInstances['Magento\Framework\App\ObjectManager\ConfigLoader'] = new \Magento\Framework\App\ObjectManager\ConfigLoader\Compiled();
+        if ($this->compiledConfig) {
+            $sharedInstances['Magento\Framework\App\ObjectManager\ConfigLoader']
+                = new \Magento\Framework\App\ObjectManager\ConfigLoader\Compiled();
         }
 
         /** @var \Magento\Framework\ObjectManagerInterface $objectManager */
-        $objectManager = new $className($this->factory, $diConfig, $sharedInstances);
+        $objectManager = new $this->_locatorClassName($this->factory, $diConfig, $sharedInstances);
 
         $this->factory->setObjectManager($objectManager);
         ObjectManager::setInstance($objectManager);
 
         $diConfig->setCache($objectManager->get('Magento\Framework\App\ObjectManager\ConfigCache'));
-        if (!$compiledConfig) {
+        if (!$this->compiledConfig) {
             $objectManager->configure(
                 $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global')
             );

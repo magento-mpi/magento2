@@ -19,4 +19,4 @@ class Compiled extends \Magento\Framework\App\ObjectManager\ConfigLoader
         $data = \unserialize(\file_get_contents(BP . '/var/di/' . $area . '.ser'));
         return $data;
     }
-} 
+}
