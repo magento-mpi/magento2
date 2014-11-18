@@ -98,7 +98,7 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $data
      * @expectedException \Exception
-     * @expectedExceptionMessage Array key collision in deployment configuration file.
+     * @expectedExceptionMessage Key collision
      * @dataProvider keyCollisionDataProvider
      */
     public function testKeyCollision(array $data)
@@ -114,6 +114,7 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
             [
                 ['foo' => ['bar' => '1'], 'foo/bar' => '2'],
                 ['foo/bar' => '1', 'foo' => ['bar' => '2']],
+                ['foo' => ['subfoo' => ['subbar' => '1'], 'subfoo/subbar' => '2'], 'bar' => '3'],
             ]
         ];
     }

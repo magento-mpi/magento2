@@ -153,14 +153,14 @@ class DeploymentConfig
             if (is_array($value)) {
                 $subParams = $this->flattenParams($value);
                 foreach ($subParams as $subKey => $subValue) {
-                    if (array_key_exists($key . '/' . $subKey, $result)) {
-                        throw new \Exception('Array key collision in deployment configuration file.');
+                    if (isset($result[$key . '/' . $subKey])) {
+                        throw new \Exception("Key collision {$subKey} is already defined.");
                     }
                     $result[$key . '/' . $subKey] = $subValue;
                 }
             } else {
-                if (array_key_exists($key, $result)) {
-                    throw new \Exception('Array key collision in deployment configuration file.');
+                if (isset($result[$key])) {
+                    throw new \Exception("Key collision {$subKey} is already defined.");
                 }
                 $result[$key] = $value;
             }
