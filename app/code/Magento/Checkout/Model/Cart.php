@@ -8,11 +8,13 @@
 namespace Magento\Checkout\Model;
 
 use Magento\Catalog\Model\Product;
+use Magento\Framework\Object;
+use Magento\Checkout\Model\Cart\CartInterface;
 
 /**
  * Shopping cart model
  */
-class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\Cart\CartInterface
+class Cart extends Object implements CartInterface
 {
     /**
      * Shopping cart items summary quantity(s)
@@ -73,9 +75,14 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $messageManager;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
+
+    /**
+     * @var \Magento\CatalogInventory\Api\StockStateInterface
+     */
+    protected $stockState;
 
     /**
      * @var \Magento\Sales\Model\QuoteRepository
@@ -91,7 +98,8 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * @param Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param \Magento\CatalogInventory\Api\StockStateInterface $stockState
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param array $data
      */
@@ -104,7 +112,8 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Magento\CatalogInventory\Api\StockStateInterface $stockState,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         array $data = array()
     ) {
@@ -116,7 +125,8 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
         $this->messageManager = $messageManager;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
+        $this->stockState = $stockState;
         $this->quoteRepository = $quoteRepository;
         parent::__construct($data);
     }
@@ -325,7 +335,8 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $productId = $product->getId();
 
         if ($productId) {
-            $minimumQty = $this->stockItemService->getMinSaleQty($productId);
+            $stockItem = $this->stockRegistry->getStockItem($productId, $product->getStore()->getWebsiteId());
+            $minimumQty = $stockItem->getMinSaleQty();
             //If product was not found in cart and there is set minimal qty for it
             if ($minimumQty
                 && $minimumQty > 0
@@ -386,7 +397,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
 
         if (!empty($productIds)) {
             foreach ($productIds as $productId) {
-                $productId = (int) $productId;
+                $productId = (int)$productId;
                 if (!$productId) {
                     continue;
                 }
@@ -428,7 +439,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             if (!isset($itemInfo['qty'])) {
                 continue;
             }
-            $qty = (float) $itemInfo['qty'];
+            $qty = (float)$itemInfo['qty'];
             if ($qty <= 0) {
                 continue;
             }
@@ -444,7 +455,11 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             }
 
             $data[$itemId]['before_suggest_qty'] = $qty;
-            $data[$itemId]['qty'] = $this->stockItemService->suggestQty($product->getId(), $qty);
+            $data[$itemId]['qty'] = $this->stockState->suggestQty(
+                $product->getId(),
+                $qty,
+                $product->getStore()->getWebsiteId()
+            );
         }
         return $data;
     }
@@ -652,7 +667,8 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             $request = $this->_getProductRequest($requestInfo);
 
             if ($productId) {
-                $minimumQty = $this->stockItemService->getMinSaleQty($productId);
+                $stockItem = $this->stockRegistry->getStockItem($productId, $product->getStore()->getWebsiteId());
+                $minimumQty = $stockItem->getMinSaleQty();
                 // If product was not found in cart and there is set minimal qty for it
                 if ($minimumQty
                     && $minimumQty > 0

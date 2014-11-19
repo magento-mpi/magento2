@@ -167,9 +167,9 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     /**
      * @var \Magento\Sales\Model\AdminOrder\EmailSender
@@ -209,7 +209,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param EmailSender $emailSender
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param Item\Updater $quoteItemUpdater
      * @param \Magento\Framework\Object\Factory $objectFactory
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
@@ -233,7 +233,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         CustomerGroupServiceInterface $customerGroupService,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\AdminOrder\EmailSender $emailSender,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Sales\Model\Quote\Item\Updater $quoteItemUpdater,
         \Magento\Framework\Object\Factory $objectFactory,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
@@ -256,7 +256,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->_customerGroupService = $customerGroupService;
         $this->_scopeConfig = $scopeConfig;
         $this->emailSender = $emailSender;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
         $this->quoteItemUpdater = $quoteItemUpdater;
         $this->objectFactory = $objectFactory;
         $this->quoteRepository = $quoteRepository;
