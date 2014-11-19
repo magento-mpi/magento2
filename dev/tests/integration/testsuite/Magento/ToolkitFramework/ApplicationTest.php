@@ -19,7 +19,7 @@ class ApplicationTest extends \Magento\TestFramework\Indexer\TestCase
     protected static $_generatorWorkingDir;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -70,7 +70,7 @@ class ApplicationTest extends \Magento\TestFramework\Indexer\TestCase
     /**
      * Get object manager
      *
-     * @return \Magento\Framework\ObjectManager
+     * @return \Magento\Framework\ObjectManagerInterface
      */
     public function getObjectManager()
     {
@@ -83,7 +83,7 @@ class ApplicationTest extends \Magento\TestFramework\Indexer\TestCase
     /**
      * Reset object manager
      *
-     * @return \Magento\Framework\ObjectManager
+     * @return \Magento\Framework\ObjectManagerInterface
      */
     public function resetObjectManager()
     {
