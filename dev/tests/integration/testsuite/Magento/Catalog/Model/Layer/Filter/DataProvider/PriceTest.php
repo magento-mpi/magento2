@@ -63,10 +63,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function getRangeItemCountsDataProvider()
     {
         return [
-            [1, [11 => 1, 46 => 1]],
-            [10, [2 => 1, 5 => 1]],
-            [20, [1 => 1, 3 => 1]],
-            [50, [1 => 2]]
+            [1, [11 => 2, 46 => 1]],
+            [10, [2 => 2, 5 => 1]],
+            [20, [1 => 2, 3 => 1]],
+            [50, [1 => 3]]
         ];
     }
 
@@ -75,6 +75,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRangeItemCounts($inputRange, $expectedItemCounts)
     {
-        $this->assertEquals($expectedItemCounts, $this->_model->getRangeItemCounts($inputRange));
+        $actualItemCounts = $this->_model->getRangeItemCounts($inputRange);
+        $this->assertEquals($expectedItemCounts, $actualItemCounts);
     }
 }

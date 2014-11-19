@@ -82,7 +82,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     /**
      * @depends testApply
      */
-    public function testGetItems()
+    public function testGetItemsWithApply()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $request = $objectManager->get('Magento\TestFramework\Request');
@@ -91,15 +91,6 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $items = $this->_model->getItems();
 
         $this->assertInternalType('array', $items);
-        $this->assertCount(1, $items);
-
-        /** @var $item \Magento\Catalog\Model\Layer\Filter\Item */
-        $item = $items[0];
-
-        $this->assertInstanceOf('Magento\Catalog\Model\Layer\Filter\Item', $item);
-        $this->assertSame($this->_model, $item->getFilter());
-        $this->assertEquals('Option Label', $item->getLabel());
-        $this->assertEquals($this->_attributeOptionId, $item->getValue());
-        $this->assertEquals(1, $item->getCount());
+        $this->assertEmpty($items);
     }
 }
