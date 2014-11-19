@@ -18,6 +18,7 @@ use \Magento\Tax\Model\Resource\Calculation\Rule\Collection;
 use \Magento\Tax\Model\Resource\Calculation\Rule\CollectionFactory;
 use \Magento\Framework\Api\SortOrder;
 use \Magento\Tax\Api\Data\TaxRuleSearchResultsDataBuilder;
+use \Magento\Framework\Api\SearchCriteria;
 
 class TaxRuleRepository implements TaxRuleRepositoryInterface
 {
