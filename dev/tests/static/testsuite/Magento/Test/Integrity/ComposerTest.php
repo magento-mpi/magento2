@@ -160,7 +160,6 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
                 $this->assertDependsOnInstaller($json->require);
-                $this->assertThemeVersionInSync($dir, $json->version);
                 break;
             case 'magento2-library':
                 $this->assertDependsOnPhp($json->require);
@@ -317,18 +316,6 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 );
             }
         }
-    }
-
-    /**
-     * Assert that references to theme version in theme.xml and composer.json are not out of sync
-     *
-     * @param string $dir
-     * @param string $version
-     */
-    private function assertThemeVersionInSync($dir, $version)
-    {
-        $xml = simplexml_load_file("$dir/theme.xml");
-        $this->assertEquals($xml->version, $version);
     }
 
     /**
