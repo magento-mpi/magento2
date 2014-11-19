@@ -27,7 +27,7 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * Configuration key to installation date
      */
-    const PARAM_INSTALL_DATE = 'install/date';
+    const INSTALL_DATE = 'install/date';
     
     /**
      * @param \Magento\Framework\App\Helper\Context $context
@@ -55,7 +55,7 @@ class Data extends \Magento\Core\Helper\Data
             $priceCurrency,
             $dbCompatibleMode
         );
-        $this->_installDate = $deploymentConfig->get(self::PARAM_INSTALL_DATE);
+        $this->_installDate = $deploymentConfig->get(self::INSTALL_DATE);
     }
 
     /**
