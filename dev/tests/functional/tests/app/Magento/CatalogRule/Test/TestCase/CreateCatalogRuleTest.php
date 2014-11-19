@@ -27,7 +27,7 @@ use Magento\CatalogRule\Test\Fixture\CatalogRule;
  *
  * @ticketId MAGETWO-23036
  */
-class CreateCatalogRuleTest extends CatalogRuleEntityTest
+class CreateCatalogRuleTest extends AbstractCatalogRuleEntityTest
 {
     /**
      * Create Catalog Price Rule

@@ -16,10 +16,9 @@ use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 
 /**
- * Class CatalogRuleEntityTest
  * Parent class for CatalogRule tests
  */
-abstract class CatalogRuleEntityTest extends Injectable
+abstract class AbstractCatalogRuleEntityTest extends Injectable
 {
     /**
      * Page CatalogRuleIndex

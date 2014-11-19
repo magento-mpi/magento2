@@ -30,7 +30,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds;
  * @group Catalog_Price_Rules_(MX)
  * @ZephyrId MAGETWO-25187
  */
-class UpdateCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
+class UpdateCatalogPriceRuleEntityTest extends AbstractCatalogRuleEntityTest
 {
     /**
      * Update catalog price rule
