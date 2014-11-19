@@ -1346,7 +1346,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             if (!$parentItem) {
                 $parentItem = $item;
             }
-            if ($parentItem && $candidate->getParentProductId()) {
+            if ($parentItem && $candidate->getParentProductId() && !$item->getParentItem()) {
                 $item->setParentItem($parentItem);
             }
 

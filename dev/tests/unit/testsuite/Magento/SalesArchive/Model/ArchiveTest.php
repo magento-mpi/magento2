@@ -10,8 +10,6 @@ namespace Magento\SalesArchive\Model;
 
 /**
  * Class ArchiveTest
- *
- * @package Magento\SalesArchive\Model
  */
 class ArchiveTest extends \PHPUnit_Framework_TestCase
 {
@@ -307,63 +305,12 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
     public function testRemoveOrdersFromArchiveById()
     {
         $ids = [100021, 100023, 100054];
-        $entity = 'entity_id';
-        $order = 'order_id';
-
         $this->resourceArchive->expects($this->once())
-            ->method('getIdsInArchive')
-            ->with($this->equalTo(\Magento\SalesArchive\Model\ArchivalList::ORDER), $this->equalTo($ids))
+            ->method('removeOrdersFromArchiveById')
+            ->with($this->equalTo($ids))
             ->will($this->returnValue($ids));
-        $this->resourceArchive->expects($this->once())
-            ->method('beginTransaction')
-            ->will($this->returnSelf());
-
-        $this->resourceArchive->expects($this->at(2))
-            ->method('removeFromArchive')
-            ->with($this->equalTo(\Magento\SalesArchive\Model\ArchivalList::ORDER), $entity, $this->equalTo($ids))
-            ->will($this->returnSelf());
-        $this->resourceArchive->expects($this->at(3))
-            ->method('removeFromArchive')
-            ->with($this->equalTo(\Magento\SalesArchive\Model\ArchivalList::INVOICE), $order, $this->equalTo($ids))
-            ->will($this->returnSelf());
-        $this->resourceArchive->expects($this->at(4))
-            ->method('removeFromArchive')
-            ->with($this->equalTo(\Magento\SalesArchive\Model\ArchivalList::SHIPMENT), $order, $this->equalTo($ids))
-            ->will($this->returnSelf());
-        $this->resourceArchive->expects($this->at(5))
-            ->method('removeFromArchive')
-            ->with($this->equalTo(\Magento\SalesArchive\Model\ArchivalList::CREDITMEMO), $order, $this->equalTo($ids))
-            ->will($this->returnSelf());
-        $this->resourceArchive->expects($this->at(6))
-            ->method('commit')
-            ->will($this->returnSelf());
 
         $result = $this->archive->removeOrdersFromArchiveById($ids);
         $this->assertEquals($ids, $result);
-    }
-
-    /**
-     * @expectedException \Exception
-     */
-    public function testRemoveOrdersFromArchiveByIdException()
-    {
-        $ids = [100021, 100023, 100054];
-        $entity = 'entity_id';
-
-        $this->resourceArchive->expects($this->once())
-            ->method('getIdsInArchive')
-            ->with($this->equalTo(\Magento\SalesArchive\Model\ArchivalList::ORDER), $this->equalTo($ids))
-            ->will($this->returnValue($ids));
-        $this->resourceArchive->expects($this->once())
-            ->method('beginTransaction')
-            ->will($this->returnSelf());
-        $this->resourceArchive->expects($this->once())
-            ->method('removeFromArchive')
-            ->with($this->equalTo(\Magento\SalesArchive\Model\ArchivalList::ORDER), $entity, $this->equalTo($ids))
-            ->will($this->throwException(new \Exception()));
-
-
-        $result = $this->archive->removeOrdersFromArchiveById($ids);
-        $this->assertInstanceOf('Exception', $result);
     }
 }

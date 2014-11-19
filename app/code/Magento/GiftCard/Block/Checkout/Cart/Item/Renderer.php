@@ -16,7 +16,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      *
      * @var \Magento\GiftCard\Helper\Catalog\Product\Configuration
      */
-    protected $_giftCardCtlgProdConfigur = null;
+    protected $_giftCardConfiguration = null;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -26,7 +26,8 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      * @param \Magento\Core\Helper\Url $urlHelper
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param PriceCurrencyInterface $priceCurrency
-     * @param \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur
+     * @param \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardConfiguration
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param array $data
      */
     public function __construct(
@@ -37,10 +38,11 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Core\Helper\Url $urlHelper,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         PriceCurrencyInterface $priceCurrency,
-        \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur,
+        \Magento\Framework\Module\Manager $moduleManager,
+        \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardConfiguration,
         array $data = array()
     ) {
-        $this->_giftCardCtlgProdConfigur = $giftCardCtlgProdConfigur;
+        $this->_giftCardConfiguration = $giftCardConfiguration;
         parent::__construct(
             $context,
             $productConfig,
@@ -49,6 +51,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
             $urlHelper,
             $messageManager,
             $priceCurrency,
+            $moduleManager,
             $data
         );
     }
@@ -61,7 +64,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     protected function _prepareCustomOption($code)
     {
-        return $this->_giftCardCtlgProdConfigur->prepareCustomOption($this->getItem(), $code);
+        return $this->_giftCardConfiguration->prepareCustomOption($this->getItem(), $code);
     }
 
     /**
@@ -71,7 +74,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     protected function _getGiftcardOptions()
     {
-        return $this->_giftCardCtlgProdConfigur->getGiftcardOptions($this->getItem());
+        return $this->_giftCardConfiguration->getGiftcardOptions($this->getItem());
     }
 
     /**
@@ -81,6 +84,6 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     public function getOptionList()
     {
-        return $this->_giftCardCtlgProdConfigur->getOptions($this->getItem());
+        return $this->_giftCardConfiguration->getOptions($this->getItem());
     }
 }
