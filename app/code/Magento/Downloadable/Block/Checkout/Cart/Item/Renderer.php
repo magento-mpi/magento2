@@ -22,7 +22,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      *
      * @var \Magento\Downloadable\Helper\Catalog\Product\Configuration
      */
-    protected $_downloadProdConfig = null;
+    protected $_downloadableProductConfiguration = null;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -32,7 +32,8 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      * @param \Magento\Core\Helper\Url $urlHelper
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig
+     * @param \Magento\Downloadable\Helper\Catalog\Product\Configuration $downloadableProductConfiguration
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param array $data
      */
     public function __construct(
@@ -43,10 +44,11 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Core\Helper\Url $urlHelper,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         PriceCurrencyInterface $priceCurrency,
-        \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig,
+        \Magento\Framework\Module\Manager $moduleManager,
+        \Magento\Downloadable\Helper\Catalog\Product\Configuration $downloadableProductConfiguration,
         array $data = array()
     ) {
-        $this->_downloadProdConfig = $dwnCtlgProdConfig;
+        $this->_downloadableProductConfiguration = $downloadableProductConfiguration;
         parent::__construct(
             $context,
             $productConfig,
@@ -55,6 +57,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
             $urlHelper,
             $messageManager,
             $priceCurrency,
+            $moduleManager,
             $data
         );
     }

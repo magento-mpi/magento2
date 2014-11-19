@@ -154,12 +154,17 @@
             <not><isset property="env.bamboo_module_filter"/></not>
         </condition>
 
+        <condition property="env.bamboo_module_filter_strict" value="">
+            <not><isset property="env.bamboo_module_filter_strict"/></not>
+        </condition>
+
         <exec executable="vendor/phpunit/phpunit/phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
             <arg line="--log-junit ${basedir}/test-cases-report.xml
                 --bootstrap config/bootstrap.php
                  ${env.bamboo_executer_options}
                 "/>
             <env key="module_filter" value="${env.bamboo_module_filter}"/>
+            <env key="module_filter_strict" value="${env.bamboo_module_filter_strict}"/>
         </exec>
     </target>
 

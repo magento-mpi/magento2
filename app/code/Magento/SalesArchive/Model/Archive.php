@@ -224,42 +224,7 @@ class Archive
      */
     public function removeOrdersFromArchiveById($orderIds)
     {
-        $orderIds = $this->_resourceArchive->getIdsInArchive(
-            \Magento\SalesArchive\Model\ArchivalList::ORDER,
-            $orderIds
-        );
-
-        if (!empty($orderIds)) {
-            $this->_resourceArchive->beginTransaction();
-            try {
-                $this->_resourceArchive->removeFromArchive(
-                    \Magento\SalesArchive\Model\ArchivalList::ORDER,
-                    'entity_id',
-                    $orderIds
-                );
-                $this->_resourceArchive->removeFromArchive(
-                    \Magento\SalesArchive\Model\ArchivalList::INVOICE,
-                    'order_id',
-                    $orderIds
-                );
-                $this->_resourceArchive->removeFromArchive(
-                    \Magento\SalesArchive\Model\ArchivalList::SHIPMENT,
-                    'order_id',
-                    $orderIds
-                );
-                $this->_resourceArchive->removeFromArchive(
-                    \Magento\SalesArchive\Model\ArchivalList::CREDITMEMO,
-                    'order_id',
-                    $orderIds
-                );
-                $this->_resourceArchive->commit();
-            } catch (\Exception $e) {
-                $this->_resourceArchive->rollBack();
-                throw $e;
-            }
-        }
-
-        return $orderIds;
+        return $this->_resourceArchive->removeOrdersFromArchiveById($orderIds);
     }
 
     /**
