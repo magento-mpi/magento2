@@ -98,7 +98,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertTrue($result);
 
-        /** @var $factory \Magento\Framework\ObjectManager\Factory */
+        /** @var $factory \Magento\Framework\ObjectManager\FactoryInterface */
         $factory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($factoryClassName);
 
         $object = $factory->create();

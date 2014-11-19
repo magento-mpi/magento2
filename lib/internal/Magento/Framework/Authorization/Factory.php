@@ -10,7 +10,7 @@
 namespace Magento\Framework\Authorization;
 
 use Magento\Framework\Authorization;
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 class Factory
 {
@@ -22,16 +22,16 @@ class Factory
     /**
      * Object Manager instance
      *
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $_objectManager = null;
 
     /**
      * Factory constructor
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManagerInterface $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
