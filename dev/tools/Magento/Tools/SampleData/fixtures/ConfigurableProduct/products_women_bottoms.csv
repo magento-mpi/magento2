@@ -1,6 +1,8 @@
 category,name,sku,size_pants,description,price,activity_general,style_bottom,material,pattern,climate,color,eco_collection,performance_fabric,erin_recommends,new,sale,special_price,attribute_set
 "Women
 Bottoms
+Pants
+Promotions
 Pants","Karmen Yoga Pant",WP01,"26
 27
 28
@@ -15,6 +17,8 @@ Gray
 Black",1,1,,,,,Bottom
 "Women
 Bottoms
+Pants
+Promotions
 Pants","Emma Leggings",WP02,"26
 27
 28
@@ -32,7 +36,11 @@ Red
 Purple",,1,,,,,Bottom
 "Women
 Bottoms
-Pants","Ida Workout Parachute Pant",WP03,"26
+Pants
+Promotions
+Pants
+Promotions
+Yoga New","Ida Workout Parachute Pant",WP03,"26
 27
 28
 29","<p>The Ida Workout Parachute Pant is made of lightweight, super-soft fabric that keeps you comfortable during any level of activity, whether Downward Dog or a few trail miles.</p>
@@ -50,6 +58,8 @@ Blue
 Purple",,,,1,,,Bottom
 "Women
 Bottoms
+Pants
+Promotions
 Pants","Cora Parachute Pant",WP04,"26
 27
 28
@@ -69,6 +79,8 @@ Blue
 Black",,,,,,,Bottom
 "Women
 Bottoms
+Pants
+Promotions
 Pants","Sahara Leggings",WP05,"26
 27
 28
@@ -86,6 +98,8 @@ Blue
 Red",,,1,,,,Bottom
 "Women
 Bottoms
+Pants
+Promotions
 Pants","Diana Tights",WP06,"26
 27
 28
@@ -105,6 +119,8 @@ Orange
 Blue",,,1,,,,Bottom
 "Women
 Bottoms
+Pants
+Promotions
 Pants","Aeon Capri",WP07,"26
 27
 28
@@ -119,6 +135,8 @@ Orange
 Blue",,1,,,,,Bottom
 "Women
 Bottoms
+Pants
+Promotions
 Pants","Bardot Capri",WP08,"26
 27
 28
@@ -137,6 +155,8 @@ Black
 Green",,,,,,,Bottom
 "Women
 Bottoms
+Pants
+Promotions
 Pants","Carina Basic Capri",WP09,"26
 27
 28
@@ -157,6 +177,8 @@ Black
 Blue",,,,,,,Bottom
 "Women
 Bottoms
+Pants
+Promotions
 Pants","Daria Bikram Pant",WP10,"26
 27
 28
@@ -171,6 +193,8 @@ Black
 White",1,,,,,,Bottom
 "Women
 Bottoms
+Pants
+Promotions
 Pants","Sylvia Capri",WP11,"26
 27
 28
@@ -183,6 +207,8 @@ Blue
 Red",,,,,,,Bottom
 "Women
 Bottoms
+Pants
+Promotions
 Pants","Deirdre Relaxed-Fit Capri",WP12,"26
 27
 28
@@ -198,6 +224,8 @@ Gray
 Green",1,1,,,,,Bottom
 "Women
 Bottoms
+Pants
+Promotions
 Pants","Portia Capri",WP13,"26
 27
 28
@@ -210,7 +238,11 @@ Blue
 Green",1,,1,,,,Bottom
 "Women
 Bottoms
-Shorts","Fiona Fitness Short",WSH01,"28
+Shorts
+Promotions
+Eco Collection New
+Promotions
+Yoga New","Fiona Fitness Short",WSH01,"28
 29
 30
 31
@@ -229,7 +261,9 @@ Green
 Black",1,,,1,,,Bottom
 "Women
 Bottoms
-Shorts","Maxima Drawstring Short",WSH02,"28
+Shorts
+Promotions
+Women Sale","Maxima Drawstring Short",WSH02,"28
 29
 30
 31
@@ -245,7 +279,13 @@ Yellow
 Orange",,,,,1,24.00,Bottom
 "Women
 Bottoms
-Shorts","Gwen Drawstring Bike Short",WSH03,"28
+Shorts
+Promotions
+Eco Collection New
+Promotions
+Performance Fabric New
+Promotions
+Yoga New","Gwen Drawstring Bike Short",WSH03,"28
 29
 30
 31
@@ -278,7 +318,9 @@ Green
 Orange",,,,,,,Bottom
 "Women
 Bottoms
-Shorts","Bess Yoga Short",WSH05,"28
+Shorts
+Promotions
+Women Sale","Bess Yoga Short",WSH05,"28
 29
 30
 31
@@ -310,7 +352,9 @@ Gray
 Orange",,,,,,,Bottom
 "Women
 Bottoms
-Shorts","Echo Fit Compression Short",WSH07,"26
+Shorts
+Promotions
+Yoga New","Echo Fit Compression Short",WSH07,"26
 27
 28
 29","<p>Your muscles know it's go time the second you pull on the Echo Fit Compression Short. A balance of firm, stimulating squeeze with breathability, it offers the support and comfort you need to give it your all.</p>

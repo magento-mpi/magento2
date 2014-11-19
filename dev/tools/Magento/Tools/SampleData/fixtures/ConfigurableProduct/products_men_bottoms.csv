@@ -1,6 +1,8 @@
 category,name,sku,size_pants,description,price,activity_general,style_bottom,material,pattern,climate,color,eco_collection,performance_fabric,erin_recommends,new,sale,special_price,attribute_set
 "Men
 Bottoms
+Pants
+Promotions
 Pants","Caesar Warm-Up Pant",MP01,"32
 33
 34
@@ -18,6 +20,8 @@ Black
 Purple",,,,,,,Bottom
 "Men
 Bottoms
+Pants
+Promotions
 Pants","Viktor LumaTech&trade; Pant",MP02,"32
 33
 34
@@ -35,7 +39,11 @@ Blue
 Red",,1,,,,,Bottom
 "Men
 Bottoms
-Pants","Geo Insulated Jogging Pant",MP03,"32
+Pants
+Promotions
+Pants
+Promotions
+Yoga New","Geo Insulated Jogging Pant",MP03,"32
 33
 34
 36","<p>In the cold, even the toughest guys shiver, unless they&rsquo;re in the Geo Insulated Jogging Pant. Lightweight and wind resistant, they block brutal wind gusts and warm you to the bone. Breathable mesh keeps them dry on the inside.</p>
@@ -57,6 +65,8 @@ Red
 Green",,,,1,,,Bottom
 "Men
 Bottoms
+Pants
+Promotions
 Pants","Supernova Sport Pant",MP04,"32
 33
 34
@@ -79,7 +89,11 @@ Green
 Black",,,,,,,Bottom
 "Men
 Bottoms
-Pants","Kratos Gym Pant",MP05,"32
+Pants
+Promotions
+Pants
+Promotions
+Yoga New","Kratos Gym Pant",MP05,"32
 33
 34
 36","<p>Like it&rsquo;s namesake god of strength, the Kratos Gym Pant help you bring your best to bear on weight-based, plyometric and endurance exercise. They stretch and support in all the right places while ultra-light construction and moisture-wicking technology provide comfort.</p>
@@ -95,6 +109,8 @@ Black
 Green",,,,1,,,Bottom
 "Men
 Bottoms
+Pants
+Promotions
 Pants","Mithra Warmup Pant",MP06,"32
 33
 34
@@ -116,7 +132,11 @@ Orange
 Green",1,,,,,,Bottom
 "Men
 Bottoms
-Pants","Thorpe Track Pant",MP07,"32
+Pants
+Promotions
+Pants
+Promotions
+Yoga New","Thorpe Track Pant",MP07,"32
 33
 34
 36","<p>Thirty degree temps are chilly for most, except when you&rsquo;re in Thorpe Track Pants. These top-of-the-line track bottoms are made from fast-drying, weather-resistant fabric with an internal breathable layer of mesh nylon to wick away moisture.</p>
@@ -137,7 +157,11 @@ Black
 Purple",,,,1,,,Bottom
 "Men
 Bottoms
-Pants","Zeppelin Yoga Pant",MP08,"32
+Pants
+Promotions
+Pants
+Promotions
+Yoga New","Zeppelin Yoga Pant",MP08,"32
 33
 34
 36","<p>Climb every mountain, or hold every pose, in the all-purpose Zepellin Yoga Pant. With its thin fleece interior and smooth layer-friendly surface, you'll get all the comfort and versatility you need.</p>
@@ -160,7 +184,13 @@ Blue
 Red",,,,1,,,Bottom
 "Men
 Bottoms
-Pants","Livingston All-Purpose Tight",MP09,"32
+Pants
+Promotions
+Pants
+Promotions
+Performance Fabric New
+Promotions
+Yoga New","Livingston All-Purpose Tight",MP09,"32
 33
 34
 36","<p>It&rsquo;s not often that your pants work as a yoga staple and a climbing buddy. The Livingston All-Purpose Tight is made with soft, 11% cotton and nylon polymer stretch construction that lets you find the right angle in the studio or on the mountain side.</p>
@@ -183,6 +213,8 @@ Red
 Black",,1,1,1,,,Bottom
 "Men
 Bottoms
+Pants
+Promotions
 Pants","Orestes Yoga Pant ",MP10,"32
 33
 34
@@ -202,6 +234,8 @@ Blue
 Green",,,1,,,,Bottom
 "Men
 Bottoms
+Pants
+Promotions
 Pants","Aether Gym Pant ",MP11,"32
 33
 34
@@ -225,6 +259,8 @@ Blue
 Green",,1,1,,,,Bottom
 "Men
 Bottoms
+Pants
+Promotions
 Pants","Cronus Yoga Pant ",MP12,"32
 33
 34
@@ -332,7 +368,9 @@ Blue
 Black",,1,,,,,Bottom
 "Men
 Bottoms
-Shorts","Lono Yoga Short",MSH06,"32
+Shorts
+Promotions
+Yoga New","Lono Yoga Short",MSH06,"32
 33
 34
 36","<p>Some shorts are &ldquo;all-purpose,&rdquo; while the Lono Yoga Short has a single purpose: yoga. Soft, flexible outer material moves with your body, and a secure, integrated boxer brief liner gives you extra confidence as you push your physique to the outer limits.</p>
@@ -348,7 +386,9 @@ Blue
 Red",,,,1,,,Bottom
 "Men
 Bottoms
-Shorts","Rapha  Sports Short",MSH07,"32
+Shorts
+Promotions
+Men Sale","Rapha  Sports Short",MSH07,"32
 33
 34
 36","<p>For those about to sweat, we support you with the Rapha Sports Short. The compression-fit liner surrounds your muscles with the stimulation they need to find your high gear, while moisture-wicking performance fabric helps prevents sweat build-up.</p>
@@ -367,7 +407,9 @@ Blue
 Purple",,1,1,,1,29.00,Bottom
 "Men
 Bottoms
-Shorts","Orestes Fitness Short",MSH08,"32
+Shorts
+Promotions
+Men Sale","Orestes Fitness Short",MSH08,"32
 33
 34
 36","<p>You&rsquo;re out of excuses not to run, lift, or play when you own a pair of the Orestes Fitness Short. You won&rsquo;t complain about the high-performance polyester wicking fabric, reflective safety trim or seamless built-in comfort brief, either.</p>
@@ -401,7 +443,9 @@ Green
 Black",,1,,,,,Bottom
 "Men
 Bottoms
-Shorts","Sol Active Short",MSH10,"32
+Shorts
+Promotions
+Yoga New","Sol Active Short",MSH10,"32
 33
 34
 36","<p>You&rsquo;ll let your fear go and push your limits in your new Sol Active Short. Featuring ultra-breathable performance fabric and a flat comfort-fit waistband, the Sol Active Short is perfect for high-intensity circuits or high-heat bikram.</p>
@@ -436,7 +480,9 @@ Red
 Black",,,,,,,Bottom
 "Men
 Bottoms
-Shorts","Pierce Gym Short",MSH12,"32
+Shorts
+Promotions
+Men Sale","Pierce Gym Short",MSH12,"32
 33
 34
 36","<p>The Pierce Gym Short is similar to our Arcadio Gym Short, but designed with a fitted, tapered look. A flat waistband with an adjustable drawstring adds comfort, with zippered pockets for safe, easy storage.</p>

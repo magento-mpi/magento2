@@ -1,7 +1,9 @@
 category,name,sku,size_general,description,price,style_general,activity_general,material,sleeve,collar,pattern,climate,color,eco_collection,performance_fabric,erin_recommends,new,sale,special_price,attribute_set
 "Women
 Tops
-Hoodies & Sweatshirts","Mona Pullover Hoodlie",WH01,"XS
+Hoodies & Sweatshirts
+Promotions
+Yoga New","Mona Pullover Hoodlie",WH01,"XS
 S
 M
 L
@@ -20,7 +22,9 @@ Purple
 Orange",,,1,1,,,Top
 "Women
 Tops
-Hoodies & Sweatshirts","Hera Pullover Hoodie",WH02,"XS
+Hoodies & Sweatshirts
+Promotions
+Women Sale","Hera Pullover Hoodie",WH02,"XS
 S
 M
 L
@@ -108,7 +112,9 @@ Windy
 Wintry",Purple,,,,,,,Top
 "Women
 Tops
-Hoodies & Sweatshirts","Phoebe Zipper Sweatshirt",WH07,"XS
+Hoodies & Sweatshirts
+Promotions
+Yoga New","Phoebe Zipper Sweatshirt",WH07,"XS
 S
 M
 L
@@ -125,7 +131,9 @@ Purple
 White",,,1,1,,,Top
 "Women
 Tops
-Hoodies & Sweatshirts","Cassia Funnel Sweatshirt",WH08,"XS
+Hoodies & Sweatshirts
+Promotions
+Women Sale","Cassia Funnel Sweatshirt",WH08,"XS
 S
 M
 L
@@ -166,7 +174,9 @@ Red
 Green",1,,,,,,Top
 "Women
 Tops
-Hoodies & Sweatshirts","Helena Hooded Fleece",WH10,"XS
+Hoodies & Sweatshirts
+Promotions
+Yoga New","Helena Hooded Fleece",WH10,"XS
 S
 M
 L
@@ -217,7 +227,11 @@ Green
 Purple",1,1,,,,,Top
 "Women
 Tops
-Jackets","Stellar Solar Jacket",WJ01,"S
+Jackets
+Promotions
+Eco Collection New
+Promotions
+Yoga New","Stellar Solar Jacket",WJ01,"S
 M
 L","<p>Beat the heat and protect yourself from sunrays with the Stellar Solar Jacket. It's loaded with all the engineered features you need for an intense, safe outdoor workout: 100% UV protection, a breathable perforated construction, and advanced moisture-wicking technology.</p>
 <p>&bull; Loose fit. <br />&bull; Reflectivity. <br />&bull; Flat seams. <br />&bull; Machine wash/dry.<br />&bull; Deep pink jacket with front panel rouching</p>",75,"Jacket
@@ -238,7 +252,9 @@ Blue
 Yellow",1,,1,1,,,Top
 "Women
 Tops
-Jackets","Josie Yoga Jacket",WJ02,"XS
+Jackets
+Promotions
+Women Sale","Josie Yoga Jacket",WJ02,"XS
 S
 M
 L
@@ -279,7 +295,11 @@ Red
 Orange",,,,,,,Top
 "Women
 Tops
-Jackets","Ingrid Running Jacket",WJ04,"XS
+Jackets
+Promotions
+Performance Fabric New
+Promotions
+Yoga New","Ingrid Running Jacket",WJ04,"XS
 S
 M
 L
@@ -345,7 +365,9 @@ Red
 Orange",,,,,,,Top
 "Women
 Tops
-Jackets","Adrienne Trek Jacket",WJ08,"XS
+Jackets
+Promotions
+Women Sale","Adrienne Trek Jacket",WJ08,"XS
 S
 M
 L
@@ -389,7 +411,11 @@ Blue
 Gray",1,,1,,,,Top
 "Women
 Tops
-Jackets","Nadia Elements Shell",WJ10,"XS
+Jackets
+Promotions
+Performance Fabric New
+Promotions
+Yoga New","Nadia Elements Shell",WJ10,"XS
 S
 M
 L
@@ -413,7 +439,9 @@ Orange
 Black",,1,,1,,,Top
 "Women
 Tops
-Jackets","Neve Studio Dance Jacket",WJ11,"XS
+Jackets
+Promotions
+Yoga New","Neve Studio Dance Jacket",WJ11,"XS
 S
 M
 L
@@ -437,7 +465,9 @@ Black
 Orange",,,,1,,,Top
 "Women
 Tops
-Jackets","Juno Jacket",WJ06,"XS
+Jackets
+Promotions
+Women Sale","Juno Jacket",WJ06,"XS
 S
 M
 L
@@ -459,7 +489,9 @@ Blue
 Green",,1,,,1,64.00,Top
 "Women
 Tops
-Jackets","Olivia 1/4 Zip Light Jacket",WJ12,"XS
+Jackets
+Promotions
+Women Sale","Olivia 1/4 Zip Light Jacket",WJ12,"XS
 S
 M
 L
@@ -481,7 +513,11 @@ Blue
 Black",,1,,,1,64.00,Top
 "Women
 Tops
-Tees","Gabrielle Micro Sleeve Top",WS02,"XS
+Tees
+Promotions
+Tees
+Promotions
+Yoga New","Gabrielle Micro Sleeve Top",WS02,"XS
 S
 M
 L
@@ -497,6 +533,8 @@ Red
 Blue",,,,1,,,Top
 "Women
 Tops
+Tees
+Promotions
 Tees","Iris Workout Top",WS03,"XS
 S
 M
@@ -515,7 +553,13 @@ Green
 Blue",,1,,,,,Top
 "Women
 Tops
-Tees","Layla Tee",WS04,"XS
+Tees
+Promotions
+Tees
+Promotions
+Eco Collection New
+Promotions
+Yoga New","Layla Tee",WS04,"XS
 S
 M
 L
@@ -529,7 +573,13 @@ Blue
 Red",1,,,1,,,Top
 "Women
 Tops
-Tees","Elisa EverCool&trade; Tee",WS06,"XS
+Tees
+Promotions
+Tees
+Promotions
+Eco Collection New
+Promotions
+Yoga New","Elisa EverCool&trade; Tee",WS06,"XS
 S
 M
 L
@@ -543,7 +593,13 @@ Red
 Gray",1,,,1,,,Top
 "Women
 Tops
-Tees","Juliana Short-Sleeve Tee",WS07,"XS
+Tees
+Promotions
+Tees
+Promotions
+Performance Fabric New
+Promotions
+Yoga New","Juliana Short-Sleeve Tee",WS07,"XS
 S
 M
 L
@@ -559,7 +615,11 @@ White
 Yellow",,1,1,1,,,Top
 "Women
 Tops
-Tees","Minerva LumaTech&trade; V-Tee",WS08,"XS
+Tees
+Promotions
+Tees
+Promotions
+Women Sale","Minerva LumaTech&trade; V-Tee",WS08,"XS
 S
 M
 L
@@ -574,7 +634,11 @@ Black
 Red",,,,,1,27.00,Top
 "Women
 Tops
-Tees","Tiffany Fitness Tee",WS09,"XS
+Tees
+Promotions
+Tees
+Promotions
+Women Sale","Tiffany Fitness Tee",WS09,"XS
 S
 M
 L
@@ -586,6 +650,8 @@ Blue
 Red",1,,,,1,24.00,Top
 "Women
 Tops
+Tees
+Promotions
 Tees","Karissa V-Neck Tee",WS10,"XS
 S
 M
@@ -600,7 +666,11 @@ Yellow
 Green",,1,,,,,Top
 "Women
 Tops
-Tees","Diva Gym Tee",WS11,"XS
+Tees
+Promotions
+Tees
+Promotions
+Women Sale","Diva Gym Tee",WS11,"XS
 S
 M
 L
@@ -615,6 +685,8 @@ Orange
 Green",,,1,,1,28.00,Top
 "Women
 Tops
+Tees
+Promotions
 Tees","Radiant Tee",WS12,"XS
 S
 M
@@ -632,6 +704,8 @@ Orange
 Purple",1,1,,,,,Top
 "Women
 Tops
+Tees
+Promotions
 Tees","Gwyn Endurance Tee",WS01,"XS
 S
 M
@@ -647,6 +721,8 @@ Green
 Yellow",,,,,,,Top
 "Women
 Tops
+Tees
+Promotions
 Tees","Desiree Fitness Tee",WS05,"XS
 S
 M
@@ -662,7 +738,9 @@ Yellow
 Orange",,,,,,,Top
 "Women
 Tops
-Bras & Tanks","Electra Bra Top",WB01,"XS
+Bras & Tanks
+Promotions
+Women Sale","Electra Bra Top",WB01,"XS
 S
 M
 L
@@ -699,7 +777,11 @@ Yellow
 Orange",,,,,,,Top
 "Women
 Tops
-Bras & Tanks","Celeste Sports Bra",WB03,"XS
+Bras & Tanks
+Promotions
+Performance Fabric New
+Promotions
+Yoga New","Celeste Sports Bra",WB03,"XS
 S
 M
 L
@@ -784,7 +866,9 @@ Green
 Yellow",,,,,,,Top
 "Women
 Tops
-Bras & Tanks","Nora Practice Tank",WT03,"XS
+Bras & Tanks
+Promotions
+Yoga New","Nora Practice Tank",WT03,"XS
 S
 M
 L
@@ -869,7 +953,9 @@ Green
 White",,1,,,,,Top
 "Women
 Tops
-Bras & Tanks","Antonia Racer Tank",WT08,"XS
+Bras & Tanks
+Promotions
+Women Sale","Antonia Racer Tank",WT08,"XS
 S
 M
 L
@@ -887,7 +973,9 @@ Yellow
 Purple",,1,,,1,29.00,Top
 "Women
 Tops
-Bras & Tanks","Breathe-Easy Tank",WT09,"XS
+Bras & Tanks
+Promotions
+Women Sale","Breathe-Easy Tank",WT09,"XS
 S
 M
 L

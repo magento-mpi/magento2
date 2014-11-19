@@ -175,6 +175,9 @@ class Converter
                 if ($child->getName() == $name) {
                     $tree = $child;
                     $ids[] = $child->getId();
+                    if (!$tree->getChildren()) {
+                        $tree = $this->categoryReadService->tree();
+                    }
                     break;
                 }
             }
