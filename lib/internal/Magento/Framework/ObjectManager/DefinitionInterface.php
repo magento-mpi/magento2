@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\ObjectManager;
 
-interface Definition
+interface DefinitionInterface
 {
     /**
      * Get list of method parameters

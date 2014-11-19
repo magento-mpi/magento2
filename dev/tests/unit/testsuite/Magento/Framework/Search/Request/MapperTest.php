@@ -20,7 +20,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     private $helper;
 
     /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $objectManager;
 
@@ -63,10 +63,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->helper = new ObjectManager($this);
 
-        $this->objectManager = $this->getMockBuilder('Magento\Framework\ObjectManager')
-            ->setMethods(['create', 'get', 'configure'])
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
 
         $this->queryMatch = $this->getMockBuilder('Magento\Framework\Search\Request\Query\Match')
             ->disableOriginalConstructor()

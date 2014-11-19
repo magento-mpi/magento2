@@ -28,34 +28,34 @@ class ArchivalList
      *
      * @var $_entities array
      */
-    protected $_entities = array(
-        self::ORDER => array(
+    protected $_entities = [
+        self::ORDER => [
             'model' => 'Magento\Sales\Model\Order',
             'resource_model' => 'Magento\Sales\Model\Resource\Order'
-        ),
-        self::INVOICE => array(
+        ],
+        self::INVOICE => [
             'model' => 'Magento\Sales\Model\Order\Invoice',
             'resource_model' => 'Magento\Sales\Model\Resource\Order\Invoice'
-        ),
-        self::SHIPMENT => array(
+        ],
+        self::SHIPMENT => [
             'model' => 'Magento\Sales\Model\Order\Shipment',
             'resource_model' => 'Magento\Sales\Model\Resource\Order\Shipment'
-        ),
-        self::CREDITMEMO => array(
+        ],
+        self::CREDITMEMO => [
             'model' => 'Magento\Sales\Model\Order\Creditmemo',
             'resource_model' => 'Magento\Sales\Model\Resource\Order\Creditmemo'
-        )
-    );
+        ]
+    ];
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -68,7 +68,7 @@ class ArchivalList
      * @return \Magento\Sales\Model\Resource\Entity
      * @throws \LogicException
      */
-    public function getResource($entity, array $arguments = array())
+    public function getResource($entity, array $arguments = [])
     {
         $className = $this->_getClassByEntity($entity);
 
@@ -98,7 +98,7 @@ class ArchivalList
      */
     public function getEntityByObject($object)
     {
-        $keys = array('model', 'resource_model');
+        $keys = ['model', 'resource_model'];
         foreach ($this->_entities as $archiveEntity => $entityClasses) {
             foreach ($keys as $key) {
                 $className = $entityClasses[$key];
@@ -108,5 +108,15 @@ class ArchivalList
             }
         }
         return false;
+    }
+
+    /**
+     * Return entity names
+     *
+     * @return array
+     */
+    public function getEntityNames()
+    {
+        return array_keys($this->_entities);
     }
 }
