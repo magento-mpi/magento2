@@ -53,7 +53,7 @@ class MultishippingTest extends \PHPUnit_Framework_TestCase
          */
         $fixtureCustomerId = 1;
         $secondFixtureAddressId = 2;
-        $secondFixtureAddressStreet = 'Black str, 48';
+        $secondFixtureAddressStreet = ['Black str, 48'];
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer')->load($fixtureCustomerId);
         if ($addressType == self::ADDRESS_TYPE_SHIPPING) {
@@ -120,7 +120,7 @@ class MultishippingTest extends \PHPUnit_Framework_TestCase
          */
         $fixtureCustomerId = 1;
         $firstFixtureAddressId = 1;
-        $firstFixtureAddressStreet = 'Green str, 67';
+        $firstFixtureAddressStreet = ['Green str, 67'];
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer')->load($fixtureCustomerId);
         if ($addressType == self::ADDRESS_TYPE_SHIPPING) {

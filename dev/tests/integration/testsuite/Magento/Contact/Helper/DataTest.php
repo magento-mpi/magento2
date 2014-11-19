@@ -48,7 +48,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUserName()
     {
-        $this->assertEquals('Firstname Lastname', $this->contactsHelper->getUserName());
+        $this->assertEquals('John Smith', $this->contactsHelper->getUserName());
     }
 
     /**

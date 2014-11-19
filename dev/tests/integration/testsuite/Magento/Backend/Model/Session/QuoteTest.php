@@ -5,11 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Session;
 
 /**
- * @magentoAppArea adminhtml
+ * Class QuoteTest
  */
 class QuoteTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,7 +33,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
         /** Ensure that customer data was added to quote correctly */
         $this->assertEquals(
-            'Firstname',
+            'John',
             $quote->getCustomer()->getFirstname(),
             'Customer data was set to quote incorrectly.'
         );
