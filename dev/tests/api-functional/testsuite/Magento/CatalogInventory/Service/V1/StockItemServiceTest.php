@@ -30,11 +30,11 @@ class StockItemServiceTest extends WebapiAbstract
      */
     const RESOURCE_PATH = '/V1/stockItem';
 
-    /** @var \Magento\Framework\ObjectManager */
-    protected $objectManager;
-
     /** @var \Magento\Catalog\Model\Resource\Product\Collection */
     protected $productCollection;
+
+    /** @var \Magento\Framework\ObjectManagerInterface */
+    protected $objectManager;
 
     /**
      * Execute per test initialization

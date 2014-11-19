@@ -36,7 +36,7 @@ class CreditmemoGetTest extends WebapiAbstract
     const CREDITMEMO_INCREMENT_ID = '100000001';
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
