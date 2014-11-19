@@ -148,7 +148,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
                 }
 
                 if ($this->getCustomerId()) {
-                    $this->_quote->assignCustomer($this->_customerService->getCustomer($this->getCustomerId()));
+                    $this->_quote->assignCustomer($this->customerRepository->getById($this->getCustomerId()));
                 }
             }
             $this->_quote->setIgnoreOldQty(true);
