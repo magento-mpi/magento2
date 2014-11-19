@@ -34,8 +34,6 @@ class InterceptedInstancesScanner implements ScannerInterface
                     $interceptedInstances[$parentTypeNode->nodeValue] = [];
                 }
 
-                $reflectionClass = new \ReflectionClass($parentTypeNode->nodeValue);
-
                 $pluginTypeNode = $node->attributes->getNamedItem('type');
                 if (!is_null($pluginTypeNode)) {
                     $interceptedInstances[$parentTypeNode->nodeValue][] = $pluginTypeNode->nodeValue;

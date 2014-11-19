@@ -27,7 +27,7 @@ class ClassReaderDecorator implements \Magento\Framework\Code\Reader\ClassReader
      * Read class constructor signature
      *
      * @param string $className
-     * @return array|null
+     * @return ConstructorArgument[]|null
      * @throws \ReflectionException
      */
     public function getConstructor($className)

@@ -27,9 +27,9 @@ class ArgumentsResolver
     /**
      * Returns resolved constructor arguments for given instance type
      *
-     * @param $instanceType
-     * @param $constructor
-     * @return mixed
+     * @param string $instanceType
+     * @param ConstructorArgument[] $constructor
+     * @return array|null
      */
     public function getResolvedConstructorArguments($instanceType, $constructor)
     {
@@ -64,7 +64,7 @@ class ArgumentsResolver
      *
      * @param array $configuredArgument
      * @param ConstructorArgument $constructorArgument
-     * @return array|mixed
+     * @return mixed
      */
     private function getConfiguredArgument($configuredArgument, ConstructorArgument $constructorArgument)
     {
