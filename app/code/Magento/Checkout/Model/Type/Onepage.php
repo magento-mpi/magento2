@@ -472,7 +472,7 @@ class Onepage
             }
         }
 
-        $this->getQuote()->save();
+        $this->quoteRepository->save($this->getQuote());
 
         $this->getCheckout()->setStepData(
             'billing',

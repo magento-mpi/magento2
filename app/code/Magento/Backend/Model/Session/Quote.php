@@ -133,16 +133,16 @@ class Quote extends \Magento\Framework\Session\SessionManager
     public function getQuote()
     {
         if ($this->_quote === null) {
-            $this->_quote = $this->_quoteFactory->create();
+            $this->_quote = $this->quoteRepository->create();
             if ($this->getStoreId()) {
-                $this->_quote->setStoreId($this->getStoreId());
                 if (!$this->getQuoteId()) {
                     $customerGroupId = $this->_scopeConfig->getValue(
                         \Magento\Customer\Service\V1\CustomerGroupServiceInterface::XML_PATH_DEFAULT_ID,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     );
                     $this->_quote->setCustomerGroupId($customerGroupId)
-                        ->setIsActive(false);
+                        ->setIsActive(false)
+                        ->setStoreId($this->getStoreId());
                     $this->quoteRepository->save($this->_quote);
                     $this->setQuoteId($this->_quote->getId());
                 } else {
