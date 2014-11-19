@@ -13,7 +13,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Stdlib\BooleanUtils;
 use Mtf\System\Config as SystemConfig;
 use Mtf\ObjectManager\Factory;
-use Magento\Framework\ObjectManager as MagentoObjectManager;
+use Magento\Framework\ObjectManagerInterface as MagentoObjectManager;
 
 /**
  * Class ObjectManagerFactory
