@@ -70,7 +70,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         );
         $this->customerBuilderMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerDataBuilder',
-            array(),
+            ['mergeDataObjectWithArray', 'populateWithArray', 'create'],
             array(),
             '',
             false

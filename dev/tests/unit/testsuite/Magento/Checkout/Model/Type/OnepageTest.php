@@ -88,6 +88,9 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerAccountServiceMock;
 
+    /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter|\PHPUnit_Framework_MockObject_MockObject */
+    protected $extensibleDataObjectConverterMock;
+
     protected function setUp()
     {
         $this->eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
@@ -145,6 +148,14 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
 
+        $this->extensibleDataObjectConverterMock = $this->getMockBuilder(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter'
+        )->setMethods(['toFlatArray'])->disableOriginalConstructor()->getMock();
+
+        $this->extensibleDataObjectConverterMock
+            ->expects($this->any())
+            ->method('toFlatArray')
+            ->will($this->returnValue(array()));
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->onepage = $this->objectManagerHelper->getObject(
             'Magento\Checkout\Model\Type\Onepage',
@@ -170,7 +181,8 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
                 'mathRandom' => $this->randomMock,
                 'encryptor' => $this->encryptorMock,
                 'customerAddressService' => $this->customerAddressServiceMock,
-                'accountService' => $this->customerAccountServiceMock
+                'accountService' => $this->customerAccountServiceMock,
+                'extensibleDataObjectConverter' => $this->extensibleDataObjectConverterMock
             ]
         );
     }
