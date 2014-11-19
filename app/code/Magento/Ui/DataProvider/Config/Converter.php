@@ -123,7 +123,11 @@ class Converter implements ConverterInterface
                         $fields[$attribute->getAttributeCode()] = [
                             'name' => $attribute->getAttributeCode(),
                             'source' => 'eav',
-                            'formElement' => $this->mapFrontendInput($attribute->getFrontendInput())
+                            'formElement' => $this->mapFrontendInput($attribute->getFrontendInput()),
+                            'is_required' => $attribute->getScopeIsRequired(),
+                            'default_value' => $attribute->getScopeDefaultValue(),
+                            'visible' => $attribute->getScopeIsVisible(),
+                            'multiline_count' => $attribute->getScopeMultilineCount()
                         ];
                         if ($attribute->getValidateRules()) {
                             $fields[$attribute->getAttributeCode()]['constraints']['validate']
