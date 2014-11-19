@@ -106,10 +106,12 @@ class Block implements SetupInterface
         $cmsBlock->getResource()->load($cmsBlock, $data['identifier']);
         if (!$cmsBlock->getData()) {
             $cmsBlock->setData($data);
-            $cmsBlock->setStores(array('0'));
-            $cmsBlock->setIsActive(1);
-            $cmsBlock->save();
+        } else {
+            $cmsBlock->addData($data);
         }
+        $cmsBlock->setStores(array('0'));
+        $cmsBlock->setIsActive(1);
+        $cmsBlock->save();
         return $cmsBlock;
     }
 

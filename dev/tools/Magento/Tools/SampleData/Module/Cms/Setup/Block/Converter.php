@@ -28,21 +28,47 @@ class Converter
     protected $productConverter;
 
     /**
+     * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
+     */
+    protected $attributeCollectionFactory;
+
+    /**
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
+     */
+    protected $attrOptionCollectionFactory;
+
+    /**
+     * @var array
+     */
+    protected $attributeCodeOptionsPair;
+
+    /**
+     * @var array
+     */
+    protected $attributeCodeOptionValueIdsPair;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Service\V1\Category\CategoryLoader $categoryLoader
      * @param \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Service\V1\Category\CategoryLoader $categoryLoader,
-        \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter
+        \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
     ) {
         $this->categoryFactory = $categoryFactory;
         $this->eavConfig = $eavConfig;
         $this->categoryLoader = $categoryLoader;
         $this->productConverter = $productConverter;
+        $this->attributeCollectionFactory = $attributeCollectionFactory;
+        $this->attrOptionCollectionFactory = $attrOptionCollectionFactory;
     }
 
     /**
@@ -61,7 +87,7 @@ class Converter
             }
             $data['block'][$field] = $value;
         }
-         return $data;
+        return $data;
     }
 
     /**
@@ -102,7 +128,7 @@ class Converter
     protected function replaceMatches($content)
     {
         $matches = $this->getMatches($content);
-        if (!empty($matches['path'])) {
+        if (!empty($matches['value'])) {
             $replaces = $this->getReplaces($matches);
             $content = preg_replace($replaces['regexp'], $replaces['value'], $content);
         }
@@ -115,9 +141,14 @@ class Converter
      */
     protected function getMatches($content)
     {
-        $regexp = '/{{((?:category[^"]+))(?:url=(?:"([^"]*)")).?(?:attribute=(?:"([^"]*)"))?(?:}}+)/';
-        preg_match_all($regexp, $content, $matches);
-        return array('path' => $matches[2], 'attribute' => $matches[3], 'type' => $matches[1]);
+        $regexp = '/{{(category[^ ]*) key="([^"]+)"}}/';
+        preg_match_all($regexp, $content, $matchesCategory);
+        $regexp = '/{{(attribute) key="([^"]*)"}}/';
+        preg_match_all($regexp, $content, $matchesAttribute);
+        return array(
+            'type' => $matchesCategory[1] + $matchesAttribute[1],
+            'value' => $matchesCategory[2] + $matchesAttribute[2]
+        );
     }
 
     /**
@@ -128,31 +159,36 @@ class Converter
     {
         $replaceData = array();
 
-        foreach ($matches['path'] as $matchKey => $matchValue) {
-            $category = $this->getCategoryByUrlKey($matchValue);
-            if (empty($category)) {
-                continue;
-            }
+        foreach ($matches['value'] as $matchKey => $matchValue) {
             $type = trim($matches['type'][$matchKey]);
             switch ($type) {
                 case 'category':
-                    $categoryUrl = $category->getRequestPath();
-                    if (!empty($matches['attribute'][$matchKey])) {
-                        $urlAttributes = $matches['attribute'][$matchKey];
-                        $categoryUrl .= '?' . $this->getUrlFilter($urlAttributes);
-                        $matchValue = $matchValue . '?' . $urlAttributes;
-
-                        $key = array_filter(explode("?", $matchValue));
-                        $replaceData['regexp'][] =
-                            '/{{category url="' . $key[0] . '" attribute="'. $key[1] .'"}}/';
-                    } else {
-                        $replaceData['regexp'][] = '/{{category url="' . $matchValue .'"}}/';
+                    $category = $this->getCategoryByUrlKey($matchValue);
+                    if (empty($category)) {
+                        continue;
                     }
+                    $categoryUrl = $category->getRequestPath();
+                    $replaceData['regexp'][] = '/{{category key="' . $matchValue .'"}}/';
                     $replaceData['value'][] = '{{store url=""}}' . $categoryUrl;
                     break;
                 case 'categoryId':
-                    $replaceData['regexp'][] = '/{{categoryId url="' . $matchValue .'"}}/';
+                    $category = $this->getCategoryByUrlKey($matchValue);
+                    if (empty($category)) {
+                        continue;
+                    }
+                    $replaceData['regexp'][] = '/{{categoryId key="' . $matchValue .'"}}/';
                     $replaceData['value'][] = sprintf('%03d', $category->getId());
+                    break;
+                case 'attribute':
+                    if (strpos($matchValue, ':') == false) {
+                        break;
+                    }
+                    list($code, $value) = explode(':', $matchValue);
+
+                    if (!empty($code) && !empty($value)) {
+                        $replaceData['regexp'][] = '/{{attribute key="' . $matchValue .'"}}/';
+                        $replaceData['value'][] = sprintf('%03d', $this->getAttributeOptionValueId($code, $value));
+                    }
                     break;
             }
         }
@@ -178,5 +214,66 @@ class Converter
             $urlFilter .= '&' . $attributeData[0] . '=' . $attributeValue->getId();
         }
         return $urlFilter;
+    }
+
+    /**
+     * Get attribute options by attribute code
+     *
+     * @param string $attributeCode
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection|null
+     */
+    protected function getAttributeOptions($attributeCode)
+    {
+        if (!$this->attributeCodeOptionsPair || !isset($this->attributeCodeOptionsPair[$attributeCode])) {
+            $this->loadAttributeOptions($attributeCode);
+        }
+        return isset($this->attributeCodeOptionsPair[$attributeCode])
+            ? $this->attributeCodeOptionsPair[$attributeCode]
+            : null;
+    }
+
+    /**
+     * Loads all attributes with options for attribute
+     *
+     * @param string $attributeCode
+     * @return $this
+     */
+    protected function loadAttributeOptions($attributeCode)
+    {
+        /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $collection */
+        $collection = $this->attributeCollectionFactory->create();
+        $collection->addFieldToSelect(array('attribute_code', 'attribute_id'));
+        $collection->addFieldToFilter('attribute_code', $attributeCode);
+        $collection->setFrontendInputTypeFilter(array('in' => array('select', 'multiselect')));
+        foreach ($collection as $item) {
+            $options = $this->attrOptionCollectionFactory->create()
+                ->setAttributeFilter($item->getAttributeId())->setPositionOrder('asc', true)->load();
+            $this->attributeCodeOptionsPair[$item->getAttributeCode()] = $options;
+        }
+        return $this;
+    }
+
+    /**
+     * Find attribute option value pair
+     *
+     * @param string $attributeCode
+     * @param string $value
+     * @return mixed
+     */
+    protected function getAttributeOptionValueId($attributeCode, $value)
+    {
+        if (!empty($this->attributeCodeOptionValueIdsPair[$attributeCode][$value])) {
+            return $this->attributeCodeOptionValueIdsPair[$attributeCode][$value];
+        }
+
+        $options = $this->getAttributeOptions($attributeCode);
+        $opt = [];
+        if ($options) {
+            foreach ($options as $option) {
+                $opt[$option->getValue()] = $option->getId();
+            }
+        }
+        $this->attributeCodeOptionValueIdsPair[$attributeCode] = $opt;
+        return $this->attributeCodeOptionValueIdsPair[$attributeCode][$value];
     }
 }

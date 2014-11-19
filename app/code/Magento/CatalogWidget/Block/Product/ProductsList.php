@@ -296,7 +296,7 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
      */
     public function getPagerHtml()
     {
-        if ($this->showPager() && $this->_getProductCollection()->getSize() > $this->getProductsPerPage()) {
+        if ($this->showPager() && $this->getProductCollection()->getSize() > $this->getProductsPerPage()) {
             if (!$this->pager) {
                 $this->pager = $this->getLayout()->createBlock(
                     'Magento\Catalog\Block\Product\Widget\Html\Pager',
