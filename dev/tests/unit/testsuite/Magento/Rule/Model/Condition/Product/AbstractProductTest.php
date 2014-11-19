@@ -30,9 +30,9 @@ class AbstractProductTest extends \PHPUnit_Framework_TestCase
     protected $_entityAttributeValuesProperty;
 
     /**
-    * @var \ReflectionProperty
-    * 'Magento\Rule\Model\Condition\Product\AbstractProduct::_config'
-    */
+     * @var \ReflectionProperty
+     * 'Magento\Rule\Model\Condition\Product\AbstractProduct::_config'
+     */
     protected $_configProperty;
 
     public function setUp()
