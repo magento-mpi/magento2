@@ -117,7 +117,6 @@
     </virtualType>
     <type name="Magento\Framework\App\State">
         <arguments>
-            <argument name="installDate" xsi:type="init_parameter">Magento\Framework\App\State::PARAM_INSTALL_DATE</argument>
             <argument name="mode" xsi:type="init_parameter">Magento\Framework\App\State::PARAM_MODE</argument>
         </arguments>
     </type>

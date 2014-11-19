@@ -85,11 +85,6 @@
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
-    <type name="Magento\Backend\Helper\Dashboard\Data">
-        <arguments>
-            <argument name="installDate" xsi:type="init_parameter">Magento\Framework\App\State::PARAM_INSTALL_DATE</argument>
-        </arguments>
-    </type>
     <preference for="Magento\Framework\Authorization\RoleLocator" type="Magento\Backend\Model\Authorization\RoleLocator" />
     <preference for="Magento\Framework\Authorization\Policy" type="Magento\Framework\Authorization\Policy\Acl"/>
     <preference for="Magento\Framework\Acl\Resource\ProviderInterface" type="Magento\Framework\Acl\Resource\Provider"/>
