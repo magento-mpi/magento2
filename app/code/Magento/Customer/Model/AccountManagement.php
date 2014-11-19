@@ -18,7 +18,7 @@ use Magento\Customer\Model\Config\Share as ConfigShare;
 use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\Metadata\Validator;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Customer\Api\CustomerMetadataInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface as Encryptor;
 use Magento\Framework\Event\ManagerInterface;
@@ -148,7 +148,7 @@ class AccountManagement implements AccountManagementInterface
     private $addressRepository;
 
     /**
-     * @var CustomerMetadataServiceInterface
+     * @var CustomerMetadataInterface
      */
     private $customerMetadataService;
 
@@ -239,7 +239,7 @@ class AccountManagement implements AccountManagementInterface
      * @param Validator $validator
      * @param \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder
      * @param AddressRepositoryInterface $addressRepository
-     * @param CustomerMetadataServiceInterface $customerMetadataService
+     * @param CustomerMetadataInterface $customerMetadataService
      * @param CustomerRegistry $customerRegistry
      * @param UrlInterface $url
      * @param Logger $logger
@@ -269,7 +269,7 @@ class AccountManagement implements AccountManagementInterface
         Validator $validator,
         \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder,
         AddressRepositoryInterface $addressRepository,
-        CustomerMetadataServiceInterface $customerMetadataService,
+        CustomerMetadataInterface $customerMetadataService,
         CustomerRegistry $customerRegistry,
         UrlInterface $url,
         Logger $logger,

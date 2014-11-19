@@ -12,7 +12,7 @@ use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Customer\Api\Data\RegionInterface;
-use Magento\Customer\Model\Data\RegionBuilder;
+use Magento\Customer\Api\Data\RegionDataBuilder;
 
 /**
  * Customer address model
@@ -35,7 +35,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_customerFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\AddressMetadataServiceInterface
+     * @var AddressMetadataInterface
      */
     protected $_addressMetadataService;
 
@@ -45,7 +45,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_addressBuilder;
 
     /**
-     * @var RegionBuilder
+     * @var RegionDataBuilder
      */
     protected $_regionBuilder;
 
@@ -63,9 +63,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param CustomerFactory $customerFactory
-     * @param \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService
+     * @param AddressMetadataInterface $addressMetadataService
      * @param AddressDataBuilder $addressBuilder
-     * @param RegionBuilder $regionBuilder
+     * @param RegionDataBuilder $regionBuilder
      * @param \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -80,9 +80,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         CustomerFactory $customerFactory,
-        \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService,
+        AddressMetadataInterface $addressMetadataService,
         AddressDataBuilder $addressBuilder,
-        RegionBuilder $regionBuilder,
+        RegionDataBuilder $regionBuilder,
         \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -118,11 +118,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Update Model with the data from Data Interface
      *
-     * @param \Magento\Customer\Api\Data\AddressInterface $address
+     * @param AddressInterface $address
      * @return $this
      * @deprecated Use Api/RepositoryInterface for the operations in the Data Interfaces. Don't rely on Address Model
      */
-    public function updateData(\Magento\Customer\Api\Data\AddressInterface $address)
+    public function updateData(AddressInterface $address)
     {
         // Set all attributes
         $attributes = $this->dataProcessor
@@ -151,7 +151,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Retrieve Data Model with the Address data
      *
-     * @return \Magento\Customer\Api\Data\AddressInterface
+     * @return AddressInterface
      * @deprecated Use Api/Data/AddressInterface as a result of service operations. Don't rely on the model to provide
      * the instance of Api/Data/AddressInterface
      */
@@ -168,7 +168,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             }
         }
 
-        /** @var \Magento\Customer\Api\Data\RegionInterface $region */
+        /** @var RegionInterface $region */
         $region = $this->_regionBuilder
             ->populateWithArray(
                 array(
