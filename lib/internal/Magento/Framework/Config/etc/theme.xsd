@@ -18,7 +18,6 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="title" type="title"/>
-                <xs:element name="version" type="version"/>
                 <xs:element name="parent" type="parent_theme" minOccurs="0"/>
                 <xs:element name="media" type="media" minOccurs="0"/>
             </xs:sequence>
