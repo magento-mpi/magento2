@@ -48,15 +48,9 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Catalog\Model\Resource\Layer\Filter\Price', ['layer' => $layer]);
         $interval = Bootstrap::getObjectManager()
             ->create('Magento\CatalogSearch\Model\Price\Interval', ['resource' => $priceResource]);
-        $objectManager = $this->getMockBuilder('Magento\Framework\ObjectManager\ObjectManager')
-                ->setMethods(['create'])
-            ->disableOriginalConstructor()
-            ->getMock();
-        $objectManager->expects($this->once())->method('create')->willReturn($interval);
-        $intervalFactory = Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Search\Dynamic\IntervalFactory', ['objectManager' => $objectManager]);
+        /** @var \Magento\Framework\Search\Dynamic\Algorithm $model */
         $model = Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Search\Dynamic\Algorithm', ['intervalFactory' => $intervalFactory]);
+            ->create('Magento\Framework\Search\Dynamic\Algorithm');
 
         $layer->setCurrentCategory($categoryId);
         $collection = $layer->getProductCollection();
@@ -69,7 +63,7 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
             $collection->getSize()
         );
 
-        $items = $model->calculateSeparators();
+        $items = $model->calculateSeparators($interval);
         $this->assertEquals(array_keys($intervalItems), array_keys($items));
 
         for ($i = 0; $i < count($intervalItems); ++$i) {
@@ -79,10 +73,13 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($intervalItems[$i]['count'], $items[$i]['count']);
         }
 
-        // Algorythm should use less than 10M
+        // Algorithm should use less than 10M
         $this->assertLessThan(10 * 1024 * 1024, memory_get_usage() - $memoryUsedBefore);
     }
 
+    /**
+     * @return array
+     */
     public function pricesSegmentationDataProvider()
     {
         $testCases = include __DIR__ . '/_files/_algorithm_base_data.php';

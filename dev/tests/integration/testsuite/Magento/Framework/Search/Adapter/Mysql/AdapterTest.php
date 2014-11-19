@@ -156,7 +156,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         $this->requestBuilder->setRequestName('range_filter');
 
         $queryResponse = $this->executeQuery();
-        $this->assertEquals(2, $queryResponse->count());
+        $this->assertEquals(3, $queryResponse->count());
     }
 
     /**
@@ -174,7 +174,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
         $this->requestBuilder->setRequestName('range_filter_without_from_field');
 
         $queryResponse = $this->executeQuery();
-        $this->assertEquals(3, $queryResponse->count());
+        $this->assertEquals(4, $queryResponse->count());
     }
 
     /**

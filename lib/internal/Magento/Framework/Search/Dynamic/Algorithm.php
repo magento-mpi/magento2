@@ -7,8 +7,6 @@
  */
 namespace Magento\Framework\Search\Dynamic;
 
-use Magento\Framework\Search\Dynamic\IntervalInterface;
-
 /**
  * Algorithm for layer value filter
  *
@@ -115,19 +113,6 @@ class Algorithm
     protected $_lastValueLimiter = [null, 0];
 
     /**
-     * @var IntervalInterface
-     */
-    private $interval;
-
-    /**
-     * @param IntervalFactory $intervalFactory
-     */
-    public function __construct(IntervalFactory $intervalFactory)
-    {
-        $this->interval = $intervalFactory->create();
-    }
-
-    /**
      * Set lower and upper limit for algorithm
      *
      * @param null|float $lowerLimit
@@ -183,14 +168,13 @@ class Algorithm
      */
     public function calculateSeparators(IntervalInterface $interval)
     {
-        $this->interval = $interval;
         $result = [];
         $lastCount = 0;
         $intervalFirstValue = $this->_minValue;
         $lastSeparator = is_null($this->_lowerLimit) ? 0 : $this->_lowerLimit;
 
         for ($intervalNumber = 1; $intervalNumber < $this->getIntervalsNumber(); ++$intervalNumber) {
-            $separator = $this->_findValueSeparator($intervalNumber);
+            $separator = $this->_findValueSeparator($intervalNumber, $interval);
             if (empty($separator)) {
                 continue;
             }
@@ -275,9 +259,10 @@ class Algorithm
      * Find value separator for the quantile
      *
      * @param int $quantileNumber should be from 1 to n-1 where n is number of intervals
+     * @param IntervalInterface $interval
      * @return array|null
      */
-    protected function _findValueSeparator($quantileNumber)
+    protected function _findValueSeparator($quantileNumber, IntervalInterface $interval)
     {
         if ($quantileNumber < 1 || $quantileNumber >= $this->getIntervalsNumber()) {
             return null;
@@ -306,14 +291,14 @@ class Algorithm
         if ($intervalValuesCount >= 0) {
             $values = array_merge(
                 $values,
-                $this->interval->load($intervalValuesCount + 1, $offset, $lowerValue, $this->_upperLimit)
+                $interval->load($intervalValuesCount + 1, $offset, $lowerValue, $this->_upperLimit)
             );
         }
         $lastValue = $values[$intervalValuesCount - 1];
         $bestRoundValue = [];
         if ($lastValue == $values[0]) {
             if ($quantileNumber == 1 && $offset) {
-                $additionalValues = $this->interval->loadPrevious($lastValue, $quantileInterval[0], $this->_lowerLimit);
+                $additionalValues = $interval->loadPrevious($lastValue, $quantileInterval[0], $this->_lowerLimit);
                 if ($additionalValues) {
                     $quantileInterval[0] -= count($additionalValues);
                     $values = array_merge($additionalValues, $values);
@@ -329,7 +314,7 @@ class Algorithm
                 if ($values[$valuesCount - 1] > $lastValue) {
                     $additionalValues = [$values[$valuesCount - 1]];
                 } else {
-                    $additionalValues = $this->interval->loadNext(
+                    $additionalValues = $interval->loadNext(
                         $lastValue,
                         $this->_count - $quantileInterval[0] - count($values),
                         $this->_upperLimit
