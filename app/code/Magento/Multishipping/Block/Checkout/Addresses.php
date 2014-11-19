@@ -36,6 +36,11 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     private $_addressConfig;
 
     /**
+     * @var \Magento\Customer\Model\Address\Mapper
+     */
+    protected $mapper;
+
+    /**
      * Constructor
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -43,6 +48,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
+     * @param \Magento\Customer\Model\Address\Mapper $mapper
      * @param array $data
      */
     public function __construct(
@@ -51,12 +57,14 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
+        \Magento\Customer\Model\Address\Mapper $mapper,
         array $data = []
     ) {
         $this->_filterGridFactory = $filterGridFactory;
         $this->_multishipping = $multishipping;
         $this->customerRepository = $customerRepository;
         $this->_addressConfig = $addressConfig;
+        $this->mapper = $mapper;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -129,10 +137,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
             }
             /** @var \Magento\Customer\Api\Data\AddressInterface $address */
             foreach ($addresses as $address) {
-                $arrayData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray(
-                    $address,
-                    '\Magento\Customer\Api\Data\AddressInterface'
-                );
+                $arrayData = $this->mapper->toFlatArray($address);
                 $label = $this->_addressConfig
                     ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
                     ->getRenderer()

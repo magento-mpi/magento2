@@ -333,10 +333,17 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     public function getCustomerName()
     {
         $customer = $this->_getCurrentCustomer();
-        if ($customer && $customer->getFirstname()) {
-            return $customer->getFirstname();
+        $result = null;
+        if ($customer) {
+            if ($customer->getFirstname()) {
+                $result = $customer->getFirstname();
+                if ($customer->getLastname()) {
+                    $result .= ' ' . $customer->getLastname();
+                }
+            }
         }
-        return null;
+
+        return $result;
     }
 
     /**
