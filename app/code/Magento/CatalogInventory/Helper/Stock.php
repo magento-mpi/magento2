@@ -10,7 +10,7 @@ namespace Magento\CatalogInventory\Helper;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\App\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class Stock
@@ -50,13 +50,13 @@ class Stock
      * @param StockRegistryInterface $stockRegistry
      * @param StoreManagerInterface $storeManager
      * @param ScopeConfigInterface $scopeConfig
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
         StockRegistryInterface $stockRegistry,
         StoreManagerInterface $storeManager,
         ScopeConfigInterface $scopeConfig,
-        ObjectManager $objectManager
+        ObjectManagerInterface $objectManager
     ) {
         $this->stockRegistry = $stockRegistry;
         $this->storeManager = $storeManager;

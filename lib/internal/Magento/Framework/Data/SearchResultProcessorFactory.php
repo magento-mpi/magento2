@@ -17,18 +17,17 @@ class SearchResultProcessorFactory
     /**
      * Object Manager instance
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
      * Factory constructor
      *
-     * @param \Magento\Framework\ObjectManager $objectManager
-     * @param string $instanceName
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager
+        \Magento\Framework\ObjectManagerInterface $objectManager
     ) {
         $this->objectManager = $objectManager;
     }
