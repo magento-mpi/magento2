@@ -28,10 +28,11 @@ interface ProductRepositoryInterface
      *
      * @param string $productSku
      * @param bool $editMode
+     * @param null|int $storeId
      * @return \Magento\Catalog\Api\Data\ProductInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function get($productSku, $editMode = false);
+    public function get($productSku, $editMode = false, $storeId = null);
 
     /**
      * Get info about product by product id
