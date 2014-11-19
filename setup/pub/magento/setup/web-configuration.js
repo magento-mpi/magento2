@@ -10,7 +10,6 @@ angular.module('web-configuration', ['ngStorage'])
     .controller('webConfigurationController', ['$scope', '$state', '$localStorage', function ($scope, $state, $localStorage) {
         $scope.config = {
             address: {
-                web: 'http://www.example.com/',
                 admin: 'admin'
             },
             https: {

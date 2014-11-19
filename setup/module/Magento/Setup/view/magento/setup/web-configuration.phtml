@@ -9,10 +9,9 @@
 <?php
 $hints = [
     'address_web' => sprintf(
-        '<div><p>%s</p><p>%s</p><p><a href=\'#\'>%s</a></p></div>',
+        '<div><p>%s</p><p>%s</p></div>',
         'Enter the base URL that brings shoppers to your store (Ex. http://example.com/).',
-        'We recommend not using your actual IP address when your store goes live, otherwise all your shoppers will see it.',
-        'Detect IP Address'
+        'We recommend not using your actual IP address when your store goes live, otherwise all your shoppers will see it.'
     ),
     'encrypt_key' => sprintf(
         '<p>%s</p>',
@@ -20,7 +19,6 @@ $hints = [
     ),
 ];
 ?>
-
 <div class="step-controls">
     <a href="#" class="btn btn-primary" ng-click="previousState()">Previous</a>
     <a href="#" class="btn btn-primary" ng-click="nextState()">Next</a>
@@ -38,11 +36,12 @@ $hints = [
                    name="web"
                    ng-model="config.address.web"
                    class="form-control"
-                   ng-focus=""
+                   ng-init="config.address.web = '<?php echo $this->baseUrl?>'"
                    tooltip-placement="right"
                    tooltip-html-unsafe="<?php echo $hints['address_web']; ?>"
                    tooltip-trigger="focus"
                    tooltip-append-to-body="true"
+
                    required />
         </div>
         <div class="col-md-offset-3 col-md-4" ng-show="webconfig.web.$invalid && webconfig.submitted">

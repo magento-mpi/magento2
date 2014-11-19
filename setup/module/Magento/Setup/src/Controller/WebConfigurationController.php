@@ -31,7 +31,7 @@ class WebConfigurationController extends AbstractActionController
     public function indexAction()
     {
         $this->view->setTerminal(true);
-
+        $this->view->setVariable('baseUrl', str_replace("setup/","", $_SERVER['HTTP_REFERER']));
         return $this->view;
     }
 }
