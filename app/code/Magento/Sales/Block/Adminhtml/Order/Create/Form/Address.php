@@ -72,28 +72,9 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     protected $filterBuilder;
 
     /**
-     * Get config
-     *
-     * @param string $path
-     * @return string|null
+     * @var \Magento\Customer\Model\Address\Mapper
      */
-    public function getConfig($path)
-    {
-        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * Retrieve current customer address DATA collection.
-     *
-     * @return \Magento\Customer\Service\V1\Data\Address[]
-     */
-    public function getAddressCollection()
-    {
-        if ($this->getCustomerId()) {
-            return $this->_addressService->getAddresses($this->getCustomerId());
-        }
-        return array();
-    }
+    protected $mapper;
 
     /**
      * Constructor
@@ -112,9 +93,11 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
+     * @param \Magento\Customer\Model\Address\Mapper $mapper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @internal param \Magento\Framework\Api\ExtensibleDataObjectConverter $convertor
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
@@ -131,7 +114,8 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Customer\Api\AddressRepositoryInterface $addressService,
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        array $data = array()
+        \Magento\Customer\Model\Address\Mapper $mapper,
+        array $data = []
     ) {
         $this->_customerHelper = $customerHelper;
         $this->_coreData = $coreData;
@@ -141,6 +125,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $this->addressService = $addressService;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->filterBuilder = $filterBuilder;
+        $this->mapper = $mapper;
         parent::__construct(
             $context,
             $sessionQuote,
@@ -150,6 +135,38 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
             $simpleDataObjectConverter,
             $data
         );
+    }
+
+    /**
+     * Get config
+     *
+     * @param string $path
+     * @return string|null
+     */
+    public function getConfig($path)
+    {
+        return $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Retrieve current customer address DATA collection.
+     *
+     * @return \Magento\Customer\Api\Data\AddressInterface[]
+     */
+    public function getAddressCollection()
+    {
+        if ($this->getCustomerId()) {
+            $filter = $this->filterBuilder
+                ->setField('parent_id')
+                ->setValue($this->getCustomerId())
+                ->setConditionType('eq')
+                ->create();
+            $this->criteriaBuilder->addFilter([$filter]);
+            $criteria = $this->criteriaBuilder->create();
+            $result = $this->addressService->getList($criteria);
+            return $result->getItems();
+        }
+        return [];
     }
 
     /**
@@ -170,7 +187,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
             $addressForm = $this->_customerFormFactory->create(
                 'customer_address',
                 'adminhtml_customer_address',
-                \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($address)
+                $this->mapper->toFlatArray($address)
             );
             $data[$address->getId()] = $addressForm->outputData(
                 \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
@@ -297,9 +314,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $formatTypeRenderer = $this->_addressHelper->getFormatTypeRenderer('oneline');
         $result = '';
         if ($formatTypeRenderer) {
-            $result = $formatTypeRenderer->renderArray(
-                \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($address)
-            );
+            $result = $formatTypeRenderer->renderArray($this->mapper->toFlatArray($address));
         }
 
         return $this->escapeHtml($result);
