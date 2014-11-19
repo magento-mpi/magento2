@@ -28,8 +28,7 @@ class Data extends \Magento\Core\Helper\Data
      * Configuration key to installation date
      */
     const PARAM_INSTALL_DATE = 'install/date';
-
-
+    
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
