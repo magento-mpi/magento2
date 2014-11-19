@@ -11,7 +11,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
+use Magento\Customer\Api\Data\AttributeMetadataDataBuilder;
 use Magento\Customer\Api\Data\OptionDataBuilder;
 use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
 
@@ -54,11 +54,11 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $form = $formFactory->create();
         $fieldset = $form->addFieldset('test_fieldset', array());
         $attributeBuilder = $objectManager->create(
-            '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder',
+            '\Magento\Customer\Api\Data\AttributeMetadataDataBuilder',
             [
-                'optionBuilder' => $objectManager->create('Magento\Customer\Service\V1\Data\Eav\OptionBuilder'),
+                'optionBuilder' => $objectManager->create('Magento\Customer\Api\Data\OptionBuilder'),
                 'validationRuleBuilder' => $objectManager->create(
-                    'Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder'
+                    'Magento\Customer\Api\Data\ValidationRuleDataBuilder'
                 ),
             ]
         );

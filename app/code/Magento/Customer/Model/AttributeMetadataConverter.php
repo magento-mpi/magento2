@@ -7,9 +7,9 @@
  */
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Api\Data\AttributeMetadataBuilder;
+use Magento\Customer\Api\Data\AttributeMetadataDataBuilder;
 use Magento\Customer\Api\Data\OptionDataBuilder;
-use Magento\Customer\Api\Data\ValidationRuleBuilder;
+use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
 
 /**
  * Converter for AttributeMetadata
@@ -22,12 +22,12 @@ class AttributeMetadataConverter
     private $_optionBuilder;
 
     /**
-     * @var ValidationRuleBuilder
+     * @var ValidationRuleDataBuilder
      */
     private $_validationRuleBuilder;
 
     /**
-     * @var AttributeMetadataBuilder
+     * @var AttributeMetadataDataBuilder
      */
     private $_attributeMetadataBuilder;
 
@@ -35,13 +35,13 @@ class AttributeMetadataConverter
      * Initialize the Converter
      *
      * @param OptionDataBuilder $optionBuilder
-     * @param ValidationRuleBuilder $validationRuleBuilder
-     * @param AttributeMetadataBuilder $attributeMetadataBuilder
+     * @param ValidationRuleDataBuilder $validationRuleBuilder
+     * @param AttributeMetadataDataBuilder $attributeMetadataBuilder
      */
     public function __construct(
         OptionDataBuilder $optionBuilder,
-        ValidationRuleBuilder $validationRuleBuilder,
-        AttributeMetadataBuilder $attributeMetadataBuilder
+        ValidationRuleDataBuilder $validationRuleBuilder,
+        AttributeMetadataDataBuilder $attributeMetadataBuilder
     ) {
         $this->_optionBuilder = $optionBuilder;
         $this->_validationRuleBuilder = $validationRuleBuilder;
