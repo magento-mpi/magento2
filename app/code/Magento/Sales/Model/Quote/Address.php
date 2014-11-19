@@ -470,13 +470,14 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_address',
             'to_quote_address',
-            $address,
+            $this->dataObjectConverter->toFlatArray($address),
             $this
         );
         $region = $this->getRegion();
-        if (isset($region['region_id']) && isset($region['region'])) {
-            $this->setRegionId($region['region_id']);
-            $this->setRegion($region['region']);
+        $regionId = $this->getRegionId();
+        if (isset($regionId) && isset($region)) {
+            $this->setRegionId($regionId);
+            $this->setRegion($region);
         }
         $quote = $this->getQuote();
         if ($address->getCustomerId() && (!empty($quote) && $address->getCustomerId() == $quote->getCustomerId())) {
@@ -625,9 +626,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
                  * For virtual quote we assign items only to billing address, otherwise - only to shipping address
                  */
                 $addressType = $this->getAddressType();
-                $canAddItems = $this->getQuote()->isVirtual() ? $addressType ==
-                    self::TYPE_BILLING : $addressType ==
-                    self::TYPE_SHIPPING;
+                $canAddItems = $this->getQuote()->isVirtual()
+                    ? $addressType == self::TYPE_BILLING
+                    : $addressType == self::TYPE_SHIPPING;
 
                 if ($canAddItems) {
                     foreach ($quoteItems as $qItem) {
