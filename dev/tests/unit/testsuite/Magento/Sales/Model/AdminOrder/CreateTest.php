@@ -97,9 +97,6 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->customerBuilderMock = $this->getMock(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
-            ['mergeDataObjectWithArray', 'populateWithArray', 'create'],
-            array(),
             'Magento\Customer\Api\Data\CustomerInterfaceBuilder',
             ['mergeDataObjectWithArray', 'populateWithArray', 'create'],
             [],
@@ -107,7 +104,6 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             false
         );
         $customerHelperMock = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
-        $this->customerGroupServiceMock = $this->getMock('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
         $this->itemUpdater = $this->getMock('Magento\Sales\Model\Quote\Item\Updater', [], [], '', false);
 
