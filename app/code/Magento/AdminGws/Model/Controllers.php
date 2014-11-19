@@ -26,7 +26,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     protected $_isForwarded = false;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -85,7 +85,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\Framework\App\ActionFlag $actionFlag
@@ -101,7 +101,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
         \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\Framework\App\ActionFlag $actionFlag,

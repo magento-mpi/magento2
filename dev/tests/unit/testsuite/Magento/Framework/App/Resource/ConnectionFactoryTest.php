@@ -15,7 +15,7 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManager;
 
@@ -26,13 +26,7 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->objectManager = $this->getMock(
-            '\Magento\Framework\ObjectManager',
-            [],
-            [],
-            '',
-            false
-        );
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->localConfig = $this->getMock(
             '\Magento\Framework\App\Arguments',
             [],

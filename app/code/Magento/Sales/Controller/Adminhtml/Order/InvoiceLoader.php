@@ -13,7 +13,7 @@ use Magento\Framework\App\RequestInterface;
 class InvoiceLoader
 {
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -43,12 +43,12 @@ class InvoiceLoader
     protected $invoiceItems;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Message\ManagerInterface $messageManager
     ) {
