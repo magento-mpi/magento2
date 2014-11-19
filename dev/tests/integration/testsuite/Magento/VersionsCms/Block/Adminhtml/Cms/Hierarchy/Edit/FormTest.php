@@ -49,4 +49,90 @@ class FormTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals($pageGrid->getJsObjectName(), $this->_block->getGridJsObject());
     }
+
+    /**
+     * @param int $isMetadataEnabled
+     * @param bool $result
+     *
+     * @dataProvider prepareFormDataProvider
+     */
+    public function testPrepareForm($isMetadataEnabled, $result)
+    {
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\Backend\Block\Template\Context'
+        );
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\Framework\Registry'
+        );
+        $formFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\Framework\Data\FormFactory'
+        );
+        $jsonEncoder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\Framework\Json\EncoderInterface'
+        );
+        $sourceYesno = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\Backend\Model\Config\Source\Yesno'
+        );
+        $menuListmode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\VersionsCms\Model\Source\Hierarchy\Menu\Listmode'
+        );
+        $menuListtype = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\VersionsCms\Model\Source\Hierarchy\Menu\Listtype'
+        );
+        $menuChapter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\VersionsCms\Model\Source\Hierarchy\Menu\Chapter'
+        );
+        $hierarchyVisibility = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\VersionsCms\Model\Source\Hierarchy\Visibility'
+        );
+        $menuLayout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\VersionsCms\Model\Source\Hierarchy\Menu\Layout'
+        );
+        $hierarchyLock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\VersionsCms\Model\Hierarchy\Lock'
+        );
+
+        $cmsHierarchyMock = $this->getMockBuilder('\Magento\VersionsCms\Helper\Hierarchy')
+            ->setMethods(array('isMetadataEnabled'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $cmsHierarchyMock->expects($this->any())
+            ->method('isMetadataEnabled')
+            ->will($this->returnValue($isMetadataEnabled));
+        $block = new \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form(
+            $context,
+            $registry,
+            $formFactory,
+            $jsonEncoder,
+            $cmsHierarchyMock,
+            $sourceYesno,
+            $menuListmode,
+            $menuListtype,
+            $menuChapter,
+            $hierarchyVisibility,
+            $menuLayout,
+            $hierarchyLock
+        );
+        $prepareFormMethod = new \ReflectionMethod(
+            'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form',
+            '_prepareForm'
+        );
+        $prepareFormMethod->setAccessible(true);
+        $prepareFormMethod->invoke($block);
+        $form = $block->getForm();
+        $this->assertEquals($result, is_null($form->getElement('top_menu_fieldset')));
+    }
+
+    /**
+     * Data provider for testPrepareForm
+     *
+     * @return array
+     */
+    public function prepareFormDataProvider()
+    {
+        return array(
+            array(1, false),
+            array(0, true)
+        );
+    }
 }
