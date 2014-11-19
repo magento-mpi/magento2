@@ -55,9 +55,8 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $this->scopeConfigMock = $this->getMockBuilder('Magento\Framework\App\Config\ScopeConfigInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->objectManagerMock = $this->getMockBuilder('Magento\Framework\ObjectManager')
+        $this->objectManagerMock = $this->getMockBuilder('Magento\Framework\App\ObjectManager')
             ->disableOriginalConstructor()
-            ->setMethods(['get'])
             ->getMock();
         $this->stock = new Stock(
             $this->stockRegistryMock,

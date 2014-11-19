@@ -10,7 +10,7 @@ namespace Magento\CatalogInventory\Helper;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\ObjectManager;
+use Magento\Framework\App\ObjectManager;
 
 /**
  * Class Stock
