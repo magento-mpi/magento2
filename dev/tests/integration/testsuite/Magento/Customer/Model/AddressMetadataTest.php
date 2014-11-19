@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Customer\Service\V1;
+namespace Magento\Customer\Model;
 
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
