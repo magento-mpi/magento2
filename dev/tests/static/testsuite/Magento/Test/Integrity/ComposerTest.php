@@ -148,7 +148,6 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                 $this->assertDependsOnPhp($json->require);
                 $this->assertDependsOnFramework($json->require);
                 $this->assertDependsOnInstaller($json->require);
-                $this->assertModuleDependenciesInSync($xml, $json->require);
                 break;
             case 'magento2-language':
                 $this->assertRegExp('/^magento\/language\-[a-z]{2}_[a-z]{2}$/', $json->name);
@@ -278,44 +277,6 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             $json,
             'This component is expected to depend on magento/magento-composer-installer'
         );
-    }
-
-    /**
-     * Assert that references to module dependencies in module.xml and composer.json are not out of sync
-     *
-     * @param \SimpleXMLElement $xml
-     * @param \StdClass $json
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    private function assertModuleDependenciesInSync(\SimpleXMLElement $xml, \StdClass $json)
-    {
-        $packages = [];
-        if (empty($xml->module->depends)) {
-            return;
-        }
-        /** @var \SimpleXMLElement $node */
-        foreach ($xml->module->depends->children() as $node) {
-            if ('module' === $node->getName()) {
-                $moduleName = (string)$node['name'];
-                $packages[$moduleName] = $this->convertModuleToPackageName($moduleName);
-            }
-        }
-        foreach ($packages as $package) {
-            $this->assertObjectHasAttribute(
-                $package,
-                $json,
-                "Dependency on the component {$package} is found at the etc/module.xml, but missing in composer.json"
-            );
-        }
-        foreach (array_keys((array) $json) as $key) {
-            if (0 === strpos($key, 'magento/module-', 0)) {
-                $this->assertContains(
-                    $key,
-                    $packages,
-                    "Dependency on the component {$key} is found at the composer.json, but missing in etc/module.xml"
-                );
-            }
-        }
     }
 
     /**
