@@ -10,7 +10,7 @@ namespace Magento\Tax\Service\V1\Data;
 
 class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Framework\ObjectManager */
+    /** @var \Magento\Framework\ObjectManagerInterface */
     private $objectManager;
 
     /** @var QuoteDetailsBuilder */
@@ -82,7 +82,8 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         $taxRate = $this->builder->populateWithArray($data['dataMerged'])->create();
         $taxRate1 = $this->builder->populateWithArray($data['data1'])->create();
         $taxRate2 = $this->builder->populateWithArray($data['data2'])->create();
-        $taxRateMerged = $this->builder->mergeDataObjects($taxRate1, $taxRate2);
+        $taxRateMerged = $this->builder->mergeDataObjects($taxRate1, $taxRate2)
+            ->create();
         $this->assertEquals($taxRate->__toArray(), $taxRateMerged->__toArray());
     }
 
@@ -92,7 +93,8 @@ class QuoteDetailsBuilderTest extends \PHPUnit_Framework_TestCase
 
         $taxRate = $this->builder->populateWithArray($data['dataMerged'])->create();
         $taxRate1 = $this->builder->populateWithArray($data['data1'])->create();
-        $taxRateMerged = $this->builder->mergeDataObjectWithArray($taxRate1, $data['data2']);
+        $taxRateMerged = $this->builder->mergeDataObjectWithArray($taxRate1, $data['data2'])
+            ->create();
         $this->assertEquals($taxRate->__toArray(), $taxRateMerged->__toArray());
     }
 

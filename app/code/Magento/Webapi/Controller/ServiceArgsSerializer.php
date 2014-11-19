@@ -9,11 +9,11 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\Framework\ObjectManager;
-use Magento\Framework\ObjectManager\Config as ObjectManagerConfig;
+use Magento\Framework\ObjectManagerInterface;
+use Magento\Framework\ObjectManager\ConfigInterface as ObjectManagerConfig;
 use Magento\Framework\Api\Config\Reader as ServiceConfigReader;
 use Magento\Framework\Api\AttributeValue;
-use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Reflection\TypeProcessor;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
@@ -39,7 +39,7 @@ class ServiceArgsSerializer
     /** @var ServiceConfigReader */
     protected $serviceConfigReader;
 
-    /** @var AttributeValueBuilder */
+    /** @var AttributeDataBuilder */
     protected $attributeValueBuilder;
 
     /**
@@ -48,13 +48,13 @@ class ServiceArgsSerializer
      * @param TypeProcessor $typeProcessor
      * @param DataBuilderFactory $builderFactory
      * @param ServiceConfigReader $serviceConfigReader
-     * @param AttributeValueBuilder $attributeValueBuilder
+     * @param AttributeDataBuilder $attributeValueBuilder
      */
     public function __construct(
         TypeProcessor $typeProcessor,
         DataBuilderFactory $builderFactory,
         ServiceConfigReader $serviceConfigReader,
-        AttributeValueBuilder $attributeValueBuilder
+        AttributeDataBuilder $attributeValueBuilder
     ) {
         $this->typeProcessor = $typeProcessor;
         $this->builderFactory = $builderFactory;

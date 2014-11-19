@@ -20,7 +20,7 @@ class FilterList
     /**
      * Filter factory
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -45,12 +45,12 @@ class FilterList
     protected $filters = array();
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param FilterableAttributeListInterface $filterableAttributes
      * @param array $filters
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         FilterableAttributeListInterface $filterableAttributes,
         array $filters = array()
     ) {
