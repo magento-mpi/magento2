@@ -115,10 +115,12 @@ class Engine extends AbstractDb implements EngineInterface
      */
     public function saveEntityIndex($entityId, $storeId, $index, $entity = 'product')
     {
-        $this->_getWriteAdapter()->insert(
-            $this->getMainTable(),
-            array('product_id' => $entityId, 'store_id' => $storeId, 'data_index' => $index)
-        );
+        $this->_getWriteAdapter()
+            ->insert(
+                $this->getMainTable(),
+                ['product_id' => $entityId, 'store_id' => $storeId, 'data_index' => $index]
+            );
+
         return $this;
     }
 
@@ -132,14 +134,14 @@ class Engine extends AbstractDb implements EngineInterface
      */
     public function saveEntityIndexes($storeId, $entityIndexes, $entity = 'product')
     {
-        $data = array();
+        $data = [];
         $storeId = (int)$storeId;
         foreach ($entityIndexes as $entityId => $index) {
-            $data[] = array('product_id' => (int)$entityId, 'store_id' => $storeId, 'data_index' => $index);
+            $data[] = ['product_id' => (int)$entityId, 'store_id' => $storeId, 'data_index' => $index];
         }
 
         if ($data) {
-            $this->_resourceHelper->insertOnDuplicate($this->getMainTable(), $data, array('data_index'));
+            $this->_resourceHelper->insertOnDuplicate($this->getMainTable(), $data, ['data_index']);
         }
 
         return $this;
@@ -176,7 +178,7 @@ class Engine extends AbstractDb implements EngineInterface
         return ($attribute->getIsVisibleInAdvancedSearch()
             || $attribute->getIsFilterable()
             || $attribute->getIsFilterableInSearch())
-            && in_array($attribute->getFrontendInput(), ['select', 'multiselect']);
+        && in_array($attribute->getFrontendInput(), ['select', 'multiselect']);
     }
 
     /**
@@ -200,7 +202,8 @@ class Engine extends AbstractDb implements EngineInterface
             $valueMapper = function ($value) use ($attribute) {
                 return Engine::ATTRIBUTE_PREFIX . $attribute->getAttributeCode() . '_' . $value;
             };
-            return implode (' ', array_map($valueMapper, $value));
+
+            return implode(' ', array_map($valueMapper, $value));
         }
     }
 
@@ -214,16 +217,19 @@ class Engine extends AbstractDb implements EngineInterface
      */
     public function cleanIndex($storeId = null, $entityId = null, $entity = 'product')
     {
-        $where = array();
+        $where = [];
 
         if (!is_null($storeId)) {
-            $where[] = $this->_getWriteAdapter()->quoteInto('store_id=?', $storeId);
+            $where[] = $this->_getWriteAdapter()
+                ->quoteInto('store_id=?', $storeId);
         }
         if (!is_null($entityId)) {
-            $where[] = $this->_getWriteAdapter()->quoteInto('product_id IN (?)', $entityId);
+            $where[] = $this->_getWriteAdapter()
+                ->quoteInto('product_id IN (?)', $entityId);
         }
 
-        $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
+        $this->_getWriteAdapter()
+            ->delete($this->getMainTable(), $where);
 
         return $this;
     }
