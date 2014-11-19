@@ -9,7 +9,7 @@ namespace Magento\TestModuleMSC\Model;
 
 use Magento\TestModuleMSC\Api\Data\CustomAttributeDataObjectDataBuilder;
 use Magento\TestModuleMSC\Api\Data\ItemDataBuilder;
-use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 class AllSoapAndRest implements \Magento\TestModuleMSC\Api\AllSoapAndRestInterface
 {

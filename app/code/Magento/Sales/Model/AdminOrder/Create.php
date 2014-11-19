@@ -112,7 +112,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $_salesConfig;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -192,7 +192,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $objectFactory;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Sales\Model\Config $salesConfig
@@ -216,7 +216,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Sales\Model\Config $salesConfig,
@@ -1477,7 +1477,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $request = $form->prepareRequest($accountData);
         $data = $form->extractData($request);
         $data = $form->restoreData($data);
-        $customer = $this->_customerBuilder->mergeDataObjectWithArray($customer, $data);
+        $customer = $this->_customerBuilder->mergeDataObjectWithArray($customer, $data)
+            ->create();
         $this->getQuote()->updateCustomerData($customer);
         $data = array();
 
@@ -1588,7 +1589,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                 unset($data[$key]);
             }
         }
-        return $this->_customerBuilder->mergeDataObjectWithArray($customerDataObject, $data);
+        return $this->_customerBuilder->mergeDataObjectWithArray($customerDataObject, $data)
+            ->create();
     }
 
     /**
@@ -1686,7 +1688,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $customerAddressDataObject = $this->_customerAddressBuilder->mergeDataObjects(
                 $existingAddressDataObject,
                 $customerAddressDataObject
-            );
+            )->create();
         } elseif ($addressType == CustomerAddressDataObject::ADDRESS_TYPE_SHIPPING) {
             try {
                 $billingAddressDataObject = $this->_customerAddressService->getDefaultBillingAddress($customerId);
