@@ -11,7 +11,7 @@
  */
 namespace Magento\Framework\Authorization;
 
-interface RoleLocator
+interface RoleLocatorInterface
 {
     /**
      * Retrieve current role

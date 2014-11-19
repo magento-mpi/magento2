@@ -58,7 +58,7 @@ class AddCommentTest extends \PHPUnit_Framework_TestCase
     protected $viewInterfaceMock;
 
     /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManagerMock;
 
@@ -126,13 +126,7 @@ class AddCommentTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->objectManagerMock = $this->getMock(
-            'Magento\Framework\ObjectManager',
-            ['create', 'get', 'configure', '__wakeup'],
-            [],
-            '',
-            false
-        );
+        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
 
         $contextMock = $this->getMock(
             'Magento\Backend\App\Action\Context',

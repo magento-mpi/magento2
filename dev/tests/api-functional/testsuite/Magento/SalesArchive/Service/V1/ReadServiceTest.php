@@ -26,7 +26,7 @@ class ReadServiceTest extends WebapiAbstract
     /**
      * Object Manager
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     private $objectManager;
 

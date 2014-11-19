@@ -15,7 +15,7 @@ class Factory
     /**
      * Object manager
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -27,11 +27,11 @@ class Factory
     protected $_solrState;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Solr\Model\Solr\State $solrState
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Solr\Model\Solr\State $solrState
     ) {
         $this->_objectManager = $objectManager;
