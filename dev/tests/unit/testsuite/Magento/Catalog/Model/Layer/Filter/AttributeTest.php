@@ -215,42 +215,10 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $attributeCode = 'attributeCode';
         $attributeValue = 'attributeValue';
         $attributeLabel = 'attributeLabel';
-        $selectedOptions = [
-            [
-                'label' => 'selectedOptionLabel1',
-                'value' => 'selectedOptionValue1',
-                'count' => 25,
-            ],
-            [
-                'label' => 'selectedOptionLabel2',
-                'value' => 'selectedOptionValue2',
-                'count' => 13,
-            ],
-        ];
-        $facetedData = [
-            'selectedOptionValue1' => ['count' => 10],
-            'selectedOptionValue2' => ['count' => 45],
-        ];
 
-        $builtData = [
-            [
-                'label' => $selectedOptions[0]['label'],
-                'value' => $selectedOptions[0]['value'],
-                'count' => $facetedData[$selectedOptions[0]['value']]['count'],
-            ],
-            [
-                'label' => $selectedOptions[1]['label'],
-                'value' => $selectedOptions[1]['value'],
-                'count' => $facetedData[$selectedOptions[1]['value']]['count'],
-            ]
-        ];
-
-        $this->attribute->expects($this->any())
+        $this->attribute->expects($this->once())
             ->method('getAttributeCode')
             ->will($this->returnValue($attributeCode));
-        $this->attribute->expects($this->exactly(count($selectedOptions)))
-            ->method('getIsFilterable')
-            ->will($this->returnValue(true));
 
         $this->target->setAttributeModel($this->attribute);
 
@@ -263,9 +231,6 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ->method('getOption')
             ->with($attributeValue)
             ->will($this->returnValue($attributeLabel));
-        $this->frontend->expects($this->once())
-            ->method('getSelectOptions')
-            ->will($this->returnValue($selectedOptions));
 
         $filterItem = $this->createFilterItem(0, $attributeLabel, $attributeValue, 0);
 
@@ -274,24 +239,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ->with($filterItem)
             ->will($this->returnSelf());
 
-        $this->itemDataBuilder->expects($this->exactly(2))
-            ->method('addItemData')
-            ->will($this->returnSelf());
-        $this->itemDataBuilder->expects($this->once())
-            ->method('build')
-            ->will($this->returnValue($builtData));
-
-        $expectedFilterItems = [
-            $this->createFilterItem(1, $builtData[0]['label'], $builtData[0]['value'], $builtData[0]['count']),
-            $this->createFilterItem(2, $builtData[1]['label'], $builtData[1]['value'], $builtData[1]['count']),
-        ];
-
-        $this->filterAttribute->expects($this->any())
-            ->method('getCount')
-            ->will($this->returnValue([
-                        $builtData[0]['value'] => $builtData[0]['count'],
-                        $builtData[1]['value'] => $builtData[1]['count'],
-                    ]));
+        $expectedFilterItems = [];
 
         $result = $this->target->apply($this->request)->getItems();
 
