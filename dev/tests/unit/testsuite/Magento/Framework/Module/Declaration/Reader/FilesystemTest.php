@@ -62,15 +62,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
                     )
                 )
             ),
-            'Module_Four' => array(
-                'name' => 'Module_Four',
-                'schema_version' => '1.0.0.0',
-                'active' => true,
-                'dependencies' => array(
-                    'modules' => array('Module_One'),
-                    'extensions' => array('strict' => array(), 'alternatives' => array())
-                )
-            ),
             'Module_Three' => array(
                 'name' => 'Module_Three',
                 'schema_version' => '1.0.0.0',

@@ -43,10 +43,9 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
                 'module.xml',
                 'global',
                 array(
-                    file_get_contents(__DIR__ . '/FileResolver/_files/app/code/Module/Four/etc/module.xml'),
-                    file_get_contents(__DIR__ . '/FileResolver/_files/app/code/Module/One/etc/module.xml'),
-                    file_get_contents(__DIR__ . '/FileResolver/_files/app/code/Module/Three/etc/module.xml'),
-                    file_get_contents(__DIR__ . '/FileResolver/_files/app/code/Module/Two/etc/module.xml'),
+                    file_get_contents(__DIR__ . '/FileResolver/_files/app/code/Modules/Module1/etc/module.xml'),
+                    file_get_contents(__DIR__ . '/FileResolver/_files/app/code/Modules/Module2/etc/module.xml'),
+                    file_get_contents(__DIR__ . '/FileResolver/_files/app/code/Modules/Module3/etc/module.xml'),
                     file_get_contents(__DIR__ . '/FileResolver/_files/app/etc/custom/module.xml')
                 )
             )
