@@ -144,10 +144,9 @@ abstract class AbstractAdvancedCheckoutEntityTest extends Injectable
      */
     protected function loginCustomer(CustomerInjectable $customer)
     {
-        $loginCustomerOnFrontendStep = $this->objectManager->create(
+        $this->objectManager->create(
             'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
             ['customer' => $customer]
-        );
-        $loginCustomerOnFrontendStep->run();
+        )->run();
     }
 }

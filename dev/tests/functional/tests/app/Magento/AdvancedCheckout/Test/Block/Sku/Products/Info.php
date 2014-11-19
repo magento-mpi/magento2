@@ -28,7 +28,7 @@ class Info extends Block
      *
      * @var string
      */
-    protected $optionsLink = 'a.configure-popup';
+    protected $optionsLink = '.action.configure';
 
     /**
      * Tier price message selector

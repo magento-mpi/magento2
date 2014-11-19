@@ -63,7 +63,7 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
         $data['variations-matrix'] = $this->prepareVariationsMatrix($product);
         $data['attributes'] = $this->prepareAttributes($configurableAttributesData);
         $data['new-variations-attribute-set-id'] = $attributeSetId;
-        $data['associated_product_ids'] = [];
+        $data['associated_product_ids'] = $this->prepareAssociatedProductIds($configurableAttributesData);
 
         return $this->replaceMappingData($data);
     }
@@ -161,5 +161,22 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
             $ids[] = $attribute->getAttributeId();
         }
         return $ids;
+    }
+
+    /**
+     * Prepare associated product ids
+     *
+     * @param ConfigurableAttributesData $configurableAttributesData
+     * @return array
+     */
+    protected function prepareAssociatedProductIds(ConfigurableAttributesData $configurableAttributesData)
+    {
+        $productIds = [];
+
+        foreach ($configurableAttributesData->getProducts() as $product) {
+            $productIds[] = $product->getId();
+        }
+
+        return $productIds;
     }
 }

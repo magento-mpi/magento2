@@ -620,6 +620,11 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $attributes = [
+        'attribute_code' => 'attributes',
+        'backend_type' => 'virtual',
+    ];
+
     public function getCategoryIds()
     {
         return $this->getData('category_ids');
@@ -943,5 +948,10 @@ class CatalogProductSimple extends InjectableFixture
     public function getIsVirtual()
     {
         return $this->getData('is_virtual');
+    }
+
+    public function getAttributes()
+    {
+        return $this->getData('attributes');
     }
 }
