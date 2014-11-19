@@ -234,18 +234,20 @@ class AbstractStructure extends AbstractView
             ]
         );
 
-        $fields = $meta->getFields();
-        uasort($fields, [$this, 'sortChildren']);
-        foreach ($fields as $key => $value) {
-            if (isset($value['visible']) && $value['visible'] === 'false') {
+        $elements = $meta->getFields();
+        uasort($elements, [$this, 'sortChildren']);
+        foreach ($elements as $name => $element) {
+            if (isset($element['visible']) && $element['visible'] === 'false') {
                 continue;
             }
-            if ($key != Metadata::CHILD_DATA_SOURCES) {
-                $this->addElement($dataSource, $key, $dataSource . '.' . $key, $value);
+            if ($name != Metadata::CHILD_DATA_SOURCES) {
+                $collection = & $this->structure['elements'];
+                $this->addElementToCollection($collection, $name, "{$dataSource}.{$name}", $element);
+
+                $referenceName = "{$this->ns}.elements.{$name}";
+                $this->addElementToGroup($dataSource, $name, $referenceName, $element);
             }
         }
-
-
 
         $this->addToArea($dataSource, $referenceGroupName);
 
@@ -311,58 +313,13 @@ class AbstractStructure extends AbstractView
             ]
         ];
 
-        $fields = $childMeta->getFields();
-        uasort($fields, [$this, 'sortChildren']);
-        foreach ($fields as $key => $value) {
-            if (isset($value['visible']) && $value['visible'] === 'false') {
+        $elements = $childMeta->getFields();
+        uasort($elements, [$this, 'sortChildren']);
+        foreach ($elements as $name => $element) {
+            if (isset($element['visible']) && $element['visible'] === 'false') {
                 continue;
             }
-
-            $itemTemplate['children'][$key] = [
-                'config' => [
-                    'displayArea' => $value['displayArea']
-                ]
-            ];
-
-            if (isset($value['size'])) {
-                $itemTemplate['children'][$key]['dataScope'] = $key;
-            }
-
-            if (isset($value['constraints'])) {
-                if (isset($value['constraints']['validate'])) {
-                    $value['validation'] = $value['constraints']['validate'];
-                }
-                if (isset($value['constraints']['filter'])) {
-                    foreach ($value['constraints']['filter'] as $filter) {
-                        $value['listeners'] = [
-                            "data:" . $filter['on'] => [
-                                'filter' => [$filter['by']]
-                            ]
-                        ];
-                    }
-                }
-                unset($value['constraints']);
-            }
-
-            if (isset($value['size'])) {
-                $size = (int)$value['size'];
-                for ($i = 0; $i < $size; $i++) {
-                    $itemTemplate['children'][$key]['children'][] = [
-                        'type' => $value['formElement'],
-                        'dataScope' => $i,
-                        'config' => $value
-                    ];
-                    if (isset($value['validation']['required-entry'])) {
-                        unset($value['validation']['required-entry']);
-                    }
-                }
-            } else {
-                $itemTemplate['children'][$key]['children'][$key] = [
-                    'type' => $value['formElement'],
-                    'config' => $value,
-                    'dataScope' => $key
-                ];
-            }
+            $this->addElementToCollection($itemTemplate, $name, $name, $element);
         }
 
         $referenceCollectionName = $this->addCollection(
@@ -379,7 +336,7 @@ class AbstractStructure extends AbstractView
         );
         $this->addTemplateToCollection($childName . 'Collection', 'item_template', $itemTemplate);
 
-        $this->addToGroup($childName, $referenceCollectionName);
+        $this->structure['groups']['children'][$childName]['children'][] = $referenceCollectionName;
     }
 
     /**
@@ -465,56 +422,82 @@ class AbstractStructure extends AbstractView
 
     /**
      * @param string $groupName
-     * @param string $itemName
+     * @param string $elementName
+     * @param string $referenceElementName
+     * @param array $element
      * @return void
      */
-    protected function addToGroup($groupName, $itemName)
+    protected function addElementToGroup($groupName, $elementName, $referenceElementName, array $element)
     {
-        $this->structure['groups']['children'][$groupName]['children'][] = $itemName;
+        if (isset($element['fieldGroup'])) {
+            if ($elementName === $element['fieldGroup']) {
+                $this->structure['groups']['children'][$groupName]['children'][] = $referenceElementName;
+            }
+        } else {
+            $this->structure['groups']['children'][$groupName]['children'][] = $referenceElementName;
+        }
     }
 
     /**
-     * @param string $dataSource
+     * @param array $collection
      * @param string $elementName
      * @param string $dataScope
-     * @param array $config
+     * @param array $element
      * @return string
      */
-    protected function addElement($dataSource, $elementName, $dataScope, array $config = [])
+    protected function addElementToCollection(array & $collection, $elementName, $dataScope, array $element)
     {
-        $referenceElementName = "{$this->ns}.elements.{$elementName}";
-        if (isset($config['fieldGroup'])) {
-            if ($elementName === $config['fieldGroup']) {
-                $this->structure['elements']['children'][$elementName]['config']['label'] = $config['label'];
-                $this->addToGroup($dataSource, $referenceElementName);
+        $collection['children'][$elementName] = [
+            'type' => 'group'
+        ];
+        if (isset($element['fieldGroup'])) {
+            $elementName = $element['fieldGroup'];
+            if ($elementName === $element['fieldGroup']) {
+                $collection['children'][$elementName]['config'] = [
+                    'displayArea' => $element['displayArea']
+                ];
             }
-            $elementName = $config['fieldGroup'];
         } else {
-            $this->addToGroup($dataSource, $referenceElementName);
+            $collection['children'][$elementName]['config'] = [
+                'displayArea' => $element['displayArea']
+            ];
         }
-        $this->structure['elements']['children'][$elementName]['type'] = 'group';
-        if (isset($config['constraints'])) {
-            if (isset($config['constraints']['validate'])) {
-                $config['validation'] = $config['constraints']['validate'];
+
+        if (isset($element['constraints'])) {
+            if (isset($element['constraints']['validate'])) {
+                $element['validation'] = $element['constraints']['validate'];
             }
-            if (isset($config['constraints']['filter'])) {
-                foreach ($config['constraints']['filter'] as $filter) {
-                    $config['listeners'] = [
+            if (isset($element['constraints']['filter'])) {
+                foreach ($element['constraints']['filter'] as $filter) {
+                    $element['listeners'] = [
                         "data:" . $filter['on'] => [
                             'filter' => [$filter['by']]
                         ]
                     ];
                 }
             }
-            unset($config['constraints']);
+            unset($element['constraints']);
         }
-        $this->structure['elements']['children'][$elementName]['children'][] = [
-            'type' => $config['formElement'],
-            'name' => $config['name'],
-            'dataScope' => $dataScope,
-            'config' => $config
-        ];
-        return "{$this->ns}.elements.{$elementName}";
+        if (isset($element['size'])) {
+            $collection['children'][$elementName]['dataScope'] = $dataScope;
+            $size = (int)$element['size'];
+            for ($i = 0; $i < $size; $i++) {
+                $collection['children'][$elementName]['children'][] = [
+                    'type' => $element['formElement'],
+                    'dataScope' => (string)$i,
+                    'config' => $element
+                ];
+                if (isset($element['validation']['required-entry'])) {
+                    unset($element['validation']['required-entry']);
+                }
+            }
+        } else {
+            $collection['children'][$elementName]['children'][] = [
+                'type' => $element['formElement'],
+                'dataScope' => $dataScope,
+                'config' => $element
+            ];
+        }
     }
 
     /**

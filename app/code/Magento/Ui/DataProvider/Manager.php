@@ -102,22 +102,21 @@ class Manager
      */
     public function getData($dataSource, array $filters = [])
     {
-        $config = $this->config->getDataSource($dataSource);
-
+        $children = $this->getMetadata($dataSource)->getChildren();
+        $fields = $this->getMetadata($dataSource)->getFields();
         $items = $this->getCollectionData($dataSource, $filters);
 
-        $fields = $config['fields'];
         $rows = [];
         foreach ($items as $item) {
             $row = [];
-            foreach ($fields as $field) {
+            foreach ($fields as $name => $field) {
                 if (isset($field['source']) && $field['source'] == 'lookup') {
                     $lookupCollection = $this->getCollectionData(
                         $field['reference']['target'],
                         [$field['reference']['targetField'] => $item->getData($field['reference']['referencedField'])]
                     );
                     $lookup = reset($lookupCollection);
-                    $row[$field['name']] = $lookup[$field['reference']['neededField']];
+                    $row[$name] = $lookup[$field['reference']['neededField']];
                 } elseif (isset($field['source']) && $field['source'] == 'reference') {
                     $lookupCollection = $this->getCollectionData(
                         $field['reference']['target'],
@@ -126,19 +125,19 @@ class Manager
                     $lookup = reset($lookupCollection);
                     $isReferenced = isset($lookup[$field['reference']['neededField']])
                         && $lookup[$field['reference']['neededField']] == $item->getId();
-                    $row[$field['name']] = $isReferenced;
+                    $row[$name] = $isReferenced;
                 } elseif (isset($field['source']) && $field['source'] == 'option') {
-                    $row[$field['name']] = $item->getData($field['reference']['referencedField']);
+                    $row[$name] = $item->getData($field['reference']['referencedField']);
                 } else {
-                    $row[$field['name']] = $item->getData($field['name']);
+                    $row[$name] = $item->getData($name);
                 }
 
                 if (isset($field['size'])) {
-                    $row[$field['name']] = explode("\n", $row[$field['name']]);
+                    $row[$name] = explode("\n", $row[$name]);
                 }
             }
-            if (!empty($config['children'])) {
-                foreach ($config['children'] as $name => $reference) {
+            if (!empty($children)) {
+                foreach ($children as $name => $reference) {
                     $filter = [];
                     foreach ($reference as $metadata) {
                         $filter[$metadata['referencedField']] = $row[$metadata['targetField']];

@@ -28,11 +28,11 @@ class Converter implements ConverterInterface
     protected $inputTypeMap = [
         'text' => 'input',
         'textarea' => 'textarea',
-        'multiline' => 'multiline',
+        'multiline' => 'input',
         'date' => 'input',
         'select' => 'select',
         'multiselect' => 'multiselect',
-        'boolean' => 'input',
+        'boolean' => 'select',
         'file' => 'media',
         'image' => 'media'
     ];
@@ -125,6 +125,10 @@ class Converter implements ConverterInterface
                             'source' => 'eav',
                             'formElement' => $this->mapFrontendInput($attribute->getFrontendInput())
                         ];
+                        if ($attribute->getValidateRules()) {
+                            $fields[$attribute->getAttributeCode()]['constraints']['validate']
+                                = $attribute->getValidateRules();
+                        }
                     }
                 }
             }

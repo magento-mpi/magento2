@@ -94,6 +94,16 @@ class Metadata implements \Iterator, \ArrayAccess
     }
 
     /**
+     * Return Data Source children
+     *
+     * @return array
+     */
+    public function getChildren()
+    {
+        return isset($this->config['children']) ? $this->config['children'] : [];
+    }
+
+    /**
      * Return Data Source label
      *
      * @return string
@@ -290,7 +300,7 @@ class Metadata implements \Iterator, \ArrayAccess
             'description' => [],
             'constraints' => [],
             'customEntry' => [],
-            'size' => [],
+            'size' => ['eav_map' => 'scope_multiline_count'],
             'tooltip' => [],
             'fieldGroup' => []
         ];
@@ -303,6 +313,10 @@ class Metadata implements \Iterator, \ArrayAccess
                     $field[$code] = $info['default'];
                 }
             }
+        }
+
+        if (isset($field['required']) && $field['required']) {
+            $field['constraints']['validate']['required-entry'] = true;
         }
     }
 }
