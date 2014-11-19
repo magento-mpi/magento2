@@ -13,13 +13,6 @@ namespace Magento\Persistent\Model\Observer;
 class UpdateCustomerCookies
 {
     /**
-     * Customer account service
-     *
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
-     */
-    protected $_customerAccountService;
-
-    /**
      * Persistent session
      *
      * @var \Magento\Persistent\Helper\Session
