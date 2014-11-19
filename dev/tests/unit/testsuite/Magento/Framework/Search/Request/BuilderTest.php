@@ -17,7 +17,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     private $requestBuilder;
 
     /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $objectManager;
 
@@ -55,10 +55,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->objectManager = $this->getMockBuilder('Magento\Framework\ObjectManager')
-            ->setMethods(['create'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
 
         $this->requestMapper = $this->getMockBuilder('Magento\Framework\Search\Request\Mapper')
             ->setMethods(['getRootQuery', 'getBuckets'])

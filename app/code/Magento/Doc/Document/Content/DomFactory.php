@@ -8,7 +8,7 @@
 
 namespace Magento\Doc\Document\Content;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Doc\Document\DomInterface;
 
 /**
@@ -20,7 +20,7 @@ class DomFactory
     /**
      * Object Manager instance
      *
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -32,10 +32,10 @@ class DomFactory
     /**
      * Constructor
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param string $domDocumentClass
      */
-    public function __construct(ObjectManager $objectManager, $domDocumentClass = 'Magento\Doc\Document\Content\Dom')
+    public function __construct(ObjectManagerInterface $objectManager, $domDocumentClass = 'Magento\Doc\Document\Content\Dom')
     {
         $this->objectManager = $objectManager;
         $this->domDocumentClass = $domDocumentClass;
