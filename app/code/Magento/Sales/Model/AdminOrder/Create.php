@@ -194,7 +194,6 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $extensibleDataObjectConverter;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Registry $coreRegistry
@@ -1224,7 +1223,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $customerForm = $this->_metadataFormFactory->create(
             \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
             'adminhtml_checkout',
-            $this->extensibleDataObjectConverter->toFlatArray($customerDataObject),
+            $this->extensibleDataObjectConverter->toFlatArray($customer),
             false,
             CustomerForm::DONT_IGNORE_INVISIBLE
         );

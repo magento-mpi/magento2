@@ -19,7 +19,6 @@ use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Customer\Api\AddressMetadataInterface as AddressMetadata;
-use Magento\Customer\Api\CustomerMetadataInterface as CustomerMetadata;
 use Magento\Customer\Api\Data\AddressInterfaceBuilder as AddressBuilder;
 use Magento\Customer\Api\Data\CustomerInterfaceBuilder as CustomerBuilder;
 
@@ -522,7 +521,7 @@ class Onepage
     {
         $quote = $this->getQuote();
         $isCustomerNew = !$quote->getCustomerId();
-        $customer = $quote->getCustomerData();
+        $customer = $quote->getCustomer();
         $customerData = $this->extensibleDataObjectConverter->toFlatArray($customer);
 
         /** @var Form $customerForm */
@@ -572,7 +571,6 @@ class Onepage
         }
 
         //validate customer
-        $attributes = $customerForm->getAllowedAttributes();
         $result = $this->accountManagement->validate($customer);
         if (!$result->isValid()) {
             return [

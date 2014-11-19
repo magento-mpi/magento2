@@ -150,7 +150,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->customerBuilderMock = $this->getMock(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            'Magento\Customer\Api\Data\CustomerInterfaceBuilder',
             [],
             [],
             '',
@@ -467,27 +467,48 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
         $quoteMock->expects($this->any())->method('getBillingAddress')->will($this->returnValue($addressMock));
         $quoteMock->expects($this->any())->method('getCustomerId')->will($this->returnValue($quoteCustomerId));
-        $customerMock->expects($this->once())->method('__toArray')->will($this->returnValue([]));
         $quoteMock->expects($this->any())->method('getCustomer')->will($this->returnValue($customerMock));
+        $data1= [];
+        $extensibleDataObjectConverterMock = $this->getMock(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter',
+            ['toFlatArray'],
+            [],
+            '',
+            false
+        );
+        $extensibleDataObjectConverterMock->expects($this->any())
+            ->method('toFlatArray')
+            ->with($customerMock)
+            ->will($this->returnValue($data1));
 
         $formMock = $this->getMock('Magento\Customer\Model\Metadata\Form', [], [], '', false);
         $formMock->expects($this->atLeastOnce())->method('validateData')->will($this->returnValue($validateDataResult));
-        $this->requestMock
-            ->expects($this->any())
-            ->method('getParam')
-            ->will(
-                $this->returnValueMap(
-                    [['customer_password', $customerPassword], ['confirm_password', $confirmPassword]]
-                )
-            );
-        $formMock->expects($this->any())->method('prepareRequest')->will($this->returnValue($this->requestMock));
+//        $this->requestMock
+//            ->expects($this->any())
+//            ->method('getParam')
+//            ->will(
+//                $this->returnValueMap(
+//                    [['customer_password', $customerPassword], ['confirm_password', $confirmPassword]]
+//                )
+//            );
         $this->customerFormFactoryMock->expects($this->any())->method('create')->will($this->returnValue($formMock));
+        $formMock->expects($this->any())->method('prepareRequest')->will($this->returnValue($this->requestMock));
+        $formMock->expects($this->any())
+            ->method('extractData')
+            ->with($this->requestMock)
+            ->will($this->returnValue([]));
+        $formMock->expects($this->any())
+            ->method('validateData')
+            ->with([])
+            ->will($this->returnValue(false));
+
         $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
-        $customerDataMock->expects($this->any())->method('__toArray')->will($this->returnValue([]));
+
         $this->customerBuilderMock
             ->expects($this->any())
             ->method('create')
             ->will($this->returnValue($customerDataMock));
+
         $this->checkoutSessionMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
         $this->checkoutSessionMock->expects($this->any())
             ->method('getStepData')
