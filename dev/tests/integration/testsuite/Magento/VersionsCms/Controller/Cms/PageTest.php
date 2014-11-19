@@ -5,22 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Test class for \Magento\Cms\Controller\Page.
- */
-namespace Magento\Cms\Controller;
+namespace Magento\VersionsCms\Controller\Cms;
 
 class PageTest extends \Magento\TestFramework\TestCase\AbstractController
 {
-    public function testViewAction()
-    {
-        $this->dispatch('/enable-cookies/');
-        $this->assertContains('What are Cookies?', $this->getResponse()->getBody());
-    }
-
     /**
-     * Test \Magento\Cms\Block\Page::_addBreadcrumbs
+     * Test \Magento\VersionsCms\Block\Cms\Page::_addBreadcrumbs
      */
     public function testAddBreadcrumbs()
     {
@@ -32,3 +22,4 @@ class PageTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertContains($breadcrumbsBlock->toHtml(), $this->getResponse()->getBody());
     }
 }
+
