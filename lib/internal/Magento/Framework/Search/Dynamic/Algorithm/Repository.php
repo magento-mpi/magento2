@@ -7,13 +7,13 @@
  */
 namespace Magento\Framework\Search\Dynamic\Algorithm;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Model\Exception;
 
 class Repository
 {
     /**
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
@@ -30,10 +30,10 @@ class Repository
     /**
      * Construct
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param array $algorithms
      */
-    public function __construct(ObjectManager $objectManager, array $algorithms)
+    public function __construct(ObjectManagerInterface $objectManager, array $algorithms)
     {
         $this->objectManager = $objectManager;
         $this->algorithms = $algorithms;
