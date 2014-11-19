@@ -30,4 +30,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Sales\Model\Resource\Order\Grid">
+        <plugin name="sales-archive-move-to-active" type="Magento\SalesArchive\Model\Resource\Plugin\Grid"></plugin>
+    </type>
 </config>
