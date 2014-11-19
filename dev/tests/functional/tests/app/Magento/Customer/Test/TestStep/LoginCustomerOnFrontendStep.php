@@ -13,6 +13,7 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use \Mtf\ObjectManager;
 
 /**
  * Class LoginCustomerOnFrontendStep
@@ -49,22 +50,30 @@ class LoginCustomerOnFrontendStep implements TestStepInterface
     protected $customerAccountLogout;
 
     /**
+     * @var \Mtf\ObjectManager
+     */
+    protected $objectManager;
+
+    /**
      * @constructor
      * @param CmsIndex $cmsIndex
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountLogout $customerAccountLogout
      * @param CustomerInjectable $customer
+     * @param ObjectManager $objectManager
      */
     public function __construct(
         CmsIndex $cmsIndex,
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountLogout $customerAccountLogout,
-        CustomerInjectable $customer
+        CustomerInjectable $customer,
+        ObjectManager $objectManager
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerAccountLogin = $customerAccountLogin;
         $this->customer = $customer;
         $this->customerAccountLogout = $customerAccountLogout;
+        $this->objectManager = $objectManager;
     }
 
     /**
@@ -76,6 +85,9 @@ class LoginCustomerOnFrontendStep implements TestStepInterface
     {
         $this->customerAccountLogout->open();
         $this->cmsIndex->open();
+        if ($this->cmsIndex->getLinksBlock()->isLinkVisible("Log Out")) {
+            $this->cmsIndex->getLinksBlock()->openLink("Log Out");
+        }
         $this->cmsIndex->getLinksBlock()->openLink("Log In");
         $this->customerAccountLogin->getLoginBlock()->login($this->customer);
     }
