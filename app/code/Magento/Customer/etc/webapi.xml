@@ -131,7 +131,7 @@
         </resources>
     </route>
     <route url="/V1/customers" method="POST">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="createCustomer"/>
+        <service class="Magento\Customer\Api\AccountManagementInterface" method="createAccount"/>
         <resources>
             <resource ref="anonymous"/>
         </resources>
