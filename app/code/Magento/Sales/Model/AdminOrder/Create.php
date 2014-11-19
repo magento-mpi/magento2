@@ -112,7 +112,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $_salesConfig;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -192,7 +192,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $quoteRepository;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Sales\Model\Config $salesConfig
@@ -216,7 +216,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Sales\Model\Config $salesConfig,

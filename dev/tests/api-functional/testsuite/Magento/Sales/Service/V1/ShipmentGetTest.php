@@ -17,7 +17,7 @@ class ShipmentGetTest extends WebapiAbstract
     const SERVICE_VERSION = 'V1';
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 

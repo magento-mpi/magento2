@@ -9,7 +9,7 @@
  */
 namespace Magento\Framework\Interception;
 
-interface Definition
+interface DefinitionInterface
 {
     const LISTENER_BEFORE = 1;
 

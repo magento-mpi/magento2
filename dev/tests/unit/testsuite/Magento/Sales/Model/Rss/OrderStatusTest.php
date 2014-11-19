@@ -26,7 +26,7 @@ class OrderStatusTest extends \PHPUnit_Framework_TestCase
     protected $objectManagerHelper;
 
     /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManager;
 
@@ -88,7 +88,7 @@ class OrderStatusTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->objectManager = $this->getMock('Magento\Framework\ObjectManager');
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->urlInterface = $this->getMock('Magento\Framework\UrlInterface');
         $this->requestInterface = $this->getMock('Magento\Framework\App\RequestInterface');
         $this->orderStatusFactory = $this->getMockBuilder('Magento\Sales\Model\Resource\Order\Rss\OrderStatusFactory')

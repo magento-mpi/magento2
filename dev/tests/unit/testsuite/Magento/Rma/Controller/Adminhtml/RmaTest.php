@@ -42,7 +42,7 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
     protected $coreRegistryMock;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManagerMock;
 
@@ -185,7 +185,7 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
+        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->messageManagerMock = $this->getMock('Magento\Framework\Message\ManagerInterface', [], [], '', false);
         $this->sessionMock = $this->getMock('Magento\Backend\Model\Session', [], [], '', false);
         $this->flagActionMock = $this->getMock('Magento\Framework\App\ActionFlag', [], [], '', false);
