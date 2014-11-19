@@ -14,7 +14,7 @@ use \Magento\Eav\Model\Resource\Entity\Attribute\Set as AttributeSetResource;
 use \Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
 use \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory;
 use \Magento\Eav\Model\Config as EavConfig;
-use Magento\Framework\Exception\CouldNotSaveException;
+use \Magento\Framework\Exception\CouldNotSaveException;
 use \Magento\Framework\Exception\NoSuchEntityException;
 use \Magento\Framework\Exception\CouldNotDeleteException;
 
@@ -141,11 +141,10 @@ class AttributeSetRepository implements AttributeSetRepositoryInterface
      */
     public function delete(AttributeSetInterface $attributeSet)
     {
-        /**
-         * @todo default attribute set must not be deleted. Corresponding logic have to be moved to resource model.
-         */
         try {
             $this->attributeSetResource->delete($attributeSet);
+        } catch (\Magento\Framework\Exception\StateException $exception) {
+            throw new CouldNotDeleteException('Default attribute set can not be deleted');
         } catch (\Exception $exception) {
             throw new CouldNotDeleteException('There was an error deleting attribute set.');
         }

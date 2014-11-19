@@ -38,10 +38,10 @@ class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\Web
         $this->assertTrue(count($attributes) > 0);
         $this->assertArrayHasKey('attribute_code', $attributes[0]);
         $this->assertArrayHasKey('attribute_id', $attributes[0]);
-        $this->assertArrayHasKey('frontend_label', $attributes[0]);
+        $this->assertArrayHasKey('default_frontend_label', $attributes[0]);
         $this->assertNotNull($attributes[0]['attribute_code']);
         $this->assertNotNull($attributes[0]['attribute_id']);
-        $this->assertNotNull($attributes[0]['frontend_label']);
+        $this->assertNotNull($attributes[0]['default_frontend_label']);
     }
 
     public function testAssignAttribute()

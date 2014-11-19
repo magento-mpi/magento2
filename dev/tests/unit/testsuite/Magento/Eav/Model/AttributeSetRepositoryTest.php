@@ -140,7 +140,20 @@ class AttributeSetRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $attributeSetMock = $this->getMock('Magento\Eav\Model\Entity\Attribute\Set', [], [], '', false);
         $this->resourceMock->expects($this->once())->method('delete')->with($attributeSetMock)->willThrowException(
-            new \Exception('Some internal exception message.')
+            new \Magento\Framework\Exception\CouldNotDeleteException('Some internal exception message.')
+        );
+        $this->model->delete($attributeSetMock);
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception\CouldNotDeleteException
+     * @expectedExceptionMessage Default attribute set can not be deleted
+     */
+    public function testDeleteThrowsExceptionIfGivenAttributeSetIsDefault()
+    {
+        $attributeSetMock = $this->getMock('Magento\Eav\Model\Entity\Attribute\Set', [], [], '', false);
+        $this->resourceMock->expects($this->once())->method('delete')->with($attributeSetMock)->willThrowException(
+            new \Magento\Framework\Exception\StateException('Some internal exception message.')
         );
         $this->model->delete($attributeSetMock);
     }

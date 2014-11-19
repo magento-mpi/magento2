@@ -138,6 +138,38 @@ class AttributeSetRepositoryTest extends WebapiAbstract
 
     /**
      * @expectedException \Exception
+     * @expectedExceptionMessage Default attribute set can not be deleted
+     */
+    public function testDeleteByIdDefaultAttributeSet()
+    {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Eav\Model\Config */
+        $eavConfig = $objectManager->create('\Magento\Eav\Model\Config');
+
+        $defaultAttributeSetId = $eavConfig
+            ->getEntityType(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE)
+            ->getDefaultAttributeSetId();
+
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => '/V1/eav/attribute-sets/' . $defaultAttributeSetId,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ),
+            'soap' => array(
+                'service' => 'eavAttributeSetRepositoryV1',
+                'serviceVersion' => 'V1',
+                'operation' => 'eavAttributeSetRepositoryV1DeleteById',
+            ),
+        );
+
+        $arguments = array(
+            'attributeSetId' => $defaultAttributeSetId,
+        );
+        $this->assertTrue($this->_webApiCall($serviceInfo, $arguments));
+    }
+
+    /**
+     * @expectedException \Exception
      */
     public function testDeleteByIdThrowsExceptionIfRequestedAttributeSetDoesNotExist()
     {

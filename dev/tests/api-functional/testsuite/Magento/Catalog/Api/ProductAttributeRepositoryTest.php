@@ -73,7 +73,7 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
         $this->assertTrue($response['total_count'] > 0);
         $this->assertTrue(count($response['items']) > 0);
 
-        $this->assertNotNull($response['items'][0]['frontend_label']);
+        $this->assertNotNull($response['items'][0]['default_frontend_label']);
         $this->assertNotNull($response['items'][0]['attribute_id']);
     }
 
@@ -115,7 +115,7 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
         $attributeData = [
             'attribute' => [
                 'attribute_code' => $attributeCode,
-                'frontend_label' => [
+                'frontend_labels' => [
                     ['store_id' => 0, 'label' => 'front_lbl_new']
                 ],
                 'default_value' => 'default value new',
@@ -144,7 +144,7 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
         $this->assertEquals($attribute['attribute_id'], $result['attribute_id']);
         $this->assertEquals($attributeCode, $result['attribute_code']);
         $this->assertEquals('default value new', $result['default_value']);
-        $this->assertEquals('front_lbl_new', $result['frontend_label']);
+        $this->assertEquals('front_lbl_new', $result['default_frontend_label']);
     }
 
     /**
@@ -201,7 +201,7 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
         $attributeData = [
             'attribute' => [
                 'attribute_code' => $attributeCode,
-                'frontend_label' => [
+                'frontend_labels' => [
                     ['store_id' => 0, 'label' => 'front_lbl']
                 ],
                 'default_value' => 'default value',

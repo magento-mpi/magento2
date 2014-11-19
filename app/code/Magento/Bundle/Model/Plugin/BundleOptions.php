@@ -39,6 +39,8 @@ class BundleOptions
      * @param \Magento\Bundle\Service\V1\Product\Option\WriteService $optionWriteService
      * @param \Magento\Bundle\Service\V1\Product\Option\ReadService $optionReadService
      * @param \Magento\Catalog\Api\Data\ProductDataBuilder $productBuilder
+     * @param \Magento\Bundle\Service\V1\Data\Product\OptionBuilder $optionBuilder
+     * @param \Magento\Bundle\Service\V1\Data\Product\LinkBuilder $linkBuilder
      */
     public function __construct(
         \Magento\Bundle\Service\V1\Product\Option\WriteService $optionWriteService,
@@ -72,22 +74,20 @@ class BundleOptions
         /** @var \Magento\Catalog\Api\Data\ProductInterface $result */
         $result = $proceed($product, $saveOptions);
 
-        if ($result->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+        if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             return $result;
         }
 
         /* @var \Magento\Framework\Api\AttributeValue $bundleProductOptionsAttrValue */
-        $bundleProductOptionsAttrValue = $product->getData('bundle_product_options');
-        if (is_null($bundleProductOptionsAttrValue) || !is_array($bundleProductOptionsAttrValue[0]['product_links'])) {
+        $bundleProductOptionsAttrValue = $product->getCustomAttribute('bundle_product_options');
+        if (is_null($bundleProductOptionsAttrValue) || !is_array($bundleProductOptionsAttrValue->getValue())) {
             $bundleProductOptions = array();
         } else {
-            $bundleProductOptions = $bundleProductOptionsAttrValue[0]['product_links'];
+            $bundleProductOptions = $bundleProductOptionsAttrValue->getValue();
         }
 
         if (is_array($bundleProductOptions)) {
-            foreach ($bundleProductOptions as $optionData) {
-                $productLink = $this->linkBuilder->setSku($optionData['sku'])->create();
-                $option = $this->optionBuilder->setProductLinks([$productLink])->create();
+            foreach ($bundleProductOptions as $option) {
                 $this->optionWriteService->addOptionToProduct($result, $option);
             }
         }

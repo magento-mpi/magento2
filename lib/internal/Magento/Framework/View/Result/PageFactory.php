@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\View\Result;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * A factory that knows how to create a "page" result
@@ -18,7 +18,7 @@ use Magento\Framework\ObjectManager;
 class PageFactory
 {
     /**
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
@@ -28,11 +28,13 @@ class PageFactory
     protected $instanceName;
 
     /**
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param string $instanceName
      */
-    public function __construct(ObjectManager $objectManager, $instanceName = 'Magento\Framework\View\Result\Page')
-    {
+    public function __construct(
+        ObjectManagerInterface $objectManager,
+        $instanceName = 'Magento\Framework\View\Result\Page'
+    ) {
         $this->objectManager = $objectManager;
         $this->instanceName = $instanceName;
     }

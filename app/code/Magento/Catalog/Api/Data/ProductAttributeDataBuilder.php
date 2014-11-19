@@ -25,7 +25,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
      * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
      * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
      * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
-     * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
+     * @param \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig
      * @param string $modelClassInterface
      */
     public function __construct(
@@ -35,7 +35,7 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
         \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor,
         \Magento\Framework\Reflection\TypeProcessor $typeProcessor,
         \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory,
-        \Magento\Framework\ObjectManager\Config $objectManagerConfig,
+        \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig,
         $modelClassInterface = 'Magento\Catalog\Api\Data\ProductAttributeInterface'
     ) {
         parent::__construct(
@@ -281,23 +281,23 @@ class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
     }
 
     /**
-     * @param mixed|null $frontendLabel
+     * @param string $frontendLabel
      * @return $this
      */
-    public function setFrontendLabel($frontendLabel)
+    public function setDefaultFrontendLabel($frontendLabel)
     {
         $this->_set('frontend_label', $frontendLabel);
         return $this;
     }
 
     /**
-     * @param \Magento\Eav\Api\Data\AttributeFrontendLabelInterface
+     * @param \Magento\Eav\Api\Data\AttributeFrontendLabelInterface[]
      * $storeFrontendLabels
      * @return $this
      */
-    public function setStoreFrontendLabels($storeFrontendLabels)
+    public function setFrontendLabels($storeFrontendLabels)
     {
-        $this->_set('store_frontend_labels', $storeFrontendLabels);
+        $this->_set('frontend_labels', $storeFrontendLabels);
         return $this;
     }
 

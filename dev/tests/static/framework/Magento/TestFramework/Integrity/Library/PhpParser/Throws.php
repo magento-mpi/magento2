@@ -11,7 +11,7 @@ namespace Magento\TestFramework\Integrity\Library\PhpParser;
  * Parse throws and collect dependencies for it
  *
  */
-class Throws implements Parser, DependenciesCollector
+class Throws implements ParserInterface, DependenciesCollectorInterface
 {
     /**
      * @var Tokens

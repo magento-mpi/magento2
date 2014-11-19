@@ -139,12 +139,12 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
             $this->attributeBuilder->setIsUserDefined($existingModel->getIsUserDefined());
             $this->attributeBuilder->setFrontendInput($existingModel->getFrontendInput());
 
-            if ($attribute->getFrontendLabel() && is_array($attribute->getFrontendLabel())) {
-                $frontendLabel[0] = $existingModel->getFrontendLabel();
-                foreach ($attribute->getFrontendLabel() as $item) {
+            if (is_array($attribute->getFrontendLabels())) {
+                $frontendLabel[0] = $existingModel->getDefaultFrontendLabel();
+                foreach ($attribute->getFrontendLabels() as $item) {
                     $frontendLabel[$item->getStoreId()] = $item->getLabel();
                 }
-                $this->attributeBuilder->setFrontendLabel($frontendLabel);
+                $this->attributeBuilder->setDefaultFrontendLabel($frontendLabel);
             }
             if (!$attribute->getIsUserDefined()) {
                 // Unset attribute field for system attributes
@@ -153,18 +153,24 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
         } else {
             $this->attributeBuilder->setAttributeId(null);
 
-            if (!$attribute->getFrontendLabel()) {
+            if (!$attribute->getFrontendLabels() && !$attribute->getDefaultFrontendLabel()) {
                 throw InputException::requiredField('frontend_label');
             }
-            $frontendLabels = [];
-            foreach ($attribute->getFrontendLabel() as $label) {
-                $frontendLabels[$label->getStoreId()] = $label->getLabel();
-            }
-            if (!isset($frontendLabels[0]) || !$frontendLabels[0]) {
-                throw InputException::invalidFieldValue('frontend_label', null);
-            }
 
-            $this->attributeBuilder->setFrontendLabel($frontendLabels);
+            $frontendLabels = [];
+            if ($attribute->getDefaultFrontendLabel()) {
+                $frontendLabels[0] = $attribute->getDefaultFrontendLabel();
+            }
+            if ($attribute->getFrontendLabels() && is_array($attribute->getFrontendLabels())) {
+                foreach ($attribute->getFrontendLabels() as $label) {
+                    $frontendLabels[$label->getStoreId()] = $label->getLabel();
+                }
+                if (!isset($frontendLabels[0]) || !$frontendLabels[0]) {
+                    throw InputException::invalidFieldValue('frontend_label', null);
+                }
+
+                $this->attributeBuilder->setDefaultFrontendLabel($frontendLabels);
+            }
             $this->attributeBuilder->setAttributeCode(
                 $attribute->getAttributeCode() ?: $this->generateCode($frontendLabels[0])
             );
