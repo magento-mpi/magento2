@@ -122,8 +122,8 @@ class CatalogProductSimple extends AbstractRepository
         ];
 
         $this->_data['MAGETWO-23036'] = [
-            'sku' => 'MAGETWO-23036',
-            'name' => 'simple_with_category',
+            'sku' => 'MAGETWO-23036_%isolation%',
+            'name' => 'simple_with_category %isolation%',
             'attribute_set_id' => ['dataSet' => 'default'],
             'type_id' => 'simple',
             'quantity_and_stock_status' => [
@@ -132,7 +132,7 @@ class CatalogProductSimple extends AbstractRepository
             ],
             'weight' => 1,
             'price' => ['value' => 100, 'preset' => 'MAGETWO-23036'],
-            'category_ids' => ['presets' => 'default'],
+            'category_ids' => ['presets' => 'default_subcategory'],
             'mtf_dataset_name' => 'simple_with_category',
             'website_ids' => ['Main Website'],
         ];

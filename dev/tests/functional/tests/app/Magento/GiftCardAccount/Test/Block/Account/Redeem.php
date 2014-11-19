@@ -11,34 +11,40 @@ namespace Magento\GiftCardAccount\Test\Block\Account;
 use Mtf\Block\Block;
 
 /**
- * Class Redeem
- * Redeem block on customer account page
+ * Redeem block on customer account page.
  */
 class Redeem extends Block
 {
     /**
-     * Gift card code input field
+     * Gift card code input field.
      *
      * @var string
      */
     protected $giftCardCode = '[name="giftcard_code"]';
 
     /**
-     * Redeem button
+     * Redeem button.
      *
      * @var string
      */
     protected $redeemGiftCard = ".action.redeem";
 
     /**
-     * Redeem button
+     * Redeem button.
      *
      * @var string
      */
     protected $checkStatusAndBalance = ".action.check";
 
     /**
-     * Fill gift card redeem
+     * Waiter block css selector.
+     *
+     * @var string
+     */
+    protected $waiter = '#gc-please-wait';
+
+    /**
+     * Fill gift card redeem.
      *
      * @param string $value
      * @return void
@@ -50,7 +56,7 @@ class Redeem extends Block
     }
 
     /**
-     * Check status and balance
+     * Check status and balance.
      *
      * @param string $value
      * @return void
@@ -59,10 +65,11 @@ class Redeem extends Block
     {
         $this->enterGiftCardCode($value);
         $this->_rootElement->find($this->checkStatusAndBalance)->click();
+        $this->waitForElementNotVisible($this->waiter);
     }
 
     /**
-     * Enter gift card code
+     * Enter gift card code.
      *
      * @param string $value
      * @return void
