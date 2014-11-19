@@ -28,6 +28,7 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     protected $_addressFactory;
 
     /**
+     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -35,13 +36,14 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
-     * @param CustomerRepositoryInterface $customerAccountService
+     * @param CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
@@ -57,6 +59,7 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     ) {
         $this->_addressFactory = $addressFactory;
         parent::__construct(
+            $dataObjectConverter,
             $context,
             $coreData,
             $configCacheType,

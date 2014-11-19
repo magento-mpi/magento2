@@ -16,8 +16,8 @@ $customer->setWebsiteId(1)
     ->setGroupId(1)
     ->setStoreId(1)
     ->setIsActive(1)
-    ->setFirstname('Firstname')
-    ->setLastname('Lastname')
+    ->setFirstname('John')
+    ->setLastname('Smith')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1);
 $customer->isObjectNew(true);
