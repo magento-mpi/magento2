@@ -170,23 +170,27 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
     ) {
         $storeId =  $this->storeManager->getStore()->getId();
         $values = $collection->getAllAttributeValues($attribute);
-
-        $validEntities = [];
-        foreach ($values as $entityId => $storeValues) {
-            if (isset($storeValues[$storeId])) {
-                if ($this->validateAttribute($storeValues[$storeId])) {
-                    $validEntities[] = $entityId;
-                }
-            } else {
-                if ($this->validateAttribute($storeValues[\Magento\Store\Model\Store::DEFAULT_STORE_ID])) {
-                    $validEntities[] = $entityId;
+        $validEntities = array();
+        if ($values) {
+            foreach ($values as $entityId => $storeValues) {
+                if (isset($storeValues[$storeId])) {
+                    if ($this->validateAttribute($storeValues[$storeId])) {
+                        $validEntities[] = $entityId;
+                    }
+                } else {
+                    if ($this->validateAttribute($storeValues[\Magento\Store\Model\Store::DEFAULT_STORE_ID])) {
+                        $validEntities[] = $entityId;
+                    }
                 }
             }
         }
-
         $this->setOperator('()');
-        $this->setData('is_value_parsed', true);
-        $this->setData('value_parsed', implode(',', $validEntities));
+        $this->unsetData('value_parsed');
+        if ($validEntities) {
+            $this->setData('value', implode(',', $validEntities));
+        } else {
+            $this->unsetData('value');
+        }
 
         return $this;
     }
@@ -196,13 +200,14 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
      */
     public function getMappedSqlField()
     {
+        $result = '';
         if ($this->getAttributeObject()->isScopeGlobal()) {
             if (isset($this->joinedAttributes[$this->getAttribute()])) {
                 $result = $this->joinedAttributes[$this->getAttribute()] . '.value';
             } else {
                 $result = parent::getMappedSqlField();
             }
-        } else {
+        } elseif ($this->getValueParsed()) {
             $result = 'e.entity_id';
         }
 
