@@ -359,6 +359,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder
      * @param \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -393,6 +394,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder,
         \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
@@ -423,6 +425,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->addressBuilder = $addressBuilder;
         $this->customerBuilder = $customerBuilder;
         $this->customerRepository = $customerRepository;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -688,7 +691,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         /* @TODO: Remove the method after all external usages are refactored in MAGETWO-19930 */
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
-        $this->_objectCopyService->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $this);
+        $customerData = $this->objectFactory->create($this->extensibleDataObjectConverter->toFlatArray($customer));
+        $this->_objectCopyService->copyFieldsetToTarget('customer_account', 'to_quote', $customerData, $this);
         return $this;
     }
 

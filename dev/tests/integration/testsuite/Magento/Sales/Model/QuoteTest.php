@@ -13,6 +13,13 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 class QuoteTest extends \PHPUnit_Framework_TestCase
 {
+
+    private function convertToArray($entity)
+    {
+        return Bootstrap::getObjectManager()
+            ->create('Magento\Framework\Api\SimpleDataObjectConverter')
+            ->toFlatArray($entity);
+    }
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_virtual.php
      * @magentoDataFixture Magento/Sales/_files/quote.php
@@ -37,24 +44,25 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
-        $customerMetadataService = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerMetadataService'
-        );
-        $customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
-            [
-                'metadataService' => $customerMetadataService
-            ]
-        );
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = Bootstrap::getObjectManager()->create('Magento\Customer\Api\CustomerRepositoryInterface');
+        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
+        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         $expected = $this->_getCustomerDataArray();
-        $customerBuilder->populateWithArray($expected);
+        $customer = $customerBuilder->populateWithArray($expected)->create();
 
-        $customerDataSet = $customerBuilder->create();
-        $this->assertEquals($expected, $customerDataSet->__toArray());
-        $quote->setCustomer($customerDataSet);
 
+        $this->assertEquals(
+            $expected,
+            $this->convertToArray($customer)
+        );
+        $quote->setCustomer($customer);
+        //
         $customer = $quote->getCustomer();
-        $this->assertEquals($expected, $customer->__toArray());
+        $this->assertEquals(
+            $expected,
+            $this->convertToArray($customer)
+        );
         $this->assertEquals('qa@example.com', $quote->getCustomerEmail());
     }
 
@@ -294,8 +302,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
     protected function _getCustomerDataArray()
     {
-        return array(
-            \Magento\Customer\Model\Data\Customer::ID => 1,
+        return [
             \Magento\Customer\Model\Data\Customer::CONFIRMATION => 'test',
             \Magento\Customer\Model\Data\Customer::CREATED_AT => '2/3/2014',
             \Magento\Customer\Model\Data\Customer::CREATED_IN => 'Default',
@@ -307,13 +314,15 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             \Magento\Customer\Model\Data\Customer::GENDER => 'Male',
             \Magento\Customer\Model\Data\Customer::GROUP_ID =>
                 \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+            \Magento\Customer\Model\Data\Customer::ID => 1,
             \Magento\Customer\Model\Data\Customer::LASTNAME => 'Dou',
             \Magento\Customer\Model\Data\Customer::MIDDLENAME => 'Ivan',
             \Magento\Customer\Model\Data\Customer::PREFIX => 'Dr.',
             \Magento\Customer\Model\Data\Customer::STORE_ID => 1,
             \Magento\Customer\Model\Data\Customer::SUFFIX => 'Jr.',
             \Magento\Customer\Model\Data\Customer::TAXVAT => 1,
-            \Magento\Customer\Model\Data\Customer::WEBSITE_ID => 1
-        );
+            \Magento\Customer\Model\Data\Customer::WEBSITE_ID => 1,
+            \Magento\Customer\Model\Data\Customer::KEY_ADDRESSES => '',
+        ];
     }
 }
