@@ -10,7 +10,7 @@ namespace Magento\Customer\Helper\Session;
 use Magento\Customer\Helper\Session\CurrentCustomer;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Service\V1\Data\Address;
+use Magento\Customer\Api\Data\AddressInterface;
 
 /**
  * Class CurrentCustomerAddress
@@ -50,7 +50,7 @@ class CurrentCustomerAddress
     /**
      * Returns all addresses for current customer
      *
-     * @return Address[]
+     * @return AddressInterface[]
      */
     public function getCustomerAddresses()
     {
@@ -60,7 +60,7 @@ class CurrentCustomerAddress
     /**
      * Returns default billing address form current customer
      *
-     * @return Address|null
+     * @return AddressInterface|null
      */
     public function getDefaultBillingAddress()
     {
@@ -70,7 +70,7 @@ class CurrentCustomerAddress
     /**
      * Returns default shipping address for current customer
      *
-     * @return Address|null
+     * @return AddressInterface|null
      */
     public function getDefaultShippingAddress()
     {
