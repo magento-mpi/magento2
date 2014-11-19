@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework;
 
-interface ObjectManager
+interface ObjectManagerInterface
 {
     /**
      * Create new object instance

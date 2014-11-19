@@ -7,12 +7,12 @@
  */
 namespace Magento\Framework\Image;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 class Factory
 {
     /**
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -22,10 +22,10 @@ class Factory
     protected $adapterFactory;
 
     /**
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param AdapterFactory $adapterFactory
      */
-    public function __construct(ObjectManager $objectManager, AdapterFactory $adapterFactory)
+    public function __construct(ObjectManagerInterface $objectManager, AdapterFactory $adapterFactory)
     {
         $this->objectManager = $objectManager;
         $this->adapterFactory = $adapterFactory;

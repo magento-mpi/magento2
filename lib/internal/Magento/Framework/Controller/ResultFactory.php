@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Controller;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Result Factory
@@ -41,18 +41,18 @@ class ResultFactory
     ];
 
     /**
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     private $objectManager;
 
     /**
      * Constructor
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param array $typeMap
      */
     public function __construct(
-        ObjectManager $objectManager,
+        ObjectManagerInterface $objectManager,
         array $typeMap = []
     ) {
         $this->objectManager = $objectManager;
