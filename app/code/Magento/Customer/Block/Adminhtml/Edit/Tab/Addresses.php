@@ -79,6 +79,7 @@ class Addresses extends GenericMetadata
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
@@ -94,7 +95,6 @@ class Addresses extends GenericMetadata
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param AddressMapper $addressMapper
      * @param CustomerMapper $customerMapper
-     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -103,6 +103,7 @@ class Addresses extends GenericMetadata
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
@@ -117,7 +118,6 @@ class Addresses extends GenericMetadata
         AttributeMetadataDataBuilder $attributeMetadataBuilder,
         \Magento\Directory\Helper\Data $directoryHelper,
         AddressMapper $addressMapper,
-        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;

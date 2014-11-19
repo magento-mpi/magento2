@@ -93,6 +93,9 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
      */
     protected $accountManagementMock;
 
+    /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter|\PHPUnit_Framework_MockObject_MockObject */
+    protected $extensibleDataObjectConverterMock;
+
     protected function setUp()
     {
         $this->addressRepositoryMock = $this->getMockForAbstractClass(
@@ -180,6 +183,14 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $this->extensibleDataObjectConverterMock = $this->getMockBuilder(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter'
+        )->setMethods(['toFlatArray'])->disableOriginalConstructor()->getMock();
+
+        $this->extensibleDataObjectConverterMock
+            ->expects($this->any())
+            ->method('toFlatArray')
+            ->will($this->returnValue(array()));
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->onepage = $this->objectManagerHelper->getObject(
             'Magento\Checkout\Model\Type\Onepage',
@@ -208,6 +219,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
                 'accountManagement' => $this->accountManagementMock,
                 'orderSenderMock' => $orderSenderMock,
                 'customerRepository' => $this->customerRepositoryMock,
+                'extensibleDataObjectConverter' => $this->extensibleDataObjectConverterMock
             ]
         );
     }

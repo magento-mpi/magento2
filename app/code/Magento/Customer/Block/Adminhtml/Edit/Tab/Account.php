@@ -76,6 +76,7 @@ class Account extends GenericMetadata
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Store\Model\System\Store $systemStore
@@ -84,7 +85,6 @@ class Account extends GenericMetadata
      * @param \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
-     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -93,6 +93,7 @@ class Account extends GenericMetadata
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Store\Model\System\Store $systemStore,
@@ -101,7 +102,6 @@ class Account extends GenericMetadata
         \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
-        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;

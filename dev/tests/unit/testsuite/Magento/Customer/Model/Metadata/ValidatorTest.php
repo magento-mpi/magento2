@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Model\Metadata;
 
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
+use Magento\Customer\Model\Data\AttributeMetadata;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -91,7 +91,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     protected function getMockAttribute()
     {
         $attribute = $this->getMockBuilder(
-            '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata'
+            '\Magento\Customer\Model\Data\AttributeMetadata'
         )->disableOriginalConstructor()->setMethods(
             array('__wakeup', 'getAttributeCode', 'getDataModel')
         )->getMock();
