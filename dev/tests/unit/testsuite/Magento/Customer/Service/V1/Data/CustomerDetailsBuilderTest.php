@@ -47,7 +47,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         $this->_customerBuilderMock = $this->getMockBuilder(
             '\Magento\Customer\Api\Data\CustomerDataBuilder'
         )->disableOriginalConstructor()
-            ->setMethods(['create','populateWithArray'])
+            ->setMethods(['create', 'populateWithArray'])
             ->getMock();
         $this->_addressBuilderMock = $this->getMockBuilder(
             '\Magento\Customer\Service\V1\Data\AddressBuilder'

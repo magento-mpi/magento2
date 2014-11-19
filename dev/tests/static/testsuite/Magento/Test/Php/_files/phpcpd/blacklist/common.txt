@@ -134,3 +134,4 @@ Magento/Shipping/Controller/Adminhtml/Order/Shipment
 vendor
 setup/vendor
 Magento/CatalogSearch/Model/Resource/Fulltext
+Magento/GroupedProduct/Model/Resource/Product/Type/Grouped

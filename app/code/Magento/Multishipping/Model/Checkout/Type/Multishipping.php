@@ -125,6 +125,7 @@ class Multishipping extends \Magento\Framework\Object
      * @param OrderSender $orderSender
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param array $data
      */
     public function __construct(

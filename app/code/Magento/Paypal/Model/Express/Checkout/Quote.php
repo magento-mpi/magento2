@@ -70,6 +70,7 @@ class Quote
 
     /**
      * @param \Magento\Sales\Model\Quote $quote
+     * @return void
      */
     public function prepareQuoteForNewCustomer(\Magento\Sales\Model\Quote $quote)
     {
@@ -114,6 +115,7 @@ class Quote
 
     /**
      * @param \Magento\Sales\Model\Quote $quote
+     * @return void
      */
     public function prepareRegisteredCustomerQuote(\Magento\Sales\Model\Quote $quote)
     {

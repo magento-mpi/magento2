@@ -239,7 +239,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $dataObjectConverter;
 
     /**
-     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Directory\Helper\Data $directoryData
@@ -260,12 +259,12 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param Address\CarrierFactoryInterface $carrierFactory
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressBuilder
      * @param Address\Validator $validator
+     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Directory\Helper\Data $directoryData,
@@ -286,11 +285,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory,
         \Magento\Customer\Api\AddressRepositoryInterface $addressBuilder,
         Address\Validator $validator,
+        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
     ) {
-        $this->dataObjectConverter = $dataObjectConverter;
         $this->_scopeConfig = $scopeConfig;
         $this->_addressItemFactory = $addressItemFactory;
         $this->_itemCollectionFactory = $itemCollectionFactory;
@@ -304,6 +303,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_carrierFactory = $carrierFactory;
         $this->addressBuilder = $addressBuilder;
         $this->validator = $validator;
+        $this->dataObjectConverter = $dataObjectConverter;
 
         parent::__construct(
             $context,

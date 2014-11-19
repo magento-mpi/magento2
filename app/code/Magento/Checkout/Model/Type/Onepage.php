@@ -237,7 +237,7 @@ class Onepage
         $this->addressRepository = $addressRepository;
         $this->accountManagement = $accountManagement;
         $this->orderSender = $orderSender;
-        $this->customerRepository = $customerRepository;;
+        $this->customerRepository = $customerRepository;
         $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
     }
 

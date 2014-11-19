@@ -261,6 +261,9 @@ class Checkout
      */
     protected $orderSender;
 
+    /**
+     * @var PaypalQuote
+     */
     protected $paypalQuote;
 
     /**
