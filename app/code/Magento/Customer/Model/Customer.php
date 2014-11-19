@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Model;
 
+use Magento\Customer\Api\CustomerMetadataInterface;
+use Magento\Customer\Api\GroupRepositoryInterface;
 use Magento\Customer\Model\Config\Share;
 use Magento\Customer\Model\Resource\Address\CollectionFactory;
 use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
@@ -170,9 +172,9 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     protected $_attributeFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var GroupRepositoryInterface
      */
-    protected $_groupService;
+    protected $_groupRepository;
 
     /**
      * @var \Magento\Framework\Encryption\EncryptorInterface
@@ -212,7 +214,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param AddressFactory $addressFactory
      * @param Resource\Address\CollectionFactory $addressesFactory
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
+     * @param GroupRepositoryInterface $groupRepository
      * @param AttributeFactory $attributeFactory
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
@@ -234,7 +236,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
+        GroupRepositoryInterface $groupRepository,
         AttributeFactory $attributeFactory,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Stdlib\DateTime $dateTime,
@@ -251,7 +253,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->_addressFactory = $addressFactory;
         $this->_addressesFactory = $addressesFactory;
         $this->_transportBuilder = $transportBuilder;
-        $this->_groupService = $groupService;
+        $this->_groupRepository = $groupRepository;
         $this->_attributeFactory = $attributeFactory;
         $this->_encryptor = $encryptor;
         $this->dateTime = $dateTime;
@@ -318,7 +320,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         // Need to use attribute set or future updates can cause data loss
         if (!$this->getAttributeSetId()) {
             $this->setAttributeSetId(
-                \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER
+                CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER
             );
         }
 
@@ -920,7 +922,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         if (!$this->hasData('group_id')) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : $this->_storeManager->getStore()->getId();
             $groupId = $this->_scopeConfig->getValue(
-                \Magento\Customer\Service\V1\CustomerGroupServiceInterface::XML_PATH_DEFAULT_ID,
+                GroupManagement::XML_PATH_DEFAULT_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );
@@ -937,7 +939,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     public function getTaxClassId()
     {
         if (!$this->getData('tax_class_id')) {
-            $groupTaxClassId = $this->_groupService->getGroup($this->getGroupId())->getTaxClassId();
+            $groupTaxClassId = $this->_groupRepository->getById($this->getGroupId())->getTaxClassId();
             $this->setData('tax_class_id', $groupTaxClassId);
         }
         return $this->getData('tax_class_id');
