@@ -10,6 +10,9 @@
 namespace Magento\Framework\App;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\ObjectManager\Environment;
+use Magento\Framework\ObjectManager\EnvironmentFactory;
+use Magento\Framework\ObjectManager\EnvironmentInterface;
 use Magento\Framework\Profiler;
 use Magento\Framework\Filesystem\DriverPool;
 
@@ -91,53 +94,26 @@ class ObjectManagerFactory
         $definitions = $definitionFactory->createClassDefinition($appArguments->get('definitions'), $useCompiled);
         $relations = $definitionFactory->createRelations();
 
-        if (file_exists(BP . '/var/di/global.ser')) {
-            $this->compiledConfig = \unserialize(\file_get_contents(BP . '/var/di/global.ser'));
-        }
+        $enFactory = new EnvironmentFactory($relations, $definitions, $appArguments);
+        /** @var EnvironmentInterface $env */
+        $env =  $enFactory->createEnvironment();
 
         /** @var \Magento\Framework\Interception\ObjectManager\Config $diConfig */
-        if ($this->compiledConfig) {
-            $diConfig = new $this->_configClassName(
-                new \Magento\Framework\ObjectManager\Config\Compiled($this->compiledConfig)
-            );
-        } else {
-            $diConfig = new $this->_configClassName(
-                new \Magento\Framework\ObjectManager\Config\Config($relations, $definitions)
-            );
-        }
+        $diConfig = $env->getDiConfig();
 
         $appMode = $appArguments->get(State::PARAM_MODE, State::MODE_DEFAULT);
-
         $booleanUtils = new \Magento\Framework\Stdlib\BooleanUtils();
         $argInterpreter = $this->createArgumentInterpreter($booleanUtils);
-
         $argumentMapper = new \Magento\Framework\ObjectManager\Config\Mapper\Dom($argInterpreter);
-        if (!$this->compiledConfig) {
 
+        if ($env->getMode() != Environment\Compiled::MODE) {
             $configData = $this->_loadPrimaryConfig($this->directoryList, $this->driverPool, $argumentMapper, $appMode);
-
             if ($configData) {
                 $diConfig->extend($configData);
             }
         }
-        $factoryClass = $this->compiledConfig
-            ? '\Magento\Framework\ObjectManager\Factory\Compiled'
-            : '\Magento\Framework\ObjectManager\Factory\Dynamic\Developer';
 
-        $factoryClass = $diConfig->getPreference($factoryClass);
-        $this->factory = new $factoryClass(
-            $diConfig,
-            null,
-            $definitions,
-            $appArguments->get()
-        );
-
-        if ($appArguments->get('MAGE_PROFILER') == 2) {
-            $this->factory = new \Magento\Framework\ObjectManager\Profiler\FactoryDecorator(
-                $this->factory,
-                \Magento\Framework\ObjectManager\Profiler\Log::getInstance()
-            );
-        }
+        $this->factory = $env->getObjectManagerFactory();
 
         $sharedInstances = [
             'Magento\Framework\App\Arguments' => $appArguments,
@@ -150,31 +126,30 @@ class ObjectManagerFactory
             'Magento\Framework\ObjectManager\DefinitionInterface' => $definitions,
             'Magento\Framework\Stdlib\BooleanUtils' => $booleanUtils,
             'Magento\Framework\ObjectManager\Config\Mapper\Dom' => $argumentMapper,
-            $this->_configClassName => $diConfig
+            'Magento\Framework\App\ObjectManager\ConfigLoader' => $env->getObjectManagerConfigLoader(),
+            $this->_configClassName => $diConfig,
         ];
 
-        if ($this->compiledConfig) {
-            $sharedInstances['Magento\Framework\App\ObjectManager\ConfigLoader']
-                = new \Magento\Framework\App\ObjectManager\ConfigLoader\Compiled();
-        }
-
-        /** @var \Magento\Framework\ObjectManagerInterface $objectManager */
+        /** @var \Magento\Framework\ObjectManager $objectManager */
         $objectManager = new $this->_locatorClassName($this->factory, $diConfig, $sharedInstances);
 
         $this->factory->setObjectManager($objectManager);
         ObjectManager::setInstance($objectManager);
 
-        $diConfig->setCache($objectManager->get('Magento\Framework\App\ObjectManager\ConfigCache'));
-        if (!$this->compiledConfig) {
-            $objectManager->configure(
-                $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global')
-            );
-        }
-        $objectManager->get('Magento\Framework\Config\ScopeInterface')->setCurrentScope('global');
+        $objectManager->configure(
+            $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global')
+        );
+        $objectManager->get('Magento\Framework\Config\ScopeInterface')
+            ->setCurrentScope('global');
         $objectManager->get('Magento\Framework\App\Resource')
             ->setCache($objectManager->get('Magento\Framework\App\CacheInterface'));
-        $interceptionConfig = $objectManager->get('Magento\Framework\Interception\Config\Config');
-        $diConfig->setInterceptionConfig($interceptionConfig);
+
+        $diConfig->setCache(
+            $objectManager->get('Magento\Framework\App\ObjectManager\ConfigCache')
+        );
+        $diConfig->setInterceptionConfig(
+            $objectManager->get('Magento\Framework\Interception\Config\Config')
+        );
 
         return $objectManager;
     }
