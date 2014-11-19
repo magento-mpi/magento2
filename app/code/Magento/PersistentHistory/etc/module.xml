@@ -12,15 +12,5 @@
         <sequence>
             <module name="Magento_Persistent"/>
         </sequence>
-        <depends>
-            <module name="Magento_Store"/>
-            <module name="Magento_Persistent"/>
-            <module name="Magento_Backend"/>
-            <module name="Magento_Customer"/>
-            <module name="Magento_Wishlist"/>
-            <module name="Magento_Reports"/>
-            <module name="Magento_Catalog"/>
-            <module name="Magento_Sales"/>
-        </depends>
     </module>
 </config>
