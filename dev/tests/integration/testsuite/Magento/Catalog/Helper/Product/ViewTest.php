@@ -28,7 +28,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $page;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 

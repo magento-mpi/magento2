@@ -16,7 +16,7 @@ use Magento\Framework\Api\AttributeInterface;
 
 class DataBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Framework\ObjectManager */
+    /** @var \Magento\Framework\ObjectManagerInterface */
     private $_objectManager;
 
     protected function setUp()

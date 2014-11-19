@@ -7,7 +7,7 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-interface LineCondition
+interface LineConditionInterface
 {
     /**
      * This method checks the current condition for the next token being added to the line and

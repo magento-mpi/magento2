@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\ObjectManager;
 
-interface Factory
+interface FactoryInterface
 {
     /**
      * Create instance with call time arguments

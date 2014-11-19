@@ -13,7 +13,7 @@
  */
 namespace Magento\Framework\HTTP;
 
-interface IClient
+interface ClientInterface
 {
     /**
      * Set request timeout
@@ -54,7 +54,7 @@ interface IClient
     public function setCredentials($login, $pass);
 
     /**
-     * Add cookie to request 
+     * Add cookie to request
      * @param string $name
      * @param string $value
      * @return void
@@ -116,7 +116,7 @@ interface IClient
     public function getStatus();
 
     /**
-     * Get response cookies (k=>v) 
+     * Get response cookies (k=>v)
      * @return array
      */
     public function getCookies();

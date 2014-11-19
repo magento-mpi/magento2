@@ -8,9 +8,11 @@
 
 namespace Magento\Framework\Api\Code\Generator;
 
+use \Magento\Framework\Code\Generator\FileResolver;
 use Magento\Framework\Code\Generator\CodeGenerator;
 use Magento\Framework\Code\Generator\EntityAbstract;
-use Magento\Framework\ObjectManager\Config as ObjectManagerConfig;
+use Magento\Framework\Code\Generator\Io;
+use Magento\Framework\ObjectManager\ConfigInterface as ObjectManagerConfig;
 use Zend\Code\Reflection\ClassReflection;
 
 /**
@@ -45,7 +47,32 @@ class DataBuilder extends EntityAbstract
 
     /** @var string[] */
     protected $extensibleInterfaceMethods;
-    
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param string|null $sourceClassName
+     * @param string|null $resultClassName
+     * @param Io|null $ioObject
+     * @param CodeGenerator\CodeGeneratorInterface|null $classGenerator
+     * @param FileResolver|null $fileResolver
+     */
+    public function __construct(
+        $sourceClassName = null,
+        $resultClassName = null,
+        Io $ioObject = null,
+        CodeGenerator\CodeGeneratorInterface $classGenerator = null,
+        FileResolver $fileResolver = null
+    ) {
+        parent::__construct(
+            $sourceClassName,
+            $resultClassName,
+            $ioObject,
+            $classGenerator,
+            $fileResolver
+        );
+    }
+
     /**
      * Retrieve class properties
      *
@@ -72,7 +99,7 @@ class DataBuilder extends EntityAbstract
                     ['name' => 'objectProcessor', 'type' => '\Magento\Framework\Reflection\DataObjectProcessor'],
                     ['name' => 'typeProcessor', 'type' => '\Magento\Framework\Reflection\TypeProcessor'],
                     ['name' => 'dataBuilderFactory', 'type' => '\Magento\Framework\Serialization\DataBuilderFactory'],
-                    ['name' => 'objectManagerConfig', 'type' => '\Magento\Framework\ObjectManager\Config'],
+                    ['name' => 'objectManagerConfig', 'type' => '\Magento\Framework\ObjectManager\ConfigInterface'],
                     [
                         'name' => 'modelClassInterface',
                         'type' => 'string',
@@ -108,7 +135,7 @@ class DataBuilder extends EntityAbstract
                         ],
                         [
                             'name' => 'param',
-                            'description' => '\Magento\Framework\ObjectManager\Config $objectManagerConfig'
+                            'description' => '\Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig'
                         ],
                         [
                             'name' => 'param',

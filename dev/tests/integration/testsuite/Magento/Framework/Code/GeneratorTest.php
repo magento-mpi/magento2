@@ -86,7 +86,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertTrue($result, 'Failed asserting that \'' . (string)$generatorResult . '\' equals \'success\'.');
 
-        /** @var $factory \Magento\Framework\ObjectManager\Factory */
+        /** @var $factory \Magento\Framework\ObjectManager\FactoryInterface */
         $factory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($factoryClassName);
 
         $object = $factory->create();
