@@ -27,6 +27,20 @@ interface TaxRuleInterface extends ExtensibleDataInterface
     public function getCode();
 
     /**
+     * Get priority
+     *
+     * @return int
+     */
+    public function getPriority();
+
+    /**
+     * Get sort order.
+     *
+     * @return int
+     */
+    public function getSortOrder();
+
+    /**
      * Get customer tax class id
      *
      * @return int[]
@@ -46,20 +60,6 @@ interface TaxRuleInterface extends ExtensibleDataInterface
      * @return int[]
      */
     public function getTaxRateIds();
-
-    /**
-     * Get priority
-     *
-     * @return int
-     */
-    public function getPriority();
-
-    /**
-     * Get sort order.
-     *
-     * @return int
-     */
-    public function getSortOrder();
 
     /**
      * Get calculate subtotal.

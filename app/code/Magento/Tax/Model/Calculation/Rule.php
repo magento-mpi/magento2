@@ -65,7 +65,6 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
         $this->_taxClass = $taxClass;
     }
 
-
     /**
      * After save rule
      * Re-declared for populate rate calculations
@@ -166,6 +165,14 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
     /**
      * {@inheritdoc}
      */
+    public function getId()
+    {
+        return parent::getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCode()
     {
         return $this->getData('code');
@@ -174,9 +181,25 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
     /**
      * {@inheritdoc}
      */
+    public function getSortOrder()
+    {
+        return (int) $this->getData('sort_order');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCalculateSubtotal()
+    {
+        return (bool) $this->getData('calculate_subtotal');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getCustomerTaxClassIds()
     {
-        return $this->getData('customer_tax_class_ids');
+        return $this->_getUniqueValues($this->getCustomerTaxClasses());
     }
 
     /**
@@ -184,7 +207,7 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
      */
     public function getProductTaxClassIds()
     {
-        return $this->getData('product_tax_class_ids');
+        return $this->_getUniqueValues($this->getProductTaxClasses());
     }
 
     /**
@@ -192,7 +215,7 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
      */
     public function getTaxRateIds()
     {
-        return $this->getData('tax_rate_ids');
+        return $this->_getUniqueValues($this->getRates());
     }
 
     /**
@@ -204,18 +227,16 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
     }
 
     /**
-     * {@inheritdoc}
+     * Get unique values of indexed array.
+     *
+     * @param array|null $values
+     * @return array|null
      */
-    public function getSortOrder()
+    protected function _getUniqueValues($values)
     {
-        return $this->getData('sort_order');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCalculateSubtotal()
-    {
-        return $this->getData('calculate_subtotal');
+        if (!$values) {
+            return null;
+        }
+        return array_values(array_unique($values));
     }
 }

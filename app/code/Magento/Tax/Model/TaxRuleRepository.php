@@ -28,11 +28,6 @@ class TaxRuleRepository implements TaxRuleRepositoryInterface
     protected $taxRuleRegistry;
 
     /**
-     * @var TaxRuleConverter
-     */
-    protected $converter;
-
-    /**
      * @var TaxRuleSearchResultsDataBuilder
      */
     protected $taxRuleSearchResultsBuilder;
@@ -55,7 +50,6 @@ class TaxRuleRepository implements TaxRuleRepositoryInterface
         CollectionFactory $collectionFactory
     ) {
         $this->taxRuleRegistry = $taxRuleRegistry;
-        $this->converter = $taxRuleConverter;
         $this->taxRuleSearchResultsBuilder = $searchResultsBuilder;
         $this->taxRuleModelFactory = $ruleFactory;
         $this->collectionFactory = $collectionFactory;
@@ -66,8 +60,7 @@ class TaxRuleRepository implements TaxRuleRepositoryInterface
      */
     public function get($ruleId)
     {
-        $taxRuleModel = $this->taxRuleRegistry->retrieveTaxRule($ruleId);
-        return $this->converter->createTaxRuleDataObjectFromModel($taxRuleModel);
+        return $this->taxRuleRegistry->retrieveTaxRule($ruleId);
     }
 
     /**

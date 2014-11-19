@@ -229,7 +229,7 @@ class TaxRuleServiceTest extends WebapiAbstract
             'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
             'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
             'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates())),
-            'calculate_subtotal' => 0
+            'calculate_subtotal' => false
         ];
         $requestData = ['ruleId' => $taxRuleId];
         $result = $this->_webApiCall($serviceInfo, $requestData);
