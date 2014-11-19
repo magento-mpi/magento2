@@ -22,7 +22,7 @@ use Magento\Framework\Exception\InputException;
  * this will allow extra protection to be added to the contents of the cookie as well sending directives to the browser
  * about how the cookie should be stored and whether JavaScript can access the cookie.
  */
-interface CookieManager
+interface CookieManagerInterface
 {
     /**
      * Set a value in a private cookie with the given $name $value pairing.

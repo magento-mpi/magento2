@@ -3,13 +3,13 @@
  * List of plugins configured in application
  *
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
 namespace Magento\Framework\Interception;
 
-interface PluginList
+interface PluginListInterface
 {
     /**
      * Retrieve next plugins in chain
