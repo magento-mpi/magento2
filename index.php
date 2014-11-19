@@ -21,10 +21,9 @@
 
 require __DIR__ . '/app/bootstrap.php';
 
+/* 'composer install' validation */
 $vendorDir = require __DIR__ . '/app/etc/vendor_path.php';
 $vendorAutoload = __DIR__ . "/{$vendorDir}/autoload.php";
-
-/* 'composer install' validation */
 if (!file_exists($vendorAutoload)) {
     echo <<<HTML
 <div style="font:12px/1.35em arial, helvetica, sans-serif;">
