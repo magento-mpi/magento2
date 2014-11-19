@@ -32,9 +32,9 @@ class Products extends AbstractAccordion
     protected $_catalogConfig;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Stock\Status
+     * @var \Magento\CatalogInventory\Helper\Stock
      */
-    protected $_catalogStockStatus;
+    protected $stockHelper;
 
     /**
      * @var \Magento\Framework\Json\DecoderInterface
@@ -47,7 +47,7 @@ class Products extends AbstractAccordion
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Json\DecoderInterface $jsonDecoder
-     * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
+     * @param \Magento\CatalogInventory\Helper\Stock $stockHelper
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -61,7 +61,7 @@ class Products extends AbstractAccordion
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Json\DecoderInterface $jsonDecoder,
-        \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
+        \Magento\CatalogInventory\Helper\Stock $stockHelper,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -69,7 +69,7 @@ class Products extends AbstractAccordion
     ) {
         $this->_jsonDecoder = $jsonDecoder;
         parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $data);
-        $this->_catalogStockStatus = $catalogStockStatus;
+        $this->stockHelper = $stockHelper;
         $this->_catalogConfig = $catalogConfig;
         $this->_salesConfig = $salesConfig;
         $this->_productFactory = $productFactory;
@@ -124,7 +124,7 @@ class Products extends AbstractAccordion
             )->addStoreFilter(
                 $this->_getStore()
             );
-            $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
+            $this->stockHelper->addIsInStockFilterToCollection($collection);
             $this->setData('items_collection', $collection);
         }
         return $this->getData('items_collection');

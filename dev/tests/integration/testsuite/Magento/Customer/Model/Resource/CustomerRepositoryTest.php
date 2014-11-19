@@ -21,7 +21,7 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
     /** @var CustomerRepositoryInterface */
     private $customerRepository;
 
-    /** @var \Magento\Framework\ObjectManager */
+    /** @var \Magento\Framework\ObjectManagerInterface */
     private $objectManager;
 
     /** @var \Magento\Customer\Api\Data\CustomerDataBuilder */

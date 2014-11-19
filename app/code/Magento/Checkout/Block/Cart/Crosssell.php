@@ -7,6 +7,8 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
+use Magento\CatalogInventory\Helper\Stock as StockHelper;
+
 /**
  * Cart crosssell list
  *
@@ -32,9 +34,9 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_productVisibility;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Stock
+     * @var StockHelper
      */
-    protected $_stock;
+    protected $stockHelper;
 
     /**
      * @var \Magento\Catalog\Model\Product\LinkFactory
@@ -50,9 +52,9 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
-     * @param \Magento\CatalogInventory\Model\Stock $stock
      * @param \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory
      * @param \Magento\Sales\Model\Quote\Item\RelatedProducts $itemRelationsList
+     * @param StockHelper $stockHelper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -61,16 +63,16 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
-        \Magento\CatalogInventory\Model\Stock $stock,
         \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory,
         \Magento\Sales\Model\Quote\Item\RelatedProducts $itemRelationsList,
+        StockHelper $stockHelper,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
         $this->_productVisibility = $productVisibility;
-        $this->_stock = $stock;
         $this->_productLinkFactory = $productLinkFactory;
         $this->_itemRelationsList = $itemRelationsList;
+        $this->stockHelper = $stockHelper;
         parent::__construct(
             $context,
             $data
@@ -195,7 +197,7 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
         );
         $this->_addProductAttributesAndPrices($collection);
 
-        $this->_stock->addInStockFilterToCollection($collection);
+        $this->stockHelper->addInStockFilterToCollection($collection);
 
         return $collection;
     }

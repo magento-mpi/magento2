@@ -289,9 +289,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_addressConverter;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     /**
      * @var \Magento\Sales\Model\Quote\Item\Processor
@@ -330,7 +330,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\Address\Converter $addressConverter
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param Quote\Item\Processor $itemProcessor
      * @param \Magento\Framework\Object\Factory $objectFactory
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
@@ -360,7 +360,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Model\Converter $converter,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\Address\Converter $addressConverter,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Sales\Model\Quote\Item\Processor $itemProcessor,
         \Magento\Framework\Object\Factory $objectFactory,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
@@ -387,7 +387,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->_converter = $converter;
         $this->_addressService = $addressService;
         $this->_addressConverter = $addressConverter;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
         $this->itemProcessor = $itemProcessor;
         $this->objectFactory = $objectFactory;
         $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
@@ -1138,9 +1138,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     public function hasItemsWithDecimalQty()
     {
         foreach ($this->getAllItems() as $item) {
-            /** @var \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItemDo */
-            $stockItemDo = $this->stockItemService->getStockItem($item->getProduct()->getId());
-            if ($stockItemDo->getStockId() && $stockItemDo->getIsQtyDecimal()) {
+            $stockItemDo = $this->stockRegistry->getStockItem($item->getProduct()->getId(), $item->getStore()->getWebsiteId());
+            if ($stockItemDo->getId() && $stockItemDo->getIsQtyDecimal()) {
                 return true;
             }
         }
@@ -1355,7 +1354,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             if (!$parentItem) {
                 $parentItem = $item;
             }
-            if ($parentItem && $candidate->getParentProductId()) {
+            if ($parentItem && $candidate->getParentProductId() && !$item->getParentItem()) {
                 $item->setParentItem($parentItem);
             }
 

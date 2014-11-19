@@ -17,13 +17,13 @@ class FilterList extends \Magento\Catalog\Model\Layer\FilterList
     protected $helper;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Catalog\Model\Layer\Category\FilterableAttributeList $filterableAttributes
      * @param \Magento\Solr\Helper\Data $helper
      * @param array $filters
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Catalog\Model\Layer\Category\FilterableAttributeList $filterableAttributes,
         \Magento\Solr\Helper\Data $helper,
         array $filters = array()

@@ -31,9 +31,14 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
     protected $_inventoryItemTableAlias = 'lowstock_inventory_item';
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
+
+    /**
+     * @var \Magento\CatalogInventory\Api\StockConfigurationInterface
+     */
+    protected $stockConfiguration;
 
     /**
      * @var \Magento\CatalogInventory\Model\Resource\Stock\Item
@@ -63,7 +68,8 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      * @param \Magento\Catalog\Model\Resource\Product $product
      * @param \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory
      * @param \Magento\Catalog\Model\Product\Type $productType
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration
      * @param \Magento\CatalogInventory\Model\Resource\Stock\Item $itemResource
      * @param mixed $connection
      *
@@ -92,7 +98,8 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         \Magento\Catalog\Model\Resource\Product $product,
         \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory,
         \Magento\Catalog\Model\Product\Type $productType,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration,
         \Magento\CatalogInventory\Model\Resource\Stock\Item $itemResource,
         $connection = null
     ) {
@@ -121,7 +128,8 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
             $productType,
             $connection
         );
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
+        $this->stockConfiguration = $stockConfiguration;
         $this->_itemResource = $itemResource;
     }
 
@@ -250,7 +258,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
      */
     public function filterByIsQtyProductTypes()
     {
-        $this->filterByProductType(array_keys(array_filter($this->stockItemService->getIsQtyTypeIds())));
+        $this->filterByProductType(array_keys(array_filter($this->stockConfiguration->getIsQtyTypeIds())));
         return $this;
     }
 
@@ -265,11 +273,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         $this->joinInventoryItem();
         $manageStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_manage_stock') . ' = 1',
-            (int)$this->_scopeConfig->getValue(
-                \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            ),
+            (int)$this->stockConfiguration->getManageStock($storeId),
             $this->_getInventoryItemField('manage_stock')
         );
         $this->getSelect()->where($manageStockExpr . ' = ?', 1);
@@ -287,11 +291,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         $this->joinInventoryItem(array('qty'));
         $notifyStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_notify_stock_qty') . ' = 1',
-            (int)$this->_scopeConfig->getValue(
-                \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            ),
+            (int)$this->stockConfiguration->getNotifyStockQty($storeId),
             $this->_getInventoryItemField('notify_stock_qty')
         );
         $this->getSelect()->where('qty < ?', $notifyStockExpr);

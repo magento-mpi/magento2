@@ -122,4 +122,12 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
     {
         return true;
     }
+
+    /**
+     * @return bool
+     */
+    public function getShowDefaultNotificationMessage()
+    {
+        return true;
+    }
 }
