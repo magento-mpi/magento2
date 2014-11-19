@@ -78,9 +78,15 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             // Set default billing and shipping flags to customer
             if (isset($addressData['default_billing']) && $addressData['default_billing'] === 'true') {
                 $extractedCustomerData[Customer::DEFAULT_BILLING] = $addressId;
+                $addressData['default_billing'] = true;
+            } else {
+                $addressData['default_billing'] = false;
             }
             if (isset($addressData['default_shipping']) && $addressData['default_shipping'] === 'true') {
                 $extractedCustomerData[Customer::DEFAULT_SHIPPING] = $addressId;
+                $addressData['default_shipping'] = true;
+            } else {
+                $addressData['default_shipping'] = false;
             }
 
             $result[] = $addressData;

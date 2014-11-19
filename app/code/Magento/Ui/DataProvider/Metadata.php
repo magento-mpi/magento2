@@ -232,13 +232,15 @@ class Metadata implements \Iterator, \ArrayAccess
             foreach ($this->config['fields'] as $field) {
                 if (isset($field['source']) && $field['source'] == 'eav') {
                     $attribute = $this->dataSet->getEntity()->getAttribute($field['name']);
-                    $this->attributes[$field['name']] = $attribute->getData();
-                    $options = [];
-                    if ($attribute->usesSource()) {
-                        $options = $attribute->getSource()->getAllOptions();
+                    if ($attribute) {
+                        $this->attributes[$field['name']] = $attribute->getData();
+                        $options = [];
+                        if ($attribute->usesSource()) {
+                            $options = $attribute->getSource()->getAllOptions();
+                        }
+                        $this->attributes[$field['name']]['options'] = $options;
+                        $this->attributes[$field['name']]['is_required'] = $attribute->getIsRequired();
                     }
-                    $this->attributes[$field['name']]['options'] = $options;
-                    $this->attributes[$field['name']]['is_required'] = $attribute->getIsRequired();
                 }
             }
         }
