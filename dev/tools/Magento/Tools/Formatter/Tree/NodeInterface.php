@@ -7,7 +7,7 @@
  */
 namespace Magento\Tools\Formatter\Tree;
 
-interface Node
+interface NodeInterface
 {
     /**
      * This method adds the named child to the end of the children nodes

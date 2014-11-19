@@ -11,7 +11,7 @@ namespace Magento\Tools\Formatter\Tree;
  * This class is a generic implementation of a tree node.
  * Class TreeNode
  */
-class TreeNode implements Node
+class TreeNode implements NodeInterface
 {
     /**
      * This member holds the list of children of this node.
@@ -30,7 +30,7 @@ class TreeNode implements Node
     /**
      * This member holds the parent of the current node (i.e. a circular reference).
      *
-     * @var Node
+     * @var NodeInterface
      */
     protected $parent;
 
@@ -155,10 +155,10 @@ class TreeNode implements Node
     /**
      * This method set the parent node of the current node.
      *
-     * @param Node $parent Node that holds this node as a child.
+     * @param NodeInterface $parent Node that holds this node as a child.
      * @return void
      */
-    public function setParent(Node $parent)
+    public function setParent(NodeInterface $parent)
     {
         // if moving parents, make sure the old parent no longer has a reference
         if (null !== $this->parent) {
