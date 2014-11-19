@@ -1,31 +1,31 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
 namespace Magento\Framework\ObjectManager;
 
-interface Config
+interface ConfigInterface
 {
     /**
      * Set class relations
      *
-     * @param Relations $relations
+     * @param RelationsInterface $relations
      *
      * @return void
      */
-    public function setRelations(Relations $relations);
+    public function setRelations(RelationsInterface $relations);
 
     /**
      * Set configuration cache instance
      *
-     * @param ConfigCache $cache
+     * @param ConfigCacheInterface $cache
      *
      * @return void
      */
-    public function setCache(ConfigCache $cache);
+    public function setCache(ConfigCacheInterface $cache);
 
     /**
      * Retrieve list of arguments per type

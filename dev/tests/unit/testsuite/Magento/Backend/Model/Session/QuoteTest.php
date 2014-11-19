@@ -152,13 +152,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->cookieManagerMock = $this->getMock(
-            'Magento\Framework\Stdlib\CookieManager',
-            [],
-            [],
-            '',
-            false
-        );
+        $this->cookieManagerMock = $this->getMock('Magento\Framework\Stdlib\CookieManagerInterface');
         $this->cookieMetadataFactoryMock = $this->getMock(
             'Magento\Framework\Stdlib\Cookie\CookieMetadataFactory',
             [],

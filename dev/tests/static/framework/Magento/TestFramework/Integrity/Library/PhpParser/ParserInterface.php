@@ -11,7 +11,7 @@ namespace Magento\TestFramework\Integrity\Library\PhpParser;
  * Parser for each token type
  *
  */
-interface Parser
+interface ParserInterface
 {
     /**
      * Parse specific token

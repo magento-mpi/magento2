@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\ObjectManager;
 
-interface Relations
+interface RelationsInterface
 {
     /**
      * Check whether requested type is available for read

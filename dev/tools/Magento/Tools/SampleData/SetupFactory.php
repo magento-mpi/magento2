@@ -7,21 +7,21 @@
  */
 namespace Magento\Tools\SampleData;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 class SetupFactory
 {
     const INSTANCE_TYPE = 'Magento\Tools\SampleData\SetupInterface';
 
     /**
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $_objectManager;
 
     /**
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManagerInterface $objectManager)
     {
         $this->_objectManager = $objectManager;
     }

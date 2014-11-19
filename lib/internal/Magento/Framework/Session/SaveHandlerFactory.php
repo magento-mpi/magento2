@@ -20,7 +20,7 @@ class SaveHandlerFactory
     /**
      * Object manager
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -34,10 +34,10 @@ class SaveHandlerFactory
     /**
      * Constructor
      *
-     * @param \Magento\Framework\ObjectManager $objectManger
+     * @param \Magento\Framework\ObjectManagerInterface $objectManger
      * @param array $handlers
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManger, array $handlers = array())
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManger, array $handlers = array())
     {
         $this->objectManager = $objectManger;
         if (!empty($handlers)) {

@@ -163,13 +163,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->response = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
-        $this->objectManager = $this->getMock(
-            'Magento\Framework\ObjectManager',
-            ['configure', 'create', 'get'],
-            [],
-            '',
-            false
-        );
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
         $this->url = $this->getMock('Magento\Framework\UrlInterface', [], [], '', false);
         $this->redirect = $this->getMock('Magento\Framework\App\Response\RedirectInterface', [], [], '', false);
