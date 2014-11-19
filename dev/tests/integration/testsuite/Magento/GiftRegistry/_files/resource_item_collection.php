@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\Framework\ObjectManager $objectManager */
+/** @var \Magento\Framework\ObjectManagerInterface $objectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
 // create gift registry
