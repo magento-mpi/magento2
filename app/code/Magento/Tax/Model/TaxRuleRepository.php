@@ -19,6 +19,10 @@ use \Magento\Tax\Model\Resource\Calculation\Rule\CollectionFactory;
 use \Magento\Framework\Api\SortOrder;
 use \Magento\Tax\Api\Data\TaxRuleSearchResultsDataBuilder;
 use \Magento\Framework\Api\SearchCriteria;
+use \Magento\Framework\Exception\InputException;
+use \Magento\Framework\Exception\CouldNotSaveException;
+use \Magento\Framework\Model\Exception as ModelException;
+use \Magento\Tax\Model\Resource\Calculation\Rule as Resource;
 
 class TaxRuleRepository implements TaxRuleRepositoryInterface
 {
@@ -42,17 +46,24 @@ class TaxRuleRepository implements TaxRuleRepositoryInterface
      */
     protected $collectionFactory;
 
+    /**
+     * @var
+     */
+    protected $resource;
+
     public function __construct(
         TaxRuleRegistry $taxRuleRegistry,
         TaxRuleConverter $taxRuleConverter,
         TaxRuleSearchResultsDataBuilder $searchResultsBuilder,
         RuleFactory $ruleFactory,
-        CollectionFactory $collectionFactory
+        CollectionFactory $collectionFactory,
+        Resource $resource
     ) {
         $this->taxRuleRegistry = $taxRuleRegistry;
         $this->taxRuleSearchResultsBuilder = $searchResultsBuilder;
         $this->taxRuleModelFactory = $ruleFactory;
         $this->collectionFactory = $collectionFactory;
+        $this->resource = $resource;
     }
 
     /**
@@ -68,7 +79,17 @@ class TaxRuleRepository implements TaxRuleRepositoryInterface
      */
     public function save(TaxRuleInterface $rule)
     {
-
+        try {
+            $this->resource->save($rule);
+        } catch (ModelException $e) {
+            if ($e->getCode() == ModelException::ERROR_CODE_ENTITY_ALREADY_EXISTS) {
+                throw new InputException($e->getMessage());
+            } else {
+                throw new CouldNotSaveException($e->getMessage());
+            }
+        }
+        $this->taxRuleRegistry->registerTaxRule($rule);
+        return $rule;
     }
 
     /**
@@ -124,14 +145,7 @@ class TaxRuleRepository implements TaxRuleRepositoryInterface
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
 
-        $taxRules = [];
-
-        /** @var TaxRuleInterface $taxRuleModel */
-        foreach ($collection as $taxRuleModel) {
-            $taxRule = $this->converter->createTaxRuleDataObjectFromModel($taxRuleModel);
-            $taxRules[] = $taxRule;
-        }
-        $this->taxRuleSearchResultsBuilder->setItems($taxRules);
+        $this->taxRuleSearchResultsBuilder->setItems($collection->getItems());
         return $this->taxRuleSearchResultsBuilder->create();
     }
 

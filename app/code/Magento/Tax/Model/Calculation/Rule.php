@@ -40,11 +40,17 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
     protected $_calculation;
 
     /**
+     * @var \Magento\Tax\Model\Calculation\Rule\Validator
+     */
+    protected $validator;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param MetadataServiceInterface $metadataService
      * @param \Magento\Tax\Model\ClassModel $taxClass
      * @param \Magento\Tax\Model\Calculation $calculation
+     * @param Rule\Validator $validator
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -55,11 +61,13 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
         MetadataServiceInterface $metadataService,
         \Magento\Tax\Model\ClassModel $taxClass,
         \Magento\Tax\Model\Calculation $calculation,
+        \Magento\Tax\Model\Calculation\Rule\Validator $validator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_calculation = $calculation;
+        $this->validator = $validator;
         parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
         $this->_init('Magento\Tax\Model\Resource\Calculation\Rule');
         $this->_taxClass = $taxClass;
@@ -238,5 +246,13 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
             return null;
         }
         return array_values(array_unique($values));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _getValidationRulesBeforeSave()
+    {
+        return $this->validator;
     }
 }
