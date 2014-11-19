@@ -44,6 +44,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Customer\Model\Address\Mapper $mapper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -64,6 +65,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Framework\Registry $registry,
+        \Magento\Customer\Model\Address\Mapper $mapper,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -83,6 +85,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
             $addressService,
             $criteriaBuilder,
             $filterBuilder,
+            $mapper,
             $data
         );
     }
