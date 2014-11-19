@@ -9,16 +9,16 @@
 namespace Magento\CatalogRule\Test\TestCase;
 
 use Mtf\TestCase\Injectable;
+use Mtf\Fixture\FixtureFactory;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 
 /**
- * Class CatalogRuleEntityTest
  * Parent class for CatalogRule tests
  */
-abstract class CatalogRuleEntityTest extends Injectable
+abstract class AbstractCatalogRuleEntityTest extends Injectable
 {
     /**
      * Page CatalogRuleIndex
@@ -49,21 +49,31 @@ abstract class CatalogRuleEntityTest extends Injectable
     protected $catalogRules = [];
 
     /**
+     * Fixture factory
+     *
+     * @var FixtureFactory
+     */
+    protected $fixtureFactory;
+
+    /**
      * Injection data
      *
      * @param CatalogRuleIndex $catalogRuleIndex
      * @param CatalogRuleNew $catalogRuleNew
      * @param AdminCache $adminCache
+     * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function __inject(
         CatalogRuleIndex $catalogRuleIndex,
         CatalogRuleNew $catalogRuleNew,
-        AdminCache $adminCache
+        AdminCache $adminCache,
+        FixtureFactory $fixtureFactory
     ) {
         $this->catalogRuleIndex = $catalogRuleIndex;
         $this->catalogRuleNew = $catalogRuleNew;
         $this->adminCache = $adminCache;
+        $this->fixtureFactory = $fixtureFactory;
     }
 
     /**
