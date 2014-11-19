@@ -25,7 +25,9 @@ class SampleRepository
      *
      * @var array
      */
-    protected $registry = array();
+    protected $registry = array(
+        
+    );
 
     /**
      * Repository constructor

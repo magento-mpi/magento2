@@ -96,7 +96,7 @@ class ServiceArgsSerializer
                     : $inputArray[$snakeCaseParamName];
 
                 if ($this->_isArrayParam($param)) {
-                    $paramType = "{$param->getType()}[]";
+                    $paramType = $this->getParamType($param);
                 } else {
                     $paramType = $param->getType();
                 }
@@ -107,6 +107,24 @@ class ServiceArgsSerializer
         }
 
         return $inputData;
+    }
+
+    /**
+     * Get the parameter type
+     *
+     * @param $param
+     * @return string
+     */
+    private function getParamType($param)
+    {
+        $docBlock = $param->getDeclaringFunction()->getDocBlock();
+        $precedingParamsPattern = str_repeat('.*\@param.*', $param->getPosition());
+        $matches = [];
+        preg_match("/.*{$precedingParamsPattern}\@param\s+(\S*\[\]).*/is", $docBlock->getContents(), $matches);
+        if (count($matches) > 1) {
+            return $matches[1];
+        }
+        return "{$param->getType()}[]";
     }
 
     /**
