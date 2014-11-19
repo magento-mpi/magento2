@@ -1,13 +1,13 @@
 <?php
 /**
- * Integration test for \Magento\Framework\Code\Generator\FileResolver
+ * Integration test for \Magento\Framework\Filesystem\FileResolver
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Code\Generator;
+namespace Magento\Framework\Filesystem;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -25,7 +25,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     const SECOND_PATH = '/path/to/code/2/';
 
     /**
-     * @var \Magento\Framework\Code\Generator\FileResolver
+     * @var \Magento\Framework\Filesystem\FileResolver
      */
     protected $model;
 
@@ -36,7 +36,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->model = Bootstrap::getObjectManager()->create('Magento\Framework\Code\Generator\FileResolver');
+        $this->model = Bootstrap::getObjectManager()->create('Magento\Framework\Filesystem\FileResolver');
         $this->originalPath = get_include_path();
         set_include_path('/pre/existing/paths/');
     }
@@ -72,7 +72,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFile()
     {
-        $includePath = realpath(__DIR__ . '/../_files/');
+        $includePath = realpath(__DIR__ . '/_files/');
         $className = '\ClassToFind';
 
         $this->model->addIncludePath($includePath);

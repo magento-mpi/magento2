@@ -1,14 +1,15 @@
 <?php
 /**
- * Contains logic for finding class filepaths.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Code\Generator;
+namespace Magento\Framework\Filesystem;
 
+/**
+ * Contains logic for finding class filepaths based on include_path configuration.
+ */
 class FileResolver
 {
     /**
@@ -26,7 +27,6 @@ class FileResolver
     /**
      * Get relative file path for specified class
      *
-     * @static
      * @param string $class
      * @return string
      */

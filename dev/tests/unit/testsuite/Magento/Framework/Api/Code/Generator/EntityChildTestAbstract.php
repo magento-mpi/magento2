@@ -5,20 +5,16 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Framework\ObjectManager\Code\Generator;
+namespace Magento\Framework\Api\Code\Generator;
 
 use Magento\Framework\Code\Generator\Io;
 use Magento\TestFramework\Helper\ObjectManager;
 
 /**
- * Class ConverterTest
- * @package Magento\Framework\ObjectManager\Code\Generator
+ * Class BuilderTest
  */
-class ConverterTest extends \PHPUnit_Framework_TestCase
+abstract class EntityChildTestAbstract extends \PHPUnit_Framework_TestCase
 {
-    const SOURCE_CLASS_NAME = 'Magento\Framework\ObjectManager\Code\Generator\Sample';
-    const RESULT_CLASS_NAME = 'Magento\Framework\ObjectManager\Code\Generator\SampleConverter';
-
     /**
      * @var Io | \PHPUnit_Framework_MockObject_MockObject
      */
@@ -34,13 +30,21 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     protected $classGenerator;
 
-    /**
-     * @var \Magento\Framework\Code\Generator\DefinedClasses | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $definedClassesMock;
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Code\Generator\DefinedClasses */
+    protected $definedClassesMock;
+
+    protected abstract function getSourceClassName();
+
+    protected abstract function getResultClassName();
+
+    protected abstract function getGeneratorClassName();
+
+    protected abstract function getOutputFileName();
 
     protected function setUp()
     {
+        require_once __DIR__ . '/_files/Sample.php';
+
         $this->ioObjectMock = $this->getMock(
             'Magento\Framework\Code\Generator\Io',
             [],
@@ -55,39 +59,39 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
         $this->definedClassesMock = $this->getMockBuilder('Magento\Framework\Code\Generator\DefinedClasses')
             ->disableOriginalConstructor()->getMock();
 
         $objectManager = new ObjectManager($this);
         $this->generator = $objectManager->getObject(
-            'Magento\Framework\ObjectManager\Code\Generator\Converter',
+            $this->getGeneratorClassName(),
             [
-                'sourceClassName' => self::SOURCE_CLASS_NAME,
-                'resultClassName' => self::RESULT_CLASS_NAME,
+                'sourceClassName' => $this->getSourceClassName(),
+                'resultClassName' => $this->getResultClassName(),
                 'ioObject' => $this->ioObjectMock,
                 'classGenerator' => $this->classGenerator,
-                'definedClasses' => $this->definedClassesMock
+                'definedClasses' => $this->definedClassesMock,
             ]
         );
     }
 
+    /**
+     * generate repository name
+     */
     public function testGenerate()
     {
         $generatedCode = 'Generated code';
-        $resultFileName = 'SampleConverter.php';
+        $resultFileName = $this->getOutputFileName();
 
         //Mocking _validateData call
-        $this->definedClassesMock->expects($this->at(0))
-            ->method('classLoadable')
-            ->will($this->returnValue(true));
+        $this->mockDefinedClassesCall();
 
         $this->ioObjectMock->expects($this->once())
             ->method('makeGenerationDirectory')
             ->will($this->returnValue(true));
         $this->ioObjectMock->expects($this->once())
             ->method('makeResultFileDirectory')
-            ->with(self::RESULT_CLASS_NAME)
+            ->with($this->getResultClassName())
             ->will($this->returnValue(true));
         $this->ioObjectMock->expects($this->once())
             ->method('fileExists')
@@ -97,7 +101,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         //Mocking _generateCode call
         $this->classGenerator->expects($this->once())
             ->method('setName')
-            ->with(self::RESULT_CLASS_NAME)
+            ->with($this->getResultClassName())
             ->will($this->returnSelf());
         $this->classGenerator->expects($this->once())
             ->method('addProperties')
@@ -115,12 +119,24 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         //Mocking generation
         $this->ioObjectMock->expects($this->any())
             ->method('getResultFileName')
-            ->with(self::RESULT_CLASS_NAME)
+            ->with($this->getResultClassName())
             ->will($this->returnValue($resultFileName));
         $this->ioObjectMock->expects($this->once())
             ->method('writeResultFile')
             ->with($resultFileName, $generatedCode);
 
-        $this->assertEquals($resultFileName, $this->generator->generate());
+        $this->assertEquals(
+            $resultFileName,
+            $this->generator->generate(),
+            implode("\n", $this->generator->getErrors())
+        );
+    }
+
+    protected function mockDefinedClassesCall()
+    {
+        $this->definedClassesMock->expects($this->at(0))
+            ->method('classLoadable')
+            ->with($this->getSourceClassName())
+            ->willReturn(true);
     }
 }
