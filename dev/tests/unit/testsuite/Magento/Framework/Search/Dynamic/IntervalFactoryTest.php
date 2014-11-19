@@ -16,7 +16,7 @@ class IntervalFactoryTest extends \PHPUnit_Framework_TestCase
     const INTERVAL = 'some_interval';
 
     /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $objectManager;
 
@@ -42,10 +42,10 @@ class IntervalFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->helper = new ObjectManager($this);
 
-        $this->objectManager = $this->getMockBuilder('Magento\Framework\ObjectManager')
+        $this->objectManager = $this->getMockBuilder('Magento\Framework\ObjectManagerInterface')
             ->setMethods(['create', 'get', 'configure'])
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMockForAbstractClass();
 
         $this->scopeConfig = $this->getMockBuilder('Magento\Framework\App\Config\ScopeConfigInterface')
             ->setMethods(['getValue'])
@@ -127,4 +127,3 @@ class IntervalFactoryTest extends \PHPUnit_Framework_TestCase
         return $factory->create();
     }
 }
- 
