@@ -7,6 +7,7 @@
  */
 namespace Magento\Framework\Search\Dynamic;
 
+use Magento\Framework\Search\Dynamic\IntervalInterface;
 
 /**
  * Algorithm for layer value filter
@@ -69,7 +70,7 @@ class Algorithm
      *
      * @var array
      */
-    protected $_skippedQuantilesUpperLimits = array();
+    protected $_skippedQuantilesUpperLimits = [];
 
     /**
      * Total count of values
@@ -83,14 +84,14 @@ class Algorithm
      *
      * @var array [from, to]
      */
-    protected $_quantileInterval = array(0, 0);
+    protected $_quantileInterval = [0, 0];
 
     /**
      * Values of current quantile
      *
      * @var array
      */
-    protected $_values = array();
+    protected $_values = [];
 
     /**
      * Max value
@@ -111,7 +112,7 @@ class Algorithm
      *
      * @var array [index, value]
      */
-    protected $_lastValueLimiter = array(null, 0);
+    protected $_lastValueLimiter = [null, 0];
 
     /**
      * @var IntervalInterface
@@ -137,6 +138,7 @@ class Algorithm
     {
         $this->_lowerLimit = empty($lowerLimit) ? null : (double)$lowerLimit;
         $this->_upperLimit = empty($upperLimit) ? null : (double)$upperLimit;
+
         return $this;
     }
 
@@ -158,6 +160,7 @@ class Algorithm
         if ($count < 2 || $valueRange <= 0) {
             //Same value couldn't be separated with several intervals
             $this->_intervalsNumber = 1;
+
             return $this;
         }
 
@@ -175,11 +178,13 @@ class Algorithm
     /**
      * Calculate separators, each contains 'from', 'to' and 'count'
      *
+     * @param IntervalInterface $interval
      * @return array
      */
-    public function calculateSeparators()
+    public function calculateSeparators(IntervalInterface $interval)
     {
-        $result = array();
+        $this->interval = $interval;
+        $result = [];
         $lastCount = 0;
         $intervalFirstValue = $this->_minValue;
         $lastSeparator = is_null($this->_lowerLimit) ? 0 : $this->_lowerLimit;
@@ -204,22 +209,22 @@ class Algorithm
                     $isEqualValue = $intervalFirstValue ==
                     $this->_values[$bestSeparator[2] - 1] ? $this->_values[0] : false;
                     $count = $bestSeparator[2] + $this->_quantileInterval[0] - $lastCount;
-                    $separatorData = array(
+                    $separatorData = [
                         'from' => $isEqualValue !== false ? $isEqualValue : $lastSeparator,
                         'to' => $isEqualValue !== false ? $isEqualValue : $bestSeparator[1],
                         'count' => $count
-                    );
+                    ];
                     if (abs(1 - $count / $valuesPerInterval) <= self::INTERVAL_DEFLECTION_LIMIT) {
                         $newLastSeparator = $bestSeparator[1];
                         $newIntervalFirstValue = $this->_values[$bestSeparator[2]];
                         $result[$intervalNumber] = $separatorData;
                     } elseif (!$separatorCandidate || $bestSeparator[0] < $separatorCandidate[0]) {
-                        $separatorCandidate = array(
+                        $separatorCandidate = [
                             $bestSeparator[0],
                             $separatorData,
                             $bestSeparator[1],
                             $this->_values[$bestSeparator[2]]
-                        );
+                        ];
                     }
                 }
             }
@@ -236,17 +241,17 @@ class Algorithm
                 $valueIndex = $this->_binarySearch($lastSeparator);
                 $lastCount += $result[$intervalNumber]['count'];
                 if ($valueIndex != -1 && $lastSeparator > $this->_lastValueLimiter[1]) {
-                    $this->_lastValueLimiter = array($valueIndex + $this->_quantileInterval[0], $lastSeparator);
+                    $this->_lastValueLimiter = [$valueIndex + $this->_quantileInterval[0], $lastSeparator];
                 }
             }
         }
         if ($this->_lastValueLimiter[0] < $this->_count) {
             $isEqualValue = $intervalFirstValue == $this->_maxValue ? $intervalFirstValue : false;
-            $result[$this->getIntervalsNumber()] = array(
+            $result[$this->getIntervalsNumber()] = [
                 'from' => $isEqualValue ? $isEqualValue : $lastSeparator,
                 'to' => $isEqualValue ? $isEqualValue : (is_null($this->_upperLimit) ? '' : $this->_upperLimit),
                 'count' => $this->_count - $lastCount
-            );
+            ];
         }
 
         return array_values($result);
@@ -257,7 +262,7 @@ class Algorithm
      *
      * @return int
      */
-    public function getIntervalsNumber()
+    protected function getIntervalsNumber()
     {
         if (!is_null($this->_intervalsNumber)) {
             return $this->_intervalsNumber;
@@ -278,7 +283,7 @@ class Algorithm
             return null;
         }
 
-        $values = array();
+        $values = [];
         $quantileInterval = $this->_getQuantileInterval($quantileNumber);
         $intervalValuesCount = $quantileInterval[1] - $quantileInterval[0] + 1;
         $offset = $quantileInterval[0];
@@ -305,7 +310,7 @@ class Algorithm
             );
         }
         $lastValue = $values[$intervalValuesCount - 1];
-        $bestRoundValue = array();
+        $bestRoundValue = [];
         if ($lastValue == $values[0]) {
             if ($quantileNumber == 1 && $offset) {
                 $additionalValues = $this->interval->loadPrevious($lastValue, $quantileInterval[0], $this->_lowerLimit);
@@ -322,7 +327,7 @@ class Algorithm
             if ($quantileNumber == $this->getIntervalsNumber() - 1) {
                 $valuesCount = count($values);
                 if ($values[$valuesCount - 1] > $lastValue) {
-                    $additionalValues = array($values[$valuesCount - 1]);
+                    $additionalValues = [$values[$valuesCount - 1]];
                 } else {
                     $additionalValues = $this->interval->loadNext(
                         $lastValue,
@@ -356,12 +361,13 @@ class Algorithm
 
         if (empty($bestRoundValue)) {
             $this->_skippedQuantilesUpperLimits[$quantileNumber] = $quantileInterval[1];
+
             return $bestRoundValue;
         }
 
         $valuesCount = count($values);
         if ($values[$valuesCount - 1] > $lastValue) {
-            $this->_lastValueLimiter = array($quantileInterval[0] + $valuesCount - 1, $values[$valuesCount - 1]);
+            $this->_lastValueLimiter = [$quantileInterval[0] + $valuesCount - 1, $values[$valuesCount - 1]];
         }
 
         ksort($bestRoundValue, SORT_NUMERIC);
@@ -372,6 +378,7 @@ class Algorithm
                 sort($bestRoundValueValues);
             }
         }
+
         return array_reverse($bestRoundValue);
     }
 
@@ -388,10 +395,10 @@ class Algorithm
         }
         $quantile = $this->_getQuantile($quantileNumber);
         $deflectionLimit = floor($this->_count / 2 / $this->getIntervalsNumber());
-        $limits = array(
+        $limits = [
             min(floor($quantile - $deflectionLimit), floor($quantile)),
             max(ceil($quantile + $deflectionLimit - 1), ceil($quantile))
-        );
+        ];
 
         $sqrtParam = $this->_count * $quantileNumber * ($this->getIntervalsNumber() - $quantileNumber);
         $deflection = self::STANDARD_NORMAL_DISTRIBUTION * sqrt($sqrtParam) / $this->getIntervalsNumber();
@@ -402,7 +409,8 @@ class Algorithm
             $left = $this->_skippedQuantilesUpperLimits[$quantileNumber - 1];
         }
         $right = min(ceil($quantile + $deflection), $limits[1], $this->_count - 1);
-        return array($left, $right);
+
+        return [$left, $right];
     }
 
     /**
@@ -445,7 +453,7 @@ class Algorithm
             $lowerDivision = ceil(round($lowerValue / $roundingFactor, self::TEN_POWER_ROUNDING_FACTOR + 3));
             $upperDivision = floor(round($upperValue / $roundingFactor, self::TEN_POWER_ROUNDING_FACTOR + 3));
 
-            $result = array();
+            $result = [];
             if ($upperDivision <= 0 || $upperDivision - $lowerDivision > 10) {
                 return $result;
             }
@@ -457,9 +465,9 @@ class Algorithm
             return $result;
         }
 
-        $result = array();
+        $result = [];
         $tenPower = pow(10, self::TEN_POWER_ROUNDING_FACTOR);
-        $roundingFactorCoefficients = array(10, 5, 2);
+        $roundingFactorCoefficients = [10, 5, 2];
         while ($tenPower >= self::MIN_POSSIBLE_VALUE) {
             if ($tenPower == self::MIN_POSSIBLE_VALUE) {
                 $roundingFactorCoefficients[] = 1;
@@ -483,7 +491,7 @@ class Algorithm
             $tenPower /= 10;
         }
 
-        return empty($result) ? array(1 => array()) : $result;
+        return empty($result) ? [1 => []] : $result;
     }
 
     /**
@@ -530,7 +538,7 @@ class Algorithm
         $i = 0;
         $valuesCount = count($this->_values);
         while ($i < $valuesCount && !empty($separators)) {
-            $i = $this->_binarySearch($separators[0], array($i));
+            $i = $this->_binarySearch($separators[0], [$i]);
             if ($i == -1) {
                 break;
             }
@@ -543,7 +551,7 @@ class Algorithm
                     $i) * $this->_getCalculatedIntervalsNumber()
             );
             if (!$result || $deflection < $result[0]) {
-                $result = array($deflection, $separator, $i);
+                $result = [$deflection, $separator, $i];
             }
         }
 
@@ -565,7 +573,7 @@ class Algorithm
         }
 
         if (!is_array($limits)) {
-            $limits = array();
+            $limits = [];
         }
         if (!isset($limits[0])) {
             $limits[0] = 0;
@@ -589,6 +597,6 @@ class Algorithm
             $limits[1] = $separator;
         }
 
-        return $this->_binarySearch($value, array($limits[0], $limits[1]));
+        return $this->_binarySearch($value, [$limits[0], $limits[1]]);
     }
 }

@@ -2041,6 +2041,7 @@ return array(
     ['_getAllowedActions', 'Magento\Customer\Controller\Account', 'Magento\Customer\Controller\Account::getAllowedActions'],
     ['isRegistrationAllowed', 'Magento\Customer\Controller\Account\CreatePost'],
     ['isRegistrationAllowed', 'Magento\Invitation\Controller\Customer\Account\CreatePost'],
+    ['getSearchType', 'Magento\CatalogSearch\Model\Fulltext'],
     ['getFlatIndexer', 'Magento\Catalog\Model\Category'],
     ['getProductIndexer', 'Magento\Catalog\Model\Category'],
     ['getFlatIndexer', 'Magento\Catalog\Model\Indexer\AbstractFlatState'],

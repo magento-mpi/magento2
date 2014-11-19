@@ -27,6 +27,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionArray()
     {
+        $this->markTestSkipped('Solr module disabled');
         $options = $this->_model->toOptionArray();
         $this->assertNotEmpty($options);
 

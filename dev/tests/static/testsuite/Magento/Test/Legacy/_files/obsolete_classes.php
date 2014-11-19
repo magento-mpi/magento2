@@ -698,7 +698,6 @@ return array(
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array('Magento\CatalogSearch\Model\Layer', 'Magento\Catalog\Model\Layer'),
-    array('Magento\CatalogSearch\Model\Layer\Filter\Attribute'),
     array('Magento\Solr\Block\Catalog\Layer\View', 'Magento\LayeredNavigation\Block\Navigation'),
     array(
         'Magento\Solr\Block\Catalog\Layer\Filter\Attribute',

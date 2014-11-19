@@ -38,7 +38,7 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Engine
      * @dataProvider pricesSegmentationDataProvider
      */
     public function testPricesSegmentation($categoryId, $intervalsNumber, $intervalItems)
@@ -68,9 +68,6 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
             $collection->getPriceStandardDeviation(),
             $collection->getSize()
         );
-        if (!is_null($intervalsNumber)) {
-            $this->assertEquals($intervalsNumber, $model->getIntervalsNumber());
-        }
 
         $items = $model->calculateSeparators();
         $this->assertEquals(array_keys($intervalItems), array_keys($items));

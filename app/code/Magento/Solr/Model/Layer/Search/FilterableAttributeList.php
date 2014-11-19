@@ -18,17 +18,17 @@ class FilterableAttributeList extends \Magento\Catalog\Model\Layer\Search\Filter
     /**
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer\Search $layer
+     * @param \Magento\Catalog\Model\Layer\Resolver $layerResolver
      * @param \Magento\Solr\Helper\Data $helper
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Layer\Search $layer,
+        \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         \Magento\Solr\Helper\Data $helper
     ) {
         $this->helper = $helper;
-        parent::__construct($collectionFactory, $storeManager, $layer);
+        parent::__construct($collectionFactory, $storeManager, $layerResolver);
     }
 
 

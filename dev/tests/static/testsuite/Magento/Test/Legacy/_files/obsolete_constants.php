@@ -667,4 +667,8 @@ return array(
     ['SSH2', 'Magento\Framework\Filesystem'],
     ['HTTP', 'Magento\Framework\Filesystem', '\Magento\Framework\Filesystem\DriverPool::HTTP'],
     ['HTTPS', 'Magento\Framework\Filesystem', '\Magento\Framework\Filesystem\DriverPool::HTTPS'],
+    ['SEARCH_TYPE_LIKE', 'Magento\CatalogSearch\Model\Fulltext'],
+    ['SEARCH_TYPE_FULLTEXT', 'Magento\CatalogSearch\Model\Fulltext'],
+    ['SEARCH_TYPE_COMBINE', 'Magento\CatalogSearch\Model\Fulltext'],
+    ['XML_PATH_CATALOG_SEARCH_TYPE', 'Magento\CatalogSearch\Model\Fulltext'],
 );
