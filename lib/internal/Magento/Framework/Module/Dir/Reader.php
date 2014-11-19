@@ -95,7 +95,7 @@ class Reader
     public function getComposerJsonFiles()
     {
         $result = array();
-        foreach ($this->modulesList->getNames() as $moduleName) {
+        foreach ($this->modulesList->getModules() as $moduleName) {
             $file = $this->getModuleDir('', $moduleName) . '/composer.json';
             $path = $this->modulesDirectory->getRelativePath($file);
             if ($this->modulesDirectory->isExist($path)) {
