@@ -162,7 +162,9 @@ $table = $installer->getConnection()->newTable(
     'created_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT),
+    array(
+        'nullable' => false,
+        'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT),
     'Created At'
 )->addColumn(
     'expired_at_static',
@@ -194,6 +196,17 @@ $table = $installer->getConnection()->newTable(
     null,
     array('nullable' => false, 'default' => '0'),
     'Notification Sent'
+)->addColumn(
+    'points_voided',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array(
+        'unsigned'  => true,
+        'nullable'  => false,
+        'default'   => '0',
+        'after'     => 'points_used'
+    ),
+    'Points Voided'
 )->addIndex(
     $installer->getIdxName('magento_reward_history', array('reward_id')),
     array('reward_id')
