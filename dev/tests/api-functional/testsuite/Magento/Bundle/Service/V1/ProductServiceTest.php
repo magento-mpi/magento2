@@ -51,28 +51,31 @@ class ProductServiceTest extends WebapiAbstract
 
         $this->productCollection->addFieldToFilter(
             'sku',
-            ['in' => ['sku-test-product', 'sku-test-product-bundle']]
+            ['in' => ['sku-test-product-bundle']]
         )->delete();
         unset($this->productCollection);
 
         $registry->unregister('isSecureArea');
         $registry->register('isSecureArea', false);
+        parent::tearDown();
     }
 
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/products_new.php
+     */
     public function testCreateBundle()
     {
-        $response = $this->createProduct($this->getSimpleProductData());
-        $simpleProductSku = $response[ProductInterface::SKU];
-
         $bundleProductOptions = [
             "attribute_code" => "bundle_product_options",
             "value" => [
                 [
+                    "title" => "test option",
                     "type" => "checkbox",
                     "required" => 1,
                     "product_links" => [
                         [
-                            "sku" => $simpleProductSku
+                            "sku" => 'simple',
+                            "qty" => 1
                         ]
                     ]
                 ]
@@ -107,14 +110,11 @@ class ProductServiceTest extends WebapiAbstract
         $foundBundleProductOptions = false;
         foreach ($response[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY] as $customAttribute) {
             if ($customAttribute["attribute_code"] === 'bundle_product_options') {
-                $this->assertEquals($simpleProductSku, $customAttribute["value"][0]["product_links"][0]["sku"]);
+                $this->assertEquals('simple', $customAttribute["value"][0]["product_links"][0]["sku"]);
                 $foundBundleProductOptions = true;
             }
         }
         $this->assertTrue($foundBundleProductOptions);
-
-        $this->deleteProduct($response[ProductInterface::SKU]);
-        $this->deleteProduct($simpleProductSku);
     }
 
     /**
@@ -163,47 +163,5 @@ class ProductServiceTest extends WebapiAbstract
         $response = $this->_webApiCall($serviceInfo, $requestData);
         $product[ProductInterface::SKU] = $response[ProductInterface::SKU];
         return $product;
-    }
-
-    /**
-     * Delete Product
-     *
-     * @param string $sku
-     * @return boolean
-     */
-    protected function deleteProduct($sku)
-    {
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $sku,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteById'
-            ]
-        ];
-
-        return (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['productSku' => $sku]) : $this->_webApiCall($serviceInfo);
-    }
-
-    /**
-     * Creates simple product data.
-     *
-     * @return array
-     */
-    private function getSimpleProductData()
-    {
-        return [
-            \Magento\Catalog\Api\Data\ProductInterface::SKU => 'sku-test-product',
-            \Magento\Catalog\Api\Data\ProductInterface::NAME => 'sku-test-product',
-            \Magento\Catalog\Api\Data\ProductInterface::VISIBILITY => 4,
-            \Magento\Catalog\Api\Data\ProductInterface::PRICE => 3.62,
-            \Magento\Catalog\Api\Data\ProductInterface::STATUS => 1,
-            \Magento\Catalog\Api\Data\ProductInterface::TYPE_ID => 'simple',
-            \Magento\Catalog\Api\Data\ProductInterface::ATTRIBUTE_SET_ID => 4,
-        ];
     }
 }

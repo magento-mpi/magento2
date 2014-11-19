@@ -122,7 +122,7 @@ class WriteService implements WriteServiceInterface
         }
         if ($selections) {
             foreach ($selections as $selection) {
-                if ($selection['option_id'] = $optionId &&
+                if ($selection['option_id'] == $optionId &&
                     $selection['product_id'] == $linkProductModel->getId()) {
                     throw new CouldNotSaveException(
                         'Child with specified sku: "%1" already assigned to product: "%2"',
