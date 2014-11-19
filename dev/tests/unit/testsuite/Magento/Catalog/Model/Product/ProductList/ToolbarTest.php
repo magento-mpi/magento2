@@ -18,7 +18,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
     protected $toolbarModel;
 
     /**
-     * @var \Magento\Framework\Stdlib\CookieManager |\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\CookieManagerInterface |\PHPUnit_Framework_MockObject_MockObject
      */
     protected $cookieManagerMock;
 
@@ -32,9 +32,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->cookieManagerMock = $this->getMockBuilder('Magento\Framework\Stdlib\CookieManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->cookieManagerMock = $this->getMock('Magento\Framework\Stdlib\CookieManagerInterface');
         $this->requestMock = $this->getMockBuilder('Magento\Framework\App\Request\Http')
             ->disableOriginalConstructor()
             ->getMock();
