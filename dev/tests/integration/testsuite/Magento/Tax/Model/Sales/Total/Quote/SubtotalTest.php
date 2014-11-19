@@ -24,9 +24,26 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
      */
     private $objectManager;
 
+    /**
+     * Builder
+     *
+     * @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder
+     */
+    private $customerBuilder;
+
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
+        $this->customerBuilder = $this->objectManager->create('Magento\Customer\Api\Data\CustomerInterfaceBuilder');
+    }
+
+    protected function getCustomerById($id)
+    {
+        /**
+         * @var $customerRepository \Magento\Customer\Api\CustomerRepositoryInterface
+         */
+        $customerRepository = $this->objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
+        return $customerRepository->getById($id);
     }
 
     /**
@@ -77,7 +94,7 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
             )->setIsMultiShipping(
                 false
             )->assignCustomerWithAddressChange(
-                $customer
+                $this->getCustomerById($customer->getId())
             )->setShippingAddress(
                 $quoteShippingAddress
             )->setBillingAddress(
@@ -192,7 +209,7 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
             )->setIsMultiShipping(
                 false
             )->assignCustomerWithAddressChange(
-                $customer
+                $this->getCustomerById($customer->getId())
             )->setShippingAddress(
                 $quoteShippingAddress
             )->setBillingAddress(
@@ -265,9 +282,11 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
         $customerAddress = $this->objectManager->create('Magento\Customer\Model\Address')->load($fixtureCustomerId);
         /** Set data which corresponds tax class fixture */
         $customerAddress->setCountryId('US')->setRegionId(12)->save();
-        /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
-        $addressService = $this->objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
-        $quoteShippingAddressDataObject = $addressService->getAddress($fixtureCustomerAddressId);
+        /**
+         * @var $addressRepository \Magento\Customer\Api\AddressRepositoryInterface
+         */
+        $addressRepository = $this->objectManager->get('Magento\Customer\Api\AddressRepositoryInterface');
+        $quoteShippingAddressDataObject = $addressRepository->getById($fixtureCustomerAddressId);
         return $quoteShippingAddressDataObject;
     }
 }
