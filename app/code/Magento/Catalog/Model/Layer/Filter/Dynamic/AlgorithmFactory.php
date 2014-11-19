@@ -9,7 +9,7 @@ namespace Magento\Catalog\Model\Layer\Filter\Dynamic;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Model\Exception;
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Store\Model\ScopeInterface;
 
 class AlgorithmFactory
@@ -26,7 +26,7 @@ class AlgorithmFactory
     /**
      * Object Manager
      *
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -43,11 +43,11 @@ class AlgorithmFactory
     /**
      * Construct
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param ScopeConfigInterface $scopeConfig
      * @param array $algorithms
      */
-    public function __construct(ObjectManager $objectManager, ScopeConfigInterface $scopeConfig, array $algorithms)
+    public function __construct(ObjectManagerInterface $objectManager, ScopeConfigInterface $scopeConfig, array $algorithms)
     {
         $this->objectManager = $objectManager;
         $this->scopeConfig = $scopeConfig;

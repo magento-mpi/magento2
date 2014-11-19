@@ -28,12 +28,17 @@ class EngineProvider
     protected $_scopeConfig;
 
     /**
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    private $_objectManager;
+
+    /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\ObjectManager $objectManager
+        \Magento\Framework\ObjectManagerInterface $objectManager
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_objectManager = $objectManager;
