@@ -474,6 +474,10 @@
             <attribute_code>is_virtual</attribute_code>
             <backend_type>virtual</backend_type>
         </is_virtual>
+        <attributes>
+            <attribute_code>attributes</attribute_code>
+            <backend_type>virtual</backend_type>
+        </attributes>
     </fields>
     <data_set>
         <sku></sku>
