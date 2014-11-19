@@ -129,6 +129,17 @@ $table = $installer->getConnection()->newTable(
     array('nullable' => false, 'default' => '0'),
     'Points Used'
 )->addColumn(
+    'points_voided',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array(
+        'unsigned'  => true,
+        'nullable'  => false,
+        'default'   => '0',
+        'after'     => 'points_used'
+    ),
+    'Points Voided'
+)->addColumn(
     'currency_amount',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
@@ -196,17 +207,6 @@ $table = $installer->getConnection()->newTable(
     null,
     array('nullable' => false, 'default' => '0'),
     'Notification Sent'
-)->addColumn(
-    'points_voided',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        'after'     => 'points_used'
-    ),
-    'Points Voided'
 )->addIndex(
     $installer->getIdxName('magento_reward_history', array('reward_id')),
     array('reward_id')

@@ -901,14 +901,14 @@ $table = $installer->getConnection()->newTable(
 )->addColumn(
     'attribute_group_code',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    null,
-    array('length' => '255'),
+    255,
+    array('default' => null),
     'Attribute Group Code'
 )->addColumn(
     'tab_group_code',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    null,
-    array('length' => '255'),
+    255,
+    array('default' => null),
     'Tab Group Code'
 )->addIndex(
     $installer->getIdxName(
