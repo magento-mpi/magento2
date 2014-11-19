@@ -57,6 +57,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->objectManagerMock = $this->getMockBuilder('Magento\Framework\ObjectManager')
             ->disableOriginalConstructor()
+            ->setMethods(['get'])
             ->getMock();
         $this->stock = new Stock(
             $this->stockRegistryMock,
