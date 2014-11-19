@@ -12,7 +12,6 @@ use Magento\Core\Model\EntityFactory;
 use Magento\Framework\Api\AbstractServiceCollection;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Tax\Model\Calculation\TaxRuleConverter;
 use Magento\Tax\Api\TaxRuleRepositoryInterface;
 use Magento\Tax\Api\Data\TaxRuleInterface;
 use Magento\Framework\Api\SortOrderBuilder;
@@ -28,18 +27,12 @@ class TaxRuleCollection extends AbstractServiceCollection
     protected $ruleService;
 
     /**
-     * @var TaxRuleConverter
-     */
-    protected $ruleConverter;
-
-    /**
      * Initialize dependencies.
      *
      * @param EntityFactory $entityFactory
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param TaxRuleRepositoryInterface $ruleService
-     * @param TaxRuleConverter $ruleConverter
      * @param SortOrderBuilder $sortOrderBuilder
      */
     public function __construct(
@@ -47,12 +40,10 @@ class TaxRuleCollection extends AbstractServiceCollection
         FilterBuilder $filterBuilder,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SortOrderBuilder $sortOrderBuilder,
-        TaxRuleRepositoryInterface $ruleService,
-        TaxRuleConverter $ruleConverter
+        TaxRuleRepositoryInterface $ruleService
     ) {
         parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder, $sortOrderBuilder);
         $this->ruleService = $ruleService;
-        $this->ruleConverter = $ruleConverter;
     }
 
     /**

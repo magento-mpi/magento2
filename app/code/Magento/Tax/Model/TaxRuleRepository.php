@@ -10,7 +10,6 @@ namespace Magento\Tax\Model;
 
 use \Magento\Tax\Api\Data\TaxRuleInterface;
 use \Magento\Tax\Api\TaxRuleRepositoryInterface;
-use \Magento\Tax\Model\Calculation\TaxRuleConverter;
 use \Magento\Tax\Model\Calculation\TaxRuleRegistry;
 use \Magento\Tax\Model\Calculation\RuleFactory;
 use \Magento\Framework\Api\Search\FilterGroup;
@@ -47,13 +46,19 @@ class TaxRuleRepository implements TaxRuleRepositoryInterface
     protected $collectionFactory;
 
     /**
-     * @var
+     * @var Resource
      */
     protected $resource;
 
+    /**
+     * @param TaxRuleRegistry $taxRuleRegistry
+     * @param TaxRuleSearchResultsDataBuilder $searchResultsBuilder
+     * @param RuleFactory $ruleFactory
+     * @param CollectionFactory $collectionFactory
+     * @param Resource $resource
+     */
     public function __construct(
         TaxRuleRegistry $taxRuleRegistry,
-        TaxRuleConverter $taxRuleConverter,
         TaxRuleSearchResultsDataBuilder $searchResultsBuilder,
         RuleFactory $ruleFactory,
         CollectionFactory $collectionFactory,
@@ -97,7 +102,10 @@ class TaxRuleRepository implements TaxRuleRepositoryInterface
      */
     public function delete(TaxRuleInterface $rule)
     {
-
+        $ruleId = $rule->getId();
+        $this->resource->delete($rule);
+        $this->taxRuleRegistry->removeTaxRule($ruleId);
+        return true;
     }
 
     /**
@@ -105,7 +113,8 @@ class TaxRuleRepository implements TaxRuleRepositoryInterface
      */
     public function deleteByIdentifier($ruleId)
     {
-
+        $rule = $this->taxRuleRegistry->retrieveTaxRule($ruleId);
+        return $this->delete($rule);
     }
 
     /**
