@@ -83,7 +83,7 @@ class GroupManagement implements \Magento\Customer\Api\GroupManagementInterface
         if (is_null($group->getId())) {
             throw NoSuchEntityException::singleField('groupId', $groupId);
         }
-        return $groupId > 0 && $group->usesAsDefault();
+        return $groupId <= 0 || $group->usesAsDefault();
     }
 
     /**

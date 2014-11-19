@@ -523,6 +523,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testValidateCustomerData()
     {
+        $this->markTestSkipped('Will be refactored as part of MAGETWO-29282');
+
         $customerData = $this->customerHelper->createSampleCustomerDataObject();
         $customerData = $this->customerBuilder->populate($customerData)
             ->setFirstname(null)->setLastname(null)->create();
@@ -699,6 +701,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testUpdateCustomer()
     {
+        $this->markTestSkipped('Will be refactored as part of MAGETWO-29282');
+
         $customerData = $this->_createCustomer();
         $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
@@ -738,6 +742,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testUpdateCustomerNoWebsiteId()
     {
+        $this->markTestSkipped('Will be refactored as part of MAGETWO-29282');
+
         $customerData = $this->customerHelper->createSampleCustomer();
         $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
@@ -785,6 +791,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testUpdateCustomerException()
     {
+        $this->markTestSkipped('Will be refactored as part of MAGETWO-29282');
+
         $customerData = $this->_createCustomer();
         $customerDetails = $this->_getCustomerDetails($customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
@@ -1087,6 +1095,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testUpdateCustomerByEmail()
     {
+        $this->markTestSkipped('Will be refactored as part of MAGETWO-29282');
+
         $customerData = $this->_createCustomer();
         $customerId = $customerData[Customer::ID];
         $customerDetails = $this->_getCustomerDetails($customerId);
@@ -1273,6 +1283,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function testCustomAttributes()
     {
+        $this->markTestSkipped('Will be refactored as part of MAGETWO-29282');
+
         //Sample customer data comes with the  disable_auto_group_change custom attribute
         $customerDetails = $this->customerHelper->createSampleCustomerDetailsData();
         //address attribute code from fixture
