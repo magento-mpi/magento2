@@ -25,7 +25,7 @@ class Wishlist extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordio
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemFactory
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param \Magento\MultipleWishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
      * @param array $data
      */
@@ -35,7 +35,7 @@ class Wishlist extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordio
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemFactory,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\MultipleWishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
         array $data = array()
     ) {
@@ -46,7 +46,7 @@ class Wishlist extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordio
             $collectionFactory,
             $coreRegistry,
             $itemFactory,
-            $stockItemService,
+            $stockRegistry,
             $data
         );
     }

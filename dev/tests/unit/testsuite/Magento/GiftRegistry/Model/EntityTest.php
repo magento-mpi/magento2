@@ -108,8 +108,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);
         $item = $this->getMock('Magento\GiftRegistry\Model\Item', array(), array(), '', false);
         $type = $this->getMock('Magento\GiftRegistry\Model\Type', array(), array(), '', false);
-        $stockItemService = $this->getMock(
-            'Magento\CatalogInventory\Service\V1\StockItemService',
+        $stockRegistry = $this->getMock(
+            'Magento\CatalogInventory\Model\StockRegistry',
             array(),
             array(),
             '',
@@ -146,7 +146,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             $type,
             $attributeConfig,
             $item,
-            $stockItemService,
+            $stockRegistry,
             $session,
             $quoteFactory,
             $customerFactory,
