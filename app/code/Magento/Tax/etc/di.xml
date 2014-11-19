@@ -63,6 +63,5 @@
     <preference for="Magento\Tax\Api\TaxClassRepositoryInterface" type="Magento\Tax\Model\TaxClass\Repository" />
     <preference for="Magento\Tax\Api\Data\TaxClassInterface" type="Magento\Tax\Model\ClassModel" />
     <preference for="Magento\Tax\Api\Data\TaxRuleInterface" type="Magento\Tax\Model\Calculation\Rule" />
-    <preference for="Magento\Tax\Api\Data\TaxRuleSearchResultsInterface"
-                type="Magento\Tax\Model\TaxRuleSearchResults" />
+    <preference for="Magento\Tax\Api\Data\TaxRuleSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
 </config>

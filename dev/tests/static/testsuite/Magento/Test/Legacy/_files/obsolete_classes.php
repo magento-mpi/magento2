@@ -2834,5 +2834,5 @@ return array(
     ['Magento\Tax\Service\V1\Data\TaxRuleSearchResults', 'Magento\Tax\Model\TaxRuleSearchResults'],
     ['Magento\Tax\Service\V1\Data\TaxRuleBuilder'],
     ['Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder'],
-
+    ['Magento\Tax\Service\V1\Collection\TaxRuleCollection', 'Magento\Tax\Model\TaxRuleCollection'],
 );

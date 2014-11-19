@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1\Collection;
+namespace Magento\Tax\Model;
 
 use Magento\Core\Model\EntityFactory;
 use Magento\Framework\Api\AbstractServiceCollection;
@@ -14,12 +14,11 @@ use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Tax\Model\Calculation\TaxRuleConverter;
 use Magento\Tax\Api\TaxRuleRepositoryInterface;
-use Magento\Tax\Service\V1\Data\TaxRule;
+use Magento\Tax\Api\Data\TaxRuleInterface;
 use Magento\Framework\Api\SortOrderBuilder;
 
 /**
  * Tax rule collection for a grid backed by Services
- * @deprecated
  */
 class TaxRuleCollection extends AbstractServiceCollection
 {
@@ -63,7 +62,7 @@ class TaxRuleCollection extends AbstractServiceCollection
     {
         if (!$this->isLoaded()) {
             $searchCriteria = $this->getSearchCriteria();
-            $searchResults = $this->ruleService->searchTaxRules($searchCriteria);
+            $searchResults = $this->ruleService->search($searchCriteria);
             $this->_totalRecords = $searchResults->getTotalCount();
             foreach ($searchResults->getItems() as $taxRule) {
                 $this->_addItem($this->createTaxRuleCollectionItem($taxRule));
@@ -76,10 +75,10 @@ class TaxRuleCollection extends AbstractServiceCollection
     /**
      * Creates a collection item that represents a tax rule for the tax rules grid.
      *
-     * @param TaxRule $taxRule Input data for creating the item.
+     * @param TaxRuleInterface $taxRule Input data for creating the item.
      * @return \Magento\Framework\Object Collection item that represents a tax rule
      */
-    protected function createTaxRuleCollectionItem(TaxRule $taxRule)
+    protected function createTaxRuleCollectionItem(TaxRuleInterface $taxRule)
     {
         $collectionItem = new \Magento\Framework\Object();
         $collectionItem->setTaxCalculationRuleId($taxRule->getId());
