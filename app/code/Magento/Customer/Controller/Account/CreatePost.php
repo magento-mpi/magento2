@@ -270,14 +270,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
      */
     protected function checkPasswordConfirmation($password, $confirmation)
     {
-        $password = trim($password);
-        if (empty($password)) {
-            throw new InputException(
-                'The password must have at least %1 characters.',
-                [AccountManagement::MIN_PASSWORD_LENGTH]
-            );
-        }
-        if (empty($confirmation) || $password != $confirmation) {
+        if ($password != $confirmation) {
             throw new InputException('Please make sure your passwords match.');
         }
     }

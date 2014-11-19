@@ -81,7 +81,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
+        $objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $registryMock = $this->getMock('Magento\Framework\Registry');
         $configMock = $this->getMock('Magento\Sales\Model\Config', [], [], '', false);
@@ -98,7 +98,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         );
         $this->customerBuilderMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerDataBuilder',
-            array(),
+            ['mergeDataObjectWithArray', 'populateWithArray', 'create'],
             array(),
             'Magento\Customer\Api\Data\CustomerInterfaceBuilder',
             ['mergeDataObjectWithArray', 'populateWithArray', 'create'],

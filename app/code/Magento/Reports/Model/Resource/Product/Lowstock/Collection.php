@@ -115,10 +115,10 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
             $localeDate,
             $customerSession,
             $dateTime,
+            $groupManagement,
             $product,
             $eventTypeFactory,
             $productType,
-            $groupManagement,
             $connection
         );
         $this->stockItemService = $stockItemService;

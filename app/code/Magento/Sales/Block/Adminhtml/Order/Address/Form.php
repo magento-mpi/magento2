@@ -34,6 +34,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
@@ -43,7 +44,6 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -54,6 +54,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
@@ -63,7 +64,6 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -74,6 +74,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
             $orderCreate,
             $priceCurrency,
             $formFactory,
+            $simpleDataObjectConverter,
             $coreData,
             $jsonEncoder,
             $customerFormFactory,
@@ -82,7 +83,6 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
             $addressService,
             $criteriaBuilder,
             $filterBuilder,
-            $simpleDataObjectConverter,
             $data
         );
     }

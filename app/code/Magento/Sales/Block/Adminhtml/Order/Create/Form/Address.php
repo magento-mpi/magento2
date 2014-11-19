@@ -103,6 +103,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\FormFactory $formFactory
+     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
@@ -111,7 +112,6 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
-     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -122,6 +122,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\FormFactory $formFactory,
+        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
@@ -130,7 +131,6 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Customer\Api\AddressRepositoryInterface $addressService,
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;

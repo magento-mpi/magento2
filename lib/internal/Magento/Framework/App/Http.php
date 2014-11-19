@@ -32,7 +32,7 @@ class Http implements \Magento\Framework\AppInterface
     /**#@-*/
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -72,7 +72,7 @@ class Http implements \Magento\Framework\AppInterface
     protected $_response;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param Event\Manager $eventManager
      * @param AreaList $areaList
      * @param RequestHttp $request
@@ -82,7 +82,7 @@ class Http implements \Magento\Framework\AppInterface
      * @param Filesystem $filesystem
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         Event\Manager $eventManager,
         AreaList $areaList,
         RequestHttp $request,

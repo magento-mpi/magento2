@@ -143,7 +143,7 @@ class SetupUtil
     /**
      * Object manager
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     public $objectManager;
 
@@ -158,7 +158,7 @@ class SetupUtil
     protected $accountManagement;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      */
     public function __construct($objectManager)
     {

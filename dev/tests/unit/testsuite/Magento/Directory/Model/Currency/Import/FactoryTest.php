@@ -15,7 +15,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
@@ -26,7 +26,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManager');
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_importConfig = $this->getMock(
             'Magento\Directory\Model\Currency\Import\Config',
             array(),

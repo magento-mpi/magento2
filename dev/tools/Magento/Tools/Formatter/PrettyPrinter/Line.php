@@ -37,7 +37,7 @@ class Line
     /**
      * This method constructs the new line, adding the first token, if specified.
      *
-     * @param array|string|LineCondition|ConditionalLineBreak $token Optional token to be added.
+     * @param array|string|LineConditionInterface|ConditionalLineBreak $token Optional token to be added.
      */
     public function __construct($token = null)
     {
@@ -59,7 +59,7 @@ class Line
     /**
      * This method adds the token to the list of tokens.
      *
-     * @param array|string|LineCondition|ConditionalLineBreak $token The token to be added.
+     * @param array|string|LineConditionInterface|ConditionalLineBreak $token The token to be added.
      * @return Line
      */
     public function add($token)
@@ -77,7 +77,7 @@ class Line
             } else {
                 $lastToken = $this->getLastToken();
                 // if the last token depends on the next value, give it a chance to operate
-                if ($lastToken instanceof LineCondition) {
+                if ($lastToken instanceof LineConditionInterface) {
                     $token = $lastToken->processToken($this->tokens, $token);
                 }
                 if (null !== $token) {
@@ -97,7 +97,7 @@ class Line
     /**
      * This method returns the first token in the list.
      *
-     * @return array|string|LineCondition|ConditionalLineBreak
+     * @return array|string|LineConditionInterface|ConditionalLineBreak
      */
     public function getFirstToken()
     {
@@ -107,7 +107,7 @@ class Line
     /**
      * This method returns the last token in the list.
      *
-     * @return array|string|LineCondition|ConditionalLineBreak
+     * @return array|string|LineConditionInterface|ConditionalLineBreak
      */
     public function getLastToken()
     {
@@ -196,7 +196,7 @@ class Line
     /**
      * This member sets the tokens for this line to the passed in values.
      *
-     * @param array|string|LineCondition|ConditionalLineBreak $tokens
+     * @param array|string|LineConditionInterface|ConditionalLineBreak $tokens
      * @return void
      */
     public function setTokens(array $tokens)

@@ -237,7 +237,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      */
     public function testTaxCalculation($configData, $quoteData, $expectedResults)
     {
-        /** @var  \Magento\Framework\ObjectManager $objectManager */
+        /** @var  \Magento\Framework\ObjectManagerInterface $objectManager */
         $objectManager = Bootstrap::getObjectManager();
 
         //Setup tax configurations
