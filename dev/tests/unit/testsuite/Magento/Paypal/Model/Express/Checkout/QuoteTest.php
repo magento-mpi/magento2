@@ -94,13 +94,7 @@ class QuoteTest  extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->addressMock = $this->getMock('Magento\Sales\Model\Quote\Address'
-            ,
-            [],
-            [],
-            '',
-            false
-        );
+        $this->addressMock = $this->getMock('Magento\Sales\Model\Quote\Address', [], [], '', false);
 
         $this->quote = new \Magento\Paypal\Model\Express\Checkout\Quote(
             $this->addressBuilderMock,

@@ -483,14 +483,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
         $formMock = $this->getMock('Magento\Customer\Model\Metadata\Form', [], [], '', false);
         $formMock->expects($this->atLeastOnce())->method('validateData')->will($this->returnValue($validateDataResult));
-//        $this->requestMock
-//            ->expects($this->any())
-//            ->method('getParam')
-//            ->will(
-//                $this->returnValueMap(
-//                    [['customer_password', $customerPassword], ['confirm_password', $confirmPassword]]
-//                )
-//            );
+
         $this->customerFormFactoryMock->expects($this->any())->method('create')->will($this->returnValue($formMock));
         $formMock->expects($this->any())->method('prepareRequest')->will($this->returnValue($this->requestMock));
         $formMock->expects($this->any())

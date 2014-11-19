@@ -153,38 +153,65 @@ class AttributeMetadataConverterTest extends \PHPUnit_Framework_TestCase
                     '__wakeup',
                 ])
             ->getMock();
-        $expectedAttributeMock->expects($this->once())->method('getAttributeCode')->will($this->returnValue($attributeCode));
-        $expectedAttributeMock->expects($this->once())->method('getFrontendInput')->will($this->returnValue($frontendInput));
-        $expectedAttributeMock->expects($this->once())->method('getInputFilter')->will($this->returnValue($inputFilter));
+        $expectedAttributeMock->expects($this->once())
+            ->method('getAttributeCode')->
+            will($this->returnValue($attributeCode));
+        $expectedAttributeMock->expects($this->once())
+            ->method('getFrontendInput')->
+            will($this->returnValue($frontendInput));
+        $expectedAttributeMock->expects($this->once())
+            ->method('getInputFilter')
+            ->will($this->returnValue($inputFilter));
         $expectedAttributeMock->expects($this->once())->method('getStoreLabel')->will($this->returnValue($storeLabel));
         $expectedAttributeMock->expects($this->once())->method('isVisible')->will($this->returnValue($isVisible));
         $expectedAttributeMock->expects($this->once())->method('isRequired')->will($this->returnValue($isRequired));
-        $expectedAttributeMock->expects($this->once())->method('getMultilineCount')->will($this->returnValue($multilineCount));
+        $expectedAttributeMock->expects($this->once())
+            ->method('getMultilineCount')
+            ->will($this->returnValue($multilineCount));
         $expectedAttributeMock->expects($this->once())->method('getDataModel')->will($this->returnValue($dataModel));
-        $expectedAttributeMock->expects($this->once())->method('getFrontendClass')->will($this->returnValue($frontendClass));
-        $expectedAttributeMock->expects($this->once())->method('getFrontendLabel')->will($this->returnValue($frontendLabel));
-        $expectedAttributeMock->expects($this->once())->method('getBackendType')->will($this->returnValue($backendType));
+        $expectedAttributeMock->expects($this->once())
+            ->method('getFrontendClass')
+            ->will($this->returnValue($frontendClass));
+        $expectedAttributeMock->expects($this->once())
+            ->method('getFrontendLabel')
+            ->will($this->returnValue($frontendLabel));
+        $expectedAttributeMock->expects($this->once())
+            ->method('getBackendType')
+            ->will($this->returnValue($backendType));
         $expectedAttributeMock->expects($this->once())->method('getNote')->will($this->returnValue($note));
         $expectedAttributeMock->expects($this->once())->method('isSystem')->will($this->returnValue($isSystem));
-        $expectedAttributeMock->expects($this->once())->method('isUserDefined')->will($this->returnValue($isUserDefined));
+        $expectedAttributeMock->expects($this->once())
+            ->method('isUserDefined')
+            ->will($this->returnValue($isUserDefined));
         $expectedAttributeMock->expects($this->once())->method('getSortOrder')->will($this->returnValue($sortOrder));
-        $expectedAttributeMock->expects($this->once())->method('getOptions')->will($this->returnValue($expectedOptions));
-        $expectedAttributeMock->expects($this->once())->method('getValidationRules')->will($this->returnValue($expectedRules));
+        $expectedAttributeMock->expects($this->once())
+            ->method('getOptions')
+            ->will($this->returnValue($expectedOptions));
+        $expectedAttributeMock->expects($this->once())
+            ->method('getValidationRules')
+            ->will($this->returnValue($expectedRules));
 
         /** @var \Magento\Customer\Api\Data\OptionDataBuilder $optionDataBuilderMock */
         $optionDataBuilderMock = $this->getMockBuilder('Magento\Customer\Api\Data\OptionDataBuilder')
             ->disableOriginalConstructor()
             ->setMethods(['setLabel', 'setValue', 'populateWithArray', 'setOptions', 'create'])
             ->getMock();
-        $optionDataBuilderMock->expects($this->any())->method('setValue')->will($this->returnValue($optionDataBuilderMock));
+        $optionDataBuilderMock->expects($this->any())
+            ->method('setValue')->will($this->returnValue($optionDataBuilderMock));
 
         /** @var \Magento\Customer\Api\Data\ValidationRuleDataBuilder $validationRulesBuilderMock */
         $validationRulesBuilderMock = $this->getMockBuilder('Magento\Customer\Api\Data\ValidationRuleDataBuilder')
             ->disableOriginalConstructor()
             ->setMethods(['setName', 'setValue', 'create'])
             ->getMock();
-        $validationRulesBuilderMock->expects($this->any())->method('setName')->withAnyParameters()->will($this->returnSelf());
-        $validationRulesBuilderMock->expects($this->any())->method('setValue')->withAnyParameters()->will($this->returnSelf());
+        $validationRulesBuilderMock->expects($this->any())
+            ->method('setName')
+            ->withAnyParameters()
+            ->will($this->returnSelf());
+        $validationRulesBuilderMock->expects($this->any())
+            ->method('setValue')
+            ->withAnyParameters()
+            ->will($this->returnSelf());
 
         $attributeMetadataBuilderMock = $this->getMockBuilder('Magento\Customer\Api\Data\AttributeMetadataDataBuilder')
             ->disableOriginalConstructor()
@@ -209,24 +236,26 @@ class AttributeMetadataConverterTest extends \PHPUnit_Framework_TestCase
                     'create'
                 ])
             ->getMock();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setAttributeCode')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setFrontendInput')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setInputFilter')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setStoreLabel')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setValidationRules')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setVisible')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setRequired')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setMultilineCount')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setDataModel')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setOptions')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setFrontendClass')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setFrontendLabel')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setNote')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setSystem')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setUserDefined')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setBackendType')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('setSortOrder')->withAnyParameters()->willReturnSelf();
-        $attributeMetadataBuilderMock->expects($this->any())->method('create')->will($this->returnValue($expectedAttributeMock));
+        $attributeMetadataBuilderMock->expects($this->any())->method('setAttributeCode')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setFrontendInput')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setInputFilter')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setStoreLabel')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setValidationRules')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setVisible')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setRequired')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setMultilineCount')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setDataModel')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setOptions')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setFrontendClass')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setFrontendLabel')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setNote')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setSystem')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setUserDefined')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setBackendType')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())->method('setSortOrder')->willReturnSelf();
+        $attributeMetadataBuilderMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($expectedAttributeMock));
 
         $converter = $this->objectManager->getObject(
             'Magento\Customer\Model\AttributeMetadataConverter',
