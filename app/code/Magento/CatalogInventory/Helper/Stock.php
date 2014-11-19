@@ -42,7 +42,7 @@ class Stock
     protected $stockStatusResource;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManger;
 
