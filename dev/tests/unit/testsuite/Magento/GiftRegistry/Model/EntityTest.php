@@ -135,7 +135,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $quoteFactory = $this->getMock('Magento\Sales\Model\QuoteFactory', array(), array(), '', false);
         $customerFactory = $this->getMock('Magento\Customer\Model\CustomerFactory', array(), array(), '', false);
         $personFactory = $this->getMock('Magento\GiftRegistry\Model\PersonFactory', array(), array(), '', false);
-        $this->itemFactoryMock = $this->getMock('Magento\GiftRegistry\Model\ItemFactory', array(), array(), '', false);
+        $this->itemFactoryMock = $this->getMock('Magento\GiftRegistry\Model\ItemFactory', ['create'], [], '', false);
         $addressFactory = $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false);
         $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
         $dateFactory = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTimeFactory', array(), array(), '', false);
