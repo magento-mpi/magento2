@@ -21,7 +21,7 @@ class GridPageActions extends PageActions
      *
      * @var string
      */
-    protected $importButton = '[data-ui-id="adminhtml-system-currency-import-button"]';
+    protected $importButton = '[data-ui-id$="import-button"]';
 
     /**
      * Click Import button

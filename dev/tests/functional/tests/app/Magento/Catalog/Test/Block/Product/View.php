@@ -119,7 +119,7 @@ class View extends AbstractConfigureBlock
      *
      * @var string
      */
-    protected $priceBlock = '//*[@class="product-info-main"]//*[contains(@class,"price-box")]';
+    protected $priceBlock = '//*[@class="product-item-info"]//*[contains(@class,"price-box")]';
 
     /**
      * 'Add to Compare' button.
