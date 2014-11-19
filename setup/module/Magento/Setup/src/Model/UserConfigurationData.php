@@ -32,7 +32,6 @@ class UserConfigurationData
     const KEY_LANGUAGE = 'language';
     const KEY_TIMEZONE = 'timezone';
     const KEY_CURRENCY = 'currency';
-    const KEY_SAMPLE_DATA = 'use_sample_data';
     const KEY_ADMIN_USE_SECURITY_KEY = 'admin_use_security_key';
     /**#@- */
 

@@ -36,10 +36,9 @@ interface LoggerInterface
      * Logs a message
      *
      * @param string $message
-     * @param bool $addEol
      * @return void
      */
-    public function log($message, $addEol = true);
+    public function log($message);
 
     /**
      * Logs meta information

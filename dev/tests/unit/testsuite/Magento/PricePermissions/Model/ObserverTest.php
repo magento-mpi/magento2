@@ -112,7 +112,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_varienObserver = $this->getMock('Magento\Framework\Event\Observer', array('getBlock'));
+        $this->_varienObserver = $this->getMock('Magento\Framework\Event\Observer', array('getBlock', 'getEvent'));
         $this->_varienObserver->expects($this->any())->method('getBlock')->will($this->returnValue($this->_block));
     }
 
@@ -538,5 +538,36 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ['adminhtml_recurring_payment_edit_form_dependence'],
             ['adminhtml.catalog.product.edit.tab.attributes'],
         ];
+    }
+
+    public function testCatalogProductSaveBefore()
+    {
+        $helper = $this->getMockBuilder('\Magento\PricePermissions\Helper\Data')->disableOriginalConstructor()
+            ->setMethods(['getCanAdminEditProductStatus'])->getMock();
+        $helper->expects($this->once())->method('getCanAdminEditProductStatus')->will($this->returnValue(false));
+
+        $product = $this->getMockBuilder('\Magento\Catalog\Model\Product')->disableOriginalConstructor()
+            ->setMethods(['isObjectNew', 'setStatus'])->getMock();
+        $product->expects($this->once())->method('isObjectNew')->will($this->returnValue(true));
+        $product->expects($this->once())->method('setStatus')
+            ->with(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED)
+            ->will($this->returnSelf());
+
+        $event = $this->getMockBuilder('\Magento\Framework\Event')->disableOriginalConstructor()
+            ->setMethods(['getDataObject'])->getMock();
+        $event->expects($this->once())->method('getDataObject')->will($this->returnValue($product));
+        $this->_varienObserver->expects($this->once())->method('getEvent')->will($this->returnValue($event));
+
+        /** @var \Magento\PricePermissions\Model\Observer $model */
+        $model = (new \Magento\TestFramework\Helper\ObjectManager($this))
+            ->getObject('Magento\PricePermissions\Model\Observer',
+                [
+                    'pricePermData' => $helper
+                ]
+            );
+
+
+        $model->catalogProductSaveBefore($this->_varienObserver);
+
     }
 }

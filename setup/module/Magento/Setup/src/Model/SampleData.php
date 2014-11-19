@@ -16,7 +16,7 @@ use Symfony\Component\Process\PhpExecutableFinder;
  */
 class SampleData
 {
-    const INSTALLER_PATH = '/dev/tools/Magento/Tools/SampleData/install.php';
+    const INSTALLER_PATH = 'dev/tools/Magento/Tools/SampleData/install.php';
 
     /**
      * @var DirectoryList
@@ -39,19 +39,19 @@ class SampleData
      */
     public function isDeployed()
     {
-        return is_file($this->directoryList->getRoot() . self::INSTALLER_PATH);
+        return is_file($this->directoryList->getRoot() . DIRECTORY_SEPARATOR . self::INSTALLER_PATH);
     }
 
     /**
      * Returns command to be executed for Sample Data installation
      *
+     * @param array $request
      * @return string
      */
-    public function getRunCommand()
+    public function getRunCommand(array $request)
     {
-        $phpFinder = new PhpExecutableFinder();
-        $phpPath = $phpFinder->find();
-        $command = $phpPath . ' -f ' . $this->directoryList->getRoot() . self::INSTALLER_PATH;
-        return $command;
+        $userName = isset($request[AdminAccount::KEY_USERNAME]) ? $request[AdminAccount::KEY_USERNAME] : '';
+        return $command = ' -f ' . $this->directoryList->getRoot() . DIRECTORY_SEPARATOR . self::INSTALLER_PATH .
+            ' -- --admin_username=' . $userName . ' --bootstrap=%s';
     }
 }

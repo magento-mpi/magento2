@@ -63,6 +63,9 @@ class Installer implements \Magento\Framework\AppInterface
      * @param ConfigLoader $configLoader
      * @param Console\Response $response
      * @param Helper\PostInstaller $postInstaller
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param array $data
+     * @throws \Exception
      */
     public function __construct(
         State $appState,
@@ -71,7 +74,9 @@ class Installer implements \Magento\Framework\AppInterface
         ObjectManager $objectManager,
         ConfigLoader $configLoader,
         Console\Response $response,
-        Helper\PostInstaller $postInstaller
+        Helper\PostInstaller $postInstaller,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        $data = []
     ) {
         $this->appState = $appState;
         $this->setupFactory = $setupFactory;
@@ -80,6 +85,12 @@ class Installer implements \Magento\Framework\AppInterface
         $this->configLoader = $configLoader;
         $this->response = $response;
         $this->postInstaller = $postInstaller;
+        /** @var \Magento\User\Model\User $user */
+        $user = $objectManager->create('Magento\User\Model\User')->loadByUsername($data['admin_username']);
+        if (!$user || !$user->getId()) {
+            throw new \Exception('Invalid username provided');
+        }
+        $backendAuthSession->setUser($user);
         $this->initResources();
     }
 
@@ -88,7 +99,7 @@ class Installer implements \Magento\Framework\AppInterface
      **/
     public function launch()
     {
-        $areaCode = 'install';
+        $areaCode = 'adminhtml';
         $this->appState->setAreaCode($areaCode);
         $this->objectManager->configure($this->configLoader->load($areaCode));
 

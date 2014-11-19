@@ -170,7 +170,7 @@ class ConsoleController extends AbstractActionController
             . ' [--' . UserConfig::KEY_BASE_URL_SECURE . '=]'
             . ' [--' . UserConfig::KEY_IS_SECURE_ADMIN . '=]'
             . ' [--' . UserConfig::KEY_ADMIN_USE_SECURITY_KEY . '=]'
-            . ' [--' . UserConfig::KEY_SAMPLE_DATA . ']';
+            . ' [--' . Installer::USE_SAMPLE_DATA . ']';
         $adminUser = '--' . AdminAccount::KEY_USERNAME . '='
             . ' --' . AdminAccount::KEY_PASSWORD . '='
             . ' --' . AdminAccount::KEY_EMAIL . '='

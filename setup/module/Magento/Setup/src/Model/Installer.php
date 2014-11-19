@@ -38,6 +38,11 @@ class Installer
     const CLEANUP_DB = 'cleanup_database';
 
     /**
+     * Parameter indicating command whether to install Sample Data
+     */
+    const USE_SAMPLE_DATA = 'use_sample_data';
+
+    /**
      * Parameter to specify an order_increment_prefix
      */
     const SALES_ORDER_INCREMENT_PREFIX = 'sales_order_increment_prefix';
@@ -244,8 +249,8 @@ class Installer
         $script[] = ['Enabling caches:', 'enableCaches', []];
         $script[] = ['Disabling Maintenance Mode:', 'setMaintenanceMode', [0]];
         $script[] = ['Post installation file permissions check...', 'checkApplicationFilePermissions', []];
-        if (!empty($request[UserConfigurationData::KEY_SAMPLE_DATA]) && $this->sampleData->isDeployed()) {
-            $script[] = ['Installing Sample Data...', 'installSampleData', []];
+        if (!empty($request[Installer::USE_SAMPLE_DATA]) && $this->sampleData->isDeployed()) {
+            $script[] = ['Installing Sample Data...', 'installSampleData', [$request]];
         }
 
         $total = count($script) + count($this->moduleList->getModules());
@@ -501,8 +506,11 @@ class Installer
         $command = $phpPath . ' ' . $command;
         $actualCommand = $this->shellRenderer->render($command, $args);
         $this->log->log($actualCommand);
-        $output = $this->shell->execute($command, $args);
-        $this->log->log($output);
+        $handle = popen($actualCommand, 'r');
+        while (!feof($handle)) {
+            $this->log->log(fread($handle, 8192), false);
+        }
+        pclose($handle);
     }
 
     /**
@@ -619,13 +627,11 @@ class Installer
 
     /**
      * Run installation process for Sample Data
+     *
+     * @param array $request
      */
-    private function installSampleData()
+    private function installSampleData($request)
     {
-        $handle = popen($this->sampleData->getRunCommand(), 'r');
-        while (!feof($handle)) {
-            $this->log->log(fread($handle, 8192), false);
-        }
-        pclose($handle);
+        $this->exec($this->sampleData->getRunCommand($request), [$this->execParams]);
     }
 }
