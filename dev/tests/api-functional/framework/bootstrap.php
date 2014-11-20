@@ -8,9 +8,7 @@
 
 use Magento\Framework\Autoload\AutoloaderRegistry;
 
-$includePath = new \Magento\Framework\Autoload\IncludePath();
-spl_autoload_register([$includePath, 'load']);
-
+require_once __DIR__ . '/../../../../app/bootstrap.php';
 require_once __DIR__ . '/../lib/OAuth/bootstrap.php';
 require_once __DIR__ . '/autoload.php';
 
