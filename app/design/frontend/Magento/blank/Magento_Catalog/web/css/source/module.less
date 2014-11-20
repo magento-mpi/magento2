@@ -37,12 +37,19 @@
 @import "toolbar.less";
 
 //
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+//
 //    Category view
 //--------------------------------------
 .old-price,
 .old.price {
     text-decoration: line-through;
 }
+
 .price-tier_price {
     .price-including-tax + .price-excluding-tax {
         &:before {
@@ -196,6 +203,7 @@
         .font-size(@font-size-base);
     }
 }
+
 .product-info-main,
 .product-options-bottom {
     .price-box {
@@ -378,10 +386,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-m(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .catalog-product-view {
         .column.main {
             .vendor-prefix-display(flex);
@@ -409,7 +419,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .product-info-main,
     .product-options-bottom {
         .box-tocart {
@@ -459,7 +469,7 @@
 //
 //    Desktop large
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-xl) {
+.responsive-min-l(@break) when (@break = @screen-xl) {
     .sidebar {
         .product-items {
             .product-item {
@@ -483,7 +493,7 @@
 //
 //    Category page layout
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .product-info-main {
         float: right;
     }
@@ -509,6 +519,13 @@
         }
     }
 }
+
+
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
 
 //
 //    Minimum Advertising Price
@@ -683,4 +700,6 @@ body.catalog-product-compare-index {
     .actions-toolbar {
         margin: 17px 0 0;
     }
+}
+
 }

@@ -136,7 +136,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-m(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .products-grid.wishlist {
         margin-right: -@indent-s-base;
         margin-bottom: @indent-l-base;
@@ -222,7 +222,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .products-grid.wishlist {
         .product {
             &-item {
@@ -266,13 +266,13 @@
     }
 }
 
-.responsive-l(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     //.wishlist-index-index .products-grid .product-item { width: 100%/3 }
 }
-.responsive-l(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     //.wishlist-index-index .products-grid .product-item { width: 100%/3 }
 }
-.responsive-l(@break) when (@break = @screen-l) {
+.responsive-min-l(@break) when (@break = @screen-l) {
     .wishlist-index-index .products-grid .product-items { margin: 0; }
     .wishlist-index-index .products-grid .product-item {
         width: 24%;

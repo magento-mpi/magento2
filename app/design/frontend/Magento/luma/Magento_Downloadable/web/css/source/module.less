@@ -116,7 +116,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-m(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .page-product-downloadable .product-options-wrapper {
         margin-bottom: @indent-m-base;
     }
@@ -145,7 +145,7 @@
 //
 // Product view Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
 .page-product-downloadable {
         .product-add-form {
             &:extend(.clearer all);

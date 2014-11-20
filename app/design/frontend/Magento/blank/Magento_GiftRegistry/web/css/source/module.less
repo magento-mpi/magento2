@@ -113,7 +113,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-m(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .table-giftregistry-items {
         .col.product {
             &:before {
@@ -140,7 +140,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .form-giftregistry-share,
     .form-giftregistry-edit {
         &:extend(.abstract-add-fields-desktop all);

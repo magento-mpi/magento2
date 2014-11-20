@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .bundle-actions {
     &:extend(.abstract-box-tocart all);
     .action.primary {
@@ -95,10 +101,12 @@
     }
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .bundle-options-container {
         .legend.title {
             &:extend(.abstract-reset-left-margin all);

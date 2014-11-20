@@ -74,7 +74,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-m(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .form-create-return {
         .additional {
             .field:nth-last-child(2) {
@@ -112,7 +112,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .form-create-return {
         &:extend(.abstract-add-fields-desktop all);
         &:extend(.abstract-form-field-column-2 all);

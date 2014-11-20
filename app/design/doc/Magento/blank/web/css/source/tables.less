@@ -17,7 +17,7 @@ table {
 //
 //    Mobile
 //--------------------------------------
-.responsive-m(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .table-wrapper {
         .table-overflow();
         position: relative; // to hide unnecessary horizontal scrollbar in Safari
@@ -27,7 +27,7 @@ table {
 //
 //    Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .table-wrapper {
         > table {
             > thead,

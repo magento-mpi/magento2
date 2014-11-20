@@ -83,7 +83,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-m(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .form-create-return {
         .fieldset {
             > .actions-toolbar {
@@ -111,7 +111,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .form-create-return {
         &:extend(.abstract-add-fields-desktop all);
         .additional {

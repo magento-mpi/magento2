@@ -38,7 +38,7 @@ table {
 //
 //    Mobile
 //--------------------------------------
-.responsive-m(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .table-wrapper {
         border-top: @table-border-width @table-border-style @table-border-color;
         .table-overflow();
@@ -87,7 +87,7 @@ table {
 //
 //    Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .table {
         .table-bordered(
             @_table_type: horizontal_body

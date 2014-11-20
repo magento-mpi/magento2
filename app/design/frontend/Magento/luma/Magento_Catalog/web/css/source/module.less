@@ -447,7 +447,7 @@
 //
 //    Mobile @screen-m
 //--------------------------------------
-.responsive-m(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .catalog-product-view {
         .column.main {
             .vendor-prefix-display(flex);
@@ -462,7 +462,7 @@
 //
 //    Mobile @screen-s
 //--------------------------------------
-.responsive-m(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .product-social-links {
         .action.tocompare {
             display: none;
@@ -495,7 +495,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .product-info-main {
         .page-title {
             h1 {
@@ -600,7 +600,7 @@
 //
 //    Desktop large
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-xl) {
+.responsive-min-l(@break) when (@break = @screen-xl) {
     .sidebar {
         .product-items {
             .product-item {
@@ -846,7 +846,7 @@ body.catalog-product-compare-index {
 //
 //    Mobile
 //--------------------------------------
-.responsive-m(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .table-wrapper.comparison {
         .table-comparison > tbody > tr{
             > th,
@@ -861,7 +861,7 @@ body.catalog-product-compare-index {
 //
 //    Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .compare.wrapper {
         display: block;
         float: right;
@@ -919,7 +919,7 @@ body.catalog-product-compare-index {
 //
 //    Desktop large
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-l) {
+.responsive-min-l(@break) when (@break = @screen-l) {
     .box-tocart {
         .paypal:first-of-type {
             margin-top: 13px;

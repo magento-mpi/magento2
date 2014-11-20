@@ -94,7 +94,7 @@
 //
 //    Mobile @screen-s
 //--------------------------------------
-.responsive-m(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .column {
         .block-addbysku {
             .sku {
@@ -119,7 +119,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .column {
         .block-addbysku {
             .action {
@@ -136,7 +136,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .block-cart-failed {
         &:extend(.abstract-shopping-cart-items-desktop all);
         .actions.secondary {

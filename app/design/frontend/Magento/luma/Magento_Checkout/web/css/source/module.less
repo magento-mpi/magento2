@@ -450,7 +450,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-m(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .table-order-review {
         tbody tr {
             td:not(:last-child) {
@@ -483,7 +483,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive-l(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .checkout-onepage-index .column.main {
         &:extend(.abstract-add-clearfix-desktop-s all);
     }
