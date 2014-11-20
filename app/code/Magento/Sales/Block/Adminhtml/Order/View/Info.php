@@ -19,7 +19,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     /**
      * Customer service
      *
-     * @var \Magento\Customer\Api\MetadataInterface
+     * @var \Magento\Customer\Api\CustomerMetadataInterface
      */
     protected $metadata;
 
@@ -44,7 +44,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
-     * @param \Magento\Customer\Api\GroupRepositoryInterface $metadata
+     * @param \Magento\Customer\Api\CustomerMetadataInterface $metadata
      * @param \Magento\Customer\Model\Metadata\ElementFactory $elementFactory
      * @param array $data
      */
@@ -53,7 +53,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
-        \Magento\Customer\Api\GroupRepositoryInterface $metadata,
+        \Magento\Customer\Api\CustomerMetadataInterface $metadata,
         \Magento\Customer\Model\Metadata\ElementFactory $elementFactory,
         array $data = []
     ) {

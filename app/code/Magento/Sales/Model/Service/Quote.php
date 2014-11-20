@@ -87,6 +87,16 @@ class Quote
     protected $addressBuilder;
 
     /**
+     * @var \Magento\Customer\Api\AddressRepositoryInterface
+     */
+    protected $addressRepository;
+
+    /**
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     */
+    protected $customerRepository;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Quote $quote
      * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
@@ -95,6 +105,8 @@ class Quote
      * @param \Magento\Customer\Api\AccountManagementInterface $accountManagement
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
@@ -104,7 +116,9 @@ class Quote
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
         \Magento\Customer\Api\AccountManagementInterface $accountManagement,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
-        \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
+        \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder,
+        \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
     ) {
 
         $this->accountManagement = $accountManagement;
@@ -115,6 +129,7 @@ class Quote
         $this->_convertor = $convertQuoteFactory->create();
         $this->_customerSession = $customerSession;
         $this->_transactionFactory = $transactionFactory;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -161,36 +176,28 @@ class Quote
         $customer = $quote->getCustomer();
         $addresses = $customer->getAddresses();
 
-        if ($customer->getId()) {
-            foreach ($addresses as $address) {
-                $this->addressBuilder->mergeDataObjectWithArray($address, ['parent_id' => $customer->getId()]);
-            }
-        } else { //for new customers
+        if (!$customer->getId()) {
             $customer = $this->accountManagement->createAccountWithPasswordHash(
-                $this->customerBuilder->populateWithArray([]),
+                $this->customerBuilder->populate($customer),
                 $quote->getPasswordHash()
             );
-
-            $addresses = $customer->getAddresses();
-
-            //Update quote address information
-            foreach ($addresses as $address) {
-                if ($address === $customer->getDefaultBilling()) {
-                    $quote->getBillingAddress()->setCustomerAddressData($address);
-                } else {
-                    if ($address === $customer->getDefaultShipping()) {
-                        $quote->getShippingAddress()->setCustomerAddressData($address);
-                    }
-                }
-            }
-            if ($quote->getShippingAddress() && $quote->getShippingAddress()->getSameAsBilling()) {
-                $quote->getShippingAddress()->setCustomerAddressData(
-                    $quote->getBillingAddress()->getCustomerAddress()
-                );
-            }
+        } else {
+            $this->customerRepository->save($customer);
         }
 
-        $quote->setCustomer($customer)->setCustomerAddressData($addresses);
+        if (!$quote->getBillingAddress()->getId() && $customer->getDefaultBilling()) {
+            $quote->getBillingAddress()->importCustomerAddressData(
+                $this->addressRepository->getById($customer->getDefaultBilling())
+            );
+        }
+        if (!$quote->getShippingAddress()->getSameAsBilling()
+            && !$quote->getBillingAddress()->getId()
+            && $customer->getDefaultShipping()
+        ) {
+            $quote->getShippingAddress()->importCustomerAddressData(
+                $this->addressRepository->getById($customer->getDefaultBilling())
+            );
+        }
     }
 
     /**
