@@ -147,7 +147,6 @@ define([
                 return;
             }
             this.options.prices = config.prices;
-            console.log(config, this.options.prices);
         }
     }
 });
