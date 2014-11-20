@@ -16,7 +16,7 @@ use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 /**
- * Class CustomerAccountServiceTest
+ * Test class for Magento\Customer\Api\CustomerRepositoryInterface
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
