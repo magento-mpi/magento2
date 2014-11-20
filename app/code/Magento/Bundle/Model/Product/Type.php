@@ -616,27 +616,30 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         if (!count($selectionCollection->getItems())) {
             return false;
         }
-        $hasNotSalableSelectedItem = false;
         $salableSelectionCount = 0;
 
         foreach ($selectionCollection as $selection) {
             /* @var $selection \Magento\Catalog\Model\Product */
             if ($selection->isSalable()) {
-                if ($selection->hasSelectionQty()
-                    && !$selection->getSelectionCanChangeQty()
-                    && $selection->getSelectionQty() > $this->_stockItemService->getStockQty($selection->getId())
-                ) {
-                    $hasNotSalableSelectedItem = true;
+                if (!$selection->hasSelectionQty()
+                    || $selection->getSelectionCanChangeQty()
+                    ||
+                    (
+                        $this->_stockItemService->getManageStock($selection->getId())
+                        ?
+                        $selection->getSelectionQty() <= $this->_stockItemService->getStockQty($selection->getId())
+                            :
+                            $this->_stockItemService->verifyStock($selection->getId(), $selection->getSelectionQty())
+
+                    )
+                )
+                {
+                    $requiredOptionIds[$selection->getOptionId()] = 1;
+                    $salableSelectionCount++;
                 }
-                $requiredOptionIds[$selection->getOptionId()] = 1;
-                $salableSelectionCount++;
             }
         }
-        if ($hasNotSalableSelectedItem) {
-            $isSalable = false;
-        } else {
-            $isSalable = array_sum($requiredOptionIds) == count($requiredOptionIds) && $salableSelectionCount;
-        }
+        $isSalable = array_sum($requiredOptionIds) == count($requiredOptionIds) && $salableSelectionCount;
         $product->setData('all_items_salable', $isSalable);
         return $isSalable;
     }
