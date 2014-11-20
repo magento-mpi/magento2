@@ -149,7 +149,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     public function getOptionValueModified(
         array $value = []
     ) {
-        $pricingValue = $this->getPricingValue($value);
+        $pricingValue = $this->getPricingValue($value, \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE);
         $this->product->setParentId(true);
         $amount = $this->priceModifier->modifyPrice($pricingValue, $this->product);
 
@@ -166,7 +166,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     public function getOptionValueAmount(
         array $value = []
     ) {
-        $amount = $this->getPricingValue($value);
+        $amount = $this->getPricingValue($value, \Magento\Catalog\Pricing\Price\RegularPrice::PRICE_CODE);
 
         $context = [CustomOptionPriceInterface::CONFIGURATION_OPTION_FLAG => true];
         return $this->calculator->getAmount(floatval($amount), $this->product, null, $context);
@@ -176,13 +176,14 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * Prepare percent price value
      *
      * @param array $value
+     * @param string $priceCode
      * @return float
      */
-    protected function preparePrice(array $value = [])
+    protected function preparePrice(array $value, $priceCode)
     {
         return $this->product
             ->getPriceInfo()
-            ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
+            ->getPrice($priceCode)
             ->getValue() * $value['pricing_value'] / 100;
     }
 
@@ -190,12 +191,13 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * Get value from array
      *
      * @param array $value
+     * @param string $priceCode
      * @return float
      */
-    protected function getPricingValue(array $value = [])
+    protected function getPricingValue(array $value, $priceCode)
     {
         if ($value['is_percent'] && !empty($value['pricing_value'])) {
-            return $this->preparePrice($value);
+            return $this->preparePrice($value, $priceCode);
         } else {
             return $value['pricing_value'];
         }

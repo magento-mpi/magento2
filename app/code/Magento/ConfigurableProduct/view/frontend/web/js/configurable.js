@@ -330,14 +330,12 @@ define([
          * @return {String} The option label with option value and price (e.g. Black +1.99)
          */
         _getOptionLabel: function(option, selOption) {
-            var selectedOldPrice = 0, selectedBasePrice = 0, selectedFinalPrice = 0;
-            var oldPrice = 0, basePrice = 0, finalPrice = 0;
+            var selectedBasePrice = 0, selectedFinalPrice = 0;
+            var basePrice = 0, finalPrice = 0;
             if (!this.options.spConfig.stablePrices) {
-                selectedOldPrice = selOption ? parseFloat(selOption.prices.oldPrice.amount) : 0;
                 selectedBasePrice = selOption ? parseFloat(selOption.prices.basePrice.amount) : 0;
                 selectedFinalPrice = selOption ? parseFloat(selOption.prices.finalPrice.amount) : 0;
             }
-            oldPrice = parseFloat(option.prices.oldPrice.amount - selectedOldPrice);
             basePrice = parseFloat(option.prices.basePrice.amount - selectedBasePrice);
             finalPrice = parseFloat(option.prices.finalPrice.amount - selectedFinalPrice);
 
