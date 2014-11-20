@@ -9,6 +9,7 @@
 namespace Magento\Sales\Test\TestCase;
 
 use Mtf\Factory\Factory;
+use Mtf\ObjectManager;
 use Magento\Sales\Test\Fixture\OrderCheckout;
 
 /**
@@ -100,9 +101,8 @@ class OnlineRefundTest extends RefundTest
      *
      * @return void
      */
-    public function tearDown()
+    public static function tearDownAfterClass()
     {
-        $deleteTaxRule = $this->objectManager->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep');
-        $deleteTaxRule->run();
+        ObjectManager::getInstance()->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep', [])->run();
     }
 }

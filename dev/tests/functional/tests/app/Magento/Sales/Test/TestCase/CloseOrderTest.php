@@ -133,7 +133,6 @@ class CloseOrderTest extends Functional
      */
     public function tearDown()
     {
-        $deleteTaxRule = $this->objectManager->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep');
-        $deleteTaxRule->run();
+        $this->objectManager->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep')->run();
     }
 }

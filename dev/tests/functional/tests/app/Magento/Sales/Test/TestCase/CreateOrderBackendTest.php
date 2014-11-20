@@ -59,5 +59,7 @@ class CreateOrderBackendTest extends Scenario
             ['configData' => $this->currentVariation['arguments']['configData'], 'rollback' => true]
         );
         $setConfigStep->run();
+
+        $this->objectManager->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep')->run();
     }
 }

@@ -44,6 +44,6 @@ class CreateOrderStep implements TestStepInterface
     {
         $this->order->persist();
 
-        return ['products' => $this->order->getEntityId()['products']];
+        return ['products' => $this->order->getEntityId()['products'], 'order' => $this->order];
     }
 }
