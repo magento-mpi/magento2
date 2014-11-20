@@ -76,9 +76,9 @@ class Shipping implements RateCollectorInterface
     protected $mathDivision;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -89,7 +89,7 @@ class Shipping implements RateCollectorInterface
      * @param \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Framework\Math\Division $mathDivision
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -100,7 +100,7 @@ class Shipping implements RateCollectorInterface
         \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Framework\Math\Division $mathDivision,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_shippingConfig = $shippingConfig;
@@ -110,7 +110,7 @@ class Shipping implements RateCollectorInterface
         $this->_shipmentRequestFactory = $shipmentRequestFactory;
         $this->_regionFactory = $regionFactory;
         $this->mathDivision = $mathDivision;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
     }
 
     /**
@@ -348,11 +348,10 @@ class Shipping implements RateCollectorInterface
             ) {
                 $productId = $item->getProduct()->getId();
 
-                if ($this->stockItemService->getStockItem($productId)->getIsDecimalDivided()) {
-                    if ($this->stockItemService->getEnableQtyIncrements($productId)
-                        && $this->stockItemService->getQtyIncrements($productId)
-                    ) {
-                        $itemWeight = $itemWeight * $this->stockItemService->getQtyIncrements($productId);
+                $stockItem = $this->stockRegistry->getStockItem($productId, $item->getStore()->getWebsiteId());
+                if ($stockItem->getIsDecimalDivided()) {
+                    if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
+                        $itemWeight = $itemWeight * $stockItem->getQtyIncrements();
                         $qty = round($item->getWeight() / $itemWeight * $qty);
                         $changeQty = false;
                     } else {

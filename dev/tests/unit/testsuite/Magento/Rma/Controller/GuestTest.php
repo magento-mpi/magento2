@@ -39,7 +39,7 @@ abstract class GuestTest extends \PHPUnit_Framework_TestCase
     protected $response;
 
     /**
-     * @var \Magento\Framework\ObjectManager | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManager;
 
@@ -64,7 +64,7 @@ abstract class GuestTest extends \PHPUnit_Framework_TestCase
 
         $this->request = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
         $this->response = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
-        $this->objectManager = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->messageManager = $this->getMock('Magento\Framework\Message\Manager', [], [], '', false);
         $this->redirect = $this->getMock('Magento\Store\App\Response\Redirect', [], [], '', false);
         $this->url = $this->getMock('Magento\Framework\Url', [], [], '', false);

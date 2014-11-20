@@ -24,8 +24,13 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\AdvancedCheckout\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $checkoutHelperMock;
 
-    /** @var \Magento\CatalogInventory\Service\V1\StockItemService|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $stockItemMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockRegistry;
 
     protected function setUp()
     {
@@ -33,20 +38,30 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
         $this->checkoutHelperMock->expects($this->once())
             ->method('getFailedItems')
             ->will($this->returnValue([]));
+
+        $this->stockRegistry = $this->getMockBuilder('Magento\CatalogInventory\Model\StockRegistry')
+            ->disableOriginalConstructor()
+            ->setMethods(['getStockItem', '__wakeup'])
+            ->getMock();
+
         $this->stockItemMock = $this->getMock(
-            'Magento\CatalogInventory\Service\V1\StockItemService',
-            [],
+            'Magento\CatalogInventory\Model\Stock\Item',
+            ['getIsInStock', '__wakeup'],
             [],
             '',
             false
         );
+
+        $this->stockRegistry->expects($this->any())
+            ->method('getStockItem')
+            ->will($this->returnValue($this->stockItemMock));
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->products = $this->objectManagerHelper->getObject(
             'Magento\AdvancedCheckout\Block\Sku\Products',
             [
                 'checkoutData' => $this->checkoutHelperMock,
-                'stockItemService' => $this->stockItemMock
+                'stockRegistry' => $this->stockRegistry
             ]
         );
     }
@@ -62,6 +77,11 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
         $product->expects($this->once())
             ->method('isComposite')
             ->will($this->returnValue($config['is_composite']));
+
+        $quoteItem = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);
+        $quoteItem->expects($this->once())
+            ->method('getProduct')
+            ->will($this->returnValue($product));
 
         if ($config['is_composite']) {
             $productsInGroup = [
@@ -83,12 +103,13 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
             $product->expects($this->once())
                 ->method('getTypeInstance')
                 ->will($this->returnValue($typeInstance));
-        }
 
-        $quoteItem = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);
-        $quoteItem->expects($this->once())
-            ->method('getProduct')
-            ->will($this->returnValue($product));
+            $store = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
+            $quoteItem->expects($this->once())
+                ->method('getStore')
+                ->will($this->returnValue($store));
+
+        }
 
         $this->assertSame($result, $this->products->showItemLink($quoteItem));
     }
@@ -120,7 +141,6 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
 
         $this->stockItemMock->expects($this->once())
             ->method('getIsInStock')
-            ->with($this->equalTo(10))
             ->will($this->returnValue($isInStock));
         return $product;
     }
