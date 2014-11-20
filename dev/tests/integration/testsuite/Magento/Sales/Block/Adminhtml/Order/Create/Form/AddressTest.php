@@ -195,8 +195,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getAddresses()
     {
-        /** @var \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder */
-        $addressBuilder = $this->_objectManager->create('Magento\Customer\Api\Data\AddressInterfaceBuilder');
+        /** @var \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder */
+        $addressBuilder = $this->_objectManager->create('Magento\Customer\Api\Data\AddressDataBuilder');
         $addressBuilder->populateWithArray(
             ['id' => 1, 'street' => ['Street1'], 'firstname' => 'FirstName1', 'lastname' => 'LastName1']
         );

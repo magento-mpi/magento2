@@ -75,28 +75,26 @@ class Quote
     /**
      * Customer builder
      *
-     * @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     protected $customerBuilder;
 
     /**
      * Address builder
      *
-     * @var \Magento\Customer\Api\Data\AddressInterfaceBuilder
+     * @var \Magento\Customer\Api\Data\AddressDataBuilder
      */
     protected $addressBuilder;
 
     /**
-     * Class constructor
-     *
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Quote $quote
      * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
      * @param \Magento\Customer\Api\AccountManagementInterface $accountManagement
-     * @param \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder
-     * @param \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
@@ -105,8 +103,8 @@ class Quote
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
         \Magento\Customer\Api\AccountManagementInterface $accountManagement,
-        \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder,
-        \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
     ) {
 
         $this->accountManagement = $accountManagement;

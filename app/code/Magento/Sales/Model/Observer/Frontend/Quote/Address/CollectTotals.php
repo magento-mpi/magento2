@@ -28,23 +28,21 @@ class CollectTotals
     protected $vatValidator;
 
     /**
-     * @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     protected $customerBuilder;
 
     /**
-     * Initialize dependencies.
-     *
      * @param \Magento\Customer\Helper\Address $customerAddressHelper
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param VatValidator $vatValidator
-     * @param \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddressHelper,
         \Magento\Customer\Helper\Data $customerHelper,
         VatValidator $vatValidator,
-        \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
     ) {
         $this->customerHelper = $customerHelper;
         $this->customerAddressHelper = $customerAddressHelper;

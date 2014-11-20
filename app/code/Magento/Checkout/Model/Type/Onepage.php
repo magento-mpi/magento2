@@ -19,8 +19,8 @@ use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Customer\Api\AddressMetadataInterface as AddressMetadata;
-use Magento\Customer\Api\Data\AddressInterfaceBuilder as AddressBuilder;
-use Magento\Customer\Api\Data\CustomerInterfaceBuilder as CustomerBuilder;
+use Magento\Customer\Api\Data\AddressDataBuilder as AddressBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder as CustomerBuilder;
 
 /**
  * Class Onepage
@@ -809,7 +809,7 @@ class Onepage
 
         $dataArray = $this->_objectCopyService->getDataFromFieldset('checkout_onepage_quote', 'to_customer', $quote);
         $customer = $this->_customerBuilder->mergeDataObjectWithArray($customer, $dataArray);
-        $quote->setCustomer($customer)->setCustomerId(true);
+        $quote->setCustomer($customer->create())->setCustomerId(true);
         // TODO : Eventually need to remove this legacy hack
         // Add billing address to quote since customer Data Object does not hold address information
         $quote->addCustomerAddress($customerBillingData);
