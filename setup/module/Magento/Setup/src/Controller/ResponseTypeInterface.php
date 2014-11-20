@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Setup\Controller\Data;
+namespace Magento\Setup\Controller;
 
 interface ResponseTypeInterface
 {

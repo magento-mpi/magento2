@@ -14,7 +14,7 @@ angular.module('landing', ['ngStorage'])
         function ($scope, $location, $localStorage) {
             $scope.selectLanguage = function () {
                 $localStorage.lang = $scope.modelLanguage;
-                window.location = '/setup/' + $scope.modelLanguage + '/index';
+                window.location = 'index.php/' + $scope.modelLanguage + '/index';
             };
         }
     ]);

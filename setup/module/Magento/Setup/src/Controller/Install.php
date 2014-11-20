@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\Setup\Controller\Install;
+namespace Magento\Setup\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
 use Magento\Setup\Model\WebLogger;
 use Zend\Json\Json;
 use Zend\View\Model\JsonModel;
@@ -17,21 +17,10 @@ use Magento\Setup\Model\Installer;
 use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
 use Magento\Setup\Model\AdminAccount;
 use Magento\Setup\Module\Setup\ConfigMapper;
+use Magento\Setup\Model\Installer\ProgressFactory;
 
-/**
- * UI Controller that handles installation
- *
- * @package Magento\Setup\Controller\Install
- */
-class StartController extends AbstractActionController
+class Install extends AbstractActionController
 {
-    /**
-     * JSON Model Object
-     *
-     * @var JsonModel
-     */
-    private $json;
-
     /**
      * @var WebLogger
      */
@@ -43,20 +32,35 @@ class StartController extends AbstractActionController
     private $installer;
 
     /**
+     * @var ProgressFactory
+     */
+    private $progressFactory;
+
+    /**
      * Default Constructor
      *
-     * @param JsonModel $view
      * @param WebLogger $logger
      * @param InstallerFactory $installerFactory
+     * @param ProgressFactory $progressFactory
      */
     public function __construct(
-        JsonModel $view,
         WebLogger $logger,
-        InstallerFactory $installerFactory
+        InstallerFactory $installerFactory,
+        ProgressFactory $progressFactory
     ) {
-        $this->json = $view;
         $this->log = $logger;
         $this->installer = $installerFactory->create($logger);
+        $this->progressFactory = $progressFactory;
+    }
+
+    /**
+     * @return ViewModel
+     */
+    public function indexAction()
+    {
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        return $view;
     }
 
     /**
@@ -64,9 +68,10 @@ class StartController extends AbstractActionController
      *
      * @return JsonModel
      */
-    public function indexAction()
+    public function startAction()
     {
         $this->log->clear();
+        $json = new JsonModel;
         try {
             $data = array_merge(
                 $this->importDeploymentConfigForm(),
@@ -74,19 +79,39 @@ class StartController extends AbstractActionController
                 $this->importAdminUserForm()
             );
             $this->installer->install($data);
-            $this->json->setVariable(
+            $json->setVariable(
                 'key',
                 $this->installer->getInstallInfo()[
                     \Magento\Framework\App\DeploymentConfig\EncryptConfig::KEY_ENCRYPTION_KEY
                 ]
             );
-            $this->json->setVariable('success', true);
-            $this->json->setVariable('messages', $this->installer->getInstallInfo()[Installer::INFO_MESSAGE]);
+            $json->setVariable('success', true);
+            $json->setVariable('messages', $this->installer->getInstallInfo()[Installer::INFO_MESSAGE]);
         } catch(\Exception $e) {
             $this->log->logError($e);
-            $this->json->setVariable('success', false);
+            $json->setVariable('success', false);
         }
-        return $this->json;
+        return $json;
+    }
+
+    /**
+     * Checks progress of installation
+     *
+     * @return JsonModel
+     */
+    public function progressAction()
+    {
+        $percent = 0;
+        $success = false;
+        try {
+            $progress = $this->progressFactory->createFromLog($this->log);
+            $percent = sprintf('%d', $progress->getRatio() * 100);
+            $success = true;
+            $contents = $this->log->get();
+        } catch (\Exception $e) {
+            $contents = [(string)$e];
+        }
+        return new JsonModel(['progress' => $percent, 'success' => $success, 'console' => $contents]);
     }
 
     /**

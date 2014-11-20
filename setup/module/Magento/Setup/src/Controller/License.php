@@ -9,39 +9,30 @@ namespace Magento\Setup\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Magento\Setup\Model\License;
+use Magento\Setup\Model\License as LicenseModel;
 
 /**
  * Class LicenseController
  *
  * @package Magento\Setup\Controller
  */
-class LicenseController extends AbstractActionController
+class License extends AbstractActionController
 {
-    /**
-     * View object
-     *
-     * @var \Zend\View\Model\ViewModel
-     */
-    protected $view;
-
     /**
      * Licence Model
      *
-     * @var License
+     * @var LicenseModel
      */
     protected $license;
 
     /**
      * Constructor
      *
-     * @param License $license
-     * @param ViewModel $view
+     * @param LicenseModel $license
      */
-    public function __construct(License $license, ViewModel $view)
+    public function __construct(LicenseModel $license)
     {
         $this->license = $license;
-        $this->view = $view;
     }
 
     /**
@@ -52,12 +43,13 @@ class LicenseController extends AbstractActionController
     public function indexAction()
     {
         $contents = $this->license->getContents();
+        $view = new ViewModel;
         if ($contents === false) {
-            $this->view->setTemplate('error/404');
-            $this->view->setVariable('message', 'Cannot find license file.');
+            $view->setTemplate('error/404');
+            $view->setVariable('message', 'Cannot find license file.');
         } else {
-            $this->view->setVariable('license', $contents);
+            $view->setVariable('license', $contents);
         }
-        return $this->view;
+        return $view;
     }
 }

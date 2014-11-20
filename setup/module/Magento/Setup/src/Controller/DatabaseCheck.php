@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Setup\Controller\Data;
+namespace Magento\Setup\Controller;
 
 use Magento\Setup\Model\InstallerFactory;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -13,15 +13,8 @@ use Zend\View\Model\JsonModel;
 use Zend\Json\Json;
 use Magento\Setup\Model\WebLogger;
 
-class DatabaseController extends AbstractActionController
+class DatabaseCheck extends AbstractActionController
 {
-    /**
-     * JSON response object
-     *
-     * @var JsonModel
-     */
-    private $jsonResponse;
-
     /**
      * Installer service factory
      *
@@ -32,12 +25,10 @@ class DatabaseController extends AbstractActionController
     /**
      * Constructor
      *
-     * @param JsonModel $response
      * @param InstallerFactory $installerFactory
      */
-    public function __construct(JsonModel $response, InstallerFactory $installerFactory)
+    public function __construct(InstallerFactory $installerFactory)
     {
-        $this->jsonResponse = $response;
         $this->installerFactory = $installerFactory;
     }
 
@@ -53,10 +44,9 @@ class DatabaseController extends AbstractActionController
             $installer = $this->installerFactory->create(new WebLogger);
             $password = isset($params['password']) ? $params['password'] : '';
             $installer->checkDatabaseConnection($params['name'], $params['host'], $params['user'], $password);
-            return $this->jsonResponse->setVariables(['success' => true]);
+            return new JsonModel(['success' => true]);
         } catch (\Exception $e) {
-            return $this->jsonResponse->setVariables(['success' => false, 'error' => $e->getMessage()]);
+            return new JsonModel(['success' => false, 'error' => $e->getMessage()]);
         }
     }
-
 }

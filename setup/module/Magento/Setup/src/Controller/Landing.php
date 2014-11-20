@@ -14,17 +14,12 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Composer\Json\JsonFile;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
-class LandingController extends AbstractActionController
+class Landing extends AbstractActionController
 {
     /**
      * @var ServiceLocatorInterface
      */
     protected $serviceLocator;
-
-    /**
-     * @var ViewModel
-     */
-    protected $view;
 
     /**
      * @var array
@@ -33,15 +28,12 @@ class LandingController extends AbstractActionController
 
     /**
      * @param ServiceLocatorInterface $serviceLocator
-     * @param ViewModel $view
      * @param DirectoryList $directoryList
      */
     public function __construct(
         ServiceLocatorInterface $serviceLocator,
-        ViewModel $view,
         DirectoryList $directoryList
     ) {
-        $this->view = $view;
         $jsonFile = new JsonFile($directoryList->getRoot() . '/composer.json');
         $this->composerJson = $jsonFile->read();
     }
@@ -51,10 +43,11 @@ class LandingController extends AbstractActionController
      */
     public function indexAction()
     {
-        $this->view->setTerminal(true);
-        $this->view->setVariable('languages', $this->serviceLocator->get('config')['languages']);
-        $this->view->setVariable('location', 'en_US');
-        $this->view->setVariable('version', $this->composerJson['version']);
-        return $this->view;
+        $view = new ViewModel;
+        $view->setTerminal(true);
+        $view->setVariable('languages', $this->serviceLocator->get('config')['languages']);
+        $view->setVariable('location', 'en_US');
+        $view->setVariable('version', $this->composerJson['version']);
+        return $view;
     }
 }

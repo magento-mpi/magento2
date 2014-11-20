@@ -59,7 +59,7 @@ main.controller('navigationController', ['$scope', '$state', '$rootScope', 'navi
         states: [],
         load: function () {
             var self = this;
-            $http.get('data/states').success(function (data) {
+            $http.get('index.php/navigation').success(function (data) {
                 var currentState = $location.path().replace('/', '');
                 var isCurrentStateFound = false;
                 self.states = data.nav;
