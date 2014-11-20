@@ -71,12 +71,12 @@ class TaxRuleDataBuilder extends \Magento\Framework\Api\Builder
     }
 
     /**
-     * @param int $sortOrder
+     * @param int $position
      * @return $this
      */
-    public function setSortOrder($sortOrder)
+    public function setPosition($position)
     {
-        $this->_set('sort_order', $sortOrder);
+        $this->_set('position', $position);
         return $this;
     }
 

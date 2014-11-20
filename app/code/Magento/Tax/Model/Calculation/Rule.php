@@ -15,8 +15,6 @@ use \Magento\Tax\Api\Data\TaxRuleInterface;
  *
  * @method \Magento\Tax\Model\Resource\Calculation\Rule _getResource()
  * @method \Magento\Tax\Model\Resource\Calculation\Rule getResource()
- * @method int getPosition()
- * @method \Magento\Tax\Model\Calculation\Rule setPosition(int $value)
  */
 class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements TaxRuleInterface
 {
@@ -104,9 +102,9 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
      */
     public function saveCalculationData()
     {
-        $ctc = $this->getData('tax_customer_class');
-        $ptc = $this->getData('tax_product_class');
-        $rates = $this->getData('tax_rate');
+        $ctc = (array)$this->getData('customer_tax_class_ids');
+        $ptc = (array)$this->getData('product_tax_class_ids');
+        $rates = (array)$this->getData('tax_rate_ids');
 
         $this->_calculation->deleteByRuleId($this->getId());
         foreach ($ctc as $c) {
@@ -189,9 +187,9 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
     /**
      * {@inheritdoc}
      */
-    public function getSortOrder()
+    public function getPosition()
     {
-        return (int) $this->getData('sort_order');
+        return (int) $this->getData('position');
     }
 
     /**
@@ -207,7 +205,12 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
      */
     public function getCustomerTaxClassIds()
     {
-        return $this->_getUniqueValues($this->getCustomerTaxClasses());
+        $ids = $this->getData('customer_tax_class_ids');
+        if (null === $ids) {
+            $ids = $this->_getUniqueValues($this->getCustomerTaxClasses());
+            $this->setData('customer_tax_class_ids', $ids);
+        }
+        return $ids;
     }
 
     /**
@@ -215,7 +218,12 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
      */
     public function getProductTaxClassIds()
     {
-        return $this->_getUniqueValues($this->getProductTaxClasses());
+        $ids = $this->getData('product_tax_class_ids');
+        if (null === $ids) {
+            $ids = $this->_getUniqueValues($this->getProductTaxClasses());
+            $this->setData('product_tax_class_ids', $ids);
+        }
+        return $ids;
     }
 
     /**
@@ -223,7 +231,12 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
      */
     public function getTaxRateIds()
     {
-        return $this->_getUniqueValues($this->getRates());
+        $ids = $this->getData('tax_rate_ids');
+        if (null === $ids) {
+            $ids = $this->_getUniqueValues($this->getRates());
+            $this->setData('tax_rate_ids', $ids);
+        }
+        return $ids;
     }
 
     /**

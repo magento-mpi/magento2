@@ -41,13 +41,13 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
         $messages = [];
 
         // SortOrder is required and must be 0 or greater
-        if (!\Zend_Validate::is(trim($value->getSortOrder()), 'NotEmpty')) {
-            $this->addErrorMessage($messages, InputException::REQUIRED_FIELD, ['fieldName' => 'sort_order']);
+        if (!\Zend_Validate::is(trim($value->getPosition()), 'NotEmpty')) {
+            $this->addErrorMessage($messages, InputException::REQUIRED_FIELD, ['fieldName' => 'position']);
         }
-        if (!\Zend_Validate::is(trim($value->getSortOrder()), 'GreaterThan', [-1])) {
+        if (!\Zend_Validate::is(trim($value->getPosition()), 'GreaterThan', [-1])) {
             $this->addErrorMessage($messages,
                 InputException::INVALID_FIELD_MIN_VALUE,
-                ['fieldName' => 'sort_order', 'value' => $value->getSortOrder(), 'minValue' => 0]
+                ['fieldName' => 'position', 'value' => $value->getPosition(), 'minValue' => 0]
             );
         }
 

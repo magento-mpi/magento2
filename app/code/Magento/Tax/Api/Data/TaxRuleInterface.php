@@ -38,7 +38,7 @@ interface TaxRuleInterface extends ExtensibleDataInterface
      *
      * @return int
      */
-    public function getSortOrder();
+    public function getPosition();
 
     /**
      * Get customer tax class id
