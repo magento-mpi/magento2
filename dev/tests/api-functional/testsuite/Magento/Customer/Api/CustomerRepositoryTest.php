@@ -7,14 +7,13 @@
  */
 namespace Magento\Customer\Api;
 
-use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Customer\Api\Data\CustomerInterface as Customer;
 use Magento\Framework\Api\SearchCriteria;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\Helper\Customer as CustomerHelper;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
  * Class CustomerAccountServiceTest
