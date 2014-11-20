@@ -61,6 +61,11 @@ class Installer implements \Magento\Framework\AppInterface
     protected $deploy;
 
     /**
+     * @var \Magento\Backend\Model\Auth\Session
+     */
+    protected $session;
+
+    /**
      * @param State $appState
      * @param SetupFactory $setupFactory
      * @param ModuleListInterface $moduleList
@@ -93,6 +98,7 @@ class Installer implements \Magento\Framework\AppInterface
         $this->response = $response;
         $this->postInstaller = $postInstaller;
         $this->deploy = $deploy;
+        $this->session = $backendAuthSession;
         /** @var \Magento\User\Model\User $user */
         $user = $objectManager->create('Magento\User\Model\User')->loadByUsername($data['admin_username']);
         if (!$user || !$user->getId()) {
@@ -120,6 +126,7 @@ class Installer implements \Magento\Framework\AppInterface
                 $this->postInstaller->addModule($moduleName);
             }
         }
+        $this->session->unsUser();
         $this->postInstaller->run();
 
         $this->response->setCode(0);
