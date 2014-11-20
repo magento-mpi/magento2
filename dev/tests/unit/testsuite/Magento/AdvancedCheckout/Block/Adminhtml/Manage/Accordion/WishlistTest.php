@@ -31,8 +31,13 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $itemCollectionMock;
 
-    /** @var \Magento\CatalogInventory\Service\V1\StockItemService|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $stockItemMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockRegistry;
 
     protected function setUp()
     {
@@ -69,12 +74,23 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->itemCollectionMock));
 
         $this->stockItemMock = $this->getMock(
-            'Magento\CatalogInventory\Service\V1\StockItemService',
-            [],
+            'Magento\CatalogInventory\Model\Stock\Item',
+            ['getIsInStock', '__wakeup'],
             [],
             '',
             false
         );
+        $this->stockItemMock->expects($this->any())
+            ->method('getIsInStock')
+            ->will($this->returnValue(true));
+
+        $this->stockRegistry = $this->getMockBuilder('Magento\CatalogInventory\Model\StockRegistry')
+            ->disableOriginalConstructor()
+            ->setMethods(['getStockItem', '__wakeup'])
+            ->getMock();
+        $this->stockRegistry->expects($this->any())
+            ->method('getStockItem')
+            ->will($this->returnValue($this->stockItemMock));
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->wishlist = $this->objectManagerHelper->getObject(
@@ -83,7 +99,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
                 'context' => $this->contextMock,
                 'coreRegistry' => $this->registryMock,
                 'itemFactory' => $itemCollFactory,
-                'stockItemService' => $this->stockItemMock
+                'stockRegistry' => $this->stockRegistry
             ]
         );
     }

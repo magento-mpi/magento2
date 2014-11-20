@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Webapi\Controller\Rest\Response;
 
 use Magento\Framework\Api\AbstractExtensibleObject;

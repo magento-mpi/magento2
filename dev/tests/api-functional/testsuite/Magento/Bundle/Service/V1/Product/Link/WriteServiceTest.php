@@ -5,12 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Bundle\Service\V1\Product\Link;
 
 use \Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
 
+/**
+ * Class WriteServiceTest
+ */
 class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     const SERVICE_NAME = 'bundleProductLinkWriteServiceV1';
@@ -43,10 +45,14 @@ class WriteServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'removeChild'
             ]
         ];
-        $requestData = array('productSku' => $productSku, 'optionId' => $optionId, 'childSku' => $childSku);
+        $requestData = ['productSku' => $productSku, 'optionId' => $optionId, 'childSku' => $childSku];
         return $this->_webApiCall($serviceInfo, $requestData);
     }
 
+    /**
+     * @param $productId
+     * @return array
+     */
     protected function getProductOptions($productId)
     {
         /** @var \Magento\Catalog\Model\Product $product */
