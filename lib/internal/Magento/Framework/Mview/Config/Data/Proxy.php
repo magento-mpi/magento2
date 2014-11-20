@@ -15,7 +15,7 @@ class Proxy extends \Magento\Framework\Mview\Config\Data
     /**
      * Object Manager instance
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -41,12 +41,12 @@ class Proxy extends \Magento\Framework\Mview\Config\Data
     protected $isShared = null;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param string $instanceName
      * @param bool $shared
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         $instanceName = 'Magento\Framework\Mview\Config\Data',
         $shared = true
     ) {
