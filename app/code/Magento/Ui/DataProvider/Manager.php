@@ -9,7 +9,6 @@
 namespace Magento\Ui\DataProvider;
 
 use Magento\Framework\ObjectManager;
-use Magento\Ui\DataProvider\MetadataFactory;
 use Magento\Ui\DataProvider\Config\Data as Config;
 
 /**

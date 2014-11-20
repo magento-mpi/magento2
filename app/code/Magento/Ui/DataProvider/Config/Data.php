@@ -21,6 +21,7 @@ class Data extends \Magento\Framework\Config\Data
         Reader $reader,
         \Magento\Framework\Config\CacheInterface $cache
     ) {
+        $this->cacheTags = [\Magento\Eav\Model\Entity\Attribute::CACHE_TAG];
         parent::__construct($reader, $cache, 'data_source');
     }
 
