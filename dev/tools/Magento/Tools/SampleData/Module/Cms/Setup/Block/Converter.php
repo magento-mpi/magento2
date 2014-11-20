@@ -48,12 +48,18 @@ class Converter
     protected $attributeCodeOptionValueIdsPair;
 
     /**
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     */
+    protected $productCollectionFactory;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Service\V1\Category\CategoryLoader $categoryLoader
      * @param \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory,
@@ -61,7 +67,8 @@ class Converter
         \Magento\Catalog\Service\V1\Category\CategoryLoader $categoryLoader,
         \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
     ) {
         $this->categoryFactory = $categoryFactory;
         $this->eavConfig = $eavConfig;
@@ -69,6 +76,7 @@ class Converter
         $this->productConverter = $productConverter;
         $this->attributeCollectionFactory = $attributeCollectionFactory;
         $this->attrOptionCollectionFactory = $attrOptionCollectionFactory;
+        $this->productCollectionFactory = $productCollectionFactory;
     }
 
     /**
@@ -182,13 +190,8 @@ class Converter
                     $replaceData['value'][] = sprintf('%03d', $category->getId());
                     break;
                 case 'product':
-                    if (empty($category)) {
-                        continue;
-                    }
-                    $productItem = $category->getProductCollection()
-                        ->addAttributeToFilter('sku', $matchValue)
-                        ->addUrlRewrite($category->getId())
-                        ->getFirstItem();
+                    $productCollection = $this->productCollectionFactory->create();
+                    $productItem = $productCollection->addAttributeToFilter('sku', $matchValue)->getFirstItem();
                     $productUrl = null;
                     if ($productItem) {
                         $productUrl = $productItem->getProductUrl();
