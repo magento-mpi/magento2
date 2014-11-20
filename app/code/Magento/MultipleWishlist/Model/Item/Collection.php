@@ -25,7 +25,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
+     * @param \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
@@ -49,7 +49,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
+        \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
@@ -72,7 +72,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
             $logger,
             $fetchStrategy,
             $eventManager,
-            $catalogInventoryData,
+            $stockConfiguration,
             $adminhtmlSales,
             $storeManager,
             $date,

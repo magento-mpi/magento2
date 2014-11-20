@@ -65,7 +65,7 @@ class WriteService implements WriteServiceInterface
      */
     public function set(\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod $method, $cartId)
     {
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
 
         $payment = $this->paymentMethodBuilder->build($method, $quote);
         if ($quote->isVirtual()) {
