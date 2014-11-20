@@ -149,8 +149,8 @@ define([
             // If country is in optionalzip list, make postcode input not required
             if (this.options.isZipRequired) {
                 $.inArray(country, this.options.countriesWithOptionalZip) >= 0 ?
-                    postcode.removeClass('required-entry').parent().siblings('label').children('em').hide() :
-                    postcode.addClass('required-entry').parent().siblings('label').children('em').show();
+                    postcode.removeClass('required-entry').parents('div').removeClass('required') :
+                    postcode.addClass('required-entry').parents('div').addClass('required');
             }
             // Add defaultvalue attribute to state/province select element
             regionList.attr('defaultvalue', this.options.defaultRegion);
