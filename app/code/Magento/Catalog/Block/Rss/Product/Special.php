@@ -7,6 +7,7 @@
  */
 namespace Magento\Catalog\Block\Rss\Product;
 
+use Magento\Customer\Model\Context;
 use Magento\Framework\App\Rss\DataProviderInterface;
 
 /**
@@ -213,7 +214,7 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
     {
         $customerGroupId =   (int) $this->getRequest()->getParam('cid');
         if ($customerGroupId == null) {
-            $customerGroupId = $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP);
+            $customerGroupId = $this->httpContext->getValue(Context::CONTEXT_GROUP);
         }
         return $customerGroupId;
     }
@@ -247,5 +248,13 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
             $data = array('label' => __('Special Products'), 'link' => $url);
         }
         return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isAuthRequired()
+    {
+        return false;
     }
 }

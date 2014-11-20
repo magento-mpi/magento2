@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <page_size>
+            <selector>.control [name="parameters[page_size]"]</selector>
+        </page_size>
+    </fields>
+</mapping>

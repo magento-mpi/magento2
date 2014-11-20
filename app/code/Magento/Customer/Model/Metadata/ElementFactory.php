@@ -26,7 +26,7 @@ class ElementFactory
     // available only for multiply attributes
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -36,10 +36,10 @@ class ElementFactory
     protected $_string;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Stdlib\String $string
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, \Magento\Framework\Stdlib\String $string)
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, \Magento\Framework\Stdlib\String $string)
     {
         $this->_objectManager = $objectManager;
         $this->_string = $string;
@@ -69,7 +69,7 @@ class ElementFactory
         );
         /** TODO fix when Validation is implemented MAGETWO-17341 */
         if ($dataModelClass == 'Magento\Customer\Model\Attribute\Data\Postcode') {
-            $dataModelClass = 'Magento\Customer\Model\Metadata\Form\Text';
+            $dataModelClass = 'Magento\Customer\Model\Metadata\Form\Postcode';
         }
         if (!empty($dataModelClass)) {
             $dataModel = $this->_objectManager->create($dataModelClass, $params);

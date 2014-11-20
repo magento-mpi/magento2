@@ -17,10 +17,11 @@
         "netwing/selenium-server-standalone": ">=2.35"
     },
     "autoload": {
-        "psr-0": {
-            "Mtf\\": "lib",
-            "Magento\\": "",
-            "": ["testsuites", "generated", "lib", "tests/app", "tests/design"]
+        "psr-4": {
+            "Mtf\\": ["lib/Mtf/", "generated/Mtf/", "testsuites/Mtf/"],
+            "Magento\\": ["generated/Magento/", "tests/app/Magento/"],
+            "Test\\": "generated/Test/"
+
         }
     }
 }

@@ -35,7 +35,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Backend\Model\Session */
     private $_backendSession;
 
-    /** @var  \Magento\Framework\ObjectManager */
+    /** @var  \Magento\Framework\ObjectManagerInterface */
     private $_objectManager;
 
     /** @var  array */
@@ -151,7 +151,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_customerAccountService->getCustomer(1);
         $this->_customerData = array(
             'customer_id' => $customer->getId(),
-            'account' => \Magento\Framework\Service\ExtensibleDataObjectConverter::toFlatArray($customer)
+            'account' => \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer)
         );
         $this->_customerData['account']['id'] = $customer->getId();
         /** @var Address[] $addresses */

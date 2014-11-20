@@ -1,0 +1,5 @@
+name,url_key,path,active,is_anchor,include_in_menu,position,display_mode
+Gear,gear,,1,1,1,4,PAGE
+Bags,bags,Gear,1,1,1,,
+"Fitness Equipment",fitness-equipment,Gear,1,1,1,,
+Watches,watches,Gear,1,1,1,,

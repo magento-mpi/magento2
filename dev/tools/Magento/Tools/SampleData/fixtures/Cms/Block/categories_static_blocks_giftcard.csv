@@ -1,0 +1,11 @@
+title,identifier,content
+Giftcard Block,giftcard-block,"<div class=""blocks-promo"">
+    <a href=""{{category url=""gift-cards""}}"" class=""block-promo giftcard-main"">
+        <span class=""content"">
+            <span class=""info"">Women’s Deals</span>
+            <strong class=""title"">Pristine prices on pants, tanks and bras.</strong>
+            <span class=""action more icon"">Shop Women’s Deals</span>
+        </span>
+        <span class=""image""><img src=""{{media url=""wysiwyg/giftcards/giftcard.jpg""}}"" alt="""" /></span>
+    </a>
+</div>"

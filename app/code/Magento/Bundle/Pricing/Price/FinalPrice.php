@@ -15,7 +15,7 @@ use Magento\Catalog\Pricing\Price\BasePrice;
 /**
  * Final price model
  */
-class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
+class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice implements FinalPriceInterface
 {
     /**
      * @param Product $saleableItem
@@ -28,7 +28,6 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
         CalculatorInterface $calculator
     ) {
         parent::__construct($saleableItem, $quantity, $calculator);
-        $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_CODE);
     }
 
     /**
@@ -49,7 +48,7 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
      */
     public function getMaximalPrice()
     {
-        return $this->calculator->getMaxAmount($this->basePrice->getValue(), $this->product);
+        return $this->calculator->getMaxAmount($this->getBasePrice()->getValue(), $this->product);
     }
 
     /**
@@ -70,6 +69,16 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice
     public function getAmount()
     {
         return $this->calculator->getAmount(parent::getValue(), $this->product);
+    }
+
+    /**
+     * get bundle product price without any option
+     *
+     * @return \Magento\Framework\Pricing\Amount\AmountInterface
+     */
+    public function getPriceWithoutOption()
+    {
+        return $this->calculator->getAmountWithoutOption(parent::getValue(), $this->product);
     }
 
     /**

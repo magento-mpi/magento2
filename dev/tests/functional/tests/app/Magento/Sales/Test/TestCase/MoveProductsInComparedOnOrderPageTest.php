@@ -34,7 +34,7 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 class MoveProductsInComparedOnOrderPageTest extends AbstractMoveComparedProductsOnOrderPageTest
 {
     /**
-     * Move compare products on order page
+     * Move compare products on order page.
      *
      * @param string $products
      * @return array
@@ -46,12 +46,12 @@ class MoveProductsInComparedOnOrderPageTest extends AbstractMoveComparedProducts
         $this->loginCustomer();
         $this->addProducts($products);
 
-        // Steps:
+        // Steps
         $this->openCustomerPageAndClickCreateOrder();
         $activitiesBlock = $this->orderCreateIndex->getCustomerActivitiesBlock();
         $activitiesBlock->getProductsInComparisonBlock()->addToOrderByName($this->extractProductNames($products));
         $activitiesBlock->updateChanges();
 
-        return ['entityData' => ['products' => $products], 'productsIsConfigured' => false];
+        return ['products' => $products, 'productsIsConfigured' => false];
     }
 }

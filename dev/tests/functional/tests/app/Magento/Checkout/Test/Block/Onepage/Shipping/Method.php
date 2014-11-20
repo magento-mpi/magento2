@@ -23,7 +23,7 @@ class Method extends Block
      *
      * @var string
      */
-    protected $shippingMethod = '//dt[text()="%s"]/following-sibling::*//*[contains(text(), "%s")]';
+    protected $shippingMethod = '//dt[text()="%s"]/following-sibling::*//label/span[contains(text(), "%s")]';
 
     /**
      * Continue checkout button

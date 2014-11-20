@@ -377,9 +377,19 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_catalogData = null;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
+
+    /**
+     * @var \Magento\CatalogInventory\Api\StockConfigurationInterface
+     */
+    protected $stockConfiguration;
+
+    /**
+     * @var \Magento\CatalogInventory\Api\StockStateInterface
+     */
+    protected $stockState;
 
     /**
      * Core event manager proxy
@@ -464,9 +474,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $dateTime;
 
     /**
-     * @var \Magento\Indexer\Model\IndexerFactory
+     * @var \Magento\Indexer\Model\IndexerRegistry
      */
-    protected $indexerFactory;
+    protected $indexerRegistry;
 
     /**
      * @var \Magento\Framework\Logger
@@ -487,27 +497,30 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration
+     * @param \Magento\CatalogInventory\Api\StockStateInterface $stockState
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\ImportExport\Model\Import\Config $importConfig
-     * @param \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceFactory $resourceFactory
-     * @param \Magento\CatalogImportExport\Model\Import\Product\OptionFactory $optionFactory
+     * @param Proxy\Product\ResourceFactory $resourceFactory
+     * @param Product\OptionFactory $optionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryColFactory
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\CatalogImportExport\Model\Import\Product\Type\Factory $productTypeFactory
+     * @param Product\Type\Factory $productTypeFactory
      * @param \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory
-     * @param \Magento\CatalogImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory
-     * @param \Magento\CatalogImportExport\Model\Import\UploaderFactory $uploaderFactory
+     * @param Proxy\ProductFactory $proxyProdFactory
+     * @param UploaderFactory $uploaderFactory
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      * @param array $data
+     * @throws \Magento\Framework\Model\Exception
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -518,7 +531,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration,
+        \Magento\CatalogInventory\Api\StockStateInterface $stockState,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\ImportExport\Model\Import\Config $importConfig,
         \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceFactory $resourceFactory,
@@ -537,11 +552,13 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Logger $logger,
-        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
+        $this->stockConfiguration = $stockConfiguration;
+        $this->stockState = $stockState;
         $this->_catalogData = $catalogData;
         $this->_importConfig = $importConfig;
         $this->_resourceFactory = $resourceFactory;
@@ -558,7 +575,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_stockResItemFac = $stockResItemFac;
         $this->_localeDate = $localeDate;
         $this->dateTime = $dateTime;
-        $this->indexerFactory = $indexerFactory;
+        $this->indexerRegistry = $indexerRegistry;
         $this->_logger = $logger;
         parent::__construct($coreData, $importExportData, $importData, $config, $resource, $resourceHelper, $string);
         $this->_optionEntity = isset(
@@ -1743,7 +1760,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     protected function _saveStockItem()
     {
-        $indexer = $this->indexerFactory->create()->load('catalog_product_category');
+        $indexer = $this->indexerRegistry->get('catalog_product_category');
         /** @var $stockResource \Magento\CatalogInventory\Model\Resource\Stock\Item */
         $stockResource = $this->_stockResItemFac->create();
         $entityTable = $stockResource->getMainTable();
@@ -1760,13 +1777,15 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     continue;
                 }
 
-                $row = array();
+                $row = [];
                 $row['product_id'] = $this->_newSku[$rowData[self::COL_SKU]]['entity_id'];
                 $productIdsToReindex[] = $row['product_id'];
-                $row['stock_id'] = \Magento\CatalogInventory\Model\Stock\Item::DEFAULT_STOCK_ID;
 
-                $stockItemDo = $this->stockItemService->getStockItem($row['product_id']);
-                $existStockData = $stockItemDo->__toArray();
+                $row['website_id'] = $this->stockConfiguration->getDefaultWebsiteId();
+                $row['stock_id'] = $this->stockRegistry->getStock($row['website_id'])->getId();
+
+                $stockItemDo = $this->stockRegistry->getStockItem($row['product_id'], $row['website_id']);
+                $existStockData = $stockItemDo->getData();
 
                 $row = array_merge(
                     $this->defaultStockData,
@@ -1775,19 +1794,13 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     $row
                 );
 
-                if ($this->stockItemService->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
-                    $row = $this->stockItemService->processIsInStock($row);
-                    if ($this->stockItemService->verifyNotification($row['product_id'])) {
-                        $row['low_stock_date'] = $this->_localeDate->date(
-                            null,
-                            null,
-                            null,
-                            false
-                        )->toString(
-                            \Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
-                        );
+                if ($this->stockConfiguration->isQty($this->_newSku[$rowData[self::COL_SKU]]['type_id'])) {
+                    $row['is_in_stock'] = $this->stockState->verifyStock($row['product_id'], $row['website_id']);
+                    if ($this->stockState->verifyNotification($row['product_id'], $row['website_id'])) {
+                        $row['low_stock_date'] = $this->_localeDate->date(null, null, null, false)
+                            ->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
                     }
-                    $row['stock_status_changed_auto'] = (int) !$this->stockItemService->verifyStock($row['product_id']);
+                    $row['stock_status_changed_auto'] = (int) !$this->stockState->verifyStock($row['product_id'], $row['website_id']);
                 } else {
                     $row['qty'] = 0;
                 }

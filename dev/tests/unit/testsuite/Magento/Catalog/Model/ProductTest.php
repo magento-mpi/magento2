@@ -17,13 +17,25 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
  */
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var ObjectManagerHelper */
+    /**
+     * @var ObjectManagerHelper
+     */
     protected $objectManagerHelper;
 
     /**
      * @var \Magento\Catalog\Model\Product
      */
     protected $model;
+
+    /**
+     * @var \Magento\Catalog\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $catalogDataMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockItemBuilderMock;
 
     /**
      * @var \Magento\Indexer\Model\IndexerInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -86,12 +98,31 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     private $website;
 
     /**
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $indexerRegistryMock;
+
+    /**
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function setUp()
     {
         $this->categoryIndexerMock = $this->getMockForAbstractClass('\Magento\Indexer\Model\IndexerInterface');
 
+        $this->catalogDataMock = $this->getMock(
+            'Magento\Catalog\Helper\Data',
+            ['isModuleEnabled'],
+            [],
+            '',
+            false
+        );
+        $this->stockItemBuilderMock = $this->getMock(
+            'Magento\CatalogInventory\Api\Data\StockItemDataBuilder',
+            ['populateWithArray', 'create'],
+            [],
+            '',
+            false
+        );
         $this->productFlatProcessor = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Flat\Processor',
             array(),
@@ -177,6 +208,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $storeManager->expects($this->any())
             ->method('getWebsite')
             ->will($this->returnValue($this->website));
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->model = $this->objectManagerHelper->getObject(
@@ -184,7 +216,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             [
                 'context' => $contextMock,
                 'catalogProductType' => $this->productTypeInstanceMock,
-                'categoryIndexer' => $this->categoryIndexerMock,
                 'productFlatIndexerProcessor' => $this->productFlatProcessor,
                 'productPriceIndexerProcessor' => $this->productPriceProcessor,
                 'catalogProductOption' => $this->optionInstanceMock,
@@ -192,6 +223,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 'resource' => $this->resource,
                 'registry' => $this->registry,
                 'categoryFactory' => $this->categoryFactory,
+                'catalogData' => $this->catalogDataMock,
+                'stockItemBuilder' => $this->stockItemBuilderMock,
+                'indexerRegistry' => $this->indexerRegistryMock,
                 'data' => array('id' => 1)
             ]
         );
@@ -302,6 +336,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->categoryIndexerMock->expects($this->once())->method('reindexRow');
         $this->productFlatProcessor->expects($this->once())->method('reindexRow');
         $this->productPriceProcessor->expects($this->once())->method('reindexRow');
+        $this->prepareCategoryIndexer();
         $this->assertSame($this->model, $this->model->delete());
     }
 
@@ -309,6 +344,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $this->categoryIndexerMock->expects($this->once())->method('reindexRow');
         $this->productFlatProcessor->expects($this->once())->method('reindexRow');
+        $this->prepareCategoryIndexer();
         $this->assertNull($this->model->reindex());
     }
 
@@ -448,5 +484,54 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $this->model->getResource()->expects($this->any())->method('addCommitCallback')->will($this->returnSelf());
         $this->model->getResource()->expects($this->any())->method('commit')->will($this->returnSelf());
+    }
+
+    /**
+     * Run test fromArray method
+     *
+     * @return void
+     */
+    public function testFromArray()
+    {
+        $data = [
+            'stock_item' => 'stock-item-data'
+        ];
+
+        $stockItemMock = $this->getMockForAbstractClass(
+            'Magento\Framework\Api\AbstractSimpleObject',
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['setProduct']
+        );
+
+        $this->catalogDataMock->expects($this->once())
+            ->method('isModuleEnabled')
+            ->with('Magento_CatalogInventory')
+            ->will($this->returnValue(true));
+        $this->stockItemBuilderMock->expects($this->once())
+            ->method('populateWithArray')
+            ->with($data['stock_item'])
+            ->will($this->returnSelf());
+        $this->stockItemBuilderMock->expects($this->once())
+            ->method('populateWithArray')
+            ->with($data['stock_item'])
+            ->will($this->returnSelf());
+        $this->stockItemBuilderMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($stockItemMock));
+        $stockItemMock->expects($this->once())->method('setProduct')->with($this->model);
+
+        $this->assertEquals($this->model, $this->model->fromArray($data));
+    }
+
+    protected function prepareCategoryIndexer()
+    {
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\Catalog\Model\Indexer\Product\Category::INDEXER_ID)
+            ->will($this->returnValue($this->categoryIndexerMock));
     }
 }

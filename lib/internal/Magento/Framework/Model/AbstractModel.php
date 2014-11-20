@@ -220,7 +220,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
     {
         $this->_resourceName = $resourceName;
         if (is_null($collectionName)) {
-            $collectionName = $resourceName . \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR . 'Collection';
+            $collectionName = $resourceName . '\\' . 'Collection';
         }
         $this->_collectionName = $collectionName;
     }
@@ -253,7 +253,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
     /**
      * Get collection instance
      *
-     * @deplacated
+     * @deprecated
      * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */

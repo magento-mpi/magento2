@@ -53,6 +53,7 @@ Magento/Cron/Model/Config/Backend/Product
 Magento/Customer/Block/Account/Dashboard
 Magento/Customer/Model/Config/Backend/Show
 Magento/Customer/Model/Metadata
+Magento/Customer/Service/V1
 Magento/DesignEditor/Block/Adminhtml/Editor/Tools/Code
 Magento/DesignEditor/Block/Adminhtml/Theme/Selector/Tab
 Magento/DesignEditor/Model/Url
@@ -129,3 +130,6 @@ Magento/Shipping/Controller/Adminhtml/Order/Shipment
 vendor
 setup/vendor
 Magento/CatalogSearch/Model/Resource/Fulltext
+lib/internal/Magento/Framework/Data
+lib/internal/Magento/Framework/Service
+app/code/Magento/CatalogInventory/Api/Data

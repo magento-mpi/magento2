@@ -18,64 +18,43 @@
             <attribute_code>giftcardaccount_id</attribute_code>
             <backend_type>int</backend_type>
             <is_required>1</is_required>
-            <default_value></default_value>
-            <input></input>
         </giftcardaccount_id>
         <code>
             <attribute_code>code</attribute_code>
             <backend_type>varchar</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
         </code>
         <status>
             <attribute_code>status</attribute_code>
             <backend_type>smallint</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
         </status>
         <date_created>
             <attribute_code>date_created</attribute_code>
             <backend_type>date</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
         </date_created>
         <date_expires>
             <attribute_code>date_expires</attribute_code>
             <backend_type>date</backend_type>
-            <is_required></is_required>
-            <default_value></default_value>
-            <input></input>
         </date_expires>
         <website_id>
             <attribute_code>website_id</attribute_code>
             <backend_type>smallint</backend_type>
-            <is_required></is_required>
             <default_value>0</default_value>
-            <input></input>
+            <source>Magento\GiftCardAccount\Test\Fixture\GiftCardAccount\WebsiteId</source>
         </website_id>
         <balance>
             <attribute_code>balance</attribute_code>
             <backend_type>decimal</backend_type>
-            <is_required></is_required>
             <default_value>0.0000</default_value>
-            <input></input>
         </balance>
         <state>
             <attribute_code>state</attribute_code>
             <backend_type>smallint</backend_type>
-            <is_required></is_required>
             <default_value>0</default_value>
-            <input></input>
         </state>
         <is_redeemable>
             <attribute_code>is_redeemable</attribute_code>
             <backend_type>smallint</backend_type>
-            <is_required></is_required>
             <default_value>1</default_value>
-            <input></input>
         </is_redeemable>
     </fields>
     <repository_class>Magento\GiftCardAccount\Test\Repository\GiftCardAccount</repository_class>

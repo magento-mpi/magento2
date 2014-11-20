@@ -26,4 +26,7 @@
     <assertShipmentItems module="Magento_Shipping">
         <severeness>low</severeness>
     </assertShipmentItems>
+    <assertShippingMethodOnPrintOrder module="Magento_Shipping">
+        <severeness>low</severeness>
+    </assertShippingMethodOnPrintOrder>
 </constraint>

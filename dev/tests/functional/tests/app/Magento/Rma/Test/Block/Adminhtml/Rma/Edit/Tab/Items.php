@@ -5,153 +5,86 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab;
 
-use Mtf\Block\Form;
+use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items\Item;
 
 /**
- * Class Items
- * Return Items block
- *
+ * Items block on edit rma backend page.
  */
-class Items extends Form
+class Items extends \Magento\Backend\Test\Block\Widget\Tab
 {
     /**
-     * Row containing product name.
+     * Locator for item row in grid.
      *
      * @var string
      */
-    protected $productRow = "//tr[contains(normalize-space(td/text()),'%s')]";
+    protected $rowItem = './/*[@id="magento_rma_item_edit_grid_table"]/tbody/tr';
 
     /**
-     * Product name field.
+     * Locator for search item row by name.
      *
      * @var string
      */
-    protected $productNameField = "//td[contains(@class, 'col-product col-product_admin_name')]";
+    protected $rowItemByName = "//tr[contains(normalize-space(td/text()),'%s')]";
 
     /**
-     * Status Field.
+     * Fill data to fields on tab.
      *
-     * @var string
+     * @param array $fields
+     * @param Element|null $element
+     * @return $this
      */
-    protected $statusField = "//select[contains(@name,'status')]";
-
-    /**
-     * Product fields
-     *
-     * @var array
-     */
-    protected $productField = array(
-        'quantity' => "//td[contains(@class, 'col-qty col-qty_requested')]",
-        'reason' => "//td[contains(@class, 'col-reason col-reason')]",
-        'condition' => "//td[contains(@class, 'col-condition col-condition')]",
-        'resolution' => "//td[contains(@class, 'col-resolution col-resolution')]"
-    );
-
-    /**
-     * Product actions
-     *
-     * @var array
-     */
-    protected $productActions = array(
-        'AUTHORIZE_QTY' => 'AUTHORIZE_QTY',
-        'RETURN_QTY' => 'RETURN_QTY',
-        'APPROVE_QTY' => 'APPROVE_QTY'
-    );
-
-    /**
-     * Product quantity fields
-     *
-     * @var array
-     */
-    protected $productQuantities = array(
-        'AUTHORIZE_QTY' => "//input[contains(@name,'qty_authorized')]",
-        'RETURN_QTY' => "//input[contains(@name,'qty_returned')]",
-        'APPROVE_QTY' => "//input[contains(@name,'qty_approved')]"
-    );
-
-    /**
-     * Product status values
-     *
-     * @var array
-     */
-    protected $productStatus = array(
-        'AUTHORIZE_QTY' => 'Authorize',
-        'RETURN_QTY' => 'Return Received',
-        'APPROVE_QTY' => 'Approved'
-    );
-
-    /**
-     * {@inheritdoc}
-     */
-    protected $filters = array(
-        'id' => array(
-            'selector' => '#order_rma_filter_increment_id_to'
-        ),
-    );
-
-    /**
-     * Fill form fields
-     *
-     * @param \Magento\Rma\Test\Fixture\ReturnItem $returnItemFixture
-     * @param string $fillFields
-     * @return null
-     */
-    public function fillCustom($returnItemFixture, $fillFields)
+    public function fillFormTab(array $fields, Element $element = null)
     {
-        $products = $returnItemFixture->getProductNames();
-        foreach ($products as $product) {
-            $quantity = $returnItemFixture->getQuantity();
-            if (isset($this->productActions[$fillFields])) {
-                $quantitySearchString = $this->productRow . $this->productQuantities[$fillFields];
-                $status = $this->productStatus[$fillFields];
-            } else {
-                return null;
-            }
-            $quantitySearchString = sprintf($quantitySearchString, $product);
-            $statusSearchString = $this->productRow . $this->statusField;
-            $statusSearchString = sprintf($statusSearchString, $product);
-            $this->_rootElement->find($quantitySearchString, Locator::SELECTOR_XPATH)->setValue($quantity);
-            $this->_rootElement->find($statusSearchString, Locator::SELECTOR_XPATH, 'select')->setValue($status);
+        $items = isset($fields['items']['value']) ? $fields['items']['value'] : [];
+        $context = $element ? $element : $this->_rootElement;
+
+        foreach ($items as $item) {
+            $itemElement = $context->find(sprintf($this->rowItemByName, $item['product']));
+            $this->getItemRow($itemElement)->fillRow($item);
         }
+
+        $this->setFields['items'] = $fields['items']['value'];
+        return $this;
     }
 
     /**
-     * Checks if all products from the order are in the return grid
+     * Get data of tab.
      *
-     * @param array $products
-     * @param \Magento\Rma\Test\Fixture\ReturnItem $returnItem
-     * @return bool
+     * @param array|null $fields
+     * @param Element|null $element
+     * @return array
      */
-    public function assertProducts($products, $returnItem)
+    public function getDataFormTab($fields = null, Element $element = null)
     {
-        $result = true;
-        foreach ($products as $product) {
-            $productName = $product->getName();
+        if (null === $fields || isset($fields['items'])) {
+            $rows = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_XPATH)->getElements();
+            $data = [];
 
-            $productSearchString = $this->productRow . $this->productNameField;
-            $productSearchString = sprintf($productSearchString, $productName);
-            $gridProductName = $this->_rootElement->find($productSearchString, Locator::SELECTOR_XPATH)->getText();
-            if (strpos($gridProductName, $productName) === false) {
-                $result = false;
+            foreach ($rows as $row) {
+                $data[] = $this->getItemRow($row)->getRowData();
             }
 
-            $returnItemFields = $returnItem->getData('fields');
-
-            foreach ($returnItemFields as $returnItemField => $returnItemValue) {
-                if (isset($this->productField[$returnItemField])) {
-                    $searchString = sprintf($this->productRow . $this->productField[$returnItemField], $productName);
-                    $itemValue = $this->_rootElement->find($searchString, Locator::SELECTOR_XPATH)->getText();
-                    if (strpos($itemValue, $returnItemValue) === false) {
-                        $result = false;
-                    }
-                } else {
-                    throw new \Exception('Product not found: ' . $productName);
-                }
-            }
+            return ['items' => $data];
         }
-        return $result;
+        return [];
+    }
+
+    /**
+     * Return item row form.
+     *
+     * @param Element $element
+     * @return Item
+     */
+    protected function getItemRow(Element $element)
+    {
+        return $this->blockFactory->create(
+            'Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items\Item',
+            ['element' => $element]
+        );
     }
 }

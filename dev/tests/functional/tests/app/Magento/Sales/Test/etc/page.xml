@@ -85,9 +85,17 @@
         <area>adminhtml</area>
         <class>Magento\Sales\Test\Page\Adminhtml\SalesInvoiceView</class>
     </salesInvoiceView>
+    <salesGuestForm>
+        <mca>sales/guest/form</mca>
+        <class>Magento\Sales\Test\Page\SalesGuestForm</class>
+    </salesGuestForm>
     <orderCreateIndex>
         <mca>sales/order_create/index</mca>
         <area>adminhtml</area>
         <class>Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex</class>
     </orderCreateIndex>
+    <salesGuestPrint>
+        <mca>sales/guest/print</mca>
+        <class>Magento\Sales\Test\Page\SalesGuestPrint</class>
+    </salesGuestPrint>
 </page>

@@ -202,9 +202,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Stock item factory
      *
-     * @var \Magento\CatalogInventory\Model\Stock\ItemFactory
+     * @var \Magento\CatalogInventory\Api\Data\StockItemDataBuilder
      */
-    protected $_stockItemFactory;
+    protected $_stockItemBuilder;
 
     /**
      * Item option factory
@@ -220,10 +220,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     protected $_filesystem;
 
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $categoryIndexer;
+    /** @var \Magento\Indexer\Model\IndexerRegistry */
+    protected $indexerRegistry;
 
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
@@ -252,7 +250,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * @param Product\Url $url
      * @param Product\Link $productLink
      * @param Product\Configuration\Item\OptionFactory $itemOptionFactory
-     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param \Magento\CatalogInventory\Api\Data\StockItemDataBuilder $stockItemBuilder
      * @param CategoryFactory $categoryFactory
      * @param Product\Option $catalogProductOption
      * @param Product\Visibility $catalogProductVisibility
@@ -266,10 +264,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * @param Resource\Product\Collection $resourceCollection
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param Indexer\Product\Price\Processor $productPriceIndexerProcessor
-     * @param  \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor
+     * @param Indexer\Product\Eav\Processor $productEavIndexerProcessor
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -281,7 +279,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         Product\Url $url,
         Product\Link $productLink,
         \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
-        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
+        \Magento\CatalogInventory\Api\Data\StockItemDataBuilder $stockItemBuilder,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
@@ -295,14 +293,14 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         Resource\Product\Collection $resourceCollection,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Filesystem $filesystem,
-        \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
-        $this->_stockItemFactory = $stockItemFactory;
+        $this->_stockItemBuilder = $stockItemBuilder;
         $this->_categoryFactory = $categoryFactory;
         $this->_optionInstance = $catalogProductOption;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -316,7 +314,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
         $this->_filesystem = $filesystem;
-        $this->categoryIndexer = $categoryIndexer;
+        $this->indexerRegistry = $indexerRegistry;
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
         $this->_productEavIndexerProcessor = $productEavIndexerProcessor;
@@ -331,19 +329,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected function _construct()
     {
         $this->_init('Magento\Catalog\Model\Resource\Product');
-    }
-
-    /**
-     * Return product category indexer object
-     *
-     * @return \Magento\Indexer\Model\IndexerInterface
-     */
-    protected function getCategoryIndexer()
-    {
-        if (!$this->categoryIndexer->getId()) {
-            $this->categoryIndexer->load(Indexer\Product\Category::INDEXER_ID);
-        }
-        return $this->categoryIndexer;
     }
 
     /**
@@ -434,7 +419,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Get product type identifier
      *
-     * @return string
+     * @return array|string
      */
     public function getTypeId()
     {
@@ -788,8 +773,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     public function reindex()
     {
         $this->_productFlatIndexerProcessor->reindexRow($this->getEntityId());
-        if (!$this->getCategoryIndexer()->isScheduled()) {
-            $this->getCategoryIndexer()->reindexRow($this->getId());
+        $categoryIndexer = $this->indexerRegistry->get(Indexer\Product\Category::INDEXER_ID);
+        if (!$categoryIndexer->isScheduled()) {
+            $categoryIndexer->reindexRow($this->getId());
         }
     }
 
@@ -1531,11 +1517,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * @param array $data Array to form the object from
      * @return \Magento\Catalog\Model\Product
      */
-    public function fromArray($data)
+    public function fromArray(array $data)
     {
         if (isset($data['stock_item'])) {
             if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-                $stockItem = $this->_stockItemFactory->create()->setData($data['stock_item'])->setProduct($this);
+                $stockItem = $this->_stockItemBuilder->populateWithArray($data['stock_item'])->create();
+                $stockItem->setProduct($this);
                 $this->setStockItem($stockItem);
             }
             unset($data['stock_item']);

@@ -9,10 +9,8 @@ namespace Magento\CatalogPermissions\Model\Indexer\Plugin\Store;
 
 abstract class AbstractPlugin
 {
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $indexer;
+    /** @var \Magento\Indexer\Model\IndexerRegistry */
+    protected $indexerRegistry;
 
     /**
      * @var \Magento\CatalogPermissions\App\ConfigInterface
@@ -20,28 +18,15 @@ abstract class AbstractPlugin
     protected $appConfig;
 
     /**
-     * @param \Magento\Indexer\Model\IndexerInterface $indexer
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      * @param \Magento\CatalogPermissions\App\ConfigInterface $appConfig
      */
     public function __construct(
-        \Magento\Indexer\Model\IndexerInterface $indexer,
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         \Magento\CatalogPermissions\App\ConfigInterface $appConfig
     ) {
-        $this->indexer = $indexer;
+        $this->indexerRegistry = $indexerRegistry;
         $this->appConfig = $appConfig;
-    }
-
-    /**
-     * Return own indexer object
-     *
-     * @return \Magento\Indexer\Model\IndexerInterface
-     */
-    protected function getIndexer()
-    {
-        if (!$this->indexer->getId()) {
-            $this->indexer->load(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID);
-        }
-        return $this->indexer;
     }
 
     /**

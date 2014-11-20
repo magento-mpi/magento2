@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule4\Service\V1\Entity;
 
-class DataObjectRequestBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class DataObjectRequestBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * @param string $name

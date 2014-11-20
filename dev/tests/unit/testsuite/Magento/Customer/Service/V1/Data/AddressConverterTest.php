@@ -8,7 +8,7 @@
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\AddressMetadataService;
-use Magento\Framework\Service\Data\AttributeValue;
+use Magento\Framework\Api\AttributeValue;
 
 class AddressConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -111,7 +111,7 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
         );
 
         $addressData = $this->_sampleAddressDataObject();
-        $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Service\Data\AttributeValueBuilder');
+        $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Api\AttributeDataBuilder');
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressDataBuilder */
         $addressDataBuilder = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\AddressBuilder',
@@ -121,7 +121,8 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
                 'metadataService' => $this->addressMetadataService
             ]
         );
-        $addressData = $addressDataBuilder->mergeDataObjectWithArray($addressData, $updatedAddressData);
+        $addressData = $addressDataBuilder->mergeDataObjectWithArray($addressData, $updatedAddressData)
+            ->create();
 
         $result = AddressConverter::toFlatArray($addressData);
         $this->assertEquals($expected, $result);
@@ -134,7 +135,7 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
     {
         $regionBuilder = $this->_objectManager->getObject('\Magento\Customer\Service\V1\Data\RegionBuilder')
             ->setRegion('Texas')->setRegionId(1)->setRegionCode('TX');
-        $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Service\Data\AttributeValueBuilder');
+        $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Api\AttributeDataBuilder');
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressData */
         $addressData = $this->_objectManager->getObject(
             'Magento\Customer\Service\V1\Data\AddressBuilder',

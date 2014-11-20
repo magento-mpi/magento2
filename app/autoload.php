@@ -7,6 +7,8 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+use Magento\Framework\Autoload\AutoloaderRegistry;
+use Magento\Framework\Autoload\ClassLoaderWrapper;
 
 /**
  * Shortcut constant for the root directory
@@ -18,7 +20,7 @@ $vendorAutoload = BP . "/{$vendorDir}/autoload.php";
 
 /* 'composer install' validation */
 if (file_exists($vendorAutoload)) {
-    require_once $vendorAutoload;
+    $composerAutoloader = include $vendorAutoload;    
 } else {
     echo <<<HTML
 <div style="font:12px/1.35em arial, helvetica, sans-serif;">
@@ -32,14 +34,7 @@ HTML;
     exit(1);
 }
 
-require_once BP . '/lib/internal/Magento/Framework/Autoload/IncludePath.php';
-$includePath = new \Magento\Framework\Autoload\IncludePath();
-$includePath->addIncludePath([BP . '/app/code', BP . '/lib/internal']);
-spl_autoload_register([$includePath, 'load']);
-$classMapPath = BP . '/var/classmap.ser';
-if (file_exists($classMapPath)) {
-    require_once BP . '/lib/internal/Magento/Framework/Autoload/ClassMap.php';
-    $classMap = new \Magento\Framework\Autoload\ClassMap(BP);
-    $classMap->addMap(unserialize(file_get_contents($classMapPath)));
-    spl_autoload_register(array($classMap, 'load'), true, true);
-}
+AutoloaderRegistry::registerAutoloader(new ClassLoaderWrapper($composerAutoloader));
+
+// Sets default autoload mappings, may be overridden in Bootstrap::create
+\Magento\Framework\App\Bootstrap::populateAutoloader(BP, []);

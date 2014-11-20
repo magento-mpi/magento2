@@ -10,6 +10,7 @@ namespace Magento\Sales\Test\Block\Adminhtml\Order\Create;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Magento\Backend\Test\Block\Template;
 
 /**
  * Class Items
@@ -37,6 +38,13 @@ class Items extends Block
      * @var string
      */
     protected $productNames = '//td[@class="col-product"]//span';
+
+    /**
+     * Selector for template block.
+     *
+     * @var string
+     */
+    protected $template = './ancestor::body';
 
     /**
      * Click 'Add Products' button
@@ -71,13 +79,15 @@ class Items extends Block
     }
 
     /**
-     * Get products data by fields from items ordered grid
+     * Get products data by fields from items ordered grid.
      *
      * @param array $fields
      * @return array
      */
     public function getProductsDataByFields($fields)
     {
+        $this->getTemplateBlock()->waitLoader();
+        $this->_rootElement->click();
         $products = $this->_rootElement->find($this->productNames, Locator::SELECTOR_XPATH)->getElements();
         $pageData = [];
         foreach ($products as $product) {
@@ -85,5 +95,18 @@ class Items extends Block
         }
 
         return $pageData;
+    }
+
+    /**
+     * Get template block.
+     *
+     * @return Template
+     */
+    public function getTemplateBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Backend\Test\Block\Template',
+            ['element' => $this->_rootElement->find($this->template, Locator::SELECTOR_XPATH)]
+        );
     }
 }
