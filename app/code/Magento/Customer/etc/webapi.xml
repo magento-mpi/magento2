@@ -136,8 +136,8 @@
             <resource ref="anonymous"/>
         </resources>
     </route>
-    <route url="/V1/customers/:customerId" method="PUT">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="updateCustomer"/>
+    <route url="/V1/customers/:id" method="PUT">
+        <service class="Magento\Customer\Api\CustomerRepositoryInterface" method="save"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
         </resources>
@@ -176,13 +176,13 @@
         </data>
     </route>
     <route url="/V1/customers/search" method="POST">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="searchCustomers"/>
+        <service class="Magento\Customer\Api\CustomerRepositoryInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
     <route url="/V1/customers/search" method="GET">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="searchCustomers"/>
+        <service class="Magento\Customer\Api\CustomerRepositoryInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>
@@ -257,7 +257,7 @@
         </resources>
     </route>
     <route url="/V1/customers/:customerId" method="DELETE">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="deleteCustomer"/>
+        <service class="Magento\Customer\Api\CustomerRepositoryInterface" method="deleteById"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
         </resources>
