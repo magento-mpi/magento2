@@ -41,16 +41,34 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
      * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Engine
      * @dataProvider pricesSegmentationDataProvider
      */
-    public function testPricesSegmentation($categoryId, $intervalsNumber, $intervalItems)
+    public function testPricesSegmentation($categoryId, array $entityIds, array $intervalItems)
     {
-        $layer = Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Layer\Category');
-        $priceResource = Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Resource\Layer\Filter\Price', ['layer' => $layer]);
-        $interval = Bootstrap::getObjectManager()
-            ->create('Magento\CatalogSearch\Model\Price\Interval', ['resource' => $priceResource]);
+        $objectManager = Bootstrap::getObjectManager();
+        $layer = $objectManager->create('Magento\Catalog\Model\Layer\Category');
+        /** @var \Magento\Framework\Search\Request\Aggregation\TermBucket $termBucket */
+        $termBucket = $objectManager->create(
+            'Magento\Framework\Search\Request\Aggregation\TermBucket',
+            ['name' => 'name', 'field' => 'price', 'metrics' => []]
+        );
+
+        $dimensions = [
+            'scope' => $objectManager->create(
+                'Magento\Framework\Search\Request\Dimension',
+                ['name' => 'someName', 'value' => 'default']
+            )
+        ];
+
+        /** @var \Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider $dataProvider */
+        $dataProvider = $objectManager->create('Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider');
+        $select = $dataProvider->getDataSet($termBucket, $dimensions);
+        $select->where('main_table.entity_id IN (?)', $entityIds);
+
+        /** @var \Magento\Framework\Search\Adapter\Mysql\Aggregation\IntervalFactory $intervalFactory */
+        $intervalFactory = $objectManager->create('Magento\Framework\Search\Adapter\Mysql\Aggregation\IntervalFactory');
+        $interval = $intervalFactory->create(['select' => $select]);
+
         /** @var \Magento\Framework\Search\Dynamic\Algorithm $model */
-        $model = Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Search\Dynamic\Algorithm');
+        $model = $objectManager->create('Magento\Framework\Search\Dynamic\Algorithm');
 
         $layer->setCurrentCategory($categoryId);
         $collection = $layer->getProductCollection();
@@ -83,13 +101,14 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
     public function pricesSegmentationDataProvider()
     {
         $testCases = include __DIR__ . '/_files/_algorithm_base_data.php';
-        $result = array();
+        $testCases = [$testCases[0], $testCases[1], $testCases[2], $testCases[3]];
+        $result = [];
         foreach ($testCases as $index => $testCase) {
-            $result[] = array(
+            $result[] = [
                 $index + 4, //category id
                 $testCase[1],
                 $testCase[2]
-            );
+            ];
         }
 
         return $result;
