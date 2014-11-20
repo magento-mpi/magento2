@@ -13,7 +13,6 @@ use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use \Mtf\ObjectManager;
 
 /**
  * Class LoginCustomerOnFrontendStep
@@ -50,9 +49,11 @@ class LoginCustomerOnFrontendStep implements TestStepInterface
     protected $customerAccountLogout;
 
     /**
-     * @var \Mtf\ObjectManager
+     * Welcome message on frontend
+     *
+     * @var string
      */
-    protected $objectManager;
+    protected $welcomeMessage = '.greet.welcome';
 
     /**
      * @constructor
@@ -60,20 +61,17 @@ class LoginCustomerOnFrontendStep implements TestStepInterface
      * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerAccountLogout $customerAccountLogout
      * @param CustomerInjectable $customer
-     * @param ObjectManager $objectManager
      */
     public function __construct(
         CmsIndex $cmsIndex,
         CustomerAccountLogin $customerAccountLogin,
         CustomerAccountLogout $customerAccountLogout,
-        CustomerInjectable $customer,
-        ObjectManager $objectManager
+        CustomerInjectable $customer
     ) {
         $this->cmsIndex = $cmsIndex;
         $this->customerAccountLogin = $customerAccountLogin;
         $this->customer = $customer;
         $this->customerAccountLogout = $customerAccountLogout;
-        $this->objectManager = $objectManager;
     }
 
     /**
@@ -83,10 +81,11 @@ class LoginCustomerOnFrontendStep implements TestStepInterface
      */
     public function run()
     {
-        $this->customerAccountLogout->open();
         $this->cmsIndex->open();
+        $this->cmsIndex->getLinksBlock()->waitForElementVisible($this->welcomeMessage);
         if ($this->cmsIndex->getLinksBlock()->isLinkVisible("Log Out")) {
             $this->cmsIndex->getLinksBlock()->openLink("Log Out");
+            $this->cmsIndex->getCmsPageBlock()->waitUntilTextIsVisible('Home Page');
         }
         $this->cmsIndex->getLinksBlock()->openLink("Log In");
         $this->customerAccountLogin->getLoginBlock()->login($this->customer);
