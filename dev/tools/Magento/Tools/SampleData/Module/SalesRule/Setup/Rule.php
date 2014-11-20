@@ -11,6 +11,7 @@ use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\SalesRule\Model\RuleFactory as RuleFactory;
+use Magento\Tools\SampleData\Module\CatalogRule\Setup\Rule as CatalogRule;
 
 /**
  * Class Rule
@@ -33,9 +34,9 @@ class Rule implements SetupInterface
     protected $ruleFactory;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
+     * @var CatalogRule
      */
-    protected $categoryCollectionFactory;
+    protected $catalogRule;
 
     /**
      * @var \Magento\Eav\Model\Config
@@ -46,20 +47,20 @@ class Rule implements SetupInterface
      * @param CsvReaderFactory $csvReaderFactory
      * @param FixtureHelper $fixtureHelper
      * @param RuleFactory $ruleFactory
-     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
+     * @param CatalogRule $catalogRule
      * @param \Magento\Eav\Model\Config $eavConfig
      */
     public function __construct(
         CsvReaderFactory $csvReaderFactory,
         FixtureHelper $fixtureHelper,
         RuleFactory $ruleFactory,
-        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
+        CatalogRule $catalogRule,
         \Magento\Eav\Model\Config $eavConfig
     ) {
         $this->csvReaderFactory = $csvReaderFactory;
         $this->fixtureHelper = $fixtureHelper;
         $this->ruleFactory = $ruleFactory;
-        $this->categoryCollectionFactory = $categoryCollectionFactory;
+        $this->catalogRule = $catalogRule;
         $this->eavConfig = $eavConfig;
     }
 
@@ -77,58 +78,15 @@ class Rule implements SetupInterface
             $attribute->setIsUsedForPromoRules('1')->save();
         }
         foreach ($csvReader as $row) {
-            $row['website_ids'] = unserialize($row['website_ids']);
-            $row['customer_group_ids'] = unserialize($row['customer_group_ids']);
-            $row['conditions_serialized'] = $this->convertSerializedData($row['conditions_serialized']);
-            $row['actions_serialized'] = $this->convertSerializedData($row['actions_serialized']);
+            $row['customer_group_ids'] = $this->catalogRule->getGroupIds();
+            $row['website_ids'] = $this->catalogRule->getWebsiteIds();
+            $row['conditions_serialized'] = $this->catalogRule->convertSerializedData($row['conditions_serialized']);
+            $row['actions_serialized'] = $this->catalogRule->convertSerializedData($row['actions_serialized']);
             $rule = $this->ruleFactory->create();
             $rule->loadPost($row);
             $rule->save();
             echo '.';
         }
         echo "\n";
-    }
-
-    /**
-     * @param array $data
-     * @return mixed
-     */
-    public function convertSerializedData($data)
-    {
-        $regexp = '/\%(.*?)\%/';
-        preg_match_all($regexp, $data, $matches);
-        $replacement = null;
-        foreach ($matches[1] as $matchedId => $matchedItem) {
-            $extractedData = array_filter(explode(",", $matchedItem));
-            foreach ($extractedData as $extractedItem) {
-                $separatedData = array_filter(explode('=', $extractedItem));
-                if ($separatedData[0] == 'url_key') {
-                    if (!$replacement) {
-                        $replacement = $this->getCategoryReplacement($separatedData[1]);
-                    } else {
-                        $replacement .= ',' . $this->getCategoryReplacement($separatedData[1]);
-                    }
-                }
-            }
-            if (!empty($replacement)) {
-                $data = preg_replace('/' . $matches[0][$matchedId] . '/', serialize($replacement), $data);
-            }
-        }
-        return $data;
-    }
-
-    /**
-     * @param string $urlKey
-     * @return mixed|null
-     */
-    protected function getCategoryReplacement($urlKey)
-    {
-        $categoryCollection = $this->categoryCollectionFactory->create();
-        $category = $categoryCollection->addAttributeToFilter('url_key', $urlKey)->getFirstItem();
-        $categoryId = null;
-        if (!empty($category)) {
-            $categoryId = $category->getId();
-        }
-        return $categoryId;
     }
 }
