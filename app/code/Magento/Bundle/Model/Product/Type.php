@@ -630,7 +630,6 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                         $selection->getSelectionQty() <= $this->_stockItemService->getStockQty($selection->getId())
                             :
                             $this->_stockItemService->verifyStock($selection->getId(), $selection->getSelectionQty())
-
                     )
                 )
                 {

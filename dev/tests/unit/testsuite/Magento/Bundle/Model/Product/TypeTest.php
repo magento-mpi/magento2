@@ -55,7 +55,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->stockItemService = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\StockItemService')
-            ->setMethods(['getStockQty'])
+            ->setMethods(['getStockQty', 'getManageStock', 'verifyStock'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -675,18 +675,17 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     public function testIsSalableWithRequiredOptionsTrue()
     {
         $option1 = $this->getRequiredOptionMock(10, 10);
-        $this->stockItemService
-            ->expects($this->at(0))
-            ->method('getStockQty')
-            ->with(10)
-            ->willReturn(10);
-
         $option2 = $this->getRequiredOptionMock(20, 10);
+
+        $this->stockItemService->method('getManageStock')->willReturn(true);
         $this->stockItemService
-            ->expects($this->at(1))
             ->method('getStockQty')
-            ->with(20)
-            ->willReturn(10);
+            ->will($this->returnValueMap(
+                [
+                    [10, 10],
+                    [20, 10]
+                ]
+            ));
 
         $option3 = $this->getMockBuilder('Magento\Bundle\Model\Option')
             ->setMethods(['getRequired', 'getOptionId', 'getId'])
@@ -744,22 +743,22 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->method('getSelectionCanChangeQty')
             ->willReturn(false);
 
-        $this->stockItemService
-            ->expects($this->at(0))
-            ->method('getStockQty')
-            ->with(10)
-            ->willReturn(10);
 
         $option2 = $this->getRequiredOptionMock(20, 10);
         $option2
             ->expects($this->atLeastOnce())
             ->method('getSelectionCanChangeQty')
             ->willReturn(false);
+
+        $this->stockItemService->method('getManageStock')->willReturn(true);
         $this->stockItemService
-            ->expects($this->at(1))
             ->method('getStockQty')
-            ->with(20)
-            ->willReturn(5);
+            ->will($this->returnValueMap(
+                [
+                    [10, 10],
+                    [20, 5]
+                ]
+            ));
 
         $optionCollectionMock = $this->getOptionCollectionMock([$option1, $option2]);
         $selectionCollectionMock = $this->getSelectionCollectionMock([$option1, $option2]);
@@ -773,6 +772,36 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($this->model->isSalable($product));
     }
+
+    public function testIsSalableNoManageStock()
+    {
+        $option1 = $this->getRequiredOptionMock(10, 10);
+        $option2 = $this->getRequiredOptionMock(20, 10);
+
+        $this->stockItemService->method('getManageStock')->willReturn(false);
+        $this->stockItemService->expects($this->never())->method('getStockQty');
+        $this->stockItemService
+            ->method('verifyStock')
+            ->will($this->returnValueMap(
+                [
+                    [10, 10, true],
+                    [20, 10, true]
+                ]
+            ));
+
+        $optionCollectionMock = $this->getOptionCollectionMock([$option1, $option2]);
+        $selectionCollectionMock = $this->getSelectionCollectionMock([$option1, $option2]);
+
+        $product = new \Magento\Framework\Object([
+            'is_salable' => true,
+            '_cache_instance_options_collection' => $optionCollectionMock,
+            'status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED,
+            '_cache_instance_selections_collection10_20' => $selectionCollectionMock
+        ]);
+
+        $this->assertTrue($this->model->isSalable($product));
+    }
+
 
     /**
      * @param int $id
@@ -793,6 +822,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $option->method('hasSelectionQty')->willReturn(true);
         $option->method('getSelectionQty')->willReturn($selectionQty);
         $option->method('getOptionId')->willReturn($id);
+        $option->method('getSelectionCanChangeQty')->willReturn(false);
         $option->method('getId')->willReturn($id);
 
         return $option;
