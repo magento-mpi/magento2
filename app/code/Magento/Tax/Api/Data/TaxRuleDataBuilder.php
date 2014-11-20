@@ -15,7 +15,7 @@ class TaxRuleDataBuilder extends \Magento\Framework\Api\Builder
      * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
      * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
      * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
-     * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
+     * @param \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig
      * @param string|null $modelClassInterface
      */
     public function __construct(
@@ -25,7 +25,7 @@ class TaxRuleDataBuilder extends \Magento\Framework\Api\Builder
         \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor,
         \Magento\Framework\Reflection\TypeProcessor $typeProcessor,
         \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory,
-        \Magento\Framework\ObjectManager\Config $objectManagerConfig,
+        \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig,
         $modelClassInterface = null
     ) {
         parent::__construct(
