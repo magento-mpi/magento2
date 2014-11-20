@@ -130,8 +130,9 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     public function testSubmitOrderNewCustomer()
     {
         $this->_prepareQuote(false);
-        $this->_serviceQuote->getQuote()->setCustomer($this->getSampleCustomerEntity());
-        $this->_serviceQuote->getQuote()->setCustomerAddressData($this->getSampleAddressEntity());
+        $customer = $this->getSampleCustomerEntity();
+        $this->_serviceQuote->getQuote()->setCustomer($customer);
+        $this->_serviceQuote->getQuote()->setCustomerAddressData($this->getSampleAddressEntity($customer->getId()));
         $this->_serviceQuote->submitOrderWithDataObject();
         $customerId = $this->_serviceQuote->getQuote()->getCustomer()->getId();
         $this->assertNotNull($customerId);
@@ -205,12 +206,12 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    private function getSampleAddressEntity($customeId)
+    private function getSampleAddressEntity($customerId)
     {
         /** @var \Magento\Customer\Api\Data\RegionDataBuilder $regionBuilder */
         $regionBuilder =  Bootstrap::getObjectManager()->get('Magento\Customer\Api\Data\RegionDataBuilder');
         $address1 = $this->addressBuilder->setCountryId('US')
-            ->setCustomerId($customeId)
+            ->setCustomerId($customerId)
             ->setDefaultBilling(true)
             ->setDefaultShipping(true)
             ->setPostcode(75477)
@@ -224,7 +225,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $address1 = $this->addressRepository->save($address1);
 
         $address2 = $this->addressBuilder->setCountryId('US')
-            ->setCustomerId($customeId)
+            ->setCustomerId($customerId)
             ->setDefaultBilling(false)
             ->setDefaultShipping(false)
             ->setPostcode(47676)
