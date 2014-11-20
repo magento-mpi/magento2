@@ -8,6 +8,7 @@
 
 namespace Magento\Theme\Block\Html;
 
+use Magento\Customer\Model\Context;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -35,7 +36,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = Bootstrap::getObjectManager();
         $this->context = $objectManager->get('Magento\Framework\App\Http\Context');
-        $this->context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
+        $this->context->setValue(Context::CONTEXT_AUTH, false, false);
 
         //Setup customer session
         $customerIdFromFixture = 1;
@@ -69,7 +70,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWelcomeLoggedIn()
     {
-        $this->context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, true, false);
+        $this->context->setValue(Context::CONTEXT_AUTH, true, false);
         $this->assertEquals('Welcome, Firstname Lastname!', $this->block->getWelcome());
     }
 

@@ -117,6 +117,8 @@ use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
  * @method Quote setGiftMessageId(int $value)
  * @method bool|null getIsPersistent()
  * @method Quote setIsPersistent(bool $value)
+ * @method Quote setSharedStoreIds(array $values)
+ * @method Quote setWebsite($value)
  */
 class Quote extends \Magento\Framework\Model\AbstractModel
 {
