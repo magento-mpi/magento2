@@ -326,8 +326,7 @@ abstract class EntityAbstract
      */
     protected function _escapeDefaultValue($value)
     {
-        // escape slashes
-        return str_replace('\\', '\\\\', $value);
+        return $value;
     }
 
     /**
