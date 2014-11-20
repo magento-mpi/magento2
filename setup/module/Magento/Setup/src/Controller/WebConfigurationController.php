@@ -13,11 +13,15 @@ use Zend\View\Model\ViewModel;
 class WebConfigurationController extends AbstractActionController
 {
     /**
+     * View model
+     *
      * @var \Zend\View\Model\ViewModel
      */
     protected $view;
 
     /**
+     * Constructor
+     *
      * @param ViewModel $view
      */
     public function __construct(ViewModel $view)
@@ -26,6 +30,8 @@ class WebConfigurationController extends AbstractActionController
     }
 
     /**
+     * Displays web configuration with default values.
+     * 
      * @return array|ViewModel
      */
     public function indexAction()
@@ -33,7 +39,7 @@ class WebConfigurationController extends AbstractActionController
         $this->view->setTerminal(true);
         $urlComponents = explode("/", $_SERVER['HTTP_REFERER']);
         $baseUrl ='';
-        for ($i=0; $i<count($urlComponents) - 2; $i++) {
+        for ($i = 0; $i < count($urlComponents) - 2; $i++) {
             $baseUrl .= $urlComponents[$i] . '/';
         }
         $this->view->setVariable('baseUrl', $baseUrl);
