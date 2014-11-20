@@ -93,7 +93,7 @@ class Tax implements SetupInterface
      */
     public function run()
     {
-        echo 'Installing taxes' . PHP_EOL;
+        $this->logger->log('Installing taxes' . PHP_EOL);
         $fixtureFile = 'Tax/tax_rate.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */

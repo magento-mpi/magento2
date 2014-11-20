@@ -192,7 +192,7 @@ class Gallery
     public function __destruct()
     {
         if (!empty($this->errors)) {
-            echo 'No images found for: ' . PHP_EOL . implode(',', $this->errors) . PHP_EOL;
+             $this->logger->log('No images found for: ' . PHP_EOL . implode(',', $this->errors));
         }
     }
 }
