@@ -63,9 +63,6 @@ foreach ($typesData as $data) {
     $this->_typeFactory->create()->addData($data)->setStoreId($data['store_id'])->save();
 }
 
-/** @var $installer \Magento\GiftRegistry\Model\Resource\Setup */
-$installer = $this;
-
 $defaultTypes = array('1' => 'Birthday', '2' => 'Baby Registry', '3' => 'Wedding');
 foreach ($defaultTypes as $typeId => $label) {
     $installer->getConnection()->update(
