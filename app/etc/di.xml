@@ -217,7 +217,6 @@
     <type name="Magento\Framework\App\Resource">
         <arguments>
             <argument name="adapterFactory" xsi:type="object">Magento\Framework\App\Resource\ConnectionFactory</argument>
-            <argument name="tablePrefix" xsi:type="init_parameter">Magento\Framework\App\Resource::PARAM_TABLE_PREFIX</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\App\Resource\Config">
