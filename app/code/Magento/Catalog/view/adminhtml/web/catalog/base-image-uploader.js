@@ -26,8 +26,7 @@ define([
                 $galleryContainer = $('#media_gallery_content'),
                 mainClass = 'base-image',
                 maximumImageCount = 5,
-                $parentField = $container.closest('.field'),
-                $fieldCheckBox = $parentField.find('input:checkbox'),
+                $fieldCheckBox = $container.closest('.field').find('input:checkbox'),
                 isDefaultChecked = $fieldCheckBox.is(':checked');
 
             if (isDefaultChecked) {

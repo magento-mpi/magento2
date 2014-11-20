@@ -7,6 +7,11 @@
  */
 namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
+/**
+ * Test Media Resource
+ *
+ * Class MediaTest
+ */
 class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -39,7 +44,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     protected $attribute;
 
-
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -59,7 +63,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->select = $this->getMock('Magento\Framework\DB\Select', [], [], '', false);
         $this->attribute = $this->getMock('Magento\Eav\Model\Entity\Attribute\AbstractAttribute', [], [], '', false);
     }
-
 
     public function testLoadGallery()
     {
