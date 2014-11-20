@@ -68,11 +68,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $stockItemBuilder;
 
     /**
-     * @var \Magento\CatalogInventory\Api\Data\StockInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $stock;
-
-    /**
      * @var \Magento\CatalogInventory\Api\Data\StockItemInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $stockItem;

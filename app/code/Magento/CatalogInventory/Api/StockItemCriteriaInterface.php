@@ -16,7 +16,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
      * Add Criteria object
      *
      * @param \Magento\CatalogInventory\Api\StockItemCriteriaInterface $criteria
-     * @return void
+     * @return bool
      */
     public function addCriteria(\Magento\CatalogInventory\Api\StockItemCriteriaInterface $criteria);
 
@@ -24,7 +24,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
      * Join Stock Status to collection
      *
      * @param int $storeId
-     * @return void
+     * @return bool
      */
     public function setStockStatus($storeId = null);
 
@@ -32,7 +32,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
      * Add stock filter to collection
      *
      * @param \Magento\CatalogInventory\Api\Data\StockInterface $stock
-     * @return void
+     * @return bool
      */
     public function setStockFilter($stock);
 
@@ -40,7 +40,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
      * Add website filter to collection
      *
      * @param int $website
-     * @return void
+     * @return bool
      */
     public function setWebsiteFilter($website);
 
@@ -48,7 +48,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
      * Add product filter to collection
      *
      * @param int $products
-     * @return void
+     * @return bool
      */
     public function setProductsFilter($products);
 
@@ -56,7 +56,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
      * Add Managed Stock products filter to collection
      *
      * @param bool $isStockManagedInConfig
-     * @return void
+     * @return bool
      */
     public function setManagedFilter($isStockManagedInConfig);
 
@@ -65,7 +65,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
      *
      * @param string $comparisonMethod
      * @param float $qty
-     * @return void
+     * @return bool
      */
     public function setQtyFilter($comparisonMethod, $qty);
 }

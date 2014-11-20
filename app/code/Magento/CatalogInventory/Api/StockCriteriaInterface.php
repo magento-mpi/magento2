@@ -16,7 +16,7 @@ interface StockCriteriaInterface extends \Magento\Framework\Api\CriteriaInterfac
      * Add Criteria object
      *
      * @param \Magento\CatalogInventory\Api\StockCriteriaInterface $criteria
-     * @return void
+     * @return bool
      */
     public function addCriteria(\Magento\CatalogInventory\Api\StockCriteriaInterface $criteria);
 
@@ -24,7 +24,7 @@ interface StockCriteriaInterface extends \Magento\Framework\Api\CriteriaInterfac
      * Add website filter to collection
      *
      * @param int $website
-     * @return void
+     * @return bool
      */
     public function setWebsiteFilter($website);
 }

@@ -56,7 +56,10 @@ class Option
         \Magento\Sales\Model\Quote\Item\Option $option,
         \Magento\Sales\Model\Quote\Item $quoteItem
     ) {
-        $stockItem = $this->stockRegistry->getStockItem($option->getProduct()->getId(), $quoteItem->getStore()->getWebsiteId());
+        $stockItem = $this->stockRegistry->getStockItem(
+            $option->getProduct()->getId(),
+            $quoteItem->getStore()->getWebsiteId()
+        );
         if (!$stockItem->getItemId()) {
             throw new \Magento\Framework\Model\Exception(__('The stock item for Product in option is not valid.'));
         }

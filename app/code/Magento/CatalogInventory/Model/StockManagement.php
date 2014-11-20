@@ -117,7 +117,7 @@ class StockManagement implements StockManagementInterface
     /**
      * @param string[] $items
      * @param int $websiteId
-     * @return void
+     * @return bool
      */
     public function revertProductsSale(array $items, $websiteId = null)
     {
@@ -125,6 +125,7 @@ class StockManagement implements StockManagementInterface
         $websiteId = $this->stockConfiguration->getDefaultWebsiteId();
         //}
         $this->getResource()->correctItemsQty($items, $websiteId, '+');
+        return true;
     }
 
     /**
@@ -133,7 +134,7 @@ class StockManagement implements StockManagementInterface
      * @param int $productId
      * @param float $qty
      * @param int $websiteId
-     * @return void
+     * @return bool
      */
     public function backItemQty($productId, $qty, $websiteId = null)
     {
@@ -153,6 +154,7 @@ class StockManagement implements StockManagementInterface
             }
             $stockItem->save();
         }
+        return true;
     }
 
     /**

@@ -27,7 +27,7 @@ interface StockManagementInterface
     /**
      * @param string[] $items
      * @param int $websiteId
-     * @return void
+     * @return bool
      */
     public function revertProductsSale(array $items, $websiteId = null);
 
@@ -37,7 +37,7 @@ interface StockManagementInterface
      * @param int $productId
      * @param float $qty
      * @param int $websiteId
-     * @return void
+     * @return bool
      */
     public function backItemQty($productId, $qty, $websiteId = null);
 }
