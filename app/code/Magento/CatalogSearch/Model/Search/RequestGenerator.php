@@ -10,9 +10,17 @@ namespace Magento\CatalogSearch\Model\Search;
 use Magento\Catalog\Model\Entity\Attribute;
 use Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory;
 use Magento\Framework\Search\Request\BucketInterface;
+use Magento\Framework\Search\Request\FilterInterface;
+use Magento\Framework\Search\Request\QueryInterface;
 
 class RequestGenerator
 {
+    /** Filter name suffix */
+    const FILTER_SUFFIX = '_filter';
+
+    /** Bucket name suffix */
+    const BUCKET_SUFFIX = '_bucket';
+
     /**
      * @var CollectionFactory
      */
@@ -57,16 +65,16 @@ class RequestGenerator
                         'clause' => 'should',
                         'ref' => $queryName,
                     ];
-                    $filterName = $attribute->getAttributeCode() . '_filter';
+                    $filterName = $attribute->getAttributeCode() . self::FILTER_SUFFIX;
                     $request['queries'][$queryName] = [
                         'name' => $queryName,
-                        'type' => 'filteredQuery',
+                        'type' => QueryInterface::TYPE_FILTER,
                         'filterReference' => [['ref' => $filterName]]
                     ];
-                    $bucketName = $attribute->getAttributeCode() . '_bucket';
+                    $bucketName = $attribute->getAttributeCode() . self::BUCKET_SUFFIX;
                     if ($attribute->getBackendType() == 'decimal') {
                         $request['filters'][$filterName] = [
-                            'type' => 'rangeFilter',
+                            'type' => FilterInterface::TYPE_RANGE,
                             'name' => $filterName,
                             'field' => $attribute->getAttributeCode(),
                             'from' => '$' . $attribute->getAttributeCode() . '.from$',
@@ -81,13 +89,13 @@ class RequestGenerator
                         ];
                     } else {
                         $request['filters'][$filterName] = [
-                            'type' => 'termFilter',
+                            'type' => FilterInterface::TYPE_TERM,
                             'name' => $filterName,
                             'field' => $attribute->getAttributeCode(),
                             'value' => '$' . $attribute->getAttributeCode() . '$',
                         ];
                         $request['aggregations'][$bucketName] = [
-                            'type' => 'termBucket',
+                            'type' => BucketInterface::TYPE_TERM,
                             'name' => $bucketName,
                             'field' => $attribute->getAttributeCode(),
                             'metric' => [["type" => "count"]],
@@ -156,15 +164,15 @@ class RequestGenerator
                 case 'text':
                 case 'varchar':
                     if ($attribute->getFrontendInput() === 'multiselect') {
-                        $filterName = $attribute->getAttributeCode() . '_filter';
+                        $filterName = $attribute->getAttributeCode() . self::FILTER_SUFFIX;
                         $request['queries'][$queryName] = [
                             'name' => $queryName,
-                            'type' => 'filteredQuery',
+                            'type' => QueryInterface::TYPE_FILTER,
                             'filterReference' => [['ref' => $filterName]]
                         ];
 
                         $request['filters'][$filterName] = [
-                            'type' => 'wildcardFilter',
+                            'type' => FilterInterface::TYPE_TERM,
                             'name' => $filterName,
                             'field' => $attribute->getAttributeCode(),
                             'value' => '$' . $attribute->getAttributeCode() . '$',
@@ -186,30 +194,30 @@ class RequestGenerator
                 case 'decimal':
                 case 'datetime':
                 case 'date':
-                    $filterName = $attribute->getAttributeCode() . '_filter';
+                    $filterName = $attribute->getAttributeCode() . self::FILTER_SUFFIX;
                     $request['queries'][$queryName] = [
                         'name' => $queryName,
-                        'type' => 'filteredQuery',
+                        'type' => QueryInterface::TYPE_FILTER,
                         'filterReference' => [['ref' => $filterName]]
                     ];
                     $request['filters'][$filterName] = [
                         'field' => $attribute->getAttributeCode(),
                         'name' => $filterName,
-                        'type' => 'rangeFilter',
+                        'type' => FilterInterface::TYPE_RANGE,
                         'from' => '$' . $attribute->getAttributeCode() . '.from$',
                         'to' => '$' . $attribute->getAttributeCode() . '.to$',
                     ];
                     break;
                 default:
-                    $filterName = $attribute->getAttributeCode() . '_filter';
+                    $filterName = $attribute->getAttributeCode() . self::FILTER_SUFFIX;
                     $request['queries'][$queryName] = [
                         'name' => $queryName,
-                        'type' => 'filteredQuery',
+                        'type' => QueryInterface::TYPE_FILTER,
                         'filterReference' => [['ref' => $filterName]]
                     ];
 
                     $request['filters'][$filterName] = [
-                        'type' => 'termFilter',
+                        'type' => FilterInterface::TYPE_TERM,
                         'name' => $filterName,
                         'field' => $attribute->getAttributeCode(),
                         'value' => '$' . $attribute->getAttributeCode() . '$',
