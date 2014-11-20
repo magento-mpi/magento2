@@ -156,6 +156,7 @@ $installer->addAttribute(
         'is_user_defined' => 0,
         'is_system' => 1,
         'is_hidden' => 1,
+        'is_required' => 0,
         'label' => 'Reward update notification'
     )
 );
@@ -171,6 +172,7 @@ $installer->addAttribute(
         'is_user_defined' => 0,
         'is_system' => 1,
         'is_hidden' => 1,
+        'is_required' => 0,
         'label' => 'Reward warning notification'
     )
 );
