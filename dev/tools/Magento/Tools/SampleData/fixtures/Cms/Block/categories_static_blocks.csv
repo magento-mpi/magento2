@@ -122,7 +122,7 @@ title,identifier,content
 </ul>
 </div>"
 Women Block,women-block,"<div class=""blocks-promo"">
-    <a href=""{{category url=""women""}}"" class=""block-promo womens-main"">
+    <a href=""{{category url=""yoga-new""}}"" class=""block-promo womens-main"">
         <img src=""{{media url=""wysiwyg/womens/womens-main.jpg""}}"" alt="""" />
         <span class=""content"">
             <span class=""info"">New Luma Yoga Collection</span>
@@ -294,7 +294,7 @@ Men Block,men-block,"<div class=""blocks-promo"">
 {{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:23:`MT07, MH07, MSH03, MP03`;]]""}}
 "
 Gear Block,gear-block,"<div class=""blocks-promo"">
-    <a href=""{{category url=""gear""}}"" class=""block-promo gear-main"">
+    <a href=""{{product sku=""24-WG080""}}"" class=""block-promo gear-main"">
         <img src=""{{media url=""wysiwyg/gear/gear-main.jpg""}}"" alt="""" />
         <span class=""content"">
             <strong class=""title"">Sprite Yoga Companion Kit</strong>
@@ -354,7 +354,7 @@ Gear Block,gear-block,"<div class=""blocks-promo"">
 {{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:35:`24-MB02, 24-WB04, 24-UG06, 24-WG080`;]]""}}
 "
 Sale Block,sale-block,"<div class=""blocks-promo"">
-    <a href=""{{category url=""#""}}"" class=""block-promo sale-main"">
+    <a class=""block-promo sale-main"">
         <img src=""{{media url=""wysiwyg/sale/sale-main.jpg""}}"" alt="""" />
         <span class=""content"">
             <span class=""info"">Women’s Deals</span>
@@ -363,7 +363,7 @@ Sale Block,sale-block,"<div class=""blocks-promo"">
         </span>
     </a>
     <div class=""block-promo-wrapper block-promo-2columns"">
-        <a href=""{{category url=""#""}}"" class=""block-promo sale-mens"">
+        <a class=""block-promo sale-mens"">
             <img src=""{{media url=""wysiwyg/sale/sale-mens.jpg""}}"" alt="""" />
             <span class=""content"">
                 <strong class=""title"">Men’s Bargains</strong>
