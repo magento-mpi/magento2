@@ -9,7 +9,7 @@ namespace Magento\Customer\Model\Resource\Group\Grid;
 
 use Magento\Core\Model\EntityFactory;
 use Magento\Framework\Api\AbstractServiceCollection;
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Customer\Api\GroupRepositoryInterface;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
@@ -22,9 +22,9 @@ use Magento\Framework\Api\SimpleDataObjectConverter;
 class ServiceCollection extends AbstractServiceCollection
 {
     /**
-     * @var CustomerGroupServiceInterface
+     * @var GroupRepositoryInterface
      */
-    protected $groupService;
+    protected $groupRepository;
 
     /**
      * @var SimpleDataObjectConverter
@@ -35,8 +35,8 @@ class ServiceCollection extends AbstractServiceCollection
      * @param EntityFactory $entityFactory
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param CustomerGroupServiceInterface $groupService
      * @param SortOrderBuilder $sortOrderBuilder
+     * @param GroupRepositoryInterface $groupRepository
      * @param SimpleDataObjectConverter $simpleDataObjectConverter
      */
     public function __construct(
@@ -44,11 +44,11 @@ class ServiceCollection extends AbstractServiceCollection
         FilterBuilder $filterBuilder,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SortOrderBuilder $sortOrderBuilder,
-        CustomerGroupServiceInterface $groupService,
+        GroupRepositoryInterface $groupRepository,
         SimpleDataObjectConverter $simpleDataObjectConverter
     ) {
         parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder, $sortOrderBuilder);
-        $this->groupService = $groupService;
+        $this->groupRepository = $groupRepository;
         $this->simpleDataObjectConverter = $simpleDataObjectConverter;
     }
 
@@ -63,7 +63,7 @@ class ServiceCollection extends AbstractServiceCollection
     {
         if (!$this->isLoaded()) {
             $searchCriteria = $this->getSearchCriteria();
-            $searchResults = $this->groupService->searchGroups($searchCriteria);
+            $searchResults = $this->groupRepository->getList($searchCriteria);
             $this->_totalRecords = $searchResults->getTotalCount();
             /** @var CustomerGroup[] $groups */
             $groups = $searchResults->getItems();
