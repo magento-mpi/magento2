@@ -100,8 +100,8 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('name="cart" title="Shopping Cart"', $html);
         $this->assertContains('name="wishlist" title="Wishlist"', $html);
 
-        $this->assertStringMatchesFormat('%a name="account[firstname]" %s value="Firstname" %a', $html);
-        $this->assertStringMatchesFormat('%a name="account[lastname]" %s value="Lastname" %a', $html);
+        $this->assertStringMatchesFormat('%a name="account[firstname]" %s value="John" %a', $html);
+        $this->assertStringMatchesFormat('%a name="account[lastname]" %s value="Smith" %a', $html);
         $this->assertStringMatchesFormat('%a name="account[email]" %s value="customer@example.com" %a', $html);
     }
 

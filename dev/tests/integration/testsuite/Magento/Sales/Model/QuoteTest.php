@@ -13,7 +13,6 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 class QuoteTest extends \PHPUnit_Framework_TestCase
 {
-
     private function convertToArray($entity)
     {
         return Bootstrap::getObjectManager()
@@ -44,55 +43,44 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
-        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
-        $customerRepository = Bootstrap::getObjectManager()->create('Magento\Customer\Api\CustomerRepositoryInterface');
         /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
         $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         $expected = $this->_getCustomerDataArray();
         $customer = $customerBuilder->populateWithArray($expected)->create();
 
 
-        $this->assertEquals(
-            $expected,
-            $this->convertToArray($customer)
-        );
+        $this->assertEquals($expected, $this->convertToArray($customer));
         $quote->setCustomer($customer);
         //
         $customer = $quote->getCustomer();
-        $this->assertEquals(
-            $expected,
-            $this->convertToArray($customer)
-        );
+        $this->assertEquals($expected, $this->convertToArray($customer));
         $this->assertEquals('qa@example.com', $quote->getCustomerEmail());
     }
 
     public function testUpdateCustomerData()
     {
+        $changeMail = function(array &$expected) {
+            $expected[\Magento\Customer\Model\Data\Customer::EMAIL] = 'test@example.com';
+        };
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
-        $customerMetadataService = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerMetadataService'
-        );
-        $customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
-            [
-                'metadataService' => $customerMetadataService
-            ]
-        );
+        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         $expected = $this->_getCustomerDataArray();
-
+        //For save in repository
+        unset($expected[\Magento\Customer\Model\Data\Customer::ID]);
         $customerBuilder->populateWithArray($expected);
         $customerDataSet = $customerBuilder->create();
-        $this->assertEquals($expected, $customerDataSet->__toArray());
+        $this->assertEquals($expected, $this->convertToArray($customerDataSet));
         $quote->setCustomer($customerDataSet);
-
-        $expected[\Magento\Customer\Model\Data\Customer::EMAIL] = 'test@example.com';
+        $changeMail($expected);
         $customerBuilder->populateWithArray($expected);
         $customerDataUpdated = $customerBuilder->create();
-
         $quote->updateCustomerData($customerDataUpdated);
         $customer = $quote->getCustomer();
-        $this->assertEquals($expected, $customer->__toArray());
+        $expected = $this->_getCustomerDataArray();
+        $changeMail($expected);
+
+        $this->assertEquals($expected, $this->convertToArray($customer));
         $this->assertEquals('test@example.com', $quote->getCustomerEmail());
     }
 
@@ -322,7 +310,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             \Magento\Customer\Model\Data\Customer::SUFFIX => 'Jr.',
             \Magento\Customer\Model\Data\Customer::TAXVAT => 1,
             \Magento\Customer\Model\Data\Customer::WEBSITE_ID => 1,
-            \Magento\Customer\Model\Data\Customer::KEY_ADDRESSES => '',
+            \Magento\Customer\Model\Data\Customer::KEY_ADDRESSES => null
         ];
     }
 }
