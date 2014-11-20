@@ -142,13 +142,19 @@ class GroupManagement implements \Magento\Customer\Api\GroupManagementInterface
      */
     public function getLoggedInGroups()
     {
-        $filters[] = $this->filterBuilder
+        $notLoggedInFilter[] = $this->filterBuilder
             ->setField(GroupInterface::ID)
             ->setConditionType('neq')
             ->setValue(self::NOT_LOGGED_IN_ID)
             ->create();
+        $groupAll[] = $this->filterBuilder
+            ->setField(GroupInterface::ID)
+            ->setConditionType('neq')
+            ->setValue(self::CUST_GROUP_ALL)
+            ->create();
         $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter($filters)
+            ->addFilter($notLoggedInFilter)
+            ->addFilter($groupAll)
             ->create();
         return $this->groupRepository->getList($searchCriteria)->getItems();
     }

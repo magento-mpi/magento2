@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
+use Magento\Customer\Api\Data\AttributeMetadataInterface;
 use Magento\Customer\Model\AccountManagement;
 
 /**
@@ -255,7 +256,7 @@ class Account extends GenericMetadata
     /**
      * Initialize attribute set.
      *
-     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
+     * @return AttributeMetadataInterface[]
      */
     protected function _initCustomerAttributes()
     {
