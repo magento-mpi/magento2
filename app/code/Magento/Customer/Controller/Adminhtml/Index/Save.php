@@ -12,8 +12,16 @@ use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Exception\LocalizedException;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Save extends \Magento\Customer\Controller\Adminhtml\Index
 {
+    /**
+     * @var \Magento\Customer\Model\Metadata\FormFactory
+     */
+    protected $_formFactory;
+
     /**
      * Reformat customer account data to be compatible with customer service interface
      *
@@ -29,9 +37,8 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 'confirmation',
                 'sendemail'
             );
-            /** @var \Magento\Customer\Helper\Data $customerHelper */
-            $customerHelper = $this->_objectManager->get('Magento\Customer\Helper\Data');
-            $customerData = $customerHelper->extractCustomerData(
+
+            $customerData = $this->_extractData(
                 $this->getRequest(),
                 'adminhtml_customer',
                 \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
@@ -45,6 +52,53 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
         }
 
         return $customerData;
+    }
+
+    /**
+     * Perform customer data filtration based on form code and form object
+     *
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param string $formCode The code of EAV form to take the list of attributes from
+     * @param string $entityType entity type for the form
+     * @param string[] $additionalAttributes The list of attribute codes to skip filtration for
+     * @param string $scope scope of the request
+     * @param \Magento\Customer\Model\Metadata\Form $metadataForm to use for extraction
+     * @return array Filtered customer data
+     */
+    protected function _extractData(
+        \Magento\Framework\App\RequestInterface $request,
+        $formCode,
+        $entityType,
+        $additionalAttributes = array(),
+        $scope = null,
+        \Magento\Customer\Model\Metadata\Form $metadataForm = null
+    ) {
+        if (is_null($metadataForm)) {
+            $metadataForm = $this->_objectManager->get('Magento\Customer\Model\Metadata\FormFactory')->create(
+                $entityType,
+                $formCode,
+                array(),
+                false,
+                \Magento\Customer\Model\Metadata\Form::DONT_IGNORE_INVISIBLE
+            );
+        }
+        $filteredData = $metadataForm->extractData($request, $scope);
+        $requestData = $request->getPost($scope);
+        foreach ($additionalAttributes as $attributeCode) {
+            $filteredData[$attributeCode] = isset($requestData[$attributeCode]) ? $requestData[$attributeCode] : false;
+        }
+
+        $formAttributes = $metadataForm->getAttributes();
+        /** @var \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute */
+        foreach ($formAttributes as $attribute) {
+            $attributeCode = $attribute->getAttributeCode();
+            $frontendInput = $attribute->getFrontendInput();
+            if ($frontendInput != 'boolean' && $filteredData[$attributeCode] === false) {
+                unset($filteredData[$attributeCode]);
+            }
+        }
+
+        return $filteredData;
     }
 
     /**
@@ -63,11 +117,10 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             }
 
             $addressIdList = array_keys($addresses);
-            /** @var \Magento\Customer\Helper\Data $customerHelper */
-            $customerHelper = $this->_objectManager->get('Magento\Customer\Helper\Data');
+
             foreach ($addressIdList as $addressId) {
                 $scope = sprintf('address/%s', $addressId);
-                $addressData = $customerHelper->extractCustomerData(
+                $addressData = $this->_extractData(
                     $this->getRequest(),
                     'adminhtml_customer_address',
                     \Magento\Customer\Api\AddressMetadataInterface::ENTITY_TYPE_ADDRESS,

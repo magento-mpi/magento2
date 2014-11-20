@@ -9,7 +9,6 @@
 namespace Magento\CatalogEvent\Test\Block\Adminhtml\Event;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
@@ -18,6 +17,13 @@ use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
  */
 class Grid extends AbstractGrid
 {
+    /**
+     * First row selector
+     *
+     * @var string
+     */
+    protected $firstRowSelector = '//tr[./td[contains(@class, "col-category")]][1]';
+
     /**
      * Filters array mapping
      *
@@ -45,44 +51,4 @@ class Grid extends AbstractGrid
             'selector' => 'input[name="sort_order"]'
         ],
     ];
-
-    /**
-     * Check if specific row exists in grid
-     *
-     * @param array $filter
-     * @param bool $isSearchable
-     * @param bool $isStrict
-     * @return bool
-     */
-    public function isRowVisible(array $filter, $isSearchable = false, $isStrict = true)
-    {
-        $this->search(['category_name' => $filter['category_name']]);
-        return $this->getRow($filter, $isSearchable, $isStrict)->isVisible();
-    }
-
-    /**
-     * Find row on grid
-     *
-     * @param array $filter
-     * @param bool $isSearchable
-     * @param bool $isStrict
-     * @return Element
-     */
-    protected function getRow(array $filter, $isSearchable = true, $isStrict = true)
-    {
-        if ($isSearchable) {
-            $this->search($filter);
-        }
-        $location = '//div[@class="grid"]//tr[';
-        $rows = [];
-        foreach ($filter as $value) {
-            if (strripos($value, 'PM') || strripos($value, 'AM')) {
-                preg_match('#([^:]+)\s.*#', $value, $matches);
-                $value = $matches[1];
-            }
-            $rows[] = 'td[contains(text(),normalize-space("' . $value . '"))]';
-        }
-        $location = $location . implode(' and ', $rows) . ']';
-        return $this->_rootElement->find($location, Locator::SELECTOR_XPATH);
-    }
 }

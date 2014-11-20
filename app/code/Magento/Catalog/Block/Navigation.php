@@ -8,6 +8,7 @@
 namespace Magento\Catalog\Block;
 
 use Magento\Catalog\Model\Category;
+use Magento\Customer\Model\Context;
 
 /**
  * Catalog navigation
@@ -140,7 +141,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
             'CATALOG_NAVIGATION',
             $this->_storeManager->getStore()->getId(),
             $this->_design->getDesignTheme()->getId(),
-            $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP),
+            $this->httpContext->getValue(Context::CONTEXT_GROUP),
             'template' => $this->getTemplate(),
             'name' => $this->getNameInLayout(),
             $this->getCurrenCategoryKey()

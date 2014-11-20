@@ -29,6 +29,16 @@ use Magento\CatalogEvent\Test\Fixture\Widget;
 class CreateWidgetCatalogEventCarouselTest extends AbstractCreateWidgetEntityTest
 {
     /**
+     * Delete all Catalog Events on backend.
+     *
+     * @return void
+     */
+    public function __prepare()
+    {
+        $this->objectManager->create('Magento\CatalogEvent\Test\TestStep\DeleteAllCatalogEventsStep')->run();
+    }
+
+    /**
      * Creation for New Instance of WidgetEntity
      *
      * @param Widget $widget

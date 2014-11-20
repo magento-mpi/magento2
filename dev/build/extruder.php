@@ -7,8 +7,7 @@
  * @license    {license_link}
  */
 
-require __DIR__ . '/../../app/autoload.php';
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(__DIR__ . '/../../lib/internal');
+require_once realpath(__DIR__ . '/../../app/autoload.php');
 
 define(
     'USAGE',

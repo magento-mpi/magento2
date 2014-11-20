@@ -188,6 +188,8 @@ class RemoveRewardPointsOnCheckoutTest extends Injectable
         array $payment,
         $rewardPoints
     ) {
+        $this->markTestIncomplete("Bug: MAGETWO-30435");
+
         // Preconditions
         $customer->persist();
         $reward = $this->fixtureFactory->createByCode(

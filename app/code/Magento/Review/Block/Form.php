@@ -8,6 +8,8 @@
 namespace Magento\Review\Block;
 
 use Magento\Catalog\Model\Product;
+use Magento\Customer\Model\Context;
+use Magento\Customer\Model\Url;
 use Magento\Review\Model\Resource\Rating\Collection as RatingCollection;
 
 /**
@@ -72,6 +74,11 @@ class Form extends \Magento\Framework\View\Element\Template
     protected $httpContext;
 
     /**
+     * @var \Magento\Customer\Model\Url
+     */
+    protected $customerUrl;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Session\Generic $reviewSession
@@ -81,6 +88,7 @@ class Form extends \Magento\Framework\View\Element\Template
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Model\Url $customerUrl
      * @param array $data
      */
     public function __construct(
@@ -93,6 +101,7 @@ class Form extends \Magento\Framework\View\Element\Template
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Model\Url $customerUrl,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -103,6 +112,7 @@ class Form extends \Magento\Framework\View\Element\Template
         $this->_ratingFactory = $ratingFactory;
         $this->messageManager = $messageManager;
         $this->httpContext = $httpContext;
+        $this->customerUrl = $customerUrl;
         parent::__construct($context, $data);
     }
 
@@ -127,7 +137,7 @@ class Form extends \Magento\Framework\View\Element\Template
         }
 
         $this->setAllowWriteReviewFlag(
-            $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)
+            $this->httpContext->getValue(Context::CONTEXT_AUTH)
             || $this->_reviewData->getIsGuestAllowToWrite()
         );
         if (!$this->getAllowWriteReviewFlag()) {
@@ -137,7 +147,7 @@ class Form extends \Magento\Framework\View\Element\Template
             $this->setLoginLink(
                 $this->getUrl(
                     'customer/account/login/',
-                    array(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME => $queryParam)
+                    array(Url::REFERER_QUERY_PARAM_NAME => $queryParam)
                 )
             );
         }
@@ -184,5 +194,15 @@ class Form extends \Magento\Framework\View\Element\Template
         )->setActiveFilter(
             true
         )->load()->addOptionToItems();
+    }
+
+    /**
+     * Return register URL
+     *
+     * @return string
+     */
+    public function getRegisterUrl()
+    {
+        return $this->customerUrl->getRegisterUrl();
     }
 }

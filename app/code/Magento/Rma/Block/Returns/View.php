@@ -7,6 +7,7 @@
  */
 namespace Magento\Rma\Block\Returns;
 
+use Magento\Customer\Model\Context;
 use Magento\Rma\Model\Item;
 use Magento\Rma\Model\Rma;
 
@@ -348,7 +349,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getBackUrl()
     {
-        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+        if ($this->httpContext->getValue(Context::CONTEXT_AUTH)) {
             return $this->getUrl('rma/returns/history');
         } else {
             return $this->getUrl('rma/guest/returns');
@@ -382,7 +383,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getCustomerName()
     {
-        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+        if ($this->httpContext->getValue(Context::CONTEXT_AUTH)) {
             return $this->_customerView->getCustomerName($this->getCustomerData());
         } else {
             $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
