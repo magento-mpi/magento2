@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Helper;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\GroupManagementInterface;
 
 /**
  * Customer Data Helper
@@ -125,9 +125,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_customerSession;
 
     /**
-     * @var CustomerRepositoryInterface
+     * @var GroupManagementInterface
      */
-    protected $_groupRepository;
+    protected $_groupManagement;
 
     /**
      * @var \Magento\Customer\Model\Metadata\FormFactory
@@ -150,7 +150,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param CustomerRepositoryInterface $groupRepository
+     * @param GroupManagementInterface $groupManagement
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Math\Random $mathRandom
@@ -163,7 +163,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
-        CustomerRepositoryInterface $groupRepository,
+        GroupManagementInterface $groupManagement,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Math\Random $mathRandom
@@ -172,7 +172,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_coreData = $coreData;
         $this->_scopeConfig = $scopeConfig;
         $this->_customerSession = $customerSession;
-        $this->_groupRepository = $groupRepository;
+        $this->_groupManagement = $groupManagement;
         $this->_formFactory = $formFactory;
         $this->_escaper = $escaper;
         $this->mathRandom = $mathRandom;
@@ -471,7 +471,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getDefaultCustomerGroupId($store = null)
     {
-        return $this->_groupRepository->getDefaultGroup($store)->getId();
+        return $this->_groupManagement->getDefaultGroup($store)->getId();
     }
 
     /**
