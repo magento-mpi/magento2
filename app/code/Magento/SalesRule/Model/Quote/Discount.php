@@ -82,11 +82,17 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             if ($item->getNoDiscount() || !$this->_calculator->canApplyDiscount($item)) {
                 $item->setDiscountAmount(0);
                 $item->setBaseDiscountAmount(0);
+
+                // ensure my children are zeroed out
+                if ($item->getHasChildren() && $item->isChildrenCalculated()) {
+                    foreach ($item->getChildren() as $child) {
+                        $child->setDiscountAmount(0);
+                        $child->setBaseDiscountAmount(0);
+                    }
+                }
                 continue;
             }
-            /**
-             * Child item discount we calculate for parent
-             */
+            // to determine the child item discount, we calculate the parent
             if ($item->getParentItem()) {
                 continue;
             }
