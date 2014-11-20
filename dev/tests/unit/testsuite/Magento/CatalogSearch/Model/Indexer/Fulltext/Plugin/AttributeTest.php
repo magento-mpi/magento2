@@ -20,6 +20,11 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected $subjectMock;
 
     /**
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $indexerRegistryMock;
+
+    /**
      * @var Attribute
      */
     protected $model;
@@ -36,7 +41,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             true,
             ['getId', 'getState', '__wakeup']
         );
-        $this->model = new Attribute($this->indexerMock);
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
+        $this->model = new Attribute($this->indexerRegistryMock);
     }
 
     /**
@@ -66,8 +72,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             return $this->subjectMock;
         };
 
-        $this->indexerMock->expects($this->exactly($invalidateCounter))->method('getId')->will($this->returnValue(1));
         $this->indexerMock->expects($this->exactly($invalidateCounter))->method('invalidate');
+        $this->prepareIndexer($invalidateCounter);
 
         $this->assertEquals(
             $this->subjectMock,
@@ -112,8 +118,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             return $this->subjectMock;
         };
 
-        $this->indexerMock->expects($this->exactly($invalidateCounter))->method('getId')->will($this->returnValue(1));
         $this->indexerMock->expects($this->exactly($invalidateCounter))->method('invalidate');
+        $this->prepareIndexer($invalidateCounter);
 
         $this->assertEquals(
             $this->subjectMock,
@@ -132,5 +138,16 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             [true, false, 0],
             [true, true, 0],
         ];
+    }
+
+    /**
+     * @param $invalidateCounter
+     */
+    protected function prepareIndexer($invalidateCounter)
+    {
+        $this->indexerRegistryMock->expects($this->exactly($invalidateCounter))
+            ->method('get')
+            ->with(\Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
     }
 }

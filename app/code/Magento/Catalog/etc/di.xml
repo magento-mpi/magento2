@@ -97,7 +97,6 @@
     <type name="Magento\Catalog\Model\Product">
         <arguments>
             <argument name="catalogProductStatus" xsi:type="object">Magento\Catalog\Model\Product\Attribute\Source\Status\Proxy</argument>
-            <argument name="categoryIndexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\Resource\Product\Collection">
@@ -164,17 +163,6 @@
             <argument name="storage" xsi:type="object">Magento\Catalog\Model\Session\Storage</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Model\Category">
-        <arguments>
-            <argument name="flatIndexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
-            <argument name="productIndexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Catalog\Model\Indexer\Category\Flat\System\Config\Mode">
-        <arguments>
-            <argument name="flatIndexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
-        </arguments>
-    </type>
     <type name="Magento\Store\Model\Resource\Website">
         <plugin name="priceIndexerOnWebsiteDelete" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\Website"/>
     </type>
@@ -192,24 +180,11 @@
     <type name="Magento\Customer\Service\V1\CustomerGroupServiceInterface">
         <plugin name="invalidatePriceIndexerOnCustomerGroup" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
     </type>
-    <type name="Magento\Catalog\Model\Indexer\Product\Price\Plugin\AbstractPlugin">
-        <arguments>
-            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Catalog\Model\Indexer\Product\Price\System\Config\PriceScope">
-        <arguments>
-            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
-        </arguments>
-    </type>
     <type name="Magento\Indexer\Model\Config\Data">
         <plugin name="indexerCategoryFlatConfigGet" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\IndexerConfigData" />
         <plugin name="indexerProductFlatConfigGet" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\IndexerConfigData" />
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat">
-        <arguments>
-            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
-        </arguments>
         <plugin name="page-cache-indexer-reindex-category-flat"
                 type="Magento\Catalog\Model\Indexer\Category\AffectCache" sortOrder="10"/>
     </type>
@@ -218,16 +193,8 @@
             <argument name="defaultPriceIndexer" xsi:type="string">Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreGroup">
-        <arguments>
-            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
-        </arguments>
-    </type>
     <type name="Magento\Eav\Model\Entity\Attribute\Set">
         <plugin name="invalidateEavIndexerOnAttributeSetSave" type="\Magento\Catalog\Model\Indexer\Product\Eav\Plugin\AttributeSet" />
-    </type>
-    <type name="Magento\CatalogRule\Model\Rule">
-        <plugin name="reindexPriceOnRuleApply" type="\Magento\Catalog\Model\Indexer\Product\Price\Plugin\CatalogRule" />
     </type>
     <type name="Magento\Catalog\Helper\Product\Flat\Indexer">
         <arguments>
@@ -237,16 +204,10 @@
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Product">
-        <arguments>
-            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
-        </arguments>
         <plugin name="page-cache-indexer-reindex-category-product"
                 type="Magento\Catalog\Model\Indexer\Product\AffectCache" sortOrder="10"/>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Product\Category">
-        <arguments>
-            <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
-        </arguments>
         <plugin name="page-cache-indexer-reindex-product-category"
                 type="Magento\Catalog\Model\Indexer\Category\AffectCache" sortOrder="10"/>
     </type>
@@ -274,11 +235,6 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Model\Product\Action">
-        <arguments>
-            <argument name="categoryIndexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
-        </arguments>
-    </type>
     <virtualType name="rowsFlatTableBuilder" type="Magento\Catalog\Model\Indexer\Product\Flat\FlatTableBuilder">
         <arguments>
             <argument name="tableData" xsi:type="object">Magento\Catalog\Model\Indexer\Product\Flat\Action\Rows\TableData</argument>
@@ -292,11 +248,6 @@
     <type name="Magento\Catalog\Model\Indexer\Product\Flat\FlatTableBuilder">
         <arguments>
             <argument name="tableData" xsi:type="object">Magento\Catalog\Model\Indexer\Product\Flat\TableData</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Catalog\Block\Product\ListProduct">
-        <arguments>
-            <argument name="catalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Category</argument>
         </arguments>
     </type>
     <virtualType name="categoryFilterList" type="Magento\Catalog\Model\Layer\FilterList">
@@ -479,8 +430,16 @@
     <type name="Magento\CatalogInventory\Model\Config\Backend\ShowOutOfStock">
         <plugin name="showOutOfStockValueChanged" type="\Magento\Catalog\Model\Plugin\ShowOutOfStockConfig"/>
     </type>
-    <preference for="Magento\Catalog\Block\Category\Widget\Link" type="Magento\Catalog\Block\Widget\Link" />
-    <preference for="Magento\Catalog\Block\Product\Widget\Link" type="Magento\Catalog\Block\Widget\Link" />
+    <virtualType name="Magento\Catalog\Block\Category\Widget\Link" type="Magento\Catalog\Block\Widget\Link">
+        <arguments>
+            <argument name="entityResource" xsi:type="object">Magento\Catalog\Model\Resource\Category</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Catalog\Block\Product\Widget\Link" type="Magento\Catalog\Block\Widget\Link">
+        <arguments>
+            <argument name="entityResource" xsi:type="object">Magento\Catalog\Model\Resource\Product</argument>
+        </arguments>
+    </virtualType>
     <type name="Magento\Framework\App\Rss\RssManagerInterface">
         <arguments>
             <argument name="dataProviders" xsi:type="array">
@@ -490,11 +449,48 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Model\Layer\Search\Context">
+    <virtualType name="Magento\Catalog\Model\Layer\Search\Context" type="Magento\Catalog\Model\Layer\Context">
         <arguments>
             <argument name="collectionProvider" xsi:type="object">Magento\Catalog\Model\Layer\Search\ItemCollectionProvider</argument>
             <argument name="stateKey" xsi:type="object">Magento\Catalog\Model\Layer\Category\StateKey</argument>
             <argument name="collectionFilter" xsi:type="object">Magento\Catalog\Model\Layer\Search\CollectionFilter</argument>
         </arguments>
+    </virtualType>
+    <virtualType name="Magento\Catalog\Model\Layer\Category\Context" type="Magento\Catalog\Model\Layer\Context">
+        <arguments>
+            <argument name="collectionProvider" xsi:type="object">Magento\Catalog\Model\Layer\Category\ItemCollectionProvider</argument>
+            <argument name="stateKey" xsi:type="object">Magento\Catalog\Model\Layer\Category\StateKey</argument>
+            <argument name="collectionFilter" xsi:type="object">Magento\Catalog\Model\Layer\Category\CollectionFilter</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Catalog\Model\Layer\Search">
+        <arguments>
+            <argument name="context" xsi:type="object">Magento\Catalog\Model\Layer\Search\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Category">
+        <arguments>
+            <argument name="context" xsi:type="object">Magento\Catalog\Model\Layer\Category\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory">
+        <arguments>
+            <argument name="algorithms" xsi:type="array">
+                <item name="auto" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Dynamic\Auto</item>
+                <item name="improved" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Dynamic\Improved</item>
+                <item name="manual" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Dynamic\Manual</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Resolver">
+        <arguments>
+            <argument name="layersPool" xsi:type="array">
+                <item name="category" xsi:type="string">Magento\Catalog\Model\Layer\Category</item>
+                <item name="search" xsi:type="string">Magento\Catalog\Model\Layer\Search</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Resource\Config">
+        <plugin name="productListingAttributesCaching" type="Magento\Catalog\Plugin\Model\Resource\Config" />
     </type>
 </config>

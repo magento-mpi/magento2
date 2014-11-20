@@ -43,6 +43,11 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     protected $category;
 
     /**
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $indexerRegistryMock;
+
+    /**
      * @var int
      */
     protected $categoryId = 10;
@@ -89,8 +94,10 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
+
         $this->category = new Category(
-            $this->indexerMock,
+            $this->indexerRegistryMock,
             $this->appConfigMock,
             $this->authorizationMock,
             $this->permissionFactoryMock
@@ -112,7 +119,10 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
         $categoryMock = $this->getCategory();
         $categoryMock->expects($this->never())->method('hasData');
-        $this->prepareIndexer();
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
         $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(false));
 
         $this->indexerMock->expects(
@@ -124,6 +134,11 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnSelf()
         );
+
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
 
         $this->category->afterSave($categoryMock);
     }
@@ -167,6 +182,11 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->permissionMock)
         );
 
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
+
         $this->category->afterSave($categoryMock);
     }
 
@@ -208,6 +228,11 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->permissionMock)
         );
+
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
 
         $this->category->afterSave($categoryMock);
     }
@@ -252,6 +277,11 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->permissionMock)
         );
 
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
+
         $this->category->afterSave($categoryMock);
     }
 
@@ -281,25 +311,14 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             return 'Expected';
         };
         $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
-        $this->prepareIndexer();
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
         $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(false));
         $this->indexerMock->expects($this->once())->method('reindexList')->with(array($this->categoryId, $parentId));
 
         $this->category->aroundMove($categoryMock, $closure, 0, 0);
-    }
-
-    protected function prepareIndexer()
-    {
-        $this->indexerMock->expects($this->exactly(2))->method('getId')->will($this->returnValue(0));
-        $this->indexerMock->expects(
-            $this->exactly(2)
-        )->method(
-            'load'
-        )->with(
-            \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID
-        )->will(
-            $this->returnSelf()
-        );
     }
 
     /**

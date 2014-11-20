@@ -18,7 +18,7 @@ class Application
     /**
      * Area code
      */
-    const AREA_CODE = 'install';
+    const AREA_CODE = 'adminhtml';
 
     /**
      * Application object
@@ -33,7 +33,7 @@ class Application
     protected $_shell;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -150,7 +150,7 @@ class Application
     /**
      * Get object manager
      *
-     * @return \Magento\Framework\ObjectManager
+     * @return \Magento\Framework\ObjectManagerInterface
      */
     public function getObjectManager()
     {
@@ -165,11 +165,12 @@ class Application
     /**
      * Reset object manager
      *
-     * @return \Magento\Framework\ObjectManager
+     * @return \Magento\Framework\ObjectManagerInterface
      */
     public function resetObjectManager()
     {
         $this->_objectManager = null;
+        $this->bootstrap();
         return $this;
     }
 }
