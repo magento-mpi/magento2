@@ -8,6 +8,8 @@
 
 /* @var $installer \Magento\CustomerSegment\Model\Resource\Setup */
 $installer = $this;
+
+$installer->startSetup();
 // use specific attributes for customer segments
 $attributesOfEntities = array(
     'customer' => array(
@@ -51,3 +53,28 @@ foreach ($attributesOfEntities as $entityTypeId => $attributes) {
         $installer->updateAttribute($entityTypeId, $attributeCode, 'is_used_for_customer_segment', '1');
     }
 }
+
+/**
+ * Resave all segments for segment conditions regeneration
+ */
+/** @var $this \Magento\CustomerSegment\Model\Resource\Setup */
+$collection = $this->createSegmentCollection();
+/** @var $segment \Magento\CustomerSegment\Model\Segment */
+foreach ($collection as $segment) {
+    $segment->afterLoad();
+    $segment->save();
+}
+
+$installer = $this->createMigrationSetup();
+
+$installer->appendClassAliasReplace(
+    'magento_customersegment_segment',
+    'conditions_serialized',
+    \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
+    \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_SERIALIZED,
+    array('segment_id')
+);
+
+$installer->doUpdateClassAliases();
+
+$installer->endSetup();

@@ -27,11 +27,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_coreData;
 
     /**
-     * Customer data
+     * Customer registration
      *
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Registration
      */
-    protected $_customerData;
+    protected $registration;
 
     /**
      * Invitation Status
@@ -42,18 +42,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Customer\Model\Registration $registration
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Customer\Model\Registration $registration,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
     ) {
         parent::__construct($context);
-        $this->_customerData = $customerData;
+        $this->registration = $registration;
         $this->_coreData = $coreData;
         $this->_invitationStatus = $invitationStatus;
     }
@@ -118,7 +118,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function isRegistrationAllowed($isAllowed = null)
     {
         if ($isAllowed === null && $this->_isRegistrationAllowed === null) {
-            $result = $this->_customerData->isRegistrationAllowed();
+            $result = $this->registration->isAllowed();
             if ($this->_isRegistrationAllowed === null) {
                 $this->_isRegistrationAllowed = $result;
             }
