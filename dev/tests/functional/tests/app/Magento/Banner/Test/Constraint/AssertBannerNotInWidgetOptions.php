@@ -48,7 +48,6 @@ class AssertBannerNotInWidgetOptions extends AbstractConstraint
         );
         $widgetInstanceNew->open();
         $widgetInstanceNew->getWidgetForm()->fill($widget);
-        $widgetInstanceNew->getWidgetForm()->clickContinue();
         $widgetInstanceEdit->getWidgetForm()->openTab('widget_options');
 
         \PHPUnit_Framework_Assert::assertFalse(
