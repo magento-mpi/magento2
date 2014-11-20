@@ -152,7 +152,7 @@ class Handler
         /** @var string $dataType */
         $dataType = $this->_dataObjectProcessor->getMethodReturnType($serviceClassName, $serviceMethodName);
         $result = null;
-        if (is_object($data)) {
+        if ($data instanceof ExtensibleDataInterface) {
             $result = $this->_dataObjectConverter
                 ->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($data, $dataType));
         } elseif (is_array($data)) {
