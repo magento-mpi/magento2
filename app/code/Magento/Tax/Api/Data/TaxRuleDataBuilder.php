@@ -1,4 +1,11 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 namespace Magento\Tax\Api\Data;
 
 /**
@@ -125,7 +132,6 @@ class TaxRuleDataBuilder extends \Magento\Framework\Api\Builder
      */
     public function create()
     {
-        /** TODO: temporary fix while problem with hasDataChanges flag not solved. MAGETWO-30324 */
         $object = parent::create();
         $object->setDataChanges(true);
         return $object;

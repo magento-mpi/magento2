@@ -434,6 +434,7 @@ class TaxRuleServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'Save'
             ]
         ];
+        $this->_webApiCall($serviceInfo, $requestData);
         $expectedRuleData = $requestData['rule'];
         /** Ensure that tax rule was actually updated in DB */
         /** @var \Magento\Tax\Model\Calculation $taxCalculation */
