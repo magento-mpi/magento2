@@ -42,6 +42,8 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
      */
     protected $validator;
 
+    protected $_idFieldName = 'tax_calculation_rule_id';
+
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
@@ -102,9 +104,9 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
      */
     public function saveCalculationData()
     {
-        $ctc = (array)$this->getData('customer_tax_class_ids');
-        $ptc = (array)$this->getData('product_tax_class_ids');
-        $rates = (array)$this->getData('tax_rate_ids');
+        $ctc = $this->getData('customer_tax_class_ids');
+        $ptc = $this->getData('product_tax_class_ids');
+        $rates = $this->getData('tax_rate_ids');
 
         $this->_calculation->deleteByRuleId($this->getId());
         foreach ($ctc as $c) {

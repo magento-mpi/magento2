@@ -108,7 +108,7 @@ class Rule extends \Magento\Backend\App\Action
             $this->ruleBuilder->setCalculateSubtotal($postData['calculate_subtotal']);
         }
         if (isset($postData['position'])) {
-            $this->ruleBuilder->setSortOrder($postData['position']);
+            $this->ruleBuilder->setPosition($postData['position']);
         }
         return $this->ruleBuilder->create();
     }

@@ -22,6 +22,7 @@ use \Magento\Framework\Exception\InputException;
 use \Magento\Framework\Exception\CouldNotSaveException;
 use \Magento\Framework\Model\Exception as ModelException;
 use \Magento\Tax\Model\Resource\Calculation\Rule as Resource;
+use \Magento\Framework\Exception\NoSuchEntityException;
 
 class TaxRuleRepository implements TaxRuleRepositoryInterface
 {
@@ -85,6 +86,10 @@ class TaxRuleRepository implements TaxRuleRepositoryInterface
     public function save(TaxRuleInterface $rule)
     {
         try {
+            $ruleId = $rule->getId();
+            if ($ruleId) {
+                $this->taxRuleRegistry->retrieveTaxRule($ruleId);
+            }
             $this->resource->save($rule);
         } catch (ModelException $e) {
             if ($e->getCode() == ModelException::ERROR_CODE_ENTITY_ALREADY_EXISTS) {
@@ -92,6 +97,8 @@ class TaxRuleRepository implements TaxRuleRepositoryInterface
             } else {
                 throw new CouldNotSaveException($e->getMessage());
             }
+        } catch (NoSuchEntityException $exception) {
+            throw $exception;
         }
         $this->taxRuleRegistry->registerTaxRule($rule);
         return $rule;

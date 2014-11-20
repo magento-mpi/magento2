@@ -81,6 +81,33 @@ class TaxRuleServiceTest extends WebapiAbstract
         }
     }
 
+    /**
+     * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
+     */
+    public function testDeleteTaxRule()
+    {
+        $fixtureRule = $this->getFixtureTaxRules()[0];
+        $taxRuleId = $fixtureRule->getId();
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . "/$taxRuleId",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'DeleteByIdentifier'
+            ]
+        ];
+        $requestData = ['ruleId' => $taxRuleId];
+        $result = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue($result);
+        /** Ensure that tax rule was actually removed from DB */
+        /** @var \Magento\Tax\Model\Calculation\Rule $taxRule */
+        $taxRate = Bootstrap::getObjectManager()->create('Magento\Tax\Model\Calculation\Rate');
+        $this->assertNull($taxRate->load($taxRuleId)->getId(), 'Tax rule was not deleted from DB.');
+    }
+
     public function testCreateTaxRule()
     {
         $serviceInfo = [
@@ -117,125 +144,124 @@ class TaxRuleServiceTest extends WebapiAbstract
         $this->assertEquals($taxRuleId, $taxRule->load($taxRuleId)->getId(), 'Tax rule was not created in DB.');
         $taxRule->delete();
     }
-//
-//    public function testCreateTaxRuleInvalidTaxClassIds()
-//    {
-//        $serviceInfo = [
-//            'rest' => [
-//                'resourcePath' => TaxRuleServiceTest::RESOURCE_PATH,
-//                'httpMethod' => HttpConstants::HTTP_METHOD_POST
-//            ],
-//            'soap' => [
-//                'service' => self::SERVICE_NAME,
-//                'serviceVersion' => self::SERVICE_VERSION,
-//                'operation' => self::SERVICE_NAME . 'CreateTaxRule'
-//            ]
-//        ];
-//        $requestData = [
-//            'rule' => [
-//                'code' => 'Test Rule ' . microtime(),
-//                'sort_order' => 10,
-//                'priority' => 5,
-//                'customer_tax_class_ids' => [2],
-//                'product_tax_class_ids' => [3],
-//                'tax_rate_ids' => [1, 2],
-//                'calculate_subtotal' => 1
-//            ]
-//        ];
-//
-//
-//        try {
-//            $this->_webApiCall($serviceInfo, $requestData);
-//            $this->fail('Did not throw expected InputException');
-//        } catch (\SoapFault $e) {
-//            $this->assertContains('One or more input exceptions have occurred.', $e->getMessage());
-//        } catch (\Exception $e) {
-//            $this->assertContains('One or more input exceptions have occurred.', $e->getMessage());
-//            $this->assertContains('{"fieldName":"customer_tax_class_ids","value":2}', $e->getMessage());
-//            $this->assertContains('{"fieldName":"product_tax_class_ids","value":3}', $e->getMessage());
-//        }
-//    }
-//
-//    public function testCreateTaxRuleExistingCode()
-//    {
-//        $requestData = [
-//            'rule' => [
-//                'code' => 'Test Rule ' . microtime(),
-//                'sort_order' => 10,
-//                'priority' => 5,
-//                'customer_tax_class_ids' => [3],
-//                'product_tax_class_ids' => [2],
-//                'tax_rate_ids' => [1, 2],
-//                'calculate_subtotal' => 0
-//            ]
-//        ];
-//
-//        $serviceInfo = [
-//            'rest' => [
-//                'resourcePath' => self::RESOURCE_PATH,
-//                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-//            ],
-//            'soap' => [
-//                'service' => self::SERVICE_NAME,
-//                'serviceVersion' => self::SERVICE_VERSION,
-//                'operation' => self::SERVICE_NAME . 'CreateTaxRule'
-//            ]
-//        ];
-//        $newTaxRuleData = $this->_webApiCall($serviceInfo, $requestData);
-//        try {
-//            $this->_webApiCall($serviceInfo, $requestData);
-//            $this->fail('Expected exception was not raised');
-//        } catch (\Exception $e) {
-//            $expectedMessage = 'Code already exists.';
-//            $this->assertContains(
-//                $expectedMessage,
-//                $e->getMessage(),
-//                "Exception does not contain expected message."
-//            );
-//        }
-//
-//        // Clean up the new tax rule so it won't affect other tests
-//        /** @var \Magento\Tax\Model\Calculation\Rule $taxRule */
-//        $taxRule = Bootstrap::getObjectManager()->create('Magento\Tax\Model\Calculation\Rule');
-//        $taxRule->load($newTaxRuleData['id']);
-//        $taxRule->delete();
-//    }
+
+    public function testCreateTaxRuleInvalidTaxClassIds()
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => TaxRuleServiceTest::RESOURCE_PATH,
+                'httpMethod' => HttpConstants::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Save'
+            ]
+        ];
+        $requestData = [
+            'rule' => [
+                'code' => 'Test Rule ' . microtime(),
+                'position' => 10,
+                'priority' => 5,
+                'customer_tax_class_ids' => [2],
+                'product_tax_class_ids' => [3],
+                'tax_rate_ids' => [1, 2],
+                'calculate_subtotal' => 1
+            ]
+        ];
+
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail('Did not throw expected InputException');
+        } catch (\SoapFault $e) {
+            $this->assertContains('No such entity with customer_tax_class_ids = %fieldValue', $e->getMessage());
+        } catch (\Exception $e) {
+            $this->assertContains('One or more input exceptions have occurred.', $e->getMessage());
+            $this->assertContains('{"fieldName":"customer_tax_class_ids","value":2}', $e->getMessage());
+            $this->assertContains('{"fieldName":"product_tax_class_ids","value":3}', $e->getMessage());
+        }
+    }
+
+    public function testCreateTaxRuleExistingCode()
+    {
+        $requestData = [
+            'rule' => [
+                'code' => 'Test Rule ' . microtime(),
+                'position' => 10,
+                'priority' => 5,
+                'customer_tax_class_ids' => [3],
+                'product_tax_class_ids' => [2],
+                'tax_rate_ids' => [1, 2],
+                'calculate_subtotal' => 0
+            ]
+        ];
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Save'
+            ]
+        ];
+        $newTaxRuleData = $this->_webApiCall($serviceInfo, $requestData);
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail('Expected exception was not raised');
+        } catch (\Exception $e) {
+            $expectedMessage = 'Code already exists.';
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
+            );
+        }
+
+        // Clean up the new tax rule so it won't affect other tests
+        /** @var \Magento\Tax\Model\Calculation\Rule $taxRule */
+        $taxRule = Bootstrap::getObjectManager()->create('Magento\Tax\Model\Calculation\Rule');
+        $taxRule->load($newTaxRuleData['id']);
+        $taxRule->delete();
+    }
 
     /**
      * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
      */
-//    public function testGetTaxRule()
-//    {
-//        $fixtureRule = $this->getFixtureTaxRules()[0];
-//        $taxRuleId = $fixtureRule->getId();
-//
-//        $serviceInfo = [
-//            'rest' => [
-//                'resourcePath' => self::RESOURCE_PATH . "/$taxRuleId",
-//                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-//            ],
-//            'soap' => [
-//                'service' => self::SERVICE_NAME,
-//                'serviceVersion' => self::SERVICE_VERSION,
-//                'operation' => self::SERVICE_NAME . 'GetTaxRule'
-//            ]
-//        ];
-//
-//        $expectedRuleData = [
-//            'id' => $taxRuleId,
-//            'code' => 'Test Rule Duplicate',
-//            'priority' => '0',
-//            'sort_order' => '0',
-//            'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
-//            'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
-//            'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates())),
-//            'calculate_subtotal' => false
-//        ];
-//        $requestData = ['ruleId' => $taxRuleId];
-//        $result = $this->_webApiCall($serviceInfo, $requestData);
-//        $this->assertEquals($expectedRuleData, $result);
-//    }
-//
+    public function testGetTaxRule()
+    {
+        $fixtureRule = $this->getFixtureTaxRules()[0];
+        $taxRuleId = $fixtureRule->getId();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . "/$taxRuleId",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetTaxRule'
+            ]
+        ];
+
+        $expectedRuleData = [
+            'id' => $taxRuleId,
+            'code' => 'Test Rule Duplicate',
+            'priority' => '0',
+            'position' => '0',
+            'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
+            'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
+            'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates())),
+            'calculate_subtotal' => false
+        ];
+        $requestData = ['ruleId' => $taxRuleId];
+        $result = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($expectedRuleData, $result);
+    }
 //    /**
 //     * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
 //     */
@@ -274,9 +300,9 @@ class TaxRuleServiceTest extends WebapiAbstract
 //                'id' => $fixtureRule->getId(),
 //                'code' => 'Test Rule',
 //                'priority' => 0,
-//                'sort_order' => 0,
+//                'position' => 0,
 //                'priority' => 0,
-//                'sort_order' => 0,
+//                'position' => 0,
 //                'calculate_subtotal' => 0,
 //                'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
 //                'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
@@ -299,7 +325,7 @@ class TaxRuleServiceTest extends WebapiAbstract
 //            ->create();
 //
 //        $sortFilter = $this->filterBuilder
-//            ->setField(TaxRule::SORT_ORDER)
+//            ->setField(TaxRule::position)
 //            ->setValue(0)
 //            ->create();
 //
@@ -331,7 +357,7 @@ class TaxRuleServiceTest extends WebapiAbstract
 //                'id' => $fixtureRule->getId(),
 //                'code' => 'Test Rule',
 //                'priority' => 0,
-//                'sort_order' => 0,
+//                'position' => 0,
 //                'calculate_subtotal' => 0,
 //                'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
 //                'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
@@ -341,7 +367,7 @@ class TaxRuleServiceTest extends WebapiAbstract
 //                'id' => $this->getFixtureTaxRules()[0]->getId(),
 //                'code' => 'Test Rule Duplicate',
 //                'priority' => 0,
-//                'sort_order' => 0,
+//                'position' => 0,
 //                'calculate_subtotal' => 0,
 //                'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
 //                'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
@@ -350,176 +376,147 @@ class TaxRuleServiceTest extends WebapiAbstract
 //        ];
 //        $this->assertEquals($expectedRuleData, $searchResults['items']);
 //    }
-//
-//    public function testGetTaxRuleNotExist()
-//    {
-//        $taxRuleId = 37865;
-//        $serviceInfo = [
-//            'rest' => [
-//                'resourcePath' => self::RESOURCE_PATH . "/$taxRuleId",
-//                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-//            ],
-//            'soap' => [
-//                'service' => self::SERVICE_NAME,
-//                'serviceVersion' => self::SERVICE_VERSION,
-//                'operation' => self::SERVICE_NAME . 'GetTaxRule'
-//            ]
-//        ];
-//        $requestData = ['ruleId' => $taxRuleId];
-//        try {
-//            $this->_webApiCall($serviceInfo, $requestData);
-//            $this->fail('Expected exception was not raised');
-//        } catch (\Exception $e) {
-//            $expectedMessage = 'No such entity with %fieldName = %fieldValue';
-//
-//            $this->assertContains(
-//                $expectedMessage,
-//                $e->getMessage(),
-//                "Exception does not contain expected message."
-//            );
-//        }
-//    }
-//
-//    /**
-//     * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
-//     */
-//    public function testUpdateTaxRule()
-//    {
-//        $fixtureRule = $this->getFixtureTaxRules()[0];
-//        $requestData = [
-//            'rule' => [
-//                'id' => $fixtureRule->getId(),
-//                'code' => 'Test Rule ' . microtime(),
-//                'sort_order' => 10,
-//                'priority' => 5,
-//                'customer_tax_class_ids' => [3],
-//                'product_tax_class_ids' => [2],
-//                'tax_rate_ids' => [1, 2],
-//                'calculate_subtotal' => 1
-//            ]
-//        ];
-//        $serviceInfo = [
-//            'rest' => [
-//                'resourcePath' => self::RESOURCE_PATH,
-//                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
-//            ],
-//            'soap' => [
-//                'service' => self::SERVICE_NAME,
-//                'serviceVersion' => self::SERVICE_VERSION,
-//                'operation' => self::SERVICE_NAME . 'UpdateTaxRule'
-//            ]
-//        ];
-//        $result = $this->_webApiCall($serviceInfo, $requestData);
-//        $this->assertTrue($result);
-//        $expectedRuleData = $requestData['rule'];
-//        /** Ensure that tax rule was actually updated in DB */
-//        /** @var \Magento\Tax\Model\Calculation $taxCalculation */
-//        $taxCalculation = Bootstrap::getObjectManager()->create('Magento\Tax\Model\Calculation');
-//        /** @var \Magento\Tax\Model\Calculation\Rule $taxRule */
-//        $taxRule = Bootstrap::getObjectManager()->create(
-//            'Magento\Tax\Model\Calculation\Rule',
-//            ['calculation' => $taxCalculation]
-//        );
-//        $taxRuleModel = $taxRule->load($fixtureRule->getId());
-//        $this->assertEquals($expectedRuleData['id'], $taxRuleModel->getId(), 'Tax rule was not updated in DB.');
-//        $this->assertEquals(
-//            $expectedRuleData['code'],
-//            $taxRuleModel->getCode(),
-//            'Tax rule code was updated incorrectly.'
-//        );
-//        $this->assertEquals(
-//            $expectedRuleData['sort_order'],
-//            $taxRuleModel->getPosition(),
-//            'Tax rule sort order was updated incorrectly.'
-//        );
-//        $this->assertEquals(
-//            $expectedRuleData['priority'],
-//            $taxRuleModel->getPriority(),
-//            'Tax rule priority was updated incorrectly.'
-//        );
-//        $this->assertEquals(
-//            $expectedRuleData['customer_tax_class_ids'],
-//            array_values(array_unique($taxRuleModel->getCustomerTaxClasses())),
-//            'Customer Tax classes were updated incorrectly'
-//        );
-//        $this->assertEquals(
-//            $expectedRuleData['product_tax_class_ids'],
-//            array_values(array_unique($taxRuleModel->getProductTaxClasses())),
-//            'Product Tax classes were updated incorrectly.'
-//        );
-//        $this->assertEquals(
-//            $expectedRuleData['tax_rate_ids'],
-//            array_values(array_unique($taxRuleModel->getRates())),
-//            'Tax rates were updated incorrectly.'
-//        );
-//    }
-//
-//    public function testUpdateTaxRuleNotExisting()
-//    {
-//        $requestData = [
-//            'rule' => [
-//                'id' => 12345,
-//                'code' => 'Test Rule ' . microtime(),
-//                'sort_order' => 10,
-//                'priority' => 5,
-//                'customer_tax_class_ids' => [3],
-//                'product_tax_class_ids' => [2],
-//                'tax_rate_ids' => [1, 2]
-//            ]
-//        ];
-//
-//        $serviceInfo = [
-//            'rest' => [
-//                'resourcePath' => self::RESOURCE_PATH,
-//                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
-//            ],
-//            'soap' => [
-//                'service' => self::SERVICE_NAME,
-//                'serviceVersion' => self::SERVICE_VERSION,
-//                'operation' => self::SERVICE_NAME . 'UpdateTaxRule'
-//            ]
-//        ];
-//        try {
-//            $this->_webApiCall($serviceInfo, $requestData);
-//            $this->fail('Expected exception was not raised');
-//        } catch (\Exception $e) {
-//            $expectedMessage = 'No such entity with %fieldName = %fieldValue';
-//
-//            $this->assertContains(
-//                $expectedMessage,
-//                $e->getMessage(),
-//                "Exception does not contain expected message."
-//            );
-//        }
-//    }
-//
-//    /**
-//     * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
-//     */
-//    public function testDeleteTaxRule()
-//    {
-//        $fixtureRule = $this->getFixtureTaxRules()[0];
-//        $taxRuleId = $fixtureRule->getId();
-//        $serviceInfo = [
-//            'rest' => [
-//                'resourcePath' => self::RESOURCE_PATH . "/$taxRuleId",
-//                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
-//            ],
-//            'soap' => [
-//                'service' => self::SERVICE_NAME,
-//                'serviceVersion' => self::SERVICE_VERSION,
-//                'operation' => self::SERVICE_NAME . 'DeleteTaxRule'
-//            ]
-//        ];
-//        $requestData = ['ruleId' => $taxRuleId];
-//        $result = $this->_webApiCall($serviceInfo, $requestData);
-//        $this->assertTrue($result);
-//        /** Ensure that tax rule was actually removed from DB */
-//        /** @var \Magento\Tax\Model\Calculation\Rule $taxRule */
-//        $taxRate = Bootstrap::getObjectManager()->create('Magento\Tax\Model\Calculation\Rate');
-//        $this->assertNull($taxRate->load($taxRuleId)->getId(), 'Tax rule was not deleted from DB.');
-//    }
-//
+
+    public function testGetTaxRuleNotExist()
+    {
+        $taxRuleId = 37865;
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . "/$taxRuleId",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Get'
+            ]
+        ];
+        $requestData = ['ruleId' => $taxRuleId];
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail('Expected exception was not raised');
+        } catch (\Exception $e) {
+            $expectedMessage = 'No such entity with %fieldName = %fieldValue';
+
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
+            );
+        }
+    }
+    /**
+     * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
+     */
+    public function testUpdateTaxRule()
+    {
+        $fixtureRule = $this->getFixtureTaxRules()[0];
+        $requestData = [
+            'rule' => [
+                'id' => $fixtureRule->getId(),
+                'code' => 'Test Rule ' . microtime(),
+                'position' => 10,
+                'priority' => 5,
+                'customer_tax_class_ids' => [3],
+                'product_tax_class_ids' => [2],
+                'tax_rate_ids' => [1, 2],
+                'calculate_subtotal' => 1
+            ]
+        ];
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Save'
+            ]
+        ];
+        $result = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue($result);
+        $expectedRuleData = $requestData['rule'];
+        /** Ensure that tax rule was actually updated in DB */
+        /** @var \Magento\Tax\Model\Calculation $taxCalculation */
+        $taxCalculation = Bootstrap::getObjectManager()->create('Magento\Tax\Model\Calculation');
+        /** @var \Magento\Tax\Model\Calculation\Rule $taxRule */
+        $taxRule = Bootstrap::getObjectManager()->create(
+            'Magento\Tax\Model\Calculation\Rule',
+            ['calculation' => $taxCalculation]
+        );
+        $taxRuleModel = $taxRule->load($fixtureRule->getId());
+        $this->assertEquals($expectedRuleData['id'], $taxRuleModel->getId(), 'Tax rule was not updated in DB.');
+        $this->assertEquals(
+            $expectedRuleData['code'],
+            $taxRuleModel->getCode(),
+            'Tax rule code was updated incorrectly.'
+        );
+        $this->assertEquals(
+            $expectedRuleData['position'],
+            $taxRuleModel->getPosition(),
+            'Tax rule sort order was updated incorrectly.'
+        );
+        $this->assertEquals(
+            $expectedRuleData['priority'],
+            $taxRuleModel->getPriority(),
+            'Tax rule priority was updated incorrectly.'
+        );
+        $this->assertEquals(
+            $expectedRuleData['customer_tax_class_ids'],
+            array_values(array_unique($taxRuleModel->getCustomerTaxClasses())),
+            'Customer Tax classes were updated incorrectly'
+        );
+        $this->assertEquals(
+            $expectedRuleData['product_tax_class_ids'],
+            array_values(array_unique($taxRuleModel->getProductTaxClasses())),
+            'Product Tax classes were updated incorrectly.'
+        );
+        $this->assertEquals(
+            $expectedRuleData['tax_rate_ids'],
+            array_values(array_unique($taxRuleModel->getRates())),
+            'Tax rates were updated incorrectly.'
+        );
+    }
+    public function testUpdateTaxRuleNotExisting()
+    {
+        $requestData = [
+            'rule' => [
+                'id' => 12345,
+                'code' => 'Test Rule ' . microtime(),
+                'position' => 10,
+                'priority' => 5,
+                'customer_tax_class_ids' => [3],
+                'product_tax_class_ids' => [2],
+                'tax_rate_ids' => [1, 2]
+            ]
+        ];
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Save'
+            ]
+        ];
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail('Expected exception was not raised');
+        } catch (\Exception $e) {
+            $expectedMessage = 'No such entity with %fieldName = %fieldValue';
+
+            $this->assertContains(
+                $expectedMessage,
+                $e->getMessage(),
+                "Exception does not contain expected message."
+            );
+        }
+    }
+
 //    /**
 //     * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
 //     */
