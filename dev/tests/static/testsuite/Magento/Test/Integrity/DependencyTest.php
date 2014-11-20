@@ -607,8 +607,8 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     /**
      * Converts a composer json component name into the Magento Module form
      * 
-     * @param $jsonName The name of a composer json component or dependency
-     * @return mixed|string The corresponding Magento Module e.g. 'Magento\Theme'
+     * @param string $jsonName The name of a composer json component or dependency e.g. 'magento/module-theme'
+     * @return string The corresponding Magento Module e.g. 'Magento\Theme'
      */
     protected static function convertModuleName($jsonName) {
         if(strpos($jsonName,'magento/module') !== false) {
