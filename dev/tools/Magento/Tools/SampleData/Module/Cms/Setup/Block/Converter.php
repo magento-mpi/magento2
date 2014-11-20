@@ -115,7 +115,7 @@ class Converter
      */
     protected function getMatches($content)
     {
-        $regexp = '/{{((?:category[^"]+))(?:url=(?:"([^"]*)")).?(?:attribute=(?:"([^"]*)"))?(?:}}+)/';
+        $regexp = '/{{((?:category|product[^"]+))(?:url|sku=(?:"([^"]*)")).?(?:attribute=(?:"([^"]*)"))?(?:}}+)/';
         preg_match_all($regexp, $content, $matches);
         return array('path' => $matches[2], 'attribute' => $matches[3], 'type' => $matches[1]);
     }
@@ -153,6 +153,14 @@ class Converter
                 case 'categoryId':
                     $replaceData['regexp'][] = '/{{categoryId url="' . $matchValue .'"}}/';
                     $replaceData['value'][] = sprintf('%03d', $category->getId());
+                    break;
+                case 'product':
+                    $replaceData['regexp'][] = '/{{product sku="' . $matchValue .'"}}/';
+                    $productItem = $category->getProductCollection()
+                        ->addAttributeToFilter('sku', $matchValue)
+                        ->addUrlRewrite($category->getId())
+                        ->getFirstItem();
+                    $replaceData['value'][] = $productItem->getProductUrl();
                     break;
             }
         }

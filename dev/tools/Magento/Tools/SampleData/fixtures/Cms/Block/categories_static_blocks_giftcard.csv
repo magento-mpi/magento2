@@ -1,7 +1,7 @@
 title,identifier,content
 Giftcard Block,giftcard-block,"<div class=""blocks-promo"">
     <div class=""block-promo-wrapper block-promo-2columns"">
-        <a href=""#"" class=""block-promo giftcard-mailed"">
+        <a href=""{{product sku=""243-MB04""}}"" class=""block-promo giftcard-mailed"">
             <span class=""content"">
                 <strong class=""title"">Give it away now</strong>
                 <span class=""info"">A gift card always beats a blind guess</span>
@@ -9,7 +9,7 @@ Giftcard Block,giftcard-block,"<div class=""blocks-promo"">
             </span>
             <span class=""image""><img src=""{{media url=""wysiwyg/giftcards/giftcard-mailed.jpg""}}"" alt="""" /></span>
         </a>
-        <a href=""#"" class=""block-promo giftcard-virtual"">
+        <a href=""{{product sku=""243-MB09""}}"" class=""block-promo giftcard-virtual"">
             <img src=""{{media url=""wysiwyg/giftcards/giftcard-virtual.png""}}"" alt="""" />
             <span class=""content"">
                 <strong class=""title"">Can't decide?</strong>
