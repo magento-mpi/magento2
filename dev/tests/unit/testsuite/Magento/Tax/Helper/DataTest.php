@@ -24,7 +24,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     private $orderTaxDetailsBuilder;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Tax\Service\V1\OrderTaxService */
-    private $orderTaxService;
+    private $orderTaxManagement;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Pricing\PriceCurrencyInterface */
     private $priceCurrency;
@@ -33,10 +33,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new ObjectManager($this);
 
-        $this->orderTaxService = $this->getMockBuilder('\Magento\Tax\Service\V1\OrderTaxService')
-            ->disableOriginalConstructor()
-            ->setMethods(['getOrderTaxDetails'])
-            ->getMock();
+        $this->orderTaxManagement = $this->getMock('\Magento\Tax\Api\OrderTaxManagementInterface');
 
         $this->priceCurrency = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
         $this->priceCurrency->expects($this->any())
@@ -50,7 +47,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->taxHelper = $objectManager->getObject(
             'Magento\Tax\Helper\Data',
             [
-                'orderTaxService' => $this->orderTaxService,
+                'orderTaxManagement' => $this->orderTaxManagement,
                 'priceCurrency' => $this->priceCurrency,
             ]
         );
@@ -66,7 +63,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCalculatedTaxesOrder($source, $orderTaxDetails, $expectedResults)
     {
-        $this->orderTaxService->expects($this->any())
+        $this->orderTaxManagement->expects($this->any())
             ->method('getOrderTaxDetails')
             ->will($this->returnValue($orderTaxDetails));
 
@@ -178,7 +175,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $orderTaxDetails,
         $expectedResults
     ) {
-        $this->orderTaxService->expects($this->once())
+        $this->orderTaxManagement->expects($this->once())
             ->method('getOrderTaxDetails')
             ->with($source->getId())
             ->will($this->returnValue($orderTaxDetails));

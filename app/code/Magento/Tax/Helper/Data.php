@@ -175,7 +175,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
      * @param \Magento\Catalog\Helper\Data $catalogHelper
-     * @param OrderTaxManagementInterface $orderTaxService
+     * @param OrderTaxManagementInterface $orderTaxManagement
      * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
@@ -197,7 +197,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
         \Magento\Catalog\Helper\Data $catalogHelper,
-        OrderTaxManagementInterface $orderTaxService,
+        OrderTaxManagementInterface $orderTaxManagement,
         PriceCurrencyInterface $priceCurrency
     ) {
         parent::__construct($context);
@@ -219,7 +219,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->customerSession = $customerSession;
         $this->addressConverter = $addressConverter;
         $this->catalogHelper = $catalogHelper;
-        $this->orderTaxManagement = $orderTaxService;
+        $this->orderTaxManagement = $orderTaxManagement;
     }
 
     /**
