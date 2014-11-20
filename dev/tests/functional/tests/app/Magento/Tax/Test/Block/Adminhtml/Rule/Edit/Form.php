@@ -76,7 +76,7 @@ class Form extends FormInterface
     protected $optionMaskElement = './/*[contains(@class, "mselect-list-item")]//label/span[text()="%s"]';
 
     /**
-     * XPath selector for "Add New Tax Rate" button.
+     * CSS selector for "Add New Tax Rate" button.
      *
      * @var string
      */

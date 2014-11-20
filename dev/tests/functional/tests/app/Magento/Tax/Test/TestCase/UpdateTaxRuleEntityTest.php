@@ -11,7 +11,6 @@ namespace Magento\Tax\Test\TestCase;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
-use Mtf\TestStep\TestStepFactory;
 use Magento\Tax\Test\Fixture\TaxRule;
 use Magento\Tax\Test\Page\Adminhtml\TaxRuleNew;
 use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
@@ -56,7 +55,7 @@ class UpdateTaxRuleEntityTest extends Injectable
      * @param FixtureFactory $fixtureFactory
      * @return array
      */
-    public function __prepare(FixtureFactory $fixtureFactory, TestStepFactory $testStepFactory)
+    public function __prepare(FixtureFactory $fixtureFactory)
     {
         $customer = $fixtureFactory->createByCode('customerInjectable', ['dataSet' => 'johndoe_retailer']);
         $customer->persist();
