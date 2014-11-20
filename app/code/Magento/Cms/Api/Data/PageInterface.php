@@ -10,7 +10,6 @@ namespace Magento\Cms\Api\Data;
 /**
  * Interface Page
  * @package Magento\Cms\Api\Data
- * @data-api
  */
 interface PageInterface
 {

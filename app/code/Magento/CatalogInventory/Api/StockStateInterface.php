@@ -10,7 +10,6 @@ namespace Magento\CatalogInventory\Api;
 /**
  * Interface StockStateInterface
  * @package Magento\CatalogInventory\Api
- * @api
  */
 interface StockStateInterface
 {
@@ -30,9 +29,9 @@ interface StockStateInterface
 
     /**
      * @param int $productId
-     * @param int|float $itemQty
-     * @param int|float $qtyToCheck
-     * @param int|float $origQty
+     * @param float $itemQty
+     * @param float $qtyToCheck
+     * @param float $origQty
      * @param int $websiteId
      * @return int
      */
@@ -42,7 +41,7 @@ interface StockStateInterface
      * Check quantity
      *
      * @param int $productId
-     * @param int|float $qty
+     * @param float $qty
      * @param int $websiteId
      * @exception \Magento\Framework\Model\Exception
      * @return bool
@@ -51,7 +50,7 @@ interface StockStateInterface
 
     /**
      * @param int $productId
-     * @param int|float $qty
+     * @param float $qty
      * @param int $websiteId
      * @return \Magento\Framework\Object
      */
@@ -62,9 +61,9 @@ interface StockStateInterface
      * or original qty if such value does not exist
      *
      * @param int $productId
-     * @param int|float $qty
+     * @param float $qty
      * @param int $websiteId
-     * @return int|float
+     * @return float
      */
     public function suggestQty($productId, $qty, $websiteId = null);
 

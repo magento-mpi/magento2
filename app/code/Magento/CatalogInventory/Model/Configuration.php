@@ -16,8 +16,6 @@ use Magento\Framework\StoreManagerInterface;
 /**
  * Class Configuration
  * @package Magento\CatalogInventory\Model
- * @api
- * @spi
  */
 class Configuration implements StockConfigurationInterface
 {
@@ -149,9 +147,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * Retrieve Default Website ID
-     *
-     * @return int
+     * @inheritdoc
      */
     public function getDefaultWebsiteId()
     {
@@ -159,8 +155,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * @param int|null $filter
-     * @return array
+     * @inheritdoc
      */
     public function getIsQtyTypeIds($filter = null)
     {
@@ -182,8 +177,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * @param int $productTypeId
-     * @return bool
+     * @inheritdoc
      */
     public function isQty($productTypeId)
     {
@@ -192,10 +186,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * Check if is possible subtract value from item qty
-     *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return bool
+     * @inheritdoc
      */
     public function canSubtractQty($store = null)
     {
@@ -207,8 +198,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return float
+     * @inheritdoc
      */
     public function getMinQty($store = null)
     {
@@ -220,9 +210,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @param int $customerGroupId
-     * @return float
+     * @inheritdoc
      */
     public function getMinSaleQty($store = null, $customerGroupId = null)
     {
@@ -230,8 +218,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return float|null
+     * @inheritdoc
      */
     public function getMaxSaleQty($store = null)
     {
@@ -243,8 +230,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return float
+     * @inheritdoc
      */
     public function getNotifyStockQty($store = null)
     {
@@ -256,10 +242,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * Retrieve whether Quantity Increments is enabled
-     *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return bool
+     * @inheritdoc
      */
     public function getEnableQtyIncrements($store = null)
     {
@@ -271,8 +254,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return int
+     * @inheritdoc
      */
     public function getQtyIncrements($store = null)
     {
@@ -284,10 +266,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * Retrieve backorders status
-     *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return int
+     * @inheritdoc
      */
     public function getBackorders($store = null)
     {
@@ -299,10 +278,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * Retrieve Manage Stock data wrapper
-     *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return int
+     * @inheritdoc
      */
     public function getManageStock($store = null)
     {
@@ -314,10 +290,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * Retrieve can Back in stock
-     *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return bool
+     * @inheritdoc
      */
     public function getCanBackInStock($store = null)
     {
@@ -329,10 +302,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * Display out of stock products option
-     *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return bool
+     * @inheritdoc
      */
     public function isShowOutOfStock($store = null)
     {
@@ -344,10 +314,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * Check if credit memo items auto return option is enabled
-     *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return bool
+     * @inheritdoc
      */
     public function isAutoReturnEnabled($store = null)
     {
@@ -359,11 +326,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * Get 'Display product stock status' option value
-     * Shows if it is necessary to show product stock status ('in stock'/'out of stock')
-     *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return bool
+     * @inheritdoc
      */
     public function isDisplayProductStockStatus($store = null)
     {
@@ -375,9 +338,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * @param string $field
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return string|null
+     * @inheritdoc
      */
     public function getDefaultConfigValue($field, $store = null)
     {
@@ -389,9 +350,7 @@ class Configuration implements StockConfigurationInterface
     }
 
     /**
-     * Retrieve inventory item options (used in config)
-     *
-     * @return string[]
+     * @inheritdoc
      */
     public function getConfigItemOptions()
     {

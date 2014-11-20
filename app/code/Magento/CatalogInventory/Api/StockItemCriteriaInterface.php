@@ -31,7 +31,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
     /**
      * Add stock filter to collection
      *
-     * @param \Magento\CatalogInventory\Api\Data\StockInterface|string|array $stock
+     * @param \Magento\CatalogInventory\Api\Data\StockInterface $stock
      * @return void
      */
     public function setStockFilter($stock);
@@ -39,7 +39,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
     /**
      * Add website filter to collection
      *
-     * @param array|int|object $website
+     * @param int $website
      * @return void
      */
     public function setWebsiteFilter($website);
@@ -47,7 +47,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
     /**
      * Add product filter to collection
      *
-     * @param array|int|object $products
+     * @param int $products
      * @return void
      */
     public function setProductsFilter($products);

@@ -1131,7 +1131,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         foreach ($this->getAllItems() as $item) {
             $stockItemDo = $this->stockRegistry->getStockItem($item->getProduct()->getId(), $item->getStore()->getWebsiteId());
-            if ($stockItemDo->getId() && $stockItemDo->getIsQtyDecimal()) {
+            if ($stockItemDo->getItemId() && $stockItemDo->getIsQtyDecimal()) {
                 return true;
             }
         }

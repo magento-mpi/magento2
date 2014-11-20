@@ -11,13 +11,12 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Interface StockItem
- * @data-api
  */
 interface StockItemInterface extends ExtensibleDataInterface
 {
     const BACKORDERS_NO = 0;
 
-    const ID = 'item_id';
+    const ITEM_ID = 'item_id';
     const PRODUCT_ID = 'product_id';
     const WEBSITE_ID = 'website_id';
     const STOCK_ID = 'stock_id';
@@ -60,7 +59,7 @@ interface StockItemInterface extends ExtensibleDataInterface
     /**
      * @return int|null
      */
-    public function getId();
+    public function getItemId();
 
     /**
      * @return int
@@ -102,8 +101,6 @@ interface StockItemInterface extends ExtensibleDataInterface
      * @return bool
      */
     public function getShowDefaultNotificationMessage();
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * @return bool
@@ -176,7 +173,6 @@ interface StockItemInterface extends ExtensibleDataInterface
      * @return float|false
      */
     public function getQtyIncrements();
-
 
     /**
      * @return bool

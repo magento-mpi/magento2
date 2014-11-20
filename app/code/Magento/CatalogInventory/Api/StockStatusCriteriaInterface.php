@@ -23,7 +23,7 @@ interface StockStatusCriteriaInterface extends \Magento\Framework\Api\CriteriaIn
     /**
      * Filter by website(s)
      *
-     * @param int|object $website
+     * @param int $website
      * @return void
      */
     public function setWebsiteFilter($website);
@@ -31,7 +31,7 @@ interface StockStatusCriteriaInterface extends \Magento\Framework\Api\CriteriaIn
     /**
      * Add product(s) filter
      *
-     * @param array|int|object $products
+     * @param int $products
      * @return void
      */
     public function setProductsFilter($products);

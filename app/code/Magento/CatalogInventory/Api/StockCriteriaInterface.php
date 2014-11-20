@@ -23,7 +23,7 @@ interface StockCriteriaInterface extends \Magento\Framework\Api\CriteriaInterfac
     /**
      * Add website filter to collection
      *
-     * @param array|int|object $website
+     * @param int $website
      * @return void
      */
     public function setWebsiteFilter($website);

@@ -14,7 +14,6 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Class PageRepository
- * @api
  */
 class PageRepository implements PageRepositoryInterface
 {

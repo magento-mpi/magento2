@@ -15,7 +15,6 @@ use Magento\CatalogInventory\Model\Spi\StockRegistryProviderInterface;
 /**
  * Interface StockState
  * @package Magento\CatalogInventory\Model
- * @api
  */
 class StockState implements StockStateInterface
 {
@@ -81,7 +80,7 @@ class StockState implements StockStateInterface
      * Check quantity
      *
      * @param int $productId
-     * @param int|float $qty
+     * @param float $qty
      * @param int $websiteId
      * @exception \Magento\Framework\Model\Exception
      * @return bool
@@ -100,9 +99,9 @@ class StockState implements StockStateInterface
      * or original qty if such value does not exist
      *
      * @param int $productId
-     * @param int|float $qty
+     * @param float $qty
      * @param int $websiteId
-     * @return int|float
+     * @return float
      */
     public function suggestQty($productId, $qty, $websiteId = null)
     {
@@ -131,7 +130,7 @@ class StockState implements StockStateInterface
 
     /**
      * @param int $productId
-     * @param int|float $qty
+     * @param float $qty
      * @param int $websiteId
      * @return \Magento\Framework\Object
      */
@@ -146,9 +145,9 @@ class StockState implements StockStateInterface
 
     /**
      * @param int $productId
-     * @param int|float $itemQty
-     * @param int|float $qtyToCheck
-     * @param int|float $origQty
+     * @param float $itemQty
+     * @param float $qtyToCheck
+     * @param float $origQty
      * @param int $websiteId
      * @return \Magento\Framework\Object
      */

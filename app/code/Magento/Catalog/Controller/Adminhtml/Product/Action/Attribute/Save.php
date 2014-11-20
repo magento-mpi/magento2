@@ -163,9 +163,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attribut
                         $inventoryData[] = $productId;
                     }
 
-                    $stockItemId = $stockItemDo->getId();
                     $stockItemToSave = $this->stockItemBuilder->mergeDataObjectWithArray($stockItemDo, $inventoryData);
-                    $stockItemToSave->setItemId($stockItemId);
                     $stockItemRepository->save($stockItemToSave);
                 }
                 $this->_stockIndexerProcessor->reindexList($this->attributeHelper->getProductIds());
