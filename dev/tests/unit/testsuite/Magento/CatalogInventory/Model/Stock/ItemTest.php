@@ -25,6 +25,11 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     protected $item;
 
     /**
+     * @var \Magento\Framework\Event\Manager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $eventManager;
+
+    /**
      * @var \Magento\Framework\Model\Context|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $context;
@@ -152,24 +157,6 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->item, $this->item->save());
     }
 
-    public function testBeforeSave()
-    {
-        $this->item->setData('key', 'value');
-
-        $this->eventManager->expects($this->at(0))
-            ->method('dispatch')
-            ->with('model_save_before', ['object' => $this->item]);
-        $this->eventManager->expects($this->at(1))
-            ->method('dispatch')
-            ->with('cataloginventory_stock_item_save_before', ['data_object' => $this->item, 'item' => $this->item]);
-
-        $this->stockItemService->expects($this->any())
-            ->method('isQty')
-            ->will($this->returnValue(true));
-
-        $this->assertEquals($this->item, $this->item->beforeSave());
-    }
-    
     /**
      * @param string $key
      * @param string|float|int $value

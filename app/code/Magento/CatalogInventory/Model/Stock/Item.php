@@ -475,46 +475,6 @@ class Item extends AbstractExtensibleModel implements StockItemInterface
     }
 
     /**
-     * Before save prepare process
-     *
-     * @return $this
-     */
-    public function beforeSave()
-    {
-        parent::beforeSave();
-        /** @var \Magento\Catalog\Model\Product $product */
-        $product = $this->productFactory->create();
-        $product->load($this->getProductId());
-        $typeId = $product->getTypeId() ? $product->getTypeId() : $this->getTypeId();
-
-        $isQty = $this->stockItemService->isQty($typeId);
-
-        if ($isQty) {
-            if ($this->getManageStock() && !$this->verifyStock()) {
-                $this->setIsInStock(false)->setStockStatusChangedAutomaticallyFlag(true);
-            }
-
-            // if qty is below notify qty, update the low stock date to today date otherwise set null
-            $this->setLowStockDate(null);
-            if ($this->verifyNotification()) {
-                $this->setLowStockDate(
-                    $this->_localeDate->date(null, null, null, false)
-                        ->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
-                );
-            }
-
-            $this->setStockStatusChangedAuto(0);
-            if ($this->hasStockStatusChangedAutomaticallyFlag()) {
-                $this->setStockStatusChangedAuto((int) $this->getStockStatusChangedAutomaticallyFlag());
-            }
-        } else {
-            $this->setQty(0);
-        }
-
-        return $this;
-    }
-    
-    /**
      * Save object data
      *
      * @return $this
@@ -523,21 +483,6 @@ class Item extends AbstractExtensibleModel implements StockItemInterface
     public function save()
     {
         $this->stockItemRepository->save($this);
-        return $this;
-    }
-
-    /**
-     * Reindex CatalogInventory save event
-     *
-     * @return $this
-     */
-    public function afterSave()
-    {
-        parent::afterSave();
-
-        if ($this->_processIndexEvents) {
-            $this->_stockIndexerProcessor->reindexRow($this->getProductId());
-        }
         return $this;
     }
 
