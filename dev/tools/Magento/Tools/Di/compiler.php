@@ -40,6 +40,7 @@ try {
 
     $generationDir = $opt->getOption('generation') ? $opt->getOption('generation') : $rootDir . '/var/generation';
     $diDir = $opt->getOption('di') ? $opt->getOption('di') : $rootDir . '/var/di';
+    $compiledFile = $diDir . '/definitions.php';
     $relationsFile = $diDir . '/relations.php';
     $pluginDefFile = $diDir . '/plugins.php';
 
@@ -73,7 +74,6 @@ try {
     $scanner->addChild(new Scanner\ArrayScanner(), 'additional');
     $entities = $scanner->collectEntities($files);
 
-    $files['di'] = isset($files['di']) && is_array($files['di']) ? $files['di'] : array();
     $interceptorScanner = new Scanner\XmlInterceptorScanner();
     $entities['interceptors'] = $interceptorScanner->collectEntities($files['di']);
 
@@ -159,6 +159,7 @@ try {
     //2.1.2 Compile definitions for Proxy/Interceptor classes
     $directoryCompiler->compile($generationDir, false);
 
+    list($definitions, $relations) = $directoryCompiler->getResult();
 
     // 2. Compilation
     // 2.1 Code scan
@@ -184,35 +185,30 @@ try {
             $pluginDefinitions[$entity] = $pluginDefinitionList->getMethodList($entity);
         }
     }
+    $relations = array_filter($relations);
 
-    $compressor = new Compressor($serializer);
-    foreach ($definitions as $scope => $data) {
-        $output = $compressor->compress($data);
-        file_put_contents($diDir . '/' . $scope . '_definitions.php', $output);
+    file_put_contents($compiledFile, $output);
+    file_put_contents($relationsFile, $serializer->serialize($relations));
+
+    // 3. Plugin Definition Compilation
+    $pluginScanner = new Scanner\CompositeScanner();
+    $pluginScanner->addChild(new Scanner\PluginScanner(), 'di');
+    $pluginDefinitions = array();
+    $pluginList = $pluginScanner->collectEntities($files);
+    $pluginDefinitionList = new \Magento\Framework\Interception\Definition\Runtime();
+    foreach ($pluginList as $type => $entityList) {
+        foreach ($entityList as $entity) {
+            $pluginDefinitions[$entity] = $pluginDefinitionList->getMethodList($entity);
+        }
     }
 
-    //$relations = array_filter($relations);
-    //file_put_contents($relationsFile, $serializer->serialize($relations));
+    $output = $serializer->serialize($pluginDefinitions);
 
-//    // 3. Plugin Definition Compilation
-//    $pluginScanner = new Scanner\CompositeScanner();
-//    $pluginScanner->addChild(new Scanner\PluginScanner(), 'di');
-//    $pluginDefinitions = array();
-//    $pluginList = $pluginScanner->collectEntities($files);
-//    $pluginDefinitionList = new \Magento\Framework\Interception\Definition\Runtime();
-//    foreach ($pluginList as $type => $entityList) {
-//        foreach ($entityList as $entity) {
-//            $pluginDefinitions[$entity] = $pluginDefinitionList->getMethodList($entity);
-//        }
-//    }
-//
-//    $output = $serializer->serialize($pluginDefinitions);
-//
-//    if (!file_exists(dirname($pluginDefFile))) {
-//        mkdir(dirname($pluginDefFile), 0777, true);
-//    }
-//
-//    file_put_contents($pluginDefFile, $output);
+    if (!file_exists(dirname($pluginDefFile))) {
+        mkdir(dirname($pluginDefFile), 0777, true);
+    }
+
+    file_put_contents($pluginDefFile, $output);
 
     //Reporter
     $log->report();

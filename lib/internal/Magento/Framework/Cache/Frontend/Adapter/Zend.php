@@ -20,7 +20,7 @@ class Zend implements \Magento\Framework\Cache\FrontendInterface
     /**
      * @param \Zend_Cache_Core $frontend
      */
-    public function __construct($frontend)
+    public function __construct(\Zend_Cache_Core $frontend)
     {
         $this->_frontend = $frontend;
     }
