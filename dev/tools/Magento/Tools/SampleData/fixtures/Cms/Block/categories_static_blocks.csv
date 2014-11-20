@@ -355,7 +355,7 @@ Gear Block,gear-block,"<div class=""blocks-promo"">
 {{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_per_page=""4"" products_count=""4"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:35:`24-MB02, 24-WB04, 24-UG06, 24-WG080`;]]""}}
 "
 Sale Block,sale-block,"<div class=""blocks-promo"">
-    <a class=""block-promo sale-main"">
+    <a href=""{{category key=""women-sale""}}"" class=""block-promo sale-main"">
         <img src=""{{media url=""wysiwyg/sale/sale-main.jpg""}}"" alt="""" />
         <span class=""content"">
             <span class=""info"">Women’s Deals</span>
@@ -363,7 +363,7 @@ Sale Block,sale-block,"<div class=""blocks-promo"">
             <span class=""more button"">Shop Women’s Deals</span>
         </span>
     </a>
-    <div class=""block-promo-wrapper block-promo-2columns"">
+        <a href=""{{category key=""men-sale""}}"" class=""block-promo sale-mens"">
         <a class=""block-promo sale-mens"">
             <img src=""{{media url=""wysiwyg/sale/sale-mens.jpg""}}"" alt="""" />
             <span class=""content"">
@@ -382,14 +382,14 @@ Sale Block,sale-block,"<div class=""blocks-promo"">
         </a>
     </div>
     <div class=""block-promo-wrapper block-promo-3columns"">
-        <a href=""#"" class=""block-promo sale-20-off"">
+        <a class=""block-promo sale-20-off"">
             <span class=""content"">
                 <strong class=""title"">20% OFF</strong>
                 <span class=""info"">Every $200-plus purchase!</span>
             </span>
             <span class=""image""><img src=""{{media url=""wysiwyg/sale/sale-20-off.png""}}"" alt="""" /></span>
         </a>
-        <a href=""#"" class=""block-promo sale-free-shipping"">
+        <a class=""block-promo sale-free-shipping"">
             <span class=""content"">
                 <strong class=""title"">Spend $50 or more&nbsp;&mdash; shipping is free!</strong>
                 <img src=""{{media url=""wysiwyg/sale/sale-free-shipping.png""}}"" alt="""" />
