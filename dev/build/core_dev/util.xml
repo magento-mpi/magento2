@@ -53,7 +53,7 @@
         </exec>
     </target>
 
-    <target name="_product_edition_files_no_internal" depends="_product_location"
+    <target name="_product_edition_files_no_internal" depends="_product_location,_composer_install"
             description="Removal of files, which do not belong to a product edition, including internal files">
         <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
         <exec executable="php" failonerror="true">
