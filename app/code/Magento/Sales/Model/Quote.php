@@ -315,12 +315,12 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $extensibleDataObjectConverter;
 
     /**
-     * @var \Magento\Customer\Api\Data\AddressInterfaceBuilder
+     * @var \Magento\Customer\Api\Data\AddressDataBuilder
      */
     protected $addressBuilder;
 
     /**
-     * @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     protected $customerBuilder;
 
@@ -356,8 +356,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
-     * @param \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder
-     * @param \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -391,8 +391,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder,
-        \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
@@ -727,8 +727,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     public function setCustomerAddressData(array $addresses)
     {
         foreach ($addresses as $address) {
-            $this->addressRepository->delete($address);
-            $this->addCustomerAddress($address);
+            if (!$address->getId()) {
+                $this->addCustomerAddress($address);
+            }
         }
 
         return $this;

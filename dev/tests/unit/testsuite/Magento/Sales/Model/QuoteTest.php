@@ -119,12 +119,12 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     protected $filterBuilderMock;
 
     /**
-     * @var \Magento\Customer\Api\Data\AddressInterfaceBuilder | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\Data\AddressDataBuilder | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $addressBuilderMock;
 
     /**
-     * @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerBuilderMock;
 
@@ -234,12 +234,12 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->addressBuilderMock = $this->getMockBuilder('Magento\Customer\Api\Data\AddressInterfaceBuilder')
+        $this->addressBuilderMock = $this->getMockBuilder('Magento\Customer\Api\Data\AddressDataBuilder')
             ->disableOriginalConstructor()
             ->setMethods(['mergeDataObjectWithArray', 'create'])
             ->getMock();
 
-        $this->customerBuilderMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterfaceBuilder')
+        $this->customerBuilderMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerDataBuilder')
             ->disableOriginalConstructor()
             ->getMock();
 

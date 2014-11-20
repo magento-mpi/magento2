@@ -17,7 +17,7 @@ class QuoteTest  extends \PHPUnit_Framework_TestCase
      */
     protected $quote;
     /**
-     * @var \Magento\Customer\Api\Data\AddressInterfaceBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\Data\AddressDataBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $addressBuilderMock;
     /**
@@ -25,7 +25,7 @@ class QuoteTest  extends \PHPUnit_Framework_TestCase
      */
     protected $copyObjectMock;
     /**
-     * @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerBuilderMock;
     /**
@@ -48,7 +48,7 @@ class QuoteTest  extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->addressBuilderMock = $this->getMock(
-            'Magento\Customer\Api\Data\AddressInterfaceBuilder',
+            'Magento\Customer\Api\Data\AddressDataBuilder',
             ['populateWithArray', 'create'],
             [],
             '',
@@ -62,7 +62,7 @@ class QuoteTest  extends \PHPUnit_Framework_TestCase
             false
         );
         $this->customerBuilderMock = $this->getMock(
-            'Magento\Customer\Api\Data\CustomerInterfaceBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             [
                 'populateWithArray', 'setEmail', 'setPrefix', 'setFirstname', 'setMiddlename',
                 'setLastname', 'setSuffix', 'create'

@@ -25,7 +25,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Metadata\FormFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $formFactoryMock;
 
-    /** @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerBuilderMock;
 
     /** @var \Magento\Sales\Model\Quote\Item\Updater|\PHPUnit_Framework_MockObject_MockObject */
@@ -50,7 +50,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     protected $addressRepositoryMock;
 
     /**
-     * @var \Magento\Customer\Api\Data\AddressInterfaceBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\Data\AddressDataBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $addressBuilderMock;
 
@@ -97,7 +97,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->customerBuilderMock = $this->getMock(
-            'Magento\Customer\Api\Data\CustomerInterfaceBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             ['mergeDataObjectWithArray', 'populateWithArray', 'create'],
             [],
             '',
@@ -136,7 +136,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->addressBuilderMock = $this->getMock(
-            'Magento\Customer\Api\Data\AddressInterfaceBuilder',
+            'Magento\Customer\Api\Data\AddressDataBuilder',
             [],
             [],
             '',

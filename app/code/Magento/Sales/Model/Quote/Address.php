@@ -224,7 +224,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_addressTotalFactory;
 
     /**
-     * @var \Magento\Customer\Api\AddressRepositoryInterface
+     * @var \Magento\Customer\Api\Data\AddressInterfaceDataBuilder
      */
     protected $addressBuilder;
 
@@ -257,7 +257,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param Address\TotalFactory $addressTotalFactory
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param Address\CarrierFactoryInterface $carrierFactory
-     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressBuilder
+     * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
      * @param Address\Validator $validator
      * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -283,7 +283,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Sales\Model\Quote\Address\TotalFactory $addressTotalFactory,
         \Magento\Framework\Object\Copy $objectCopyService,
         \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory,
-        \Magento\Customer\Api\AddressRepositoryInterface $addressBuilder,
+        \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder,
         Address\Validator $validator,
         \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

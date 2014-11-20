@@ -91,13 +91,13 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->addressBuilderFactoryMock = $this->getMockBuilder(
-            '\Magento\Customer\Api\Data\AddressInterfaceBuilderFactory'
+            '\Magento\Customer\Api\Data\AddressDataBuilderFactory'
         )
             ->setMethods(['create', 'populate'])
             ->disableOriginalConstructor()
             ->getMock();
         $this->customerBuilderMock =  $this->getMock(
-            'Magento\Customer\Api\Data\CustomerInterfaceBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             [
                 'populateWithArray', 'setEmail', 'create', 'setPrefix', 'setFirstname', 'setMiddlename',
                 'setLastname', 'setSuffix'
