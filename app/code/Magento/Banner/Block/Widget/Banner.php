@@ -324,7 +324,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
                         }
                     }
                     if ($bannersSequence === null) {
-                        $bannersSequence = $this->_session->_getData($this->getUniqueId());
+                        $bannersSequence = $this->_session->getData($this->getUniqueId());
                     }
 
                     // Check that we have suggested banner to render
