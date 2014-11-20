@@ -9,7 +9,10 @@
 
 namespace Magento\Customer\Model;
 
+use Magento\Customer\Api\Data\GroupInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Data\CollectionBuilder\FilterBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Customer\Api\GroupRepositoryInterface;
@@ -52,24 +55,40 @@ class GroupManagement implements \Magento\Customer\Api\GroupManagementInterface
     protected $groupBuilder;
 
     /**
+     * @var SearchCriteriaBuilder
+     */
+    protected $searchCriteriaBuilder;
+
+    /**
+     * @var FilterBuilder
+     */
+    protected $filterBuilder;
+
+    /**
      * @param StoreManagerInterface $storeManager
      * @param ScopeConfigInterface $scopeConfig
      * @param GroupFactory $groupFactory
      * @param GroupRepositoryInterface $groupRepository
      * @param GroupDataBuilder $groupBuilder
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param FilterBuilder $filterBuilder
      */
     public function __construct(
         StoreManagerInterface $storeManager,
         ScopeConfigInterface $scopeConfig,
         GroupFactory $groupFactory,
         GroupRepositoryInterface $groupRepository,
-        GroupDataBuilder $groupBuilder
+        GroupDataBuilder $groupBuilder,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        FilterBuilder $filterBuilder
     ) {
         $this->storeManager = $storeManager;
         $this->scopeConfig = $scopeConfig;
         $this->groupFactory = $groupFactory;
         $this->groupRepository = $groupRepository;
         $this->groupBuilder = $groupBuilder;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
     }
 
     /**
@@ -113,7 +132,7 @@ class GroupManagement implements \Magento\Customer\Api\GroupManagementInterface
     /**
      * {@inheritdoc}
      */
-    public function getNotLoggedInGroup($storeId = null)
+    public function getNotLoggedInGroup()
     {
         return $this->groupRepository->getById(self::NOT_LOGGED_IN_ID);
     }
@@ -121,7 +140,23 @@ class GroupManagement implements \Magento\Customer\Api\GroupManagementInterface
     /**
      * {@inheritdoc}
      */
-    public function getAllCustomersGroup($storeId = null)
+    public function getLoggedInGroups()
+    {
+        $filters[] = $this->filterBuilder
+            ->setField(GroupInterface::ID)
+            ->setConditionType('neq')
+            ->setValue(self::NOT_LOGGED_IN_ID)
+            ->create();
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter($filters)
+            ->create();
+        return $this->groupRepository->getList($searchCriteria)->getItems();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAllCustomersGroup()
     {
         return $this->groupBuilder->setId(self::CUST_GROUP_ALL)
             ->create();
