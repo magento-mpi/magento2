@@ -62,6 +62,11 @@ class Category implements SetupInterface
     protected $categoryTree;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
      * @param \Magento\Catalog\Service\V1\Category\WriteServiceInterface $writeService
      * @param \Magento\Catalog\Service\V1\Data\CategoryBuilder $categoryDataBuilder
      * @param \Magento\Catalog\Service\V1\Data\Category\TreeFactory $categoryTreeFactory
@@ -69,6 +74,7 @@ class Category implements SetupInterface
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param FixtureHelper $fixtureHelper
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param CsvReaderFactory $csvReaderFactory
      */
     public function __construct(
@@ -79,6 +85,7 @@ class Category implements SetupInterface
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         FixtureHelper $fixtureHelper,
+        \Magento\Tools\SampleData\Logger $logger,
         CsvReaderFactory $csvReaderFactory
     ) {
         $this->writeService = $writeService;
@@ -89,6 +96,7 @@ class Category implements SetupInterface
         $this->moduleList = $moduleList;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -96,7 +104,7 @@ class Category implements SetupInterface
      */
     public function run()
     {
-        echo "Installing categories\n";
+        $this->logger->log('Installing categories' . PHP_EOL);
 
         foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
             $fileName = substr($moduleName, strpos($moduleName, "_") + 1) . '/categories.csv';
@@ -122,11 +130,10 @@ class Category implements SetupInterface
                     $categoryId = $this->writeService->create($categoryData);
                     $this->setAdditionalData($row, $categoryId);
                 }
-                echo '.';
+                $this->logger->log('.');
             }
         }
-
-        echo "\n";
+        $this->logger->log(PHP_EOL);
     }
 
     /**

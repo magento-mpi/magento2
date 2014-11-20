@@ -7,6 +7,7 @@
  */
 namespace Magento\Setup\Controller;
 
+use Magento\Setup\Model\SampleData;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Magento\Locale\Lists;
@@ -24,15 +25,23 @@ class CustomizeYourStoreController extends AbstractActionController
     protected $list;
 
     /**
+     * @var SampleData
+     */
+    protected $sampleData;
+
+    /**
      * @param ViewModel $view
-     * @param \Magento\Locale\Lists $list
+     * @param Lists $list
+     * @param SampleData $sampleData
      */
     public function __construct(
         ViewModel $view,
-        Lists $list
+        Lists $list,
+        SampleData $sampleData
     ) {
         $this->view = $view;
         $this->list = $list;
+        $this->sampleData = $sampleData;
     }
 
     /**
@@ -43,7 +52,8 @@ class CustomizeYourStoreController extends AbstractActionController
         $this->view->setVariables([
             'timezone' => $this->list->getTimezoneList(),
             'currency' => $this->list->getCurrencyList(),
-            'language' => $this->list->getLocaleList()
+            'language' => $this->list->getLocaleList(),
+            'isSampledataEnabled' => $this->sampleData->isDeployed()
         ]);
 
         $this->view->setTerminal(true);

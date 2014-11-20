@@ -53,6 +53,11 @@ class CmsBlock implements SetupInterface
     protected $cmsBlockCollection;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
@@ -68,6 +73,7 @@ class CmsBlock implements SetupInterface
         \Magento\Core\Model\Resource\Theme\Collection $themeCollection,
         \Magento\Cms\Model\Resource\Block\Collection $cmsBlockCollection,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory,
+        \Magento\Tools\SampleData\Logger $logger,
         $fixtures = array()
     ) {
         $this->fixtureHelper = $fixtureHelper;
@@ -80,6 +86,7 @@ class CmsBlock implements SetupInterface
         if (empty($this->fixtures)) {
             $this->fixtures = $this->fixtureHelper->getDirectoryFiles('Widget');
         }
+        $this->logger = $logger;
     }
 
     /**
@@ -87,7 +94,7 @@ class CmsBlock implements SetupInterface
      */
     public function run()
     {
-        echo "Installing Widgets\n";
+        $this->logger->log('Installing Widgets' . PHP_EOL);
         $pageGroupConfig = array(
             'pages' => array(
                 'block' => '',
@@ -144,10 +151,10 @@ class CmsBlock implements SetupInterface
                     ->setWidgetParameters(array('block_id' => $block->getId()))
                     ->setPageGroups(array($pageGroup));
                 $widgetInstance->save();
-                echo '.';
+                $this->logger->log('.');
             }
         }
-        echo "\n";
+        $this->logger->log(PHP_EOL);
     }
 
     /**

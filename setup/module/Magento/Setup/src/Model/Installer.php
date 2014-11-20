@@ -38,6 +38,11 @@ class Installer
     const CLEANUP_DB = 'cleanup_database';
 
     /**
+     * Parameter indicating command whether to install Sample Data
+     */
+    const USE_SAMPLE_DATA = 'use_sample_data';
+
+    /**
      * Parameter to specify an order_increment_prefix
      */
     const SALES_ORDER_INCREMENT_PREFIX = 'sales_order_increment_prefix';
@@ -162,6 +167,11 @@ class Installer
     private $execParams;
 
     /**
+     * @var SampleData
+     */
+    private $sampleData;
+
+    /**
      * Constructor
      *
      * @param FilePermissions $filePermissions
@@ -176,6 +186,7 @@ class Installer
      * @param MaintenanceMode $maintenanceMode
      * @param Filesystem $filesystem
      * @param ServiceLocatorInterface $serviceManager
+     * @param SampleData $sampleData
      */
     public function __construct(
         FilePermissions $filePermissions,
@@ -189,7 +200,8 @@ class Installer
         ConnectionFactory $connectionFactory,
         MaintenanceMode $maintenanceMode,
         Filesystem $filesystem,
-        ServiceLocatorInterface $serviceManager
+        ServiceLocatorInterface $serviceManager,
+        SampleData $sampleData
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigFactory = $deploymentConfigFactory;
@@ -205,6 +217,7 @@ class Installer
         $this->maintenanceMode = $maintenanceMode;
         $this->filesystem = $filesystem;
         $this->execParams = urldecode(http_build_query($serviceManager->get(InitParamListener::BOOTSTRAP_PARAM)));
+        $this->sampleData = $sampleData;
     }
 
     /**
@@ -236,6 +249,9 @@ class Installer
         $script[] = ['Enabling caches:', 'enableCaches', []];
         $script[] = ['Disabling Maintenance Mode:', 'setMaintenanceMode', [0]];
         $script[] = ['Post installation file permissions check...', 'checkApplicationFilePermissions', []];
+        if (!empty($request[Installer::USE_SAMPLE_DATA]) && $this->sampleData->isDeployed()) {
+            $script[] = ['Installing Sample Data...', 'installSampleData', [$request]];
+        }
 
         $total = count($script) + count($this->moduleList->getModules());
         $this->progress = new Installer\Progress($total, 0);
@@ -490,8 +506,11 @@ class Installer
         $command = $phpPath . ' ' . $command;
         $actualCommand = $this->shellRenderer->render($command, $args);
         $this->log->log($actualCommand);
-        $output = $this->shell->execute($command, $args);
-        $this->log->log($output);
+        $handle = popen($actualCommand, 'r');
+        while (!feof($handle)) {
+            $this->log->log(fread($handle, 8192), false);
+        }
+        pclose($handle);
     }
 
     /**
@@ -604,5 +623,15 @@ class Installer
         } catch (FilesystemException $e) {
             $this->log->log($e->getMessage());
         }
+    }
+
+    /**
+     * Run installation process for Sample Data
+     *
+     * @param array $request
+     */
+    private function installSampleData($request)
+    {
+        $this->exec($this->sampleData->getRunCommand($request), [$this->execParams]);
     }
 }
