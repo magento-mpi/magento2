@@ -161,7 +161,7 @@
 //
 //    Mobile @screen-s
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-m(@break) when (@break = @screen-s) {
     .account {
         .column.main,
         .sidebar-additional {
@@ -173,7 +173,7 @@
 //
 //    Mobile @screen-m
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-m(@break) when (@break = @screen-m) {
     .login-container {
         .fieldset {
             &:after {
@@ -205,7 +205,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-l(@break) when (@break = @screen-m) {
     .login-container {
         &:extend(.abstract-add-clearfix-desktop all);
         .block {

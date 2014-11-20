@@ -200,7 +200,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-s) {
+.responsive-l(@break) when (@break = @screen-s) {
     .review {
         &-form {
             max-width: 500px;
@@ -285,7 +285,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-l(@break) when (@break = @screen-m) {
     .product-reviews-summary {
         margin-bottom: @indent-s-base + @indent-xs-base;
         .products.wrapper.list & {
@@ -341,7 +341,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-m(@break) when (@break = @screen-s) {
     .account {
         .table-reviews {
             .col.actions {
@@ -354,7 +354,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-l(@break) when (@break = @screen-m) {
     .block-reviews-dashboard {
         .product-name {
             &:extend(.abstract-account-block-font-size all);
@@ -411,7 +411,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-m(@break) when (@break = @screen-s) {
     .customer-review {
         .product-name {
             .css(margin-bottom, @indent-xs-base);
@@ -428,7 +428,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-l(@break) when (@break = @screen-m) {
     .customer-review {
         .product-details {
             &:extend(.abstract-margin-for-blocks-and-widgets-desktop all);

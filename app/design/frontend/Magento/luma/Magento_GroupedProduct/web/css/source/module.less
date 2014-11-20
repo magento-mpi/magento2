@@ -65,7 +65,7 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-m(@break) when (@break = @screen-s) {
     .table.grouped {
         > thead > tr > th {
             display: table-cell;
@@ -86,7 +86,7 @@
     }
 }
 
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-m(@break) when (@break = @screen-m) {
     .table-wrapper.grouped {
         margin-left: -@layout-width-xs-indent;
         margin-right: -@layout-width-xs-indent;
@@ -96,5 +96,5 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-l(@break) when (@break = @screen-m) {
 }
