@@ -320,7 +320,7 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testBoolFilterWithNestedRangeInNegativeBoolFilter()
     {
-        $expectedIds = [1, 4, 5];
+        $expectedIds = [1, 2, 4, 5];
         $this->requestBuilder->bind('nested_must_range_filter_from', 14);
         $this->requestBuilder->bind('nested_must_range_filter_to', 18);
         $this->requestBuilder->setRequestName('bool_filter_with_range_in_nested_negative_filter');
