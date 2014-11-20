@@ -56,7 +56,7 @@ class SetManagement implements \Magento\Catalog\Api\AttributeSetManagementInterf
     }
 
     /**
-     * @param $skeletonId
+     * @param int $skeletonId
      * @return void
      * @throws StateException
      */
