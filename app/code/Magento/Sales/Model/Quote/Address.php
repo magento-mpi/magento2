@@ -416,7 +416,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         return !$defaultShippingAddress
             || $defaultBillingAddress
             && $defaultShippingAddress
-            && $defaultBillingAddress->getId() == $defaultShippingAddress->getId();
+            && $defaultBillingAddress == $defaultShippingAddress;
     }
 
     /**
