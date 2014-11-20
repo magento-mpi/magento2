@@ -143,11 +143,13 @@ class Converter
     {
         $regexp = '/{{(category[^ ]*) key="([^"]+)"}}/';
         preg_match_all($regexp, $content, $matchesCategory);
+        $regexp = '/{{(product[^ ]*) sku="([^"]+)"}}/';
+        preg_match_all($regexp, $content, $matchesProduct);
         $regexp = '/{{(attribute) key="([^"]*)"}}/';
         preg_match_all($regexp, $content, $matchesAttribute);
         return array(
-            'type' => $matchesCategory[1] + $matchesAttribute[1],
-            'value' => $matchesCategory[2] + $matchesAttribute[2]
+            'type' => $matchesCategory[1] + $matchesAttribute[1] + $matchesProduct[1],
+            'value' => $matchesCategory[2] + $matchesAttribute[2] + $matchesProduct[2]
         );
     }
 
@@ -178,6 +180,21 @@ class Converter
                     }
                     $replaceData['regexp'][] = '/{{categoryId key="' . $matchValue .'"}}/';
                     $replaceData['value'][] = sprintf('%03d', $category->getId());
+                    break;
+                case 'product':
+                    if (empty($category)) {
+                        continue;
+                    }
+                    $productItem = $category->getProductCollection()
+                        ->addAttributeToFilter('sku', $matchValue)
+                        ->addUrlRewrite($category->getId())
+                        ->getFirstItem();
+                    $productUrl = null;
+                    if ($productItem) {
+                        $productUrl = $productItem->getProductUrl();
+                    }
+                    $replaceData['regexp'][] = '/{{product sku="' . $matchValue .'"}}/';
+                    $replaceData['value'][] = $productUrl;
                     break;
                 case 'attribute':
                     if (strpos($matchValue, ':') == false) {
