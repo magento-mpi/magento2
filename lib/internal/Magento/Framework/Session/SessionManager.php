@@ -79,7 +79,7 @@ class SessionManager implements SessionManagerInterface
     /**
      * Cookie Manager
      * 
-     * @var \Magento\Framework\Stdlib\CookieManager
+     * @var \Magento\Framework\Stdlib\CookieManagerInterface
      */
     protected $cookieManager;
 
@@ -97,7 +97,7 @@ class SessionManager implements SessionManagerInterface
      * @param SaveHandlerInterface $saveHandler
      * @param ValidatorInterface $validator
      * @param StorageInterface $storage
-     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
+     * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
      * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
      */
     public function __construct(
@@ -107,7 +107,7 @@ class SessionManager implements SessionManagerInterface
         SaveHandlerInterface $saveHandler,
         ValidatorInterface $validator,
         StorageInterface $storage,
-        \Magento\Framework\Stdlib\CookieManager $cookieManager,
+        \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
     ) {
         $this->request = $request;

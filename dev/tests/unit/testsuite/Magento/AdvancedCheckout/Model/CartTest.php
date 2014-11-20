@@ -41,6 +41,24 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     protected $stockItemFactoryMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockRegistry;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $stockItemMock;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $stockState;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $stockHelper;
+
+    protected $quoteMock;
+
+    protected $quoteFactoryMock;
+
     protected function setUp()
     {
         $cartMock = $this->getMock('Magento\Checkout\Model\Cart', array(), array(), '', false);
@@ -48,7 +66,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $this->helperMock = $this->getMock('Magento\AdvancedCheckout\Helper\Data', array(), array(), '', false);
         $wishListFactoryMock = $this->getMock('Magento\Wishlist\Model\WishlistFactory', array(), array(), '', false);
-        $quoteFactoryMock =  $this->getMock('Magento\Sales\Model\QuoteFactory', array(), array(), '', false);
+        $this->quoteFactoryMock =  $this->getMock('Magento\Sales\Model\QuoteFactory', ['create'], [], '', false);
+
+        $this->quoteMock = $this->getMock('Magento\Sales\Model\Quote', ['getStore', '__wakeup'], [], '', false);
+
         $this->storeManagerMock =  $this->getMock('Magento\Framework\StoreManagerInterface');
         $this->localeFormatMock =  $this->getMock('Magento\Framework\Locale\FormatInterface');
         $messageManagerMock =  $this->getMock('Magento\Framework\Message\ManagerInterface');
@@ -59,8 +80,33 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $prodTypesConfigMock = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface', [], [], '', false);
         $cartConfigMock =  $this->getMock('Magento\Catalog\Model\Product\CartConfiguration', [], [], '', false);
 
-        $this->itemServiceMock = $this->getMock(
-            'Magento\CatalogInventory\Service\V1\StockItemService',
+        $this->stockRegistry = $this->getMockBuilder('Magento\CatalogInventory\Model\StockRegistry')
+            ->disableOriginalConstructor()
+            ->setMethods(['getStockItem', '__wakeup'])
+            ->getMock();
+
+        $this->stockItemMock = $this->getMock(
+            'Magento\CatalogInventory\Model\Stock\Item',
+            ['getQtyIncrements', 'getIsInStock', '__wakeup', 'getMaxSaleQty', 'getMinSaleQty'],
+            [],
+            '',
+            false
+        );
+
+        $this->stockRegistry->expects($this->any())
+            ->method('getStockItem')
+            ->will($this->returnValue($this->stockItemMock));
+
+        $this->stockState = $this->getMock(
+            'Magento\CatalogInventory\Model\StockState',
+            [],
+            [],
+            '',
+            false
+        );
+
+        $this->stockHelper = $this->getMock(
+            'Magento\CatalogInventory\Helper\Stock',
             [],
             [],
             '',
@@ -75,14 +121,16 @@ class CartTest extends \PHPUnit_Framework_TestCase
             $optionFactoryMock,
             $wishListFactoryMock,
             $this->prodFactoryMock,
-            $quoteFactoryMock,
+            $this->quoteFactoryMock,
             $this->storeManagerMock,
             $this->localeFormatMock,
             $messageManagerMock,
             $prodTypesConfigMock,
             $cartConfigMock,
             $customerSessionMock,
-            $this->itemServiceMock
+            $this->stockRegistry,
+            $this->stockState,
+            $this->stockHelper
         );
     }
 
@@ -271,43 +319,67 @@ class CartTest extends \PHPUnit_Framework_TestCase
      * @param array $config
      * @param array $result
      * @dataProvider getQtyStatusDataProvider
+     * @TODO refactor me
      */
     public function testGetQtyStatus($config, $result)
     {
+        $websiteId = 10;
         $productId = $config['product_id'];
         $requestQty = $config['request_qty'];
+
+        $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
+        $store->expects($this->any())
+            ->method('getWebsiteId')
+            ->will($this->returnValue($websiteId));
+        $this->quoteMock->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($store));
+
+
+        $this->quoteMock->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($store));
+
+        $this->quoteFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->quoteMock));
+
         $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $product->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($productId));
+
         $resultObject = new \Magento\Framework\Object($config['result']);
-        $this->itemServiceMock->expects($this->once())
+        $this->stockState->expects($this->once())
             ->method('checkQuoteItemQty')
-            ->with($this->equalTo($productId), $this->equalTo($requestQty), $this->equalTo($requestQty))
+            ->with(
+                $this->equalTo($productId),
+                $this->equalTo($requestQty),
+                $this->equalTo($requestQty),
+                $this->equalTo($requestQty),
+                $this->equalTo($websiteId)
+            )
             ->will($this->returnValue($resultObject));
 
         if ($config['result']['has_error']) {
             switch ($resultObject->getErrorCode()) {
                 case 'qty_increments':
-                    $this->itemServiceMock->expects($this->once())
+                    $this->stockItemMock->expects($this->once())
                         ->method('getQtyIncrements')
-                        ->with($this->equalTo($productId))
                         ->will($this->returnValue($config['result']['qty_increments']));
                     break;
                 case 'qty_min':
-                    $this->itemServiceMock->expects($this->once())
+                    $this->stockItemMock->expects($this->once())
                         ->method('getMinSaleQty')
-                        ->with($this->equalTo($productId))
                         ->will($this->returnValue($config['result']['qty_min_allowed']));
                     break;
                 case 'qty_max':
-                    $this->itemServiceMock->expects($this->once())
+                    $this->stockItemMock->expects($this->once())
                         ->method('getMaxSaleQty')
-                        ->with($this->equalTo($productId))
                         ->will($this->returnValue($config['result']['qty_max_allowed']));
                     break;
                 default:
-                    $this->itemServiceMock->expects($this->once())
+                    $this->stockState->expects($this->once())
                         ->method('getStockQty')
                         ->with($this->equalTo($productId))
                         ->will($this->returnValue($config['result']['qty_max_allowed']));
