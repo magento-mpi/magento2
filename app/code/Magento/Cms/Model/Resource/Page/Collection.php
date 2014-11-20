@@ -64,7 +64,7 @@ class Collection extends AbstractSearchResult implements PageCollectionInterface
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function toOptionIdArray()
     {

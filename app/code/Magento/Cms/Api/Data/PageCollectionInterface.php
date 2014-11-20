@@ -11,13 +11,13 @@
  */
 namespace Magento\Cms\Api\Data;
 
-use Magento\Framework\Data\SearchResultInterface;
+use Magento\Framework\Api\SearchResultsInterface;
 
 /**
  * Interface PageCollectionInterface
  * @package Magento\Cms\Api\Data
  */
-interface PageCollectionInterface extends SearchResultInterface
+interface PageCollectionInterface extends SearchResultsInterface
 {
     /**
      * Get items
@@ -30,7 +30,7 @@ interface PageCollectionInterface extends SearchResultInterface
      * Returns pairs identifier - title for unique identifiers
      * and pairs identifier|page_id - title for non-unique after first
      *
-     * @return array
+     * @return string[]
      */
     public function toOptionIdArray();
 }

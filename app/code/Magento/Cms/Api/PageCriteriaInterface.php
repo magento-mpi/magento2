@@ -16,7 +16,7 @@ interface PageCriteriaInterface extends \Magento\Framework\Api\CriteriaInterface
      * Add Criteria object
      *
      * @param \Magento\Cms\Api\PageCriteriaInterface $criteria
-     * @return void
+     * @return bool
      */
     public function addCriteria(\Magento\Cms\Api\PageCriteriaInterface $criteria);
 
@@ -24,16 +24,16 @@ interface PageCriteriaInterface extends \Magento\Framework\Api\CriteriaInterface
      * Set first store flag
      *
      * @param bool $flag
-     * @return void
+     * @return bool
      */
     public function setFirstStoreFlag($flag = false);
 
     /**
      * Add filter by store
      *
-     * @param int|\Magento\Store\Model\Store $store
+     * @param int $storeId
      * @param bool $withAdmin
-     * @return void
+     * @return bool
      */
-    public function addStoreFilter($store, $withAdmin = true);
+    public function addStoreFilter($storeId, $withAdmin = true);
 }

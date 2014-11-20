@@ -28,6 +28,7 @@ class PageCriteria extends AbstractCriteria implements \Magento\Cms\Api\PageCrit
     public function setFirstStoreFlag($flag = false)
     {
         $this->data['first_store_flag'] = $flag;
+        return true;
     }
 
     /**
@@ -36,16 +37,18 @@ class PageCriteria extends AbstractCriteria implements \Magento\Cms\Api\PageCrit
     public function addStoreFilter($store, $withAdmin = true)
     {
         $this->data['store_filter'] = [$store, $withAdmin];
+        return true;
     }
 
     /**
      * Add Criteria object
      *
      * @param \Magento\Cms\Api\PageCriteriaInterface $criteria
-     * @return void
+     * @return bool
      */
     public function addCriteria(\Magento\Cms\Api\PageCriteriaInterface $criteria)
     {
         $this->data[self::PART_CRITERIA_LIST]['list'][] = $criteria;
+        return true;
     }
 }
