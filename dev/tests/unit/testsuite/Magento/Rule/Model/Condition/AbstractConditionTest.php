@@ -38,4 +38,12 @@ class AbstractConditionTest extends \PHPUnit_Framework_TestCase
         $this->_condition->setAttribute('category_ids');
         $this->assertEquals('category_ids', $this->_condition->getMappedSqlField());
     }
+
+    public function testGetValueParsed()
+    {
+        $value = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        $this->_condition->setValue(['1,2,3,4,5,6,7,8,9']);
+        $this->_condition->setOperator('()');
+        $this->assertEquals($value, $this->_condition->getValueParsed());
+    }
 }

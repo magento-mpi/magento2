@@ -56,6 +56,11 @@ class Installer implements \Magento\Framework\AppInterface
     protected $postInstaller;
 
     /**
+     * @var Helper\Deploy
+     */
+    protected $deploy;
+
+    /**
      * @param State $appState
      * @param SetupFactory $setupFactory
      * @param ModuleListInterface $moduleList
@@ -63,6 +68,7 @@ class Installer implements \Magento\Framework\AppInterface
      * @param ConfigLoader $configLoader
      * @param Console\Response $response
      * @param Helper\PostInstaller $postInstaller
+     * @param Helper\Deploy $deploy
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param array $data
      * @throws \Exception
@@ -75,8 +81,9 @@ class Installer implements \Magento\Framework\AppInterface
         ConfigLoader $configLoader,
         Console\Response $response,
         Helper\PostInstaller $postInstaller,
+        Helper\Deploy $deploy,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        $data = []
+        array $data = []
     ) {
         $this->appState = $appState;
         $this->setupFactory = $setupFactory;
@@ -85,6 +92,7 @@ class Installer implements \Magento\Framework\AppInterface
         $this->configLoader = $configLoader;
         $this->response = $response;
         $this->postInstaller = $postInstaller;
+        $this->deploy = $deploy;
         /** @var \Magento\User\Model\User $user */
         $user = $objectManager->create('Magento\User\Model\User')->loadByUsername($data['admin_username']);
         if (!$user || !$user->getId()) {
@@ -101,6 +109,8 @@ class Installer implements \Magento\Framework\AppInterface
         $areaCode = 'adminhtml';
         $this->appState->setAreaCode($areaCode);
         $this->objectManager->configure($this->configLoader->load($areaCode));
+
+        $this->deploy->run();
 
         $resources = $this->initResources();
         foreach (array_keys($this->moduleList->getModules()) as $moduleName) {

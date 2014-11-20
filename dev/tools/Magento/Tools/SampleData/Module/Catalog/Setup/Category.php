@@ -145,7 +145,9 @@ class Category implements SetupInterface
     {
         $additionalAttributes = [
             'position',
-            'display_mode'
+            'display_mode',
+            'page_layout',
+            'custom_layout_update'
         ];
 
         foreach ($additionalAttributes as $categoryAttribute) {

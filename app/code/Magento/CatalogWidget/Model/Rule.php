@@ -17,7 +17,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * @var Rule\Condition\CombineFactory
      */
-    protected $_conditionsFactory;
+    protected $conditionsFactory;
 
     /**
      * @param \Magento\Framework\Model\Context $context
@@ -39,7 +39,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_conditionsFactory = $conditionsFactory;
+        $this->conditionsFactory = $conditionsFactory;
         parent::__construct($context, $registry, $formFactory, $localeDate, $resource, $resourceCollection, $data);
     }
 
@@ -48,7 +48,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function getConditionsInstance()
     {
-        return $this->_conditionsFactory->create();
+        return $this->conditionsFactory->create();
     }
 
     /**

@@ -105,10 +105,27 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGenerateLayoutUpdateXml(\Magento\Widget\Model\Widget\Instance $model)
     {
-        $params = array('display_mode' => 'fixed', 'types' => array('type_1', 'type_2'));
+        $params = array(
+            'display_mode' => 'fixed',
+            'types' => array('type_1', 'type_2'),
+            'conditions' => array(
+                '1' => [
+                    'type' => 'Magento\CatalogWidget\Model\Rule\Condition\Combine',
+                    'aggregator' => 'all',
+                    'value' => '1',
+                    'new_child' => ''
+                ],
+                '1--1' => [
+                    'type' => 'Magento\CatalogWidget\Model\Rule\Condition\Product',
+                    'attribute' => 'attribute_set_id',
+                    'value' => '4',
+                    'operator' => '=='
+                ]
+            )
+        );
         $model->setData('widget_parameters', $params);
         $this->assertEquals('', $model->generateLayoutUpdateXml('content'));
-        $model->setId('test_id')->setPackageTheme('Magento/plushe');
+        $model->setId('test_id')->setPackageTheme('Magento/blank');
         $result = $model->generateLayoutUpdateXml('content');
         $this->assertContains('<referenceContainer name="content">', $result);
         $this->assertContains('<block class="' . $model->getType() . '"', $result);
@@ -117,5 +134,8 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('<argument name="value" xsi:type="string">fixed</argument>', $result);
         $this->assertContains('<argument name="name" xsi:type="string">types</argument>', $result);
         $this->assertContains('<argument name="value" xsi:type="string">type_1,type_2</argument>', $result);
+        $this->assertContains('<argument name="name" xsi:type="string">conditions_encoded</argument>', $result);
+        $this->assertContains('s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`', $result);
+        $this->assertContains('s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`', $result);
     }
 }
