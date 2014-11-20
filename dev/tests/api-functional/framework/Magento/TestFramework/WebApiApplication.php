@@ -17,32 +17,6 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class WebApiApplication extends Application
 {
     /**
-     * @param string $installConfigFile
-     * @param string $globalConfigDir
-     * @param string $appMode
-     * @param \Magento\Framework\Shell $shell
-     * @return Application|WebApiApplication
-     */
-    public static function getInstance(
-        $installConfigFile,
-        $globalConfigDir,
-        $appMode,
-        \Magento\Framework\Shell $shell
-    ) {
-        if (!file_exists($installConfigFile)) {
-            $installConfigFile = $installConfigFile . '.dist';
-        }
-        $dirList = new \Magento\Framework\App\Filesystem\DirectoryList(BP);
-        return new \Magento\TestFramework\WebApiApplication(
-            $shell,
-            $dirList->getPath(DirectoryList::VAR_DIR),
-            $installConfigFile,
-            $globalConfigDir,
-            $appMode
-        );
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function run()

@@ -117,38 +117,6 @@ class Application
     protected $_dirList;
 
     /**
-     * A factory method
-     *
-     * @param string $installConfigFile
-     * @param string $globalConfigDir
-     * @param string $appMode
-     * @param string $tmpDir
-     * @param \Magento\Framework\Shell $shell
-     * @return Application
-     */
-    public static function getInstance(
-        $installConfigFile,
-        $globalConfigDir,
-        $appMode,
-        $tmpDir,
-        \Magento\Framework\Shell $shell
-    ) {
-        if (!file_exists($installConfigFile)) {
-            $installConfigFile = $installConfigFile . '.dist';
-        }
-        $sandboxUniqueId = md5(sha1_file($installConfigFile));
-        $installDir = "{$tmpDir}/sandbox-{$sandboxUniqueId}";
-        FileResolver::addIncludePath($installDir . '/var/generation/');
-        return new \Magento\TestFramework\Application(
-            $shell,
-            $installDir,
-            $installConfigFile,
-            $globalConfigDir,
-            $appMode
-        );
-    }
-
-    /**
      * Constructor
      *
      * @param \Magento\Framework\Shell $shell

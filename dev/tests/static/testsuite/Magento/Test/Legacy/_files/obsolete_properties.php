@@ -364,4 +364,5 @@ return array(
     ['filesystem', 'Magento\Framework\Module\Setup', 'Magento\Framework\Module\DataSetup::filesystem'],
     ['modulesDir', 'Magento\Framework\Module\Setup', 'Magento\Framework\Module\DataSetup::modulesDir'],
     ['_directoryData', 'Magento\Customer\Model\Attribute\Data\Postcode', 'Magento\Customer\Model\Attribute\Data\Postcode::directoryHelper'],
+    ['_conditionModels', 'Magento\Rule\Model\Condition\Combine'],
 );
