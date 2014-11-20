@@ -12,8 +12,5 @@
         <sequence>
             <module name="Module_One" />
         </sequence>
-        <depends>
-            <extension name="spl" />
-        </depends>
     </module>
 </config>
