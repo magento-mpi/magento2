@@ -130,7 +130,7 @@ class CustomerRepositoryTest extends WebapiAbstract
                     'soap' => [
                         'service' => self::SERVICE_NAME,
                         'serviceVersion' => self::SERVICE_VERSION,
-                        'operation' => self::SERVICE_NAME . 'DeleteCustomer'
+                        'operation' => self::SERVICE_NAME . 'DeleteById'
                     ]
                 ];
 
@@ -206,72 +206,6 @@ class CustomerRepositoryTest extends WebapiAbstract
             $errorObj = $this->processRestExceptionResult($e);
             $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(['fieldName' => 'customerId', 'fieldValue' => $invalidId], $errorObj['parameters']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
-        }
-    }
-
-    public function testDeleteCustomerByEmail()
-    {
-        $this->markTestSkipped();
-        $customerData = $this->_createCustomer();
-        $this->currentCustomerId = [];
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '?customerEmail=' . $customerData[Customer::EMAIL] ,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteCustomerByEmail'
-            ]
-        ];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $response = $this->_webApiCall($serviceInfo, ['customerEmail' => $customerData[Customer::EMAIL]]);
-        } else {
-            $response = $this->_webApiCall($serviceInfo);
-        }
-
-        $this->assertTrue($response);
-
-        //Verify if the customer is deleted
-        $this->setExpectedException(
-            'Magento\Framework\Exception\NoSuchEntityException',
-            sprintf("No such entity with email = %s", $customerData[Customer::EMAIL])
-        );
-        $this->customerRepository->getCustomerByEmail($customerData[Customer::EMAIL]);
-    }
-
-    public function testDeleteCustomerByEmailUnknownEmail()
-    {
-        $this->markTestSkipped();
-        $unknownEmail = 'unknown@email.com';
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '?customerEmail=' . $unknownEmail,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteCustomerByEmail'
-            ]
-        ];
-
-        $expectedMessage = NoSuchEntityException::MESSAGE_DOUBLE_FIELDS;
-
-        try {
-            $this->_webApiCall($serviceInfo, ['customerEmail' => $unknownEmail]);
-            $this->fail("Expected exception");
-        } catch (\SoapFault $e) {
-            $this->assertContains(
-                $expectedMessage,
-                $e->getMessage(),
-                "SoapFault does not contain expected message."
-            );
-        } catch (\Exception $e) {
-            $errorObj = $this->processRestExceptionResult($e);
-            $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
         }
     }
@@ -399,67 +333,6 @@ class CustomerRepositoryTest extends WebapiAbstract
             $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(['fieldName' => 'customerId', 'fieldValue' => -1], $errorObj['parameters']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
-        }
-    }
-
-    public function testUpdateCustomerByEmail()
-    {
-        $this->markTestSkipped();
-        $customerData = $this->_createCustomer();
-        $customerId = $customerData[Customer::ID];
-        $customerDetails = $this->_getCustomerDetails($customerId);
-        $customer = $customerDetails->getCustomer();
-        $customerAddress = $customerDetails->getAddresses();
-        $firstName = $customer->getFirstname() . 'updated';
-        $lastName = $customer->getLastname() . 'updated';
-        $newEmail = 'janedoeupdated' . uniqid() . '@example.com';
-        $email = $customer->getEmail();
-        $city = 'San Jose';
-
-        $customerData = array_merge(
-            $customer->__toArray(),
-            [
-                'firstname' => $firstName,
-                'lastname' => $lastName,
-                'email' => $newEmail,
-                'id' => null
-            ]
-        );
-
-        $addressId = $customerAddress[0]->getId();
-        $newAddress = array_merge($customerAddress[0]->__toArray(), ['city' => $city]);
-        $this->customerBuilder->populateWithArray($customerData);
-        $this->addressBuilder->populateWithArray($newAddress);
-        $this->customerDetailsBuilder->setCustomer(($this->customerBuilder->create()))
-            ->setAddresses(array($this->addressBuilder->create(), $customerAddress[1]));
-        $updatedCustomerDetails = $this->customerDetailsBuilder->create();
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'UpdateCustomerByEmail'
-            ]
-        ];
-        $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
-        $requestData = ['customerEmail' => $email, 'customerDetails' => $customerDetailsAsArray];
-        $response = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertTrue($response);
-
-        //Verify if the customer is updated
-        $customerDetails = $this->_getCustomerDetails($customerId);
-        $updateCustomerData = $customerDetails->getCustomer();
-        $this->assertEquals($firstName, $updateCustomerData->getFirstname());
-        $this->assertEquals($lastName, $updateCustomerData->getLastname());
-        $this->assertEquals($newEmail, $updateCustomerData->getEmail());
-        foreach ($customerDetails->getAddresses() as $newAddress) {
-            if ($newAddress->getId() == $addressId) {
-                $this->assertEquals($city, $newAddress->getCity());
-            }
         }
     }
 

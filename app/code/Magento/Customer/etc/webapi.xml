@@ -118,18 +118,6 @@
     </route>
 
     <!-- Customer Account Service-->
-    <route url="/V1/customers" method="GET">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="getCustomerDetailsByEmail"/>
-        <resources>
-            <resource ref="Magento_Customer::customer"/>
-        </resources>
-    </route>
-    <route url="/V1/customers" method="PUT">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="updateCustomerByEmail"/>
-        <resources>
-            <resource ref="Magento_Customer::manage"/>
-        </resources>
-    </route>
     <route url="/V1/customers" method="POST">
         <service class="Magento\Customer\Api\AccountManagementInterface" method="createAccount"/>
         <resources>
@@ -159,12 +147,6 @@
         <data>
             <parameter name="customerId" force="true">%customer_id%</parameter>
         </data>
-    </route>
-    <route url="/V1/customers/:customerId" method="GET">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="getCustomerDetails"/>
-        <resources>
-            <resource ref="Magento_Customer::customer"/>
-        </resources>
     </route>
     <route url="/V1/customers/me/activate" method="PUT">
         <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="activateCustomer"/>
@@ -258,12 +240,6 @@
     </route>
     <route url="/V1/customers/:customerId" method="DELETE">
         <service class="Magento\Customer\Api\CustomerRepositoryInterface" method="deleteById"/>
-        <resources>
-            <resource ref="Magento_Customer::manage"/>
-        </resources>
-    </route>
-    <route url="/V1/customers" method="DELETE">
-        <service class="Magento\Customer\Service\V1\CustomerAccountServiceInterface" method="deleteCustomerByEmail"/>
         <resources>
             <resource ref="Magento_Customer::manage"/>
         </resources>
