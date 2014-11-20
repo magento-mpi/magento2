@@ -18,8 +18,7 @@ define([
     var globalOptions = {
         productId: null,
         prices: {},
-        priceTemplate: '<span class="price">{{formatted}}</span>',
-        boxTemplate: '{{price}}'
+        priceTemplate: '<span class="price">{{formatted}}</span>'
     };
     var hbs = Handlebars.compile;
 
@@ -29,7 +28,9 @@ define([
         _create: initPriceBox,
         _setOptions: setOptions,
         updatePrice: updatePrice,
-        reloadPrice: reloadPrice
+        reloadPrice: reloadPrice,
+
+        initialPrices: {}
     });
 
     return $.mage.priceBox;
@@ -43,13 +44,10 @@ define([
         setDefaultsFromPriceConfig.call(this);
 
         var box = this.element;
-        var productId = this.options.productId;
-        var prices = this.options.prices || {};
         var initial = this.initialPrices = utils.deepClone(this.options.prices);
 
         box.on('updatePrice', onUpdatePrice.bind(this));
         box.on('reloadPrice', reloadPrice.bind(this));
-
     }
 
     /**
@@ -72,6 +70,8 @@ define([
         var prices = this.options.prices;
         if(!!isReplace) {
             $.extend(true, prices, newPrices);
+        } else if(_.isEmpty(newPrices)) {
+            this.options.prices = this.initialPrices;
         } else {
             _.map(newPrices, function(option, priceCode){
                 var origin = this.initialPrices[priceCode] || {};
@@ -95,9 +95,7 @@ define([
         var box = this.element;
         var prices = this.options.prices;
         var priceFormat = this.options.priceConfig.priceFormat;
-
         var priceTemplate = this.priceTemplate = hbs(this.options.priceTemplate);
-        var boxTemplate = this.boxTemplate = hbs(this.options.boxTemplate);
 
         _.each(prices, function(price, priceCode){
             var html,
@@ -147,7 +145,6 @@ define([
                 return;
             }
             this.options.prices = config.prices;
-            console.log(config, this.options.prices);
         }
     }
 });

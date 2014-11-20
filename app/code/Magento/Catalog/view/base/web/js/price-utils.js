@@ -4,8 +4,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint browser:true jquery:true*/
-/*global Handlebars*/
 define([
     'underscore'
 ], function (_) {

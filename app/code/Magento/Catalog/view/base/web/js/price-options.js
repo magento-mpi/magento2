@@ -14,7 +14,7 @@ define([
 
     var globalOptions = {
         productId: null,
-        priceHolderSelector: '.price-box',
+        priceHolderSelector: '.price-box', //data-role="priceBox"
         optionsSelector: '.product-custom-option',
         optionConfig: {},
         optionHandlers: {},
@@ -24,7 +24,10 @@ define([
     $.widget('mage.priceOptions',{
         options: globalOptions,
         _create: initPriceOptions,
-        _setOptions: setOptions
+        _setOptions: setOptions,
+
+        additionalPrice: {},
+        _additionalPriceObject: {}
     });
 
     return $.mage.priceOptions;
@@ -32,7 +35,6 @@ define([
     function initPriceOptions() {
         var form = this.element;
         var options = $(this.options.optionsSelector, form);
-        this._additionalPriceObject = {};
 
         options.on('change', onOptionChanged.bind(this));
         form.on('changeOption', onFormChanged.bind(this));
