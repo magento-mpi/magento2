@@ -81,6 +81,10 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $customer->setGroupId(2);
         $customer->save();
 
+        /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
+        $customerRegistry = $objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        $customerRegistry->remove($customer->getId());
+
         /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
         $customerRepository = $objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
         $customerData = $customerRepository->getById($customer->getId());
