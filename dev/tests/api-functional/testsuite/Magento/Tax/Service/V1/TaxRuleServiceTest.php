@@ -170,16 +170,13 @@ class TaxRuleServiceTest extends WebapiAbstract
             ]
         ];
 
-
         try {
             $this->_webApiCall($serviceInfo, $requestData);
             $this->fail('Did not throw expected InputException');
         } catch (\SoapFault $e) {
             $this->assertContains('No such entity with customer_tax_class_ids = %fieldValue', $e->getMessage());
         } catch (\Exception $e) {
-            $this->assertContains('One or more input exceptions have occurred.', $e->getMessage());
-            $this->assertContains('{"fieldName":"customer_tax_class_ids","value":2}', $e->getMessage());
-            $this->assertContains('{"fieldName":"product_tax_class_ids","value":3}', $e->getMessage());
+            $this->assertContains('No such entity with customer_tax_class_ids = %fieldValue', $e->getMessage());
         }
     }
 
