@@ -8,6 +8,8 @@
 namespace Magento\Framework\Code\Generator;
 
 use \Magento\Framework\Code\Generator;
+use \Magento\Framework\Autoload\AutoloaderRegistry;
+use \Magento\Framework\Autoload\AutoloaderInterface;
 
 class Autoloader
 {
@@ -17,19 +19,11 @@ class Autoloader
     protected $_generator;
 
     /**
-     * @var \Magento\Framework\Code\Generator\FileResolver
-     */
-    protected $fileResolver;
-    
-    /**
      * @param \Magento\Framework\Code\Generator $generator
-     * @param \Magento\Framework\Code\Generator\FileResolver $fileResolver
      */
     public function __construct(
-        \Magento\Framework\Code\Generator $generator,
-        \Magento\Framework\Code\Generator\FileResolver $fileResolver
+        \Magento\Framework\Code\Generator $generator
     ) {
-        $this->fileResolver = $fileResolver;
         $this->_generator = $generator;
     }
 
@@ -37,17 +31,13 @@ class Autoloader
      * Load specified class name and generate it if necessary
      *
      * @param string $className
-     * @return void
+     * @return bool True if class was loaded
      */
     public function load($className)
     {
         if (!class_exists($className)) {
-            if (Generator::GENERATION_SUCCESS === $this->_generator->generateClass($className)) {
-                $file = $this->fileResolver->getFile($className);
-                if ($file) {
-                    include $file;
-                }
-            }
+            return Generator::GENERATION_ERROR != $this->_generator->generateClass($className);
         }
+        return true;
     }
 }
