@@ -137,15 +137,16 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         \Magento\Catalog\Model\Resource\Product\Collection $collection
     ) {
         $storeId =  $this->storeManager->getStore()->getId();
-        $alias = 'at_' . $attribute->getAttributeCode();
 
         switch ($attribute->getBackendType()) {
             case 'decimal':
             case 'datetime':
             case 'int':
+                $alias = 'at_' . $attribute->getAttributeCode();
                 $collection->addAttributeToSelect($attribute->getAttributeCode(), 'inner');
                 break;
             default:
+                $alias = 'at_'. md5($this->getId()) . $attribute->getAttributeCode();
                 $collection->getSelect()->join(
                     array($alias => $collection->getTable('catalog_product_index_eav')),
                     "($alias.entity_id = e.entity_id) AND ($alias.store_id = $storeId)" .
