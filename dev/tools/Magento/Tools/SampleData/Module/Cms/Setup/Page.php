@@ -38,15 +38,22 @@ class Page implements SetupInterface
     protected $fixtures;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param array $fixtures
      */
     public function __construct(
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\Tools\SampleData\Logger $logger,
         $fixtures = array(
             'Cms/Page/pages.csv',
         )
@@ -55,6 +62,7 @@ class Page implements SetupInterface
         $this->csvReaderFactory = $csvReaderFactory;
         $this->pageFactory = $pageFactory;
         $this->fixtures = $fixtures;
+        $this->logger = $logger;
     }
 
     /**
@@ -62,7 +70,7 @@ class Page implements SetupInterface
      */
     public function run()
     {
-        echo "Installing CMS pages\n";
+        $this->logger->log('Installing CMS pages' . PHP_EOL);
 
         foreach ($this->fixtures as $file) {
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
@@ -74,9 +82,9 @@ class Page implements SetupInterface
                     ->addData($row)
                     ->setStores(array(0))
                     ->save();
-                echo '.';
+                $this->logger->log('.');
             }
         }
-        echo "\n";
+        $this->logger->log(PHP_EOL);
     }
 }

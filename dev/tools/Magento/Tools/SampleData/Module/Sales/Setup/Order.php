@@ -37,10 +37,16 @@ class Order implements SetupInterface
     protected $orderProcessor;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param Order\Converter $converter
      * @param Order\Processor $orderProcessor
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param array $fixtures
      */
     public function __construct(
@@ -48,6 +54,7 @@ class Order implements SetupInterface
         CsvReaderFactory $csvReaderFactory,
         Order\Converter $converter,
         Order\Processor $orderProcessor,
+        \Magento\Tools\SampleData\Logger $logger,
         $fixtures = [
             'Sales/orders.csv'
         ]
@@ -57,6 +64,7 @@ class Order implements SetupInterface
         $this->converter = $converter;
         $this->orderProcessor = $orderProcessor;
         $this->fixtures = $fixtures;
+        $this->logger = $logger;
     }
 
     /**
@@ -64,16 +72,16 @@ class Order implements SetupInterface
      */
     public function run()
     {
-        echo "Installing orders\n";
+        $this->logger->log('Installing orders' . PHP_EOL);
         foreach ($this->fixtures as $file) {
             $fileName = $this->fixtureHelper->getPath($file);
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
             foreach ($csvReader as $row) {
                 $orderData = $this->converter->convertRow($row);
                 $this->orderProcessor->createOrder($orderData);
-                echo '.';
-                }
+                $this->logger->log('.');
             }
-        echo "\n";
+        }
+        $this->logger->log(PHP_EOL);
     }
 }

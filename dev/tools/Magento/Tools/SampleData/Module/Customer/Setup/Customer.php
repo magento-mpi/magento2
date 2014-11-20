@@ -102,6 +102,11 @@ class Customer implements SetupInterface
     ];
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
@@ -110,6 +115,7 @@ class Customer implements SetupInterface
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param array $fixtures
      */
     public function __construct(
@@ -121,6 +127,7 @@ class Customer implements SetupInterface
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Tools\SampleData\Logger $logger,
         $fixtures = [
             'Customer/customer_profile.csv'
         ]
@@ -134,6 +141,7 @@ class Customer implements SetupInterface
         $this->customerFactory = $customerFactory;
         $this->countryFactory = $countryFactory;
         $this->fixtures = $fixtures;
+        $this->logger = $logger;
     }
 
     /**
@@ -141,7 +149,7 @@ class Customer implements SetupInterface
      */
     public function run()
     {
-        echo "Installing customers\n";
+        $this->logger->log('Installing customers' . PHP_EOL);
         foreach ($this->fixtures as $file) {
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
@@ -168,9 +176,9 @@ class Customer implements SetupInterface
                     $customerId = $this->customerAccount->getCustomerByEmail($customerProfile->getEmail())->getId();
                 }
                 $this->updateCustomerPassword($customerId, $row['password']);
-                echo '.';
+                $this->logger->log('.');
             }
-            echo "\n";
+            $this->logger->log(PHP_EOL);
         }
     }
 

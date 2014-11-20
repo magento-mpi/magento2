@@ -26,11 +26,6 @@ class Installer implements \Magento\Framework\AppInterface
     protected $appState;
 
     /**
-     * @var array
-     */
-    protected $resources;
-
-    /**
      * @var SetupFactory
      */
     protected $setupFactory;
@@ -61,6 +56,11 @@ class Installer implements \Magento\Framework\AppInterface
     protected $postInstaller;
 
     /**
+     * @var Helper\Deploy
+     */
+    protected $deploy;
+
+    /**
      * @param State $appState
      * @param SetupFactory $setupFactory
      * @param ModuleListInterface $moduleList
@@ -68,7 +68,10 @@ class Installer implements \Magento\Framework\AppInterface
      * @param ConfigLoader $configLoader
      * @param Console\Response $response
      * @param Helper\PostInstaller $postInstaller
-     * @param array $resources
+     * @param Helper\Deploy $deploy
+     * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
+     * @param array $data
+     * @throws \Exception
      */
     public function __construct(
         State $appState,
@@ -78,16 +81,24 @@ class Installer implements \Magento\Framework\AppInterface
         ConfigLoader $configLoader,
         Console\Response $response,
         Helper\PostInstaller $postInstaller,
-        array $resources = []
+        Helper\Deploy $deploy,
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        array $data = []
     ) {
         $this->appState = $appState;
-        $this->resources = $resources;
         $this->setupFactory = $setupFactory;
         $this->moduleList = $moduleList;
         $this->objectManager = $objectManager;
         $this->configLoader = $configLoader;
         $this->response = $response;
         $this->postInstaller = $postInstaller;
+        $this->deploy = $deploy;
+        /** @var \Magento\User\Model\User $user */
+        $user = $objectManager->create('Magento\User\Model\User')->loadByUsername($data['admin_username']);
+        if (!$user || !$user->getId()) {
+            throw new \Exception('Invalid username provided');
+        }
+        $backendAuthSession->setUser($user);
     }
 
     /**
@@ -95,13 +106,16 @@ class Installer implements \Magento\Framework\AppInterface
      **/
     public function launch()
     {
-        $areaCode = 'install';
+        $areaCode = 'adminhtml';
         $this->appState->setAreaCode($areaCode);
         $this->objectManager->configure($this->configLoader->load($areaCode));
 
+        $this->deploy->run();
+
+        $resources = $this->initResources();
         foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
-            if (isset($this->resources[$moduleName])) {
-                $resourceType = $this->resources[$moduleName];
+            if (isset($resources[$moduleName])) {
+                $resourceType = $resources[$moduleName];
                 $this->setupFactory->create($resourceType)->run();
                 $this->postInstaller->addModule($moduleName);
             }
@@ -119,5 +133,21 @@ class Installer implements \Magento\Framework\AppInterface
     public function catchException(Bootstrap $bootstrap, \Exception $exception)
     {
         return false;
+    }
+
+    /**
+     * Init resources
+     * @return array
+     */
+    private function initResources()
+    {
+        $config = [];
+        foreach (glob(__DIR__ . '/config/*.php') as $filename) {
+            if (is_file($filename)) {
+                $configPart = include $filename;
+                $config = array_merge_recursive($config, $configPart);
+            }
+        }
+        return isset($config['setup_resources']) ? $config['setup_resources'] : [];
     }
 }

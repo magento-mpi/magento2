@@ -54,6 +54,11 @@ class Tax implements SetupInterface
     protected $csvReaderFactory;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
      * @param \Magento\Tax\Service\V1\TaxRuleServiceInterface $ruleService
      * @param \Magento\Tax\Service\V1\Data\TaxRuleBuilder $ruleBuilder
      * @param \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
@@ -61,6 +66,7 @@ class Tax implements SetupInterface
      * @param \Magento\Tax\Model\Calculation\RateFactory $taxRateFactory
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
+     * @param \Magento\Tools\SampleData\Logger $logger
      */
     public function __construct(
         \Magento\Tax\Service\V1\TaxRuleServiceInterface $ruleService,
@@ -69,7 +75,8 @@ class Tax implements SetupInterface
         \Magento\Tax\Service\V1\Data\TaxRateBuilder $taxRateBuilder,
         \Magento\Tax\Model\Calculation\RateFactory $taxRateFactory,
         FixtureHelper $fixtureHelper,
-        CsvReaderFactory $csvReaderFactory
+        CsvReaderFactory $csvReaderFactory,
+        \Magento\Tools\SampleData\Logger $logger
     ) {
         $this->ruleService = $ruleService;
         $this->ruleBuilder = $ruleBuilder;
@@ -78,6 +85,7 @@ class Tax implements SetupInterface
         $this->taxRateFactory = $taxRateFactory;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -85,7 +93,7 @@ class Tax implements SetupInterface
      */
     public function run()
     {
-        echo 'Installing taxes' . PHP_EOL;
+        $this->logger->log('Installing taxes' . PHP_EOL);
         $fixtureFile = 'Tax/tax_rate.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
@@ -98,7 +106,7 @@ class Tax implements SetupInterface
                 ->setPercentageRate($data['rate']);
             $taxData = $this->taxRateBuilder->create();
             $this->taxRateService->createTaxRate($taxData);
-            echo '.';
+            $this->logger->log('.');
         }
 
         $fixtureFile = 'Tax/tax_rule.csv';
@@ -116,8 +124,8 @@ class Tax implements SetupInterface
                 ->setSortOrder($data['position']);
             $taxRule = $this->ruleBuilder->create();
             $this->ruleService->createTaxRule($taxRule);
-            echo '.';
+            $this->logger->log('.');
         }
-        echo PHP_EOL;
+        $this->logger->log(PHP_EOL);
     }
 }

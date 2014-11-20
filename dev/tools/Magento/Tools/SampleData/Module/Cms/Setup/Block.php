@@ -47,12 +47,18 @@ class Block implements SetupInterface
     protected $csvReaderFactory;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Cms\Model\BlockFactory $blockFactory
      * @param Block\Converter $converter
      * @param \Magento\Catalog\Service\V1\Category\WriteServiceInterface $categoryWriteService
      * @param \Magento\Catalog\Service\V1\Data\CategoryBuilder $categoryDataBuilder
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param array $fixtures
      */
     public function __construct(
@@ -62,6 +68,7 @@ class Block implements SetupInterface
         Block\Converter $converter,
         \Magento\Catalog\Service\V1\Category\WriteServiceInterface $categoryWriteService,
         \Magento\Catalog\Service\V1\Data\CategoryBuilder $categoryDataBuilder,
+        \Magento\Tools\SampleData\Logger $logger,
         $fixtures = array()
     ) {
         $this->fixtureHelper = $fixtureHelper;
@@ -74,6 +81,7 @@ class Block implements SetupInterface
         if (empty($this->fixtures)) {
             $this->fixtures = $this->fixtureHelper->getDirectoryFiles('Cms/Block');
         }
+        $this->logger = $logger;
     }
 
     /**
@@ -81,7 +89,7 @@ class Block implements SetupInterface
      */
     public function run()
     {
-        echo "Installing CMS blocks\n";
+        $this->logger->log('Installing CMS blocks' . PHP_EOL);
         foreach ($this->fixtures as $file) {
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader */
             $fileName = $this->fixtureHelper->getPath($file);
@@ -90,10 +98,10 @@ class Block implements SetupInterface
                 $data = $this->converter->convertRow($row);
                 $cmsBlock = $this->saveCmsBlock($data['block']);
                 $cmsBlock->unsetData();
-                echo '.';
+                $this->logger->log('.');
             }
         }
-        echo "\n";
+        $this->logger->log(PHP_EOL);
     }
 
     /**

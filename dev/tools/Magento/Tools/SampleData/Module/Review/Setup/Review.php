@@ -48,6 +48,11 @@ class Review implements SetupInterface
     protected $productCollection;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
      * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
     protected $customerAccount;
@@ -63,6 +68,8 @@ class Review implements SetupInterface
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
+     * @param \Magento\Tools\SampleData\Logger $logger
      */
     public function __construct(
         \Magento\Review\Model\ReviewFactory $reviewFactory,
@@ -70,13 +77,15 @@ class Review implements SetupInterface
         CsvReaderFactory $csvReaderFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount,
+        \Magento\Tools\SampleData\Logger $logger
     ) {
         $this->reviewFactory = $reviewFactory;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
         $this->ratingFactory = $ratingFactory;
         $this->productCollection = $productCollectionFactory->create()->addAttributeToSelect('sku');
+        $this->logger = $logger;
         $this->customerAccount = $customerAccount;
     }
 
@@ -85,7 +94,7 @@ class Review implements SetupInterface
      */
     public function run()
     {
-        echo 'Installing product reviews' . PHP_EOL;
+        $this->logger->log('Installing product reviews' . PHP_EOL);
 
         $fixtureFile = 'Review/products_reviews.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
@@ -103,9 +112,9 @@ class Review implements SetupInterface
             }
             $review->save();
             $this->setReviewRating($review, $row);
-            echo '.';
+            $this->logger->log('.');
         }
-        echo PHP_EOL;
+        $this->logger->log(PHP_EOL);
     }
 
     /**
