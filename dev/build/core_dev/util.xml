@@ -75,7 +75,7 @@
                 "/>
         </exec>
     </target>
-    <target name="_product_edition" description="Product edition source code preparation">
+    <target name="_product_edition" depends="_composer_install" description="Product edition source code preparation">
         <antcall>
             <target name="_product_edition_files"/>
             <target name="_license_replacement"/>
