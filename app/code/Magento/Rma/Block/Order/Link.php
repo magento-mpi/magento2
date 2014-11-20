@@ -9,6 +9,8 @@ namespace Magento\Rma\Block\Order;
 
 /**
  * "Returns" link
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Link extends \Magento\Sales\Block\Order\Link
 {

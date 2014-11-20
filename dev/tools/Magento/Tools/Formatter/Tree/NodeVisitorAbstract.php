@@ -12,7 +12,7 @@ namespace Magento\Tools\Formatter\Tree;
  *
  * Class NodeVisitorAbstract
  */
-class NodeVisitorAbstract implements NodeVisitor
+class NodeVisitorAbstract implements NodeVisitorInterface
 {
     /**
      * This method is called when first visiting a node.

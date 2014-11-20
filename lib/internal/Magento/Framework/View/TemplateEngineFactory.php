@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Factory class for Template Engine
@@ -17,7 +17,7 @@ class TemplateEngineFactory
     /**
      * Object manager
      *
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -31,10 +31,10 @@ class TemplateEngineFactory
     /**
      * Constructor
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param array $engines Format: array('<name>' => 'TemplateEngine\Class', ...)
      */
-    public function __construct(ObjectManager $objectManager, array $engines)
+    public function __construct(ObjectManagerInterface $objectManager, array $engines)
     {
         $this->objectManager = $objectManager;
         $this->engines = $engines;

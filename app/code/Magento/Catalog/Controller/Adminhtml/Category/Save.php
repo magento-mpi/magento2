@@ -1,5 +1,6 @@
 <?php
 /**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -7,9 +8,6 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Category;
 
-/**
- * Class Save
- */
 class Save extends \Magento\Catalog\Controller\Adminhtml\Category
 {
     /**
@@ -83,7 +81,6 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Category
         $storeId = $this->getRequest()->getParam('store');
         $refreshTree = false;
         $data = $this->getRequest()->getPost();
-
         if ($data) {
             $category->addData($this->_filterCategoryPostData($data['general']));
             if (!$category->getId()) {

@@ -37,8 +37,8 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Store\Model\System\Store|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeMock;
 
-    /** @var \Magento\Customer\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
-    protected $customerHelperMock;
+    /** @var \Magento\Customer\Model\Options|\PHPUnit_Framework_MockObject_MockObject */
+    protected $options;
 
     /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerAccountServiceInterfaceMock;
@@ -64,7 +64,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->storeMock = $this->getMock('Magento\Store\Model\System\Store', [], [], '', false);
-        $this->customerHelperMock = $this->getMockBuilder('Magento\Customer\Helper\Data')
+        $this->options = $this->getMockBuilder('Magento\Customer\Model\Options')
             ->setMethods(['getNamePrefixOptions', 'getNameSuffixOptions'])
             ->disableOriginalConstructor()->getMock();
         $this->customerAccountServiceInterfaceMock = $this->getMock(
@@ -167,9 +167,9 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->customerBuilderMock));
         $this->customerBuilderMock->expects($this->any())->method('create')
             ->will($this->returnValue($customerObject));
-        $this->customerHelperMock->expects($this->any())->method('getNamePrefixOptions')
+        $this->options->expects($this->any())->method('getNamePrefixOptions')
             ->will($this->returnValue(['Pref1', 'Pref2']));
-        $this->customerHelperMock->expects($this->any())->method('getNameSuffixOptions')
+        $this->options->expects($this->any())->method('getNameSuffixOptions')
             ->will($this->returnValue(['Suf1', 'Suf2']));
         $this->formFactoryMock->expects($this->any())->method('create')
             ->will($this->returnValue($accountForm));
@@ -200,7 +200,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
                 'jsonEncoder' => $this->encoderInterfaceMock,
                 'customerFormFactory' => $this->customerFormFactoryMock,
                 'systemStore' => $this->storeMock,
-                'customerHelper' => $this->customerHelperMock,
+                'options' => $this->options,
                 'customerAccountService' => $this->customerAccountServiceInterfaceMock,
                 'customerMetadataService' => $this->customerMetadataServiceInterfaceMock,
                 'customerBuilder' => $this->customerBuilderMock

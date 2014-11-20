@@ -20,7 +20,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
     protected $_factoryMock;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -39,15 +39,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_objectManager = $this->getMockForAbstractClass(
-            '\Magento\Framework\ObjectManager',
-            array(),
-            '',
-            true,
-            true,
-            true,
-            array('create')
-        );
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_objectManager->expects(
             $this->atLeastOnce()
         )->method(
@@ -90,15 +82,7 @@ class FilterManagerTest extends \PHPUnit_Framework_TestCase
     {
         $factoryName = 'Magento\Framework\Filter\Factory';
         $this->_factoryMock = new \stdClass();
-        $this->_objectManager = $this->getMockForAbstractClass(
-            '\Magento\Framework\ObjectManager',
-            array(),
-            '',
-            true,
-            true,
-            true,
-            array('create')
-        );
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_objectManager->expects(
             $this->atLeastOnce()
         )->method(

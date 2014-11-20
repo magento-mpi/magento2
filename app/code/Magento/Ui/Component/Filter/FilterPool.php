@@ -7,7 +7,7 @@
  */
 namespace Magento\Ui\Component\Filter;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class FilterPool
@@ -29,17 +29,17 @@ class FilterPool
     protected $filters = [];
 
     /**
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
      * Constructor
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param array $filters
      */
-    public function __construct(ObjectManager $objectManager, array $filters = [])
+    public function __construct(ObjectManagerInterface $objectManager, array $filters = [])
     {
         $this->objectManager = $objectManager;
         $this->filterTypes = $filters;

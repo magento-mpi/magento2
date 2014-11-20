@@ -403,9 +403,10 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerMock->expects($this->atLeastOnce())
             ->method('create')
             ->will(
+//                $this->returnValue($categoryMock)
                 $this->returnValueMap(
                     [
-                        ['Magento\Catalog\Model\Category', [], $categoryMock]
+                        ['Magento\Catalog\Model\Category', $categoryMock]
                     ]
                 )
             );

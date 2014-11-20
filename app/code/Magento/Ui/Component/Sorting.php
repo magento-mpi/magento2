@@ -38,7 +38,7 @@ class Sorting extends AbstractView
         $field = $this->config->getData('field');
         $direction = $this->config->getData('direction');
         if (!empty($field) && !empty($direction)) {
-            $this->renderContext->getStorage()->getDataCollection($this->getParentName())->setOrder(
+            $this->renderContext->getStorage()->getDataCollection($this->getParentName())->addOrder(
                 $this->renderContext->getRequestParam('sort', $field),
                 strtoupper($this->renderContext->getRequestParam('dir', $direction))
             );

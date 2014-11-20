@@ -188,7 +188,7 @@ class Listing extends AbstractView
     public function getCollectionItems()
     {
         $items = [];
-        $collection = $this->renderContext->getStorage()->getDataCollection($this->getName());
+        $collection = $this->getResultCollection();
         foreach ($collection->getItems() as $item) {
             $actualFields = [];
             $itemsData = $this->getDataFromDataProvider($item->getData());
@@ -197,8 +197,15 @@ class Listing extends AbstractView
             }
             $items[] = $actualFields;
         }
-
         return $items;
+    }
+
+    /**
+     * @return \Magento\Framework\Data\SearchResultInterface
+     */
+    protected function getResultCollection()
+    {
+        return $this->renderContext->getStorage()->getDataCollection($this->getName())->getResultCollection();
     }
 
     /**
@@ -222,17 +229,15 @@ class Listing extends AbstractView
         );
         $this->renderContext->getStorage()->addGlobalData('dump', ['extenders' => []]);
 
-        $collection = $this->renderContext->getStorage()->getDataCollection($this->getName());
-        $countItems = $collection->getSize();
-        $this->renderContext->getStorage()->addDataSource(
+        $collection = $this->getResultCollection();
+        $totalCount = $collection->getSize();
+        $this->renderContext->getStorage()->addData(
             $this->getName(),
             [
-                'data' => [
-                    'meta_reference' => $this->getName(),
-                    'items' => $this->getCollectionItems(),
-                    'pages' => ceil($countItems / $this->renderContext->getRequestParam('limit', 20)),
-                    'totalCount' => $countItems
-                ]
+                'meta_reference' => $this->getName(),
+                'items' => $this->getCollectionItems(),
+                'pages' => ceil($totalCount / $this->renderContext->getRequestParam('limit', 20)),
+                'totalCount' => $totalCount
             ]
         );
     }

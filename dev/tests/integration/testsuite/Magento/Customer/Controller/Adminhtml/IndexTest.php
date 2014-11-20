@@ -895,26 +895,26 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
-                'sendemail' => '1',
-                'customer_address' => array(
-                    '_item1' => array(
-                        'firstname' => 'update firstname',
-                        'lastname' => 'update lastname',
-                        'street' => array('update street'),
-                        'city' => 'update city',
-                        'country_id' => 'US',
-                        'postcode' => '01001',
-                        'telephone' => '+7000000001'
-                    ),
-                    '_template_' => array(
-                        'firstname' => '',
-                        'lastname' => '',
-                        'street' => array(),
-                        'city' => '',
-                        'country_id' => 'US',
-                        'postcode' => '',
-                        'telephone' => ''
-                    )
+                'sendemail' => '1'
+            ),
+            'address' => array(
+                '_item1' => array(
+                    'firstname' => 'update firstname',
+                    'lastname' => 'update lastname',
+                    'street' => array('update street'),
+                    'city' => 'update city',
+                    'country_id' => 'US',
+                    'postcode' => '01001',
+                    'telephone' => '+7000000001'
+                ),
+                '_template_' => array(
+                    'firstname' => '',
+                    'lastname' => '',
+                    'street' => array(),
+                    'city' => '',
+                    'country_id' => 'US',
+                    'postcode' => '',
+                    'telephone' => ''
                 )
             )
         );
@@ -945,30 +945,30 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'middlename' => 'new middlename',
                 'group_id' => 1,
                 'website_id' => 1,
-                'firstname' => '',
-                'lastname' => '',
+                'firstname' => 'new firstname',
+                'lastname' => 'new lastname',
                 'email' => '*',
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
-                'sendemail' => '1',
-                'customer_address' => array(
-                    '1' => array(
-                        'firstname' => '',
-                        'lastname' => '',
-                        'street' => array('update street'),
-                        'city' => 'update city',
-                        'postcode' => '01001',
-                        'telephone' => ''
-                    ),
-                    '_template_' => array(
-                        'lastname' => '',
-                        'street' => array(),
-                        'city' => '',
-                        'country_id' => 'US',
-                        'postcode' => '',
-                        'telephone' => ''
-                    )
+                'sendemail' => '1'
+            ),
+            'address' => array(
+                '1' => array(
+                    'firstname' => '',
+                    'lastname' => '',
+                    'street' => array('update street'),
+                    'city' => 'update city',
+                    'postcode' => '01001',
+                    'telephone' => ''
+                ),
+                '_template_' => array(
+                    'lastname' => '',
+                    'street' => array(),
+                    'city' => '',
+                    'country_id' => 'US',
+                    'postcode' => '',
+                    'telephone' => ''
                 )
             )
         );

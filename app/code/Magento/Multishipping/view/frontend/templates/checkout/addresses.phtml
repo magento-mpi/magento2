@@ -41,7 +41,7 @@
                                     <span><?php echo __('Qty') ?></span>
                                 </label>
                                 <div class="control">
-                                    <input type="number" id="ship-<?php echo $_index ?>-<?php echo $_item->getQuoteItemId() ?>-qty" name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $this->escapeHtml($_item->getQty()) ?>" size="2" class="input-text qty" data-validate="{'required-number': true}"/>
+                                    <input type="number" id="ship-<?php echo $_index ?>-<?php echo $_item->getQuoteItemId() ?>-qty" name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $this->escapeHtml($_item->getQty()) ?>" size="2" class="input-text qty" data-validate="{number: true}"/>
                                 </div>
                             </div>
                         </td>

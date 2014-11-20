@@ -97,7 +97,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 33;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(0));
 
         $this->service->set($cartId, $this->couponCodeDataMock);
@@ -113,7 +113,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $couponCode = '153a-ABC';
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(12));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
@@ -124,7 +124,10 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $exceptionMessage = 'Could not apply coupon code';
         $exception = new \Magento\Framework\Exception\CouldNotDeleteException($exceptionMessage);
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('save')->will($this->throwException($exception));
+        $this->quoteRepositoryMock->expects($this->once())
+            ->method('save')
+            ->with($this->quoteMock)
+            ->willThrowException($exception);
 
         $this->service->set($cartId, $this->couponCodeDataMock);
     }
@@ -139,7 +142,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $couponCode = '153a-ABC';
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(12));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
@@ -148,7 +151,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getCouponCode')->will($this->returnValue($couponCode));
         $this->quoteMock->expects($this->once())->method('setCouponCode')->with($couponCode);
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('save');
+        $this->quoteRepositoryMock->expects($this->once())->method('save')->with($this->quoteMock);
         $this->quoteMock->expects($this->once())->method('getCouponCode')->will($this->returnValue('invalidCoupon'));
 
         $this->service->set($cartId, $this->couponCodeDataMock);
@@ -160,7 +163,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $couponCode = '153a-ABC';
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(12));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
@@ -169,7 +172,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getCouponCode')->will($this->returnValue($couponCode));
         $this->quoteMock->expects($this->once())->method('setCouponCode')->with($couponCode);
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('save');
+        $this->quoteRepositoryMock->expects($this->once())->method('save')->with($this->quoteMock);
         $this->quoteMock->expects($this->once())->method('getCouponCode')->will($this->returnValue($couponCode));
 
         $this->assertTrue($this->service->set($cartId, $this->couponCodeDataMock));
@@ -184,7 +187,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 65;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(0));
         $this->quoteMock->expects($this->never())->method('getShippingAddress');
 
@@ -200,7 +203,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 65;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(12));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
@@ -210,7 +213,10 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $exceptionMessage = 'Could not delete coupon code';
         $exception = new \Magento\Framework\Exception\CouldNotSaveException($exceptionMessage);
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('save')->will($this->throwException($exception));
+        $this->quoteRepositoryMock->expects($this->once())
+            ->method('save')
+            ->with($this->quoteMock)
+            ->willThrowException($exception);
 
         $this->service->delete($cartId);
     }
@@ -224,7 +230,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 65;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(12));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
@@ -232,7 +238,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())->method('setCouponCode')->with('');
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('save');
+        $this->quoteRepositoryMock->expects($this->once())->method('save')->with($this->quoteMock);
         $this->quoteMock->expects($this->once())->method('getCouponCode')->will($this->returnValue('123_ABC'));
 
         $this->service->delete($cartId);
@@ -243,7 +249,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 65;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(12));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->quoteAddressMock));
@@ -251,7 +257,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())->method('setCouponCode')->with('');
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('save');
+        $this->quoteRepositoryMock->expects($this->once())->method('save')->with($this->quoteMock);
         $this->quoteMock->expects($this->once())->method('getCouponCode')->will($this->returnValue(''));
 
         $this->assertTrue($this->service->delete($cartId));

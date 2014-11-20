@@ -7,7 +7,7 @@
  */
 
 use Magento\Framework\App\State;
-use Magento\Framework\Filesystem;
+use Magento\Framework\App\Filesystem;
 use Magento\Store\Model\StoreManager;
 
 require_once __DIR__ . '/../../../../../app/bootstrap.php';

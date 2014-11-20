@@ -7,14 +7,13 @@
 
 define([
     "jquery",
-    'mage/smart-keyboard-handler',
     "jquery/ui",
     "jquery/hover-intent",
     "jquery/jquery.details",
     "jquery/jquery.tabs",
     "mage/backend/floating-header",
     "jquery/farbtastic"  // $(..).farbtastic()
-],function($, keyboardHandler) {
+],function($) {
     'use strict';
 
     $.widget('mage.globalSearch', {
@@ -195,6 +194,13 @@ define([
         },
 
         _create: function() {
+            this.template =
+                '<div class="popup popup-loading">' +
+                    '<div class="popup-inner">' + this.options.message + '</div>' +
+                '</div>';
+
+            this.popup = $(this.template);
+
             this._show();
             this._events();
         },
