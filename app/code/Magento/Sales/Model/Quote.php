@@ -727,8 +727,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     public function setCustomerAddressData(array $addresses)
     {
         foreach ($addresses as $address) {
-            $this->addressRepository->delete($address);
-            $this->addCustomerAddress($address);
+            if (!$address->getId()) {
+                $this->addCustomerAddress($address);
+            }
         }
 
         return $this;
