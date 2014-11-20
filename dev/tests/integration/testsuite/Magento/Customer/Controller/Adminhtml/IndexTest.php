@@ -153,7 +153,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                         'city' => 'test city',
                         'country_id' => 'US',
                         'postcode' => '01001',
-                        'telephone' => '+7000000001'
+                        'telephone' => '+7000000001',
+                        'default_billing' => true
                     )
                 )
             )
@@ -220,11 +221,11 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
                 'email' => 'customer@example.com',
-                'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
                 'sendemail' => '1',
                 'created_at' => '2000-01-01 00:00:00',
+                'default_shipping' => '_item1',
                 'default_billing' => 1,
                 'customer_address' => array(
                     '1' => array(
@@ -234,7 +235,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                         'city' => 'update city',
                         'country_id' => 'US',
                         'postcode' => '01001',
-                        'telephone' => '+7000000001'
+                        'telephone' => '+7000000001',
+                        'default_billing' => true
                     ),
                     '_item1' => array(
                         'firstname' => 'new firstname',
@@ -243,7 +245,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                         'city' => 'new city',
                         'country_id' => 'US',
                         'postcode' => '01001',
-                        'telephone' => '+7000000001'
+                        'telephone' => '+7000000001',
+                        'default_shipping' => true
                     ),
                     '_template_' => array(
                         'firstname' => '',
