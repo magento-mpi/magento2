@@ -61,6 +61,11 @@ class Installer implements \Magento\Framework\AppInterface
     protected $postInstaller;
 
     /**
+     * @var Helper\Deploy
+     */
+    protected $deploy;
+
+    /**
      * @param State $appState
      * @param SetupFactory $setupFactory
      * @param ModuleListInterface $moduleList
@@ -68,6 +73,7 @@ class Installer implements \Magento\Framework\AppInterface
      * @param ConfigLoader $configLoader
      * @param Console\Response $response
      * @param Helper\PostInstaller $postInstaller
+     * @param Helper\Deploy $deploy
      * @param array $resources
      */
     public function __construct(
@@ -78,6 +84,7 @@ class Installer implements \Magento\Framework\AppInterface
         ConfigLoader $configLoader,
         Console\Response $response,
         Helper\PostInstaller $postInstaller,
+        Helper\Deploy $deploy,
         array $resources = []
     ) {
         $this->appState = $appState;
@@ -88,6 +95,7 @@ class Installer implements \Magento\Framework\AppInterface
         $this->configLoader = $configLoader;
         $this->response = $response;
         $this->postInstaller = $postInstaller;
+        $this->deploy = $deploy;
     }
 
     /**
@@ -98,6 +106,8 @@ class Installer implements \Magento\Framework\AppInterface
         $areaCode = 'install';
         $this->appState->setAreaCode($areaCode);
         $this->objectManager->configure($this->configLoader->load($areaCode));
+
+        $this->deploy->run();
 
         foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
             if (isset($this->resources[$moduleName])) {
