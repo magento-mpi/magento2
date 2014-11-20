@@ -137,7 +137,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $addressRepository;
 
     /**
-     * @var \Magento\Customer\Api\Data\AddressInterfaceBuilder
+     * @var \Magento\Customer\Api\Data\AddressDataBuilder
      */
     protected $addressBuilder;
 
@@ -182,7 +182,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $accountManagement;
 
     /**
-     * @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     protected $customerBuilder;
 
@@ -202,10 +202,10 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param \Magento\Sales\Model\AdminOrder\Product\Quote\Initializer $quoteInitializer
+     * @param Product\Quote\Initializer $quoteInitializer
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
-     * @param \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder
+     * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
@@ -214,7 +214,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      * @param Item\Updater $quoteItemUpdater
      * @param \Magento\Framework\Object\Factory $objectFactory
      * @param \Magento\Customer\Api\AccountManagementInterface $accountManagement
-     * @param \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param array $data
      */
@@ -230,7 +230,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         Product\Quote\Initializer $quoteInitializer,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
-        \Magento\Customer\Api\Data\AddressInterfaceBuilder $addressBuilder,
+        \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
@@ -239,7 +239,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         \Magento\Sales\Model\Quote\Item\Updater $quoteItemUpdater,
         \Magento\Framework\Object\Factory $objectFactory,
         \Magento\Customer\Api\AccountManagementInterface $accountManagement,
-        \Magento\Customer\Api\Data\CustomerInterfaceBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         array $data = array()
     ) {

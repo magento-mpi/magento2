@@ -27,14 +27,14 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
     /**
      * Builder
      *
-     * @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     private $customerBuilder;
 
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
-        $this->customerBuilder = $this->objectManager->create('Magento\Customer\Api\Data\CustomerInterfaceBuilder');
+        $this->customerBuilder = $this->objectManager->create('Magento\Customer\Api\Data\CustomerDataBuilder');
     }
 
     protected function getCustomerById($id)

@@ -11,7 +11,7 @@ $groupRepository = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
 );
 
 $groupBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-    'Magento\Customer\Api\Data\GroupInterfaceBuilder'
+    'Magento\Customer\Api\Data\GroupDataBuilder'
 );
 $groupBuilder->setCode('custom_group')->setTaxClassId(5);
 $groupRepository->save($groupBuilder->create());

@@ -83,7 +83,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $this->customerAddressMock = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
         $this->customerHelperMock = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
         $this->customerBuilderMock = $this->getMock(
-            'Magento\Customer\Api\Data\CustomerInterfaceBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             ['mergeDataObjectWithArray', 'create'],
             [],
             '',

@@ -70,10 +70,10 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Metadata\FormFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerFormFactoryMock;
 
-    /** @var \Magento\Customer\Api\Data\CustomerInterfaceBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerBuilderMock;
 
-    /** @var \Magento\Customer\Api\Data\AddressInterfaceBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Customer\Api\Data\AddressDataBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $addressBuilderMock;
 
     /** @var \Magento\Framework\Math\Random|\PHPUnit_Framework_MockObject_MockObject */
@@ -150,7 +150,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->customerBuilderMock = $this->getMock(
-            'Magento\Customer\Api\Data\CustomerInterfaceBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             [],
             [],
             '',
@@ -158,7 +158,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->addressBuilderMock = $this->getMock(
-            'Magento\Customer\Api\Data\AddressInterfaceBuilder',
+            'Magento\Customer\Api\Data\AddressDataBuilder',
             [],
             [],
             '',

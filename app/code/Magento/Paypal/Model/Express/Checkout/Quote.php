@@ -7,9 +7,9 @@
  */
 namespace Magento\Paypal\Model\Express\Checkout;
 
-use Magento\Customer\Api\Data\AddressInterfaceBuilder;
+use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Framework\Object\Copy as CopyObject;
-use Magento\Customer\Api\Data\CustomerInterfaceBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Session as CustomerSession;
 
@@ -20,12 +20,12 @@ class Quote
 {
 
     /**
-     * @var AddressInterfaceBuilder
+     * @var AddressDataBuilder
      */
     protected $addressBuilder;
 
     /**
-     * @var CustomerInterfaceBuilder
+     * @var CustomerDataBuilder
      */
     protected $customerBuilder;
 
@@ -45,15 +45,15 @@ class Quote
     protected $copyObject;
 
     /**
-     * @param AddressInterfaceBuilder $addressBuilder
-     * @param CustomerInterfaceBuilder $customerBuilder
+     * @param AddressDataBuilder $addressBuilder
+     * @param CustomerDataBuilder $customerBuilder
      * @param CustomerRepositoryInterface $customerRepository
      * @param CopyObject $copyObject
      * @param CustomerSession $customerSession
      */
     public function __construct(
-        AddressInterfaceBuilder $addressBuilder,
-        CustomerInterfaceBuilder $customerBuilder,
+        AddressDataBuilder $addressBuilder,
+        CustomerDataBuilder $customerBuilder,
         CustomerRepositoryInterface $customerRepository,
         CopyObject $copyObject,
         CustomerSession $customerSession
