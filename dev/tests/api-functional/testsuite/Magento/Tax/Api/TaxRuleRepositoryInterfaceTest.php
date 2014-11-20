@@ -6,16 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1;
+namespace Magento\Tax\Api;
 
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Tax\Service\V1\Data\TaxRule;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as HttpConstants;
 
-class TaxRuleServiceTest extends WebapiAbstract
+class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
 {
     const SERVICE_NAME = "taxTaxRuleRepositoryV1";
     const SERVICE_VERSION = "V1";
@@ -112,7 +111,7 @@ class TaxRuleServiceTest extends WebapiAbstract
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => TaxRuleServiceTest::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => HttpConstants::HTTP_METHOD_POST
             ],
             'soap' => [
@@ -149,7 +148,7 @@ class TaxRuleServiceTest extends WebapiAbstract
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => TaxRuleServiceTest::RESOURCE_PATH,
+                'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => HttpConstants::HTTP_METHOD_POST
             ],
             'soap' => [
@@ -259,120 +258,118 @@ class TaxRuleServiceTest extends WebapiAbstract
         $result = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($expectedRuleData, $result);
     }
-//    /**
-//     * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
-//     */
-//    public function testSearchTaxRulesSimple()
-//    {
-//        // Find rules whose code is 'Test Rule'
-//        $filter = $this->filterBuilder->setField(TaxRule::CODE)
-//            ->setValue('Test Rule')
-//            ->create();
-//
-//        $this->searchCriteriaBuilder->addFilter([$filter]);
-//
-//        $fixtureRule = $this->getFixtureTaxRules()[1];
-//
-//        $serviceInfo = [
-//            'rest' => [
-//                'resourcePath' => self::RESOURCE_PATH . '/search',
-//                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
-//            ],
-//            'soap' => [
-//                'service' => self::SERVICE_NAME,
-//                'serviceVersion' => self::SERVICE_VERSION,
-//                'operation' => self::SERVICE_NAME . 'SearchTaxRules'
-//            ]
-//        ];
-//        $searchData = $this->searchCriteriaBuilder->create()->__toArray();
-//        $requestData = ['searchCriteria' => $searchData];
-//
-//        /** @var \Magento\Framework\Api\SearchResults $searchResults */
-//        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
-//
-//        $this->assertEquals(1, $searchResults['total_count']);
-//
-//        $expectedRuleData = [
-//            [
-//                'id' => $fixtureRule->getId(),
-//                'code' => 'Test Rule',
-//                'priority' => 0,
-//                'position' => 0,
-//                'priority' => 0,
-//                'position' => 0,
-//                'calculate_subtotal' => 0,
-//                'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
-//                'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
-//                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
-//            ]
-//        ];
-//        $this->assertEquals($expectedRuleData, $searchResults['items']);
-//    }
-//
-//    /**
-//     * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
-//     */
-//    public function testSearchTaxRulesCodeLike()
-//    {
-//        // Find rules whose code starts with 'Test Rule'
-//        $filter = $this->filterBuilder
-//            ->setField(TaxRule::CODE)
-//            ->setValue('Test Rule%')
-//            ->setConditionType('like')
-//            ->create();
-//
-//        $sortFilter = $this->filterBuilder
-//            ->setField(TaxRule::position)
-//            ->setValue(0)
-//            ->create();
-//
-//        $this->searchCriteriaBuilder->addFilter([$filter, $sortFilter]);
-//
-//        $fixtureRule = $this->getFixtureTaxRules()[1];
-//
-//        $serviceInfo = [
-//            'rest' => [
-//                'resourcePath' => self::RESOURCE_PATH . '/search',
-//                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
-//            ],
-//            'soap' => [
-//                'service' => self::SERVICE_NAME,
-//                'serviceVersion' => self::SERVICE_VERSION,
-//                'operation' => self::SERVICE_NAME . 'SearchTaxRules'
-//            ]
-//        ];
-//        $searchData = $this->searchCriteriaBuilder->create()->__toArray();
-//        $requestData = ['searchCriteria' => $searchData];
-//
-//        /** @var \Magento\Framework\Api\SearchResults $searchResults */
-//        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
-//
-//        $this->assertEquals(2, $searchResults['total_count']);
-//
-//        $expectedRuleData = [
-//            [
-//                'id' => $fixtureRule->getId(),
-//                'code' => 'Test Rule',
-//                'priority' => 0,
-//                'position' => 0,
-//                'calculate_subtotal' => 0,
-//                'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
-//                'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
-//                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
-//            ],
-//            [
-//                'id' => $this->getFixtureTaxRules()[0]->getId(),
-//                'code' => 'Test Rule Duplicate',
-//                'priority' => 0,
-//                'position' => 0,
-//                'calculate_subtotal' => 0,
-//                'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
-//                'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
-//                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
-//            ],
-//        ];
-//        $this->assertEquals($expectedRuleData, $searchResults['items']);
-//    }
+    /**
+     * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
+     */
+    public function testSearchTaxRulesSimple()
+    {
+        // Find rules whose code is 'Test Rule'
+        $filter = $this->filterBuilder->setField('code')
+            ->setValue('Test Rule')
+            ->create();
+
+        $this->searchCriteriaBuilder->addFilter([$filter]);
+
+        $fixtureRule = $this->getFixtureTaxRules()[1];
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search',
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Search'
+            ]
+        ];
+        $searchData = $this->searchCriteriaBuilder->create()->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+
+        /** @var \Magento\Framework\Api\SearchResults $searchResults */
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+
+        $this->assertEquals(1, $searchResults['total_count']);
+
+        $expectedRuleData = [
+            [
+                'id' => $fixtureRule->getId(),
+                'code' => 'Test Rule',
+                'priority' => 0,
+                'position' => 0,
+                'calculate_subtotal' => 0,
+                'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
+                'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
+                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
+            ]
+        ];
+        $this->assertEquals($expectedRuleData, $searchResults['items']);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
+     */
+    public function testSearchTaxRulesCodeLike()
+    {
+        // Find rules whose code starts with 'Test Rule'
+        $filter = $this->filterBuilder
+            ->setField('code')
+            ->setValue('Test Rule%')
+            ->setConditionType('like')
+            ->create();
+
+        $sortFilter = $this->filterBuilder
+            ->setField('position')
+            ->setValue(0)
+            ->create();
+
+        $this->searchCriteriaBuilder->addFilter([$filter, $sortFilter]);
+
+        $fixtureRule = $this->getFixtureTaxRules()[1];
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search',
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Search'
+            ]
+        ];
+        $searchData = $this->searchCriteriaBuilder->create()->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+
+        /** @var \Magento\Framework\Api\SearchResults $searchResults */
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+
+        $this->assertEquals(2, $searchResults['total_count']);
+
+        $expectedRuleData = [
+            [
+                'id' => $fixtureRule->getId(),
+                'code' => 'Test Rule',
+                'priority' => 0,
+                'position' => 0,
+                'calculate_subtotal' => 0,
+                'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
+                'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
+                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
+            ],
+            [
+                'id' => $this->getFixtureTaxRules()[0]->getId(),
+                'code' => 'Test Rule Duplicate',
+                'priority' => 0,
+                'position' => 0,
+                'calculate_subtotal' => 0,
+                'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
+                'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
+                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
+            ],
+        ];
+        $this->assertEquals($expectedRuleData, $searchResults['items']);
+    }
 
     public function testGetTaxRuleNotExist()
     {
@@ -513,36 +510,36 @@ class TaxRuleServiceTest extends WebapiAbstract
         }
     }
 
-//    /**
-//     * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
-//     */
-//    public function testSearchTaxRule()
-//    {
-//        $fixtureRule = $this->getFixtureTaxRules()[0];
-//
-//        $serviceInfo = [
-//            'rest' => [
-//                'resourcePath' => self::RESOURCE_PATH . '/search',
-//                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
-//            ],
-//            'soap' => [
-//                'service' => self::SERVICE_NAME,
-//                'serviceVersion' => self::SERVICE_VERSION,
-//                'operation' => self::SERVICE_NAME . 'SearchTaxRules'
-//            ]
-//        ];
-//
-//        $filter = $this->filterBuilder->setField('code')
-//            ->setValue($fixtureRule->getCode())
-//            ->create();
-//        $this->searchCriteriaBuilder->addFilter([$filter]);
-//        $searchData = $this->searchCriteriaBuilder->create()->__toArray();
-//        $requestData = ['searchCriteria' => $searchData];
-//        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
-//        $this->assertEquals(1, $searchResults['total_count']);
-//        $this->assertEquals($fixtureRule->getId(), $searchResults['items'][0]["id"]);
-//        $this->assertEquals($fixtureRule->getCode(), $searchResults['items'][0]['code']);
-//    }
+    /**
+     * @magentoApiDataFixture Magento/Tax/_files/tax_classes.php
+     */
+    public function testSearchTaxRule()
+    {
+        $fixtureRule = $this->getFixtureTaxRules()[0];
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search',
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Search'
+            ]
+        ];
+
+        $filter = $this->filterBuilder->setField('code')
+            ->setValue($fixtureRule->getCode())
+            ->create();
+        $this->searchCriteriaBuilder->addFilter([$filter]);
+        $searchData = $this->searchCriteriaBuilder->create()->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(1, $searchResults['total_count']);
+        $this->assertEquals($fixtureRule->getId(), $searchResults['items'][0]["id"]);
+        $this->assertEquals($fixtureRule->getCode(), $searchResults['items'][0]['code']);
+    }
 
     /**
      * Get tax rates created in Magento\Tax\_files\tax_classes.php
