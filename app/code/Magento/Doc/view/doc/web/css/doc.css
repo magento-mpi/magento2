@@ -200,7 +200,6 @@ nav.navigation {
 }
 
 .fore-color .wysihtml5-command-active {
-    outline: 1px solid #666;
     outline-offset: 1px;
 }
 
@@ -247,7 +246,6 @@ nav.navigation {
 }
 
 [data-wysihtml5-dialog] input:focus {
-    outline: 0;
     border: 1px solid #666;
 }
 
@@ -302,7 +300,6 @@ textarea {
 textarea:focus {
     box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
     background: rgba(255, 255, 255, 0.4);
-    outline: 0;
 }
 
 a.fork {

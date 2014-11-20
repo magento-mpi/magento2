@@ -11,7 +11,7 @@
     <blocks>
         <customerSkuBlock>
             <class>Magento\AdvancedCheckout\Test\Block\Customer\Sku</class>
-            <locator>.block.addbysku</locator>
+            <locator>.block-addbysku</locator>
             <strategy>css selector</strategy>
         </customerSkuBlock>
     </blocks>

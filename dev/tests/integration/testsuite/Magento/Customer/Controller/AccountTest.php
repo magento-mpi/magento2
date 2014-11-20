@@ -49,7 +49,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertContains('<input type="email" name="email" id="email_address"', $body);
         $this->assertContains('<input type="checkbox" name="is_subscribed"', $body);
         $this->assertContains('<input type="password" name="password" id="password"', $body);
-        $this->assertContains('<input type="password" name="confirmation" title="Confirm Password"', $body);
+        $this->assertContains('<input type="password" name="password_confirmation" title="Confirm Password"', $body);
     }
 
     /**
@@ -138,7 +138,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             ->setParam('company', '')
             ->setParam('email', 'test1@email.com')
             ->setParam('password', 'password')
-            ->setParam('confirmation', 'password')
+            ->setParam('password_confirmation', 'password')
             ->setParam('telephone', '5123334444')
             ->setParam('street', array('1234 fake street', ''))
             ->setParam('city', 'Austin')
@@ -175,7 +175,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             ->setParam('company', '')
             ->setParam('email', $email)
             ->setParam('password', 'password')
-            ->setParam('confirmation', 'password')
+            ->setParam('password_confirmation', 'password')
             ->setParam('telephone', '5123334444')
             ->setParam('street', array('1234 fake street', ''))
             ->setParam('city', 'Austin')
@@ -214,7 +214,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             ->setParam('company', '')
             ->setParam('email', 'customer@example.com')
             ->setParam('password', 'password')
-            ->setParam('confirmation', 'password')
+            ->setParam('password_confirmation', 'password')
             ->setParam('telephone', '5123334444')
             ->setParam('street', array('1234 fake street', ''))
             ->setParam('city', 'Austin')
@@ -349,7 +349,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             ->setParam('token', '8ed8677e6c79e68b94e61658bd756ea5')
             ->setPost([
                 'password' => 'new-password',
-                'confirmation' => 'new-password'
+                'password_confirmation' => 'new-password'
             ]);
 
         $this->dispatch('customer/account/resetPasswordPost');
@@ -371,7 +371,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             ->setQuery('token', '8ed8677e6c79e68b94e61658bd756ea5')
             ->setPost([
                 'password' => 'new-password',
-                'confirmation' => 'new-password'
+                'password_confirmation' => 'new-password'
             ]);
 
         $this->dispatch('customer/account/resetPasswordPost');
@@ -482,7 +482,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
                 'change_password'  => 1,
                 'current_password' => 'password',
                 'password'         => 'new-password',
-                'confirmation'     => 'new-password'
+                'password_confirmation' => 'new-password'
             ]);
 
         $this->dispatch('customer/account/editPost');
@@ -539,7 +539,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
                 'change_password'  => 1,
                 'current_password' => 'wrong-password',
                 'password'         => 'new-password',
-                'confirmation'     => 'new-password'
+                'password_confirmation' => 'new-password'
             ]);
 
         $this->dispatch('customer/account/editPost');
@@ -567,7 +567,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
                 'change_password'  => 1,
                 'current_password' => 'password',
                 'password'         => 'new-password',
-                'confirmation'     => 'new-password-no-match'
+                'password_confirmation' => 'new-password-no-match'
             ]);
 
         $this->dispatch('customer/account/editPost');

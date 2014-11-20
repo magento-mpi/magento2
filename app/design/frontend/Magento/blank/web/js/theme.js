@@ -6,8 +6,9 @@
  */
 define([
     "jquery",
+    'mage/smart-keyboard-handler',
     "jquery/ui"
-],function($) {
+],function($, keyboardHandler) {
     'use strict';
 
     $(function() {
@@ -26,6 +27,8 @@ define([
         }
 
         $( ".panel.header > .header.links" ).clone().appendTo( "#store\\.links" );
+
+        keyboardHandler.init();
     });
 
 });

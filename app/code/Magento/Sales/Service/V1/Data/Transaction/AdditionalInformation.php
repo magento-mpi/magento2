@@ -8,7 +8,7 @@
  
 namespace Magento\Sales\Service\V1\Data\Transaction;
 
-use Magento\Framework\Service\Data\AbstractSimpleObject as DataObject;
+use Magento\Framework\Api\AbstractSimpleObject as DataObject;
 
 /**
  * @codeCoverageIgnore
