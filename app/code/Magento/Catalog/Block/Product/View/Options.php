@@ -158,13 +158,24 @@ class Options extends \Magento\Framework\View\Element\Template
      */
     protected function _getPriceConfiguration($option)
     {
-        $data = array();
-        $data['price'] = $this->_coreData->currency($option->getPrice(true), false, false);
-        $data['oldPrice'] = $this->_coreData->currency($option->getPrice(false), false, false);
-        $data['priceValue'] = $option->getPrice(false);
-        $data['type'] = $option->getPriceType();
-        $data['exclTaxPrice'] = $price = $this->_catalogData->getTaxPrice($option->getProduct(), $data['price'], false);
-        $data['inclTaxPrice'] = $price = $this->_catalogData->getTaxPrice($option->getProduct(), $data['price'], true);
+        $optionPrice = $this->_coreData->currency($option->getPrice(true), false, false);
+        $data = [
+            'prices' => [
+                'oldPrice' => [
+                    'amount' => $this->_coreData->currency($option->getPrice(false), false, false),
+                    'adjustments' =>[]
+                ],
+                'basePrice' => [
+                    'amount' => $this->_catalogData->getTaxPrice($option->getProduct(), $optionPrice, false),
+                    'adjustments' =>[]
+                ],
+                'finalPrice' => [
+                    'amount' => $this->_catalogData->getTaxPrice($option->getProduct(), $optionPrice, true),
+                    'adjustments' =>[]
+                ]
+            ],
+            'type' => $option->getPriceType()
+        ];
         return $data;
     }
 

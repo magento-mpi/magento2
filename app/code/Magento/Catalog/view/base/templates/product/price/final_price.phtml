@@ -25,7 +25,7 @@ $schema = ($this->getZone() == 'item_view') ? true : false;
         <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
             'display_label'     => __('Special Price'),
             'price_id'          => $this->getPriceId('product-price-' . $idSuffix),
-            'price_type'        => 'price',
+            'price_type'        => 'basePrice',
             'include_container' => true,
             'schema' => $schema
         ]); ?>
@@ -42,7 +42,7 @@ $schema = ($this->getZone() == 'item_view') ? true : false;
 <?php else: ?>
     <?php echo $this->renderAmount($finalPriceModel->getAmount(), [
         'price_id'          => $this->getPriceId('product-price-' . $idSuffix),
-        'price_type'        => 'price',
+        'price_type'        => 'basePrice',
         'include_container' => true,
         'schema' => $schema
     ]); ?>

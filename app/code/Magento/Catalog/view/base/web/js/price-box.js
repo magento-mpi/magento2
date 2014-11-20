@@ -146,36 +146,7 @@ define([
             if(+config.productId !== +this.options.productId) {
                 return;
             }
-            if(config.inclTaxPrice === config.productOldPrice) {
-                this.options.prices['price'] = {
-                    'amount': config.productOldPrice * (1 - config.currentTax / 100),
-                    'adjustments': {
-                        'tax': config.productOldPrice * config.currentTax / 100
-                    }
-                };
-            } else {
-                this.options.prices['price'] = {
-                    'amount': config.exclTaxPrice,
-                    'adjustments': {
-                        'tax': config.exclTaxPrice * config.currentTax / 100
-                    }
-                };
-                this.options.prices['oldPrice'] = {
-                    'amount': config.productOldPrice * (1 - config.currentTax / 100),
-                    'adjustments': {
-                        'tax': config.productOldPrice * config.currentTax / 100
-                    }
-                };
-            }
-            if(config.plusDisposition) {
-                this.options.prices.price.adjustments.weee = config.plusDisposition;
-            }
-            if(config.exclTaxPrice) {
-                this.options.prices['priceExclTax'] = {
-                    'amount': config.exclTaxPrice,
-                    'adjustments': {}
-                };
-            }
+            this.options.prices = config.prices;
             console.log(config, this.options.prices);
         }
     }

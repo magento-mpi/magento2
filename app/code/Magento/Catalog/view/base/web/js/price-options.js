@@ -75,58 +75,45 @@ define([
         $(this.options.priceHolderSelector).trigger('updatePrice', additionalPrice);
     }
 
-    function defaultGetOptionValue(element, optionConfig) {
+    function defaultGetOptionValue(element, optionsConfig) {
         var changes = {};
         var optionValue = element.val();
         var optionId = utils.findOptionId(element[0]);
         var optionName = element.prop('name');
         var optionType = element.prop('type');
-        var overhead;
+        var optionConfig = optionsConfig[optionId];
         var optionHash;
         switch (optionType) {
             case 'text':
             case 'textarea':
                 optionHash = optionName;
-                overhead = optionValue ? optionConfig[optionId] : null;
-
-                changes[optionHash] = utils.setOptionConfig(overhead);
+                changes[optionHash] = optionValue ? optionConfig.prices : {};
 
                 break;
             case 'radio':
             case 'select-one':
                 optionHash = optionName;
-                overhead = optionConfig[optionId][optionValue] || null;
-
-                changes[optionHash] = utils.setOptionConfig(overhead);
+                changes[optionHash] = optionConfig[optionValue].prices || {};
                 break;
             case 'select-multiple':
-                _.each(optionConfig[optionId], function(prices, optionValueCode) {
+                _.each(optionConfig, function(row, optionValueCode) {
                     optionHash = optionName + '##' + optionValueCode;
-                    overhead = _.contains(optionValue, optionValueCode) ? prices : null;
-
-                    changes[optionHash] = utils.setOptionConfig(overhead);
+                    changes[optionHash] = _.contains(optionValue, optionValueCode) ? row.prices : {};
                 });
-
                 break;
             case 'checkbox':
                 optionHash = optionName + '##' + optionValue;
-                overhead = element.is(':checked') ? optionConfig[optionId][optionValue] : null;
-
-                changes[optionHash] = utils.setOptionConfig(overhead);
+                changes[optionHash] = element.is(':checked') ? optionConfig[optionValue].prices : {};
                 break;
             case 'file':
                 optionHash = optionName;
-
                 // Checking for 'disable' property equal to checking DOMNode with id*="change-"
-                overhead = optionValue || element.prop('disabled') ? optionConfig[optionId] : null;
-
-                changes[optionHash] = utils.setOptionConfig(overhead);
+                changes[optionHash] = optionValue || element.prop('disabled') ? optionConfig.prices : {};
                 break;
             case 'hidden':
             default:
                 break;
         }
-
         return changes;
     }
 
