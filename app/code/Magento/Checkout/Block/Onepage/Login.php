@@ -30,6 +30,16 @@ class Login extends AbstractOnepage
     protected $messageManager;
 
     /**
+     * @var \Magento\Customer\Model\Url
+     */
+    protected $customerUrl;
+
+    /**
+     * @var \Magento\Customer\Model\Registration
+     */
+    protected $registration;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -43,6 +53,8 @@ class Login extends AbstractOnepage
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Customer\Model\Url $customerUrl
+     * @param \Magento\Customer\Model\Registration $registration
      * @param array $data
      */
     public function __construct(
@@ -59,9 +71,12 @@ class Login extends AbstractOnepage
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Customer\Model\Url $customerUrl,
+        \Magento\Customer\Model\Registration $registration,
         array $data = array()
     ) {
-
+        $this->registration = $registration;
+        $this->customerUrl = $customerUrl;
         $this->_checkoutData = $checkoutData;
         $this->messageManager = $messageManager;
         parent::__construct(
@@ -90,6 +105,36 @@ class Login extends AbstractOnepage
             $this->getCheckout()->setStepData('login', array('label' => __('Checkout Method'), 'allow' => true));
         }
         parent::_construct();
+    }
+
+    /**
+     * Get customer registration
+     *
+     * @return \Magento\Customer\Model\Registration
+     */
+    public function getRegistration()
+    {
+        return $this->registration;
+    }
+
+    /**
+     * Return registration URL
+     *
+     * @return string
+     */
+    public function getRegisterUrl()
+    {
+        return $this->customerUrl->getRegisterUrl();
+    }
+
+    /**
+     * Return forgot password URL
+     *
+     * @return string
+     */
+    public function getForgotPasswordUrl()
+    {
+        return $this->customerUrl->getForgotPasswordUrl();
     }
 
     /**

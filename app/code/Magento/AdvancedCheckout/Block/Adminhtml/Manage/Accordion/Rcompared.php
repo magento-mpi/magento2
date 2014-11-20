@@ -45,9 +45,9 @@ class Rcompared extends AbstractAccordion
     protected $_reportsEventResource;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -59,7 +59,7 @@ class Rcompared extends AbstractAccordion
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $compareListFactory
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -74,7 +74,7 @@ class Rcompared extends AbstractAccordion
         \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory,
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $compareListFactory,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         array $data = array()
     ) {
         $this->_catalogConfig = $catalogConfig;
@@ -82,7 +82,7 @@ class Rcompared extends AbstractAccordion
         $this->_adminhtmlSales = $adminhtmlSales;
         $this->productListFactory = $productListFactory;
         $this->_compareListFactory = $compareListFactory;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
         parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $data);
     }
 
@@ -140,7 +140,8 @@ class Rcompared extends AbstractAccordion
             $productCollection = $this->_adminhtmlSales->applySalableProductTypesFilter($productCollection);
             // Remove disabled and out of stock products from the grid
             foreach ($productCollection as $product) {
-                if (!$this->stockItemService->getIsInStock($product->getId()) || !$product->isInStock()) {
+                $stockItem = $this->stockRegistry->getStockItem($product->getId(), $this->_getStore()->getWebsiteId());
+                if (!$stockItem->getIsInStock() || !$product->isInStock()) {
                     $productCollection->removeItemByKey($product->getId());
                 }
             }

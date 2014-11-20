@@ -44,16 +44,16 @@ class Rviewed extends AbstractAccordion
     protected $_catalogConfig;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Stock\Status
+     * @var \Magento\CatalogInventory\Helper\Stock
      */
-    protected $_catalogStockStatus;
+    protected $stockHelper;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
+     * @param \Magento\CatalogInventory\Helper\Stock $stockHelper
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -67,7 +67,7 @@ class Rviewed extends AbstractAccordion
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
+        \Magento\CatalogInventory\Helper\Stock $stockHelper,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -75,7 +75,7 @@ class Rviewed extends AbstractAccordion
         array $data = array()
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;
-        $this->_catalogStockStatus = $catalogStockStatus;
+        $this->stockHelper = $stockHelper;
         $this->_catalogConfig = $catalogConfig;
         $this->_productFactory = $productFactory;
         $this->_eventFactory = $eventFactory;
@@ -132,7 +132,7 @@ class Rviewed extends AbstractAccordion
                     ProductStatus::STATUS_ENABLED
                 );
 
-                $this->_catalogStockStatus->addIsInStockFilterToCollection($productCollection);
+                $this->stockHelper->addIsInStockFilterToCollection($productCollection);
                 $productCollection = $this->_adminhtmlSales->applySalableProductTypesFilter($productCollection);
                 $productCollection->addOptionsToResult();
             }

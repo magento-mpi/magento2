@@ -14,9 +14,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     protected $block;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\CatalogInventory\Service\V1\StockItemService */
-    protected $stockItemService;
-
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Block\Template
      */
@@ -39,6 +36,19 @@ class GridTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Pricing\PriceCurrencyInterface
      */
     protected $priceCurrency;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $stockItemMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockRegistry;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockState;
 
     /**
      * Initialize required data
@@ -78,13 +88,31 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $taxConfig = $this->getMockBuilder('Magento\Tax\Model\Config')->disableOriginalConstructor()->getMock();
-        $this->stockItemService = $this->getMock(
-            'Magento\CatalogInventory\Service\V1\StockItemService',
-            [],
+
+        $this->stockRegistry = $this->getMockBuilder('Magento\CatalogInventory\Model\StockRegistry')
+            ->disableOriginalConstructor()
+            ->setMethods(['getStockItem', '__wakeup'])
+            ->getMock();
+
+        $this->stockItemMock = $this->getMock(
+            'Magento\CatalogInventory\Model\Stock\Item',
+            ['getIsInStock', '__wakeup'],
             [],
             '',
             false
         );
+
+        $this->stockState = $this->getMock(
+            'Magento\CatalogInventory\Model\StockState',
+            ['checkQuoteItemQty', '__wakeup'],
+            [],
+            '',
+            false
+        );
+
+        $this->stockRegistry->expects($this->any())
+            ->method('getStockItem')
+            ->will($this->returnValue($this->stockItemMock));
 
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->block = $this->objectManager->getObject(
@@ -98,7 +126,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
                 'orderCreate' => $orderCreateMock,
                 'priceCurrency' => $this->priceCurrency,
                 'coreData' => $coreData,
-                'stockItemService' => $this->stockItemService
+                'stockRegistry' => $this->stockRegistry,
+                'stockState' => $this->stockState
             )
         );
 
@@ -233,12 +262,14 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $checkMock->expects($this->any())->method('getMessage')->will($this->returnValue('Message'));
         $checkMock->expects($this->any())->method('getHasError')->will($this->returnValue(false));
 
-        $this->stockItemService->expects($this->once())
+        $this->stockState->expects($this->once())
             ->method('checkQuoteItemQty')
             ->with(
-                $this->equalTo($productId),
-                $this->equalTo($itemQty),
-                $this->equalTo($itemQty)
+                $productId,
+                $itemQty,
+                $itemQty,
+                $itemQty,
+                null
             )
             ->will($this->returnValue($checkMock));
 

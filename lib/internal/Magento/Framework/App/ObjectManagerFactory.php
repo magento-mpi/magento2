@@ -11,7 +11,6 @@ namespace Magento\Framework\App;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Profiler;
-use Magento\Framework\Code\Generator\FileResolver;
 use Magento\Framework\Filesystem\DriverPool;
 
 /**
@@ -78,8 +77,6 @@ class ObjectManagerFactory
      */
     public function create(array $arguments, $useCompiled = true)
     {
-        FileResolver::addIncludePath($this->directoryList->getPath(DirectoryList::GENERATION));
-
         $appArguments = $this->createAppArguments($this->directoryList, $arguments);
 
         $definitionFactory = new \Magento\Framework\ObjectManager\DefinitionFactory(
