@@ -66,6 +66,7 @@ class Tax implements SetupInterface
      * @param \Magento\Tax\Model\Calculation\RateFactory $taxRateFactory
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
+     * @param \Magento\Tools\SampleData\Logger $logger
      */
     public function __construct(
         \Magento\Tax\Service\V1\TaxRuleServiceInterface $ruleService,

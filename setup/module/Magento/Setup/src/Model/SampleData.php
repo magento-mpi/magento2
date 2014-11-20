@@ -45,10 +45,10 @@ class SampleData
     /**
      * Returns command to be executed for Sample Data installation
      *
-     * @param array $request
+     * @param \ArrayObject|array $request
      * @return string
      */
-    public function getRunCommand(array $request)
+    public function getRunCommand($request)
     {
         $userName = isset($request[AdminAccount::KEY_USERNAME]) ? $request[AdminAccount::KEY_USERNAME] : '';
         return $command = ' -f ' . $this->directoryList->getRoot() . DIRECTORY_SEPARATOR . self::INSTALLER_PATH .

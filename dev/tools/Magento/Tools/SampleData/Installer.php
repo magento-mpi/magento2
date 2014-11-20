@@ -91,7 +91,6 @@ class Installer implements \Magento\Framework\AppInterface
             throw new \Exception('Invalid username provided');
         }
         $backendAuthSession->setUser($user);
-        $this->initResources();
     }
 
     /**

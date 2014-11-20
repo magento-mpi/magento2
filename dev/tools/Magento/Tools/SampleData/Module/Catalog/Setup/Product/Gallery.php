@@ -12,6 +12,7 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use \Magento\Catalog\Model\ProductFactory;
 use \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media as GalleryAttribute;
+use Magento\Tools\SampleData\Logger;
 
 /**
  * Class Gallery
@@ -58,24 +59,32 @@ class Gallery
     protected $mediaAttribute;
 
     /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param ProductFactory $productFactory
      * @param GalleryAttribute $galleryAttribute
      * @param \Magento\Eav\Model\Config $eavConfig
+     * @param Logger $logger
      */
     public function __construct(
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         ProductFactory $productFactory,
         GalleryAttribute $galleryAttribute,
-        \Magento\Eav\Model\Config $eavConfig
+        \Magento\Eav\Model\Config $eavConfig,
+        Logger $logger
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->galleryAttribute = $galleryAttribute;
         $this->productFactory = $productFactory;
         $this->csvReaderFactory = $csvReaderFactory;
         $this->mediaAttribute = $eavConfig->getAttribute('catalog_product', 'media_gallery');
+        $this->logger = $logger;
         $this->loadFixtures();
     }
 

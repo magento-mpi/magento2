@@ -31,7 +31,8 @@ class CustomizeYourStoreController extends AbstractActionController
 
     /**
      * @param ViewModel $view
-     * @param \Magento\Locale\Lists $list
+     * @param Lists $list
+     * @param SampleData $sampleData
      */
     public function __construct(
         ViewModel $view,

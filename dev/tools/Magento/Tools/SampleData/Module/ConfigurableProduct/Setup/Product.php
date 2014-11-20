@@ -43,6 +43,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param Product\Gallery $gallery
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProductType
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $fixtures

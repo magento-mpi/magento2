@@ -56,6 +56,7 @@ class Rule implements SetupInterface
      * @param RuleFactory $ruleFactory
      * @param \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService
      * @param PostInstaller $postInstaller
+     * @param \Magento\Tools\SampleData\Logger $logger
      */
     public function __construct(
         CsvReaderFactory $csvReaderFactory,

@@ -46,6 +46,7 @@ class Order implements SetupInterface
      * @param CsvReaderFactory $csvReaderFactory
      * @param Order\Converter $converter
      * @param Order\Processor $orderProcessor
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param array $fixtures
      */
     public function __construct(
