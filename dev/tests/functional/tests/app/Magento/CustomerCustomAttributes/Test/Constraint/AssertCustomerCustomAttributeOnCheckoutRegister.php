@@ -8,11 +8,10 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
-use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Mtf\Client\Browser;
-use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutOnepage;
@@ -34,7 +33,7 @@ class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
     /**
      * Assert that created customer attribute is available during register customer on checkout
      *
-     * @param CmsIndex $cmsIndex
+     * @param CustomerAccountLogout $customerAccountLogout
      * @param CatalogProductSimple $productSimple
      * @param CheckoutCart $checkoutCart
      * @param CheckoutOnepage $checkoutOnepage

@@ -12,13 +12,12 @@ use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Customer\Helper\Data as CustomerDataHelper;
 use Magento\Customer\Helper\View as CustomerViewHelper;
 use Magento\Customer\Model\Config\Share as ConfigShare;
 use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\Metadata\Validator;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Customer\Api\CustomerMetadataInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface as Encryptor;
 use Magento\Framework\Event\ManagerInterface;
@@ -148,7 +147,7 @@ class AccountManagement implements AccountManagementInterface
     private $addressRepository;
 
     /**
-     * @var CustomerMetadataServiceInterface
+     * @var CustomerMetadataInterface
      */
     private $customerMetadataService;
 
@@ -206,11 +205,6 @@ class AccountManagement implements AccountManagementInterface
     protected $registry;
 
     /**
-     * @var CustomerDataHelper
-     */
-    protected $customerDataHelper;
-
-    /**
      * @var CustomerViewHelper
      */
     protected $customerViewHelper;
@@ -231,6 +225,11 @@ class AccountManagement implements AccountManagementInterface
     protected $extensibleDataObjectConverter;
 
     /**
+     * @var CustomerModel
+     */
+    protected $customerModel;
+
+    /**
      * @param CustomerFactory $customerFactory
      * @param ManagerInterface $eventManager
      * @param StoreManagerInterface $storeManager
@@ -239,7 +238,7 @@ class AccountManagement implements AccountManagementInterface
      * @param Validator $validator
      * @param \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder
      * @param AddressRepositoryInterface $addressRepository
-     * @param CustomerMetadataServiceInterface $customerMetadataService
+     * @param CustomerMetadataInterface $customerMetadataService
      * @param CustomerRegistry $customerRegistry
      * @param UrlInterface $url
      * @param Logger $logger
@@ -252,10 +251,10 @@ class AccountManagement implements AccountManagementInterface
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerDataBuilder
      * @param DataObjectProcessor $dataProcessor
      * @param \Magento\Framework\Registry $registry
-     * @param CustomerDataHelper $customerDataHelper
      * @param CustomerViewHelper $customerViewHelper
      * @param DateTime $dateTime
      * @param \Magento\Framework\ObjectFactory $objectFactory
+     * @param CustomerModel $customerModel
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -269,7 +268,7 @@ class AccountManagement implements AccountManagementInterface
         Validator $validator,
         \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder,
         AddressRepositoryInterface $addressRepository,
-        CustomerMetadataServiceInterface $customerMetadataService,
+        CustomerMetadataInterface $customerMetadataService,
         CustomerRegistry $customerRegistry,
         UrlInterface $url,
         Logger $logger,
@@ -282,10 +281,10 @@ class AccountManagement implements AccountManagementInterface
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerDataBuilder,
         DataObjectProcessor $dataProcessor,
         \Magento\Framework\Registry $registry,
-        CustomerDataHelper $customerDataHelper,
         CustomerViewHelper $customerViewHelper,
         DateTime $dateTime,
         \Magento\Framework\ObjectFactory $objectFactory,
+        CustomerModel $customerModel,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->customerFactory = $customerFactory;
@@ -309,11 +308,11 @@ class AccountManagement implements AccountManagementInterface
         $this->customerDataBuilder = $customerDataBuilder;
         $this->dataProcessor = $dataProcessor;
         $this->registry = $registry;
-        $this->customerDataHelper = $customerDataHelper;
         $this->customerViewHelper = $customerViewHelper;
         $this->dateTime = $dateTime;
         $this->objectFactory = $objectFactory;
         $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
+        $this->customerModel = $customerModel;
     }
 
     /**
@@ -974,7 +973,7 @@ class AccountManagement implements AccountManagementInterface
             return true;
         }
 
-        $expirationPeriod = $this->customerDataHelper->getResetPasswordLinkExpirationPeriod();
+        $expirationPeriod = $this->customerModel->getResetPasswordLinkExpirationPeriod();
 
         $currentTimestamp = $this->dateTime->toTimestamp($this->dateTime->now());
         $tokenTimestamp = $this->dateTime->toTimestamp($rpTokenCreatedAt);

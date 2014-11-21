@@ -11,10 +11,17 @@ namespace Magento\Customer\Controller\Adminhtml\Index;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Customer\Service\V1\CustomerMetadataService as CustomerMetadata;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Save extends \Magento\Customer\Controller\Adminhtml\Index
 {
+    /**
+     * @var \Magento\Customer\Model\Metadata\FormFactory
+     */
+    protected $_formFactory;
+
     /**
      * Reformat customer account data to be compatible with customer service interface
      *
@@ -25,14 +32,13 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
         $customerData = array();
         if ($this->getRequest()->getPost('account')) {
             $serviceAttributes = array(
-                \Magento\Customer\Model\Data\Customer::DEFAULT_BILLING,
-                \Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING,
+                CustomerInterface::DEFAULT_BILLING,
+                CustomerInterface::DEFAULT_SHIPPING,
                 'confirmation',
                 'sendemail'
             );
-            /** @var \Magento\Customer\Helper\Data $customerHelper */
-            $customerHelper = $this->_objectManager->get('Magento\Customer\Helper\Data');
-            $customerData = $customerHelper->extractCustomerData(
+
+            $customerData = $this->_extractData(
                 $this->getRequest(),
                 'adminhtml_customer',
                 \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
@@ -46,6 +52,53 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
         }
 
         return $customerData;
+    }
+
+    /**
+     * Perform customer data filtration based on form code and form object
+     *
+     * @param \Magento\Framework\App\RequestInterface $request
+     * @param string $formCode The code of EAV form to take the list of attributes from
+     * @param string $entityType entity type for the form
+     * @param string[] $additionalAttributes The list of attribute codes to skip filtration for
+     * @param string $scope scope of the request
+     * @param \Magento\Customer\Model\Metadata\Form $metadataForm to use for extraction
+     * @return array Filtered customer data
+     */
+    protected function _extractData(
+        \Magento\Framework\App\RequestInterface $request,
+        $formCode,
+        $entityType,
+        $additionalAttributes = array(),
+        $scope = null,
+        \Magento\Customer\Model\Metadata\Form $metadataForm = null
+    ) {
+        if (is_null($metadataForm)) {
+            $metadataForm = $this->_objectManager->get('Magento\Customer\Model\Metadata\FormFactory')->create(
+                $entityType,
+                $formCode,
+                array(),
+                false,
+                \Magento\Customer\Model\Metadata\Form::DONT_IGNORE_INVISIBLE
+            );
+        }
+        $filteredData = $metadataForm->extractData($request, $scope);
+        $requestData = $request->getPost($scope);
+        foreach ($additionalAttributes as $attributeCode) {
+            $filteredData[$attributeCode] = isset($requestData[$attributeCode]) ? $requestData[$attributeCode] : false;
+        }
+
+        $formAttributes = $metadataForm->getAttributes();
+        /** @var \Magento\Customer\Api\Data\AttributeMetadataInterface $attribute */
+        foreach ($formAttributes as $attribute) {
+            $attributeCode = $attribute->getAttributeCode();
+            $frontendInput = $attribute->getFrontendInput();
+            if ($frontendInput != 'boolean' && $filteredData[$attributeCode] === false) {
+                unset($filteredData[$attributeCode]);
+            }
+        }
+
+        return $filteredData;
     }
 
     /**
@@ -64,11 +117,10 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             }
 
             $addressIdList = array_keys($addresses);
-            /** @var \Magento\Customer\Helper\Data $customerHelper */
-            $customerHelper = $this->_objectManager->get('Magento\Customer\Helper\Data');
+
             foreach ($addressIdList as $addressId) {
                 $scope = sprintf('address/%s', $addressId);
-                $addressData = $customerHelper->extractCustomerData(
+                $addressData = $this->_extractData(
                     $this->getRequest(),
                     'adminhtml_customer_address',
                     \Magento\Customer\Api\AddressMetadataInterface::ENTITY_TYPE_ADDRESS,
@@ -79,16 +131,16 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                     $addressData['id'] = $addressId;
                 }
                 // Set default billing and shipping flags to address
-                $addressData[\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING] = isset(
-                    $customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING]
+                $addressData[CustomerInterface::DEFAULT_BILLING] = isset(
+                        $customerData[CustomerInterface::DEFAULT_BILLING]
                     ) &&
-                    $customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING] &&
-                    $customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING] == $addressId;
-                $addressData[\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING] = isset(
-                    $customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING]
+                    $customerData[CustomerInterface::DEFAULT_BILLING] &&
+                    $customerData[CustomerInterface::DEFAULT_BILLING] == $addressId;
+                $addressData[CustomerInterface::DEFAULT_SHIPPING] = isset(
+                        $customerData[CustomerInterface::DEFAULT_SHIPPING]
                     ) &&
-                    $customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING] &&
-                    $customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING] == $addressId;
+                    $customerData[CustomerInterface::DEFAULT_SHIPPING] &&
+                    $customerData[CustomerInterface::DEFAULT_SHIPPING] == $addressId;
 
                 $result[] = $addressData;
             }
@@ -125,8 +177,8 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                     );
                     $customerData['id'] = $customerId;
                 }
-                unset($customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_BILLING]);
-                unset($customerData[\Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING]);
+                unset($customerData[CustomerInterface::DEFAULT_BILLING]);
+                unset($customerData[CustomerInterface::DEFAULT_SHIPPING]);
                 $customerBuilder->populateWithArray($customerData);
                 $addresses = array();
                 foreach ($addressesData as $addressData) {

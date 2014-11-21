@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer dashboard addresses section
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,10 +7,14 @@
  */
 namespace Magento\Customer\Block\Account\Dashboard;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\Data\AddressInterface;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Model\Address\Mapper;
 
+/**
+ * Class to manage customer dashboard addresses section
+ */
 class Address extends \Magento\Framework\View\Element\Template
 {
     /**
@@ -62,7 +64,7 @@ class Address extends \Magento\Framework\View\Element\Template
     /**
      * Get the logged in customer
      *
-     * @return \Magento\Customer\Api\Data\CustomerInterface|null
+     * @return CustomerInterface|null
      */
     public function getCustomer()
     {
@@ -121,9 +123,15 @@ class Address extends \Magento\Framework\View\Element\Template
         if (is_null($this->getCustomer())) {
             return '';
         } else {
+            $address = $this->currentCustomerAddress->getDefaultShippingAddress();
+            if ($address) {
+                $addressId = $address->getId();
+            } else {
+                $addressId = null;
+            }
             return $this->_urlBuilder->getUrl(
                 'customer/address/edit',
-                array('id' => $this->currentCustomerAddress->getDefaultShippingAddress()->getId())
+                array('id' => $addressId)
             );
         }
     }
@@ -136,9 +144,15 @@ class Address extends \Magento\Framework\View\Element\Template
         if (is_null($this->getCustomer())) {
             return '';
         } else {
+            $address = $this->currentCustomerAddress->getDefaultBillingAddress();
+            if ($address) {
+                $addressId = $address->getId();
+            } else {
+                $addressId = null;
+            }
             return $this->_urlBuilder->getUrl(
                 'customer/address/edit',
-                array('id' => $this->currentCustomerAddress->getDefaultBillingAddress()->getId())
+                array('id' => $addressId)
             );
         }
     }
@@ -154,7 +168,7 @@ class Address extends \Magento\Framework\View\Element\Template
     /**
      * Render an address as HTML and return the result
      *
-     * @param \Magento\Customer\Service\V1\Data\Address $address
+     * @param AddressInterface $address
      * @return string
      */
     protected function _getAddressHtml($address)

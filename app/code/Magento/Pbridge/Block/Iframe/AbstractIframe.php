@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Pbridge\Block\Iframe;
+
+use Magento\Customer\Model\Context;
 
 /**
  * Abstract payment block
@@ -348,7 +349,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     protected function _getCurrentCustomer()
     {
-        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+        if ($this->httpContext->getValue(Context::CONTEXT_AUTH)) {
             return $this->_customerSession->getCustomer();
         }
 
