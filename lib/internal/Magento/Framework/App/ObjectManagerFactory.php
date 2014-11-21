@@ -36,6 +36,8 @@ class ObjectManagerFactory
      */
     protected $_configClassName = 'Magento\Framework\Interception\ObjectManager\Config';
 
+    protected $envFactoryClassName = 'Magento\Framework\ObjectManager\EnvironmentFactory';
+
     /**
      * Filesystem directory list
      *
@@ -94,7 +96,8 @@ class ObjectManagerFactory
         $definitions = $definitionFactory->createClassDefinition($appArguments->get('definitions'), $useCompiled);
         $relations = $definitionFactory->createRelations();
 
-        $enFactory = new EnvironmentFactory($relations, $definitions, $appArguments);
+        /** @var \Magento\Framework\ObjectManager\EnvironmentFactory $enFactory */
+        $enFactory = new $this->envFactoryClassName($relations, $definitions, $appArguments);
         /** @var EnvironmentInterface $env */
         $env =  $enFactory->createEnvironment();
 

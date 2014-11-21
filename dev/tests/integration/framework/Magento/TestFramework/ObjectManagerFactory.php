@@ -31,6 +31,8 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
      */
     protected $_configClassName = 'Magento\TestFramework\ObjectManager\Config';
 
+
+    protected $envFactoryClassName = 'Magento\TestFramework\ObjectManager\EnvironmentFactory';
     /**
      * @var array
      */

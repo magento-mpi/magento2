@@ -23,7 +23,7 @@ class Developer implements EnvironmentInterface
     /**
      * @var \Magento\Framework\Interception\ObjectManager\Config
      */
-    private $config;
+    protected $config;
 
     /**
      * @var \Magento\Framework\ObjectManager\Factory
@@ -33,7 +33,7 @@ class Developer implements EnvironmentInterface
     /**
      * @var EnvironmentFactory
      */
-    private $envFactory;
+    protected $envFactory;
 
     /**
      * @param EnvironmentFactory $envFactory
