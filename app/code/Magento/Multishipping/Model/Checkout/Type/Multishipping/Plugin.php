@@ -15,7 +15,7 @@ class Plugin
     protected $checkoutSession;
 
     /**
-     * @var String
+     * @var string
      */
     protected $checkoutStateBegin;
 
@@ -24,9 +24,9 @@ class Plugin
         $this->checkoutSession = $checkoutSession;
         $this->checkoutStateBegin = $checkoutSession::CHECKOUT_STATE_BEGIN;
     }
+
     /**
      * Map STEP_SELECT_ADDRESSES to Cart::CHECKOUT_STATE_BEGIN
-     *
      * @return void
      */
     public function beforeInit()
