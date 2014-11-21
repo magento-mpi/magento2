@@ -43,6 +43,7 @@ Magento/Catalog/Block/Product
 Magento/Catalog/Model/Resource/Product
 Magento/Catalog/Model/Layer
 Magento/Catalog/Service/V1/Data
+Magento/Eav/Model/Entity/Collection/AbstractCollection
 Magento/CatalogImportExport/Model/Export
 Magento/CatalogImportExport/Model/Import
 Magento/CatalogRule/Block/Adminhtml/Promo/Catalog/Edit/Tab
@@ -79,6 +80,7 @@ Magento/Reports/Controller/Adminhtml/Report
 Magento/Reports/Model/Resource/Helper
 Magento/Reports/Model/Resource
 Magento/Review/Block
+Magento/Review/Model/Resource/Review/Product/Collection
 Magento/Rss/Block/Catalog
 Magento/Rule
 Magento/Sales/Block/Adminhtml/Order
