@@ -59,9 +59,11 @@ class Quote extends \Magento\Framework\Session\SessionManager
     protected $customerRepository;
 
     /**
-     * @var \Magento\Sales\Model\QuoteFactory
+     * Sales quote repository
+     *
+     * @var \Magento\Sales\Model\QuoteRepository
      */
-    protected $_quoteFactory;
+    protected $quoteRepository;
 
     /**
      * @var \Magento\Framework\StoreManagerInterface
@@ -84,7 +86,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Session\StorageInterface $storage
      * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
      * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
-     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param CustomerRepositoryInterface $customerRepository
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
@@ -99,13 +101,13 @@ class Quote extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Session\StorageInterface $storage,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
-        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         CustomerRepositoryInterface $customerRepository,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         GroupManagementInterface $groupManagement
     ) {
-        $this->_quoteFactory = $quoteFactory;
+        $this->quoteRepository = $quoteRepository;
         $this->customerRepository = $customerRepository;
         $this->_orderFactory = $orderFactory;
         $this->_storeManager = $storeManager;
@@ -134,17 +136,18 @@ class Quote extends \Magento\Framework\Session\SessionManager
     public function getQuote()
     {
         if ($this->_quote === null) {
-            $this->_quote = $this->_quoteFactory->create();
+            $this->_quote = $this->quoteRepository->create();
             if ($this->getStoreId()) {
-                $this->_quote->setStoreId($this->getStoreId());
                 if (!$this->getQuoteId()) {
                     $customerGroupId = $this->groupManagement->getDefaultGroup()->getId();
                     $this->_quote->setCustomerGroupId($customerGroupId)
                         ->setIsActive(false)
-                        ->save();
+                        ->setStoreId($this->getStoreId());
+                    $this->quoteRepository->save($this->_quote);
                     $this->setQuoteId($this->_quote->getId());
                 } else {
-                    $this->_quote->load($this->getQuoteId());
+                    $this->_quote = $this->quoteRepository->get($this->getQuoteId());
+                    $this->_quote->setStoreId($this->getStoreId());
                 }
 
                 if ($this->getCustomerId()) {

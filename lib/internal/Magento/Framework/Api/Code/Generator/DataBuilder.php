@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\Api\Code\Generator;
 
-use \Magento\Framework\Code\Generator\FileResolver;
 use Magento\Framework\Code\Generator\CodeGenerator;
 use Magento\Framework\Code\Generator\EntityAbstract;
 use Magento\Framework\Code\Generator\Io;
@@ -47,31 +46,6 @@ class DataBuilder extends EntityAbstract
 
     /** @var string[] */
     protected $extensibleInterfaceMethods;
-
-    /**
-     * Initialize dependencies.
-     *
-     * @param string|null $sourceClassName
-     * @param string|null $resultClassName
-     * @param Io|null $ioObject
-     * @param CodeGenerator\CodeGeneratorInterface|null $classGenerator
-     * @param FileResolver|null $fileResolver
-     */
-    public function __construct(
-        $sourceClassName = null,
-        $resultClassName = null,
-        Io $ioObject = null,
-        CodeGenerator\CodeGeneratorInterface $classGenerator = null,
-        FileResolver $fileResolver = null
-    ) {
-        parent::__construct(
-            $sourceClassName,
-            $resultClassName,
-            $ioObject,
-            $classGenerator,
-            $fileResolver
-        );
-    }
 
     /**
      * Retrieve class properties
