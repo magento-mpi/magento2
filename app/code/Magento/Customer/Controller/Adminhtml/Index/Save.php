@@ -84,7 +84,9 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             );
         }
         $filteredData = $metadataForm->extractData($request, $scope);
-        $requestData = $request->getPost($scope);
+
+        $object = $this->_objectFactory->create(['data' => $request->getPost()]);
+        $requestData = $object->getData($scope);
         foreach ($additionalAttributes as $attributeCode) {
             $filteredData[$attributeCode] = isset($requestData[$attributeCode]) ? $requestData[$attributeCode] : false;
         }
@@ -123,23 +125,23 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                 array('default_billing', 'default_shipping'),
                 $scope
             );
+
             if (is_numeric($addressId)) {
                 $addressData['id'] = $addressId;
             }
             // Set default billing and shipping flags to customer
-            if (!empty($addressData['default_billing'])) {
+            if (!empty($addressData['default_billing']) && $addressData['default_billing'] === 'true') {
                 $extractedCustomerData[Customer::DEFAULT_BILLING] = $addressId;
                 $addressData['default_billing'] = true;
             } else {
                 $addressData['default_billing'] = false;
             }
-            if (!empty($addressData['default_shipping'])) {
+            if (!empty($addressData['default_shipping'])  && $addressData['default_shipping'] === 'true') {
                 $extractedCustomerData[Customer::DEFAULT_SHIPPING] = $addressId;
                 $addressData['default_shipping'] = true;
             } else {
                 $addressData['default_shipping'] = false;
             }
-
             $result[] = $addressData;
         }
         return $result;
@@ -195,6 +197,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
                         $customerData
                     );
                 }
+
                 $customerBuilder->populateWithArray($customerData);
                 $addresses = array();
                 foreach ($addressesData as $addressData) {
