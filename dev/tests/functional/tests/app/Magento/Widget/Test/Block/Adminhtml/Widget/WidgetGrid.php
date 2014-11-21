@@ -28,7 +28,7 @@ class WidgetGrid extends AbstractGrid
      *
      * @var string
      */
-    protected $firstRowSelector = '//tr[./td[contains(@class, "col-title")]][1]';
+    protected $firstRowSelector = '//tr[./td[contains(@class, "col-title")]][1]/td';
 
     /**
      * Filters array mapping
