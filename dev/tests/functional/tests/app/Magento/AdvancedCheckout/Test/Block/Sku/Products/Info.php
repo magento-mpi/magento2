@@ -42,7 +42,7 @@ class Info extends Block
      *
      * @var string
      */
-    protected $msrp = '.pricing.msrp';
+    protected $msrp = '.msrp.notice';
 
     /**
      * Delete button selector

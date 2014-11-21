@@ -118,10 +118,16 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
         /** @var ConfigurableAttributesData $configurableAttributesData */
         $configurableAttributesData = $product->getDataFieldConfig('configurable_attributes_data')['source'];
         $attributesData = $configurableAttributesData->getAttributesData();
+        $assignedProducts = $configurableAttributesData->getProducts();
         $matrixData = $product->getConfigurableAttributesData()['matrix'];
         $result = [];
 
         foreach ($matrixData as $variationKey => $variation) {
+            // For assigned products doesn't send data about them
+            if (isset($assignedProducts[$variationKey])) {
+                continue;
+            }
+
             $compositeKeys = explode(' ', $variationKey);
             $keyIds = [];
             $configurableAttribute = [];

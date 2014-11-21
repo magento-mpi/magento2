@@ -28,7 +28,7 @@ class Curl extends AbstractCurl
      */
     protected $mappingData = [
         'theme_id' => [
-            'Magento Blank' => 2,
+            'Magento Blank' => 3,
         ],
         'code' => [
             'CMS Page Link' => 'cms_page_link',
