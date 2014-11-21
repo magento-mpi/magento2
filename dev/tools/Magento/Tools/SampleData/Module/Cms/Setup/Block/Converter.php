@@ -191,10 +191,12 @@ class Converter
                     break;
                 case 'product':
                     $productCollection = $this->productCollectionFactory->create();
-                    $productItem = $productCollection->addAttributeToFilter('sku', $matchValue)->getFirstItem();
+                    $productItem = $productCollection->addAttributeToFilter('sku', $matchValue)
+                        ->addUrlRewrite()
+                        ->getFirstItem();
                     $productUrl = null;
                     if ($productItem) {
-                        $productUrl = $productItem->getProductUrl();
+                        $productUrl ='{{store url=""}}' .  $productItem->getRequestPath();
                     }
                     $replaceData['regexp'][] = '/{{product sku="' . $matchValue .'"}}/';
                     $replaceData['value'][] = $productUrl;
