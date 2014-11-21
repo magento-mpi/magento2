@@ -80,6 +80,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     protected $storeManager;
 
     /**
+     * FIXME
      * @param \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\Data\CustomerSecureFactory $customerSecureFactory
@@ -144,6 +145,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         /** Prevent addresses being processed by resource model */
         $customerModel->unsAddresses();
         // Need to use attribute set or future updates can cause data loss
+        // FIXME
         if (!$customerModel->getAttributeSetId()) {
             $customerModel->setAttributeSetId(
                 \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER
@@ -199,6 +201,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
 
     /**
      * {@inheritdoc}
+     * FIXME
      */
     public function getList(SearchCriteriaInterface $searchCriteria)
     {

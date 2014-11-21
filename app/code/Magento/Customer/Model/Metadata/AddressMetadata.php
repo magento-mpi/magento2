@@ -78,6 +78,7 @@ class AddressMetadata implements AddressMetadataInterface
 
     /**
      * {@inheritdoc}
+     * FIXME
      */
     public function getAttributeMetadata($attributeCode)
     {
@@ -102,6 +103,7 @@ class AddressMetadata implements AddressMetadataInterface
 
     /**
      * {@inheritdoc}
+     * FIXME
      */
     public function getAllAttributesMetadata()
     {
