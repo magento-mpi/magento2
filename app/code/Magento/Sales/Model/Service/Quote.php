@@ -178,7 +178,7 @@ class Quote
 
         if (!$customer->getId()) {
             $customer = $this->accountManagement->createAccountWithPasswordHash(
-                $this->customerBuilder->populate($customer),
+                $this->customerBuilder->populate($customer)->create(),
                 $quote->getPasswordHash()
             );
         } else {
