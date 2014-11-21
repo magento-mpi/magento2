@@ -63,6 +63,11 @@ class Review implements SetupInterface
     protected $ratings;
 
     /**
+     * @var \Magento\Review\Model\Rating\OptionFactory
+     */
+    protected $ratingOptionsFactory;
+
+    /**
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
@@ -70,6 +75,7 @@ class Review implements SetupInterface
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
      * @param \Magento\Tools\SampleData\Logger $logger
+     * @param \Magento\Review\Model\Rating\OptionFactory $ratingOptionsFactory
      */
     public function __construct(
         \Magento\Review\Model\ReviewFactory $reviewFactory,
@@ -78,7 +84,8 @@ class Review implements SetupInterface
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount,
-        \Magento\Tools\SampleData\Logger $logger
+        \Magento\Tools\SampleData\Logger $logger,
+        \Magento\Review\Model\Rating\OptionFactory $ratingOptionsFactory
     ) {
         $this->reviewFactory = $reviewFactory;
         $this->fixtureHelper = $fixtureHelper;
@@ -87,6 +94,7 @@ class Review implements SetupInterface
         $this->productCollection = $productCollectionFactory->create()->addAttributeToSelect('sku');
         $this->logger = $logger;
         $this->customerAccount = $customerAccount;
+        $this->ratingOptionsFactory = $ratingOptionsFactory;
     }
 
     /**
@@ -95,14 +103,13 @@ class Review implements SetupInterface
     public function run()
     {
         $this->logger->log('Installing product reviews' . PHP_EOL);
-
         $fixtureFile = 'Review/products_reviews.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
         $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
-        $storeId = ['1'];
-        $this->assignRatingsToWebsite($storeId);
         foreach ($csvReader as $row) {
+            $storeId = ['1'];
+            $this->createRating($row['rating_code'], $storeId);
             if (!$this->getProductIdBySku($row['sku'])) {
                 continue;
             }
@@ -164,13 +171,18 @@ class Review implements SetupInterface
         return $review;
     }
 
-    protected function getRatings()
+    /**
+     * @param $rating
+     * @return \Magento\Framework\Object|null
+     */
+    protected function getRating($rating)
     {
-        if (!isset($this->ratings)) {
-            $ratingModel = $this->ratingFactory->create();
-            $this->ratings = $ratingModel->getResourceCollection();
+        $ratingCollection = $this->ratingFactory->create()->getResourceCollection();
+        if (!$ratingCollection) {
+            return null;
         }
-        return $this->ratings;
+        $rating = $ratingCollection->addFieldToFilter('rating_code', $rating)->getFirstItem();
+        return $rating;
     }
     /**
      * @param \Magento\Review\Model\Review $review
@@ -179,29 +191,58 @@ class Review implements SetupInterface
      */
     protected function setReviewRating(\Magento\Review\Model\Review $review, $row)
     {
-        $reviewRatings = unserialize($row['rating']);
-        foreach ($this->getRatings() as $rating) {
-            foreach ($rating->getOptions() as $option) {
-                $optionId = $option->getOptionId();
-                if (($option->getValue() == $reviewRatings[$rating->getId()]) && !empty($optionId)) {
-                    $rating->setReviewId($review->getId())->addOptionVote(
-                        $optionId,
-                        $this->getProductIdBySku($row['sku'])
-                    );
-                }
+        $rating = $this->getRating($row['rating_code']);
+        foreach ($rating->getOptions() as $option) {
+            $optionId = $option->getOptionId();
+            if (($option->getValue() == $row['rating_value']) && !empty($optionId)) {
+                $rating->setReviewId($review->getId())->addOptionVote(
+                    $optionId,
+                    $this->getProductIdBySku($row['sku'])
+                );
             }
         }
     }
 
     /**
+     * @param string $rating
      * @param array $stores
      * @return void
      */
-    protected function assignRatingsToWebsite($stores = ['1'])
+    protected function createRating($rating, $stores = ['1'])
     {
         $stores[] = '0';
-        foreach ($this->getRatings() as $rating) {
-            $rating->setStores($stores)->save();
+        if (!$this->getRating($rating)->getData()) {
+            $ratingModel = $this->ratingFactory->create();
+            $ratingModel->setRatingCode(
+                $rating
+            )->setStores(
+                $stores
+            )->setIsActive(
+                '1'
+            )->setEntityId(
+                '1'
+            )->save();
+
+            /**Create rating options*/
+            $options = [
+                1 => '1',
+                2 => '2',
+                3 => '3',
+                4 => '4',
+                5 => '5'
+            ];
+            foreach ($options as $key => $optionCode) {
+                $optionModel = $this->ratingOptionsFactory->create();
+                $optionModel->setCode(
+                    $optionCode
+                )->setValue(
+                    $key
+                )->setRatingId(
+                    $ratingModel->getId()
+                )->setPosition(
+                    $key
+                )->save();
+            }
         }
     }
 
