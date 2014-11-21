@@ -24,4 +24,6 @@ $closeBrace = ')';
         <span class="weee"
               data-label="<?php echo $this->renderWeeeTaxAttributeName($weeeTaxAttribute); ?>"><?php echo $this->renderWeeeTaxAttribute($weeeTaxAttribute); ?></span>
     <?php endforeach; ?>
+    <span class="price-final_price"
+          data-label="Final Price"><?php echo $this->getFinalAmount() ?></span>
 <?php endif; ?>
