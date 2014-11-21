@@ -13,15 +13,11 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
  * Product Test
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  *
  */
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var ObjectManagerHelper
-     */
-    protected $objectManagerHelper;
-
     /**
      * @var \Magento\Catalog\Model\Product
      */
@@ -210,8 +206,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->website));
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
 
-        $this->objectManagerHelper = new ObjectManagerHelper($this);
-        $this->model = $this->objectManagerHelper->getObject(
+        $objectManagerHelper = new ObjectManagerHelper($this);
+        $this->model = $objectManagerHelper->getObject(
             'Magento\Catalog\Model\Product',
             [
                 'context' => $contextMock,

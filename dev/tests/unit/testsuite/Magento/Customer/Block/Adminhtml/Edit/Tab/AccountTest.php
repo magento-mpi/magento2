@@ -14,6 +14,9 @@ use Magento\Framework\Api\AbstractExtensibleObject;
 use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Api\ExtensibleDataObjectConverter;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class AccountTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ObjectManagerHelper */
@@ -83,6 +86,8 @@ class AccountTest extends \PHPUnit_Framework_TestCase
      * @param $customerData
      * @param $isSingleStoreMode
      * @param $canModifyCustomer
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     private function _setupStoreMode($customerData, $isSingleStoreMode, $canModifyCustomer)
     {

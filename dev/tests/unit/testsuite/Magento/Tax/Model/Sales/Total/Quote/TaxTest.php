@@ -89,7 +89,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->method('getItems')
             ->will($this->returnValue($items));
 
-        $quoteDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\QuoteDetailsBuilder');
         $storeManager = $this->getMockBuilder('\Magento\Framework\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods(['getStore', 'hasSingleStore', 'isSingleStoreMode', 'getStores', 'getWebsite', 'getWebsites',
@@ -104,7 +103,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $taxDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\TaxDetailsBuilder');
 
         $taxDetailsBuilder->_setDataValues($taxDetailsData);
-        $taxDetails = $taxDetailsBuilder->populateWithArray($taxDetailsData)->create();
+        $taxDetailsBuilder->populateWithArray($taxDetailsData)->create();
 
         $calculatorFactory = $this->getMockBuilder('Magento\Tax\Model\Calculation\CalculatorFactory')
             ->disableOriginalConstructor()
@@ -285,7 +284,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             $address->setData($key, $value);
         }
 
-        $taxTotalsCalcModel = $taxTotalsCalcModel->collect($address);
+        $taxTotalsCalcModel->collect($address);
         foreach ($verifyData as $key => $value) {
             $this->assertSame($verifyData[$key], $address->getData($key));
         }
@@ -537,7 +536,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $items = array($item);
         $quote = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
 
-        $address = $objectManager->getObject('\Magento\Sales\Model\Quote\Address');
         $address = $this->getMockBuilder('\Magento\Sales\Model\Quote\Address')
             ->disableOriginalConstructor()
             ->setMethods(['getAssociatedTaxables',
@@ -554,7 +552,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             $address->setData($key, $value);
         }
 
-        $itemDataObjects = $taxTotalsCalcModel->mapQuoteExtraTaxables($itemBuilder, $address, false);
+        $taxTotalsCalcModel->mapQuoteExtraTaxables($itemBuilder, $address, false);
     }
 
     /*
@@ -592,7 +590,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      */
     public function testFetch($appliedTaxesData, $addressData)
     {
-        $objectManager = new ObjectManager($this);
         $taxData = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
 
         $taxConfig = $this->getMockBuilder('\Magento\Tax\Model\Config')
@@ -692,7 +689,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLabel()
     {
-        $objectManager = new ObjectManager($this);
         $taxData = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
 
         $taxConfig = $this->getMock('\Magento\Tax\Model\Config', [], [], '', false);

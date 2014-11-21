@@ -46,7 +46,6 @@ class SearchResultsTest extends EntityChildTestAbstract
     public function testGenerate()
     {
         $generatedCode = 'Generated code';
-        $sourceFileName = 'Sample.php';
         $resultFileName = self::OUTPUT_FILE_NAME;
 
         //Mocking _validateData call
