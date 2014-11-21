@@ -136,9 +136,14 @@ define([
          * @returns {Array} An array of validation results.
          */
         _validate: function(elem){
-            var result = elem.delegate('validate');
+            var result = elem.delegate('validate'),
+                invalid;
 
-            if(this.allValid && _.some(result)){
+            invalid = _.some(result, function(item){
+                return !item.valid;
+            });
+
+            if(this.allValid && invalid){
                 this.allValid = false;
 
                 elem.activate();

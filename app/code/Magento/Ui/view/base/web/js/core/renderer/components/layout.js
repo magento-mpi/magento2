@@ -215,7 +215,6 @@ define([
 
         clear: function(name){
             this.registry.remove(name);
-            registry.remove(name);
         }
     });
 

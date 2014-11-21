@@ -35,11 +35,12 @@ define([
          * @return {Object} - reference to instance
          */
         initListeners: function(){
-            var data = this.provider.data;
+            var data    = this.provider.data,
+                handler = this.onValidate.bind(this);
 
             __super__.initListeners.apply(this, arguments); 
 
-            data.on('validate', this.onValidate.bind(this));
+            data.on('validate', handler, this.name);
             
             return this;
         },
@@ -73,15 +74,16 @@ define([
          * @param {Object} elem
          */
         validate: function(elem){
-            var params = this.provider.params,
-                invalid;
+            var params  = this.provider.params,
+                result  = elem.delegate('validate'),
+                invalid = false;
 
-            elem.delegate('validate');
+            _.some(result, function(item){
+                return !item.valid && (invalid = item.target);
+            });
 
-            invalid = params.get('invalid');
-
-            if(this.allValid && invalid){
-                this.allValid = false;
+            if (invalid && !params.get('invalid')) {
+                params.set('invalid', invalid);
 
                 elem.activate();
                 invalid.focused(true);
@@ -94,8 +96,6 @@ define([
          */
         onValidate: function(){
             var elems;
-
-            this.allValid = true;
 
             elems = this.elems.sortBy(function(elem){
                 return !elem.active();
