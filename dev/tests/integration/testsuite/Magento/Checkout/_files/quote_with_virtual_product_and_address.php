@@ -13,6 +13,10 @@ require __DIR__ . '/../../../Magento/Catalog/_files/product_virtual.php';
 $quoteShippingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Sales\Model\Quote\Address'
 );
+/** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+$customerRepository = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Customer\Api\CustomerRepositoryInterface'
+);
 /** @var \Magento\Customer\Api\AddressRepositoryInterface $addressRepository */
 $addressRepository = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Customer\Api\AddressRepositoryInterface'
@@ -28,7 +32,7 @@ $quote->setStoreId(
     )->setIsMultiShipping(
         false
     )->assignCustomerWithAddressChange(
-        $customer
+        $customerRepository->getById($customer->getId())
     )->setShippingAddress(
         $quoteShippingAddress
     )->setBillingAddress(

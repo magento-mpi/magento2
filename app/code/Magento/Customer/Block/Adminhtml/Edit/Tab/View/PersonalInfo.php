@@ -182,7 +182,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @return string|null
+     * @return string
      */
     public function getBillingAddressHtml()
     {
