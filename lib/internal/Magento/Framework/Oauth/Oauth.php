@@ -33,6 +33,7 @@ class Oauth implements OauthInterface
      * @param Helper\Oauth $oauthHelper
      * @param NonceGeneratorInterface $nonceGenerator
      * @param TokenProviderInterface $tokenProvider
+     * @param \Zend_Oauth_Http_Utility $httpUtility
      */
     public function __construct(
         Helper\Oauth $oauthHelper,
