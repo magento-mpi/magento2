@@ -65,7 +65,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     private $taxRateSearchResultsBuilder;
 
     /**
-     * @var  \Magento\Tax\Service\V1\Data\TaxRateBuilder'
+     * @var  \Magento\Tax\Api\Data\TaxRateDataBuilder
      */
     private $taxRateBuilder;
 
@@ -131,7 +131,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
         $zipRangeBuilder = $this->objectManager->getObject('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
         $this->taxRateBuilder = $this->objectManager->getObject(
-            'Magento\Tax\Service\V1\Data\TaxRateBuilder',
+            'Magento\Tax\Api\Data\TaxRateDataBuilder',
             ['zipRangeBuilder' => $zipRangeBuilder]
         );
         $this->createService();

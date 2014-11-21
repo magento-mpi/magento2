@@ -2849,4 +2849,19 @@ return array(
     ['Magento\Tax\Service\V1\Data\TaxRuleBuilder'],
     ['Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder'],
     ['Magento\Tax\Service\V1\Collection\TaxRuleCollection', 'Magento\Tax\Model\TaxRuleCollection'],
+    ['Magento\Tax\Service\V1\Collection\TaxRuleCollection', 'Magento\Tax\Model\TaxRuleCollection'],
+    ['Magento\Tax\Service\V1\TaxRateServiceInterface', 'Magento\Tax\Api\TaxRateRepositoryInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxRateTitle', 'Magento\Tax\Api\Data\TaxRateTitleInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxRate', 'Magento\Tax\Api\Data\TaxRateInterface'],
+    ['Magento\Tax\Service\V1\Data\ZipRange'],
+    ['Magento\Tax\Service\V1\Data\ZipRangeBuilder'],
+    ['Magento\Tax\Service\V1\Data\TaxRateTitleBuilder', 'Magento\Tax\Api\Data\TaxRateTitleDataBuilder'],
+    [
+        'Magento\Tax\Service\V1\Data\TaxRateSearchResultsBuilder',
+        'Magento\Tax\Api\Data\TaxRateSearchResultsDataBuilder'
+    ],
+    ['Magento\Tax\Service\V1\Data\TaxRateSearchResults', 'Magento\Tax\Api\Data\TaxRateSearchResultsInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxRateBuilder', 'Magento\Tax\Api\Data\TaxRateDataBuilder'],
+    ['Magento\Tax\Service\V1\Collection\TaxRateCollection', 'Magento\Tax\Model\TaxRateCollection'],
+
 );

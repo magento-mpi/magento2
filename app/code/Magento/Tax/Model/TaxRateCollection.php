@@ -6,21 +6,21 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1\Collection;
+namespace Magento\Tax\Model;
 
 use Magento\Core\Model\EntityFactory;
 use Magento\Framework\Api\AbstractServiceCollection;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Tax\Model\Calculation\Rate\Converter;
 use \Magento\Tax\Api\TaxRateRepositoryInterface;
-use Magento\Tax\Service\V1\Data\TaxRate;
+use Magento\Tax\Api\Data\TaxRateInterface as TaxRate;
 use Magento\Framework\Api\SortOrderBuilder;
 
 /**
  * Tax rate collection for a grid backed by Services
- * @deprecated @see \Magento\Tax\Model\TaxRateCollection
+ * @see Magento\Tax\Service\V1\Collection\TaxRateCollection
  */
+
 class TaxRateCollection extends AbstractServiceCollection
 {
     /**
@@ -29,7 +29,7 @@ class TaxRateCollection extends AbstractServiceCollection
     protected $taxRateRepository;
 
     /**
-     * @var Converter
+     * @var \Magento\Tax\Model\Calculation\Rate\Converter
      */
     protected $rateConverter;
 
@@ -40,7 +40,7 @@ class TaxRateCollection extends AbstractServiceCollection
      * @param FilterBuilder $filterBuilder
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param TaxRateRepositoryInterface $rateService
-     * @param Converter $rateConverter
+     * @param \Magento\Tax\Model\Calculation\Rate\Converter $rateConverter
      * @param SortOrderBuilder $sortOrderBuilder
      */
     public function __construct(
@@ -49,7 +49,7 @@ class TaxRateCollection extends AbstractServiceCollection
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SortOrderBuilder $sortOrderBuilder,
         TaxRateRepositoryInterface $rateService,
-        Converter $rateConverter
+        \Magento\Tax\Model\Calculation\Rate\Converter $rateConverter
     ) {
         parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder, $sortOrderBuilder);
         $this->taxRateRepository = $rateService;
@@ -84,20 +84,18 @@ class TaxRateCollection extends AbstractServiceCollection
         $collectionItem = new \Magento\Framework\Object();
         $collectionItem->setTaxCalculationRateId($taxRate->getId());
         $collectionItem->setCode($taxRate->getCode());
-        $collectionItem->setTaxCountryId($taxRate->getCountryId());
-        $collectionItem->setTaxRegionId($taxRate->getRegionId());
+        $collectionItem->setTaxCountryId($taxRate->getTaxCountryId());
+        $collectionItem->setTaxRegionId($taxRate->getTaxRegionId());
         $collectionItem->setRegionName($taxRate->getRegionName());
-        $collectionItem->setTaxPostcode($taxRate->getPostcode());
-        $collectionItem->setRate($taxRate->getPercentageRate());
+        $collectionItem->setTaxPostcode($taxRate->getTaxPostcode());
+        $collectionItem->setRate($taxRate->getRate());
         $collectionItem->setTitles($this->rateConverter->createTitleArrayFromServiceObject($taxRate));
 
-        if ($taxRate->getZipRange() != null) {
-            $zipRange = $taxRate->getZipRange();
-
+        if ($taxRate->getZipTo() != null && $taxRate->getZipFrom() != null) {
             /* must be a "1" for existing code (e.g. JavaScript) to work */
             $collectionItem->setZipIsRange("1");
-            $collectionItem->setZipFrom($zipRange->getFrom());
-            $collectionItem->setZipTo($zipRange->getTo());
+            $collectionItem->setZipFrom($taxRate->getzipFrom());
+            $collectionItem->setZipTo($taxRate->getZipTo());
         } else {
             $collectionItem->setZipIsRange(null);
             $collectionItem->setZipFrom(null);

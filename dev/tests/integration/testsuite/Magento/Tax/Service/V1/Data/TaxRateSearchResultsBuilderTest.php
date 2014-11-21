@@ -24,7 +24,7 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * TaxRateSearchResults builder
      *
-     * @var TaxRateSearchResultsBuilder
+     * @var Magento\Tax\Api\Data\TaxRateSearchResultsDataBuilder
      */
     private $taxRateSearchResultsBuilder;
 
@@ -33,7 +33,7 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->taxRateSearchResultsBuilder = $this->objectManager->create(
-            'Magento\Tax\Service\V1\Data\TaxRateSearchResultsBuilder'
+            'Magento\Tax\Api\Data\TaxRateSearchResultsDataBuilder'
         );
     }
 
@@ -44,7 +44,7 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
     public function testCreateWithPopulateWithArray($dataArray)
     {
         $taxRateSearchResults = $this->taxRateSearchResultsBuilder->populateWithArray($dataArray)->create();
-        $this->assertInstanceOf('\Magento\Tax\Service\V1\Data\TaxRateSearchResults', $taxRateSearchResults);
+        $this->assertInstanceOf('Magento\Tax\Api\Data\TaxRateSearchResultsInterface', $taxRateSearchResults);
         $this->assertEquals($dataArray, $taxRateSearchResults->__toArray());
     }
 

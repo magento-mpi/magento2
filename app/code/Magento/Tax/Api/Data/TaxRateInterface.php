@@ -17,7 +17,7 @@ interface TaxRateInterface extends \Magento\Framework\Api\ExtensibleDataInterfac
     /**#@+
      * Constants defined for keys of array, makes typos less likely
      */
-    const KEY_ID = 'tax_calculation_rate_id';
+    const KEY_ID = 'id';
     const KEY_COUNTRY_ID = 'tax_country_id';
     const KEY_REGION_ID = 'tax_region_id';
     const KEY_REGION_NAME = 'region_name';
@@ -34,7 +34,7 @@ interface TaxRateInterface extends \Magento\Framework\Api\ExtensibleDataInterfac
      *
      * @return int|null
      */
-    public function getTaxCalculationRateId();
+    public function getId();
 
     /**
      * Get country id
@@ -63,6 +63,13 @@ interface TaxRateInterface extends \Magento\Framework\Api\ExtensibleDataInterfac
      * @return string|null
      */
     public function getTaxPostcode();
+
+    /**
+     * Get zip is range
+     *
+     * @return int|null
+     */
+    public function getZipIsRange();
 
     /**
      * Get zip range from

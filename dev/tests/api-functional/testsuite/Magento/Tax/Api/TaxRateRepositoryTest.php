@@ -6,19 +6,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1;
+namespace Magento\Tax\Api;
 
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Tax\Service\V1\Data\TaxRate;
+use \Magento\Tax\Api\Data\TaxRateInterface as TaxRate;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Framework\Api\SortOrderBuilder;
 
-class TaxRateServiceTest extends WebapiAbstract
+class TaxRateRepositoryTest extends WebapiAbstract
 {
-    const SERVICE_NAME = "taxTaxRateServiceV1";
+    const SERVICE_NAME = "taxTaxRateRepositoryV1";
     const SERVICE_VERSION = "V1";
     const RESOURCE_PATH = "/V1/taxRate";
 
@@ -58,7 +58,7 @@ class TaxRateServiceTest extends WebapiAbstract
     public function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
-        $this->taxRateService = $objectManager->get('Magento\Tax\Service\V1\TaxRateService');
+        $this->taxRateService = $objectManager->get('Magento\Tax\Api\TaxRateRepositoryInterface');
         $this->searchCriteriaBuilder = $objectManager->create(
             'Magento\Framework\Api\SearchCriteriaBuilder'
         );
@@ -101,11 +101,11 @@ class TaxRateServiceTest extends WebapiAbstract
     {
         $data = [
             'tax_rate' => [
-                'country_id' => 'US',
-                'region_id' => 12,
-                'postcode' => '*',
+                'tax_country_id' => 'US',
+                'tax_region_id' => 12,
+                'tax_postcode' => '*',
                 'code' => 'US-CA-*-Rate 1',
-                'percentage_rate' => '8.2501'
+                'rate' => '8.2501'
             ]
         ];
 
@@ -117,7 +117,7 @@ class TaxRateServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'CreateTaxRate'
+                'operation' => self::SERVICE_NAME . 'Save'
             ]
         ];
         try {
@@ -138,11 +138,11 @@ class TaxRateServiceTest extends WebapiAbstract
     {
         $data = [
             'tax_rate' => [
-                'country_id' => 'US',
-                'region_id' => 12,
-                'postcode' => '*',
+                'tax_country_id' => 'US',
+                'tax_region_id' => 12,
+                'tax_postcode' => '*',
                 'code' => 'Test Tax Rate ' . microtime(),
-                'percentage_rate' => '8.2501'
+                'rate' => '8.2501'
             ]
         ];
 
@@ -154,7 +154,7 @@ class TaxRateServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'CreateTaxRate'
+                'operation' => self::SERVICE_NAME . 'Save'
             ]
         ];
         $result = $this->_webApiCall($serviceInfo, $data);
@@ -164,6 +164,42 @@ class TaxRateServiceTest extends WebapiAbstract
         /** @var \Magento\Tax\Model\Calculation\Rate $taxRate */
         $taxRate = Bootstrap::getObjectManager()->create('Magento\Tax\Model\Calculation\Rate');
         $this->assertEquals($taxRateId, $taxRate->load($taxRateId)->getId(), 'Tax rate was not created in  DB.');
+        $taxRate->delete();
+    }
+
+    public function testCreateTaxRateWithZipRange()
+    {
+        $data = [
+            'tax_rate' => [
+                'tax_country_id' => 'US',
+                'tax_region_id' => 12,
+                'code' => 'Test Tax Rate ' . microtime(),
+                'rate' => '8.2501',
+                'zip_is_range' => 1,
+                'zip_from' => 17,
+                'zip_to' => 25
+            ]
+        ];
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Save'
+            ]
+        ];
+        $result = $this->_webApiCall($serviceInfo, $data);
+        $this->assertArrayHasKey('id', $result);
+        $taxRateId = $result['id'];
+        /** Ensure that tax rate was actually created in DB */
+        /** @var \Magento\Tax\Model\Calculation\Rate $taxRate */
+        $taxRate = Bootstrap::getObjectManager()->create('Magento\Tax\Model\Calculation\Rate');
+        $this->assertEquals($taxRateId, $taxRate->load($taxRateId)->getId(), 'Tax rate was not created in  DB.');
+        $this->assertEquals('17-25', $taxRate->getTaxPostcode(), 'Zip range is not saved in DB.');
         $taxRate->delete();
     }
 
@@ -177,11 +213,11 @@ class TaxRateServiceTest extends WebapiAbstract
         $data = [
             'tax_rate' => [
                 'id' => $fixtureRate->getId(),
-                'region_id' => 43,
-                'country_id' => 'US',
-                'postcode' => '07400',
+                'tax_region_id' => 43,
+                'tax_country_id' => 'US',
+                'tax_postcode' => '07400',
                 'code' => 'Test Tax Rate ' . microtime(),
-                'percentage_rate' => 3.456
+                'rate' => 3.456
             ]
         ];
 
@@ -193,11 +229,10 @@ class TaxRateServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'UpdateTaxRate'
+                'operation' => self::SERVICE_NAME . 'Save'
             ]
         ];
-        $result = $this->_webApiCall($serviceInfo, $data);
-        $this->assertTrue($result);
+        $this->_webApiCall($serviceInfo, $data);
         $expectedRateData = $data['tax_rate'];
         /** Ensure that tax rate was actually updated in DB */
         /** @var \Magento\Tax\Model\Calculation\Rate $taxRate */
@@ -205,23 +240,23 @@ class TaxRateServiceTest extends WebapiAbstract
         $taxRateModel = $taxRate->load($fixtureRate->getId());
         $this->assertEquals($expectedRateData['id'], $taxRateModel->getId(), 'Tax rate was not updated in  DB.');
         $this->assertEquals(
-            $expectedRateData['region_id'],
+            $expectedRateData['tax_region_id'],
             $taxRateModel->getTaxRegionId(),
             'Tax rate was not updated in  DB.'
         );
         $this->assertEquals(
-            $expectedRateData['country_id'],
+            $expectedRateData['tax_country_id'],
             $taxRateModel->getTaxCountryId(),
             'Tax rate was not updated in  DB.'
         );
         $this->assertEquals(
-            $expectedRateData['postcode'],
+            $expectedRateData['tax_postcode'],
             $taxRateModel->getTaxPostcode(),
             'Tax rate was not updated in  DB.'
         );
         $this->assertEquals($expectedRateData['code'], $taxRateModel->getCode(), 'Tax rate was not updated in  DB.');
         $this->assertEquals(
-            $expectedRateData['percentage_rate'],
+            $expectedRateData['rate'],
             $taxRateModel->getRate(),
             'Tax rate was not updated in  DB.'
         );
@@ -232,11 +267,11 @@ class TaxRateServiceTest extends WebapiAbstract
         $data = [
             'tax_rate' => [
                 'id' => 555,
-                'region_id' => 43,
-                'country_id' => 'US',
-                'postcode' => '07400',
+                'tax_region_id' => 43,
+                'tax_country_id' => 'US',
+                'tax_postcode' => '07400',
                 'code' => 'Test Tax Rate ' . microtime(),
-                'percentage_rate' => 3.456
+                'rate' => 3.456
             ]
         ];
 
@@ -248,7 +283,7 @@ class TaxRateServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'UpdateTaxRate'
+                'operation' => self::SERVICE_NAME . 'Save'
             ]
         ];
         try {
@@ -276,18 +311,18 @@ class TaxRateServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetTaxRate'
+                'operation' => self::SERVICE_NAME . 'Get'
             ]
         ];
 
         $result = $this->_webApiCall($serviceInfo, ['rateId' => $taxRateId]);
         $expectedRateData = [
             'id' => 2,
-            'country_id' => 'US',
-            'region_id' => 43,
-            'postcode' => '*',
+            'tax_country_id' => 'US',
+            'tax_region_id' => 43,
+            'tax_postcode' => '*',
             'code' => 'US-NY-*-Rate 1',
-            'percentage_rate' => 8.375,
+            'rate' => 8.375,
             'titles' => [],
             'region_name' => 'NY',
         ];
@@ -305,7 +340,7 @@ class TaxRateServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetTaxRate'
+                'operation' => self::SERVICE_NAME . 'Get'
             ]
         ];
         try {
@@ -344,7 +379,7 @@ class TaxRateServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteTaxRate'
+                'operation' => self::SERVICE_NAME . 'DeleteByIdentifier'
             ]
         ];
 
@@ -373,7 +408,7 @@ class TaxRateServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteTaxRate'
+                'operation' => self::SERVICE_NAME . 'DeleteByIdentifier'
             ]
         ];
         try {
@@ -409,7 +444,7 @@ class TaxRateServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'SearchTaxRates'
+                'operation' => self::SERVICE_NAME . 'GetList'
             ]
         ];
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
@@ -423,12 +458,12 @@ class TaxRateServiceTest extends WebapiAbstract
         $expectedRuleData = [
             [
                 'id' => (int)$rates['codeUs12']->getId(),
-                'country_id' => $rates['codeUs12']->getTaxCountryId(),
-                'region_id' => (int)$rates['codeUs12']->getTaxRegionId(),
+                'tax_country_id' => $rates['codeUs12']->getTaxCountryId(),
+                'tax_region_id' => (int)$rates['codeUs12']->getTaxRegionId(),
                 'region_name' => 'CA',
-                'postcode' => $rates['codeUs12']->getTaxPostcode(),
+                'tax_postcode' => $rates['codeUs12']->getTaxPostcode(),
                 'code' =>  $rates['codeUs12']->getCode(),
-                'percentage_rate' => ((float) $rates['codeUs12']->getRate()),
+                'rate' => ((float) $rates['codeUs12']->getRate()),
                 'titles' => [],
             ]
         ];
@@ -460,7 +495,7 @@ class TaxRateServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'SearchTaxRates'
+                'operation' => self::SERVICE_NAME . 'GetList'
             ]
         ];
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
@@ -474,20 +509,20 @@ class TaxRateServiceTest extends WebapiAbstract
         $expectedRuleData = [
             [
                 'id' => (int)$rates['codeCz2']->getId(),
-                'country_id' => $rates['codeCz2']->getTaxCountryId(),
-                'postcode' => $rates['codeCz2']->getTaxPostcode(),
+                'tax_country_id' => $rates['codeCz2']->getTaxCountryId(),
+                'tax_postcode' => $rates['codeCz2']->getTaxPostcode(),
                 'code' =>  $rates['codeCz2']->getCode(),
-                'percentage_rate' =>  ((float) $rates['codeCz2']->getRate()),
-                'region_id' => 0,
+                'rate' =>  ((float) $rates['codeCz2']->getRate()),
+                'tax_region_id' => 0,
                 'titles' => [],
             ],
             [
                 'id' => (int)$rates['codeCz1']->getId(),
-                'country_id' => $rates['codeCz1']->getTaxCountryId(),
-                'postcode' => $rates['codeCz1']->getTaxPostcode(),
+                'tax_country_id' => $rates['codeCz1']->getTaxCountryId(),
+                'tax_postcode' => $rates['codeCz1']->getTaxPostcode(),
                 'code' => $rates['codeCz1']->getCode(),
-                'percentage_rate' => ((float) $rates['codeCz1']->getRate()),
-                'region_id' => 0,
+                'rate' => ((float) $rates['codeCz1']->getRate()),
+                'tax_region_id' => 0,
                 'titles' => [],
             ]
         ];

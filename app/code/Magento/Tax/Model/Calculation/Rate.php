@@ -9,6 +9,7 @@
 namespace Magento\Tax\Model\Calculation;
 
 use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Directory\Model\Region;
 
 /**
  * Tax Rate Model
@@ -20,7 +21,6 @@ use Magento\Framework\Exception\CouldNotDeleteException;
  * @method \Magento\Tax\Model\Calculation\Rate setTaxPostcode(string $value)
  * @method \Magento\Tax\Model\Calculation\Rate setCode(string $value)
  * @method \Magento\Tax\Model\Calculation\Rate setRate(float $value)
- * @method int getZipIsRange()
  * @method \Magento\Tax\Model\Calculation\Rate setZipIsRange(int $value)
  * @method \Magento\Tax\Model\Calculation\Rate setZipFrom(int $value)
  * @method \Magento\Tax\Model\Calculation\Rate setZipTo(int $value)
@@ -48,6 +48,10 @@ class Rate extends \Magento\Framework\Model\AbstractExtensibleModel implements \
      * @var \Magento\Tax\Model\Calculation\Rate\TitleFactory
      */
     protected $_titleFactory;
+    /**
+     * @var Region
+     */
+    protected $directoryRegion;
 
     /**
      * @param \Magento\Framework\Model\Context $context
@@ -55,6 +59,7 @@ class Rate extends \Magento\Framework\Model\AbstractExtensibleModel implements \
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param Rate\TitleFactory $taxTitleFactory
+     * @param Region $directoryRegion
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -65,12 +70,14 @@ class Rate extends \Magento\Framework\Model\AbstractExtensibleModel implements \
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Tax\Model\Calculation\Rate\TitleFactory $taxTitleFactory,
+        Region $directoryRegion,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_regionFactory = $regionFactory;
         $this->_titleFactory = $taxTitleFactory;
+        $this->directoryRegion = $directoryRegion;
         parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
     }
 
@@ -232,8 +239,11 @@ class Rate extends \Magento\Framework\Model\AbstractExtensibleModel implements \
      */
     public function getTitles()
     {
+        if ($this->getData(self::KEY_TITLES)) {
+            return $this->getData(self::KEY_TITLES);
+        }
         if (is_null($this->_titles)) {
-            $this->_titles = $this->getTitleModel()->getCollection()->loadByRateId($this->getId());
+            $this->_titles = $this->getTitleModel()->getCollection()->loadByRateId($this->getId())->getItems();
         }
         return $this->_titles;
     }
@@ -301,6 +311,10 @@ class Rate extends \Magento\Framework\Model\AbstractExtensibleModel implements \
      */
     public function getRegionName()
     {
+        if (!$this->getData(self::KEY_REGION_NAME)) {
+            $regionName = $this->directoryRegion->load($this->getTaxRegionId())->getCode();
+            $this->setData(self::KEY_REGION_NAME, $regionName);
+        }
         return $this->getData(self::KEY_REGION_NAME);
     }
 
@@ -342,5 +356,12 @@ class Rate extends \Magento\Framework\Model\AbstractExtensibleModel implements \
     public function getCode()
     {
         return $this->getData(self::KEY_CODE);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getZipIsRange(){
+        return $this->getData('zip_is_range');
     }
 }

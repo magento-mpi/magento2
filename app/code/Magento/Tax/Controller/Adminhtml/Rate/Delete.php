@@ -21,7 +21,7 @@ class Delete extends \Magento\Tax\Controller\Adminhtml\Rate
     {
         if ($rateId = $this->getRequest()->getParam('rate')) {
             try {
-                $this->_taxRateService->deleteTaxRate($rateId);
+                $this->_taxRateRepository->deleteByIdentifier($rateId);
 
                 $this->messageManager->addSuccess(__('The tax rate has been deleted.'));
                 $this->getResponse()->setRedirect($this->getUrl("*/*/"));

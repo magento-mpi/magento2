@@ -26,7 +26,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * TaxRate builder
      *
-     * @var \Magento\Tax\Service\V1\Data\TaxRateBuilder
+     * @var \Magento\Tax\Api\Data\TaxRateDataBuilder
      */
     private $taxRateBuilder;
 
@@ -58,7 +58,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager = Bootstrap::getObjectManager();
         $this->taxRateService = $this->objectManager->get('Magento\Tax\Service\V1\TaxRateServiceInterface');
-        $this->taxRateBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRateBuilder');
+        $this->taxRateBuilder = $this->objectManager->create('Magento\Tax\Api\Data\TaxRateDataBuilder');
         $this->taxRateFixtureFactory = new TaxRuleFixtureFactory();
         $this->countryFactory = $this->objectManager->create('Magento\Directory\Model\CountryFactory');
         $this->regionFactory = $this->objectManager->create('Magento\Directory\Model\RegionFactory');

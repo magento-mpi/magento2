@@ -106,11 +106,11 @@ class RateRepository implements \Magento\Tax\Api\TaxRateRepositoryInterface
      */
     public function save(\Magento\Tax\Api\Data\TaxRateInterface $taxRate)
     {
-        if ($taxRate->getTaxCalculationRateId()) {
-            $this->rateRegistry->retrieveTaxRate($taxRate->getTaxCalculationRateId());
+        if ($taxRate->getId()) {
+            $this->rateRegistry->retrieveTaxRate($taxRate->getId());
         }
         $this->validate($taxRate);
-        $taxRateTitles = $taxRate->getTitles();
+        $taxRateTitles = $this->converter->createTitleArrayFromServiceObject($taxRate);
         try {
             $this->resourceModel->save($taxRate);
             $taxRate->saveTitles($taxRateTitles);

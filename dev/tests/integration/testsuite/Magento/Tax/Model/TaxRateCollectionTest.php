@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1\Collection;
+namespace Magento\Tax\Model;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -22,7 +22,7 @@ class TaxRateCollectionTest extends \PHPUnit_Framework_TestCase
         }
         /** @var \Magento\Tax\Service\V1\Collection\TaxRateCollection $taxRatesCollection */
         $taxRatesCollection = Bootstrap::getObjectManager()
-            ->create('Magento\Tax\Service\V1\Collection\TaxRateCollection');
+            ->create('Magento\Tax\Model\TaxRateCollection');
         $collectionTaxRatesQty = $taxRatesCollection->count();
         $this->assertEquals($dbTaxRatesQty, $collectionTaxRatesQty, 'Tax rates quantity is invalid.');
         $taxRate = $taxRatesCollection->getFirstItem()->getData();

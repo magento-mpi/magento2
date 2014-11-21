@@ -8,8 +8,6 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Tax\Service\V1\TaxRateServiceInterface"
-                type="Magento\Tax\Service\V1\TaxRateService"/>
     <preference for="Magento\Tax\Api\TaxRuleRepositoryInterface"
                 type="Magento\Tax\Model\TaxRuleRepository"/>
     <preference for="Magento\Tax\Api\TaxCalculationInterface"
@@ -64,4 +62,7 @@
     <preference for="Magento\Tax\Api\Data\TaxClassInterface" type="Magento\Tax\Model\ClassModel" />
     <preference for="Magento\Tax\Api\Data\TaxRuleInterface" type="Magento\Tax\Model\Calculation\Rule" />
     <preference for="Magento\Tax\Api\Data\TaxRuleSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Magento\Tax\Api\TaxRateRepositoryInterface" type="Magento\Tax\Model\Calculation\RateRepository" />
+    <preference for="Magento\Tax\Api\Data\TaxRateTitleInterface" type="Magento\Tax\Model\Calculation\Rate\Title" />
+    <preference for="Magento\Tax\Api\Data\TaxRateInterface" type="Magento\Tax\Model\Calculation\Rate" />
 </config>
