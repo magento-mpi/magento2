@@ -7,7 +7,7 @@
  */
 namespace Magento\Ui\Component\Form\Fieldset;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Ui\Component\Form\Fieldset;
 
 /**
@@ -21,16 +21,16 @@ class Factory
     protected $className = 'Magento\Ui\Component\Form\Fieldset';
 
     /**
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
      * Constructor
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManagerInterface $objectManager)
     {
         $this->objectManager = $objectManager;
     }

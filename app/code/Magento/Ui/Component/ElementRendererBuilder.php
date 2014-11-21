@@ -7,7 +7,7 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\UiComponentInterface;
 
 /**
@@ -18,7 +18,7 @@ class ElementRendererBuilder
     /**
      * Object manager
      *
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -32,9 +32,9 @@ class ElementRendererBuilder
     /**
      * Constructor
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManagerInterface $objectManager)
     {
         $this->objectManager = $objectManager;
     }
