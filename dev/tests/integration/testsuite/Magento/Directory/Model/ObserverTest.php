@@ -68,7 +68,35 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             0
         );
 
-        $this->observer = $this->objectManager->create('Magento\Directory\Model\Observer');
+        $importModelMock = $this->getMock(
+            'Magento\Directory\Model\Currency\Import\AbstractImport',
+            ['fetchRates', '_convert'],
+            [],
+            '',
+            false
+        );
+        $mockRates = ['USD' => ['EUR' => 0.8071, 'GBP' => 0.6389, 'USD' => 1]];
+        $importModelMock->expects($this->once())
+            ->method('fetchRates')
+            ->with()
+            ->will($this->returnValue($mockRates));
+
+        $importFactoryMock = $this->getMock(
+            'Magento\Directory\Model\Currency\Import\Factory',
+            ['create'],
+            [],
+            '',
+            false
+        );
+        $importFactoryMock->expects($this->once())
+            ->method('create')
+            ->with('webservicex')
+            ->will($this->returnValue($importModelMock));
+
+        $this->observer = $this->objectManager->create(
+            'Magento\Directory\Model\Observer',
+            ['importFactory' => $importFactoryMock]
+        );
     }
 
     public function testScheduledUpdateCurrencyRates()
