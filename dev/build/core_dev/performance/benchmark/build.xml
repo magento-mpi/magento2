@@ -205,14 +205,6 @@
         </ac:for>
     </target>
 
-    <target name="_prepare-magento-ee" description="Prepare Enterprise Edition Modules">
-        <sshexec host="${env.webnode_initial}"
-                 username="${env.webnode_login}"
-                 password="${env.webnode_password}"
-                 trust="yes"
-                 command="cp ${env.magento_dir}/app/etc/enterprise/module.xml.dist ${env.magento_dir}/app/etc/enterprise/module.xml"/>
-    </target>
-
     <target name="_remote-code-prepare" description="Set permissions for magento directories and files on remote machine">
         <sshexec host="${server_ip}"
                  username="${env.webnode_login}"

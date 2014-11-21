@@ -87,13 +87,6 @@ class Bootstrap
     private $objectManager;
 
     /**
-     * Configuration directory
-     *
-     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
-     */
-    private $configDir;
-
-    /**
      * Maintenance mode manager
      *
      * @var \Magento\Framework\App\MaintenanceMode
@@ -380,9 +373,6 @@ class Bootstrap
         if (!$this->objectManager) {
             $this->objectManager = $this->factory->create($this->server);
             $this->maintenance = $this->objectManager->get('Magento\Framework\App\MaintenanceMode');
-            /** @var $fileSystem \Magento\Framework\Filesystem */
-            $fileSystem = $this->objectManager->get('Magento\Framework\Filesystem');
-            $this->configDir = $fileSystem->getDirectoryRead(DirectoryList::CONFIG);
         }
     }
 
