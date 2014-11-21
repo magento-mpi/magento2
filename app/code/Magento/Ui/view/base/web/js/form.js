@@ -36,14 +36,6 @@ define([
                 .hideLoader();
         },
 
-        initObservable: function () {
-            __super__.initObservable.apply(this, arguments);
-
-            this.observe('isValid', false);
-
-            return this;
-        },
-
         initAdapter: function(){
             adapter.on({
                 'reset':            this.reset.bind(this),
@@ -64,10 +56,6 @@ define([
             loader.get(this.name).hide();
 
             return this;
-        },
-
-        reset: function(){
-            this.provider.data.trigger('reset');
         },
 
         save: function(redirect){
@@ -98,14 +86,18 @@ define([
 
         /**
          * Validates each element and returns true, if all elements are valid.
-         * 
-         * @return {Boolean}
          */
         validate: function () {
             var provider = this.provider;
 
-            provider.params.set('invalid', null);
+            provider.params.set('invalid', false);
             provider.data.trigger('validate');
+        },
+
+        reset: function(){
+            var data = this.provider.data;
+
+            data.trigger('reset');
         }
     });
 });

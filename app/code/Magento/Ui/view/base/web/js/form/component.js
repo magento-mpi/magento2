@@ -149,7 +149,7 @@ define([
             this.hasUnique = this.uniqueProp && uniqueNs;
 
             if(this.hasUnique){
-                params.on('update:' + uniqueNs, update);
+                params.on('update:' + uniqueNs, update, this.name);
             }
 
             return this;
@@ -174,7 +174,7 @@ define([
 
             callback(storage.get(source));
 
-            storage.on('update:' + source, callback);
+            storage.on('update:' + source, callback, this.name);
         },
 
         /**
@@ -300,21 +300,65 @@ define([
          * Destroys current instance along with all of its' children.
          */
         destroy: function(){
-            var data    = this.provider.data,
-                layout  = this.renderer.layout; 
+            this._dropHandlers()
+                ._clearData()
+                ._clearRefs();
+        },
+
+        /**
+         * Removes events listeners.
+         * @private
+         *
+         * @returns {Component} Chainable.      
+         */
+        _dropHandlers: function(){
+            var provider = this.provider;
 
             this.off();
+            
+            provider.data.off(this.name);
+            provider.params.off(this.name);
+
+            return this;
+        },
+
+        /**
+         * Clears all data associated with component.
+         * @private
+         *
+         * @returns {Component} Chainable.      
+         */
+        _clearData: function(){
+            var provider = this.provider,
+                layout   = this.renderer.layout;
+
+            provider.data.remove(this.dataScope);
+            provider.params.remove(this.name);
+
+            layout.clear(this.name);
+
+            return this;
+        },
+
+        /**
+         * Removes all references to current instance and
+         * calls 'destroy' method on all of its' children.
+         * @private
+         *
+         * @returns {Component} Chainable.      
+         */
+        _clearRefs: function(){
+            registry.remove(this.name);
 
             this.containers.forEach(function(parent){
                 parent.remove(this);
             }, this);
-
-            data.remove(this.dataScope);
-            layout.clear(this.name);
             
             this.elems().forEach(function(child){ 
                 child.destroy();
             });
+
+            return this;
         },
 
         /**
