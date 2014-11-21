@@ -13,7 +13,7 @@ $configuredPrice = $this->getPrice();
 $schema = ($this->getZone() == 'item_view') ? true : false;
 $priceLabel = ($this->getPriceLabel() !== null)
     ? $this->getPriceLabel()
-    : __('Price as configured');
+    : __('Price');
 ?>
 <p class="price-as-configured">
     <?php echo $this->renderAmount($configuredPrice->getAmount(), [
