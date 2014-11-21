@@ -11,7 +11,7 @@ namespace Magento\Tax\Api;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use \Magento\Tax\Api\Data\TaxRateInterface as TaxRate;
+use Magento\Tax\Api\Data\TaxRateInterface as TaxRate;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Framework\Api\SortOrderBuilder;
@@ -32,7 +32,7 @@ class TaxRateRepositoryTest extends WebapiAbstract
     private $fixtureTaxRules;
 
     /**
-     * @var \Magento\Tax\Api\TaxRateRepositoryInterfac
+     * @var \Magento\Tax\Api\TaxRateRepositoryInterface
      */
     private $taxRateService;
 
