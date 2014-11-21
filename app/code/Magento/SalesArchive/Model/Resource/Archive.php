@@ -35,7 +35,7 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
         \Magento\SalesArchive\Model\ArchivalList::CREDITMEMO => array(
             'sales_creditmemo_grid',
             'magento_sales_creditmemo_grid_archive'
-        )
+        ),
     );
 
     /**
@@ -122,6 +122,18 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
             return false;
         }
         return $this->getTable($this->_tables[$archiveEntity][0]);
+    }
+
+    /**
+     * Checks if order already in archive
+     *
+     * @param int $id order id
+     * @return bool
+     */
+    public function isOrderInArchive($id)
+    {
+        $ids = $this->getIdsInArchive(\Magento\SalesArchive\Model\ArchivalList::ORDER, [$id]);
+        return !empty($ids);
     }
 
     /**
@@ -329,6 +341,46 @@ class Archive extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $adapter->delete($sourceTable, $condition);
         return $this;
+    }
+
+    /**
+     * Removes orders from archive and restore in orders grid tables,
+     * returns restored order ids
+     *
+     * @param array $orderIds
+     * @throws \Exception
+     * @return array
+     */
+    public function removeOrdersFromArchiveById($orderIds)
+    {
+        $this->beginTransaction();
+        try {
+            foreach ($this->_archivalList->getEntityNames() as $entity) {
+                $conditionalField = 'order_id';
+                if ($entity === \Magento\SalesArchive\Model\ArchivalList::ORDER) {
+                    $conditionalField = 'entity_id';
+                }
+
+                $entityIds = $this->getIdsInArchive(
+                    $entity,
+                    $orderIds
+                );
+
+                if (!empty($entityIds)) {
+                    $this->removeFromArchive(
+                        $entity,
+                        $conditionalField,
+                        $orderIds
+                    );
+                }
+            }
+            $this->commit();
+        } catch (\Exception $e) {
+            $this->rollBack();
+            throw $e;
+        }
+
+        return $orderIds;
     }
 
     /**

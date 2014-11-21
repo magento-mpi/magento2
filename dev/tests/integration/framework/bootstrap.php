@@ -6,38 +6,16 @@
  * @license     {license_link}
  */
 use Magento\Framework\Code\Generator\FileResolver;
+use Magento\Framework\Autoload\AutoloaderRegistry;
 
 require_once __DIR__ . '/../../../../app/bootstrap.php';
-$includePath = new \Magento\Framework\Autoload\IncludePath();
-spl_autoload_register([$includePath, 'load']);
 require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/Classes.php';
 require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/AggregateInvoker.php';
+require_once __DIR__ . '/autoload.php';
 
 $testsBaseDir = dirname(__DIR__);
 $testsTmpDir = "{$testsBaseDir}/tmp";
 $magentoBaseDir = realpath("{$testsBaseDir}/../../../");
-
-$includePath->addIncludePath(
-    array("{$testsBaseDir}/framework", "{$testsBaseDir}/testsuite")
-);
-
-function tool_autoloader($className)
-{
-    if (strpos($className, 'Magento\\Tools\\') === false) {
-        return false;
-    }
-
-    $filePath = str_replace('\\', '/', $className);
-    $filePath = BP . '/dev/tools/' . $filePath . '.php';
-
-    if (file_exists($filePath)) {
-        include_once $filePath;
-    } else {
-        return false;
-    }
-}
-
-spl_autoload_register('tool_autoloader');
 
 try {
     /* Bootstrap the application */
@@ -64,7 +42,8 @@ try {
         $installConfigFile,
         $settings->get('TESTS_GLOBAL_CONFIG_DIR'),
         $settings->getAsMatchingPaths('TESTS_MODULE_CONFIG_FILES'),
-        $settings->get('TESTS_MAGENTO_MODE')
+        $settings->get('TESTS_MAGENTO_MODE'),
+        AutoloaderRegistry::getAutoloader()
     );
 
     $bootstrap = new \Magento\TestFramework\Bootstrap(

@@ -9,6 +9,8 @@
 namespace Magento\Framework\App;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Autoload\AutoloaderRegistry;
+use Magento\Framework\Autoload\Populator;
 use Magento\Framework\Filesystem\DriverPool;
 use Magento\Framework\Profiler;
 use Magento\Framework\AppInterface;
@@ -80,9 +82,23 @@ class Bootstrap
     /**
      * Object manager
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     private $objectManager;
+
+    /**
+     * Configuration directory
+     *
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
+     */
+    private $configDir;
+
+    /**
+     * Maintenance mode manager
+     *
+     * @var \Magento\Framework\App\MaintenanceMode
+     */
+    private $maintenance;
 
     /**
      * Bootstrap-specific error code that may have been set in runtime
@@ -108,10 +124,25 @@ class Bootstrap
      */
     public static function create($rootDir, array $initParams, ObjectManagerFactory $factory = null)
     {
+        self::populateAutoloader($rootDir, $initParams);
         if ($factory === null) {
             $factory = self::createObjectManagerFactory($rootDir, $initParams);
         }
         return new self($factory, $rootDir, $initParams);
+    }
+
+    /**
+     * Populates autoloader with mapping info
+     *
+     * @param string $rootDir
+     * @param array $initParams
+     * @return void
+     */
+    public static function populateAutoloader($rootDir, $initParams)
+    {
+        $dirList = self::createFilesystemDirectoryList($rootDir, $initParams);
+        $autoloadWrapper = AutoloaderRegistry::getAutoloader();
+        Populator::populateMappings($autoloadWrapper, $dirList);
     }
 
     /**
@@ -248,8 +279,8 @@ class Bootstrap
         }
         $this->initObjectManager();
         /** @var \Magento\Framework\App\MaintenanceMode $maintenance */
-        $maintenance = $this->objectManager->get('Magento\Framework\App\MaintenanceMode');
-        $isOn = $maintenance->isOn(isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '');
+        $this->maintenance = $this->objectManager->get('Magento\Framework\App\MaintenanceMode');
+        $isOn = $this->maintenance->isOn(isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '');
         if ($isOn && !$isExpected) {
             $this->errorCode = self::ERR_MAINTENANCE;
             throw new \Exception('Unable to proceed: the maintenance mode is enabled.');
@@ -320,7 +351,7 @@ class Bootstrap
     /**
      * Gets the object manager instance
      *
-     * @return \Magento\Framework\ObjectManager
+     * @return \Magento\Framework\ObjectManagerInterface
      */
     public function getObjectManager()
     {
@@ -348,6 +379,10 @@ class Bootstrap
     {
         if (!$this->objectManager) {
             $this->objectManager = $this->factory->create($this->server);
+            $this->maintenance = $this->objectManager->get('Magento\Framework\App\MaintenanceMode');
+            /** @var $fileSystem \Magento\Framework\Filesystem */
+            $fileSystem = $this->objectManager->get('Magento\Framework\Filesystem');
+            $this->configDir = $fileSystem->getDirectoryRead(DirectoryList::CONFIG);
         }
     }
 

@@ -34,6 +34,7 @@
     </filter>
     <php>
         <includePath>.</includePath>
+        <includePath>testsuite</includePath>
         <ini name="date.timezone" value="America/Los_Angeles"/>
         <ini name="xdebug.max_nesting_level" value="200"/>
         <const name="TESTS_INSTALL_CONFIG_FILE" value="{{local_config_file}}"/>

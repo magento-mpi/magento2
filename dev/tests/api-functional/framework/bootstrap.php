@@ -7,26 +7,15 @@
  */
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Autoload\AutoloaderRegistry;
 
 require_once __DIR__ . '/../../../../app/bootstrap.php';
-
-$includePath = new \Magento\Framework\Autoload\IncludePath();
-spl_autoload_register([$includePath, 'load']);
-
 require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/Classes.php';
 require_once __DIR__ . '/../lib/OAuth/bootstrap.php';
+require_once __DIR__ . '/autoload.php';
 
 $testsBaseDir = dirname(__DIR__);
 $integrationTestsDir = realpath("{$testsBaseDir}/../integration");
-
-$includePath->addIncludePath(
-    array(
-        "{$testsBaseDir}/framework",
-        "{$testsBaseDir}/testsuite",
-        "{$testsBaseDir}/lib",
-        "{$integrationTestsDir}/framework",
-    )
-);
 
 $logWriter = new \Zend_Log_Writer_Stream('php://output');
 $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));

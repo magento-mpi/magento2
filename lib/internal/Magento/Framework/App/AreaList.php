@@ -34,18 +34,18 @@ class AreaList
     protected $_resolverFactory;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param Area\FrontNameResolverFactory $resolverFactory
      * @param array $areas
      * @param string|null $default
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         Area\FrontNameResolverFactory $resolverFactory,
         array $areas = [],
         $default = null

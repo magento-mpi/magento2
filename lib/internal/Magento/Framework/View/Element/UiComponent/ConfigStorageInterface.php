@@ -7,7 +7,8 @@
  */
 namespace Magento\Framework\View\Element\UiComponent;
 
-use Magento\Framework\Data\Collection as DataCollection;
+use Magento\Framework\Data\CollectionDataSourceInterface;
+use Magento\Framework\Api\CriteriaInterface;
 
 /**
  * Class ConfigurationStorageInterface
@@ -110,16 +111,16 @@ interface ConfigStorageInterface
      * Set data collection
      *
      * @param string $key
-     * @param DataCollection $dataCollection
+     * @param CollectionDataSourceInterface|CriteriaInterface $dataCollection
      * @return void
      */
-    public function addDataCollection($key, DataCollection $dataCollection);
+    public function addDataCollection($key, CollectionDataSourceInterface $dataCollection);
 
     /**
      * Get data collection
      *
      * @param string|null $key
-     * @return DataCollection
+     * @return CollectionDataSourceInterface|CriteriaInterface
      */
     public function getDataCollection($key = null);
 
@@ -127,10 +128,10 @@ interface ConfigStorageInterface
      * Update data collection in storage
      *
      * @param string $key
-     * @param DataCollection $dataCollection
+     * @param CollectionDataSourceInterface|CriteriaInterface $dataCollection
      * @return mixed
      */
-    public function updateDataCollection($key, DataCollection $dataCollection);
+    public function updateDataCollection($key, CollectionDataSourceInterface $dataCollection);
 
     /**
      * Add cloud data in storage

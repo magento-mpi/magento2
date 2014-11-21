@@ -7,6 +7,7 @@
  */
 namespace Magento\GiftMessage\Block\Message;
 
+use Magento\Customer\Model\Context;
 use Magento\GiftMessage\Model\Message;
 
 /**
@@ -183,7 +184,7 @@ class Inline extends \Magento\Framework\View\Element\Template
      */
     public function getDefaultFrom()
     {
-        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+        if ($this->httpContext->getValue(Context::CONTEXT_AUTH)) {
             return $this->_customerSession->getCustomer()->getName();
         } else {
             return $this->getEntity()->getBillingAddress()->getName();

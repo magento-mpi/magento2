@@ -60,7 +60,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManagerFactory = $this->getMock('Magento\Framework\App\ObjectManagerFactory', [], [], '', false);
-        $this->objectManager = $this->getMockForAbstractClass('Magento\Framework\ObjectManager');
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->dirs = $this->getMock('Magento\Framework\App\Filesystem\DirectoryList', ['getPath'], [], '', false);
         $this->maintenanceMode = $this->getMock('Magento\Framework\App\MaintenanceMode', ['isOn'], [], '', false);
         $filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
@@ -244,9 +244,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     public function testAssertInstalled($isInstalled, $isExpected)
     {
         $bootstrap = self::createBootstrap([Bootstrap::PARAM_REQUIRE_IS_INSTALLED => $isExpected]);
-
         $this->deploymentConfig->expects($this->once())->method('isAvailable')->willReturn($isInstalled);
-
         $this->application->expects($this->never())->method('launch');
         $this->application->expects($this->once())->method('catchException')->willReturn(true);
         $bootstrap->run($this->application);

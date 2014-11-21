@@ -8,6 +8,7 @@
 namespace Magento\TestFramework;
 
 use Magento\Framework\Code\Generator\FileResolver;
+use Magento\Framework\Autoload\AutoloaderInterface;
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\DeploymentConfig;
@@ -65,7 +66,7 @@ class Application
      *
      * @var string
      */
-    protected $_tmpDir;
+    protected $installDir;
 
     /**
      * Installation destination directory with configuration files
@@ -120,28 +121,29 @@ class Application
      * Constructor
      *
      * @param \Magento\Framework\Shell $shell
-     * @param string $tmpDir
+     * @param string $installDir
      * @param array $installConfigFile
      * @param string $globalConfigDir
      * @param string $appMode
+     * @param AutoloaderInterface $autoloadWrapper
      */
     public function __construct(
         \Magento\Framework\Shell $shell,
-        $tmpDir,
+        $installDir,
         $installConfigFile,
         $globalConfigDir,
-        $appMode
+        $appMode,
+        AutoloaderInterface $autoloadWrapper
     ) {
         $this->_shell = $shell;
         $this->installConfigFile = $installConfigFile;
         $this->_globalConfigDir = realpath($globalConfigDir);
         $this->_appMode = $appMode;
-
-        $this->_tmpDir = $tmpDir;
+        $this->installDir = $installDir;
 
         $customDirs = $this->getCustomDirs();
-        $this->_dirList = new \Magento\Framework\App\Filesystem\DirectoryList(BP, $customDirs);
-
+        $this->dirList = new \Magento\Framework\App\Filesystem\DirectoryList(BP, $customDirs);
+        \Magento\Framework\Autoload\Populator::populateMappings($autoloadWrapper, $dirList);
         $this->_initParams = array(
             \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => $customDirs,
             \Magento\Framework\App\State::PARAM_MODE => $appMode
@@ -220,7 +222,7 @@ class Application
      */
     public function getTempDir()
     {
-        return $this->_tmpDir;
+        return $this->installDir;
     }
 
     /**
@@ -356,7 +358,7 @@ class Application
     public function install()
     {
         $dirs = \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS;
-        $this->_ensureDirExists($this->_tmpDir);
+        $this->_ensureDirExists($this->installDir);
         $this->_ensureDirExists($this->_configDir);
         $this->_ensureDirExists($this->_initParams[$dirs][DirectoryList::MEDIA][DirectoryList::PATH]);
         $this->_ensureDirExists($this->_initParams[$dirs][DirectoryList::STATIC_VIEW][DirectoryList::PATH]);
@@ -537,12 +539,12 @@ class Application
     protected function getCustomDirs()
     {
         $path = DirectoryList::PATH;
-        $var = "{$this->_tmpDir}/var";
+        $var = "{$this->installDir}/var";
         $customDirs = array(
-            DirectoryList::CONFIG => array($path => "{$this->_tmpDir}/etc"),
+            DirectoryList::CONFIG => array($path => "{$this->installDir}/etc"),
             DirectoryList::VAR_DIR => array($path => $var),
-            DirectoryList::MEDIA => array($path => "{$this->_tmpDir}/media"),
-            DirectoryList::STATIC_VIEW => array($path => "{$this->_tmpDir}/pub_static"),
+            DirectoryList::MEDIA => array($path => "{$this->installDir}/media"),
+            DirectoryList::STATIC_VIEW => array($path => "{$this->installDir}/pub_static"),
             DirectoryList::GENERATION => array($path => "{$var}/generation"),
             DirectoryList::CACHE => array($path => "{$var}/cache"),
             DirectoryList::LOG => array($path => "{$var}/log"),
