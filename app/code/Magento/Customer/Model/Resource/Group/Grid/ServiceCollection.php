@@ -8,9 +8,9 @@
 namespace Magento\Customer\Model\Resource\Group\Grid;
 
 use Magento\Core\Model\EntityFactory;
+use Magento\Customer\Api\Data\GroupInterface;
 use Magento\Framework\Api\AbstractServiceCollection;
 use Magento\Customer\Api\GroupRepositoryInterface;
-use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrderBuilder;
@@ -65,7 +65,7 @@ class ServiceCollection extends AbstractServiceCollection
             $searchCriteria = $this->getSearchCriteria();
             $searchResults = $this->groupRepository->getList($searchCriteria);
             $this->_totalRecords = $searchResults->getTotalCount();
-            /** @var CustomerGroup[] $groups */
+            /** @var GroupInterface[] $groups */
             $groups = $searchResults->getItems();
             foreach ($groups as $group) {
                 $groupItem = new \Magento\Framework\Object();
