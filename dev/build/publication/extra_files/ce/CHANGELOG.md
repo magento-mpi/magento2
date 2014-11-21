@@ -1,7 +1,7 @@
 0.1.0-alpha105
 =============
 * Various improvements:
-    * Merge SQL and Data Upgrades for the Tax, Weee, Customer, CustomerImportExport, ProductAlert, Sendfriend and Wishlist modules
+    * Merged SQL and Data Upgrades for the Tax, Weee, Customer, CustomerImportExport, ProductAlert, Sendfriend and Wishlist modules
     * Added 'Interface' suffix to all interface names
     * Stabilized functional tests for the following modules:
         * CheckoutAgreements
