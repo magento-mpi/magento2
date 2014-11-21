@@ -16,7 +16,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     private function convertToArray($entity)
     {
         return Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Api\SimpleDataObjectConverter')
+            ->create('Magento\Framework\Api\ExtensibleDataObjectConverter')
             ->toFlatArray($entity);
     }
     /**
@@ -79,8 +79,12 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $customer = $quote->getCustomer();
         $expected = $this->_getCustomerDataArray();
         $changeMail($expected);
-
-        $this->assertEquals($expected, $this->convertToArray($customer));
+        $expected['disable_auto_group_change'] = 0;
+        unset($expected['addresses']);
+        ksort($expected);
+        $actual = $this->convertToArray($customer);
+        ksort($actual);
+        $this->assertEquals($expected, $actual);
         $this->assertEquals('test@example.com', $quote->getCustomerEmail());
     }
 
@@ -296,7 +300,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             \Magento\Customer\Model\Data\Customer::CREATED_IN => 'Default',
             \Magento\Customer\Model\Data\Customer::DEFAULT_BILLING => 'test',
             \Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING => 'test',
-            \Magento\Customer\Model\Data\Customer::DOB => '2/3/2014',
+            \Magento\Customer\Model\Data\Customer::DOB => '2014-02-03 00:00:00',
             \Magento\Customer\Model\Data\Customer::EMAIL => 'qa@example.com',
             \Magento\Customer\Model\Data\Customer::FIRSTNAME => 'Joe',
             \Magento\Customer\Model\Data\Customer::GENDER => 'Male',
