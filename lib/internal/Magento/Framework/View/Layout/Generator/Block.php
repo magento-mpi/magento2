@@ -174,7 +174,7 @@ class Block implements Layout\GeneratorInterface
         if ($block && is_string($block)) {
             try {
                 $block = $this->blockFactory->createBlock($block, $arguments);
-            } catch (\ReflectionException $e) {
+            } catch (\ReflectionException $e) {echo $e;ss();
                 $this->logger->log($e->getMessage());
             }
         }

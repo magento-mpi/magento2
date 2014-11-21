@@ -8,7 +8,7 @@
 
 namespace Magento\Ui\DataProvider;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Ui\DataProvider\Config\Data as Config;
 
 /**
@@ -22,12 +22,12 @@ class Manager
     protected $config;
 
     /**
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
-     * @var MetadataFactory
+     * @var ObjectManagerInterface
      */
     protected $metadataFactory;
 
@@ -38,10 +38,10 @@ class Manager
 
     /**
      * @param Config $config
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param MetadataFactory $metadataFactory
      */
-    public function __construct(Config $config, ObjectManager $objectManager, MetadataFactory $metadataFactory)
+    public function __construct(Config $config, ObjectManagerInterface $objectManager, MetadataFactory $metadataFactory)
     {
         $this->config = $config;
         $this->objectManager = $objectManager;

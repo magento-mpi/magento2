@@ -7,7 +7,7 @@
  */
 namespace Magento\Ui\DataProvider;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class Factory
@@ -15,16 +15,16 @@ use Magento\Framework\ObjectManager;
 class Factory
 {
     /**
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
      * Constructor
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManagerInterface $objectManager)
     {
         $this->objectManager = $objectManager;
     }

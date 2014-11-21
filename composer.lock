@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1b44acfbdb1f73d1671f06b478f63633",
+    "hash": "9282dfb54c98031ca99cdf7397a2ffe6",
     "packages": [
         {
             "name": "zendframework/zend-stdlib",
@@ -894,17 +894,17 @@
         },
         {
             "name": "symfony/config",
-            "version": "v2.5.6",
+            "version": "v2.5.7",
             "target-dir": "Symfony/Component/Config",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Config.git",
-                "reference": "0316364bfebc8b080077c731a99f189341476bd7"
+                "reference": "7b11dceebaaf877b75bc1aedfd831a2ddc326de9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Config/zipball/0316364bfebc8b080077c731a99f189341476bd7",
-                "reference": "0316364bfebc8b080077c731a99f189341476bd7",
+                "url": "https://api.github.com/repos/symfony/Config/zipball/7b11dceebaaf877b75bc1aedfd831a2ddc326de9",
+                "reference": "7b11dceebaaf877b75bc1aedfd831a2ddc326de9",
                 "shasum": ""
             },
             "require": {
@@ -938,21 +938,21 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-23 05:25:11"
+            "time": "2014-11-20 13:22:25"
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v2.5.6",
+            "version": "v2.5.7",
             "target-dir": "Symfony/Component/DependencyInjection",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection.git",
-                "reference": "fb40e4ea115d331346fbbc4da8f42825e524c7a0"
+                "reference": "662d8f5e4a7542dca4194fb3f3bda0a57e65f0a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/fb40e4ea115d331346fbbc4da8f42825e524c7a0",
-                "reference": "fb40e4ea115d331346fbbc4da8f42825e524c7a0",
+                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/662d8f5e4a7542dca4194fb3f3bda0a57e65f0a4",
+                "reference": "662d8f5e4a7542dca4194fb3f3bda0a57e65f0a4",
                 "shasum": ""
             },
             "require": {
@@ -995,21 +995,21 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "http://symfony.com",
-            "time": "2014-10-01 05:50:18"
+            "time": "2014-11-16 17:28:00"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v2.5.6",
+            "version": "v2.5.7",
             "target-dir": "Symfony/Component/Filesystem",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Filesystem.git",
-                "reference": "4e62fab0060a826561c78b665925b37c870c45f5"
+                "reference": "3c3e382bd869b3ec10008a3d9ef455b1cc2868db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/4e62fab0060a826561c78b665925b37c870c45f5",
-                "reference": "4e62fab0060a826561c78b665925b37c870c45f5",
+                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/3c3e382bd869b3ec10008a3d9ef455b1cc2868db",
+                "reference": "3c3e382bd869b3ec10008a3d9ef455b1cc2868db",
                 "shasum": ""
             },
             "require": {
@@ -1042,17 +1042,20 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-22 09:14:18"
+            "time": "2014-11-16 17:28:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
         "phpmd/phpmd": 0
     },
-    "prefer-stable": false,
     "platform": {
         "php": "~5.4.11|~5.5.0"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }

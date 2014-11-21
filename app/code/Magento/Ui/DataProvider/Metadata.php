@@ -8,8 +8,7 @@
 
 namespace Magento\Ui\DataProvider;
 
-use Magento\Ui\DataProvider\Config\Data as Config;
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Validator\UniversalFactory;
 
 /**
@@ -58,13 +57,13 @@ class Metadata implements \Iterator, \ArrayAccess
     protected $universalFactory;
 
     /**
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param Manager $manager
      * @param UniversalFactory $universalFactory
      * @param array $config
      */
     public function __construct(
-        ObjectManager $objectManager,
+        ObjectManagerInterface $objectManager,
         Manager $manager,
         UniversalFactory $universalFactory,
         array $config

@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View\Element;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\View\Element\UiComponent\Context as UiContext;
 
 /**
@@ -16,7 +16,7 @@ use Magento\Framework\View\Element\UiComponent\Context as UiContext;
 class UiElementFactory
 {
     /**
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -28,10 +28,10 @@ class UiElementFactory
     /**
      * Constructor
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param UiContext $context
      */
-    public function __construct(ObjectManager $objectManager, UiContext $context)
+    public function __construct(ObjectManagerInterface $objectManager, UiContext $context)
     {
         $this->objectManager = $objectManager;
         $this->context = $context;
