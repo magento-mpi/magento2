@@ -93,15 +93,15 @@ class Advanced extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $condition = false;
 
         if (is_array($value)) {
-            if (!empty($value['from']) || !empty($value['to'])) {
-                // range
-                $condition = $value;
-            } else if ($attribute->getBackendType() == 'varchar') { // multiselect
+            if ($attribute->getBackendType() == 'varchar') { // multiselect
                 // multiselect
                 $condition = array('in_set' => $value);
-            } else if (!isset($value['from']) && !isset($value['to'])) { // select
+            } elseif (!isset($value['from']) && !isset($value['to'])) { // select
                 // select
                 $condition = array('in' => $value);
+            } elseif (isset($value['from']) || isset($value['to'])) {
+                // range
+                $condition = $value;
             }
         } else {
             if (strlen($value) > 0) {
