@@ -9,6 +9,6 @@
   -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
     <menu>
-        <add id="Magento_Reports::report_search" title="Search Terms" module="Magento_Search" sortOrder="40" parent="Magento_Backend::marketing_seo" action="search/term/index" resource="Magento_Reports::report_search" />
+        <add id="Magento_Search::search_terms" title="Search Terms" module="Magento_Search" sortOrder="40" parent="Magento_Backend::marketing_seo" action="search/term/index" resource="Magento_Search::search" />
     </menu>
 </config>
