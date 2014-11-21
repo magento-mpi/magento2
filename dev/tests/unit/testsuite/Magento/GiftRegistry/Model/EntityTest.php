@@ -51,6 +51,11 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     protected $itemFactoryMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockItemMock;
+
+    /**
      * @return void
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
@@ -127,6 +132,13 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             'Magento\CatalogInventory\Model\StockRegistry',
             array(),
             array(),
+            '',
+            false
+        );
+        $this->stockItemMock = $this->getMock(
+            '\Magento\CatalogInventory\Model\Stock\StockItemRepository',
+            ['getIsQtyDecimal'],
+            [],
             '',
             false
         );
@@ -316,7 +328,6 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $stockItemMock = $this->getMock('\Magento\CatalogInventory\Service\V1\Data\StockItem', [], [], '', false);
         $this->itemFactoryMock->expects($this->exactly(2))->method('create')->willReturn($this->itemModelMock);
         $this->itemModelMock->expects($this->exactly(4))->method('load')->willReturn($modelMock);
         $modelMock->expects($this->atLeastOnce())->method('getId')->willReturn(1);
@@ -326,9 +337,9 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $modelMock->expects($this->once())->method('setQty')->with($items[1]['qty']);
         $modelMock->expects($this->once())->method('setNote')->with($items[1]['note']);
         $modelMock->expects($this->once())->method('save');
-        $this->stockItemServiceMock->expects($this->once())->method('getStockItem')->with($productId)
-            ->willReturn($stockItemMock);
-        $stockItemMock->expects($this->once())->method('getIsQtyDecimal')->willReturn(10);
+        $this->stockRegistryMock->expects($this->once())->method('getStockItem')->with($productId)
+            ->willReturn($this->stockItemMock);
+        $this->stockItemMock->expects($this->once())->method('getIsQtyDecimal')->willReturn(10);
         $this->assertEquals($this->_model, $this->_model->updateItems($items));
     }
 
@@ -351,14 +362,13 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $stockItemMock = $this->getMock('\Magento\CatalogInventory\Service\V1\Data\StockItem', [], [], '', false);
         $this->itemModelMock->expects($this->once())->method('load')->willReturn($modelMock);
         $modelMock->expects($this->atLeastOnce())->method('getId')->willReturn(1);
         $modelMock->expects($this->atLeastOnce())->method('getEntityId')->willReturn(1);
         $modelMock->expects($this->once())->method('getProductId')->willReturn($productId);
-        $this->stockItemServiceMock->expects($this->once())->method('getStockItem')->with($productId)
-            ->willReturn($stockItemMock);
-        $stockItemMock->expects($this->once())->method('getIsQtyDecimal')->willReturn(0);
+        $this->stockRegistryMock->expects($this->once())->method('getStockItem')->with($productId)
+            ->willReturn($this->stockItemMock);
+        $this->stockItemMock->expects($this->once())->method('getIsQtyDecimal')->willReturn(0);
         $this->assertEquals($this->_model, $this->_model->updateItems($items));
     }
 
