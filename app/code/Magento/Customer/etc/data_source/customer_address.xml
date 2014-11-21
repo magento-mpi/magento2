@@ -63,7 +63,7 @@
             <field name="fax" source="eav" label="Fax"/>
             <field name="vat_id" source="eav" label="VAT number"/>
             <field name="default_billing" source="reference" dataType="boolean" formElement="checkbox"
-                   displayArea="head" description="Default Billing Address" unique="true">
+                   displayArea="head" description="Default Billing Address" uniqueNs="default_billing" uniqueProp="value">
                 <reference target="account"
                            referencedField="parent_id"
                            targetField="entity_id"
@@ -71,7 +71,7 @@
                         />
             </field>
             <field name="default_shipping" source="reference" dataType="boolean" formElement="checkbox"
-                   displayArea="head" description="Default Shipping Address" unique="true">
+                   displayArea="head" description="Default Shipping Address" uniqueNs="default_shipping" uniqueProp="value">
                 <reference target="account"
                            referencedField="parent_id"
                            targetField="entity_id"

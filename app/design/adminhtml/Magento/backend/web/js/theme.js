@@ -7,12 +7,12 @@
 
 define([
     "jquery",
+    'mage/smart-keyboard-handler',
     "mage/backend/floating-header",
     "jquery/ui",
     "jquery/hover-intent",
     "jquery/jquery.details",
     "jquery/jquery.tabs",
-    'mage/smart-keyboard-handler',
     "jquery/farbtastic"  // $(..).farbtastic()
 ],function($, keyboardHandler) {
     'use strict';

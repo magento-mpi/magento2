@@ -26,8 +26,6 @@ define([
     }
 
     function getProxy(callback, data){
-        var conditions;
-
         if(_.isArray(data)){
             data = {
                 additional: data
@@ -78,11 +76,12 @@ define([
 
             this.initProperties()
                 .initObservable()
-                .initListeners();
+                .initListeners()
+                .initUnique()
         },
 
         /**
-         * Ment to define various properties.
+         * Defines various properties.
          *
          * @returns {Component} Chainable.
          */
@@ -101,7 +100,7 @@ define([
         },
 
         /**
-         * Initializes observable propertis.
+         * Initializes observable properties.
          *
          * @returns {Component} Chainable.
          */
@@ -133,6 +132,25 @@ define([
 
                 _.each(handlers, iterator);
             }, this);
+
+            return this;
+        },
+
+        /**
+         * Initializes listeners of the unique property.
+         *
+         * @returns {Component} Chainable.
+         */
+        initUnique: function(){
+            var update   = this.onUniqueUpdate.bind(this),
+                params   = this.provider.params,
+                uniqueNs = this.uniqueNs;
+            
+            this.hasUnique = this.uniqueProp && uniqueNs;
+
+            if(this.hasUnique){
+                params.on('update:' + uniqueNs, update);
+            }
 
             return this;
         },
@@ -207,6 +225,33 @@ define([
          */
         getTemplate: function(){
             return this.template || 'ui/collection';
+        },
+
+        /**
+         * Updates property specified in uniqueNs
+         * if components' unique property is set to 'true'.
+         *
+         * @returns {Component} Chainable.
+         */
+        setUnique: function () {
+            var params  = this.provider.params,
+                property = this.uniqueProp;
+
+            if (this[property]()) {
+                params.set(this.uniqueNs, this.name);    
+            }
+
+            return this;
+        },
+
+        /**
+         * Callback which fires when property under uniqueNs has changed.
+         */
+        onUniqueUpdate: function(name){
+            var active   = name === this.name,
+                property = this.uniqueProp;
+
+            this[property](active);
         }
     }, EventsBus);
     

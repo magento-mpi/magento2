@@ -11,8 +11,8 @@ define([
     'use strict';
 
     var defaults = {
+        uniqueNs:   'activeArea',
         template:   'ui/area',
-        storeAs:    'activeArea',
         changed:    false,
         loading:    false
     };
