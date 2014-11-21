@@ -115,7 +115,7 @@ class Application
      *
      * @var \Magento\Framework\App\Filesystem\DirectoryList
      */
-    protected $_dirList;
+    protected $dirList;
 
     /**
      * Constructor
@@ -143,15 +143,15 @@ class Application
 
         $customDirs = $this->getCustomDirs();
         $this->dirList = new \Magento\Framework\App\Filesystem\DirectoryList(BP, $customDirs);
-        \Magento\Framework\Autoload\Populator::populateMappings($autoloadWrapper, $dirList);
+        \Magento\Framework\Autoload\Populator::populateMappings($autoloadWrapper, $this->dirList);
         $this->_initParams = array(
             \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => $customDirs,
             \Magento\Framework\App\State::PARAM_MODE => $appMode
         );
         $driverPool = new \Magento\Framework\Filesystem\DriverPool;
-        $this->_factory = new \Magento\TestFramework\ObjectManagerFactory($this->_dirList, $driverPool);
+        $this->_factory = new \Magento\TestFramework\ObjectManagerFactory($this->dirList, $driverPool);
 
-        $this->_configDir = $this->_dirList->getPath(DirectoryList::CONFIG);
+        $this->_configDir = $this->dirList->getPath(DirectoryList::CONFIG);
     }
 
     /**
@@ -164,7 +164,7 @@ class Application
         if (null === $this->_db) {
             if ($this->isInstalled()) {
                 $deploymentConfig = new DeploymentConfig(
-                    new \Magento\Framework\App\DeploymentConfig\Reader($this->_dirList),
+                    new \Magento\Framework\App\DeploymentConfig\Reader($this->dirList),
                     []
                 );
                 $dbConfig = new DbConfig($deploymentConfig->getSegment(DbConfig::CONFIG_KEY));

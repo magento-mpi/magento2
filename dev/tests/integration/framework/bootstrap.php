@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-use Magento\Framework\Code\Generator\FileResolver;
 use Magento\Framework\Autoload\AutoloaderRegistry;
 
 require_once __DIR__ . '/../../../../app/bootstrap.php';
@@ -35,7 +34,6 @@ try {
     }
     $sandboxUniqueId = md5(sha1_file($installConfigFile));
     $installDir = "{$testsTmpDir}/sandbox-{$sandboxUniqueId}";
-    FileResolver::addIncludePath($installDir . '/var/generation/');
     $application = new \Magento\TestFramework\Application(
         $shell,
         $installDir,
