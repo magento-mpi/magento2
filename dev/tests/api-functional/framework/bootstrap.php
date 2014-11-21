@@ -46,7 +46,6 @@ $application =  new \Magento\TestFramework\WebApiApplication(
     $dirList->getPath(DirectoryList::VAR_DIR),
     $installConfigFile,
     BP . '/app/etc/',
-    glob(BP . '/app/etc/*/module.xml'),
     $settings->get('TESTS_MAGENTO_MODE')
 );
 
