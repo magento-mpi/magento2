@@ -20,7 +20,7 @@ $vendorAutoload = BP . "/{$vendorDir}/autoload.php";
 
 /* 'composer install' validation */
 if (file_exists($vendorAutoload)) {
-    $composerAutoloader = include $vendorAutoload;    
+    $composerAutoloader = include $vendorAutoload;
 } else {
     echo <<<HTML
 <div style="font:12px/1.35em arial, helvetica, sans-serif;">
