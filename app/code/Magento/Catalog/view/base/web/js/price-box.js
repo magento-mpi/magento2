@@ -25,10 +25,10 @@ define([
 
     $.widget('mage.priceBox',{
         options: globalOptions,
-        _create: initPriceBox,
+        _create: createPriceBox,
         _setOptions: setOptions,
-        updatePrice: updatePrice,
-        reloadPrice: reloadPrice,
+        updatePrice: updatePrices,
+        reloadPrice: reDrawPrices,
 
         initialPrices: {}
     });
@@ -38,16 +38,15 @@ define([
     /**
      * Function-initializer of priceBox widget
      */
-    function initPriceBox() {
-
-        setDefaultsFromDataSet.call(this);
+    function createPriceBox() {
         setDefaultsFromPriceConfig.call(this);
+        setDefaultsFromDataSet.call(this);
 
         var box = this.element;
-        var initial = this.initialPrices = utils.deepClone(this.options.prices);
+        this.initialPrices = utils.deepClone(this.options.prices);
 
         box.on('updatePrice', onUpdatePrice.bind(this));
-        box.on('reloadPrice', reloadPrice.bind(this));
+        box.on('reloadPrice', reDrawPrices.bind(this));
     }
 
     /**
@@ -58,7 +57,7 @@ define([
      * @return {Function}
      */
     function onUpdatePrice (event, prices, isReplace) {
-        return updatePrice.call(this, prices, isReplace);
+        return updatePrices.call(this, prices, isReplace);
     }
 
     /**
@@ -66,7 +65,7 @@ define([
      * @param {Object} newPrices
      * @param {Boolean} isReplace
      */
-    function updatePrice(newPrices, isReplace) {
+    function updatePrices(newPrices, isReplace) {
         var prices = this.options.prices;
         if(!!isReplace) {
             $.extend(true, prices, newPrices);
@@ -91,11 +90,14 @@ define([
         this.element.trigger('reloadPrice');
     }
 
-    function reloadPrice() {
+    /**
+     * Render price unit block.
+     */
+    function reDrawPrices() {
         var box = this.element;
         var prices = this.options.prices;
-        var priceFormat = this.options.priceConfig.priceFormat;
-        var priceTemplate = this.priceTemplate = hbs(this.options.priceTemplate);
+        var priceFormat = this.options.priceConfig && this.options.priceConfig.priceFormat || {};
+        var priceTemplate = hbs(this.options.priceTemplate);
 
         _.each(prices, function(price, priceCode){
             var html,
@@ -104,10 +106,10 @@ define([
                 finalPrice += adjustmentAmount;
             });
 
-            prices[priceCode]['final'] = finalPrice;
-            prices[priceCode]['formatted'] = utils.formatPrice(finalPrice, priceFormat);
+            price['final'] = finalPrice;
+            price['formatted'] = utils.formatPrice(finalPrice, priceFormat);
 
-            html = priceTemplate(prices[priceCode]);
+            html = priceTemplate(price);
             $('[data-price-type="' + priceCode + '"]', box).html(html);
 
             console.log('To render ', priceCode,': ', prices[priceCode]['formatted'], prices[priceCode]['final']);
@@ -131,11 +133,19 @@ define([
     }
 
 
-
-    // To remove after beckend done
     function setDefaultsFromDataSet () {
         var box = this.element;
+        var priceHolders = $('[data-price-type]', box);
+        var prices = this.options.prices;
         this.options.productId = box.data('productId');
+        if(_.isEmpty(prices)) {
+            priceHolders.each(function(index, element){
+                var type = $(element).data('priceType');
+                var amount = $(element).data('priceAmount');
+
+                prices[type] = {amount:amount};
+            });
+        }
     }
 
     function setDefaultsFromPriceConfig () {
