@@ -196,19 +196,29 @@ class Interceptor extends \Magento\Framework\Code\Generator\EntityAbstract
         $reflectionClass = new \ReflectionClass($this->_getSourceClassName());
         $publicMethods = $reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC);
         foreach ($publicMethods as $method) {
-            if (!($method->isConstructor() ||
-                $method->isFinal() ||
-                $method->isStatic() ||
-                $method->isDestructor()) && !in_array(
-                    $method->getName(),
-                    array('__sleep', '__wakeup', '__clone')
-                )
-            ) {
+            if ($this->isInterceptedMethod($method)) {
                 $methods[] = $this->_getMethodInfo($method);
             }
         }
 
         return $methods;
+    }
+
+    /**
+     * Whether method is intercepted
+     *
+     * @param \ReflectionMethod $method
+     * @return bool
+     */
+    protected function isInterceptedMethod(\ReflectionMethod $method)
+    {
+        return !($method->isConstructor() ||
+            $method->isFinal() ||
+            $method->isStatic() ||
+            $method->isDestructor()) && !in_array(
+            $method->getName(),
+            array('__sleep', '__wakeup', '__clone')
+        );
     }
 
     /**

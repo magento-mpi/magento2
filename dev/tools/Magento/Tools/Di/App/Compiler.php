@@ -15,7 +15,7 @@ use Magento\Tools\Di\Definition\Collection as DefinitionsCollection;
 use Magento\Tools\Di\Compiler\ArgumentsResolverFactory;
 use Magento\Tools\Di\Code\Reader\ClassReaderDecorator;
 use Magento\Tools\Di\Code\Reader\ClassesScanner;
-use Magento\Tools\Di\Code\Generator\InterceptorGenerator;
+use Magento\Tools\Di\Code\Generator\InterceptionConfigurationBuilder;
 
 class Compiler implements \Magento\Framework\AppInterface
 {
@@ -50,9 +50,9 @@ class Compiler implements \Magento\Framework\AppInterface
     private $classesScanner;
 
     /**
-     * @var InterceptorGenerator
+     * @var InterceptionConfigurationBuilder
      */
-    private $interceptorGenerator;
+    private $interceptionConfigurationBuilder;
 
     protected $assertions = [
         'adminhtml.ser' => 'e576720abbc6538849772ffee9a5bd89',
@@ -70,7 +70,7 @@ class Compiler implements \Magento\Framework\AppInterface
      * @param ArgumentsResolverFactory $argumentsResolverFactory
      * @param ClassReaderDecorator $classReaderDecorator
      * @param ClassesScanner $classesScanner
-     * @param InterceptorGenerator $interceptorGenerator
+     * @param InterceptionConfigurationBuilder $interceptionConfigurationBuilder
      */
     public function __construct(
         \Magento\Framework\ObjectManager\Config $diContainerConfig,
@@ -79,7 +79,7 @@ class Compiler implements \Magento\Framework\AppInterface
         ArgumentsResolverFactory $argumentsResolverFactory,
         ClassReaderDecorator $classReaderDecorator,
         ClassesScanner $classesScanner,
-        InterceptorGenerator $interceptorGenerator
+        InterceptionConfigurationBuilder $interceptionConfigurationBuilder
     ) {
         $this->diContainerConfig = $diContainerConfig;
         $this->areaList = $areaList;
@@ -87,7 +87,7 @@ class Compiler implements \Magento\Framework\AppInterface
         $this->argumentsResolverFactory = $argumentsResolverFactory;
         $this->classReaderDecorator = $classReaderDecorator;
         $this->classesScanner = $classesScanner;
-        $this->interceptorGenerator = $interceptorGenerator;
+        $this->interceptionConfigurationBuilder = $interceptionConfigurationBuilder;
     }
 
     /**
@@ -107,11 +107,27 @@ class Compiler implements \Magento\Framework\AppInterface
             mkdir(BP . '/var/di');
         }
         $this->generateCachePerScope($definitionsCollection, 'global');
-
+        $this->interceptionConfigurationBuilder->addAreaCode('global');
         foreach ($this->areaList->getCodes() as $areaCode) {
+            $this->interceptionConfigurationBuilder->addAreaCode($areaCode);
             $this->generateCachePerScope($definitionsCollection, $areaCode, true);
         }
-        //$this->interceptorGenerator->generate();
+
+        $generatorIo = new \Magento\Framework\Code\Generator\Io(
+            new \Magento\Framework\Filesystem\Driver\File(),
+            null,
+            BP . '/var/generation'
+        );
+        $generator = new \Magento\Tools\Di\Code\Generator(
+            null,
+            $generatorIo,
+            array(
+                \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
+                    'Magento\Tools\Di\Code\Generator\Interceptor',
+            )
+        );
+        $generator->generateList($this->interceptionConfigurationBuilder->getInterceptionConfiguration());
+
         $response = new \Magento\Framework\App\Console\Response();
         $response->setCode(0);
         return $response;
@@ -142,7 +158,7 @@ class Compiler implements \Magento\Framework\AppInterface
      * @param DefinitionsCollection $definitionsCollection
      * @param string $areaCode
      * @param bool $extendConfig
-     * @param InterceptorGenerator $interceptorGenerator
+     * @param InterceptionConfigurationBuilder $interceptorGenerator
      */
     private function generateCachePerScope(DefinitionsCollection $definitionsCollection, $areaCode, $extendConfig = false)
     {
@@ -150,7 +166,7 @@ class Compiler implements \Magento\Framework\AppInterface
         if ($extendConfig) {
             $areaConfig->extend($this->configLoader->load($areaCode));
         }
-        //$this->interceptorGenerator->addAreaConfig($areaCode, $areaConfig);
+
         $config = [];
         $config['arguments'] = $this->getConfigForScope($definitionsCollection, $areaConfig);
         foreach ($definitionsCollection->getInstancesNamesList() as $instanceName) {
