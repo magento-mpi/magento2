@@ -58,14 +58,14 @@ class Review implements SetupInterface
     protected $customerAccount;
 
     /**
-     * @var \Magento\Review\Model\Resource\Rating\Collection
-     */
-    protected $ratings;
-
-    /**
      * @var \Magento\Review\Model\Rating\OptionFactory
      */
     protected $ratingOptionsFactory;
+
+    /**
+     * @var array
+     */
+    protected $ratings;
 
     /**
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
@@ -172,17 +172,19 @@ class Review implements SetupInterface
     }
 
     /**
-     * @param $rating
-     * @return \Magento\Framework\Object|null
+     * @param string $rating
+     * @return array
      */
     protected function getRating($rating)
     {
         $ratingCollection = $this->ratingFactory->create()->getResourceCollection();
         if (!$ratingCollection) {
-            return null;
+            $this->ratings = [];
         }
-        $rating = $ratingCollection->addFieldToFilter('rating_code', $rating)->getFirstItem();
-        return $rating;
+        if (!$this->ratings[$rating]) {
+            $this->ratings[$rating] = $ratingCollection->addFieldToFilter('rating_code', $rating)->getFirstItem();
+        }
+        return $this->ratings[$rating];
     }
     /**
      * @param \Magento\Review\Model\Review $review
@@ -210,8 +212,9 @@ class Review implements SetupInterface
      */
     protected function createRating($rating, $stores = ['1'])
     {
-        $stores[] = '0';
-        if (!$this->getRating($rating)->getData()) {
+        $stores[] = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
+        $rating = $this->getRating($rating);
+        if ($rating && !$rating->getData()) {
             $ratingModel = $this->ratingFactory->create();
             $ratingModel->setRatingCode(
                 $rating
