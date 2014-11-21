@@ -339,7 +339,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param  string $password
      * @return bool
      * @throws \Magento\Framework\Model\Exception
-     * @deprecated Use \Magento\Customer\Model\Api\AccountManagement::authenticate
+     * @deprecated Use \Magento\Customer\Api\AccountManagementInterface::authenticate
      */
     public function authenticate($login, $password)
     {
@@ -774,7 +774,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Check if accounts confirmation is required in config
      *
      * @return bool
-     * @deprecated Maybe this needs to be moved to helper
      */
     public function isConfirmationRequired()
     {
@@ -872,7 +871,8 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Send email to when password is resetting
      *
      * @return $this
-     * @deprecated
+     * @deprecated Moved to \Magento\Customer\Model\AccountManagement::sendPasswordResetNotificationEmail. Will be
+     * deleted once the Customer/Services/V1 are removed.
      */
     public function sendPasswordResetNotificationEmail()
     {
