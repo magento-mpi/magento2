@@ -22,14 +22,10 @@ class Curl extends \Magento\Widget\Test\Handler\Widget\Curl
         'code' => [
             'Banner Rotator' => 'magento_banner'
         ],
+        'template' => [
+            'Banner Block Template' => 'widget/block.phtml'
+        ],
     ];
-
-    /**
-     * Widget Instance Template.
-     *
-     * @var string
-     */
-    protected $widgetInstanceTemplate = 'widget/block.phtml';
 
     /**
      * @constructor
