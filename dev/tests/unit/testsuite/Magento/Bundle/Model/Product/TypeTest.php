@@ -34,9 +34,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      */
     protected $bundleOptionFactory;
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     protected function setUp()
     {
@@ -54,7 +54,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['create'])
             ->disableOriginalConstructor()
             ->getMock();
-        $this->stockItemService = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\StockItemService')
+        $this->stockRegistry = $this->getMockBuilder('Magento\CatalogInventory\Model\StockRegistry')
             ->setMethods(['getStockQty', 'getManageStock', 'verifyStock'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -70,7 +70,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
                 'bundleOption' => $this->bundleOptionFactory,
                 'catalogData' => $this->catalogData,
                 'storeManager' => $this->storeManager,
-                'stockItemService' => $this->stockItemService
+                'stockRegistry' => $this->stockRegistry
             )
         );
     }
@@ -677,8 +677,8 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $option1 = $this->getRequiredOptionMock(10, 10);
         $option2 = $this->getRequiredOptionMock(20, 10);
 
-        $this->stockItemService->method('getManageStock')->willReturn(true);
-        $this->stockItemService
+        $this->stockRegistry->method('getManageStock')->willReturn(true);
+        $this->stockRegistry
             ->method('getStockQty')
             ->will($this->returnValueMap(
                 [
@@ -750,8 +750,8 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->method('getSelectionCanChangeQty')
             ->willReturn(false);
 
-        $this->stockItemService->method('getManageStock')->willReturn(true);
-        $this->stockItemService
+        $this->stockRegistry->method('getManageStock')->willReturn(true);
+        $this->stockRegistry
             ->method('getStockQty')
             ->will($this->returnValueMap(
                 [
@@ -778,9 +778,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $option1 = $this->getRequiredOptionMock(10, 10);
         $option2 = $this->getRequiredOptionMock(20, 10);
 
-        $this->stockItemService->method('getManageStock')->willReturn(false);
-        $this->stockItemService->expects($this->never())->method('getStockQty');
-        $this->stockItemService
+        $this->stockRegistry->method('getManageStock')->willReturn(false);
+        $this->stockRegistry->expects($this->never())->method('getStockQty');
+        $this->stockRegistry
             ->method('verifyStock')
             ->will($this->returnValueMap(
                 [

@@ -127,7 +127,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * @var \Magento\CatalogInventory\Service\V1\StockItemServiceInterface
      */
-    protected $_stockItemService;
+    protected $_stockRegistry;
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -150,7 +150,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Bundle\Model\OptionFactory $bundleOption
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param PriceCurrencyInterface $priceCurrency
-     * @param \Magento\CatalogInventory\Service\V1\StockItemServiceInterface $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -176,7 +176,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Bundle\Model\OptionFactory $bundleOption,
         \Magento\Framework\StoreManagerInterface $storeManager,
         PriceCurrencyInterface $priceCurrency,
-        \Magento\CatalogInventory\Service\V1\StockItemServiceInterface $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
@@ -189,7 +189,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $this->_bundleFactory = $bundleFactory;
         $this->_bundleModelSelection = $bundleModelSelection;
         $this->priceCurrency = $priceCurrency;
-        $this->_stockItemService = $stockItemService;
+        $this->_stockRegistry = $stockRegistry;
         parent::__construct(
             $productFactory,
             $catalogProductOption,
@@ -625,14 +625,13 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                     || $selection->getSelectionCanChangeQty()
                     ||
                     (
-                        $this->_stockItemService->getManageStock($selection->getId())
+                        $this->_stockRegistry->getManageStock($selection->getId())
                         ?
-                        $selection->getSelectionQty() <= $this->_stockItemService->getStockQty($selection->getId())
+                        $selection->getSelectionQty() <= $this->_stockRegistry->getStockQty($selection->getId())
                             :
-                            $this->_stockItemService->verifyStock($selection->getId(), $selection->getSelectionQty())
+                            $this->_stockRegistry->verifyStock($selection->getId(), $selection->getSelectionQty())
                     )
-                )
-                {
+                ) {
                     $requiredOptionIds[$selection->getOptionId()] = 1;
                     $salableSelectionCount++;
                 }
