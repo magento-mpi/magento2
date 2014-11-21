@@ -8,20 +8,18 @@
 namespace Magento\Framework\ObjectManager;
 
 use Magento\Framework\App\Arguments;
-use Magento\Framework\ObjectManager\Definition;
 use Magento\Framework\ObjectManager\Environment\Compiled;
 use Magento\Framework\ObjectManager\Environment\Developer;
-use Magento\Framework\ObjectManager\Relations;
 
 class EnvironmentFactory
 {
     /**
-     * @var Relations
+     * @var RelationsInterface
      */
     private $relations;
 
     /**
-     * @var Definition
+     * @var DefinitionInterface
      */
     private $definitions;
 
@@ -31,12 +29,15 @@ class EnvironmentFactory
     private $appArguments;
 
     /**
-     * @param Relations $relations
-     * @param Definition $definitions
+     * @param RelationsInterface $relations
+     * @param DefinitionInterface $definitions
      * @param Arguments $appArguments
      */
-    public function __construct(Relations $relations, Definition $definitions, Arguments $appArguments)
-    {
+    public function __construct(
+        RelationsInterface $relations,
+        DefinitionInterface $definitions,
+        Arguments $appArguments
+    ) {
         $this->relations = $relations;
         $this->definitions = $definitions;
         $this->appArguments = $appArguments;
@@ -81,7 +82,7 @@ class EnvironmentFactory
     }
 
     /**
-     * @return Definition
+     * @return DefinitionInterface
      */
     public function getDefinitions()
     {
@@ -89,7 +90,7 @@ class EnvironmentFactory
     }
 
     /**
-     * @return Relations
+     * @return RelationsInterface
      */
     public function getRelations()
     {

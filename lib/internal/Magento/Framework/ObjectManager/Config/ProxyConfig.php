@@ -8,17 +8,17 @@
 
 namespace Magento\Framework\ObjectManager\Config;
 
-use Magento\Framework\ObjectManager\ConfigCache;
-use Magento\Framework\ObjectManager\Relations;
+use Magento\Framework\ObjectManager\ConfigCacheInterface;
+use Magento\Framework\ObjectManager\RelationsInterface;
 
-class ProxyConfig implements \Magento\Framework\ObjectManager\Config
+class ProxyConfig implements \Magento\Framework\ObjectManager\ConfigInterface
 {
     /**
-     * @var \Magento\Framework\ObjectManager\Config
+     * @var \Magento\Framework\ObjectManager\ConfigInterface
      */
     private $subjectConfig;
 
-    public function __construct(\Magento\Framework\ObjectManager\Config $config)
+    public function __construct(\Magento\Framework\ObjectManager\ConfigInterface $config)
     {
         $this->subjectConfig = $config;
     }
@@ -26,11 +26,11 @@ class ProxyConfig implements \Magento\Framework\ObjectManager\Config
     /**
      * Set class relations
      *
-     * @param Relations $relations
+     * @param RelationsInterface $relations
      *
      * @return void
      */
-    public function setRelations(Relations $relations)
+    public function setRelations(RelationsInterface $relations)
     {
         $this->subjectConfig->setRelations($relations);
     }
@@ -38,11 +38,11 @@ class ProxyConfig implements \Magento\Framework\ObjectManager\Config
     /**
      * Set configuration cache instance
      *
-     * @param ConfigCache $cache
+     * @param ConfigCacheInterface $cache
      *
      * @return void
      */
-    public function setCache(ConfigCache $cache)
+    public function setCache(ConfigCacheInterface $cache)
     {
         $this->subjectConfig->setCache($cache);
     }

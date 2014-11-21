@@ -7,8 +7,7 @@
  */
 namespace Magento\Framework\ObjectManager\Factory\Dynamic;
 
-class Factory implements \Magento\Framework\ObjectManager\FactoryInterface
-class Developer implements \Magento\Framework\ObjectManager\Factory
+class Developer implements \Magento\Framework\ObjectManager\FactoryInterface
 {
     /**
      * Object manager
