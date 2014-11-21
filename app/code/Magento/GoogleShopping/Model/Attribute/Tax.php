@@ -45,21 +45,21 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     /**
      * Tax Calculation Service
      *
-     * @var \Magento\Tax\Service\V1\TaxCalculationService
+     * @var \Magento\Tax\Api\TaxCalculationInterface
      */
     protected $_taxCalculationService;
 
     /**
      * Quote Details Builder
      *
-     * @var \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder
+     * @var \Magento\Tax\Api\Data\QuoteDetailsDataBuilder
      */
     protected $_quoteDetailsBuilder;
 
     /**
      * Quote Details Item Builder
      *
-     * @var \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder
+     * @var \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder
      */
     protected $_quoteDetailsItemBuilder;
 
@@ -95,9 +95,9 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Tax\Api\TaxRateManagementInterface $taxRuleManagement
-     * @param \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService
-     * @param \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder
-     * @param \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder
+     * @param \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService
+     * @param \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder
+     * @param \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupServiceInterface
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -114,9 +114,9 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Tax\Api\TaxRateManagementInterface $taxRuleManagement,
-        \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService,
-        \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder,
-        \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder,
+        \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService,
+        \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder,
+        \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupServiceInterface,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,

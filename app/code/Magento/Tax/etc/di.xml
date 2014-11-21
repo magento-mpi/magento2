@@ -12,7 +12,6 @@
                 type="Magento\Tax\Model\TaxRuleRepository"/>
     <preference for="Magento\Tax\Api\TaxCalculationInterface"
                 type="Magento\Tax\Model\TaxCalculation"/>
-    <preference for="Magento\Tax\Service\V1\OrderTaxServiceInterface" type="Magento\Tax\Service\V1\OrderTaxService" />
     <type name="Magento\Tax\Helper\Data">
         <arguments>
             <argument name="taxConfig" xsi:type="object">Magento\Tax\Model\Config\Proxy</argument>
@@ -64,4 +63,11 @@
     <preference for="Magento\Tax\Api\TaxRateRepositoryInterface" type="Magento\Tax\Model\Calculation\RateRepository" />
     <preference for="Magento\Tax\Api\Data\TaxRateTitleInterface" type="Magento\Tax\Model\Calculation\Rate\Title" />
     <preference for="Magento\Tax\Api\Data\TaxRateInterface" type="Magento\Tax\Model\Calculation\Rate" />
+    <preference for="Magento\Tax\Api\Data\QuoteDetailsInterface" type="Magento\Tax\Model\Sales\Quote\QuoteDetails" />
+    <preference for="Magento\Tax\Api\Data\QuoteDetailsItemInterface" type="Magento\Tax\Model\Sales\Quote\ItemDetails" />
+    <preference for="Magento\Tax\Api\Data\TaxClassKeyInterface" type="\Magento\Tax\Model\TaxClass\Key" />
+    <preference for="Magento\Tax\Api\Data\AppliedTaxInterface" type="Magento\Tax\Model\TaxDetails\AppliedTax" />
+    <preference for="Magento\Tax\Api\Data\AppliedTaxRateInterface" type="Magento\Tax\Model\TaxDetails\AppliedTaxRate" />
+    <preference for="Magento\Tax\Api\Data\TaxDetailsInterface" type="Magento\Tax\Model\TaxDetails\TaxDetails" />
+    <preference for="Magento\Tax\Api\Data\TaxDetailsItemInterface" type="Magento\Tax\Model\TaxDetails\ItemDetails" />
 </config>

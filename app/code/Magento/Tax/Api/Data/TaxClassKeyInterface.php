@@ -8,10 +8,12 @@
 
 namespace Magento\Tax\Api\Data;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
+
 /**
  * previous implementation @see \Magento\Tax\Service\V1\Data\TaxClassKey
  */
-interface TaxClassKeyInterface extends \Magento\Framework\Api\ExtensibleDataInterface
+interface TaxClassKeyInterface extends ExtensibleDataInterface
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely

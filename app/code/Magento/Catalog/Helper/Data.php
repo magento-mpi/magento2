@@ -8,7 +8,6 @@
 namespace Magento\Catalog\Helper;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\Session as CustomerSession;
@@ -146,7 +145,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Quote details item builder
      *
-     * @var QuoteDetailsItemBuilder
+     * @var \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder
      */
     protected $_quoteDetailsItemBuilder;
 
@@ -188,11 +187,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
-     * @param $templateFilterModel
+     * @param string $templateFilterModel
      * @param \Magento\Tax\Api\Data\TaxClassKeyDataBuilder $taxClassKeyBuilder
      * @param Config $taxConfig
      * @param \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder
-     * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
+     * @param \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder
      * @param \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
@@ -214,7 +213,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Tax\Api\Data\TaxClassKeyDataBuilder $taxClassKeyBuilder,
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder,
-        QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
+        \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder,
         \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService,
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
@@ -516,7 +515,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 ->setShortDescription($product->getShortDescription())
                 ->setTaxClassKey(
                     $this->_taxClassKeyBuilder->setType(TaxClassKeyInterface::TYPE_ID)
-                        ->setValue($product->getTaxClassId())->create()
+                        ->setValue($product->getTaxClassId())
+                        ->create()
                 )->setTaxIncluded($priceIncludesTax)
                 ->setType('product')
                 ->setUnitPrice($price)
@@ -526,7 +526,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 ->setBillingAddress($billingAddressDataObject)
                 ->setCustomerTaxClassKey(
                     $this->_taxClassKeyBuilder->setType(TaxClassKeyInterface::TYPE_ID)
-                        ->setValue($ctc)->create()
+                        ->setValue($ctc)
+                        ->create()
                 )->setItems([$item])
                 ->setCustomerId($this->_customerSession->getCustomerId())
                 ->create();

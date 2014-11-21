@@ -11,9 +11,9 @@ use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Store;
 use Magento\Customer\Model\Address;
 use Magento\Tax\Model\Config;
-use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
-use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
-use \Magento\Tax\Api\Data\TaxClassKeyDataBuilder;
+use Magento\Tax\Api\Data\QuoteDetailsDataBuilder;
+use Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder;
+use Magento\Tax\Api\Data\TaxClassKeyDataBuilder;
 use Magento\Tax\Api\TaxCalculationInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\Session as CustomerSession;
@@ -109,7 +109,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Quote details item builder
      *
-     * @var QuoteDetailsItemBuilder
+     * @var QuoteDetailsItemDataBuilder
      */
     protected $quoteDetailsItemBuilder;
 
@@ -135,7 +135,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * TaxClassKey builder
      *
-     * @var TaxClassKeyBuilder
+     * @var TaxClassKeyDataBuilder
      */
     protected $taxClassKeyBuilder;
 
@@ -168,8 +168,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory
      * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollectionFactory
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
-     * @param QuoteDetailsBuilder $quoteDetailsBuilder
-     * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
+     * @param QuoteDetailsDataBuilder $quoteDetailsBuilder
+     * @param QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder
      * @param TaxClassKeyDataBuilder $taxClassKeyBuilder
      * @param TaxCalculationInterface $taxCalculationService
      * @param CustomerSession $customerSession
@@ -190,8 +190,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollectionFactory,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        QuoteDetailsBuilder $quoteDetailsBuilder,
-        QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
+        QuoteDetailsDataBuilder $quoteDetailsBuilder,
+        QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder,
         TaxClassKeyDataBuilder $taxClassKeyBuilder,
         TaxCalculationInterface $taxCalculationService,
         CustomerSession $customerSession,

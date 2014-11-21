@@ -9,7 +9,6 @@ namespace Magento\GiftWrapping\Helper;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\GiftWrapping\Model\System\Config\Source\Display\Type as DisplayType;
-use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
 use Magento\Tax\Api\TaxCalculationInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 
@@ -83,7 +82,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $quoteDetailsBuilder;
 
     /**
-     * @var \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder
+     * @var \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder
      */
     protected $quoteDetailsItemBuilder;
 
@@ -107,7 +106,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder
-     * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
+     * @param \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder
      * @param TaxCalculationInterface $taxCalculationService
      * @param AddressConverter $addressConverter
      * @param PriceCurrencyInterface $priceCurrency
@@ -117,7 +116,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder,
-        QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
+        \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder,
         TaxCalculationInterface $taxCalculationService,
         AddressConverter $addressConverter,
         PriceCurrencyInterface $priceCurrency

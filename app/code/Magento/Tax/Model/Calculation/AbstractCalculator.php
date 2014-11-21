@@ -9,10 +9,11 @@ namespace Magento\Tax\Model\Calculation;
 
 use Magento\Tax\Model\Calculation;
 use Magento\Customer\Service\V1\Data\Address;
-use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
-use Magento\Tax\Service\V1\Data\QuoteDetails;
-use Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder as TaxDetailsItemBuilder;
-use Magento\Tax\Service\V1\Data\TaxDetails\Item as TaxDetailsItem;
+use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
+use Magento\Tax\Api\Data\TaxDetailsItemDataBuilder;
+use Magento\Tax\Api\Data\AppliedTaxDataBuilder;
+use Magento\Tax\Api\Data\AppliedTaxRateDataBuilder;
+use Magento\Tax\Api\Data\TaxDetailsItemInterface;
 use Magento\Tax\Api\TaxClassManagementInterface;
 
 /**
@@ -33,7 +34,7 @@ abstract class AbstractCalculator
     /**
      * Tax details item builder
      *
-     * @var TaxDetailsItemBuilder
+     * @var TaxDetailsItemDataBuilder
      */
     protected $taxDetailsItemBuilder;
 
@@ -121,10 +122,23 @@ abstract class AbstractCalculator
     protected $taxClassManagement;
 
     /**
+     * @var AppliedTaxDataBuilder
+     */
+    protected $appliedTaxBuilder;
+
+    /**
+     * @var AppliedTaxRateDataBuilder
+     */
+    protected $appliedRateBuilder;
+
+
+    /**
      * Constructor
      *
      * @param TaxClassManagementInterface $taxClassService
-     * @param TaxDetailsItemBuilder $taxDetailsItemBuilder
+     * @param TaxDetailsItemDataBuilder $taxDetailsItemBuilder
+     * @param AppliedTaxDataBuilder $appliedTaxBuilder
+     * @param AppliedTaxRateDataBuilder $appliedRateBuilder
      * @param Calculation $calculationTool
      * @param \Magento\Tax\Model\Config $config
      * @param int $storeId
@@ -132,7 +146,9 @@ abstract class AbstractCalculator
      */
     public function __construct(
         TaxClassManagementInterface $taxClassService,
-        TaxDetailsItemBuilder $taxDetailsItemBuilder,
+        TaxDetailsItemDataBuilder $taxDetailsItemBuilder,
+        AppliedTaxDataBuilder $appliedTaxBuilder,
+        AppliedTaxRateDataBuilder $appliedRateBuilder,
         Calculation $calculationTool,
         \Magento\Tax\Model\Config $config,
         $storeId,
@@ -140,6 +156,8 @@ abstract class AbstractCalculator
     ) {
         $this->taxClassManagement = $taxClassService;
         $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
+        $this->appliedTaxBuilder = $appliedTaxBuilder;
+        $this->appliedRateBuilder = $appliedRateBuilder;
         $this->calculationTool = $calculationTool;
         $this->config = $config;
         $this->storeId = $storeId;
@@ -193,11 +211,11 @@ abstract class AbstractCalculator
     /**
      * Calculate tax details for quote item with given quantity
      *
-     * @param QuoteDetailsItem $item
+     * @param QuoteDetailsItemInterface $item
      * @param int $quantity
-     * @return TaxDetailsItem
+     * @return TaxDetailsItemInterface
      */
-    public function calculate(QuoteDetailsItem $item, $quantity)
+    public function calculate(QuoteDetailsItemInterface $item, $quantity)
     {
         if ($item->getTaxIncluded()) {
             return $this->calculateWithTaxInPrice($item, $quantity);
@@ -209,20 +227,20 @@ abstract class AbstractCalculator
     /**
      * Calculate tax details for quote item with tax in price with given quantity
      *
-     * @param QuoteDetailsItem $item
+     * @param QuoteDetailsItemInterface $item
      * @param int $quantity
-     * @return TaxDetailsItem
+     * @return TaxDetailsItemInterface
      */
-    abstract protected function calculateWithTaxInPrice(QuoteDetailsItem $item, $quantity);
+    abstract protected function calculateWithTaxInPrice(QuoteDetailsItemInterface $item, $quantity);
 
     /**
      * Calculate tax details for quote item with tax not in price with given quantity
      *
-     * @param QuoteDetailsItem $item
+     * @param QuoteDetailsItemInterface $item
      * @param int $quantity
-     * @return TaxDetailsItem
+     * @return TaxDetailsItemInterface
      */
-    abstract protected function calculateWithTaxNotInPrice(QuoteDetailsItem $item, $quantity);
+    abstract protected function calculateWithTaxNotInPrice(QuoteDetailsItemInterface $item, $quantity);
 
     /**
      * Get address rate request
@@ -281,17 +299,17 @@ abstract class AbstractCalculator
      *          'percent' => 5.3,
      *      ],
      *  ]
-     * @return \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax
+     * @return \Magento\Tax\Api\Data\AppliedTaxInterface
      */
     protected function getAppliedTax($rowTax, $appliedRate)
     {
-        $appliedTaxBuilder = $this->taxDetailsItemBuilder->getAppliedTaxBuilder();
-        $appliedTaxRateBuilder = $appliedTaxBuilder->getAppliedTaxRateBuilder();
+        $appliedTaxBuilder = $this->appliedTaxBuilder;
+        $appliedTaxRateBuilder = $this->appliedRateBuilder;
         $appliedTaxBuilder->setAmount($rowTax);
         $appliedTaxBuilder->setPercent($appliedRate['percent']);
         $appliedTaxBuilder->setTaxRateKey($appliedRate['id']);
 
-        /** @var  AppliedTaxRate[] $rateDataObjects */
+        /** @var  \Magento\Tax\Api\Data\AppliedTaxRateInterface[] $rateDataObjects */
         $rateDataObjects = [];
         foreach ($appliedRate['rates'] as $rate) {
             $appliedTaxRateBuilder->setPercent($rate['percent']);
@@ -332,13 +350,13 @@ abstract class AbstractCalculator
      *          ],
      *      ],
      *  ]
-     * @return \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[]
+     * @return \Magento\Tax\Api\Data\AppliedTaxInterface[]
      */
     protected function getAppliedTaxes($rowTax, $totalTaxRate, $appliedRates)
     {
-        $appliedTaxBuilder = $this->taxDetailsItemBuilder->getAppliedTaxBuilder();
-        $appliedTaxRateBuilder = $appliedTaxBuilder->getAppliedTaxRateBuilder();
-        /** @var \Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax[] $appliedTaxes */
+        $appliedTaxBuilder = $this->appliedTaxBuilder;
+        $appliedTaxRateBuilder = $this->appliedRateBuilder;
+        /** @var \Magento\Tax\Api\Data\AppliedTaxInterface[] $appliedTaxes */
         $appliedTaxes = [];
         $totalAppliedAmount = 0;
         foreach ($appliedRates as $appliedRate) {
@@ -363,7 +381,7 @@ abstract class AbstractCalculator
             $appliedTaxBuilder->setPercent($appliedRate['percent']);
             $appliedTaxBuilder->setTaxRateKey($appliedRate['id']);
 
-            /** @var  AppliedTaxRate[] $rateDataObjects */
+            /** @var  \Magento\Tax\Api\Data\AppliedTaxRateInterface[] $rateDataObjects */
             $rateDataObjects = [];
             foreach ($appliedRate['rates'] as $rate) {
                 $appliedTaxRateBuilder->setPercent($rate['percent']);
