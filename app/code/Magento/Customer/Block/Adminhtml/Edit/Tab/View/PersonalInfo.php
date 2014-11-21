@@ -11,7 +11,6 @@ use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Model\AccountManagement;
 use Magento\Customer\Model\Address\Mapper;
-use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
@@ -187,16 +186,18 @@ class PersonalInfo extends \Magento\Backend\Block\Template
      */
     public function getBillingAddressHtml()
     {
+        $result = __('The customer does not have default billing address.');
         try {
             $address = $this->accountManagement->getDefaultBillingAddress($this->getCustomer()->getId());
+            if ($address !== null) {
+                $result = $this->addressHelper->getFormatTypeRenderer('html')
+                    ->renderArray($this->addressMapper->toFlatArray($address));
+            }
         } catch (NoSuchEntityException $e) {
-            return __('The customer does not have default billing address.');
+            //
         }
-        return $this->addressHelper->getFormatTypeRenderer(
-            'html'
-        )->renderArray(
-            $this->addressMapper->toFlatArray($address)
-        );
+
+        return $result;
     }
 
     /**
