@@ -8,7 +8,6 @@
 namespace Magento\Sales\Model;
 
 use Magento\Customer\Api\Data\CustomerDataBuilder;
-use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class QuoteTest extends \PHPUnit_Framework_TestCase
@@ -59,7 +58,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateCustomerData()
     {
-        $changeMail = function(array &$expected) {
+        $changeMail = function (array &$expected) {
             $expected[\Magento\Customer\Model\Data\Customer::EMAIL] = 'test@example.com';
         };
         /** @var \Magento\Sales\Model\Quote $quote */

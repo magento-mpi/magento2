@@ -23,8 +23,8 @@ Magento/CatalogInventory/Model/Resource/Indexer/Stock
 Magento/Sales/Model/Order
 Magento/CatalogInventory/Model/Source
 Magento/CatalogSearch/Model/Resource/Helper
-Magento/CatalogSearch/Model/Resource/Advanced/Collection
-Magento/CatalogSearch/Model/Resource/Search/Collection
+Magento/CatalogSearch/Model/Resource/Advanced
+Magento/CatalogSearch/Model/Resource/Search
 Magento/Centinel/Controller
 Magento/Centinel/Model/State
 Magento/Checkout/Block/Multishipping

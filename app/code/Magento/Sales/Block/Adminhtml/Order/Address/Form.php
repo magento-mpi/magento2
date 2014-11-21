@@ -43,8 +43,8 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
-     * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\Address\Mapper $mapper
+     * @param \Magento\Framework\Registry $registry
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -64,8 +64,8 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Customer\Api\AddressRepositoryInterface $addressService,
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Address\Mapper $mapper,
+        \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
