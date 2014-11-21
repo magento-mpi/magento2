@@ -13,7 +13,7 @@ class FieldsetConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testXmlFiles()
     {
-        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker = new \Magento\Framework\Test\Utility\AggregateInvoker($this);
         $invoker(
             /**
              * @param string $configFile
@@ -21,7 +21,7 @@ class FieldsetConfigTest extends \PHPUnit_Framework_TestCase
             function ($configFile) {
                 $dom = new \DOMDocument();
                 $dom->loadXML(file_get_contents($configFile));
-                $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() .
+                $schema = \Magento\Framework\Test\Utility\Files::init()->getPathToSource() .
                     '/lib/internal/Magento/Framework/Object/etc/fieldset_file.xsd';
                 $errors = \Magento\Framework\Config\Dom::validateDomDocument($dom, $schema);
                 if ($errors) {
@@ -33,7 +33,7 @@ class FieldsetConfigTest extends \PHPUnit_Framework_TestCase
                     );
                 }
             },
-            \Magento\TestFramework\Utility\Files::init()->getConfigFiles('fieldset.xml', array(), true)
+            \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('fieldset.xml', array(), true)
         );
     }
 
@@ -42,7 +42,7 @@ class FieldsetConfigTest extends \PHPUnit_Framework_TestCase
         $xmlFile = __DIR__ . '/_files/fieldset.xml';
         $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() .
+        $schema = \Magento\Framework\Test\Utility\Files::init()->getPathToSource() .
             '/lib/internal/Magento/Framework/Object/etc/fieldset.xsd';
         $errors = \Magento\Framework\Config\Dom::validateDomDocument($dom, $schema);
         if ($errors) {
@@ -60,7 +60,7 @@ class FieldsetConfigTest extends \PHPUnit_Framework_TestCase
         $xmlFile = __DIR__ . '/_files/invalid_fieldset.xml';
         $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() .
+        $schema = \Magento\Framework\Test\Utility\Files::init()->getPathToSource() .
             '/lib/internal/Magento/Framework/Object/etc/fieldset.xsd';
         $errors = \Magento\Framework\Config\Dom::validateDomDocument($dom, $schema);
         if (!$errors) {
@@ -73,7 +73,7 @@ class FieldsetConfigTest extends \PHPUnit_Framework_TestCase
         $xmlFile = __DIR__ . '/_files/fieldset_file.xml';
         $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() .
+        $schema = \Magento\Framework\Test\Utility\Files::init()->getPathToSource() .
             '/lib/internal/Magento/Framework/Object/etc/fieldset_file.xsd';
         $errors = \Magento\Framework\Config\Dom::validateDomDocument($dom, $schema);
         if ($errors) {
@@ -91,7 +91,7 @@ class FieldsetConfigTest extends \PHPUnit_Framework_TestCase
         $xmlFile = __DIR__ . '/_files/invalid_fieldset.xml';
         $dom = new \DOMDocument();
         $dom->loadXML(file_get_contents($xmlFile));
-        $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() .
+        $schema = \Magento\Framework\Test\Utility\Files::init()->getPathToSource() .
             '/lib/internal/Magento/Framework/Object/etc/fieldset_file.xsd';
         $errors = \Magento\Framework\Config\Dom::validateDomDocument($dom, $schema);
         if (!$errors) {

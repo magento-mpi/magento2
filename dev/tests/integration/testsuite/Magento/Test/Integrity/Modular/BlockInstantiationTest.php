@@ -19,7 +19,7 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
 {
     public function testBlockInstantiation()
     {
-        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker = new \Magento\Framework\Test\Utility\AggregateInvoker($this);
         $invoker(
             function ($module, $class, $area) {
                 $this->assertNotEmpty($module);
@@ -67,7 +67,7 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
             $enabledModules = $this->_getEnabledModules();
             $skipBlocks = $this->_getBlocksToSkip();
             $templateBlocks = array();
-            $blockMods = \Magento\TestFramework\Utility\Classes::collectModuleClasses('Block');
+            $blockMods = \Magento\Framework\Test\Utility\Classes::collectModuleClasses('Block');
             foreach ($blockMods as $blockClass => $module) {
                 if (!isset($enabledModules[$module]) || isset($skipBlocks[$blockClass])) {
                     continue;
