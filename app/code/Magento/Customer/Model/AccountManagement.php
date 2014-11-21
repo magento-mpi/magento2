@@ -323,6 +323,7 @@ class AccountManagement implements AccountManagementInterface
 
     /**
      * {@inheritdoc}
+     * FIXME
      */
     public function activate($email, $confirmationKey)
     {
@@ -348,6 +349,7 @@ class AccountManagement implements AccountManagementInterface
 
     /**
      * {@inheritdoc}
+     * FIXME
      */
     public function authenticate($username, $password)
     {
@@ -389,6 +391,7 @@ class AccountManagement implements AccountManagementInterface
 
     /**
      * {@inheritdoc}
+     * FIXME
      */
     public function initiatePasswordReset($email, $template, $websiteId = null)
     {
@@ -423,6 +426,7 @@ class AccountManagement implements AccountManagementInterface
 
     /**
      * {@inheritdoc}
+     * FIXME
      */
     public function resetPassword($email, $resetToken, $newPassword)
     {
@@ -474,6 +478,7 @@ class AccountManagement implements AccountManagementInterface
 
     /**
      * {@inheritdoc}
+     * FIXME
      */
     public function createAccountWithPasswordHash(
         CustomerInterface $customer,
@@ -576,6 +581,7 @@ class AccountManagement implements AccountManagementInterface
 
     /**
      * {@inheritdoc}
+     * FIXME
      */
     public function changePassword($email, $currentPassword, $newPassword)
     {
@@ -687,6 +693,7 @@ class AccountManagement implements AccountManagementInterface
 
     /**
      * {@inheritDoc}
+     * FIXME
      */
     public function isCustomerInStore($customerWebsiteId, $storeId)
     {
