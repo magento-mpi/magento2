@@ -33,22 +33,24 @@ define([
         },
 
         flatten: function(data){
-            var result = {},
-                extend = data.extends || [];
+            var extender = data.extends || [],
+                result   = {};
 
-            extend = utils.stringToArray(extend);
+            extender = utils.stringToArray(extender);
 
-            delete data.extends;
+            extender.push(data);
 
-            extend.forEach(function(item){
-                if(typeof item === 'string'){
+            extender.forEach(function(item){
+                if(_.isString(item)){
                     item = this.get(item);
                 }
 
                 $.extend(true, result, item);
             }, this);
 
-            return $.extend(true, result, data);
+            delete result.extends;
+
+            return result
         }
     });
 });

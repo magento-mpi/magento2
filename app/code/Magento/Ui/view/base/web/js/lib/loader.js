@@ -4,24 +4,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-define(['jquery'], function($) {
+define([
+    'underscore',
+    'jquery'
+], function(_, $) {
     'use strict';
     
-    var storage         = window.localStorage,
-        allowLocalCache = false;
-
-    function getStoragePathFor(name, entity) {
-        return '__' + entity + 'Cache__' + name;
-    }
-
-    /**
-     * Converts arrayLikeObject to array
-     * @param  {Object|Array} arrayLikeObject - target
-     * @return {Array} - result array
-     */
-    function toArray(arrayLikeObject) {
-        return Array.prototype.slice.call(arrayLikeObject);
-    }
+    var storage = window.localStorage;
 
     /**
      * Formats path of type "path.to.template" to RequireJS compatible
@@ -41,18 +30,38 @@ define(['jquery'], function($) {
         return $.when.apply(this, promises);
     }
 
+    function load(path, promise){
+        require([path], function (template) {
+            storage.setItem(path, template);
+
+            if(promise){
+                promise.resolve(template);
+            }
+        });
+    }
+
     return {
         /**
          * Loops over arguments and loads template for each.
          * @return {Deferred} - promise of templates to be loaded
          */
         loadTemplate: function() {
-            var isLoaded  = $.Deferred(),
-                templates = toArray(arguments);
+            var isLoaded    = $.Deferred(),
+                templates   = _.toArray(arguments),
+                timeout     = templates.length > 1;
 
             waitFor(templates.map(this._loadTemplate)).done(function () {
-                templates = toArray(arguments);
-                isLoaded.resolve.apply(isLoaded, templates);
+                templates = _.toArray(arguments);
+
+                if(timeout){
+                    setTimeout(function(){
+                        isLoaded.resolve.apply(isLoaded, templates);
+                    }, 0);
+                }
+                else{
+                    isLoaded.resolve.apply(isLoaded, templates);
+                }
+                
             });
 
             return isLoaded.promise();
@@ -60,27 +69,18 @@ define(['jquery'], function($) {
 
         _loadTemplate: function (name) {
             var isLoaded    = $.Deferred(),
-                storagePath = getStoragePathFor(name, 'template'),
                 path        = formatTemplatePath(name),
-                cached;
+                cached      = storage.getItem(path);
 
-            if (allowLocalCache) {
-                cached = storage.getItem(storagePath) || null;
+            if(cached){
+                isLoaded.resolve(cached);            
+                load(path);
             }
-
-            if (cached) {
-                setTimeout(function () {
-                    isLoaded.resolve(cached);    
-                }, 0)
-            } else {
-                require([path], function (template) {
-                    storage.setItem(storagePath, template);
-                    isLoaded.resolve(template);
-                });
+            else{
+                load(path, isLoaded);
             }
 
             return isLoaded.promise();
-
         }
     }
 });
