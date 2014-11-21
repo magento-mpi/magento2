@@ -198,6 +198,7 @@ class View extends AbstractView
             }
             $items[] = $actualFields;
         }
+
         return $items;
     }
 
