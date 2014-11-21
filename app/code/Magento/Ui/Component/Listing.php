@@ -231,7 +231,7 @@ class Listing extends AbstractView
 
         $collection = $this->getResultCollection();
         $totalCount = $collection->getSize();
-        $this->renderContext->getStorage()->addData(
+        $this->renderContext->getStorage()->addDataSource(
             $this->getName(),
             [
                 'meta_reference' => $this->getName(),
