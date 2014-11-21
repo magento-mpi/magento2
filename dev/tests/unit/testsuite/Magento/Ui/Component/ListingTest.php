@@ -77,7 +77,7 @@ class ListingTest extends \PHPUnit_Framework_TestCase
     protected $contentTypeFactory;
 
     /**
-     * @var View
+     * @var Listing
      */
     protected $listingView;
 
@@ -204,6 +204,7 @@ class ListingTest extends \PHPUnit_Framework_TestCase
      */
     public function testRender()
     {
+        $this->markTestIncomplete('Logic should be refactored');
         $this->testPrepare();
 
         $data = ['key1' => 'value1', 'key2' => 'value2'];
@@ -303,4 +304,3 @@ class ListingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($renderResult, $this->listingView->render());
     }
 }
- 

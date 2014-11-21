@@ -201,11 +201,11 @@ class Listing extends AbstractView
     }
 
     /**
-     * @return \Magento\Framework\Data\SearchResultInterface
+     * @return \Magento\Framework\Data\Collection
      */
     protected function getResultCollection()
     {
-        return $this->renderContext->getStorage()->getDataCollection($this->getName())->getResultCollection();
+        return $this->renderContext->getStorage()->getDataCollection($this->getName());
     }
 
     /**
