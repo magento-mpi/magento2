@@ -11,7 +11,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testPaymentMethods()
     {
-        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker = new \Magento\Framework\Test\Utility\AggregateInvoker($this);
         $invoker(
             /**
              * Verify whether all payment methods are declared in appropriate modules
@@ -49,7 +49,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getConfigFilesPerModule()
     {
-        $configFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles('config.xml', array(), false);
+        $configFiles = \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('config.xml', array(), false);
         $data = array();
         foreach ($configFiles as $configFile) {
             preg_match('#/([^/]+?/[^/]+?)/etc/config\.xml$#', $configFile, $moduleName);
