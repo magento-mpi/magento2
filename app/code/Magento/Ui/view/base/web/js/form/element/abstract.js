@@ -85,8 +85,11 @@ define([
 
             _.extend(this, {
                 'uid':        utils.uniqueid(),
-                'inputName':  utils.serializeName(this.dataScope),
-                'template':   this.template || (this.tmpPath + this.input_type)
+                'inputName':  utils.serializeName(this.dataScope)
+            });
+
+            _.defaults(this, {
+                'template': this.tmpPath + this.input_type
             });
 
             return this;
@@ -103,7 +106,7 @@ define([
 
             __super__.initListeners.apply(this, arguments);
 
-            data.on('reset', this.reset);
+            data.on('reset', this.reset, this.name);
             
             this.value.subscribe(this.onUpdate);
 
@@ -242,22 +245,15 @@ define([
          */
         validate: function () {
             var value   = this.value(),
-                params  = this.provider.params,
-                msg;
-
-            if(this.hidden()){
-                return false;
-            }
-
-            msg = validator(this.validation, this.value());
-
-            if(!!msg && !params.get('invalid')){
-                params.set('invalid', this);
-            }
+                msg     = validator(this.validation, value),
+                isValid = this.hidden() || !msg;
 
             this.error(msg);
 
-            return !!msg;
+            return {
+                valid:  isValid,
+                target: this
+            };
         },
 
         /**

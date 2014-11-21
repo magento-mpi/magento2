@@ -154,7 +154,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                         'country_id' => 'US',
                         'postcode' => '01001',
                         'telephone' => '+7000000001',
-                        'default_billing' => true
+                        'default_billing' => 'true'
                     )
                 )
             )
@@ -236,7 +236,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                         'country_id' => 'US',
                         'postcode' => '01001',
                         'telephone' => '+7000000001',
-                        'default_billing' => true
+                        'default_billing' => 'true'
                     ),
                     '_item1' => array(
                         'firstname' => 'new firstname',
@@ -246,7 +246,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                         'country_id' => 'US',
                         'postcode' => '01001',
                         'telephone' => '+7000000001',
-                        'default_shipping' => true
+                        'default_shipping' => 'true'
                     ),
                     '_template_' => array(
                         'firstname' => '',

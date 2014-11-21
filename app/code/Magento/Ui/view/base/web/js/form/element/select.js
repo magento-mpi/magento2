@@ -199,12 +199,12 @@ define([
          * @returns {Select} Chainable.
          */
         setOptions: function(data){
-            var size = data.length;
+            this.indexedOptions = _.indexBy(data, 'value');
 
             this.options(data);
             
             if(this.customEntry){
-                this.setHidden(!size);
+                this.setHidden(!data.length);
             }
 
             return this;
@@ -218,7 +218,7 @@ define([
          * @returns {Select} Chainable.
          */
         setPreview: function(value){
-            var option  = this.options.indexBy('value')[value],
+            var option  = this.indexedOptions[value],
                 preview = option ? option.label : '';
                 
             this.preview(preview);

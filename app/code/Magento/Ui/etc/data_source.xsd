@@ -58,7 +58,6 @@
             <xs:attribute type="textAttributeType" name="uniqueProp" use="optional"/>
             <xs:attribute type="xs:integer" name="size" use="optional"/>
             <xs:attribute type="xs:string" name="customEntry" use="optional"/>
-            <xs:attribute type="xs:boolean" name="unique" use="optional"/>
             <xs:attribute type="xs:boolean" name="visible" use="optional"/>
         </xs:complexType>
     </xs:element>
