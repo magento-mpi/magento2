@@ -220,7 +220,6 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
      * @return bool true on success
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
-     * FIXME
      */
     public function deleteById($addressId)
     {
