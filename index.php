@@ -19,12 +19,9 @@
  * @license    {license_link}
  */
 
-require __DIR__ . '/app/bootstrap.php';
-
-/* 'composer install' validation */
-$vendorDir = require __DIR__ . '/app/etc/vendor_path.php';
-$vendorAutoload = __DIR__ . "/{$vendorDir}/autoload.php";
-if (!file_exists($vendorAutoload)) {
+try{
+    require __DIR__ . '/app/bootstrap.php';
+} catch(\Exception $e) {
     echo <<<HTML
 <div style="font:12px/1.35em arial, helvetica, sans-serif;">
     <div style="margin:0 0 25px 0; border-bottom:1px solid #ccc;">
