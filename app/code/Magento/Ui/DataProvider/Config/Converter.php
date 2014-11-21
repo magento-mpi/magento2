@@ -191,6 +191,7 @@ class Converter implements ConverterInterface
                 }
             }
         }
+
         return $data;
     }
 

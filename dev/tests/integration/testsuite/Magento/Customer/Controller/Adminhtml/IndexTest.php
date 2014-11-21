@@ -154,7 +154,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                         'country_id' => 'US',
                         'postcode' => '01001',
                         'telephone' => '+7000000001',
-                        'default_billing' => true
+                        'default_billing' => 'true'
                     )
                 )
             )
@@ -236,7 +236,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                         'country_id' => 'US',
                         'postcode' => '01001',
                         'telephone' => '+7000000001',
-                        'default_billing' => true
+                        'default_billing' => 'true'
                     ),
                     '_item1' => array(
                         'firstname' => 'new firstname',
@@ -246,7 +246,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                         'country_id' => 'US',
                         'postcode' => '01001',
                         'telephone' => '+7000000001',
-                        'default_shipping' => true
+                        'default_shipping' => 'true'
                     ),
                     '_template_' => array(
                         'firstname' => '',
@@ -945,30 +945,30 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'middlename' => 'new middlename',
                 'group_id' => 1,
                 'website_id' => 1,
-                'firstname' => 'new firstname',
-                'lastname' => 'new lastname',
+                'firstname' => '',
+                'lastname' => '',
                 'email' => '*',
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
-                'sendemail' => '1'
-            ),
-            'address' => array(
-                '1' => array(
-                    'firstname' => '',
-                    'lastname' => '',
-                    'street' => array('update street'),
-                    'city' => 'update city',
-                    'postcode' => '01001',
-                    'telephone' => ''
-                ),
-                '_template_' => array(
-                    'lastname' => '',
-                    'street' => array(),
-                    'city' => '',
-                    'country_id' => 'US',
-                    'postcode' => '',
-                    'telephone' => ''
+                'sendemail' => '1',
+                'customer_address' => array(
+                    '1' => array(
+                        'firstname' => '',
+                        'lastname' => '',
+                        'street' => array('update street'),
+                        'city' => 'update city',
+                        'postcode' => '01001',
+                        'telephone' => ''
+                    ),
+                    '_template_' => array(
+                        'lastname' => '',
+                        'street' => array(),
+                        'city' => '',
+                        'country_id' => 'US',
+                        'postcode' => '',
+                        'telephone' => ''
+                    )
                 )
             )
         );
