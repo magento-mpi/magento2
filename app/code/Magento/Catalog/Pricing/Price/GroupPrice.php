@@ -17,7 +17,7 @@ use Magento\Framework\Pricing\Price\BasePriceProviderInterface;
 /**
  * Group price model
  */
-class GroupPrice extends AbstractPrice implements GroupPriceInterface, BasePriceProviderInterface
+class GroupPrice extends AbstractPrice implements BasePriceProviderInterface
 {
     /**
      * Price type group
@@ -38,15 +38,17 @@ class GroupPrice extends AbstractPrice implements GroupPriceInterface, BasePrice
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param Session $customerSession
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         Session $customerSession
     ) {
-        parent::__construct($saleableItem, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator, $priceCurrency);
         $this->customerSession = $customerSession;
     }
 
@@ -61,6 +63,7 @@ class GroupPrice extends AbstractPrice implements GroupPriceInterface, BasePrice
             foreach ($this->getStoredGroupPrice() as $groupPrice) {
                 if ($groupPrice['cust_group'] == $customerGroup) {
                     $this->value = (float) $groupPrice['website_price'];
+                    $this->value = $this->priceCurrency->convertAndRound($this->value);
                     break;
                 }
             }
@@ -82,7 +85,7 @@ class GroupPrice extends AbstractPrice implements GroupPriceInterface, BasePrice
     /**
      * @return array
      */
-    public function getStoredGroupPrice()
+    protected function getStoredGroupPrice()
     {
         if (null === $this->storedGroupPrice) {
             $resource = $this->product->getResource();

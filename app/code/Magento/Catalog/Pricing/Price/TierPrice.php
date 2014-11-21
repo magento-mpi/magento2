@@ -55,16 +55,18 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param Session $customerSession
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         Session $customerSession
     ) {
         $quantity = $quantity ?: 1;
-        parent::__construct($saleableItem, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator, $priceCurrency);
         $this->customerSession = $customerSession;
         if ($saleableItem->hasCustomerGroupId()) {
             $this->customerGroup = (int) $saleableItem->getCustomerGroupId();
@@ -256,6 +258,10 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
             }
             if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {
                 $this->rawPriceList = array();
+            }
+            foreach ($this->rawPriceList as $index => $rawPrice) {
+                $convertedPrice = $this->priceCurrency->convertAndRound($rawPrice['price']);
+                $this->rawPriceList[$index]['price'] = $convertedPrice;
             }
         }
         return $this->rawPriceList;

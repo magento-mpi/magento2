@@ -43,9 +43,15 @@ class BundleSelectionPrice extends AbstractPrice
     protected $discountCalculator;
 
     /**
+     * @var Product
+     */
+    protected $selection;
+
+    /**
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param SaleableInterface $bundleProduct
      * @param ManagerInterface $eventManager
      * @param DiscountCalculator $discountCalculator
@@ -54,14 +60,16 @@ class BundleSelectionPrice extends AbstractPrice
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         SaleableInterface $bundleProduct,
         ManagerInterface $eventManager,
         DiscountCalculator $discountCalculator
     ) {
-        parent::__construct($saleableItem, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator, $priceCurrency);
         $this->bundleProduct = $bundleProduct;
         $this->eventManager = $eventManager;
         $this->discountCalculator = $discountCalculator;
+        $this->selection = $saleableItem;
     }
 
     /**
@@ -91,13 +99,26 @@ class BundleSelectionPrice extends AbstractPrice
                     'catalog_product_get_final_price',
                     array('product' => $product, 'qty' => $this->bundleProduct->getQty())
                 );
-                $value = $product->getData('final_price') * ($this->product->getSelectionPriceValue() / 100);
+                $value = $product->getData('final_price') * ($this->selection->getSelectionPriceValue() / 100);
             } else {
                 // calculate price for selection type fixed
-                $value = $this->product->getSelectionPriceValue() * $this->quantity;
+                $selectionPriceValue = $this->selection->getSelectionPriceValue();
+                $value = $this->priceCurrency->convertAndRound($selectionPriceValue) * $this->quantity;
             }
         }
         $this->value = $this->discountCalculator->calculateDiscount($this->bundleProduct, $value);
         return $this->value;
+    }
+
+    /**
+     * @return SaleableInterface
+     */
+    public function getProduct()
+    {
+        if ($this->bundleProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
+            return parent::getProduct();
+        } else {
+            return $this->bundleProduct;
+        }
     }
 }
