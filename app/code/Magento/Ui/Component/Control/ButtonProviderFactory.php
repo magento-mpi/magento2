@@ -7,7 +7,7 @@
  */
 namespace Magento\Ui\Component\Control;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class ButtonProviderFactory
@@ -16,16 +16,16 @@ use Magento\Framework\ObjectManager;
 class ButtonProviderFactory
 {
     /**
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
      * Constructor
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      */
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManagerInterface $objectManager)
     {
         $this->objectManager = $objectManager;
     }
