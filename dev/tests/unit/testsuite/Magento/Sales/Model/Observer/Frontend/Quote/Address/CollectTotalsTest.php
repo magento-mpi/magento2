@@ -59,6 +59,9 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
      */
     protected $customerBuilderMock;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $groupManagement;
+
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
@@ -132,13 +135,21 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
         $this->customerDataMock->expects($this->any())->method('getStoreId')->will($this->returnValue($this->storeId));
 
+        $this->groupManagement = $this->getMock(
+            'Magento\Customer\Api\GroupManagementInterface',
+            array('getDefaultGroup','getNotLoggedInGroup','isReadOnly','getLoggedInGroups','getAllCustomersGroup'),
+            array(),
+            '',
+            false);
+
         $this->model = $this->objectManager->getObject(
             'Magento\Sales\Model\Observer\Frontend\Quote\Address\CollectTotals',
             array(
                 'customerAddressHelper' => $this->customerAddressMock,
                 'customerVat' => $this->customerVatMock,
                 'vatValidator' => $this->vatValidatorMock,
-                'customerBuilder' => $this->customerBuilderMock
+                'customerBuilder' => $this->customerBuilderMock,
+                'groupManagement' => $this->groupManagement
             )
         );
     }
@@ -295,13 +306,18 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->customerDataMock->expects($this->once())->method('getId')->will($this->returnValue('1'));
-        $this->customerVatMock->expects(
-            $this->once()
-        )->method(
-            'getDefaultCustomerGroupId'
-        )->will(
-            $this->returnValue('defaultCustomerGroupId')
+
+        $defaultCustomerGroup = $this->getMock(
+            'Magento\Customer\Model\Group',
+            ['getId'],
+            [],
+            '',
+            false
         );
+        $defaultCustomerGroup->expects($this->once())->method('getId')
+            ->will($this->returnValue('defaultCustomerGroupId'));
+        $this->groupManagement->expects($this->any())->method('getDefaultGroup')->with($this->storeId)
+            ->will($this->returnValue($defaultCustomerGroup));
 
         /** Assertions */
         $this->quoteAddressMock->expects(
