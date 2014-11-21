@@ -43,6 +43,8 @@ define([
         initialize: function () {
             _.extend(this, defaults);
 
+            _.bindAll(this, 'onUpdate', 'reset');
+
             __super__.initialize.apply(this, arguments);
 
             this.setHidden(this.hidden())
@@ -101,9 +103,9 @@ define([
 
             __super__.initListeners.apply(this, arguments);
 
-            data.on('reset', this.reset.bind(this));
+            data.on('reset', this.reset);
             
-            this.value.subscribe(this.onUpdate, this);
+            this.value.subscribe(this.onUpdate);
 
             return this;
         },
@@ -114,10 +116,14 @@ define([
          * @returns {*} Elements' value.
          */
         getInititalValue: function(){
-            var data = this.provider.data,
-                value = data.get(this.dataScope);
+            var data    = this.provider.data,
+                value   = data.get(this.dataScope);
 
-            return _.isUndefined(value) || _.isNull(value) ? '' : value;
+            if(_.isUndefined(value) || _.isNull(value)){
+                value = '';
+            }
+
+            return value;
         },
 
         /**
@@ -161,7 +167,7 @@ define([
         /**
          * Calls 'setHidden' passing false to it.
          */
-        show: function(value){
+        show: function(){
             this.setHidden(false);
 
             return this;
@@ -197,6 +203,17 @@ define([
         },
 
         /**
+         * Defines if value has changed.
+         *
+         * @returns {Boolean}
+         */
+        hasChanged: function(){
+            var notEqual = this.value() != this.initialValue;
+
+            return this.hidden() ? false : notEqual;
+        },
+
+        /**
          * Stores element's value to registry by element's path value
          * @param  {*} value - current value of form element
          * @returns {Abstract} Chainable.
@@ -217,17 +234,6 @@ define([
         },
 
         /**
-         * Defines if value has changed.
-         *
-         * @returns {Boolean}
-         */
-        hasChanged: function(){
-            var notEqual = this.value() !== this.initialValue;
-
-            return this.hidden() ? false : notEqual;
-        },
-
-        /**
          * Validates itself by it's validation rules using validator object.
          * If validation of a rule did not pass, writes it's message to
          * 'error' observable property.
@@ -243,7 +249,7 @@ define([
                 return false;
             }
 
-            msg = validator(this.validation, value);
+            msg = validator(this.validation, this.value());
 
             if(!!msg && !params.get('invalid')){
                 params.set('invalid', this);

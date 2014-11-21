@@ -15,7 +15,7 @@ define([
         template:           'ui/form/components/collection/item',
         displayArea:        'body',
         label:              '',
-        storeAs:            'activeCollectionItem',
+        uniqueNs:           'activeCollectionItem',
         previewTpl:         'ui/form/components/collection/preview'     
     };
 
@@ -52,7 +52,7 @@ define([
         initialize: function () {
             _.extend(this, defaults);
 
-            _.bindAll(this, 'getPreview', 'buildPreview', 'hasPreview');
+            _.bindAll(this, 'buildPreview', 'hasPreview');
 
             __super__.initialize.apply(this, arguments);
         },

@@ -11,6 +11,7 @@ define([
     'use strict';
 
     var defaults = {
+        uniqueProp:     'active',
         active:         false,
         wasActivated:   false
     };
@@ -28,7 +29,7 @@ define([
 
             __super__.initialize.apply(this, arguments);
 
-            this.pushParams();
+            this.setUnique();
         },
 
         /**
@@ -43,44 +44,13 @@ define([
 
             return this;
         },
+        
+        onUniqueUpdate: function(name){
+            var active = name === this.name;
 
-        /**
-         * Assignes updateState callback to update:activeArea event.
-         * @return {Object} - reference to instance
-         */
-        initListeners: function() {
-            var params  = this.provider.params,
-                name    = 'update:' + this.storeAs;
-
-            params.on(name, this.updateState.bind(this));
-
-            return this;
-        },
-
-        /**
-         * Checks active state of instance and if true, sets activeArea
-         *     property of params storage to name of instance.
-         */
-        pushParams: function() {
-            var params = this.provider.params;
-
-            if(this.active()){
-                params.set(this.storeAs, this.name);
-            }
-        },
-
-        /**
-         * Triggers 'active' event with current active state identifier.
-         * @param  {String} area - area to compare instance's name to
-         * @return {Object} - reference to instance
-         */
-        updateState: function(area) {
-            var active = area === this.name;
+            __super__.onUniqueUpdate.apply(this, arguments);
 
             this.trigger('active', active);
-            this.active(active);
-                
-            return this;
         },
         
         /**
@@ -90,7 +60,7 @@ define([
             this.active(true);
             this.wasActivated(true);
 
-            this.pushParams();
+            this.setUnique();
         }
     });
 });
