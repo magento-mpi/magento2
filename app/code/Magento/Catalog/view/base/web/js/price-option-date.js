@@ -57,6 +57,7 @@ define([
             var optionId = utils.findOptionId(event.target);
             var overhead = optionConfig[optionId];
             var isNeedToUpdate = true;
+            var optionHash = 'price-option-calendar-' + optionId;
 
 
             siblings.each(function(index, el){
@@ -64,7 +65,7 @@ define([
             });
 
             overhead = isNeedToUpdate ? overhead : null;
-            changes[optionId] = utils.setOptionConfig(overhead);
+            changes[optionHash] = utils.setOptionConfig(overhead);
 
             return changes;
         }

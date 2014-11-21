@@ -30,7 +30,7 @@ define([
         updatePrice: updatePrices,
         reloadPrice: reDrawPrices,
 
-        initialPrices: {}
+        cache: {}
     });
 
     return $.mage.priceBox;
@@ -43,7 +43,7 @@ define([
         setDefaultsFromDataSet.call(this);
 
         var box = this.element;
-        this.initialPrices = utils.deepClone(this.options.prices);
+        this.cache.initialPrices = utils.deepClone(this.options.prices);
 
         box.on('updatePrice', onUpdatePrice.bind(this));
         box.on('reloadPrice', reDrawPrices.bind(this));
@@ -67,13 +67,34 @@ define([
      */
     function updatePrices(newPrices, isReplace) {
         var prices = this.options.prices;
+        var additionalPrice = {};
+
         if(!!isReplace) {
             $.extend(true, prices, newPrices);
         } else if(_.isEmpty(newPrices)) {
-            this.options.prices = this.initialPrices;
+            this.options.prices = this.cache.initialPrices;
         } else {
-            _.map(newPrices, function(option, priceCode){
-                var origin = this.initialPrices[priceCode] || {};
+            this.cache.additionalPriceObject = this.cache.additionalPriceObject || {};
+            if(newPrices) {
+                $.extend(this.cache.additionalPriceObject, newPrices);
+            }
+
+            _.each(this.cache.additionalPriceObject, function(prices){
+                _.each(prices, function(priceValue, priceCode){
+                    priceValue.amount = +priceValue.amount || 0;
+                    priceValue.adjustments = priceValue.adjustments || {};
+
+                    additionalPrice[priceCode] = additionalPrice[priceCode] || {'amount':0, 'adjustments': {}};
+                    additionalPrice[priceCode].amount = 0 + (additionalPrice[priceCode].amount || 0) + priceValue.amount;
+                    _.each(priceValue.adjustments, function(adValue, adCode){
+                        additionalPrice[priceCode].adjustments[adCode] = 0 + (additionalPrice[priceCode].adjustments[adCode] || 0) + adValue;
+                    });
+                });
+            });
+
+
+            _.map(additionalPrice, function(option, priceCode){
+                var origin = this.cache.initialPrices[priceCode] || {};
                 var final = prices[priceCode] || {};
                 option.amount = option.amount || 0;
                 origin.amount = origin.amount || 0;
@@ -86,6 +107,8 @@ define([
                 });
             }.bind(this));
         }
+
+        console.log(additionalPrice, this.cache);
 
         this.element.trigger('reloadPrice');
     }

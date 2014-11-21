@@ -38,6 +38,7 @@ define([
 
         options.on('change', onOptionChanged.bind(this));
         form.on('changeOption', onFormChanged.bind(this));
+
     }
 
     function onOptionChanged(event) {
@@ -55,26 +56,8 @@ define([
         $(this.element).trigger('changeOption', changes);
     }
 
-    function onFormChanged(event, priceChanges) {
-        var additionalPrice = this.additionalPrice = {};
-        if(priceChanges) {
-            $.extend(this._additionalPriceObject, priceChanges);
-        }
-
-        _.each(this._additionalPriceObject, function(prices){
-            _.each(prices, function(priceValue, priceCode){
-                priceValue.amount = +priceValue.amount || 0;
-                priceValue.adjustments = priceValue.adjustments || {};
-
-                additionalPrice[priceCode] = additionalPrice[priceCode] || {'amount':0, 'adjustments': {}};
-                additionalPrice[priceCode].amount = 0 + (additionalPrice[priceCode].amount || 0) + priceValue.amount;
-                _.each(priceValue.adjustments, function(adValue, adCode){
-                    additionalPrice[priceCode].adjustments[adCode] = 0 + (additionalPrice[priceCode].adjustments[adCode] || 0) + adValue;
-                });
-            });
-        });
-
-        $(this.options.priceHolderSelector).trigger('updatePrice', additionalPrice);
+    function onFormChanged(event, changes) {
+        $(this.options.priceHolderSelector).trigger('updatePrice', changes);
     }
 
     function defaultGetOptionValue(element, optionsConfig) {
@@ -88,27 +71,27 @@ define([
         switch (optionType) {
             case 'text':
             case 'textarea':
-                optionHash = optionName;
+                optionHash = 'price-option-' + optionName;
                 changes[optionHash] = optionValue ? optionConfig.prices : {};
 
                 break;
             case 'radio':
             case 'select-one':
-                optionHash = optionName;
+                optionHash = 'price-option-' + optionName;
                 changes[optionHash] = optionConfig[optionValue].prices || {};
                 break;
             case 'select-multiple':
                 _.each(optionConfig, function(row, optionValueCode) {
-                    optionHash = optionName + '##' + optionValueCode;
+                    optionHash = 'price-option-' + optionName + '##' + optionValueCode;
                     changes[optionHash] = _.contains(optionValue, optionValueCode) ? row.prices : {};
                 });
                 break;
             case 'checkbox':
-                optionHash = optionName + '##' + optionValue;
+                optionHash = 'price-option-' + optionName + '##' + optionValue;
                 changes[optionHash] = element.is(':checked') ? optionConfig[optionValue].prices : {};
                 break;
             case 'file':
-                optionHash = optionName;
+                optionHash = 'price-option-' + optionName;
                 // Checking for 'disable' property equal to checking DOMNode with id*="change-"
                 changes[optionHash] = optionValue || element.prop('disabled') ? optionConfig.prices : {};
                 break;
