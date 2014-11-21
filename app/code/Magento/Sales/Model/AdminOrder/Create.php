@@ -1621,7 +1621,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                 unset($data[$key]);
             }
         }
-        return $this->_customerBuilder->mergeDataObjectWithArray($customerDataObject, $data)
+        return $this->customerBuilder->mergeDataObjectWithArray($customer, $data)
             ->create();
     }
 
