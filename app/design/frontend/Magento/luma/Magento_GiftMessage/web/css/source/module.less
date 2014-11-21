@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .gift-message {
     margin: 0;
     .fieldset& {
@@ -165,6 +171,12 @@
         &:extend(.abstract-no-display all);
     }
 }
+
+}
+
+//
+//    Mobile
+//--------------------------------------
 
 .responsive-min-l(@break) when (@break = @screen-m) {
     .gift-message {
