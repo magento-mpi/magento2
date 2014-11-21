@@ -242,7 +242,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Sales\Model\Quote\Item\Updater $quoteItemUpdater,
         \Magento\Framework\Object\Factory $objectFactory,
-       \Magento\Sales\Model\QuoteRepository $quoteRepository,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         array $data = array()
     ) {
