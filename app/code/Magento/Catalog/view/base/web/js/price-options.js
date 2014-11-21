@@ -23,16 +23,13 @@ define([
 
     $.widget('mage.priceOptions',{
         options: globalOptions,
-        _create: initPriceOptions,
-        _setOptions: setOptions,
-
-        additionalPrice: {},
-        _additionalPriceObject: {}
+        _create: createPriceOptions,
+        _setOptions: setOptions
     });
 
     return $.mage.priceOptions;
 
-    function initPriceOptions() {
+    function createPriceOptions() {
         var form = this.element;
         var options = $(this.options.optionsSelector, form);
 

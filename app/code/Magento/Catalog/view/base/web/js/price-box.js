@@ -37,26 +37,24 @@ define([
     return $.mage.priceBox;
 
     /**
-     * Function-initializer of priceBox widget
+     * Widget initialisation.
+     * Every time when option changed prices also can be changed. So
+     * changed options.prices -> changed cached prices -> recalculation -> redraw price box
      */
     function initPriceBox() {
         var box = this.element;
-        this.cache.displayPrices = utils.deepClone(this.options.prices);
-
         box.trigger('updatePrice');
     }
 
     /**
-     * Function-initializer of priceBox widget
+     * Widget creating.
      */
     function createPriceBox() {
         setDefaultsFromPriceConfig.call(this);
         setDefaultsFromDataSet.call(this);
 
         var box = this.element;
-        this.cache.displayPrices = $.extend(
-            this.cache.displayPrices,
-            utils.deepClone(this.options.prices));
+        this.cache.displayPrices = utils.deepClone(this.options.prices);
 
         box.on('reloadPrice', reDrawPrices.bind(this));
         box.on('updatePrice', onUpdatePrice.bind(this));
@@ -84,60 +82,54 @@ define([
      * -----
      * Empty option-hash object or empty price-code object treats as zero amount.
      * @param {Object} newPrices
-     * @param {Boolean} isReplace
      */
-    function updatePrices(newPrices, isReplace) {
+    function updatePrices(newPrices) {
         var prices = this.cache.displayPrices;
         var additionalPrice = {};
 
-        if (!!isReplace) {
-            $.extend(true, prices, newPrices);
-        } else {
-            this.cache.additionalPriceObject = this.cache.additionalPriceObject || {};
-            if (newPrices) {
-                $.extend(this.cache.additionalPriceObject, newPrices);
+        this.cache.additionalPriceObject = this.cache.additionalPriceObject || {};
+        if (newPrices) {
+            $.extend(this.cache.additionalPriceObject, newPrices);
+        }
+
+        _.each(this.cache.additionalPriceObject, function (additional) {
+            var keys = [];
+            if (!_.isEmpty(additional)) {
+                keys = _.keys(additional);
+            } else if (!_.isEmpty(additionalPrice)) {
+                keys = _.keys(additionalPrice);
+            } else if (!_.isEmpty(prices)) {
+                keys = _.keys(prices);
             }
+            _.each(keys, function (priceCode) {
+                var priceValue = additional[priceCode] || {};
+                priceValue.amount = +priceValue.amount || 0;
+                priceValue.adjustments = priceValue.adjustments || {};
 
-            _.each(this.cache.additionalPriceObject, function (additional) {
-                var keys = [];
-                if (!_.isEmpty(additional)) {
-                    keys = _.keys(additional);
-                } else if (!_.isEmpty(additionalPrice)) {
-                    keys = _.keys(additionalPrice);
-                } else if (!_.isEmpty(prices)) {
-                    keys = _.keys(prices);
-                }
-                _.each(keys, function (priceCode) {
-                    var priceValue = additional[priceCode] || {};
-                    priceValue.amount = +priceValue.amount || 0;
-                    priceValue.adjustments = priceValue.adjustments || {};
-
-                    additionalPrice[priceCode] = additionalPrice[priceCode] || {'amount': 0, 'adjustments': {}};
-                    additionalPrice[priceCode].amount = 0 + (additionalPrice[priceCode].amount || 0) + priceValue.amount;
-                    _.each(priceValue.adjustments, function (adValue, adCode) {
-                        additionalPrice[priceCode].adjustments[adCode] = 0 + (additionalPrice[priceCode].adjustments[adCode] || 0) + adValue;
-                    });
+                additionalPrice[priceCode] = additionalPrice[priceCode] || {'amount': 0, 'adjustments': {}};
+                additionalPrice[priceCode].amount = 0 + (additionalPrice[priceCode].amount || 0) + priceValue.amount;
+                _.each(priceValue.adjustments, function (adValue, adCode) {
+                    additionalPrice[priceCode].adjustments[adCode] = 0 + (additionalPrice[priceCode].adjustments[adCode] || 0) + adValue;
                 });
             });
+        });
 
-            if (_.isEmpty(additionalPrice)) {
-                this.cache.displayPrices = utils.deepClone(this.options.prices);
-            } else {
-                _.each(additionalPrice, function (option, priceCode) {
-                    var origin = this.options.prices[priceCode] || {};
-                    var final = prices[priceCode] || {};
-                    option.amount = option.amount || 0;
-                    origin.amount = origin.amount || 0;
-                    origin.adjustments = origin.adjustments || {};
-                    final.adjustments = final.adjustments || {};
+        if (_.isEmpty(additionalPrice)) {
+            this.cache.displayPrices = utils.deepClone(this.options.prices);
+        } else {
+            _.each(additionalPrice, function (option, priceCode) {
+                var origin = this.options.prices[priceCode] || {};
+                var final = prices[priceCode] || {};
+                option.amount = option.amount || 0;
+                origin.amount = origin.amount || 0;
+                origin.adjustments = origin.adjustments || {};
+                final.adjustments = final.adjustments || {};
 
-                    final.amount = 0 + origin.amount + option.amount;
-                    _.each(option.adjustments, function (pa, paCode) {
-                        final.adjustments[paCode] = 0 + (origin.adjustments[paCode] || 0) + pa;
-                    });
-                }, this);
-            }
-
+                final.amount = 0 + origin.amount + option.amount;
+                _.each(option.adjustments, function (pa, paCode) {
+                    final.adjustments[paCode] = 0 + (origin.adjustments[paCode] || 0) + pa;
+                });
+            }, this);
         }
 
         this.element.trigger('reloadPrice');
