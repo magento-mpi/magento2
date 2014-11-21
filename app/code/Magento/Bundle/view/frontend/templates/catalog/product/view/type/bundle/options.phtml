@@ -16,18 +16,21 @@ $helper = $this->helper('Magento\Catalog\Helper\Output');
     <?php if (count($options)): ?>
         <script type="text/javascript">
 require([
-    "jquery",
-    "mage/mage"
+    'jquery',
+    'mage/mage',
+    'Magento_Bundle/js/price-bundle'
 ], function($){
+    $(function() {
+//        $('#product_addtocart_form').mage('bundleOption', {
+//            optionConfig:<?php //echo $this->getJsonConfig()?>})
+//            .trigger('changeSelection');
 
-//<![CDATA[
-    $(document).ready(function() {
-        $('#product_addtocart_form').mage('bundleOption', {
+        $('#product_addtocart_form').mage('priceBundle', {
             optionConfig:<?php echo $this->getJsonConfig()?>})
             .trigger('changeSelection');
+
+
     });
-//]]>
-        
 });
 </script>
         <fieldset class="fieldset bundle options">
