@@ -291,7 +291,7 @@ class Account extends GenericMetadata
      *
      * @param \Magento\Framework\Data\Form $form
      * @param int $customerId
-     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes
+     * @param AttributeMetadataInterface[] $attributes
      * @return void
      */
     protected function _handleReadOnlyCustomer($form, $customerId, $attributes)

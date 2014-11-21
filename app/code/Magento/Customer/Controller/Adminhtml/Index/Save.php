@@ -89,7 +89,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
         }
 
         $formAttributes = $metadataForm->getAttributes();
-        /** @var \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute */
+        /** @var \Magento\Customer\Api\Data\AttributeMetadataInterface $attribute */
         foreach ($formAttributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
             $frontendInput = $attribute->getFrontendInput();
