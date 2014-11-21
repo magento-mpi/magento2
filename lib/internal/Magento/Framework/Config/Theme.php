@@ -83,7 +83,7 @@ class Theme
             $json = json_decode($composerContent);
             $package = new Package($json);
             $data['version'] = $package->get('version');
-            $parents = (array)$package->get('require', '/^magento\/theme-/');
+            $parents = (array)$package->get('require', '/.+\/theme-/');
             $parents = empty($parents) ? null : array_keys($parents);
             $data['parent'] = empty($parents) ? null : array_shift($parents);
         }

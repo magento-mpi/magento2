@@ -274,7 +274,7 @@ class Collection extends \Magento\Framework\Data\Collection implements ListInter
             $this->_directory->readFile($relativeConfigPath) : null;
         $relativeComposerPath = dirname($relativeConfigPath) . '/composer.json';
         $composerContent = $this->_directory->isExist($relativeComposerPath) ?
-            $this->_directory->readFile($this->_directory->getRelativePath($relativeComposerPath)) : null;
+            $this->_directory->readFile($relativeComposerPath) : null;
         return $this->themeConfigFactory->create(
             [
                 'configContent' => $configContent,
