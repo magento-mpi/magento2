@@ -7,6 +7,8 @@
  */
 namespace Magento\Rma\Block\Returns;
 
+use Magento\Customer\Model\Context;
+
 class Returns extends \Magento\Framework\View\Element\Template
 {
     /**
@@ -90,7 +92,7 @@ class Returns extends \Magento\Framework\View\Element\Template
                 'desc'
             );
 
-            if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+            if ($this->httpContext->getValue(Context::CONTEXT_AUTH)) {
                 $returns->addFieldToFilter('customer_id', $this->_customerSession->getCustomer()->getId());
             }
             $this->setReturns($returns);

@@ -9,6 +9,11 @@ namespace Magento\Fedex\Model;
 
 use Magento\Framework\Object;
 
+/**
+ * Class CarrierTest
+ * @package Magento\Fedex\Model
+ * TODO refactor me
+ */
 class CarrierTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -114,8 +119,8 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
                 'countryFactory' => $countryFactory,
                 'currencyFactory' => $this->getMock('Magento\Directory\Model\CurrencyFactory', [], [], '', false),
                 'directoryData' => $this->getMock('Magento\Directory\Helper\Data', [], [], '', false),
-                'stockItemService' =>
-                    $this->getMock('Magento\CatalogInventory\Service\V1\StockItemService', [], [], '', false),
+                'stockRegistry' =>
+                    $this->getMock('Magento\CatalogInventory\Model\StockRegistry', [], [], '', false),
                 'logger' => $this->getMock('Magento\Framework\Logger', [], [], '', false),
                 'storeManager' => $storeManager,
                 'configReader' => $this->getMock('Magento\Framework\Module\Dir\Reader', [], [], '', false),

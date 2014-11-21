@@ -19,9 +19,9 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $customerFactory;
 
     /**
-     * @var \Magento\Sales\Model\QuoteFactory
+     * @var \Magento\Sales\Model\QuoteRepository
      */
-    protected $salesQuoteFactory;
+    protected $quoteRepository;
 
     /**
      * Core registry
@@ -41,7 +41,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Framework\Data\CollectionFactory $dataFactory
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Sales\Model\QuoteFactory $salesQuoteFactory
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param array $data
      */
     public function __construct(
@@ -50,13 +50,13 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Framework\Data\CollectionFactory $dataFactory,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Sales\Model\QuoteFactory $salesQuoteFactory,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         array $data = array()
     ) {
         $this->_dataFactory = $dataFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->customerFactory = $customerFactory;
-        $this->salesQuoteFactory = $salesQuoteFactory;
+        $this->quoteRepository = $quoteRepository;
         parent::__construct($context, $backendHelper, $data);
     }
 
@@ -77,9 +77,12 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $quote = $this->salesQuoteFactory->create();
+        try {
+            $quote = $this->quoteRepository->getForCustomer($this->getEntity()->getCustomerId());
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            $quote = $this->quoteRepository->create();
+        }
         $quote->setWebsite($this->_storeManager->getWebsite($this->getEntity()->getWebsiteId()));
-        $quote->loadByCustomer($this->getEntity()->getCustomerId());
 
         $collection = $quote ? $quote->getItemsCollection(false) : $this->_dataFactory->create();
         $collection->addFieldToFilter('parent_item_id', array('null' => true));
