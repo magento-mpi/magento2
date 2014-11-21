@@ -13,7 +13,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     public function testRelocations()
     {
-        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker = new \Magento\Framework\Test\Utility\AggregateInvoker($this);
         $invoker(
             /**
              * Directories may re-appear again during merging, therefore ensure they were properly relocated
@@ -22,7 +22,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
              */
             function ($path) {
                 $this->assertFileNotExists(
-                    \Magento\TestFramework\Utility\Files::init()->getPathToSource() . '/' . $path
+                    \Magento\Framework\Test\Utility\Files::init()->getPathToSource() . '/' . $path
                 );
             },
             $this->relocationsDataProvider()
@@ -63,7 +63,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     {
         $area = '*';
         $theme = '*';
-        $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
+        $root = \Magento\Framework\Test\Utility\Files::init()->getPathToSource();
         $dirs = glob("{$root}/app/design/{$area}/{$theme}/template", GLOB_ONLYDIR);
         $msg = array();
         if ($dirs) {

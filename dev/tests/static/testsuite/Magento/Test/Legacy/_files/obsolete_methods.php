@@ -2075,6 +2075,7 @@ return array(
     ['getCategoryIndexer', 'Magento\Catalog\Model\Product'],
     ['getCategoryIndexer', 'Magento\Catalog\Model\Product\Action'],
     ['getIndexer', 'Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\AbstractPlugin'],
+    ['getRemoteResource', 'Magento\Framework\Filesystem', 'Magento\Framework\Filesystem\File\ReadFactory::create'],
     ['setCache', 'Magento\Framework\App\Magento\Framework\App\Resource'],
     ['setTablePrefix', 'Magento\Framework\App\Magento\Framework\App\Resource', 'Can be passed through constructor only'],
     ['_debugTimer', 'Magento\Framework\DB\Adapter\Pdo\Mysql', 'Magento\Framework\DB\Logger\LoggerAbstract::startTimer'],
