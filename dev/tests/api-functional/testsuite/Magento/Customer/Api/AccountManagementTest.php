@@ -582,6 +582,77 @@ class AccountManagementTest extends WebapiAbstract
     }
 
     /**
+     * @magentoApiDataFixture Magento/Customer/_files/attribute_user_defined_address.php
+     * @magentoApiDataFixture Magento/Customer/_files/attribute_user_defined_customer.php
+     */
+    public function testCustomAttributes()
+    {
+        //Sample customer data comes with the disable_auto_group_change custom attribute
+        $customerData = $this->customerHelper->createSampleCustomerDataObject();
+        //address attribute code from fixture
+        $fixtureAddressAttributeCode = 'address_user_attribute';
+        //customer attribute code from fixture
+        $fixtureCustomerAttributeCode = 'user_attribute';
+        //Custom Attribute Values
+        $address1CustomAttributeValue = 'value1';
+        $address2CustomAttributeValue = 'value2';
+        $customerCustomAttributeValue = 'value3';
+
+        $addresses = $customerData->getAddresses();
+        $address1 = $this->addressBuilder
+            ->populate($addresses[0])
+            ->setCustomAttribute($fixtureAddressAttributeCode, $address1CustomAttributeValue)
+            ->create();
+        $address2 = $this->addressBuilder
+            ->populate($addresses[1])
+            ->setCustomAttribute($fixtureAddressAttributeCode, $address2CustomAttributeValue)
+            ->create();
+
+        $customer = $this->customerBuilder
+            ->populate($customerData)
+            ->setAddresses([$address1, $address2])
+            ->setCustomAttribute($fixtureCustomerAttributeCode, $customerCustomAttributeValue)
+            ->create();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'CreateAccount'
+            ]
+        ];
+
+        $customerDataArray = $this->dataObjectProcessor->buildOutputDataArray(
+            $customer,
+            '\Magento\Customer\Api\Data\CustomerInterface'
+        );
+        $requestData = ['customer' => $customerDataArray, 'password' => CustomerHelper::PASSWORD];
+        $customerData = $this->_webApiCall($serviceInfo, $requestData);
+        $customerId = $customerData['id'];
+        //TODO: Fix assertions to verify custom attributes
+        $this->assertNotNull($customerData);
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $customerId ,
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'DeleteById'
+            ]
+        ];
+
+        $response = $this->_webApiCall($serviceInfo, ['customerId' => $customerId]);
+        $this->assertTrue($response);
+    }
+
+    /**
      * @return array|bool|float|int|string
      */
     protected function _createCustomer()
