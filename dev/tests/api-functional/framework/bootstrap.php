@@ -35,7 +35,8 @@ $application =  new \Magento\TestFramework\WebApiApplication(
     $dirList->getPath(DirectoryList::VAR_DIR),
     $installConfigFile,
     BP . '/app/etc/',
-    $settings->get('TESTS_MAGENTO_MODE')
+    $settings->get('TESTS_MAGENTO_MODE'),
+    AutoloaderRegistry::getAutoloader()
 );
 
 if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {
