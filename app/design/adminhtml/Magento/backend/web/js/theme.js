@@ -7,13 +7,14 @@
 
 define([
     "jquery",
+    "mage/backend/floating-header",
     "jquery/ui",
     "jquery/hover-intent",
     "jquery/jquery.details",
     "jquery/jquery.tabs",
-    "mage/backend/floating-header",
+    'mage/smart-keyboard-handler',
     "jquery/farbtastic"  // $(..).farbtastic()
-],function($) {
+],function($, keyboardHandler) {
     'use strict';
 
     $.widget('mage.globalSearch', {
