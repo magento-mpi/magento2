@@ -260,8 +260,13 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
                 $this->rawPriceList = array();
             }
             foreach ($this->rawPriceList as $index => $rawPrice) {
-                $convertedPrice = $this->priceCurrency->convertAndRound($rawPrice['price']);
-                $this->rawPriceList[$index]['price'] = $convertedPrice;
+                if (isset($rawPrice['price'])) {
+                    $this->rawPriceList[$index]['price'] = $this->priceCurrency->convertAndRound($rawPrice['price']);
+                }
+                if (isset($rawPrice['website_price'])) {
+                    $this->rawPriceList[$index]['website_price'] =
+                        $this->priceCurrency->convertAndRound($rawPrice['website_price']);
+                }
             }
         }
         return $this->rawPriceList;

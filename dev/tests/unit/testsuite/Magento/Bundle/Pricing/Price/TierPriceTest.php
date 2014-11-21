@@ -34,6 +34,11 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceCurrencyMock;
+
+    /**
      * Initialize base dependencies
      */
     protected function setUp()
@@ -51,10 +56,13 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->calculator = $this->getMock('Magento\Framework\Pricing\Adjustment\Calculator', [], [], '', false);
 
+        $this->priceCurrencyMock = $this->getMock('\Magento\Framework\Pricing\PriceCurrencyInterface');
+
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject('Magento\Bundle\Pricing\Price\TierPrice', [
             'saleableItem' => $this->product,
-            'calculator' => $this->calculator
+            'calculator' => $this->calculator,
+            'priceCurrency' => $this->priceCurrencyMock,
         ]);
     }
 
@@ -77,6 +85,10 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->calculator->expects($this->atLeastOnce())
             ->method('getAmount')
+            ->will($this->returnArgument(0));
+
+        $this->priceCurrencyMock->expects($this->any())
+            ->method('convertAndRound')
             ->will($this->returnArgument(0));
 
         $this->assertEquals($expectedResult, $this->model->getTierPriceList());

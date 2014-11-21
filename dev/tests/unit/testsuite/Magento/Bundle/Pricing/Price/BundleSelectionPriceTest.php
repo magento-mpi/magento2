@@ -64,6 +64,11 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
     protected $discountCalculatorMock;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceCurrencyMock;
+
+    /**
      * @var float
      */
     protected $quantity;
@@ -136,11 +141,14 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
 
+        $this->priceCurrencyMock = $this->getMock('\Magento\Framework\Pricing\PriceCurrencyInterface');
+
         $this->quantity = 1;
         $this->selectionPrice = new \Magento\Bundle\Pricing\Price\BundleSelectionPrice(
             $this->productMock,
             $this->quantity,
             $this->calculatorMock,
+            $this->priceCurrencyMock,
             $this->bundleMock,
             $this->eventManagerMock,
             $this->discountCalculatorMock
@@ -226,6 +234,10 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValueTypeFixedWithoutSelectionPriceType()
     {
+        $selectionPrice = 100.0245;
+        $roundedValue = 100.02;
+
+
         $this->bundleMock->expects($this->once())
             ->method('getPriceType')
             ->will($this->returnValue(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED));
@@ -234,14 +246,36 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
         $this->productMock->expects($this->any())
             ->method('getSelectionPriceValue')
-            ->will($this->returnValue(100));
+            ->will($this->returnValue($selectionPrice));
+        $this->priceCurrencyMock->expects($this->any())
+            ->method('convertAndRound')
+            ->with($selectionPrice)
+            ->will($this->returnValue($roundedValue));
         $this->discountCalculatorMock->expects($this->once())
             ->method('calculateDiscount')
             ->with(
                 $this->equalTo($this->bundleMock),
-                $this->equalTo(100)
+                $this->equalTo($roundedValue)
             )
             ->will($this->returnValue(70));
         $this->assertEquals(70, $this->selectionPrice->getValue());
+    }
+
+    public function testGetProductFixedBundle()
+    {
+        $this->bundleMock->expects($this->any())
+            ->method('getPriceType')
+            ->will($this->returnValue(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED));
+        $product = $this->selectionPrice->getProduct();
+        $this->assertEquals($this->bundleMock, $product);
+    }
+
+    public function testGetProductDynamicBundle()
+    {
+        $this->bundleMock->expects($this->any())
+            ->method('getPriceType')
+            ->will($this->returnValue(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC));
+        $product = $this->selectionPrice->getProduct();
+        $this->assertEquals($this->productMock, $product);
     }
 }

@@ -58,8 +58,9 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
             $minimalPrice = $this->product->getMinimalPrice();
             if ($minimalPrice === null) {
                 $minimalPrice = $this->getValue();
+            } else {
+                $minimalPrice = $this->priceCurrency->convertAndRound($minimalPrice);
             }
-            $minimalPrice = $this->priceCurrency->convertAndRound($minimalPrice);
             $this->minimalPrice = $this->calculator->getAmount($minimalPrice, $this->product);
         }
         return $this->minimalPrice;
