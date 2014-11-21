@@ -234,10 +234,12 @@ class Listing extends AbstractView
         $this->renderContext->getStorage()->addDataSource(
             $this->getName(),
             [
-                'meta_reference' => $this->getName(),
-                'items' => $this->getCollectionItems(),
-                'pages' => ceil($totalCount / $this->renderContext->getRequestParam('limit', 20)),
-                'totalCount' => $totalCount
+                'data' => [
+                    'meta_reference' => $this->getName(),
+                    'items' => $this->getCollectionItems(),
+                    'pages' => ceil($totalCount / $this->renderContext->getRequestParam('limit', 20)),
+                    'totalCount' => $totalCount
+                ]
             ]
         );
     }
