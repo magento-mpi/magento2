@@ -29,7 +29,7 @@ class Plugin
 
     /**
      * Map STEP_SELECT_ADDRESSES to Cart::CHECKOUT_STATE_BEGIN
-     * @param \Magento\Checkout\Model\Cart
+     * @param \Magento\Checkout\Model\Cart $subject
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
