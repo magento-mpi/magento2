@@ -11,7 +11,6 @@ use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Model\AccountManagement;
 use Magento\Customer\Model\Address\Mapper;
-use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
