@@ -206,18 +206,18 @@ class Review implements SetupInterface
     }
 
     /**
-     * @param string $rating
+     * @param string $ratingCode
      * @param array $stores
      * @return void
      */
-    protected function createRating($rating, $stores = ['1'])
+    protected function createRating($ratingCode, $stores = ['1'])
     {
         $stores[] = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
-        $rating = $this->getRating($rating);
-        if ($rating && !$rating->getData()) {
+        $rating = $this->getRating($ratingCode);
+        if (!$rating->getData()) {
             $ratingModel = $this->ratingFactory->create();
             $ratingModel->setRatingCode(
-                $rating
+                $ratingCode
             )->setStores(
                 $stores
             )->setIsActive(
