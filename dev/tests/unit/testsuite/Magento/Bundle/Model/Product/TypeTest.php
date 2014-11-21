@@ -37,6 +37,10 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\CatalogInventory\Api\StockRegistryInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $stockRegistry;
+    /**
+     * @var \Magento\CatalogInventory\Api\StockStateInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockState;
 
     protected function setUp()
     {
@@ -55,7 +59,11 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->stockRegistry = $this->getMockBuilder('Magento\CatalogInventory\Model\StockRegistry')
-            ->setMethods(['getStockQty', 'getManageStock', 'verifyStock'])
+            ->setMethods(['getStockItem'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->stockState = $this->getMockBuilder('\Magento\CatalogInventory\Model\StockState')
+            ->setMethods(['getStockQty'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -70,7 +78,8 @@ class TypeTest extends \PHPUnit_Framework_TestCase
                 'bundleOption' => $this->bundleOptionFactory,
                 'catalogData' => $this->catalogData,
                 'storeManager' => $this->storeManager,
-                'stockRegistry' => $this->stockRegistry
+                'stockRegistry' => $this->stockRegistry,
+                'stockState' => $this->stockState
             )
         );
     }
@@ -677,15 +686,18 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $option1 = $this->getRequiredOptionMock(10, 10);
         $option2 = $this->getRequiredOptionMock(20, 10);
 
-        $this->stockRegistry->method('getManageStock')->willReturn(true);
-        $this->stockRegistry
+
+        $this->stockRegistry->method('getStockItem')->willReturn($this->getStockItem(true));
+        $this->stockState
+            ->expects($this->at(0))
             ->method('getStockQty')
-            ->will($this->returnValueMap(
-                [
-                    [10, 10],
-                    [20, 10]
-                ]
-            ));
+            ->with(10)
+            ->willReturn(10);
+        $this->stockState
+            ->expects($this->at(1))
+            ->method('getStockQty')
+            ->with(20)
+            ->willReturn(10);
 
         $option3 = $this->getMockBuilder('Magento\Bundle\Model\Option')
             ->setMethods(['getRequired', 'getOptionId', 'getId'])
@@ -750,8 +762,8 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->method('getSelectionCanChangeQty')
             ->willReturn(false);
 
-        $this->stockRegistry->method('getManageStock')->willReturn(true);
-        $this->stockRegistry
+        $this->stockRegistry->method('getStockItem')->willReturn($this->getStockItem(true));
+        $this->stockState
             ->method('getStockQty')
             ->will($this->returnValueMap(
                 [
@@ -778,16 +790,20 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $option1 = $this->getRequiredOptionMock(10, 10);
         $option2 = $this->getRequiredOptionMock(20, 10);
 
-        $this->stockRegistry->method('getManageStock')->willReturn(false);
-        $this->stockRegistry->expects($this->never())->method('getStockQty');
-        $this->stockRegistry
-            ->method('verifyStock')
-            ->will($this->returnValueMap(
-                [
-                    [10, 10, true],
-                    [20, 10, true]
-                ]
-            ));
+        $stockItem = $this->getStockItem(true);
+
+        $this->stockRegistry->method('getStockItem')->willReturn($stockItem);
+
+        $this->stockState
+            ->expects($this->at(0))
+            ->method('getStockQty')
+            ->with(10)
+            ->willReturn(10);
+        $this->stockState
+            ->expects($this->at(1))
+            ->method('getStockQty')
+            ->with(20)
+            ->willReturn(10);
 
         $optionCollectionMock = $this->getOptionCollectionMock([$option1, $option2]);
         $selectionCollectionMock = $this->getSelectionCollectionMock([$option1, $option2]);
@@ -879,5 +895,15 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->willReturn($ids);
 
         return $optionCollectionMock;
+    }
+
+    protected function getStockItem($isManageStock)
+    {
+        $result = $this->getMockBuilder('\Magento\CatalogInventory\Api\Data\StockItem')
+            ->setMethods(['getManageStock'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $result->method('getManageStock')->willReturn($isManageStock);
+        return $result;
     }
 }

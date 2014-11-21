@@ -106,6 +106,7 @@
     <type name="Magento\Bundle\Model\Product\Type">
         <arguments>
             <argument name="stockRegistry" xsi:type="object">Magento\CatalogInventory\Api\StockRegistryInterface\Proxy</argument>
+            <argument name="stockState" xsi:type="object">Magento\CatalogInventory\Api\StockStateInterface\Proxy</argument>
         </arguments>
     </type>
 </config>

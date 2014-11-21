@@ -125,9 +125,14 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $priceCurrency;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemServiceInterface
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
     protected $_stockRegistry;
+
+    /**
+     * @var \Magento\CatalogInventory\Api\StockStateInterface
+     */
+    protected $_stockState;
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -151,6 +156,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param \Magento\CatalogInventory\Api\StockStateInterface $stockState
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -177,6 +183,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Framework\StoreManagerInterface $storeManager,
         PriceCurrencyInterface $priceCurrency,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Magento\CatalogInventory\Api\StockStateInterface $stockState,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
@@ -190,6 +197,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $this->_bundleModelSelection = $bundleModelSelection;
         $this->priceCurrency = $priceCurrency;
         $this->_stockRegistry = $stockRegistry;
+        $this->_stockState = $stockState;
         parent::__construct(
             $productFactory,
             $catalogProductOption,
@@ -621,17 +629,11 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         foreach ($selectionCollection as $selection) {
             /* @var $selection \Magento\Catalog\Model\Product */
             if ($selection->isSalable()) {
-                if (!$selection->hasSelectionQty()
-                    || $selection->getSelectionCanChangeQty()
-                    ||
-                    (
-                        $this->_stockRegistry->getManageStock($selection->getId())
-                        ?
-                        $selection->getSelectionQty() <= $this->_stockRegistry->getStockQty($selection->getId())
-                            :
-                            $this->_stockRegistry->verifyStock($selection->getId(), $selection->getSelectionQty())
-                    )
-                ) {
+                $selectionEnoughQty = $this->_stockRegistry->getStockItem($selection->getId())->getManageStock()
+                    ? $selection->getSelectionQty() <= $this->_stockState->getStockQty($selection->getId())
+                    : $selection->isInStock();
+
+                if (!$selection->hasSelectionQty() || $selection->getSelectionCanChangeQty() || $selectionEnoughQty) {
                     $requiredOptionIds[$selection->getOptionId()] = 1;
                     $salableSelectionCount++;
                 }
