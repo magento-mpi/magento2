@@ -136,7 +136,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             } else {
                 $addressData['default_billing'] = false;
             }
-            if (!empty($addressData['default_shipping'])  && $addressData['default_shipping'] === 'true') {
+            if (!empty($addressData['default_shipping']) && $addressData['default_shipping'] === 'true') {
                 $extractedCustomerData[Customer::DEFAULT_SHIPPING] = $addressId;
                 $addressData['default_shipping'] = true;
             } else {
