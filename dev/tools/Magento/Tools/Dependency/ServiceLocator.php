@@ -95,7 +95,7 @@ class ServiceLocator
     {
         if (null === self::$circularDependenciesReportBuilder) {
             self::$circularDependenciesReportBuilder = new CircularReport\Builder(
-                self::getXmlConfigParser(),
+                self::getComposerJsonParser(),
                 new CircularReport\Writer(self::getCsvWriter()),
                 new CircularTool(array(), null)
             );
