@@ -672,7 +672,9 @@ class AccountManagement implements AccountManagementInterface
                 ->create();
         }
 
-        $customerModel = $this->converter->createCustomerModel($customer);
+        $customerModel = $this->converter->createCustomerModel(
+            $this->customerDataBuilder->populate($customer)->setAddresses([])->create()
+        );
 
         $result = $customerModel->validate();
         if (true !== $result && is_array($result)) {
