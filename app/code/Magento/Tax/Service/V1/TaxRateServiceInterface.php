@@ -53,7 +53,7 @@ interface TaxRateServiceInterface
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException If no TaxRate with the given ID can be found.
      * @throws \Exception If something went wrong while performing the delete.
-     * @see TaxRateRepositoryInterface::deleteByIdentifier
+     * @see TaxRateRepositoryInterface::deleteById
      */
     public function deleteTaxRate($rateId);
 

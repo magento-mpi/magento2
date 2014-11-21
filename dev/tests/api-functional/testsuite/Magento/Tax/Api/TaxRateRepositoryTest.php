@@ -32,7 +32,7 @@ class TaxRateRepositoryTest extends WebapiAbstract
     private $fixtureTaxRules;
 
     /**
-     * @var TaxRateServiceInterface
+     * @var \Magento\Tax\Api\TaxRateRepositoryInterfac
      */
     private $taxRateService;
 
@@ -379,7 +379,7 @@ class TaxRateRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteByIdentifier'
+                'operation' => self::SERVICE_NAME . 'DeleteById'
             ]
         ];
 
@@ -408,7 +408,7 @@ class TaxRateRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteByIdentifier'
+                'operation' => self::SERVICE_NAME . 'DeleteById'
             ]
         ];
         try {

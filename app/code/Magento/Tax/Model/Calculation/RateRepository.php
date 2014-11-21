@@ -144,7 +144,7 @@ class RateRepository implements \Magento\Tax\Api\TaxRateRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteByIdentifier($rateId)
+    public function deleteById($rateId)
     {
         $rateModel = $this->rateRegistry->retrieveTaxRate($rateId);
         $this->delete($rateModel);

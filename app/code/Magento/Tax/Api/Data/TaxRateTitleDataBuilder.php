@@ -46,6 +46,7 @@ class TaxRateTitleDataBuilder extends \Magento\Framework\Api\Builder
             'Magento\Tax\Api\Data\TaxRateTitleInterface'
         );
     }
+
     /**
      * @param string $storeId
      * @return $this

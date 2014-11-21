@@ -45,7 +45,7 @@ interface TaxRateRepositoryInterface
      * @throws \Exception If something went wrong while performing the delete.
      * @see \Magento\Tax\Service\V1\TaxRateServiceInterface::deleteTaxRate
      */
-    public function deleteByIdentifier($rateId);
+    public function deleteById($rateId);
 
     /**
      * Search TaxRates

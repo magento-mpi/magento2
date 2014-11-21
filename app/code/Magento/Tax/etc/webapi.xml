@@ -28,7 +28,7 @@
         </resources>
     </route>
     <route url="/V1/taxRate/:rateId" method="DELETE">
-        <service class="Magento\Tax\Api\TaxRateRepositoryInterface" method="deleteByIdentifier"/>
+        <service class="Magento\Tax\Api\TaxRateRepositoryInterface" method="deleteById"/>
         <resources>
             <resource ref="Magento_Tax::manage_tax"/>
         </resources>
