@@ -51,7 +51,6 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             $context,
             $data
         );
-        $this->_isScopePrivate = true;
     }
 
     /**

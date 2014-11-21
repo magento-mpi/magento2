@@ -20,7 +20,7 @@
             <block class="Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard" as="product.info.giftcard" template="product/view/type/default.phtml"/>
         </referenceContainer>
         <referenceBlock name="product.info.form.options">
-            <block class="Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard" name="product.info.giftcard" as="product_type_data" template="product/view/type/giftcard.phtml" before="-" cacheable="false">
+            <block class="Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard" name="product.info.giftcard" as="product_type_data" template="product/view/type/giftcard.phtml" before="-">
                 <block class="Magento\CatalogInventory\Block\Stockqty\DefaultStockqty" name="product.info.giftcard.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>
             </block>
         </referenceBlock>
