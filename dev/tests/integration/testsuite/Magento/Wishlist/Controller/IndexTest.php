@@ -153,7 +153,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
         /** @var \Magento\TestFramework\Mail\Template\TransportBuilderMock $transportBuilder */
         $transportBuilder = $this->_objectManager->get('Magento\TestFramework\Mail\Template\TransportBuilderMock');
 
-        $actualResult = Zend_Mime_Decode::decodeQuotedPrintable(
+        $actualResult = \Zend_Mime_Decode::decodeQuotedPrintable(
             $transportBuilder->getSentMessage()->getBodyHtml()->getContent()
         );
 
