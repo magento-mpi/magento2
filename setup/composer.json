@@ -9,7 +9,7 @@
     "repositories": [
         {
             "type":"git",
-            "url":"https://github.corp.ebay.com/magento2/zf1"
+            "url":"git@github.corp.ebay.com:magento2/zf1"
         }
     ],
     "require-dev": {
