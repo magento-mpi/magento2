@@ -17,7 +17,7 @@ class ConnectionFactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->model = new ConnectionFactory(
-            $this->getMockForAbstractClass('\Magento\Framework\ObjectManager')
+            $this->getMockForAbstractClass('\Magento\Framework\ObjectManagerInterface')
         );
     }
 
