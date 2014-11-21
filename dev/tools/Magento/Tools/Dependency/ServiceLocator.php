@@ -29,6 +29,13 @@ class ServiceLocator
     private static $xmlConfigParser;
 
     /**
+     * Composer Json parser
+     *
+     * @var \Magento\Tools\Dependency\ParserInterface
+     */
+    private static $composerJsonParser;
+
+    /**
      * Framework dependencies parser
      *
      * @var \Magento\Tools\Dependency\ParserInterface
@@ -72,7 +79,7 @@ class ServiceLocator
     {
         if (null === self::$dependenciesReportBuilder) {
             self::$dependenciesReportBuilder = new Dependency\Builder(
-                self::getXmlConfigParser(),
+                self::getComposerJsonParser(),
                 new Dependency\Writer(self::getCsvWriter())
             );
         }
@@ -124,6 +131,19 @@ class ServiceLocator
             self::$xmlConfigParser = new Parser\Config\Xml();
         }
         return self::$xmlConfigParser;
+    }
+
+    /**
+     * Get modules dependencies from composer.json parser
+     *
+     * @return \Magento\Tools\Dependency\ParserInterface
+     */
+    private static function getComposerJsonParser()
+    {
+        if (null === self::$composerJsonParser) {
+            self::$composerJsonParser = new Parser\Composer\Json();
+        }
+        return self::$composerJsonParser;
     }
 
     /**
