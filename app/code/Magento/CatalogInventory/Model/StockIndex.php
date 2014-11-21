@@ -15,9 +15,6 @@ use Magento\Catalog\Model\Product\Type as ProductType;
 
 /**
  * Class StockIndex
- * @package Magento\CatalogInventory\Model
- * @api
- * @spi
  */
 class StockIndex implements StockIndexInterface
 {

@@ -21,8 +21,6 @@ use Magento\Framework\StoreManagerInterface;
 
 /**
  * Class StockRegistryProvider
- * @package Magento\CatalogInventory\Model
- * @spi
  */
 class StockRegistryProvider implements StockRegistryProviderInterface
 {

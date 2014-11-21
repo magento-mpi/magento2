@@ -17,8 +17,6 @@ use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**
  * Catalog Inventory Stock Item Model
- * @package Magento\CatalogInventory\Model\Stock
- * @data-api
  *
  * @method \Magento\CatalogInventory\Model\Stock\Item setProductId(int $value)
  * @method \Magento\CatalogInventory\Model\Stock\Item setStockId(int $value)

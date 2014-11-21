@@ -12,7 +12,7 @@ use Magento\Framework\Data\AbstractCriteria;
 /**
  * Class PageCriteria
  */
-class PageCriteria extends AbstractCriteria implements \Magento\Cms\Api\PageCriteriaInterface
+class PageCriteria extends AbstractCriteria
 {
     /**
      * @param string $mapper
@@ -41,10 +41,10 @@ class PageCriteria extends AbstractCriteria implements \Magento\Cms\Api\PageCrit
     /**
      * Add Criteria object
      *
-     * @param \Magento\Cms\Api\PageCriteriaInterface $criteria
+     * @param \Magento\Cms\Model\Resource\PageCriteria $criteria
      * @return void
      */
-    public function addCriteria(\Magento\Cms\Api\PageCriteriaInterface $criteria)
+    public function addCriteria(\Magento\Cms\Model\Resource\PageCriteria $criteria)
     {
         $this->data[self::PART_CRITERIA_LIST]['list'][] = $criteria;
     }

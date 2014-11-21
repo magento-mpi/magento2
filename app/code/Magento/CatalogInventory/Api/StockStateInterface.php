@@ -9,8 +9,6 @@ namespace Magento\CatalogInventory\Api;
 
 /**
  * Interface StockStateInterface
- * @package Magento\CatalogInventory\Api
- * @api
  */
 interface StockStateInterface
 {
@@ -44,12 +42,14 @@ interface StockStateInterface
      * @param int $productId
      * @param int|float $qty
      * @param int $websiteId
-     * @exception \Magento\Framework\Model\Exception
+     * @throws \Magento\Framework\Model\Exception
      * @return bool
      */
     public function checkQty($productId, $qty, $websiteId = null);
 
     /**
+     * @attention! this method doesn't work with webApi because of output argument
+     *
      * @param int $productId
      * @param int|float $qty
      * @param int $websiteId

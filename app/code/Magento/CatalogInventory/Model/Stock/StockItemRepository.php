@@ -25,7 +25,6 @@ use Magento\CatalogInventory\Api\StockItemRepositoryInterface as StockItemReposi
 
 /**
  * Class StockItemRepository
- * @api
  */
 class StockItemRepository implements StockItemRepositoryInterface
 {

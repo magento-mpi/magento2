@@ -20,7 +20,6 @@ use Magento\Framework\Exception\CouldNotDeleteException;
 
 /**
  * Class StockRepository
- * @api
  */
 class StockRepository implements StockRepositoryInterface
 {

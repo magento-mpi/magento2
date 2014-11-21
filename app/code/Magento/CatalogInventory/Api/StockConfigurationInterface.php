@@ -9,8 +9,6 @@ namespace Magento\CatalogInventory\Api;
 
 /**
  * Interface StockConfigurationInterface
- * @package Magento\CatalogInventory\Api
- * @api
  */
 interface StockConfigurationInterface
 {
@@ -38,32 +36,32 @@ interface StockConfigurationInterface
     /**
      * Check if is possible subtract value from item qty
      *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @return bool
      */
     public function canSubtractQty($store = null);
 
     /**
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @return float
      */
     public function getMinQty($store = null);
 
     /**
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @param int $customerGroupId
      * @return float
      */
     public function getMinSaleQty($store = null, $customerGroupId = null);
 
     /**
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @return float|null
      */
     public function getMaxSaleQty($store = null);
 
     /**
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @return float
      */
     public function getNotifyStockQty($store = null);
@@ -71,13 +69,13 @@ interface StockConfigurationInterface
     /**
      * Retrieve whether Quantity Increments is enabled
      *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @return bool
      */
     public function getEnableQtyIncrements($store = null);
 
     /**
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @return int
      */
     public function getQtyIncrements($store = null);
@@ -85,7 +83,7 @@ interface StockConfigurationInterface
     /**
      * Retrieve backorders status
      *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @return int
      */
     public function getBackorders($store = null);
@@ -93,7 +91,7 @@ interface StockConfigurationInterface
     /**
      * Retrieve Manage Stock data wrapper
      *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @return int
      */
     public function getManageStock($store = null);
@@ -101,7 +99,7 @@ interface StockConfigurationInterface
     /**
      * Retrieve can Back in stock
      *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @return bool
      */
     public function getCanBackInStock($store = null);
@@ -109,7 +107,7 @@ interface StockConfigurationInterface
     /**
      * Display out of stock products option
      *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @return bool
      */
     public function isShowOutOfStock($store = null);
@@ -117,7 +115,7 @@ interface StockConfigurationInterface
     /**
      * Check if credit memo items auto return option is enabled
      *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @return bool
      */
     public function isAutoReturnEnabled($store = null);
@@ -126,14 +124,14 @@ interface StockConfigurationInterface
      * Get 'Display product stock status' option value
      * Shows if it is necessary to show product stock status ('in stock'/'out of stock')
      *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @return bool
      */
     public function isDisplayProductStockStatus($store = null);
 
     /**
      * @param string $field
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
+     * @param null|string $store
      * @return string|null
      */
     public function getDefaultConfigValue($field, $store = null);

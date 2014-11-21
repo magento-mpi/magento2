@@ -14,8 +14,6 @@ use Magento\CatalogInventory\Model\Spi\StockRegistryProviderInterface;
 
 /**
  * Interface StockState
- * @package Magento\CatalogInventory\Model
- * @api
  */
 class StockState implements StockStateInterface
 {

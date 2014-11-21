@@ -9,8 +9,6 @@ namespace Magento\CatalogInventory\Model\Spi;
 
 /**
  * Interface StockRegistryProviderInterface
- * @package Magento\CatalogInventory\Model\Spi
- * @spi
  */
 interface StockRegistryProviderInterface
 {

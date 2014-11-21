@@ -24,7 +24,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
      * Join Stock Status to collection
      *
      * @param int $storeId
-     * @return void
+     * @return bool
      */
     public function setStockStatus($storeId = null);
 
@@ -32,23 +32,23 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
      * Add stock filter to collection
      *
      * @param \Magento\CatalogInventory\Api\Data\StockInterface|string|array $stock
-     * @return void
+     * @return bool
      */
     public function setStockFilter($stock);
 
     /**
      * Add website filter to collection
      *
-     * @param array|int|object $website
-     * @return void
+     * @param int $website
+     * @return bool
      */
     public function setWebsiteFilter($website);
 
     /**
      * Add product filter to collection
      *
-     * @param array|int|object $products
-     * @return void
+     * @param int|int[] $products
+     * @return bool
      */
     public function setProductsFilter($products);
 
@@ -56,7 +56,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
      * Add Managed Stock products filter to collection
      *
      * @param bool $isStockManagedInConfig
-     * @return void
+     * @return bool
      */
     public function setManagedFilter($isStockManagedInConfig);
 
@@ -65,7 +65,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
      *
      * @param string $comparisonMethod
      * @param float $qty
-     * @return void
+     * @return bool
      */
     public function setQtyFilter($comparisonMethod, $qty);
 }
