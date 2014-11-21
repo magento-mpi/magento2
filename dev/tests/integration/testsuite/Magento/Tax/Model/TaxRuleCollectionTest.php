@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1\Collection;
+namespace Magento\Tax\Model;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -30,9 +30,9 @@ class TaxRuleCollectionTest extends \PHPUnit_Framework_TestCase
         if (($dbTaxRulesQty == 0) || ($collection->getFirstItem()->getId() != $expectedFirstTaxRuleId)) {
             $this->fail("Preconditions failed.");
         }
-        /** @var \Magento\Tax\Service\V1\Collection\TaxRuleCollection $taxRulesCollection */
+        /** @var \Magento\Tax\Model\TaxRuleCollection $taxRulesCollection */
         $taxRulesCollection = Bootstrap::getObjectManager()
-            ->create('Magento\Tax\Service\V1\Collection\TaxRuleCollection');
+            ->create('Magento\Tax\Model\TaxRuleCollection');
         $collectionTaxRulesQty = $taxRulesCollection->count();
         $this->assertEquals($dbTaxRulesQty, $collectionTaxRulesQty, 'Tax rules quantity is invalid.');
         $taxRule = $taxRulesCollection->getFirstItem()->getData();

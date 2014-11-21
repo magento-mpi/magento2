@@ -288,10 +288,10 @@ class TaxClassService implements TaxClassServiceInterface
                     return $taxClassKey->getValue();
                 case TaxClassKeyInterface::TYPE_NAME:
                     $searchCriteria = $this->searchCriteriaBuilder->addFilter(
-                        [$this->filterBuilder->setField(TaxClassKeyInterface::KEY_TYPE)->setValue($taxClassType)->create()]
+                        [$this->filterBuilder->setField(TaxClass::KEY_TYPE)->setValue($taxClassType)->create()]
                     )->addFilter(
                         [
-                            $this->filterBuilder->setField(TaxClassKeyInterface::KEY_NAME)
+                            $this->filterBuilder->setField(TaxClass::KEY_NAME)
                                 ->setValue($taxClassKey->getValue())
                                 ->create()
                         ]

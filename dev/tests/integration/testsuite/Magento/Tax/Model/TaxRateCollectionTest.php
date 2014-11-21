@@ -20,7 +20,7 @@ class TaxRateCollectionTest extends \PHPUnit_Framework_TestCase
         if (($dbTaxRatesQty == 0) || ($collection->getFirstItem()->getId() != 1)) {
             $this->fail("Preconditions failed.");
         }
-        /** @var \Magento\Tax\Service\V1\Collection\TaxRateCollection $taxRatesCollection */
+        /** @var \Magento\Tax\Model\TaxRateCollection $taxRatesCollection */
         $taxRatesCollection = Bootstrap::getObjectManager()
             ->create('Magento\Tax\Model\TaxRateCollection');
         $collectionTaxRatesQty = $taxRatesCollection->count();

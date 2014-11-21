@@ -94,7 +94,7 @@ class TaxRateCollection extends AbstractServiceCollection
         if ($taxRate->getZipTo() != null && $taxRate->getZipFrom() != null) {
             /* must be a "1" for existing code (e.g. JavaScript) to work */
             $collectionItem->setZipIsRange("1");
-            $collectionItem->setZipFrom($taxRate->getzipFrom());
+            $collectionItem->setZipFrom($taxRate->getZipFrom());
             $collectionItem->setZipTo($taxRate->getZipTo());
         } else {
             $collectionItem->setZipIsRange(null);
