@@ -2061,7 +2061,6 @@ return array(
     ['canCheckVatNumber', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::canCheckVatNumber'],
     ['getCustomerVatClass', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::getCustomerVatClass'],
     ['isCountryInEU', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::isCountryInEU'],
-    ['getDefaultCustomerGroupId', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::getDefaultCustomerGroupId'],
     ['generateResetPasswordLinkToken', 'Magento\Customer\Helper\Data'],
     ['isLoggedIn', 'Magento\Customer\Helper\Data'],
     ['getResetPasswordLinkExpirationPeriod', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Customer::getResetPasswordLinkExpirationPeriod'],
@@ -2076,4 +2075,5 @@ return array(
     ['getCategoryIndexer', 'Magento\Catalog\Model\Product\Action'],
     ['getIndexer', 'Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\AbstractPlugin'],
     ['_getNewConditionModelInstance', 'Magento\Rule\Model\Condition\Combine'],
+    ['getDefaultCustomerGroupId', 'Magento\Customer\Model\Vat', 'Magento\Customer\Api\GroupManagementInterface::getDefaultGroup'],
 );
