@@ -12,7 +12,6 @@
                 type="Magento\Tax\Model\TaxRuleRepository"/>
     <preference for="Magento\Tax\Api\TaxCalculationInterface"
                 type="Magento\Tax\Model\TaxCalculation"/>
-    <preference for="Magento\Tax\Service\V1\TaxClassServiceInterface" type="Magento\Tax\Service\V1\TaxClassService" />
     <preference for="Magento\Tax\Service\V1\OrderTaxServiceInterface" type="Magento\Tax\Service\V1\OrderTaxService" />
     <type name="Magento\Tax\Helper\Data">
         <arguments>
@@ -57,7 +56,7 @@
     <preference for="Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxInterface" type="Magento\Tax\Model\Sales\Order\Tax" />
     <preference for="Magento\Tax\Api\Data\OrderTaxDetailsInterface" type="Magento\Tax\Model\Sales\Order\Details" />
     <preference for="Magento\Tax\Api\Data\OrderTaxDetailsItemInterface" type="Magento\Tax\Model\Sales\Order\Tax\Item" />
-    <preference for="Magento\Tax\Api\TaxClassManagementInterface" type="Magento\Tax\Model\TaxClass\Repository" />
+    <preference for="Magento\Tax\Api\TaxClassManagementInterface" type="\Magento\Tax\Model\TaxClass\Management" />
     <preference for="Magento\Tax\Api\TaxClassRepositoryInterface" type="Magento\Tax\Model\TaxClass\Repository" />
     <preference for="Magento\Tax\Api\Data\TaxClassInterface" type="Magento\Tax\Model\ClassModel" />
     <preference for="Magento\Tax\Api\Data\TaxRuleInterface" type="Magento\Tax\Model\Calculation\Rule" />

@@ -2863,5 +2863,11 @@ return array(
     ['Magento\Tax\Service\V1\Data\TaxRateSearchResults', 'Magento\Tax\Api\Data\TaxRateSearchResultsInterface'],
     ['Magento\Tax\Service\V1\Data\TaxRateBuilder', 'Magento\Tax\Api\Data\TaxRateDataBuilder'],
     ['Magento\Tax\Service\V1\Collection\TaxRateCollection', 'Magento\Tax\Model\TaxRateCollection'],
-
+    ['Magento\Tax\Service\V1\Data\TaxClassKey', 'Magento\Tax\Api\Data\TaxClassKeyInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxClassSearchResults', 'Magento\Tax\Api\Data\TaxClassSearchResultsInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxClass', 'Magento\Tax\Api\Data\TaxClassInterface'],
+    ['Magento\Tax\Service\V1\TaxClassServiceInterface', 'Magento\Tax\Api\TaxClassRepositoryInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxClassSearchResultsBuilder'],
+    ['Magento\Tax\Service\V1\Data\TaxClassKeyBuilder'],
+    ['Magento\Tax\Service\V1\Data\TaxClassBuilder']
 );

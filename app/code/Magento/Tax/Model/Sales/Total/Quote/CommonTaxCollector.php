@@ -16,7 +16,7 @@ use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as ItemDataObject;
-use Magento\Tax\Service\V1\Data\TaxClassKey;
+use Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\Tax\Service\V1\Data\TaxDetails;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
 use Magento\Tax\Service\V1\Data\TaxDetails\Item as ItemTaxDetails;
@@ -176,7 +176,7 @@ class CommonTaxCollector extends AbstractTotal
         $itemBuilder->setQuantity($item->getQty());
         $itemBuilder->setTaxClassKey(
             $itemBuilder->getTaxClassKeyBuilder()
-                ->setType(TaxClassKey::TYPE_ID)
+                ->setType(TaxClassKeyInterface::TYPE_ID)
                 ->setValue($item->getProduct()->getTaxClassId())
                 ->create()
         );
@@ -233,7 +233,7 @@ class CommonTaxCollector extends AbstractTotal
             $itemBuilder->setQuantity($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_QUANTITY]);
             $itemBuilder->setTaxClassKey(
                 $itemBuilder->getTaxClassKeyBuilder()
-                    ->setType(TaxClassKey::TYPE_ID)
+                    ->setType(TaxClassKeyInterface::TYPE_ID)
                     ->setValue($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID])
                     ->create()
             );
@@ -368,7 +368,7 @@ class CommonTaxCollector extends AbstractTotal
             }
             $itemBuilder->setTaxClassKey(
                 $itemBuilder->getTaxClassKeyBuilder()
-                    ->setType(TaxClassKey::TYPE_ID)
+                    ->setType(TaxClassKeyInterface::TYPE_ID)
                     ->setValue($this->_config->getShippingTaxClass($address->getQuote()->getStore()))
                     ->create()
             );
@@ -398,7 +398,7 @@ class CommonTaxCollector extends AbstractTotal
         //Set customer tax class
         $this->quoteDetailsBuilder->setCustomerTaxClassKey(
             $this->quoteDetailsBuilder->getTaxClassKeyBuilder()
-                ->setType(TaxClassKey::TYPE_ID)
+                ->setType(TaxClassKeyInterface::TYPE_ID)
                 ->setValue($address->getQuote()->getCustomerTaxClassId())
                 ->create()
         );

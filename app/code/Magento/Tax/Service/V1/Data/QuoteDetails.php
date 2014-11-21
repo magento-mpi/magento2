@@ -53,7 +53,7 @@ class QuoteDetails extends \Magento\Framework\Api\AbstractExtensibleObject
     /**
      * Get customer tax class key
      *
-     * @return \Magento\Tax\Service\V1\Data\TaxClassKey|null
+     * @return \Magento\Tax\Service\V1\Data\TaxClassKeyInterface|null
      */
     public function getCustomerTaxClassKey()
     {

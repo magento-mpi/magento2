@@ -23,7 +23,7 @@ class Tax extends \Magento\Backend\App\Action
     protected $taxClassRepository;
 
     /**
-     * @var \Magento\Tax\Service\V1\Data\TaxClassBuilder
+     * @var \Magento\Tax\Api\Data\TaxClassDataBuilder
      */
     protected $taxClassBuilder;
 

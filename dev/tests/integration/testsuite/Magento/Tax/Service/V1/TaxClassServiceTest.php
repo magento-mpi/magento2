@@ -10,9 +10,10 @@ namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\InputException;
 use Magento\Tax\Model\ClassModel as TaxClassModel;
-use Magento\Tax\Service\V1\Data\TaxClassBuilder;
-use Magento\Tax\Service\V1\Data\TaxClassKey;
+use Magento\Tax\Api\Data\TaxClassDataBuilder;
+use Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Tax\Api\TaxClassManagementInterface;
 
 class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +23,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
     private $taxClassService;
 
     /**
-     * @var TaxClassBuilder
+     * @var TaxClassDataBuilder
      */
     private $taxClassBuilder;
 
@@ -46,12 +47,12 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
-        $this->taxClassService = $this->objectManager->create('Magento\Tax\Service\V1\TaxClassService');
-        $this->taxClassBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxClassBuilder');
+        $this->taxClassService = $this->objectManager->create('Magento\Tax\Api\TaxClassRepositoryInterface');
+        $this->taxClassBuilder = $this->objectManager->create('Magento\Tax\Api\Data\TaxClassDataBuilder');
         $this->taxClassModel = $this->objectManager->create('Magento\Tax\Model\ClassModel');
         $this->predefinedTaxClasses = [
-            TaxClassServiceInterface::TYPE_PRODUCT => 'Taxable Goods',
-            TaxClassServiceInterface::TYPE_CUSTOMER => 'Retail Customer'
+            TaxClassManagementInterface::TYPE_PRODUCT => 'Taxable Goods',
+            TaxClassManagementInterface::TYPE_CUSTOMER => 'Retail Customer'
         ];
     }
 
@@ -64,7 +65,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
     {
         $taxClassDataObject = $this->taxClassBuilder
             ->setClassName(self::SAMPLE_TAX_CLASS_NAME)
-            ->setClassType(TaxClassServiceInterface::TYPE_CUSTOMER)
+            ->setClassType(TaxClassManagementInterface::TYPE_CUSTOMER)
             ->create();
         $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
         $this->assertEquals(self::SAMPLE_TAX_CLASS_NAME, $this->taxClassModel->load($taxClassId)->getClassName());
@@ -73,7 +74,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassDataObject = $this->taxClassBuilder
             ->setClassId($taxClassId)
             ->setClassName(self::SAMPLE_TAX_CLASS_NAME . uniqid())
-            ->setClassType(TaxClassServiceInterface::TYPE_CUSTOMER)
+            ->setClassType(TaxClassManagementInterface::TYPE_CUSTOMER)
             ->create();
         //Should not be allowed to set the classId. Will throw InputException
         $this->taxClassService->createTaxClass($taxClassDataObject);
@@ -90,7 +91,7 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         //Testing against existing Tax classes which are already setup when the instance is installed
         $taxClassDataObject = $this->taxClassBuilder
             ->setClassName($this->predefinedTaxClasses[TaxClassModel::TAX_CLASS_TYPE_PRODUCT])
-            ->setClassType(TaxClassServiceInterface::TYPE_PRODUCT)
+            ->setClassType(TaxClassManagementInterface::TYPE_PRODUCT)
             ->create();
         $this->taxClassService->createTaxClass($taxClassDataObject);
     }
@@ -120,13 +121,13 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassName = 'Get Me';
         $taxClassDataObject = $this->taxClassBuilder
             ->setClassName($taxClassName)
-            ->setClassType(TaxClassServiceInterface::TYPE_CUSTOMER)
+            ->setClassType(TaxClassManagementInterface::TYPE_CUSTOMER)
             ->create();
         $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
         $data = $this->taxClassService->getTaxClass($taxClassId);
         $this->assertEquals($taxClassId, $data->getClassId());
         $this->assertEquals($taxClassName, $data->getClassName());
-        $this->assertEquals(TaxClassServiceInterface::TYPE_CUSTOMER, $data->getClassType());
+        $this->assertEquals(TaxClassManagementInterface::TYPE_CUSTOMER, $data->getClassType());
     }
 
     /**
@@ -248,35 +249,35 @@ class TaxClassServiceTest extends \PHPUnit_Framework_TestCase
         $taxClassName = 'Get Me';
         $taxClassDataObject = $this->taxClassBuilder
             ->setClassName($taxClassName)
-            ->setClassType(TaxClassServiceInterface::TYPE_CUSTOMER)
+            ->setClassType(TaxClassManagementInterface::TYPE_CUSTOMER)
             ->create();
         $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
-        /** @var \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder */
-        $taxClassKeyBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxClassKeyBuilder');
+        /** @var \Magento\Tax\Api\Data\TaxClassKeyDataBuilder $taxClassKeyBuilder */
+        $taxClassKeyBuilder = $this->objectManager->create('Magento\Tax\Api\Data\TaxClassKeyDataBuilder');
         $taxClassKeyTypeId = $taxClassKeyBuilder->populateWithArray(
             [
-                TaxClassKey::KEY_TYPE => TaxClassKey::TYPE_ID,
-                TaxClassKey::KEY_VALUE => $taxClassId,
+                TaxClassKeyInterface::KEY_TYPE => TaxClassKeyInterface::TYPE_ID,
+                TaxClassKeyInterface::KEY_VALUE => $taxClassId,
             ]
         )->create();
         $this->assertEquals(
             $taxClassId,
-            $this->taxClassService->getTaxClassId($taxClassKeyTypeId, TaxClassServiceInterface::TYPE_CUSTOMER)
+            $this->taxClassService->getTaxClassId($taxClassKeyTypeId, TaxClassManagementInterface::TYPE_CUSTOMER)
         );
         $taxClassKeyTypeName = $taxClassKeyBuilder->populateWithArray(
             [
-                TaxClassKey::KEY_TYPE => TaxClassKey::TYPE_NAME,
-                TaxClassKey::KEY_VALUE => $taxClassName,
+                TaxClassKeyInterface::KEY_TYPE => TaxClassKeyInterface::TYPE_NAME,
+                TaxClassKeyInterface::KEY_VALUE => $taxClassName,
             ]
         )->create();
         $this->assertEquals(
             $taxClassId,
-            $this->taxClassService->getTaxClassId($taxClassKeyTypeId, TaxClassServiceInterface::TYPE_CUSTOMER)
+            $this->taxClassService->getTaxClassId($taxClassKeyTypeId, TaxClassManagementInterface::TYPE_CUSTOMER)
         );
         $this->assertNull($this->taxClassService->getTaxClassId(null));
         $this->assertEquals(
             null,
-            $this->taxClassService->getTaxClassId($taxClassKeyTypeName, TaxClassServiceInterface::TYPE_PRODUCT)
+            $this->taxClassService->getTaxClassId($taxClassKeyTypeName, TaxClassManagementInterface::TYPE_PRODUCT)
         );
     }
 }

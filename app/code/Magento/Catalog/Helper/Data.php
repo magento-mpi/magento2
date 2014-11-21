@@ -9,7 +9,7 @@ namespace Magento\Catalog\Helper;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
-use Magento\Tax\Service\V1\Data\TaxClassKey;
+use Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Tax\Model\Config;
@@ -125,7 +125,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Tax class key builder
      *
-     * @var \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder
+     * @var \Magento\Tax\Api\Data\TaxClassKeyDataBuilder
      */
     protected $_taxClassKeyBuilder;
 
@@ -188,12 +188,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
-     * @param string $templateFilterModel
-     * @param TaxClassKeyBuilder $taxClassKeyBuilder
+     * @param $templateFilterModel
+     * @param \Magento\Tax\Api\Data\TaxClassKeyDataBuilder $taxClassKeyBuilder
      * @param Config $taxConfig
      * @param \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder
      * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
-     * @param TaxCalculationInterface $taxCalculationService
+     * @param \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
      * @param PriceCurrencyInterface $priceCurrency
@@ -211,7 +211,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory,
         $templateFilterModel,
-        \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder,
+        \Magento\Tax\Api\Data\TaxClassKeyDataBuilder $taxClassKeyBuilder,
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder,
         QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
@@ -515,7 +515,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 ->setCode($product->getSku())
                 ->setShortDescription($product->getShortDescription())
                 ->setTaxClassKey(
-                    $this->_taxClassKeyBuilder->setType(TaxClassKey::TYPE_ID)
+                    $this->_taxClassKeyBuilder->setType(TaxClassKeyInterface::TYPE_ID)
                         ->setValue($product->getTaxClassId())->create()
                 )->setTaxIncluded($priceIncludesTax)
                 ->setType('product')
@@ -525,7 +525,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 ->setShippingAddress($shippingAddressDataObject)
                 ->setBillingAddress($billingAddressDataObject)
                 ->setCustomerTaxClassKey(
-                    $this->_taxClassKeyBuilder->setType(TaxClassKey::TYPE_ID)
+                    $this->_taxClassKeyBuilder->setType(TaxClassKeyInterface::TYPE_ID)
                         ->setValue($ctc)->create()
                 )->setItems([$item])
                 ->setCustomerId($this->_customerSession->getCustomerId())

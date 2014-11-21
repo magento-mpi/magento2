@@ -34,7 +34,7 @@ class QuoteDetailsBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
     /**
      * TaxClassKey builder
      *
-     * @var \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder
+     * @var \Magento\Tax\Api\Data\TaxClassKeyDataBuilder
      */
     protected $taxClassKeyBuilder;
 
@@ -45,7 +45,7 @@ class QuoteDetailsBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
      * @param AttributeDataBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
      * @param \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $itemBuilder
-     * @param \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder
+     * @param \Magento\Tax\Api\Data\TaxClassKeyDataBuilder $taxClassKeyBuilder
      * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
      */
     public function __construct(
@@ -117,7 +117,7 @@ class QuoteDetailsBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
     /**
      * Set customer tax class key
      *
-     * @param \Magento\Tax\Service\V1\Data\TaxClassKey $taxClassKey
+     * @param \Magento\Tax\Service\V1\Data\TaxClassKeyInterface $taxClassKey
      * @return $this
      */
     public function setCustomerTaxClassKey($taxClassKey)

@@ -15,7 +15,7 @@ use Magento\Tax\Model\Resource\Sales\Order\Tax;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 use Magento\Tax\Service\V1\Data\TaxClass;
-use Magento\Tax\Service\V1\Data\TaxClassKey;
+use Magento\Tax\Service\V1\Data\TaxClassKeyInterface;
 use Magento\Tax\Service\V1\Data\TaxDetails;
 use Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax;
 use Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxRate;

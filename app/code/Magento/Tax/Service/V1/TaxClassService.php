@@ -14,6 +14,7 @@ use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Tax\Api\TaxClassManagementInterface;
 use Magento\Tax\Model\ClassModelRegistry;
 use Magento\Tax\Model\Converter;
 use Magento\Tax\Model\Resource\TaxClass\Collection as TaxClassCollection;
@@ -21,7 +22,7 @@ use Magento\Tax\Model\Resource\TaxClass\CollectionFactory as TaxClassCollectionF
 use Magento\Tax\Service\V1\Data\TaxClass;
 use Magento\Tax\Service\V1\Data\TaxClassSearchResultsBuilder;
 use Magento\Tax\Service\V1\Data\TaxClass as TaxClassDataObject;
-use Magento\Tax\Service\V1\Data\TaxClassKey;
+use Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Api\SortOrder;
 
@@ -279,18 +280,18 @@ class TaxClassService implements TaxClassServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getTaxClassId($taxClassKey, $taxClassType = TaxClassServiceInterface::TYPE_PRODUCT)
+    public function getTaxClassId($taxClassKey, $taxClassType = TaxClassManagementInterface::TYPE_PRODUCT)
     {
         if (!empty($taxClassKey)) {
             switch ($taxClassKey->getType()) {
-                case TaxClassKey::TYPE_ID:
+                case TaxClassKeyInterface::TYPE_ID:
                     return $taxClassKey->getValue();
-                case TaxClassKey::TYPE_NAME:
+                case TaxClassKeyInterface::TYPE_NAME:
                     $searchCriteria = $this->searchCriteriaBuilder->addFilter(
-                        [$this->filterBuilder->setField(TaxClass::KEY_TYPE)->setValue($taxClassType)->create()]
+                        [$this->filterBuilder->setField(TaxClassKeyInterface::KEY_TYPE)->setValue($taxClassType)->create()]
                     )->addFilter(
                         [
-                            $this->filterBuilder->setField(TaxClass::KEY_NAME)
+                            $this->filterBuilder->setField(TaxClassKeyInterface::KEY_NAME)
                                 ->setValue($taxClassKey->getValue())
                                 ->create()
                         ]

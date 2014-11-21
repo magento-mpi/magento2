@@ -18,7 +18,7 @@ interface TaxClassRepositoryInterface
      * Get a tax class with the given tax class id.
      *
      * @param int $taxClassId
-     * @return \Magento\Tax\Service\V1\Data\TaxClass
+     * @return \Magento\Tax\Api\Data\TaxClassInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If tax class with $taxClassId does not exist
      * @see \Magento\Tax\Service\V1\TaxClassServiceInterface::getTaxClassId
      */
@@ -28,7 +28,7 @@ interface TaxClassRepositoryInterface
      * Retrieve tax classes which match a specific criteria.
      *
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return \Magento\Tax\Service\V1\Data\TaxClassSearchResults containing Data\TaxClass
+     * @return \Magento\Tax\Api\Data\TaxRateSearchResultsInterface containing Data\TaxClassInterface
      * @throws \Magento\Framework\Exception\InputException
      * @see \Magento\Tax\Service\V1\TaxClassServiceInterface::searchTaxClass
      */
@@ -65,5 +65,5 @@ interface TaxClassRepositoryInterface
      * @throws \Magento\Framework\Exception\CouldNotDeleteException
      * @see \Magento\Tax\Service\V1\TaxClassServiceInterface::deleteTaxClass
      */
-    public function deleteByIdentifier($taxClassId);
+    public function deleteById($taxClassId);
 }

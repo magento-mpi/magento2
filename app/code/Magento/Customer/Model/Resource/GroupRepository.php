@@ -14,8 +14,8 @@ use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\State\InvalidTransitionException;
 use Magento\Framework\Api\Search\FilterGroup;
-use Magento\Tax\Service\V1\Data\TaxClass;
-use Magento\Tax\Service\V1\TaxClassServiceInterface;
+use Magento\Tax\Api\Data\TaxClassInterface;
+use Magento\Tax\Api\TaxClassManagementInterface;
 
 /**
  * Customer group CRUD class
@@ -304,12 +304,12 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
     protected function _verifyTaxClassModel($taxClassId, $group)
     {
         try {
-            /* @var TaxClass $taxClassData */
+            /* @var TaxClassInterface $taxClassData */
             $taxClassData = $this->taxClassRepository->get($taxClassId);
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             throw InputException::invalidFieldValue('taxClassId', $group->getTaxClassId());
         }
-        if ($taxClassData->getClassType() !== TaxClassServiceInterface::TYPE_CUSTOMER) {
+        if ($taxClassData->getClassType() !== TaxClassManagementInterface::TYPE_CUSTOMER) {
             throw InputException::invalidFieldValue('taxClassId', $group->getTaxClassId());
         }
     }

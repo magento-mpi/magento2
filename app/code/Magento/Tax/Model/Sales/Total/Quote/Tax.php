@@ -9,14 +9,10 @@ namespace Magento\Tax\Model\Sales\Total\Quote;
 
 use Magento\Store\Model\Store;
 use Magento\Sales\Model\Quote\Address;
-use Magento\Sales\Model\Quote\Address\Total\AbstractTotal;
 use Magento\Tax\Model\Calculation;
-use Magento\Sales\Model\Quote\Item\AbstractItem;
-use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as ItemDataObject;
-use Magento\Tax\Service\V1\Data\TaxClassKey;
+use Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\Tax\Service\V1\Data\TaxDetails;
 
 /**
@@ -200,7 +196,7 @@ class Tax extends CommonTaxCollector
             $itemBuilder->setQuantity($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_QUANTITY]);
             $itemBuilder->setTaxClassKey(
                 $itemBuilder->getTaxClassKeyBuilder()
-                    ->setType(TaxClassKey::TYPE_ID)
+                    ->setType(TaxClassKeyInterface::TYPE_ID)
                     ->setValue($extraTaxable[self::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID])
                     ->create()
             );

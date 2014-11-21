@@ -10,7 +10,7 @@ namespace Magento\Tax\Model\TaxClass\Source;
 
 use Magento\Framework\DB\Ddl\Table;
 use Magento\Tax\Api\Data\TaxClassInterface as TaxClass;
-use Magento\Tax\Api\TaxClassRepositoryInterface;
+use Magento\Tax\Api\TaxClassManagementInterface;
 
 /**
  * Product tax class source model.
@@ -81,7 +81,7 @@ class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         if (!$this->_options) {
             $filter = $this->_filterBuilder
                 ->setField(TaxClass::KEY_TYPE)
-                ->setValue(\Magento\Tax\Service\V1\TaxClassServiceInterface::TYPE_PRODUCT)
+                ->setValue(TaxClassManagementInterface::TYPE_PRODUCT)
                 ->create();
             $searchCriteria = $this->_searchCriteriaBuilder->addFilter([$filter])->create();
             $searchResults = $this->_taxClassRepository->getList($searchCriteria);

@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tax\Service\V1;
+namespace Magento\Tax\Api;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Tax\Model\ClassModelRegistry;
-use Magento\Tax\Service\V1\Data\TaxClass;
-use Magento\Tax\Service\V1\Data\TaxClassBuilder;
+use Magento\Tax\Api\Data\TaxClassDataBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -21,9 +20,9 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 /**
  * Tests for tax class service.
  */
-class TaxClassServiceTest extends WebapiAbstract
+class TaxClassRepositoryTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'taxTaxClassServiceV1';
+    const SERVICE_NAME = 'taxTaxClassRepositoryV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/taxClass';
 
@@ -33,11 +32,11 @@ class TaxClassServiceTest extends WebapiAbstract
     /** @var FilterBuilder */
     private $filterBuilder;
 
-    /** @var TaxClassBuilder */
+    /** @var TaxClassDataBuilder */
     private $taxClassBuilder;
 
-    /** @var TaxClassService */
-    private $taxClassService;
+    /** @var TaxClassRepositoryInterface */
+    private $taxClassRepository;
 
     /** @var ClassModelRegistry */
     private $taxClassRegistry;
@@ -56,25 +55,26 @@ class TaxClassServiceTest extends WebapiAbstract
             'Magento\Framework\Api\FilterBuilder'
         );
         $this->taxClassBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Tax\Service\V1\Data\TaxClassBuilder'
+            'Magento\Tax\Api\Data\TaxClassDataBuilder'
         );
         $this->taxClassRegistry = Bootstrap::getObjectManager()->create(
             'Magento\Tax\Model\ClassModelRegistry'
         );
-        $this->taxClassService = Bootstrap::getObjectManager()->create(
-            'Magento\Tax\Service\V1\TaxClassService',
+        $this->taxClassRepository = Bootstrap::getObjectManager()->create(
+            'Magento\Tax\Model\TaxClass\Repository',
             ['classModelRegistry' => $this->taxClassRegistry]
         );
     }
 
     /**
-     * Test create TaxClass
+     * Test create Data\TaxClassInterface
      */
     public function testCreateTaxClass()
     {
         $taxClassName = self::SAMPLE_TAX_CLASS_NAME . uniqid();
+        /** @var  \Magento\Tax\Api\Data\TaxClassInterface $taxClassDataObject */
         $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
-            ->setClassType(TaxClassServiceInterface::TYPE_CUSTOMER)
+            ->setClassType(TaxClassManagementInterface::TYPE_CUSTOMER)
             ->create();
         $serviceInfo = [
             'rest' => [
@@ -84,30 +84,36 @@ class TaxClassServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'CreateTaxClass'
+                'operation' => self::SERVICE_NAME . 'Save'
             ]
         ];
 
-        $requestData = ['taxClass' => $taxClassDataObject->__toArray()];
+        $requestData = ['taxClass' =>
+            [
+                'class_id' => $taxClassDataObject->getClassId(),
+                'class_name' => $taxClassDataObject->getClassName(),
+                'class_type' => $taxClassDataObject->getClassType()
+            ]
+        ];
         $taxClassId = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertNotNull($taxClassId);
 
-        //Verify by getting the TaxClass
-        $taxClassData = $this->taxClassService->getTaxClass($taxClassId);
+        //Verify by getting the Data\TaxClassInterface
+        $taxClassData = $this->taxClassRepository->get($taxClassId);
         $this->assertEquals($taxClassData->getClassName(), $taxClassName);
-        $this->assertEquals($taxClassData->getClassType(), TaxClassServiceInterface::TYPE_CUSTOMER);
+        $this->assertEquals($taxClassData->getClassType(), TaxClassManagementInterface::TYPE_CUSTOMER);
     }
 
     /**
-     * Test create TaxClass
+     * Test create Data\TaxClassInterface
      */
     public function testUpdateTaxClass()
     {
         //Create Tax Class
         $taxClassDataObject = $this->taxClassBuilder->setClassName(self::SAMPLE_TAX_CLASS_NAME . uniqid())
-            ->setClassType(TaxClassServiceInterface::TYPE_CUSTOMER)
+            ->setClassType(TaxClassManagementInterface::TYPE_CUSTOMER)
             ->create();
-        $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
+        $taxClassId = $this->taxClassRepository->save($taxClassDataObject);
         $this->assertNotNull($taxClassId);
 
         //Update Tax Class
@@ -125,17 +131,23 @@ class TaxClassServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'UpdateTaxClass'
+                'operation' => self::SERVICE_NAME . 'Save'
             ]
         ];
 
-        $requestData = ['taxClass' => $updatedTaxClassDataObject->__toArray(), 'taxClassId' => $taxClassId];
+        $taxClass = [
+                'class_id' => $updatedTaxClassDataObject->getClassId(),
+                'class_name' => $updatedTaxClassDataObject->getClassName(),
+                'class_type' => $updatedTaxClassDataObject->getClassType()
+            ];
 
-        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+        $requestData = ['taxClass' => $taxClass, 'ClassId' => $taxClassId];
 
-        //Verify by getting the TaxClass
+        $this->assertEquals($taxClassId, $this->_webApiCall($serviceInfo, $requestData));
+
+        //Verify by getting the Data\TaxClassInterface
         $this->taxClassRegistry->remove($taxClassId);
-        $taxClassData = $this->taxClassService->getTaxClass($taxClassId);
+        $taxClassData = $this->taxClassRepository->get($taxClassId);
         $this->assertEquals($taxClassData->getClassName(), $updatedTaxClassName);
     }
 
@@ -144,12 +156,12 @@ class TaxClassServiceTest extends WebapiAbstract
         //Create Tax Class
         $taxClassName = self::SAMPLE_TAX_CLASS_NAME . uniqid();
         $taxClassDataObject = $this->taxClassBuilder->setClassName($taxClassName)
-            ->setClassType(TaxClassServiceInterface::TYPE_CUSTOMER)
+            ->setClassType(TaxClassManagementInterface::TYPE_CUSTOMER)
             ->create();
-        $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
+        $taxClassId = $this->taxClassRepository->save($taxClassDataObject);
         $this->assertNotNull($taxClassId);
 
-        //Verify by getting the TaxClass
+        //Verify by getting the Data\TaxClassInterface
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $taxClassId,
@@ -158,13 +170,13 @@ class TaxClassServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetTaxClass'
+                'operation' => self::SERVICE_NAME . 'Get'
             ]
         ];
         $requestData = ['taxClassId' => $taxClassId];
         $taxClassData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($taxClassData[TaxClass::KEY_NAME], $taxClassName);
-        $this->assertEquals($taxClassData[TaxClass::KEY_TYPE], TaxClassServiceInterface::TYPE_CUSTOMER);
+        $this->assertEquals($taxClassData[Data\TaxClassInterface::KEY_NAME], $taxClassName);
+        $this->assertEquals($taxClassData[Data\TaxClassInterface::KEY_TYPE], TaxClassManagementInterface::TYPE_CUSTOMER);
     }
 
     /**
@@ -173,12 +185,12 @@ class TaxClassServiceTest extends WebapiAbstract
     public function testDeleteTaxClass()
     {
         $taxClassDataObject = $this->taxClassBuilder->setClassName(self::SAMPLE_TAX_CLASS_NAME . uniqid())
-            ->setClassType(TaxClassServiceInterface::TYPE_CUSTOMER)
+            ->setClassType(TaxClassManagementInterface::TYPE_CUSTOMER)
             ->create();
-        $taxClassId = $this->taxClassService->createTaxClass($taxClassDataObject);
+        $taxClassId = $this->taxClassRepository->save($taxClassDataObject);
         $this->assertNotNull($taxClassId);
 
-        //Verify by getting the TaxClass
+        //Verify by getting the Data\TaxClassInterface
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $taxClassId,
@@ -187,7 +199,7 @@ class TaxClassServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteTaxClass'
+                'operation' => self::SERVICE_NAME . 'DeleteById'
             ]
         ];
         $requestData = ['taxClassId' => $taxClassId];
@@ -196,7 +208,7 @@ class TaxClassServiceTest extends WebapiAbstract
 
         try {
             $this->taxClassRegistry->remove($taxClassId);
-            $this->taxClassService->getTaxClass($taxClassId);
+            $this->taxClassRepository->get($taxClassId);
             $this->fail("Tax class was not expected to be returned after being deleted.");
         } catch (NoSuchEntityException $e) {
             $this->assertEquals('No such entity with class_id = ' . $taxClassId, $e->getMessage());
@@ -211,7 +223,7 @@ class TaxClassServiceTest extends WebapiAbstract
         $this->markTestSkipped('Should be enabled after fixing MAGETWO-29964');
 
         $taxClassName = 'Retail Customer';
-        $taxClassNameField = TaxClass::KEY_NAME;
+        $taxClassNameField = Data\TaxClassInterface::KEY_NAME;
         $filter = $this->filterBuilder->setField($taxClassNameField)
             ->setValue($taxClassName)
             ->create();
@@ -224,7 +236,7 @@ class TaxClassServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'SearchTaxClass'
+                'operation' => self::SERVICE_NAME . 'GetList'
             ]
         ];
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
@@ -241,20 +253,24 @@ class TaxClassServiceTest extends WebapiAbstract
     {
         $this->markTestSkipped('Should be enabled after fixing MAGETWO-29964');
 
-        $productTaxClass = [TaxClass::KEY_NAME => 'Taxable Goods', TaxClass::KEY_TYPE => 'PRODUCT'];
-        $customerTaxClass = [TaxClass::KEY_NAME => 'Retail Customer', TaxClass::KEY_TYPE => 'CUSTOMER'];
+        $productTaxClass = [
+            Data\TaxClassInterface::KEY_NAME => 'Taxable Goods',
+            Data\TaxClassInterface::KEY_TYPE => 'PRODUCT'
+        ];
+        $customerTaxClass = [Data\TaxClassInterface::KEY_NAME => 'Retail Customer',
+            Data\TaxClassInterface::KEY_TYPE => 'CUSTOMER'];
 
-        $filter1 = $this->filterBuilder->setField(TaxClass::KEY_NAME)
-            ->setValue($productTaxClass[TaxClass::KEY_NAME])
+        $filter1 = $this->filterBuilder->setField(Data\TaxClassInterface::KEY_NAME)
+            ->setValue($productTaxClass[Data\TaxClassInterface::KEY_NAME])
             ->create();
-        $filter2 = $this->filterBuilder->setField(TaxClass::KEY_NAME)
-            ->setValue($customerTaxClass[TaxClass::KEY_NAME])
+        $filter2 = $this->filterBuilder->setField(Data\TaxClassInterface::KEY_NAME)
+            ->setValue($customerTaxClass[Data\TaxClassInterface::KEY_NAME])
             ->create();
-        $filter3 = $this->filterBuilder->setField(TaxClass::KEY_TYPE)
-            ->setValue($productTaxClass[TaxClass::KEY_TYPE])
+        $filter3 = $this->filterBuilder->setField(Data\TaxClassInterface::KEY_TYPE)
+            ->setValue($productTaxClass[Data\TaxClassInterface::KEY_TYPE])
             ->create();
-        $filter4 = $this->filterBuilder->setField(TaxClass::KEY_TYPE)
-            ->setValue($customerTaxClass[TaxClass::KEY_TYPE])
+        $filter4 = $this->filterBuilder->setField(Data\TaxClassInterface::KEY_TYPE)
+            ->setValue($customerTaxClass[Data\TaxClassInterface::KEY_TYPE])
             ->create();
 
         /**
@@ -272,15 +288,17 @@ class TaxClassServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'SearchTaxClass'
+                'operation' => self::SERVICE_NAME . 'GetList'
             ]
         ];
         $searchData = $searchCriteria->__toArray();
         $requestData = ['searchCriteria' => $searchData];
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(2, $searchResults['total_count']);
-        $this->assertEquals($productTaxClass[TaxClass::KEY_NAME], $searchResults['items'][0][TaxClass::KEY_NAME]);
-        $this->assertEquals($customerTaxClass[TaxClass::KEY_NAME], $searchResults['items'][1][TaxClass::KEY_NAME]);
+        $this->assertEquals($productTaxClass[Data\TaxClassInterface::KEY_NAME],
+            $searchResults['items'][0][Data\TaxClassInterface::KEY_NAME]);
+        $this->assertEquals($customerTaxClass[Data\TaxClassInterface::KEY_NAME],
+            $searchResults['items'][1][Data\TaxClassInterface::KEY_NAME]);
 
         /** class_name == 'Retail Customer' && ( class_type == 'CUSTOMER' || class_type == 'PRODUCT') */
         $this->searchCriteriaBuilder->addFilter([$filter2]);
@@ -290,6 +308,7 @@ class TaxClassServiceTest extends WebapiAbstract
         $requestData = ['searchCriteria' => $searchData];
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(1, $searchResults['total_count']);
-        $this->assertEquals($customerTaxClass[TaxClass::KEY_NAME], $searchResults['items'][0][TaxClass::KEY_NAME]);
+        $this->assertEquals($customerTaxClass[Data\TaxClassInterface::KEY_NAME],
+            $searchResults['items'][0][Data\TaxClassInterface::KEY_NAME]);
     }
 }

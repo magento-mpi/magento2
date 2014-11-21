@@ -61,7 +61,7 @@ interface TaxClassServiceInterface
      * @return bool True if the tax class was deleted, false otherwise
      * @throws \Magento\Framework\Exception\NoSuchEntityException If tax class with $taxClassId does not exist
      * @throws \Magento\Framework\Exception\CouldNotDeleteException
-     * @see \Magento\Tax\Api\TaxClassRepositoryInterface::deleteByIdentifier
+     * @see \Magento\Tax\Api\TaxClassRepositoryInterface::deleteById
      */
     public function deleteTaxClass($taxClassId);
 
@@ -78,7 +78,7 @@ interface TaxClassServiceInterface
     /**
      * Get tax class id
      *
-     * @param \Magento\Tax\Service\V1\Data\TaxClassKey|null $taxClassKey
+     * @param \Magento\Tax\Service\V1\Data\TaxClassKeyInterface|null $taxClassKey
      * @param string $taxClassType
      * @return int|null
      * @see \Magento\Tax\Api\TaxClassManagementInterface::getTaxClassId

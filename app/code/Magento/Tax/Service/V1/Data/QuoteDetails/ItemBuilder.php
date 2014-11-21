@@ -77,7 +77,7 @@ class ItemBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
     /**
      * Set tax class key
      *
-     * @param \Magento\Tax\Service\V1\Data\TaxClassKey $taxClassKey
+     * @param \Magento\Tax\Service\V1\Data\TaxClassKeyInterface $taxClassKey
      * @return $this
      */
     public function setTaxClassKey($taxClassKey)

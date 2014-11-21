@@ -70,31 +70,31 @@
         </resources>
     </route>
     <route url="/V1/taxClass" method="POST">
-        <service class="Magento\Tax\Service\V1\TaxClassServiceInterface" method="createTaxClass"/>
+        <service class="Magento\Tax\Api\TaxClassRepositoryInterface" method="save"/>
         <resources>
             <resource ref="Magento_Tax::manage_tax"/>
         </resources>
     </route>
     <route url="/V1/taxClass/:taxClassId" method="GET">
-        <service class="Magento\Tax\Service\V1\TaxClassServiceInterface" method="getTaxClass"/>
+        <service class="Magento\Tax\Api\TaxClassRepositoryInterface" method="get"/>
         <resources>
             <resource ref="Magento_Tax::manage_tax"/>
         </resources>
     </route>
-    <route url="/V1/taxClass/:taxClassId" method="PUT">
-        <service class="Magento\Tax\Service\V1\TaxClassServiceInterface" method="updateTaxClass"/>
+    <route url="/V1/taxClass/:classId" method="PUT">
+        <service class="Magento\Tax\Api\TaxClassRepositoryInterface" method="save"/>
         <resources>
             <resource ref="Magento_Tax::manage_tax"/>
         </resources>
     </route>
     <route url="/V1/taxClass/:taxClassId" method="DELETE">
-        <service class="Magento\Tax\Service\V1\TaxClassServiceInterface" method="deleteTaxClass"/>
+        <service class="Magento\Tax\Api\TaxClassRepositoryInterface" method="deleteById"/>
         <resources>
             <resource ref="Magento_Tax::manage_tax"/>
         </resources>
     </route>
     <route url="/V1/taxClass/search" method="PUT">
-        <service class="Magento\Tax\Service\V1\TaxClassServiceInterface" method="searchTaxClass"/>
+        <service class="Magento\Tax\Api\TaxClassRepositoryInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Tax::manage_tax"/>
         </resources>

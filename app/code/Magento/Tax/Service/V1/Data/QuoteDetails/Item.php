@@ -62,7 +62,7 @@ class Item extends \Magento\Framework\Api\AbstractExtensibleObject
     /**
      * Get tax class key
      *
-     * @return \Magento\Tax\Service\V1\Data\TaxClassKey
+     * @return \Magento\Tax\Service\V1\Data\TaxClassKeyInterface
      */
     public function getTaxClassKey()
     {

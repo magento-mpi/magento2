@@ -9,9 +9,8 @@
 
 namespace Magento\Tax\Model\TaxClass;
 
-use \Magento\Tax\Api\Data\TaxClassInterface;
+use Magento\Tax\Api\Data\TaxClassInterface;
 use Magento\Framework\Exception\InputException;
-use \Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\Framework\Model\Exception as ModelException;
 use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\FilterBuilder;
@@ -22,8 +21,9 @@ use Magento\Tax\Model\Resource\TaxClass\Collection as TaxClassCollection;
 use Magento\Tax\Model\Resource\TaxClass\CollectionFactory as TaxClassCollectionFactory;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Api\SortOrder;
+use Magento\Tax\Api\TaxClassManagementInterface;
 
-class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface, \Magento\Tax\Api\TaxClassManagementInterface
+class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface
 {
     /**
      * @var TaxClassCollectionFactory
@@ -113,7 +113,7 @@ class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface, \Magen
             }
         }
         $this->classModelRegistry->registerTaxClass($taxClass);
-        return $taxClass->getId();
+        return $taxClass->getClassId();
     }
 
     /**
@@ -144,7 +144,7 @@ class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface, \Magen
     /**
      * {@inheritdoc}
      */
-    public function deleteByIdentifier($taxClassId)
+    public function deleteById($taxClassId)
     {
         $taxClassModel = $this->get($taxClassId);
 
@@ -169,8 +169,8 @@ class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface, \Magen
         $classType = $taxClass->getClassType();
         if (!\Zend_Validate::is(trim($classType), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxClassInterface::KEY_TYPE]);
-        } else if ($classType !== self::TYPE_CUSTOMER
-            && $classType !== self::TYPE_PRODUCT
+        } else if ($classType !== TaxClassManagementInterface::TYPE_CUSTOMER
+            && $classType !== TaxClassManagementInterface::TYPE_PRODUCT
         ) {
             $exception->addError(
                 InputException::INVALID_FIELD_VALUE,
@@ -238,33 +238,5 @@ class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface, \Magen
         if ($fields) {
             $collection->addFieldToFilter($fields, $conditions);
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTaxClassId($taxClassKey, $taxClassType = self::TYPE_PRODUCT)
-    {
-        if (!empty($taxClassKey)) {
-            switch ($taxClassKey->getType()) {
-                case TaxClassKeyInterface::TYPE_ID:
-                    return $taxClassKey->getValue();
-                case TaxClassKeyInterface::TYPE_NAME:
-                    $searchCriteria = $this->searchCriteriaBuilder->addFilter(
-                        [$this->filterBuilder->setField(TaxClassInterface::KEY_TYPE)->setValue($taxClassType)->create()]
-                    )->addFilter(
-                        [
-                            $this->filterBuilder->setField(TaxClassInterface::KEY_NAME)
-                                ->setValue($taxClassKey->getValue())
-                                ->create()
-                        ]
-                    )->create();
-                    $taxClasses = $this->getList($searchCriteria)->getItems();
-                    $taxClass = array_shift($taxClasses);
-                    return (null == $taxClass) ? null : $taxClass->getClassId();
-                default:
-            }
-        }
-        return null;
     }
 }
