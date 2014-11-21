@@ -215,8 +215,7 @@ class Review implements SetupInterface
         $stores[] = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         $rating = $this->getRating($ratingCode);
         if (!$rating->getData()) {
-            $ratingModel = $this->ratingFactory->create();
-            $ratingModel->setRatingCode(
+            $rating->setRatingCode(
                 $ratingCode
             )->setStores(
                 $stores
@@ -241,7 +240,7 @@ class Review implements SetupInterface
                 )->setValue(
                     $key
                 )->setRatingId(
-                    $ratingModel->getId()
+                    $rating->getId()
                 )->setPosition(
                     $key
                 )->save();
