@@ -5,8 +5,6 @@ dev/build/core_dev/performance/benchmark
 
 dev/tests/api-functional
 
-dev/tests/static/testsuite/Magento/Test/Legacy/FilesystemTest.php
-
 dev/tests/performance/testsuite/benchmark
 dev/tests/performance/testsuite/fixtures/benchmark
 dev/tests/performance/apply_fixture.php

@@ -84,33 +84,33 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
     public function testObsoleteViewPaths()
     {
+        $allowedFiles = ['requirejs-config.js', 'layouts.xml'];
+        $allowedThemeFiles = array_merge($allowedFiles, ['composer.json', 'theme.xml']);
+        $areas = '{frontend,adminhtml,base}';
+        $ns = '*';
+        $mod = '*';
         $pathsToCheck = [
-            'app/code/*/*/view/frontend/*'  => [
-                'allowed_files' => ['requirejs-config.js'],
-                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            "app/code/{$ns}/{$mod}/view/{$areas}/*" => [
+                'allowed_files' => $allowedFiles,
+                'allowed_dirs'  => ['layout', 'page_layout', 'templates', 'web'],
             ],
-            'app/code/*/*/view/adminhtml/*' => [
-                'allowed_files' => ['requirejs-config.js'],
-                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            "app/design/{$areas}/{$ns}/{$mod}/*" => [
+                'allowed_files' => $allowedThemeFiles,
+                'allowed_dirs'  => ['layout', 'page_layout', 'templates', 'web', 'etc', 'i18n', 'media', '\w+_\w+'],
             ],
-            'app/code/*/*/view/base/*'      => [
-                'allowed_files' => ['requirejs-config.js'],
-                'allowed_dirs'  => ['layout', 'templates', 'web'],
-            ],
-            'app/design/*/*/*/*'            => [
-                'allowed_files' => ['requirejs-config.js', 'theme.xml'],
-                'allowed_dirs'  => ['layout', 'templates', 'web', 'etc', 'i18n', 'media', '\w+_\w+'],
-            ],
-            'app/design/*/*/*/*_*/*'        => [
-                'allowed_files' => ['requirejs-config.js'],
-                'allowed_dirs'  => ['layout', 'templates', 'web'],
+            "app/design/{$areas}/{$ns}/{$mod}/{$ns}_{$mod}/*" => [
+                'allowed_files' => $allowedThemeFiles,
+                'allowed_dirs'  => ['layout', 'page_layout', 'templates', 'web'],
             ],
         ];
         $errors = [];
         foreach ($pathsToCheck as $path => $allowed) {
             $allowedFiles = $allowed['allowed_files'];
             $allowedDirs = $allowed['allowed_dirs'];
-            $foundFiles = glob(BP . '/' . $path);
+            $foundFiles = glob(BP . '/' . $path, GLOB_BRACE);
+            if (!$foundFiles) {
+                $this->fail("Glob pattern returned empty result: {$path}");
+            }
             foreach ($foundFiles as $file) {
                 $baseName = basename($file);
                 if (is_dir($file)) {
@@ -123,13 +123,14 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
                 if (in_array($baseName, $allowedFiles)) {
                     continue;
                 }
-                $errors[] = "Wrong location of view file/dir: '$file'. "
-                    . "Please, put template files inside 'templates' sub-dir, "
-                    . "static view files inside 'web' sub-dir and layout updates inside 'layout' sub-dir";
+                $errors[] = $file;
             }
         }
         if (!empty($errors)) {
-            $this->fail(implode(PHP_EOL, $errors));
+            $this->fail(
+                'Unexpected files or directories found. Make sure they are not at obsolete locations:'
+                . PHP_EOL . implode(PHP_EOL, $errors)
+            );
         }
     }
 }
