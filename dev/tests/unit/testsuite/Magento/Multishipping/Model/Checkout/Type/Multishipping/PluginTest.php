@@ -17,6 +17,11 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     protected $checkoutSessionMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $cartMock;
+
+    /**
      * @var \Magento\Multishipping\Model\Checkout\Type\Multishipping\Plugin
      */
     protected $model;
@@ -30,6 +35,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->cartMock = $this->getMock('\Magento\Checkout\Model\Cart', [], [], '', false);
         $this->model = new Plugin($this->checkoutSessionMock);
     }
 
@@ -39,7 +45,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             ->willReturn(State::STEP_SELECT_ADDRESSES);
         $this->checkoutSessionMock->expects($this->once())->method('setCheckoutState')
             ->with(Session::CHECKOUT_STATE_BEGIN);
-        $this->model->beforeInit();
+        $this->model->beforeInit($this->cartMock);
     }
 
     public function testBeforeInitCaseFalse()
@@ -47,6 +53,6 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->checkoutSessionMock->expects($this->once())->method('getCheckoutState')
             ->willReturn('');
         $this->checkoutSessionMock->expects($this->never())->method('setCheckoutState');
-        $this->model->beforeInit();
+        $this->model->beforeInit($this->cartMock);
     }
 }
