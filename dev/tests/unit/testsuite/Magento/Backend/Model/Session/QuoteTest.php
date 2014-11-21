@@ -75,7 +75,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Sales\Model\QuoteFactory|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $quoteFactoryMock;
+    protected $quoteRepositoryMock;
 
     /**
      * @var \Magento\Backend\Model\Session\Quote|\PHPUnit_Framework_MockObject_MockObject
@@ -107,9 +107,9 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             true,
             ['getValue']
         );
-        $this->quoteFactoryMock = $this->getMock(
-            'Magento\Sales\Model\QuoteFactory',
-            ['create'],
+        $this->quoteRepositoryMock = $this->getMock(
+            'Magento\Sales\Model\QuoteRepository',
+            ['create', 'save', 'get'],
             [],
             '',
             false
@@ -186,7 +186,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
                 'storage' => $this->storageMock,
                 'cookieManager' => $this->cookieManagerMock,
                 'cookieMetadataFactory' => $this->cookieMetadataFactoryMock,
-                'quoteFactory' => $this->quoteFactoryMock,
+                'quoteRepository' => $this->quoteRepositoryMock,
                 'customerService' => $this->customerServiceMock,
                 'orderFactory' => $this->orderFactoryMock,
                 'storeManager' => $this->storeManagerMock,
@@ -215,9 +215,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
                 'setStoreId',
                 'setCustomerGroupId',
                 'setIsActive',
-                'save',
                 'getId',
-                'load',
                 'assignCustomer',
                 'setIgnoreOldQty',
                 'setIsSuperMode',
@@ -228,7 +226,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->quoteFactoryMock->expects($this->once())
+        $this->quoteRepositoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($quoteMock));
         $this->quote->expects($this->any())
@@ -251,8 +249,9 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             ->method('setIsActive')
             ->with(false)
             ->will($this->returnSelf());
-        $quoteMock->expects($this->once())
-            ->method('save');
+        $this->quoteRepositoryMock->expects($this->once())
+            ->method('save')
+            ->with($quoteMock);
         $quoteMock->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($quoteId));
@@ -284,7 +283,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testGetQuoteLoad()
+    public function testGetQuoteGet()
     {
         $storeId = 10;
         $quoteId = 22;
@@ -296,9 +295,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
                 'setStoreId',
                 'setCustomerGroupId',
                 'setIsActive',
-                'save',
                 'getId',
-                'load',
                 'assignCustomer',
                 'setIgnoreOldQty',
                 'setIsSuperMode',
@@ -309,7 +306,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->quoteFactoryMock->expects($this->once())
+        $this->quoteRepositoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($quoteMock));
         $this->quote->expects($this->any())
@@ -321,9 +318,10 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->quote->expects($this->any())
             ->method('getQuoteId')
             ->will($this->returnValue($quoteId));
-        $quoteMock->expects($this->once())
-            ->method('load')
-            ->with($quoteId);
+        $this->quoteRepositoryMock->expects($this->once())
+            ->method('get')
+            ->with($quoteId)
+            ->willReturn($quoteMock);
         $this->quote->expects($this->any())
             ->method('setQuoteId')
             ->with($quoteId);
