@@ -16,6 +16,7 @@ use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Framework\Message\Error;
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Framework\ObjectFactory;
 
 /**
  * Class Index
@@ -89,6 +90,9 @@ class Index extends \Magento\Backend\App\Action
     /** @var \Magento\Framework\Math\Random */
     protected $_random;
 
+    /** @var \Magento\Framework\ObjectFactory */
+    protected $_objectFactory;
+
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
@@ -106,6 +110,7 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Customer\Helper\View $viewHelper
      * @param \Magento\Framework\Math\Random $random
      * @param CustomerRepositoryInterface $customerRepository
+     * @param ObjectFactory $objectFactory
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -125,7 +130,8 @@ class Index extends \Magento\Backend\App\Action
         CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Helper\View $viewHelper,
         \Magento\Framework\Math\Random $random,
-        CustomerRepositoryInterface $customerRepository
+        CustomerRepositoryInterface $customerRepository,
+        ObjectFactory $objectFactory
     ) {
         $this->_fileFactory = $fileFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -142,6 +148,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_viewHelper = $viewHelper;
         $this->_random = $random;
         $this->_customerRepository = $customerRepository;
+        $this->_objectFactory = $objectFactory;
         parent::__construct($context);
     }
 
