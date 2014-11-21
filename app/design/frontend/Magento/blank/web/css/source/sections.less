@@ -6,9 +6,17 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .product.data.items {
     .data-accordion();
     margin-bottom: @indent-base;
+}
+
 }
 
 //
@@ -22,7 +30,11 @@
     }
 }
 
-@media only screen and (max-width: @screen-m) {
+//
+//    Mobile
+//--------------------------------------
+
+.responsive-max-m(@break) when (@break = @screen-m) {
     .product.data.items {
         .data-accordion();
         .data.item {

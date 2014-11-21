@@ -9,6 +9,12 @@
 @layout-column-main-sidebar-offset: 2%;
 @layout-column-additional-sidebar-offset: @layout-column-main-sidebar-offset;
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .columns {
     #layout-columns();
     .column.main {
@@ -30,6 +36,8 @@
         flex-basis: 100%;
         .vendor-prefix-order(2);
     }
+}
+
 }
 
 //
