@@ -1,42 +1,42 @@
 0.1.0-alpha105
 =============
 * Various improvements:
-    * Merge SQL and Data Upgrades for Tax and Weee modules (MAGETWO-30044)
-    * Merged SQL and Data Upgrades - South (MAGETWO-30043)
-    * Pass additional environment variable module_filter_strict to MTF build (MAGETWO-30151)
+    * Merge SQL and Data Upgrades for the Tax and Weee modules
+    * Merged SQL and Data Upgrades
     * Added 'Interface' suffix to all interface names
-    * Stabilize CheckoutAgreements module(MTA-607)
-    * Stabilize Customer module(MTA-612)
-    * Stabilize GiftMessage module(MTA-620)
-    * Stabilize Integration module(MTA-624)
-    * Stabilize Msrp module(MTA-627)
-    * Stabilize Reports module(MTA-633)
+    * Stabilized functional tests for the following modules:
+        * CheckoutAgreements
+        * Customer
+        * GiftMessage
+        * Integration
+        * Msrp
+        * Reports
 * Added the following functional tests:
     * Create product attribute from product page(MTA-504)
 * Fixed bugs:
-    * Bundle Product price gets doubled during backend order creation (MAGETWO-26320)
-    * "Invalid return type" error while creating, deleting and updating Tax Rate (MAGETWO-30476)
-    * FPT is doubled on refund if two FPTs applied to product, refund cannot be created (MAGETWO-29641)
-    * Subtotal including tax field is not refreshed after removing downloadable product from cart (MAGETWO-30031)
-    * Downloadable link tax is not added to product price on product page if price displayed including tax (MAGETWO-30062)
-    * Displaying incorrect product prices in shopping cart for bundle product (MAGETWO-29643)
-    * Bundle Product price is calculated incorrectly on product page (MAGETWO-24817)
-    * ConfigurableProduct's options do not update when currency changes (MAGETWO-30440)
-    * The same items are displayed as different ones in Shopping Cart (MAGETWO-29333)
-    * Incorrect displaying tier price messages in require attention block in shopping cart (MAGETWO-29544)
-    * Notice that product with enabled MAP not displaying in require attention block in shopping cart (MAGETWO-29604)
-    * Unable to place order from customer page in backend (MAGETWO-28969)
-    * Impossible to add address for customer from backend (MAGETWO-30226)
-    * Incorrect redirect after deleting product from My Wishlist widget(MAGETWO-24326)
-    * Impossible to assign admin user to user role(MAGETWO-28587)
+    * Fixed an issue where bundle product price doubled during backend order creation
+    * Fixed an issue where an error was thrown during Tax Rate creation, deletion and update
+    * Fixed an issue where FPT was doubled when creating a refund if two FPTs were applied, and as a result the refund could not be created
+    * Fixed an issue where the subtotal including tax field was not refreshed after removing downloadable product from cart
+    * Fixed an issue where a downloadable link tax was not added to a product price on the product page if price was displayed including tax
+    * Fixed an issue with incorrect product prices for bundle products in shopping cart
+    * Fixed an issue where bundle product price was calculated incorrectly on the product page
+    * Fixed an issue where configurable product options were not updated after changing currency
+    * Fixed an issue where a standalone simple product and the same product as part of the grouped, were not recognized as one product in the shopping cart.
+    * Fixed an issue where the incorrect tier pricing information was displayed in shopping cart
+    * Fixed an issue where no notice was displayed in the shopping cart for products with MAP enabled
+    * Fixed an issue where it was impossible to place an order from customer page in Admin
+    * Fixed an issue where it was impossible to add address for a customer in Admin
+    * Fixed an issue with broken redirect URL after deleting a product from the My Wishlist widget
+    * Fixed an issue where it was impossible to assign an admin user to a user role
 * Service Contracts:
-    * Implement Service Contracts for CatalogInventory Module(MAGETWO-30459)
+    * o	Implemented Service Contracts for the CatalogInventory Module
 * Framework Improvements:
-    * Manage list of loaded Modules before Installation (MAGETWO-28547)
-    * Use composer Autoloader for Tests and remove Magento Custom Autoloaders for Test(MAGETWO-29061)
-    * Introduced quote entity repository (MAGETWO-28018)
+    * Added the ability to configure the list of loaded modules before installation
+    * Added the ability to use the Composer autoloader instead of the Magento custom autoloaders for tests
+    * Introduced a repository for storing a quote entity
 * Performance improvements:
-    * Splitted Magento\Customer\Helper\Data (MAGETWO-29732)
+    * Split Magento\Customer\Helper\Data
 * Processed GitHub requests:
     * [#731](https://github.com/magento/magento2/issues/731) -- Filter grid is absent on CMS Pages in Backend
 
