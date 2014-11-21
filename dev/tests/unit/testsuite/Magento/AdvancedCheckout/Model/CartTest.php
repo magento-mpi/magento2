@@ -55,9 +55,11 @@ class CartTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $stockHelper;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $quoteMock;
 
-    protected $quoteFactoryMock;
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $quoteRepositoryMock;
 
     protected function setUp()
     {
@@ -66,19 +68,17 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $this->helperMock = $this->getMock('Magento\AdvancedCheckout\Helper\Data', array(), array(), '', false);
         $wishListFactoryMock = $this->getMock('Magento\Wishlist\Model\WishlistFactory', array(), array(), '', false);
-        $this->quoteFactoryMock =  $this->getMock('Magento\Sales\Model\QuoteFactory', ['create'], [], '', false);
-
         $this->quoteMock = $this->getMock('Magento\Sales\Model\Quote', ['getStore', '__wakeup'], [], '', false);
-
-        $this->storeManagerMock =  $this->getMock('Magento\Framework\StoreManagerInterface');
-        $this->localeFormatMock =  $this->getMock('Magento\Framework\Locale\FormatInterface');
-        $messageManagerMock =  $this->getMock('Magento\Framework\Message\ManagerInterface');
-        $customerSessionMock =  $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
+        $this->quoteRepositoryMock = $this->getMock('Magento\Sales\Model\QuoteRepository', array(), array(), '', false);
+        $this->storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $this->localeFormatMock = $this->getMock('Magento\Framework\Locale\FormatInterface');
+        $messageManagerMock = $this->getMock('Magento\Framework\Message\ManagerInterface');
+        $customerSessionMock = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
 
         $this->prodFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
         $optionFactoryMock = $this->getMock('Magento\Catalog\Model\Product\OptionFactory', [], [], '', false);
         $prodTypesConfigMock = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface', [], [], '', false);
-        $cartConfigMock =  $this->getMock('Magento\Catalog\Model\Product\CartConfiguration', [], [], '', false);
+        $cartConfigMock = $this->getMock('Magento\Catalog\Model\Product\CartConfiguration', [], [], '', false);
 
         $this->stockRegistry = $this->getMockBuilder('Magento\CatalogInventory\Model\StockRegistry')
             ->disableOriginalConstructor()
@@ -121,7 +121,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
             $optionFactoryMock,
             $wishListFactoryMock,
             $this->prodFactoryMock,
-            $this->quoteFactoryMock,
+            $this->quoteRepositoryMock,
             $this->storeManagerMock,
             $this->localeFormatMock,
             $messageManagerMock,
@@ -340,7 +340,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $this->quoteFactoryMock->expects($this->once())
+        $this->quoteRepositoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->quoteMock));
 

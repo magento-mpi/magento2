@@ -119,7 +119,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 665;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(0));
@@ -136,7 +136,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 665;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));
@@ -150,7 +150,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 665;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));
@@ -195,7 +195,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $itemId = 1;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemById')->with($itemId)->will($this->returnValue(null));
@@ -213,7 +213,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $itemId = 1;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $quoteItem = $this->getMock('\Magento\Sales\Model\Quote\Item', ['getIsVirtual', '__wakeup'], [], '', false);
@@ -232,7 +232,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $itemId = 1;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $quoteItem = $this->getMock('\Magento\Sales\Model\Quote\Item', ['getIsVirtual', '__wakeup'], [], '', false);
@@ -280,7 +280,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 665;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));
@@ -302,7 +302,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 665;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));
@@ -328,7 +328,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 665;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));
@@ -359,7 +359,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 665;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));

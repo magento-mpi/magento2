@@ -113,6 +113,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_cartFactory;
 
     /**
+     * @var \Magento\Sales\Model\QuoteRepository
+     */
+    protected $quoteRepository;
+
+    /**
      * Construct
      *
      * @param \Magento\Framework\App\Helper\Context $context
@@ -124,6 +129,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Payment\Model\CartFactory $cartFactory
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -134,7 +140,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory,
         \Magento\Framework\App\State $appState,
-        \Magento\Payment\Model\CartFactory $cartFactory
+        \Magento\Payment\Model\CartFactory $cartFactory,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_customerSession = $customerSession;
@@ -144,6 +151,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_encryptionFactory = $encryptionFactory;
         $this->_appState = $appState;
         $this->_cartFactory = $cartFactory;
+        $this->quoteRepository = $quoteRepository;
         parent::__construct($context);
     }
 
@@ -317,7 +325,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $reservedOrderId = '';
         if ($quote && $quote->getId()) {
             if (!$quote->getReservedOrderId()) {
-                $quote->reserveOrderId()->save();
+                $quote->reserveOrderId();
+                $this->quoteRepository->save($quote);
             }
             $reservedOrderId = $quote->getReservedOrderId();
         }
