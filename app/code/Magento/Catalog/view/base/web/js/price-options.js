@@ -78,7 +78,7 @@ define([
             case 'radio':
             case 'select-one':
                 optionHash = 'price-option-' + optionName;
-                changes[optionHash] = optionConfig[optionValue].prices || {};
+                changes[optionHash] = optionConfig[optionValue] && optionConfig[optionValue].prices || {};
                 break;
             case 'select-multiple':
                 _.each(optionConfig, function(row, optionValueCode) {

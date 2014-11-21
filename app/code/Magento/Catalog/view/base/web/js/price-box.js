@@ -12,7 +12,7 @@ define([
     "underscore",
     "handlebars",
     "jquery/ui"
-], function($,utils, _){
+], function ($, utils, _) {
     "use strict";
 
     var globalOptions = {
@@ -23,8 +23,9 @@ define([
     var hbs = Handlebars.compile;
 
 
-    $.widget('mage.priceBox',{
+    $.widget('mage.priceBox', {
         options: globalOptions,
+        _init: initPriceBox,
         _create: createPriceBox,
         _setOptions: setOptions,
         updatePrice: updatePrices,
@@ -38,15 +39,27 @@ define([
     /**
      * Function-initializer of priceBox widget
      */
+    function initPriceBox() {
+        var box = this.element;
+        this.cache.displayPrices = utils.deepClone(this.options.prices);
+
+        box.trigger('updatePrice');
+    }
+
+    /**
+     * Function-initializer of priceBox widget
+     */
     function createPriceBox() {
         setDefaultsFromPriceConfig.call(this);
         setDefaultsFromDataSet.call(this);
 
         var box = this.element;
-        this.cache.initialPrices = utils.deepClone(this.options.prices);
+        this.cache.displayPrices = $.extend(
+            this.cache.displayPrices,
+            utils.deepClone(this.options.prices));
 
-        box.on('updatePrice', onUpdatePrice.bind(this));
         box.on('reloadPrice', reDrawPrices.bind(this));
+        box.on('updatePrice', onUpdatePrice.bind(this));
     }
 
     /**
@@ -56,59 +69,76 @@ define([
      * @param {Boolean} isReplace
      * @return {Function}
      */
-    function onUpdatePrice (event, prices, isReplace) {
+    function onUpdatePrice(event, prices, isReplace) {
         return updatePrices.call(this, prices, isReplace);
     }
 
     /**
-     * Updates price via new (or additional values)
+     * Updates price via new (or additional values).
+     * It expects object like this:
+     * -----
+     *   "option-hash":
+     *      "price-code":
+     *         "amount": 999.99999,
+     *         ...
+     * -----
+     * Empty option-hash object or empty price-code object treats as zero amount.
      * @param {Object} newPrices
      * @param {Boolean} isReplace
      */
     function updatePrices(newPrices, isReplace) {
-        var prices = this.options.prices;
+        var prices = this.cache.displayPrices;
         var additionalPrice = {};
 
-        if(!!isReplace) {
+        if (!!isReplace) {
             $.extend(true, prices, newPrices);
-        } else if(_.isEmpty(newPrices)) {
-            this.options.prices = this.cache.initialPrices;
         } else {
             this.cache.additionalPriceObject = this.cache.additionalPriceObject || {};
-            if(newPrices) {
+            if (newPrices) {
                 $.extend(this.cache.additionalPriceObject, newPrices);
             }
 
-            _.each(this.cache.additionalPriceObject, function(prices){
-                _.each(prices, function(priceValue, priceCode){
+            _.each(this.cache.additionalPriceObject, function (additional) {
+                var keys = [];
+                if (!_.isEmpty(additional)) {
+                    keys = _.keys(additional);
+                } else if (!_.isEmpty(additionalPrice)) {
+                    keys = _.keys(additionalPrice);
+                } else if (!_.isEmpty(prices)) {
+                    keys = _.keys(prices);
+                }
+                _.each(keys, function (priceCode) {
+                    var priceValue = additional[priceCode] || {};
                     priceValue.amount = +priceValue.amount || 0;
                     priceValue.adjustments = priceValue.adjustments || {};
 
-                    additionalPrice[priceCode] = additionalPrice[priceCode] || {'amount':0, 'adjustments': {}};
+                    additionalPrice[priceCode] = additionalPrice[priceCode] || {'amount': 0, 'adjustments': {}};
                     additionalPrice[priceCode].amount = 0 + (additionalPrice[priceCode].amount || 0) + priceValue.amount;
-                    _.each(priceValue.adjustments, function(adValue, adCode){
+                    _.each(priceValue.adjustments, function (adValue, adCode) {
                         additionalPrice[priceCode].adjustments[adCode] = 0 + (additionalPrice[priceCode].adjustments[adCode] || 0) + adValue;
                     });
                 });
             });
 
+            if (_.isEmpty(additionalPrice)) {
+                this.cache.displayPrices = utils.deepClone(this.options.prices);
+            } else {
+                _.each(additionalPrice, function (option, priceCode) {
+                    var origin = this.options.prices[priceCode] || {};
+                    var final = prices[priceCode] || {};
+                    option.amount = option.amount || 0;
+                    origin.amount = origin.amount || 0;
+                    origin.adjustments = origin.adjustments || {};
+                    final.adjustments = final.adjustments || {};
 
-            _.map(additionalPrice, function(option, priceCode){
-                var origin = this.cache.initialPrices[priceCode] || {};
-                var final = prices[priceCode] || {};
-                option.amount = option.amount || 0;
-                origin.amount = origin.amount || 0;
-                origin.adjustments = origin.adjustments || {};
-                final.adjustments = final.adjustments || {};
+                    final.amount = 0 + origin.amount + option.amount;
+                    _.each(option.adjustments, function (pa, paCode) {
+                        final.adjustments[paCode] = 0 + (origin.adjustments[paCode] || 0) + pa;
+                    });
+                }, this);
+            }
 
-                final.amount = 0 + origin.amount + option.amount;
-                _.map(option.adjustments, function(pa, paCode){
-                    final.adjustments[paCode] = 0 + (origin.adjustments[paCode] || 0) + pa;
-                });
-            }.bind(this));
         }
-
-        console.log(additionalPrice, this.cache);
 
         this.element.trigger('reloadPrice');
     }
@@ -118,14 +148,14 @@ define([
      */
     function reDrawPrices() {
         var box = this.element;
-        var prices = this.options.prices;
+        var prices = this.cache.displayPrices;
         var priceFormat = this.options.priceConfig && this.options.priceConfig.priceFormat || {};
         var priceTemplate = hbs(this.options.priceTemplate);
 
-        _.each(prices, function(price, priceCode){
+        _.each(prices, function (price, priceCode) {
             var html,
                 finalPrice = price.amount;
-            _.each(price.adjustments, function(adjustmentAmount){
+            _.each(price.adjustments, function (adjustmentAmount) {
                 finalPrice += adjustmentAmount;
             });
 
@@ -135,7 +165,7 @@ define([
             html = priceTemplate(price);
             $('[data-price-type="' + priceCode + '"]', box).html(html);
 
-            console.log('To render ', priceCode,': ', prices[priceCode]['formatted'], prices[priceCode]['final']);
+            console.log('To render ', priceCode, ': ', prices[priceCode]['formatted'], prices[priceCode]['final']);
         });
 
     }
@@ -149,32 +179,32 @@ define([
     function setOptions(options) {
         $.extend(true, this.options, options);
 
-        if('disabled' in options) {
+        if ('disabled' in options) {
             this._setOption('disabled', options['disabled']);
         }
         return this;
     }
 
 
-    function setDefaultsFromDataSet () {
+    function setDefaultsFromDataSet() {
         var box = this.element;
         var priceHolders = $('[data-price-type]', box);
         var prices = this.options.prices;
         this.options.productId = box.data('productId');
-        if(_.isEmpty(prices)) {
-            priceHolders.each(function(index, element){
+        if (_.isEmpty(prices)) {
+            priceHolders.each(function (index, element) {
                 var type = $(element).data('priceType');
                 var amount = $(element).data('priceAmount');
 
-                prices[type] = {amount:amount};
+                prices[type] = {amount: amount};
             });
         }
     }
 
-    function setDefaultsFromPriceConfig () {
-        var config = this.options.priceConfig ;
-        if(config) {
-            if(+config.productId !== +this.options.productId) {
+    function setDefaultsFromPriceConfig() {
+        var config = this.options.priceConfig;
+        if (config) {
+            if (+config.productId !== +this.options.productId) {
                 return;
             }
             this.options.prices = config.prices;
