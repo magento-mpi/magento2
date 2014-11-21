@@ -167,8 +167,7 @@ class Quote
     }
 
     /**
-     * Prepare customer data
-     *
+     * @param \Magento\Sales\Model\Quote $quote
      * @return void
      */
     protected function prepareCustomerData(\Magento\Sales\Model\Quote $quote)
