@@ -47,6 +47,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
     public function testRead()
     {
+        $this->markTestSkipped("Expected to be removed by MAGETWO-30179");
         $expectedResult = array(
             'Module_One' => array(
                 'name' => 'Module_One',
