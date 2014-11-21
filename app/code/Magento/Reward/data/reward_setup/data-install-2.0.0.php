@@ -151,12 +151,11 @@ $installer->addAttribute(
     array(
         'type' => 'int',
         'visible' => 0,
-        'required' => true,
+        'required' => false,
         'visible_on_front' => 1,
         'is_user_defined' => 0,
         'is_system' => 1,
         'is_hidden' => 1,
-        'is_required' => 0,
         'label' => 'Reward update notification'
     )
 );
@@ -167,12 +166,11 @@ $installer->addAttribute(
     array(
         'type' => 'int',
         'visible' => 0,
-        'required' => true,
+        'required' => false,
         'visible_on_front' => 1,
         'is_user_defined' => 0,
         'is_system' => 1,
         'is_hidden' => 1,
-        'is_required' => 0,
         'label' => 'Reward warning notification'
     )
 );
