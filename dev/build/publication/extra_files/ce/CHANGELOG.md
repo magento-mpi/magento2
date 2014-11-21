@@ -1,8 +1,7 @@
 0.1.0-alpha105
 =============
 * Various improvements:
-    * Merge SQL and Data Upgrades for the Tax and Weee modules
-    * Merged SQL and Data Upgrades
+    * Merge SQL and Data Upgrades for the Tax, Weee, Customer, CustomerImportExport, ProductAlert, Sendfriend and Wishlist modules
     * Added 'Interface' suffix to all interface names
     * Stabilized functional tests for the following modules:
         * CheckoutAgreements
@@ -12,7 +11,7 @@
         * Msrp
         * Reports
 * Added the following functional tests:
-    * Create product attribute from product page(MTA-504)
+    * Create product attribute from product page
 * Fixed bugs:
     * Fixed an issue where bundle product price doubled during backend order creation
     * Fixed an issue where an error was thrown during Tax Rate creation, deletion and update
@@ -30,7 +29,7 @@
     * Fixed an issue with broken redirect URL after deleting a product from the My Wishlist widget
     * Fixed an issue where it was impossible to assign an admin user to a user role
 * Service Contracts:
-    * o	Implemented Service Contracts for the CatalogInventory Module
+    * Implemented Service Contracts for the CatalogInventory Module
 * Framework Improvements:
     * Added the ability to configure the list of loaded modules before installation
     * Added the ability to use the Composer autoloader instead of the Magento custom autoloaders for tests
