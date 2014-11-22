@@ -29,7 +29,12 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
         $classReader = new \Magento\Framework\Code\Reader\ClassReader();
         $relations = new \Magento\Framework\ObjectManager\Relations\Runtime($classReader);
         $definitions = new \Magento\Framework\ObjectManager\Definition\Runtime($classReader);
-        $config = new \Magento\Framework\Interception\ObjectManager\Config($relations, $definitions);
+        $config = new \Magento\Framework\Interception\ObjectManager\Config(
+            new \Magento\Framework\ObjectManager\Config\Config(
+                $relations,
+                $definitions
+            )
+        );
         $factory = new \Magento\Framework\ObjectManager\Factory\Dynamic\Developer(
             $config,
             null,
