@@ -112,10 +112,10 @@ class ServiceArgsSerializer
     /**
      * Get the parameter type
      *
-     * @param $param
+     * @param ParameterReflection $param
      * @return string
      */
-    private function getParamType($param)
+    private function getParamType(ParameterReflection $param)
     {
         $docBlock = $param->getDeclaringFunction()->getDocBlock();
         $precedingParamsPattern = str_repeat('.*\@param.*', $param->getPosition());

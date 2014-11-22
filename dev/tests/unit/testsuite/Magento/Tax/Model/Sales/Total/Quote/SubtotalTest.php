@@ -32,7 +32,6 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
         $verifyData
     ) {
         $objectManager = new ObjectManager($this);
-        $taxData = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
         $taxConfig = $this->getMockBuilder('\Magento\Tax\Model\Config')
             ->disableOriginalConstructor()
             ->setMethods(['priceIncludesTax', 'getShippingTaxClass', 'shippingPriceIncludesTax', 'discountTax'])
@@ -87,7 +86,6 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
             ->method('getItems')
             ->will($this->returnValue($items));
 
-        $quoteDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\QuoteDetailsBuilder');
         $storeManager = $this->getMockBuilder('\Magento\Framework\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods(['getStore', 'hasSingleStore', 'isSingleStoreMode', 'getStores', 'getWebsite', 'getWebsites',

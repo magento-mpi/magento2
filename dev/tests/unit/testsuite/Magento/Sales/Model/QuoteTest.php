@@ -19,11 +19,6 @@ use Magento\Store\Model\ScopeInterface;
 class QuoteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Sales\Model\Quote\AddressFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $quoteAddressFactoryMock;
-
-    /**
      * @var \Magento\Sales\Model\Quote\Address|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $quoteAddressMock;
@@ -42,11 +37,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $resourceMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $contextMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -105,7 +95,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->quoteAddressFactoryMock = $this->getMock(
+        $quoteAddressFactoryMock = $this->getMock(
             'Magento\Sales\Model\Quote\AddressFactory',
             array('create'),
             array(),
@@ -131,20 +121,12 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         );
         $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $this->objectFactoryMock = $this->getMock('\Magento\Framework\Object\Factory', ['create'], [], '', false);
-        $this->quoteAddressFactoryMock->expects(
-            $this->any()
-        )->method(
-            'create'
-        )->will(
-            $this->returnValue($this->quoteAddressMock)
-        );
-        $this->quoteAddressMock->expects(
-            $this->any()
-        )->method(
-            'getCollection'
-        )->will(
-            $this->returnValue($this->quoteAddressCollectionMock)
-        );
+        $quoteAddressFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->quoteAddressMock));
+        $this->quoteAddressMock->expects($this->any())
+            ->method('getCollection')
+            ->will($this->returnValue($this->quoteAddressCollectionMock));
         $this->eventManagerMock = $this->getMockBuilder('Magento\Framework\Event\Manager')
             ->disableOriginalConstructor()
             ->getMock();
@@ -154,7 +136,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->resourceMock = $this->getMockBuilder('Magento\Sales\Model\Resource\Quote')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->contextMock = $this->getMockBuilder('Magento\Framework\Model\Context')
+        $contextMock = $this->getMockBuilder('Magento\Framework\Model\Context')
             ->disableOriginalConstructor()
             ->getMock();
         $this->customerFactoryMock = $this->getMockBuilder('Magento\Customer\Model\CustomerFactory')
@@ -167,7 +149,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->customerGroupServiceMock = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerGroupService')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->contextMock->expects($this->any())
+        $contextMock->expects($this->any())
             ->method('getEventDispatcher')
             ->will($this->returnValue($this->eventManagerMock));
         $this->quoteItemCollectionFactoryMock = $this->getMock(
@@ -194,17 +176,14 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->scopeConfig = $this->getMockBuilder('Magento\Framework\App\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->quote = (
-        new ObjectManager(
-            $this
-        )
-        )->getObject(
+        $this->quote = (new ObjectManager($this))
+            ->getObject(
                 'Magento\Sales\Model\Quote',
                 [
-                    'quoteAddressFactory' => $this->quoteAddressFactoryMock,
+                    'quoteAddressFactory' => $quoteAddressFactoryMock,
                     'storeManager' => $this->storeManagerMock,
                     'resource' => $this->resourceMock,
-                    'context' => $this->contextMock,
+                    'context' => $contextMock,
                     'customerFactory' => $this->customerFactoryMock,
                     'addressConverter' => $this->addressConverterMock,
                     'customerGroupService' => $this->customerGroupServiceMock,

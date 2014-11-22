@@ -8,8 +8,7 @@
 
 namespace Magento\Customer\Model\Resource;
 
-use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Customer\Service\V1\Data;
 use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -98,7 +97,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->_addressBuilder->populate($this->_expectedAddresses[1])->setId(null);
         $proposedAddress = $this->_addressBuilder->create();
         $customerId = 1;
-        $createdAddress = $this->_service->save($proposedAddress);
+        $this->_service->save($proposedAddress);
         $addresses = $this->_service->get($customerId);
         $this->assertEquals($this->_expectedAddresses[0], $addresses[0]);
         $expectedNewAddressBuilder = $this->_addressBuilder->populate($this->_expectedAddresses[1]);
