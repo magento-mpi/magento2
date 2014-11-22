@@ -8,10 +8,11 @@
  */
 namespace Magento\Framework\ObjectManager\Config;
 
-use Magento\Framework\ObjectManager\ConfigCache;
+use Magento\Framework\ObjectManager\ConfigCacheInterface;
 use Magento\Framework\ObjectManager\Relations;
+use Magento\Framework\ObjectManager\RelationsInterface;
 
-class Compiled implements \Magento\Framework\ObjectManager\Config
+class Compiled implements \Magento\Framework\ObjectManager\ConfigInterface
 {
     private $arguments;
 
@@ -32,11 +33,11 @@ class Compiled implements \Magento\Framework\ObjectManager\Config
     /**
      * Set class relations
      *
-     * @param Relations $relations
+     * @param RelationsInterface $relations
      *
      * @return void
      */
-    public function setRelations(Relations $relations)
+    public function setRelations(RelationsInterface $relations)
     {
 
     }
@@ -44,11 +45,11 @@ class Compiled implements \Magento\Framework\ObjectManager\Config
     /**
      * Set configuration cache instance
      *
-     * @param ConfigCache $cache
+     * @param ConfigCacheInterface $cache
      *
      * @return void
      */
-    public function setCache(ConfigCache $cache)
+    public function setCache(ConfigCacheInterface $cache)
     {
 
     }
