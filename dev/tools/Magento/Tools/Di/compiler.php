@@ -161,29 +161,11 @@ try {
 
     list($definitions, $relations) = $directoryCompiler->getResult();
 
-    // 2. Compilation
-    // 2.1 Code scan
-    $omFactory = new \Magento\Framework\App\ObjectManagerFactory();
-    $objectManager = $omFactory->create(
-        BP,
-        [\Magento\Framework\App\State::PARAM_MODE => \Magento\Framework\App\State::MODE_DEVELOPER],
-        false
-    );
-
-    /** @var \Magento\Framework\App\ObjectManager\ConfigLoader $configLoader */
-    $configLoader = $objectManager->create('Magento\Framework\App\ObjectManager\ConfigLoader');
-    $definitions = $directoryCompiler->processInheritance($configLoader);
-
-    // 3. Plugin Definition Compilation
-    $pluginScanner = new Scanner\CompositeScanner();
-    $pluginScanner->addChild(new Scanner\PluginScanner(), 'di');
-    $pluginDefinitions = [];
-    $pluginList = $pluginScanner->collectEntities($files);
-    $pluginDefinitionList = new \Magento\Framework\Interception\Definition\Runtime();
-    foreach ($pluginList as $type => $entityList) {
-        foreach ($entityList as $entity) {
-            $pluginDefinitions[$entity] = $pluginDefinitionList->getMethodList($entity);
-        }
+    // 2.2 Compression
+    $compressor = new Compressor($serializer);
+    $output = $compressor->compress($definitions);
+    if (!file_exists(dirname($compiledFile))) {
+        mkdir(dirname($compiledFile), 0777, true);
     }
     $relations = array_filter($relations);
 
@@ -193,7 +175,7 @@ try {
     // 3. Plugin Definition Compilation
     $pluginScanner = new Scanner\CompositeScanner();
     $pluginScanner->addChild(new Scanner\PluginScanner(), 'di');
-    $pluginDefinitions = array();
+    $pluginDefinitions = [];
     $pluginList = $pluginScanner->collectEntities($files);
     $pluginDefinitionList = new \Magento\Framework\Interception\Definition\Runtime();
     foreach ($pluginList as $type => $entityList) {
