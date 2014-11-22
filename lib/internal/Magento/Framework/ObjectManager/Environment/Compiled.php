@@ -43,7 +43,7 @@ class Compiled implements EnvironmentInterface
     private $config;
 
     /**
-     * @var \Magento\Framework\ObjectManager\Factory
+     * @var \Magento\Framework\ObjectManager\FactoryInterface
      */
     private $factory;
 

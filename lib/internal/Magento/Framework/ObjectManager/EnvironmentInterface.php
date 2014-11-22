@@ -35,7 +35,7 @@ interface EnvironmentInterface
     /**
      * Return factory object
      *
-     * @return \Magento\Framework\ObjectManager\Factory
+     * @return \Magento\Framework\ObjectManager\FactoryInterface
      */
     public function getObjectManagerFactory();
 

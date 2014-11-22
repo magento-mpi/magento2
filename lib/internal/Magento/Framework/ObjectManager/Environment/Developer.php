@@ -26,7 +26,7 @@ class Developer implements EnvironmentInterface
     protected $config;
 
     /**
-     * @var \Magento\Framework\ObjectManager\Factory
+     * @var \Magento\Framework\ObjectManager\FactoryInterface
      */
     private $factory;
 
