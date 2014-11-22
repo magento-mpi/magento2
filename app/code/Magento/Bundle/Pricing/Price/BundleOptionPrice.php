@@ -49,7 +49,6 @@ class BundleOptionPrice extends AbstractPrice implements BundleOptionPriceInterf
         BundleCalculatorInterface $calculator,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         BundleSelectionFactory $bundleSelectionFactory
-
     ) {
         $this->selectionFactory = $bundleSelectionFactory;
         parent::__construct($saleableItem, $quantity, $calculator, $priceCurrency);

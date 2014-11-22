@@ -65,6 +65,7 @@ class PriceCurrency implements \Magento\Framework\Pricing\PriceCurrencyInterface
      * @param float $amount
      * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @param Currency|string|null $currency
+     * @param int $precision
      * @return float
      */
     public function convertAndRound($amount, $store = null, $currency = null, $precision = self::DEFAULT_PRECISION)

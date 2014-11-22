@@ -237,7 +237,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         $this->priceCurrencyMock->expects($this->any())
             ->method('convertAndRound')
             ->will($this->returnCallback(
-                function($arg) {
+                function ($arg) {
                     return round(0.5 * $arg, 2);
                 }
             )
