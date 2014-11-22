@@ -7,8 +7,6 @@
  */
 namespace Magento\Customer\Service\V1;
 
-namespace Magento\Customer\Service\V1;
-
 use Magento\Customer\Service\V1;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
