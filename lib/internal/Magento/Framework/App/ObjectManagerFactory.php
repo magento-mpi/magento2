@@ -133,7 +133,7 @@ class ObjectManagerFactory
             $this->_configClassName => $diConfig,
         ];
 
-        /** @var \Magento\Framework\ObjectManager $objectManager */
+        /** @var \Magento\Framework\ObjectManagerInterface $objectManager */
         $objectManager = new $this->_locatorClassName($this->factory, $diConfig, $sharedInstances);
 
         $this->factory->setObjectManager($objectManager);
