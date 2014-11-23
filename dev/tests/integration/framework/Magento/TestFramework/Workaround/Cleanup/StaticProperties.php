@@ -133,13 +133,14 @@ class StaticProperties
                 continue;
             }
             $file = @fopen($classFile, 'r');
-            $code = fread($file, '4096');
+            $code = fread($file, 4096);
             preg_match($namespacePattern, $code, $namespace);
             preg_match($classPattern, $code, $class);
             if (!isset($namespace[0]) || !isset($class[0])) {
                 fclose($file);
                 continue;
             }
+            // trim namespace and class name
             $namespace = substr($namespace[0], 10, strlen($namespace[0]) - 11);
             $class = substr($class[0], 7, strlen($class[0]) - 7);
             $className = $namespace . '\\' . $class;
@@ -148,13 +149,11 @@ class StaticProperties
             } catch (\Exception $e) {
                 continue;
             }
-            if (self::_isClassCleanable($reflectionClass)) {
-                $staticProperties = $reflectionClass->getProperties(\ReflectionProperty::IS_STATIC);
-                foreach ($staticProperties as $staticProperty) {
-                    $staticProperty->setAccessible(true);
-                    $value = $staticProperty->getValue();
-                    self::$backupStaticVariables[$className][$staticProperty->getName()] = $value;
-                }
+            $staticProperties = $reflectionClass->getProperties(\ReflectionProperty::IS_STATIC);
+            foreach ($staticProperties as $staticProperty) {
+                $staticProperty->setAccessible(true);
+                $value = $staticProperty->getValue();
+                self::$backupStaticVariables[$className][$staticProperty->getName()] = $value;
             }
             fclose($file);
         }
