@@ -18,7 +18,9 @@ class StaticProperties
      *
      * @var array
      */
-    protected static $_cleanableFolders = array('/app/code/', '/dev/tests/', '/lib/internal/');
+    protected static $_cleanableFolders = array('/app/code/', '/dev/tests/integration/framework', '/lib/internal/');
+
+    protected static $backupStaticVariables = array();
 
     /**
      * Classes to exclude from static variables cleaning
@@ -32,6 +34,7 @@ class StaticProperties
         'Magento\TestFramework\Event\Magento',
         'Magento\TestFramework\Event\PhpUnit',
         'Magento\TestFramework\Annotation\AppIsolation',
+        'Magento\TestFramework\Workaround\Cleanup\StaticProperties',
         'Magento\Framework\Phrase'
     );
 
@@ -74,10 +77,29 @@ class StaticProperties
     }
 
     /**
-     * Clear static variables (after running controller test case)
+     * Check if class has to be backed up
+     *
+     * @param string $classFile
+     * @return bool
+     */
+    protected static function _isClassBackupable($classFile)
+    {
+        $classFile = str_replace('\\', '/', $classFile);
+        foreach (self::$_cleanableFolders as $directory) {
+            if (stripos($classFile, $directory) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    /**
+     * Restore static variables (after running controller test case)
      * @TODO: refactor all code where objects are stored to static variables to use object manager instead
      */
-    public static function clearStaticVariables()
+    public static function restoreStaticVariables()
     {
         $classes = get_declared_classes();
 
@@ -85,16 +107,67 @@ class StaticProperties
             $reflectionClass = new \ReflectionClass($class);
             if (self::_isClassCleanable($reflectionClass)) {
                 $staticProperties = $reflectionClass->getProperties(\ReflectionProperty::IS_STATIC);
-                $defaultProperties = $reflectionClass->getDefaultProperties();
                 foreach ($staticProperties as $staticProperty) {
                     $staticProperty->setAccessible(true);
                     $value = $staticProperty->getValue();
                     if (is_object($value) || is_array($value) && is_object(current($value))) {
-                        $staticProperty->setValue($defaultProperties[$staticProperty->getName()]);
+                        $staticProperty->setValue(self::$backupStaticVariables[$class][$staticProperty->getName()]);
                     }
                     unset($value);
                 }
             }
+        }
+    }
+
+    /**
+     * Backup static variables
+     *
+     */
+    public static function backupStaticVariables()
+    {
+        $classFiles = \Magento\Framework\Test\Utility\Files::init()->getClassFiles(true, true, false, true, false);
+        $namespacePattern = '/namespace [a-zA-Z0-9\\\\]+;/';
+        $classPattern = '/\nclass [a-zA-Z0-9_]+/';
+        foreach ($classFiles as $classFile) {
+            if (self::_isClassBackupable($classFile) !== true) {
+                continue;
+            }
+            $file = @fopen($classFile, 'r');
+            $code = fread($file, '4096');
+            preg_match($namespacePattern, $code, $namespace);
+            preg_match($classPattern, $code, $class);
+            if (!isset($namespace[0]) || !isset($class[0])) {
+                fclose($file);
+                continue;
+            }
+            $namespace = substr($namespace[0], 10, strlen($namespace[0]) - 11);
+            $class = substr($class[0], 7, strlen($class[0]) - 7);
+            $className = $namespace . '\\' . $class;
+            try {
+                $reflectionClass = new \ReflectionClass($className);
+            } catch (\Exception $e) {
+                continue;
+            }
+            if (self::_isClassCleanable($reflectionClass)) {
+                $staticProperties = $reflectionClass->getProperties(\ReflectionProperty::IS_STATIC);
+                foreach ($staticProperties as $staticProperty) {
+                    $staticProperty->setAccessible(true);
+                    $value = $staticProperty->getValue();
+                    self::$backupStaticVariables[$className][$staticProperty->getName()] = $value;
+                }
+            }
+            fclose($file);
+        }
+    }
+
+    /**
+     * Handler for 'startTestSuite' event
+     *
+     */
+    public function startTestSuite()
+    {
+        if (empty(self::$backupStaticVariables)) {
+            self::backupStaticVariables();
         }
     }
 
@@ -113,7 +186,7 @@ class StaticProperties
             }
         }
         if ($clearStatics) {
-            self::clearStaticVariables();
+            self::restoreStaticVariables();
         }
     }
 }
