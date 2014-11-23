@@ -9,6 +9,8 @@
 namespace Magento\Customer\Model;
 
 use Magento\Customer\Model\CustomerFactory;
+use Magento\Customer\Model\Data\CustomerSecure;
+use Magento\Customer\Model\Data\CustomerSecureFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\StoreManagerInterface;
 
@@ -17,10 +19,17 @@ use Magento\Framework\StoreManagerInterface;
  */
 class CustomerRegistry
 {
+    const REGISTRY_SEPARATOR = ':';
+
     /**
      * @var CustomerFactory
      */
     private $customerFactory;
+
+    /**
+     * @var CustomerSecureFactory
+     */
+    private $customerSecureFactory;
 
     /**
      * @var array
@@ -32,7 +41,10 @@ class CustomerRegistry
      */
     private $customerRegistryByEmail = [];
 
-    const REGISTRY_SEPARATOR = ':';
+    /**
+     * @var array
+     */
+    private $customerSecureRegistryById = [];
 
     /**
      * @var \Magento\Framework\StoreManagerInterface
@@ -43,11 +55,16 @@ class CustomerRegistry
      * Constructor
      *
      * @param CustomerFactory $customerFactory
+     * @param CustomerSecureFactory $customerSecureFactory
      * @param StoreManagerInterface $storeManager
      */
-    public function __construct(CustomerFactory $customerFactory, StoreManagerInterface $storeManager)
-    {
+    public function __construct(
+        CustomerFactory $customerFactory,
+        CustomerSecureFactory $customerSecureFactory,
+        StoreManagerInterface $storeManager
+    ) {
         $this->customerFactory = $customerFactory;
+        $this->customerSecureFactory = $customerSecureFactory;
         $this->storeManager = $storeManager;
     }
 
@@ -121,6 +138,31 @@ class CustomerRegistry
     }
 
     /**
+     * Retrieve CustomerSecure Model from registry given an id
+     *
+     * @param int $customerId
+     * @return CustomerSecure
+     * @throws NoSuchEntityException
+     */
+    public function retrieveSecureData($customerId)
+    {
+        if (isset($this->customerSecureRegistryById[$customerId])) {
+            return $this->customerSecureRegistryById[$customerId];
+        }
+        /** @var Customer $customer */
+        $customer = $this->retrieve($customerId);
+        /** @var $customerSecure CustomerSecure*/
+        $customerSecure = $this->customerSecureFactory->create();
+        $customerSecure->setPasswordHash($customer->getPasswordHash());
+        $customerSecure->setRpToken($customer->getRpToken());
+        $customerSecure->setRpTokenCreatedAt($customer->getRpTokenCreatedAt());
+        $customerSecure->setDeleteable($customer->isDeleteable());
+        $this->customerSecureRegistryById[$customer->getId()] = $customerSecure;
+
+        return $customerSecure;
+    }
+
+    /**
      * Remove instance of the Customer Model from registry given an id
      *
      * @param int $customerId
@@ -134,6 +176,8 @@ class CustomerRegistry
             $emailKey = $this->getEmailKey($customer->getEmail(), $customer->getWebsiteId());
             unset($this->customerRegistryByEmail[$emailKey]);
             unset($this->customerRegistryById[$customerId]);
+            unset($this->customerSecureRegistryById[$customerId]);
+
         }
     }
 
@@ -155,6 +199,7 @@ class CustomerRegistry
             $customer = $this->customerRegistryByEmail[$emailKey];
             unset($this->customerRegistryByEmail[$emailKey]);
             unset($this->customerRegistryById[$customer->getId()]);
+            unset($this->customerSecureRegistryById[$customer->getId()]);
         }
     }
 
@@ -168,5 +213,19 @@ class CustomerRegistry
     protected function getEmailKey($customerEmail, $websiteId)
     {
         return $customerEmail . self::REGISTRY_SEPARATOR . $websiteId;
+    }
+
+    /**
+     * Replace existing customer model with a new one.
+     *
+     * @param Customer $customer
+     * @return $this
+     */
+    public function push(Customer $customer)
+    {
+        $this->customerRegistryById[$customer->getId()] = $customer;
+        $emailKey = $this->getEmailKey($customer->getEmail(), $customer->getWebsiteId());
+        $this->customerRegistryByEmail[$emailKey] = $customer;
+        return $this;
     }
 }

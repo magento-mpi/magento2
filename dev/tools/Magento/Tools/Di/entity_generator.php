@@ -13,18 +13,18 @@ use Magento\Framework\ObjectManager\Code\Generator\Factory;
 use Magento\Framework\ObjectManager\Code\Generator\Proxy;
 use Magento\Framework\Interception\Code\Generator\Interceptor;
 use Magento\Framework\Exception;
-use Magento\Framework\Service\Code\Generator\Builder;
-use Magento\Framework\Service\Code\Generator\Mapper;
+use Magento\Framework\Api\Code\Generator\DataBuilder;
+use Magento\Framework\Api\Code\Generator\Mapper;
 use Magento\Framework\ObjectManager\Code\Generator\Repository;
 use Magento\Framework\ObjectManager\Code\Generator\Converter;
-use Magento\Framework\Service\Code\Generator\SearchResults;
-use Magento\Framework\Service\Code\Generator\SearchResultsBuilder;
+use Magento\Framework\Api\Code\Generator\SearchResults;
+use Magento\Framework\Api\Code\Generator\SearchResultsBuilder;
+use Magento\Framework\Autoload\AutoloaderRegistry;
 
 require __DIR__ . '/../../../../../app/bootstrap.php';
 
 // default generation dir
 $generationDir = BP . '/' . Io::DEFAULT_DIRECTORY;
-
 try {
     $opt = new \Zend_Console_Getopt(
         [
@@ -53,6 +53,8 @@ try {
     if ($opt->getOption('g')) {
         $generationDir = $opt->getOption('g');
     }
+    AutoloaderRegistry::getAutoloader()->addPsr4('Magento\\', $generationDir . '/Magento/');
+
 } catch (\Zend_Console_Getopt_Exception $e) {
     $generator = new Generator();
     $entities = $generator->getGeneratedEntities();
@@ -69,32 +71,30 @@ try {
     exit($example);
 }
 
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath($generationDir);
-
 //reinit generator with correct generation path
-$io = new Io(new File(), null, $generationDir);
+$io = new Io(new File(), $generationDir);
 $generator = new Generator(
-    null,
+    $validator,
     $io,
     [
+        DataBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\DataBuilder',
         SearchResultsBuilder::ENTITY_TYPE =>
-            'Magento\Framework\Service\Code\Generator\SearchResultsBuilder',
+            'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
+        DataBuilder::ENTITY_TYPE_BUILDER  => 'Magento\Framework\Api\Code\Generator\DataBuilder',
         Proxy::ENTITY_TYPE =>
             'Magento\Framework\ObjectManager\Code\Generator\Proxy',
         Factory::ENTITY_TYPE =>
             'Magento\Framework\ObjectManager\Code\Generator\Factory',
         Interceptor::ENTITY_TYPE =>
             'Magento\Framework\Interception\Code\Generator\Interceptor',
-        Builder::ENTITY_TYPE =>
-            'Magento\Framework\Service\Code\Generator\Builder',
         Mapper::ENTITY_TYPE =>
-            'Magento\Framework\Service\Code\Generator\Mapper',
+            'Magento\Framework\Api\Code\Generator\Mapper',
         Repository::ENTITY_TYPE =>
             'Magento\Framework\ObjectManager\Code\Generator\Repository',
         Converter::ENTITY_TYPE =>
             'Magento\Framework\ObjectManager\Code\Generator\Converter',
         SearchResults::ENTITY_TYPE =>
-            'Magento\Framework\Service\Code\Generator\SearchResults',
+            'Magento\Framework\Api\Code\Generator\SearchResults',
     ]
 );
 

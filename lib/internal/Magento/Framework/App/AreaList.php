@@ -16,12 +16,12 @@ class AreaList
      *
      * @var array
      */
-    protected $_areas;
+    protected $_areas = [];
 
     /**
      * @var \Magento\Framework\App\AreaInterface[]
      */
-    protected $_areaInstances = array();
+    protected $_areaInstances = [];
 
     /**
      * @var string
@@ -34,26 +34,30 @@ class AreaList
     protected $_resolverFactory;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param Area\FrontNameResolverFactory $resolverFactory
      * @param array $areas
-     * @param string $default
+     * @param string|null $default
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         Area\FrontNameResolverFactory $resolverFactory,
-        array $areas,
-        $default
+        array $areas = [],
+        $default = null
     ) {
         $this->objectManager = $objectManager;
         $this->_resolverFactory = $resolverFactory;
-        $this->_areas = $areas;
-        $this->_defaultAreaCode = $default;
+        if ($areas) {
+            $this->_areas = $areas;
+        }
+        if ($default) {
+            $this->_defaultAreaCode = $default;
+        }
     }
 
     /**

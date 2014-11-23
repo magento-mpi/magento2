@@ -20,7 +20,7 @@ class WrappingWriteTest extends WebapiAbstract
     const SERVICE_NAME = 'giftWrappingWrappingWriteV1';
     const SERVICE_VERSION = 'V1';
 
-    /** @var \Magento\Framework\ObjectManager */
+    /** @var \Magento\Framework\ObjectManagerInterface */
     private  $objectManager;
 
     /** @var WrappingBuilder */

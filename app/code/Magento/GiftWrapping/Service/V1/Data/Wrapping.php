@@ -10,7 +10,7 @@ namespace Magento\GiftWrapping\Service\V1\Data;
 /**
  * @codeCoverageIgnore
  */
-class Wrapping extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class Wrapping extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**#@+
      * Data object properties

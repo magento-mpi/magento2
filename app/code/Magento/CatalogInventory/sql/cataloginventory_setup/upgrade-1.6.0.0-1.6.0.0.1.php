@@ -6,10 +6,11 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Setup\Module\SetupModule */
-$installer = $this;
-$connection = $installer->getConnection();
+/** @var $this \Magento\Eav\Model\Entity\Setup */
+
+/** @var $connection \Magento\Framework\DB\Adapter\Pdo\Mysql */
+$connection = $this->getConnection();
 $connection->changeTableEngine(
-    $installer->getTable('cataloginventory_stock_status_tmp'),
+    $this->getTable('cataloginventory_stock_status_tmp'),
     \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
 );

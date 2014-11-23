@@ -91,7 +91,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     {
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with('cartId')
             ->will($this->returnValue($quoteMock));
 
@@ -101,11 +101,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->service->setAddress('cartId', null);
     }
 
-    public  function testSetAddress()
+    public function testSetAddress()
     {
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with('cartId')
             ->will($this->returnValue($quoteMock));
 
@@ -132,7 +132,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $quoteMock->expects($this->once())->method('setBillingAddress')->with($this->quoteAddressMock);
         $quoteMock->expects($this->once())->method('setDataChanges')->with(true);
-        $quoteMock->expects($this->once())->method('save');
+        $this->quoteRepositoryMock->expects($this->once())->method('save')->with($quoteMock);
         $addressId = 1;
         $billingAddressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', [], [], '', false);
         $billingAddressMock->expects($this->once())->method('getId')->will($this->returnValue($addressId));
@@ -150,7 +150,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     {
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with('cartId')
             ->will($this->returnValue($quoteMock));
 
@@ -178,9 +178,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $quoteMock->expects($this->once())->method('setBillingAddress')->with($this->quoteAddressMock);
         $quoteMock->expects($this->once())->method('setDataChanges')->with(true);
-        $quoteMock->expects($this->once())->method('save')->willThrowException(
-            new \Exception('Some DB Error')
-        );
+        $this->quoteRepositoryMock->expects($this->once())
+            ->method('save')
+            ->with($quoteMock)
+            ->willThrowException(
+                new \Exception('Some DB Error')
+            );
         $this->service->setAddress('cartId', $addressData);
     }
 }

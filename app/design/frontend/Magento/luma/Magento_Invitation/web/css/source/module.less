@@ -6,6 +6,50 @@
 //  * @license     {license_link}
 //  */
 
+.form-add-invitations {
+    .fieldset {
+        margin: 0 0 @indent-s-base;
+        .fields {
+            position: relative;
+            .field {
+                margin: 0 0 @indent-s-base;
+                > .label {
+                    &:extend(.abstract-visually-hidden all);
+                }
+            }
+            .actions-toolbar {
+                position: absolute;
+                left: 72%;
+                top: 0;
+            }
+        }
+        > .actions-toolbar {
+            margin: 0 0 @indent-base;
+            .secondary {
+                text-align: left;
+            }
+        }
+    }
+    .control {
+        .input-text {
+            width: 70%;
+        }
+    }
+    .action {
+        &.add {
+            .button-icon(
+                @_icon-font-content: @icon-expand,
+                @_icon-font-text-hide: true,
+                @_icon-font-size: 18px
+            );
+            line-height: normal;
+            padding: 4px;
+            width: auto;
+        }
+    }
+}
+
+
 //
 //    Mobile
 //--------------------------------------
@@ -13,11 +57,48 @@
     .table-wrapper.invitations {
         &:extend(.abstract-account-table-border all);
     }
+    .form-add-invitations {
+        .fieldset {
+            .fields {
+                .actions-toolbar {
+                    left: 92%;
+                }
+            }
+        }
+        .action {
+            &.remove {
+                .button-icon(
+                    @_icon-font-content: @icon-trash,
+                    @_icon-font-text-hide: true,
+                    @_icon-font-size: 18px,
+                    @_icon-font-color: @minicart-icons-color
+                );
+                .button-reset();
+            }
+        }
+        .control {
+            .input-text {
+                width: 90%;
+            }
+        }
+    }
 }
 
 //
 //    Desktop
 //--------------------------------------
+.responsive(@break) when (@break = @screen-s) {
+    .form-add-invitations {
+        .action {
+            &.remove {
+                .button-reset();
+                .button-as-link();
+                margin-top: 4px;
+            }
+        }
+    }
+}
+
 .responsive(@break) when (@break = @screen-m) {
     .table-invitations {
         .col {

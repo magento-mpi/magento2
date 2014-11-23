@@ -43,4 +43,9 @@ interface DataProviderInterface
      * @return array
      */
     public function getFeeds();
+
+    /**
+     * @return bool
+     */
+    public function isAuthRequired();
 }

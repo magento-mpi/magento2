@@ -11,8 +11,7 @@ namespace Magento\Catalog\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class CatalogProductSimple
- * Data for creation Catalog Product Simple
+ * Data for creation Catalog Product Simple.
  */
 class CatalogProductSimple extends AbstractRepository
 {
@@ -39,6 +38,22 @@ class CatalogProductSimple extends AbstractRepository
             ],
             'price' => ['value' => 560.00, 'preset' => '-'],
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],
+            'website_ids' => ['Main Website'],
+            'visibility' => 'Catalog, Search',
+            'checkout_data' => ['preset' => 'order_default'],
+        ];
+
+        $this->_data['product_with_url_key'] = [
+            'name' => 'Simple Product %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'is_virtual' => 'No',
+            'weight' => 1,
+            'quantity_and_stock_status' => [
+                'qty' => 25.0000,
+                'is_in_stock' => 'In Stock',
+            ],
+            'url_key' => 'simple-product-%isolation%',
+            'price' => ['value' => 560.00, 'preset' => '-'],
             'website_ids' => ['Main Website'],
             'visibility' => 'Catalog, Search',
             'checkout_data' => ['preset' => 'order_default'],
@@ -204,7 +219,7 @@ class CatalogProductSimple extends AbstractRepository
         ];
 
         $this->_data['adc_123_simple_for_advancedsearch'] = [
-            'name' => 'adc_123',
+            'name' => 'adc_123_%isolation%',
             'sku' => 'adc_123',
             'price' => ['value' => 100.00, 'preset' => '-'],
             'tax_class_id' => ['dataSet' => 'None'],
@@ -252,7 +267,7 @@ class CatalogProductSimple extends AbstractRepository
         ];
 
         $this->_data['abc_dfj_simple_for_advancedsearch'] = [
-            'name' => 'abc_dfj',
+            'name' => 'abc_dfj_%isolation%',
             'sku' => 'abc_dfj',
             'price' => ['value' => 50.00, 'preset' => '-'],
             'tax_class_id' => ['dataSet' => 'Taxable Goods'],
@@ -541,6 +556,21 @@ class CatalogProductSimple extends AbstractRepository
             'checkout_data' => ['preset' => 'drop_down_with_one_option_percent_price'],
             'website_ids' => ['Main Website'],
             'category_ids' => ['presets' => 'default_subcategory'],
+        ];
+
+        $this->_data['product_with_category_with_anchor'] = [
+            'sku' => 'simple_product_with_category_%isolation%',
+            'name' => 'Simple product with category %isolation%',
+            'quantity_and_stock_status' => [
+                'qty' => 666.0000,
+                'is_in_stock' => 'In Stock',
+            ],
+            'weight' => 1,
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'price' => ['value' => 100, 'preset' => ''],
+            'category_ids' => ['presets' => 'default_anchor_subcategory'],
+            'website_ids' => ['Main Website'],
+            'mtf_dataset_name' => 'simple_with_category',
         ];
     }
 }

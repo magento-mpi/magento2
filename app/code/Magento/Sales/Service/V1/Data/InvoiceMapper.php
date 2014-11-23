@@ -49,7 +49,7 @@ class InvoiceMapper
 
     /**
      * @param \Magento\Sales\Model\Order\Invoice $object
-     * @return \Magento\Framework\Service\Data\AbstractExtensibleObject
+     * @return \Magento\Framework\Api\AbstractExtensibleObject
      */
     public function extractDto(\Magento\Sales\Model\Order\Invoice $object)
     {

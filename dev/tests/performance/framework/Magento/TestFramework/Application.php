@@ -35,7 +35,7 @@ class Application
     protected $_shell;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -57,12 +57,12 @@ class Application
      * Constructor
      *
      * @param \Magento\TestFramework\Performance\Config $config
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Shell $shell
      */
     public function __construct(
         \Magento\TestFramework\Performance\Config $config,
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Shell $shell
     ) {
         $shellDir = $config->getApplicationBaseDir() . '/setup';
@@ -239,7 +239,7 @@ class Application
     /**
      * Get object manager
      *
-     * @return \Magento\Framework\ObjectManager
+     * @return \Magento\Framework\ObjectManagerInterface
      */
     protected function getObjectManager()
     {

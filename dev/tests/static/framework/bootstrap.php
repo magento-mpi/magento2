@@ -6,24 +6,6 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../../app/autoload.php';
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
-    array(__DIR__, dirname(__DIR__) . '/testsuite', BP . '/lib/internal')
-);
-\Magento\TestFramework\Utility\Files::setInstance(new \Magento\TestFramework\Utility\Files(BP));
+require __DIR__ . '/autoload.php';
 
-function tool_autoloader($className)
-{
-    if (strpos($className, 'Magento\\Tools\\') === false) {
-        return false;
-    }
-    $filePath = str_replace('\\', '/', $className);
-    $filePath = BP . '/dev/tools/' . $filePath . '.php';
-
-    if (file_exists($filePath)) {
-        include_once $filePath;
-    } else {
-        return false;
-    }
-}
-spl_autoload_register('tool_autoloader');
+\Magento\Framework\Test\Utility\Files::setInstance(new \Magento\Framework\Test\Utility\Files(BP));

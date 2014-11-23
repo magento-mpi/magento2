@@ -125,7 +125,6 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->dataProviderContainer->expects($this->any())->method('get')->willReturn($this->dataProvider);
 
         $this->resource = $this->getMockBuilder('Magento\Framework\App\Resource')
-            ->setMethods(['getConnection'])
             ->disableOriginalConstructor()
             ->getMock();
         $this->resource->expects($this->once())->method('getConnection')->willReturn($this->adapter);

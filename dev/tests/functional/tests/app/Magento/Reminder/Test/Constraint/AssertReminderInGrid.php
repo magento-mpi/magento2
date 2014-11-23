@@ -41,8 +41,8 @@ class AssertReminderInGrid extends AbstractConstraint
         $websiteIds = $reminder->getWebsiteIds();
         $filter = array_filter([
             'name' => $reminder->getName(),
-            'from_date_to' => date('M d, Y', strtotime($reminder->getFromDate())),
-            'to_date_to' => date('M d, Y', strtotime($reminder->getToDate())),
+            'from_date_to' => date('M j, Y', strtotime($reminder->getFromDate())),
+            'to_date_to' => date('M j, Y', strtotime($reminder->getToDate())),
             'status' => $reminder->getIsActive(),
             'website' => is_array($websiteIds) ? reset($websiteIds) : null
         ]);

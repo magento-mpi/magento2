@@ -9,9 +9,9 @@
 namespace Magento\Cms\Test\Block;
 
 use Mtf\Block\Block;
+use Mtf\Client\Element\Locator;
 
 /**
- * Class Page
  * Cms Page block for the content on the frontend.
  */
 class Page extends Block
@@ -24,19 +24,18 @@ class Page extends Block
     protected $cmsPageContentClass = ".column.main";
 
     /**
-     * Widgets selectors
+     * Cms page title
      *
-     * @var array
+     * @var string
      */
-    protected $widgetSelectors = [
-        'CMS Page Link' => '.widget.widget-cms-link',
-        'Catalog Category Link' => '.widget.category.link',
-        'Catalog Product Link' => '.widget.product.link',
-        'Recently Compared Products' => '.block.compare',
-        'Recently Viewed Products' => '.block.viewed.links',
-        'Catalog New Products List' => '.widget.new',
-        'CMS Static Block' => '.widget.static.block'
-    ];
+    protected $cmsPageTitle = ".page-title";
+
+    /**
+     * Cms page text locator
+     *
+     * @var string
+     */
+    protected $textSelector = "//div[contains(.,'%s')]";
 
     /**
      * Get page content text
@@ -49,18 +48,30 @@ class Page extends Block
     }
 
     /**
-     * Check is visible widget selector
+     * Get page title
      *
-     * @param string $widgetType
-     * @return bool
-     * @throws \Exception
+     * @return string
      */
-    public function isWidgetVisible($widgetType)
+    public function getPageTitle()
     {
-        if (isset($this->widgetSelectors[$widgetType])) {
-            return $this->_rootElement->find($this->widgetSelectors[$widgetType])->isVisible();
-        } else {
-            throw new \Exception('Determine how to find the widget on the page.');
-        }
+        return $this->_rootElement->find($this->cmsPageTitle)->getText();
+    }
+
+    /**
+     * Wait for text is visible in the block.
+     *
+     * @param string $text
+     * @return void
+     */
+    public function waitUntilTextIsVisible($text)
+    {
+        $text = sprintf($this->textSelector, $text);
+        $browser = $this->browser;
+        $this->_rootElement->waitUntil(
+            function () use ($browser, $text) {
+                $blockText = $browser->find($text, Locator::SELECTOR_XPATH);
+                return $blockText->isVisible() == true ? false : null;
+            }
+        );
     }
 }

@@ -7,7 +7,7 @@
  */
 namespace Magento\Tax\Service\V1\Data;
 
-use Magento\Framework\Service\V1\Data\SearchCriteria;
+use Magento\Framework\Api\SearchCriteria;
 
 /**
  * Integration test for \Magento\Tax\Service\V1\Data\TaxRateSearchResultsBuilder
@@ -17,7 +17,7 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * Object Manager
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     private $objectManager;
 
@@ -94,7 +94,7 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
         $taxRateSearchResultsMerged = $this->taxRateSearchResultsBuilder->mergeDataObjects(
             $taxRateSearchResults1,
             $taxRateSearchResults2
-        );
+        )->create();
         $this->assertEquals($taxRateSearchResults->__toArray(), $taxRateSearchResultsMerged->__toArray());
     }
 
@@ -108,7 +108,7 @@ class TaxRateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
         $taxRateSearchResultsMerged = $this->taxRateSearchResultsBuilder->mergeDataObjectWithArray(
             $taxRateSearchResults1,
             $secondDataSet
-        );
+        )->create();
         $this->assertEquals($taxRateSearchResults->__toArray(), $taxRateSearchResultsMerged->__toArray());
     }
 

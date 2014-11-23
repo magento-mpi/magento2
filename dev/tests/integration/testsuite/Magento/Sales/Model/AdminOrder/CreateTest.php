@@ -201,7 +201,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             $addressData,
             array(
                 'address_type' => 'billing',
-                'quote_id' => null,
+                'quote_id' => $this->_model->getQuote()->getId(),
                 'street' => "Line1\nLine2",
                 'save_in_address_book' => 0
             )
@@ -561,7 +561,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(
             $paymentMethod,
-            $this->_model->getQuote()->getPaymentsCollection()->getItems()[0]->getData('method'),
+            $this->_model->getQuote()->getPayment()->getData('method'),
             'Precondition failed: Payment method data is invalid in create order model'
         );
     }

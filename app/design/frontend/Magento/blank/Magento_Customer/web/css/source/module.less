@@ -82,6 +82,11 @@
                 width: auto;
             }
         }
+        .limiter {
+            >.label {
+                &:extend(.abstract-visually-hidden all);
+            }
+        }
         .block:not(.widget) {
             &:extend(.abstract-account-blocks all);
         }
@@ -107,6 +112,16 @@
         }
     }
 }
+
+// checkout address (create shipping address)
+.field.street {
+    .field.additional {
+        .label {
+            &:extend(.abstract-visually-hidden all);
+        }
+    }
+}
+
 
 //
 //    Blocks & Widgets

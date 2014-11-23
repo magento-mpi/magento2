@@ -6,23 +6,15 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../../../app/bootstrap.php';
-$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
-
 $mtfRoot = dirname(dirname(dirname(__FILE__)));
 $mtfRoot = str_replace('\\', '/', $mtfRoot);
 define('MTF_BP', $mtfRoot);
 define('MTF_TESTS_PATH', MTF_BP . '/tests/app/');
 
-$path = get_include_path();
-$path = rtrim($path, PATH_SEPARATOR);
-$path .= PATH_SEPARATOR . MTF_BP;
-$path .= PATH_SEPARATOR . MTF_BP . '/lib';
-$path .= PATH_SEPARATOR . MTF_BP . '/tests/app';
-$path .= PATH_SEPARATOR . MTF_BP . '/generated';
-$path .= PATH_SEPARATOR . MTF_BP . '/vendor/magento/mtf';
-$path .= PATH_SEPARATOR . MTF_BP . '/vendor/phpunit/phpunit';
-set_include_path($path);
+require __DIR__ . '/../../../../../app/bootstrap.php';
+require MTF_BP . '/vendor/autoload.php';
+
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
 
 $om = $bootstrap->getObjectManager();
 /** @var \Mtf\Util\Generate\Factory $generator */

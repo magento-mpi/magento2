@@ -11,6 +11,7 @@ namespace Magento\TestFramework\TestCase\Webapi\Adapter\Rest;
 
 class CurlClient
 {
+    const EMPTY_REQUEST_BODY = 'Empty body';
     /**
      * @var string REST URL base path
      */
@@ -115,7 +116,11 @@ class CurlClient
 
         if (in_array("Content-Type: application/json", $headers)) {
             // json encode data
-            $data = $this->_jsonEncode($data);
+            if ($data != self::EMPTY_REQUEST_BODY) {
+                $data = $this->_jsonEncode($data);
+            } else {
+                $data = '';
+            }
         }
 
         $curlOpts = array();
@@ -284,6 +289,7 @@ class CurlClient
 
     /**
      * Checks for JSON error in the latest encoding / decoding and throws an exception in case of error
+     *
      * @throws \Exception
      */
     protected function _checkJsonError()

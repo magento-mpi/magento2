@@ -5,35 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+use Magento\Framework\Autoload\AutoloaderRegistry;
+
 require_once __DIR__ . '/../../../../app/bootstrap.php';
-require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/Classes.php';
-require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/AggregateInvoker.php';
+require_once __DIR__ . '/autoload.php';
 
 $testsBaseDir = dirname(__DIR__);
 $testsTmpDir = "{$testsBaseDir}/tmp";
 $magentoBaseDir = realpath("{$testsBaseDir}/../../../");
-
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
-    array("{$testsBaseDir}/framework", "{$testsBaseDir}/testsuite")
-);
-
-function tool_autoloader($className)
-{
-    if (strpos($className, 'Magento\\Tools\\') === false) {
-        return false;
-    }
-
-    $filePath = str_replace('\\', '/', $className);
-    $filePath = BP . '/dev/tools/' . $filePath . '.php';
-
-    if (file_exists($filePath)) {
-        include_once $filePath;
-    } else {
-        return false;
-    }
-}
-
-spl_autoload_register('tool_autoloader');
 
 try {
     /* Bootstrap the application */
@@ -47,13 +26,19 @@ try {
         $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer);
     }
 
-    $application = \Magento\TestFramework\Application::getInstance(
-        $settings->getAsConfigFile('TESTS_INSTALL_CONFIG_FILE'),
+    $installConfigFile = $settings->getAsConfigFile('TESTS_INSTALL_CONFIG_FILE');
+    if (!file_exists($installConfigFile)) {
+        $installConfigFile = $installConfigFile . '.dist';
+    }
+    $sandboxUniqueId = md5(sha1_file($installConfigFile));
+    $installDir = "{$testsTmpDir}/sandbox-{$sandboxUniqueId}";
+    $application = new \Magento\TestFramework\Application(
+        $shell,
+        $installDir,
+        $installConfigFile,
         $settings->get('TESTS_GLOBAL_CONFIG_DIR'),
-        $settings->getAsMatchingPaths('TESTS_MODULE_CONFIG_FILES'),
         $settings->get('TESTS_MAGENTO_MODE'),
-        $testsTmpDir,
-        $shell
+        AutoloaderRegistry::getAutoloader()
     );
 
     $bootstrap = new \Magento\TestFramework\Bootstrap(
@@ -76,7 +61,7 @@ try {
 
     \Magento\TestFramework\Helper\Bootstrap::setInstance(new \Magento\TestFramework\Helper\Bootstrap($bootstrap));
 
-    \Magento\TestFramework\Utility\Files::setInstance(new Magento\TestFramework\Utility\Files($magentoBaseDir));
+    \Magento\Framework\Test\Utility\Files::setInstance(new Magento\Framework\Test\Utility\Files($magentoBaseDir));
 
     /* Unset declared global variables to release the PHPUnit from maintaining their values between tests */
     unset($testsBaseDir, $testsTmpDir, $magentoBaseDir, $logWriter, $settings, $shell, $application, $bootstrap);
