@@ -43,7 +43,7 @@ class TaxRuleFixtureFactory
         foreach ($rulesData as $ruleData) {
             $taxRuleBuilder->populateWithArray($ruleData);
 
-            $rules[$ruleData['code']] = $taxRuleService->createTaxRule($taxRuleBuilder->create())->getId();
+            $rules[$ruleData['code']] = $taxRuleService->save($taxRuleBuilder->create())->getId();
         }
 
         return $rules;
