@@ -46,47 +46,19 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->scopeConfig->setValue(Observer::CRON_STRING_PATH, 'cron-string-path', ScopeInterface::SCOPE_STORE);
         $this->scopeConfig->setValue(Observer::IMPORT_SERVICE, 'webservicex', ScopeInterface::SCOPE_STORE);
 
-        $this->configResource = $this->objectManager->get('Magento\Core\Model\Resource\Config');
-        $this->configResource->saveConfig(
-            $this->baseCurrencyPath,
-            $this->baseCurrency,
-            ScopeInterface::SCOPE_STORE,
-            0
-        );
-
-        $importModelMock = $this->getMock(
-            'Magento\Directory\Model\Currency\Import\AbstractImport',
-            ['fetchRates', '_convert'],
-            [],
-            '',
-            false
-        );
-        $mockRates = ['USD' => ['EUR' => 0.8071, 'GBP' => 0.6389, 'USD' => 1]];
-        $importModelMock->expects($this->once())
-            ->method('fetchRates')
-            ->with()
-            ->will($this->returnValue($mockRates));
-
-        $importFactoryMock = $this->getMock(
-            'Magento\Directory\Model\Currency\Import\Factory',
-            ['create'],
-            [],
-            '',
-            false
-        );
-        $importFactoryMock->expects($this->once())
-            ->method('create')
-            ->with('webservicex')
-            ->will($this->returnValue($importModelMock));
-
-        $this->observer = $this->objectManager->create(
-            'Magento\Directory\Model\Observer',
-            ['importFactory' => $importFactoryMock]
-        );
     }
 
     public function testScheduledUpdateCurrencyRates()
     {
+        //skipping test if service is unavilable
+        $url = str_replace('{{CURRENCY_FROM}}', 'USD', \Magento\Directory\Model\Currency\Import\Webservicex::CURRENCY_CONVERTER_URL);
+        $url = str_replace('{{CURRENCY_TO}}', 'GBP', $url);
+        try {
+            file_get_contents($url);
+        } catch (\Exception $e) {
+            $this->markTestSkipped('http://www.webservicex.net is unavailable ');
+        }
+
         $allowedCurrencies = 'USD,GBP,EUR';
         $this->configResource->saveConfig(
             $this->allowedCurrenciesPath,
@@ -101,6 +73,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->create()
             ->getResource();
         $rates = $currencyResource->getCurrencyRates($this->baseCurrency, explode(',', $allowedCurrencies));
-        $this->assertEquals(3, count($rates));
+        $this->assertNotEmpty($rates);
     }
 }
