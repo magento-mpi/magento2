@@ -15,7 +15,6 @@ use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**
  * CatalogInventory Stock Status
- * @package Magento\CatalogInventory\Model\Stock
  *
  * @method Status setProductId(int $value)
  * @method Status setWebsiteId(int $value)

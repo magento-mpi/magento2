@@ -7,8 +7,6 @@
  */
 namespace Magento\Cms\Model\Resource\Page;
 
-use Magento\Cms\Api\Data\PageCollectionInterface;
-use Magento\Cms\Api\Data\PageInterface;
 use Magento\Framework\Data\AbstractSearchResult;
 use Magento\Framework\Data\Collection\EntityFactoryInterface;
 use Magento\Framework\Data\SearchResultIteratorFactory;
@@ -21,7 +19,7 @@ use Magento\Framework\Data\SearchResultProcessor;
 /**
  * CMS page collection
  */
-class Collection extends AbstractSearchResult implements PageCollectionInterface
+class Collection extends AbstractSearchResult
 {
     /**
      * @var StoreManagerInterface
@@ -71,7 +69,7 @@ class Collection extends AbstractSearchResult implements PageCollectionInterface
         $res = [];
         $existingIdentifiers = [];
         foreach ($this->getItems() as $item) {
-            /** @var PageInterface $item */
+            /** @var \Magento\Cms\Model\Page $item */
             $identifier = $item->getIdentifier();
 
             $data['value'] = $identifier;
@@ -113,7 +111,7 @@ class Collection extends AbstractSearchResult implements PageCollectionInterface
                     ->where('cps.page_id IN (?)', $items);
                 if ($result = $connection->fetchPairs($select)) {
                     foreach ($this->getItems() as $item) {
-                        /** @var PageInterface $item */
+                        /** @var \Magento\Cms\Model\Page $item */
                         if (!isset($result[$item->getPageId()])) {
                             continue;
                         }

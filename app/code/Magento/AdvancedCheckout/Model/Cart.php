@@ -109,11 +109,11 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $messageFactory;
 
     /**
-     * Sales quote factory
+     * Sales quote repository
      *
-     * @var \Magento\Sales\Model\QuoteFactory
+     * @var \Magento\Sales\Model\QuoteRepository
      */
-    protected $_quoteFactory;
+    protected $quoteRepository;
 
     /**
      * Catalog product factory
@@ -194,7 +194,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
@@ -215,7 +215,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Framework\Message\ManagerInterface $messageManager,
@@ -235,7 +235,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->_optionFactory = $optionFactory;
         $this->_wishlistFactory = $wishlistFactory;
         $this->_productFactory = $productFactory;
-        $this->_quoteFactory = $quoteFactory;
+        $this->quoteRepository = $quoteRepository;
         $this->_storeManager = $storeManager;
         $this->_localeFormat = $localeFormat;
         $this->_itemFailedStatus = $itemFailedStatus;
@@ -307,11 +307,17 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             return $this->_quote;
         }
 
-        $this->_quote = $this->_quoteFactory->create();
+        $this->_quote = $this->quoteRepository->create();
 
         if ($this->getCustomer() !== null) {
-            $this->_quote->setSharedStoreIds($this->getQuoteSharedStoreIds())
-                ->loadByCustomer($this->getCustomer()->getId());
+            try {
+                $this->_quote = $this->quoteRepository->getForCustomer(
+                    $this->getCustomer()->getId(),
+                    $this->getQuoteSharedStoreIds()
+                );
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+
+            }
         }
 
         return $this->_quote;
@@ -374,7 +380,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     public function createQuote()
     {
         if (!$this->getQuote()->getId() && $this->getCustomer() !== null) {
-            $this->getQuote()->assignCustomer($this->getCustomer())->save();
+            $this->quoteRepository->save($this->getQuote()->assignCustomer($this->getCustomer()));
         }
         return $this->getQuote();
     }
@@ -393,7 +399,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         if ($recollect) {
             $this->getQuote()->collectTotals();
         }
-        $this->getQuote()->save();
+        $this->quoteRepository->save($this->getQuote());
         return $this;
     }
 
@@ -684,7 +690,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $newQuote = clone $quote;
         $newQuote->setId(null);
         $newQuote->setIsActive($active ? 1 : 0);
-        $newQuote->save();
+        $this->quoteRepository->save($newQuote);
 
         // copy items with their options
         $newParentItemIds = array();
@@ -1331,7 +1337,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
 
         // copy data to temporary quote
         /** @var $temporaryQuote \Magento\Sales\Model\Quote */
-        $temporaryQuote = $this->_quoteFactory->create();
+        $temporaryQuote = $this->quoteRepository->create();
         $temporaryQuote->setStore($quote->getStore())->setIsSuperMode($quote->getIsSuperMode());
         foreach ($quote->getAllItems() as $quoteItem) {
             $temporaryItem = clone $quoteItem;

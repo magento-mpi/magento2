@@ -18,22 +18,22 @@ use Magento\Framework\Data\CollectionDataSourceInterface;
 class PageCollection extends AbstractCriteria implements CollectionDataSourceInterface
 {
     /**
-     * @var \Magento\Cms\Api\PageCriteriaInterface
+     * @var \Magento\Cms\Model\Resource\PageCriteria
      */
     protected $criteria;
 
     /**
-     * @var \Magento\Cms\Api\PageRepositoryInterface
+     * @var \Magento\Cms\Model\PageRepository
      */
     protected $repository;
 
     /**
-     * @param \Magento\Cms\Api\PageCriteriaInterface $criteria
-     * @param \Magento\Cms\Api\PageRepositoryInterface $repository
+     * @param \Magento\Cms\Model\Resource\PageCriteria $criteria
+     * @param \Magento\Cms\Model\PageRepository $repository
      */
     public function __construct(
-        \Magento\Cms\Api\PageCriteriaInterface $criteria,
-        \Magento\Cms\Api\PageRepositoryInterface $repository
+        \Magento\Cms\Model\Resource\PageCriteria $criteria,
+        \Magento\Cms\Model\PageRepository $repository
     ) {
         $this->criteria = $criteria;
         $this->repository = $repository;
@@ -53,7 +53,7 @@ class PageCollection extends AbstractCriteria implements CollectionDataSourceInt
     }
 
     /**
-     * @return \Magento\Cms\Api\Data\PageCollectionInterface
+     * @return \Magento\Cms\Model\Resource\Page\Collection
      */
     public function getResultCollection()
     {
@@ -63,10 +63,10 @@ class PageCollection extends AbstractCriteria implements CollectionDataSourceInt
     /**
      * Add Criteria object
      *
-     * @param \Magento\Cms\Api\PageCriteriaInterface $criteria
+     * @param \Magento\Cms\Model\Resource\PageCriteria $criteria
      * @return void
      */
-    public function addCriteria(\Magento\Cms\Api\PageCriteriaInterface $criteria)
+    public function addCriteria(\Magento\Cms\Model\Resource\PageCriteria $criteria)
     {
         $this->data[self::PART_CRITERIA_LIST]['list'][] = $criteria;
     }

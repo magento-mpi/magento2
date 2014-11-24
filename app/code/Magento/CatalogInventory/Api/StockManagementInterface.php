@@ -9,7 +9,6 @@ namespace Magento\CatalogInventory\Api;
 
 /**
  * Interface StockManagementInterface
- * @package Magento\CatalogInventory\Api
  */
 interface StockManagementInterface
 {
@@ -17,7 +16,9 @@ interface StockManagementInterface
      * Subtract product qtys from stock.
      * Return array of items that require full save
      *
-     * @param string[] $items
+     * @attention! this method does not work with API
+     *
+     * @param array {this argument should work with key => value pair} $items
      * @param int $websiteId
      * @return \Magento\CatalogInventory\Api\Data\StockItemInterface[]
      * @throws \Magento\Framework\Model\Exception
@@ -25,11 +26,13 @@ interface StockManagementInterface
     public function registerProductsSale($items, $websiteId = null);
 
     /**
-     * @param string[] $items
+     * @attention! this method does not work with API
+     *
+     * @param array {this argument should work with key => value pair} $items
      * @param int $websiteId
      * @return bool
      */
-    public function revertProductsSale(array $items, $websiteId = null);
+    public function revertProductsSale($items, $websiteId = null);
 
     /**
      * Get back to stock (when order is canceled or whatever else)

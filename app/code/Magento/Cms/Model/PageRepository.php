@@ -7,7 +7,6 @@
  */
 namespace Magento\Cms\Model;
 
-use Magento\Cms\Api\PageRepositoryInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -15,7 +14,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 /**
  * Class PageRepository
  */
-class PageRepository implements PageRepositoryInterface
+class PageRepository
 {
     /**
      * @var \Magento\Cms\Model\Resource\Page
@@ -23,12 +22,12 @@ class PageRepository implements PageRepositoryInterface
     protected $resource;
 
     /**
-     * @var \Magento\Cms\Api\Data\PageInterfaceFactory
+     * @var \Magento\Cms\Model\PageFactory
      */
     protected $pageFactory;
 
     /**
-     * @var \Magento\Cms\Api\Data\PageCollectionInterfaceFactory
+     * @var \Magento\Cms\Model\Resource\Page\CollectionFactory
      */
     protected $pageCollectionFactory;
 
@@ -44,15 +43,15 @@ class PageRepository implements PageRepositoryInterface
 
     /**
      * @param Resource\Page $resource
-     * @param \Magento\Cms\Api\Data\PageInterfaceFactory $pageFactory
-     * @param \Magento\Cms\Api\Data\PageCollectionInterfaceFactory $pageCollectionFactory
+     * @param \Magento\Cms\Model\PageFactory $pageFactory
+     * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollectionFactory
      * @param \Magento\Framework\DB\QueryBuilderFactory $queryBuilderFactory
      * @param \Magento\Framework\DB\MapperFactory $mapperFactory
      */
     public function __construct(
         \Magento\Cms\Model\Resource\Page $resource,
-        \Magento\Cms\Api\Data\PageInterfaceFactory $pageFactory,
-        \Magento\Cms\Api\Data\PageCollectionInterfaceFactory $pageCollectionFactory,
+        \Magento\Cms\Model\PageFactory $pageFactory,
+        \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollectionFactory,
         \Magento\Framework\DB\QueryBuilderFactory $queryBuilderFactory,
         \Magento\Framework\DB\MapperFactory $mapperFactory
     ) {
@@ -66,11 +65,11 @@ class PageRepository implements PageRepositoryInterface
     /**
      * Save Page data
      *
-     * @param \Magento\Cms\Api\Data\PageInterface $page
-     * @return \Magento\Cms\Api\Data\PageInterface
+     * @param \Magento\Cms\Model\Page $page
+     * @return \Magento\Cms\Model\Page
      * @throws CouldNotSaveException
      */
-    public function save(\Magento\Cms\Api\Data\PageInterface $page)
+    public function save(\Magento\Cms\Model\Page $page)
     {
         try {
             $this->resource->save($page);
@@ -84,7 +83,7 @@ class PageRepository implements PageRepositoryInterface
      * Load Page data by given Page Identity
      *
      * @param string $pageId
-     * @return \Magento\Cms\Api\Data\PageInterface
+     * @return \Magento\Cms\Model\Page
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function get($pageId)
@@ -100,10 +99,10 @@ class PageRepository implements PageRepositoryInterface
     /**
      * Load Page data collection by given search criteria
      *
-     * @param \Magento\Cms\Api\PageCriteriaInterface $criteria
-     * @return \Magento\Cms\Api\Data\PageCollectionInterface
+     * @param \Magento\Cms\Model\Resource\PageCriteria $criteria
+     * @return \Magento\Cms\Model\Resource\Page\Collection
      */
-    public function getList(\Magento\Cms\Api\PageCriteriaInterface $criteria)
+    public function getList(\Magento\Cms\Model\Resource\PageCriteria $criteria)
     {
         $queryBuilder = $this->queryBuilderFactory->create();
         $queryBuilder->setCriteria($criteria);
@@ -116,11 +115,11 @@ class PageRepository implements PageRepositoryInterface
     /**
      * Delete Page
      *
-     * @param \Magento\Cms\Api\Data\PageInterface $page
+     * @param \Magento\Cms\Model\Page $page
      * @return bool
      * @throws \Magento\Framework\Exception\CouldNotDeleteException
      */
-    public function delete(\Magento\Cms\Api\Data\PageInterface $page)
+    public function delete(\Magento\Cms\Model\Page $page)
     {
         try {
             $this->resource->delete($page);

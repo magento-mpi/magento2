@@ -17,7 +17,6 @@ use Magento\Catalog\Model\ProductFactory;
 
 /**
  * Class StockRegistry
- * @package Magento\CatalogInventory\Model
  */
 class StockRegistry implements StockRegistryInterface
 {

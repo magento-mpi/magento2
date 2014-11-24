@@ -76,6 +76,13 @@ class CustomerActivities extends Block
     // @codingStandardsIgnoreEnd
 
     /**
+     * Backend abstract block
+     *
+     * @var string
+     */
+    protected $templateBlock = './ancestor::body';
+
+    /**
      * Get last ordered items block
      *
      * @return LastOrderedItems
@@ -154,6 +161,19 @@ class CustomerActivities extends Block
     }
 
     /**
+     * Get backend abstract block
+     *
+     * @return \Magento\Backend\Test\Block\Template
+     */
+    public function getTemplateBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Backend\Test\Block\Template',
+            ['element' => $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)]
+        );
+    }
+
+    /**
      * Click 'Update Changes' button
      *
      * @return void
@@ -162,5 +182,6 @@ class CustomerActivities extends Block
     {
         $this->_rootElement->find($this->lastSidebar, Locator::SELECTOR_XPATH)->click();
         $this->_rootElement->find($this->updateChanges)->click();
+        $this->getTemplateBlock()->waitLoader();
     }
 }

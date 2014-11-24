@@ -9,7 +9,6 @@ namespace Magento\CatalogInventory\Api;
 
 /**
  * Interface StockConfigurationInterface
- * @package Magento\CatalogInventory\Api
  */
 interface StockConfigurationInterface
 {
@@ -79,7 +78,7 @@ interface StockConfigurationInterface
      * @param int $storeId
      * @return int
      */
-    public function getQtyIncrements($storeId = null);
+    public function getQtyIncrements($store = null);
 
     /**
      * Retrieve backorders status

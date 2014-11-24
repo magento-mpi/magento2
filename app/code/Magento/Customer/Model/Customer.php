@@ -74,6 +74,11 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     const ENTITY = 'customer';
 
     /**
+     * Configuration path to expiration period of reset password link
+     */
+    const XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD = 'customer/password/reset_link_expiration_period';
+
+    /**
      * Model event prefix
      *
      * @var string
@@ -131,13 +136,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @var \Magento\Eav\Model\Config
      */
     protected $_config;
-
-    /**
-     * Customer data
-     *
-     * @var \Magento\Customer\Helper\Data
-     */
-    protected $_customerData = null;
 
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -203,7 +201,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
-     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -225,7 +222,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
-        \Magento\Customer\Helper\Data $customerData,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -243,7 +239,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_customerData = $customerData;
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
@@ -957,7 +952,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Retrieve shared store ids
      *
      * @return array
-     * @deprecated Use \Magento\Customer\Helper\Data::getSharedStoreIds
      */
     public function getSharedStoreIds()
     {
@@ -1312,7 +1306,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
             return true;
         }
 
-        $expirationPeriod = $this->_customerData->getResetPasswordLinkExpirationPeriod();
+        $expirationPeriod = $this->getResetPasswordLinkExpirationPeriod();
 
         $currentTimestamp = $this->dateTime->toTimestamp($this->dateTime->now());
         $tokenTimestamp = $this->dateTime->toTimestamp($linkTokenCreatedAt);
@@ -1326,6 +1320,19 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         }
 
         return false;
+    }
+
+    /**
+     * Retrieve customer reset password link expiration period in days
+     *
+     * @return int
+     */
+    public function getResetPasswordLinkExpirationPeriod()
+    {
+        return (int)$this->_scopeConfig->getValue(
+            self::XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
+            \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
+        );
     }
 
     /**

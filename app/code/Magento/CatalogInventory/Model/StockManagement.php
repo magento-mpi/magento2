@@ -15,7 +15,6 @@ use Magento\Catalog\Model\ProductFactory;
 
 /**
  * Class StockManagement
- * @package Magento\CatalogInventory\Model
  */
 class StockManagement implements StockManagementInterface
 {
@@ -119,7 +118,7 @@ class StockManagement implements StockManagementInterface
      * @param int $websiteId
      * @return bool
      */
-    public function revertProductsSale(array $items, $websiteId = null)
+    public function revertProductsSale($items, $websiteId = null)
     {
         //if (!$websiteId) {
         $websiteId = $this->stockConfiguration->getDefaultWebsiteId();

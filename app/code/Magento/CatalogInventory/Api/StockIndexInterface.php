@@ -9,7 +9,6 @@ namespace Magento\CatalogInventory\Api;
 
 /**
  * Interface StockIndexInterface
- * @package Magento\CatalogInventory\Api
  */
 interface StockIndexInterface
 {

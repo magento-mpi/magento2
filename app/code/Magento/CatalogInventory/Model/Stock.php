@@ -12,7 +12,6 @@ use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**
  * Class Stock
- * @package Magento\CatalogInventory\Model
  */
 class Stock extends AbstractExtensibleModel implements StockInterface
 {

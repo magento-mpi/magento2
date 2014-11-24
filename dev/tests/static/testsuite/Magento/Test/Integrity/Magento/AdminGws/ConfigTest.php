@@ -16,7 +16,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testEventSubscriberFormat()
     {
-        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker = new \Magento\Framework\Test\Utility\AggregateInvoker($this);
         $invoker(
             /**
              * @param string $file
@@ -28,7 +28,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 /** @var \SimpleXMLElement $node */
                 foreach ($nodes as $node) {
                     $class = implode('\\', array_map('ucfirst', explode('_', $node->getName())));
-                    if (!\Magento\TestFramework\Utility\Files::init()->classFileExists($class, $path)) {
+                    if (!\Magento\Framework\Test\Utility\Files::init()->classFileExists($class, $path)) {
                         $errors[] = "'{$node->getName()}' => '{$path}'";
                     }
                 }
@@ -41,7 +41,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     );
                 }
             },
-            \Magento\TestFramework\Utility\Files::init()->getMainConfigFiles()
+            \Magento\Framework\Test\Utility\Files::init()->getMainConfigFiles()
         );
     }
 }

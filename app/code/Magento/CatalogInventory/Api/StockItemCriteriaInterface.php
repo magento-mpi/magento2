@@ -47,7 +47,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
     /**
      * Add product filter to collection
      *
-     * @param int $products
+     * @param int|int[] $products
      * @return bool
      */
     public function setProductsFilter($products);
