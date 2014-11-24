@@ -68,6 +68,11 @@ class Review implements SetupInterface
     protected $ratings;
 
     /**
+     * @var int
+     */
+    protected $entityId;
+
+    /**
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
@@ -178,14 +183,12 @@ class Review implements SetupInterface
     protected function getRating($rating)
     {
         $ratingCollection = $this->ratingFactory->create()->getResourceCollection();
-        if (!$ratingCollection) {
-            $this->ratings = [];
-        }
         if (!$this->ratings[$rating]) {
             $this->ratings[$rating] = $ratingCollection->addFieldToFilter('rating_code', $rating)->getFirstItem();
         }
         return $this->ratings[$rating];
     }
+
     /**
      * @param \Magento\Review\Model\Review $review
      * @param array $row
@@ -222,7 +225,7 @@ class Review implements SetupInterface
             )->setIsActive(
                 '1'
             )->setEntityId(
-                '1'
+                $this->getRatingEntityId()
             )->save();
 
             /**Create rating options*/
@@ -259,5 +262,17 @@ class Review implements SetupInterface
             return $customerData->getId();
         }
         return null;
+    }
+
+    /**
+     * @return int
+     */
+    protected function getRatingEntityId()
+    {
+        if(!$this->entityId) {
+            $rating = $this->ratingFactory->create();
+            $this->entityId = $rating->getEntityIdByCode(\Magento\Review\Model\Rating::ENTITY_PRODUCT_CODE);
+        }
+        return $this->entityId;
     }
 }
