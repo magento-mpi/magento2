@@ -93,6 +93,9 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     protected $scopeConfig;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $quoteAddressFactoryMock = $this->getMock(

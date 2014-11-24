@@ -439,7 +439,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
      */
     public function testMapQuoteExtraTaxables($itemData, $addressData)
     {
-        $objectManager = new ObjectManager($this);
         $taxData = $this->getMock('Magento\Tax\Helper\Data', [], [], '', false);
         $taxConfig = $this->getMock('\Magento\Tax\Model\Config', [], [], '', false);
         $taxCalculationService = $this->getMock('\Magento\Tax\Service\V1\TaxCalculationService', [], [], '', false);

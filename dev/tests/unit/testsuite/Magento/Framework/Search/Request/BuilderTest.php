@@ -109,6 +109,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->requestBuilder->create();
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testCreate()
     {
         $data = [

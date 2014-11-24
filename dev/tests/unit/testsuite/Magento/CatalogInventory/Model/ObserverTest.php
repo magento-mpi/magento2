@@ -8,7 +8,7 @@
 namespace Magento\CatalogInventory\Model;
 
 /**
- * Class ObserverTest
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {

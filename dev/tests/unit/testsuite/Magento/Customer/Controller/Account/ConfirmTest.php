@@ -12,6 +12,9 @@ use Magento\Customer\Helper\Address;
 use Magento\Customer\Model\Url;
 use Magento\Store\Model\ScopeInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ConfirmTest extends \PHPUnit_Framework_TestCase
 {
     /**
