@@ -9,7 +9,6 @@
 namespace Magento\Framework\ObjectManager\Config;
 
 use Magento\Framework\ObjectManager\ConfigCacheInterface;
-use Magento\Framework\ObjectManager\Relations;
 use Magento\Framework\ObjectManager\RelationsInterface;
 
 class Compiled implements \Magento\Framework\ObjectManager\ConfigInterface

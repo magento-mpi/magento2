@@ -153,7 +153,7 @@ class Compiler implements \Magento\Framework\AppInterface
     }
 
     /**
-     * @param $fileName
+     * @param string $fileName
      *
      * @return void
      */
