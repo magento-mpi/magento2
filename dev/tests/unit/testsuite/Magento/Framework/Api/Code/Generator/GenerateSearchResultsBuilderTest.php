@@ -50,7 +50,8 @@ class GenerateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
                 null,
                 $this->ioObjectMock,
                 null,
-                null
+                null,
+                $this->getMock('Magento\Framework\Filesystem\FileResolver')
             ]
         );
         $sampleSearchResultBuilderCode = file_get_contents(__DIR__ . '/_files/SampleSearchResultsBuilder.txt');
@@ -65,6 +66,6 @@ class GenerateSearchResultsBuilderTest extends \PHPUnit_Framework_TestCase
         $model->expects($this->once())
             ->method('_validateData')
             ->will($this->returnValue(true));
-        $this->assertTrue($model->generate(), implode("\n", $model->getErrors()));
+        $this->assertEquals('SampleSearchResultsBuilder.php', $model->generate(), implode("\n", $model->getErrors()));
     }
 }

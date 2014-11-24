@@ -144,7 +144,7 @@ class Curl extends AbstractCurl
     {
         $widgetInstancePageGroup['layout_handle'] = 'default';
         $widgetInstancePageGroup['for'] = 'all';
-        if (!isset($this->mappingData['template'][$widgetInstancePageGroup['template']])) {
+        if (!isset($widgetInstancePageGroup['template'])) {
             $widgetInstancePageGroup['template'] = $this->widgetInstanceTemplate;
         }
 

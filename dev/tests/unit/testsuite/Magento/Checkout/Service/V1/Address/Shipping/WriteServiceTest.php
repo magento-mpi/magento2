@@ -92,7 +92,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     {
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with('cart654')
             ->will($this->returnValue($quoteMock));
 
@@ -106,7 +106,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     {
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with('cart867')
             ->will($this->returnValue($quoteMock));
         $quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
@@ -134,7 +134,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $quoteMock->expects($this->once())->method('setShippingAddress')->with($this->quoteAddressMock);
         $quoteMock->expects($this->once())->method('setDataChanges')->with(true);
-        $quoteMock->expects($this->once())->method('save');
+        $this->quoteRepositoryMock->expects($this->once())->method('save')->with($quoteMock);
 
         $addressId = 1;
         $shippingAddressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', [], [], '', false);
@@ -153,7 +153,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     {
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with('cart867')
             ->will($this->returnValue($quoteMock));
         $quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(true));
@@ -187,7 +187,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     {
         $quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with('cart867')
             ->will($this->returnValue($quoteMock));
         $quoteMock->expects($this->once())->method('isVirtual')->will($this->returnValue(false));
@@ -215,9 +215,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $quoteMock->expects($this->once())->method('setShippingAddress')->with($this->quoteAddressMock);
         $quoteMock->expects($this->once())->method('setDataChanges')->with(true);
-        $quoteMock->expects($this->once())->method('save')->willThrowException(
-            new \Exception('Some DB Error')
-        );
+        $this->quoteRepositoryMock->expects($this->once())
+            ->method('save')
+            ->with($quoteMock)
+            ->willThrowException(
+                new \Exception('Some DB Error')
+            );
         $this->service->setAddress('cart867', $addressData);
     }
 }

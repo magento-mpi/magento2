@@ -541,7 +541,7 @@ class CatalogProductSimple extends AbstractRepository
             'website_ids' => ['Main Website'],
             'visibility' => 'Catalog, Search',
             'checkout_data' => ['preset' => 'order_default'],
-            'msrp' => 500.00,
+            'msrp' => 600.00,
             'msrp_display_actual_price_type' => 'Before Order Confirmation'
         ];
 

@@ -13,6 +13,11 @@
  */
 namespace Magento\MultipleWishlist\Block;
 
+/**
+ * Class Link
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Link extends \Magento\Wishlist\Block\Link
 {
     /**

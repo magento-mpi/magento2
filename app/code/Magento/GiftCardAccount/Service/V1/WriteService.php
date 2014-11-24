@@ -61,7 +61,7 @@ class WriteService implements WriteServiceInterface
     public function set($cartId, \Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccount $giftCardAccountData)
     {
         /** @var  \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
         if (!$quote->getItemsCount()) {
             throw new NoSuchEntityException("Cart $cartId doesn't contain products");
         }
@@ -81,7 +81,7 @@ class WriteService implements WriteServiceInterface
     public function delete($cartId, $couponCode)
     {
         /** @var  \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
         if (!$quote->getItemsCount()) {
             throw new NoSuchEntityException("Cart $cartId doesn't contain products");
         }
