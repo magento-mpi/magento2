@@ -9,77 +9,53 @@
  */
 namespace Magento\Framework\App\Cache;
 
+use Magento\Framework\App\DeploymentConfig;
+use Magento\Framework\App\Cache\Type\ConfigSegment;
+use Magento\Framework\App\DeploymentConfig\Writer;
+
 class State implements StateInterface
 {
-    /**
-     * Cache identifier used to store cache type statuses
-     */
-    const CACHE_ID  = 'core_cache_options';
-    
     /**
      * Disallow cache
      */
     const PARAM_BAN_CACHE = 'global_ban_use_cache';
 
     /**
-     * Persistent storage of cache type statuses
+     * Deployment configuration
      *
-     * @var State\OptionsInterface
+     * @var DeploymentConfig
      */
-    private $_options;
+    private $config;
 
     /**
-     * Cache frontend to delegate actual cache operations to
+     * Deployment configuration storage writer
      *
-     * @var \Magento\Framework\Cache\FrontendInterface
+     * @var Writer
      */
-    private $_cacheFrontend;
+    private $writer;
 
     /**
      * Associative array of cache type codes and their statuses (enabled/disabled)
      *
      * @var array
      */
-    private $_typeStatuses = array();
+    private $statuses;
 
     /**
-     * @param State\OptionsInterface $options
-     * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
+     * @var bool
+     */
+    private $banAll;
+
+    /**
+     * @param DeploymentConfig $config
+     * @param Writer $writer
      * @param bool $banAll Whether all cache types are forced to be disabled
      */
-    public function __construct(
-        State\OptionsInterface $options,
-        \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
-        $banAll = false
-    ) {
-        $this->_options = $options;
-        $this->_cacheFrontend =
-            $cacheFrontendPool->get(\Magento\Framework\App\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID);
-        $this->_loadTypeStatuses($banAll);
-    }
-
-    /**
-     * Load statuses (enabled/disabled) of cache types
-     *
-     * @param bool $forceDisableAll
-     * @return void
-     */
-    private function _loadTypeStatuses($forceDisableAll = false)
+    public function __construct(DeploymentConfig $config, Writer $writer, $banAll = false)
     {
-        $typeOptions = $this->_cacheFrontend->load(self::CACHE_ID);
-        if ($typeOptions !== false) {
-            $typeOptions = unserialize($typeOptions);
-        } else {
-            $typeOptions = $this->_options->getAllOptions();
-            if ($typeOptions !== false) {
-                $this->_cacheFrontend->save(serialize($typeOptions), self::CACHE_ID);
-            }
-        }
-        if ($typeOptions) {
-            foreach ($typeOptions as $cacheType => $isTypeEnabled) {
-                $this->setEnabled($cacheType, $isTypeEnabled && !$forceDisableAll);
-            }
-        }
+        $this->config = $config;
+        $this->writer = $writer;
+        $this->banAll = $banAll;
     }
 
     /**
@@ -90,7 +66,8 @@ class State implements StateInterface
      */
     public function isEnabled($cacheType)
     {
-        return isset($this->_typeStatuses[$cacheType]) ? (bool)$this->_typeStatuses[$cacheType] : false;
+        $this->load();
+        return isset($this->statuses[$cacheType]) ? (bool)$this->statuses[$cacheType] : false;
     }
 
     /**
@@ -102,7 +79,8 @@ class State implements StateInterface
      */
     public function setEnabled($cacheType, $isEnabled)
     {
-        $this->_typeStatuses[$cacheType] = (int)$isEnabled;
+        $this->load();
+        $this->statuses[$cacheType] = (int)$isEnabled;
     }
 
     /**
@@ -112,7 +90,24 @@ class State implements StateInterface
      */
     public function persist()
     {
-        $this->_options->saveAllOptions($this->_typeStatuses);
-        $this->_cacheFrontend->remove(self::CACHE_ID);
+        $this->load();
+        $segment = new ConfigSegment($this->statuses);
+        $this->writer->update($segment);
+    }
+
+    /**
+     * Load statuses (enabled/disabled) of cache types
+     *
+     * @return void
+     */
+    private function load()
+    {
+        if (null === $this->statuses) {
+            $this->statuses = [];
+            if ($this->banAll) {
+                return;
+            }
+            $this->statuses = $this->config->getSegment(ConfigSegment::SEGMENT_KEY) ?: [];
+        }
     }
 }

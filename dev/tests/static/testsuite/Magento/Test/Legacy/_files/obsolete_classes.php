@@ -2856,4 +2856,6 @@ return array(
     ['Magento\Framework\Module\DependencyManagerInterface'],
     ['Magento\Framework\App\Arguments\Loader'],
     ['Magento\Framework\App\Arguments', 'Magento\Framework\App\DeploymentConfig'],
+    ['Magento\Framework\App\Cache\State\Options', 'Magento\Framework\App\Cache\State'],
+    ['Magento\Framework\App\Cache\State\OptionsInterface', 'Magento\Framework\App\Cache\State'],
 );

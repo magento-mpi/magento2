@@ -34,8 +34,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $filesystemMock =
             $this->getMock('Magento\Framework\Filesystem', array('getDirectoryRead'), array(), '', false);
         $this->_coreConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->_cacheState =
-            $this->getMock('\Magento\Framework\App\Cache\State', array('isEnabled'), array(), '', false);
+        $this->_cacheState = $this->getMockForAbstractClass('Magento\Framework\App\Cache\StateInterface');
 
         $modulesDirectoryMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Write',
@@ -122,17 +121,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEnabled()
     {
-        $this->_cacheState->setEnabled(\Magento\PageCache\Model\Cache\Type::TYPE_IDENTIFIER, true);
-
-        $this->_cacheState->expects(
-            $this->once()
-        )->method(
-            'isEnabled'
-        )->with(
-            \Magento\PageCache\Model\Cache\Type::TYPE_IDENTIFIER
-        )->will(
-            $this->returnValue(true)
-        );
-        $this->_model->isEnabled();
+        $this->_cacheState->expects($this->at(0))
+            ->method('isEnabled')
+            ->with(\Magento\PageCache\Model\Cache\Type::TYPE_IDENTIFIER)
+            ->will($this->returnValue(true));
+        $this->_cacheState->expects($this->at(1))
+            ->method('isEnabled')
+            ->with(\Magento\PageCache\Model\Cache\Type::TYPE_IDENTIFIER)
+            ->will($this->returnValue(false));
+        $this->assertTrue($this->_model->isEnabled());
+        $this->assertFalse($this->_model->isEnabled());
     }
 }
