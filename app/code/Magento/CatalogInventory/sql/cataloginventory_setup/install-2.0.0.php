@@ -25,13 +25,10 @@ $table = $installer->getConnection()
     )
     ->addColumn(
         'website_id',
-        [
-            'TYPE' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-            'LENGTH' => 5,
-            'UNSIGNED' => true,
-            'NULLABLE' => false,
-            'COMMENT' => 'Website Id'
-        ]
+        \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+        5,
+        ['unsigned' => true, 'nullable' => false],
+        'Website Id'
     )
     ->addColumn(
         'stock_name',
