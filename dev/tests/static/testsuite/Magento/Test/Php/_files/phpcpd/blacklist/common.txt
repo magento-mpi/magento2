@@ -133,3 +133,5 @@ Magento/CatalogSearch/Model/Resource/Fulltext
 lib/internal/Magento/Framework/Data
 lib/internal/Magento/Framework/Service
 app/code/Magento/CatalogInventory/Api/Data
+Magento/Catalog/Service
+Magento/Catalog/Model/ProductLink
