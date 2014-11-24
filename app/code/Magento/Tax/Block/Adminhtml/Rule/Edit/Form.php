@@ -342,7 +342,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'tax_product_class' => $taxRule->getProductTaxClassIds(),
             'tax_rate' => $taxRule->getTaxRateIds(),
             'priority' => $taxRule->getPriority(),
-            'position' => $taxRule->getSortOrder(),
+            'position' => $taxRule->getPosition(),
             'calculate_subtotal' => $taxRule->getCalculateSubtotal()
         ];
         return $taxRuleData;

@@ -46,7 +46,7 @@ interface TaxRuleRepositoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If no TaxRate with the given ID can be found.
      * @throws \Exception If something went wrong while performing the delete.
      */
-    public function deleteByIdentifier($ruleId);
+    public function deleteById($ruleId);
 
     /**
      * Search TaxRules
@@ -55,5 +55,5 @@ interface TaxRuleRepositoryInterface
      * @return \Magento\Tax\Api\Data\TaxRuleSearchResultsInterface containing TaxRuleInterface objects
      * @throws \Magento\Framework\Exception\InputException If there is a problem with the input
      */
-    public function search(\Magento\Framework\Api\SearchCriteria $searchCriteria);
+    public function getList(\Magento\Framework\Api\SearchCriteria $searchCriteria);
 }

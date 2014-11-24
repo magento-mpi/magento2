@@ -8,7 +8,7 @@
 namespace Magento\Tax\Model\Calculation;
 
 use Magento\Framework\Api\MetadataServiceInterface;
-use \Magento\Tax\Api\Data\TaxRuleInterface;
+use Magento\Tax\Api\Data\TaxRuleInterface;
 
 /**
  * Tax Rule Model
@@ -42,6 +42,11 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
      */
     protected $validator;
 
+    /**
+     * Name of object id field
+     *
+     * @var string
+     */
     protected $_idFieldName = 'tax_calculation_rule_id';
 
     /**
@@ -168,14 +173,6 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
     public function fetchRuleCodes($rateId, $customerTaxClassIds, $productTaxClassIds)
     {
         return $this->getResource()->fetchRuleCodes($rateId, $customerTaxClassIds, $productTaxClassIds);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
-    {
-        return parent::getId();
     }
 
     /**

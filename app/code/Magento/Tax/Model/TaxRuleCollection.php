@@ -53,7 +53,7 @@ class TaxRuleCollection extends AbstractServiceCollection
     {
         if (!$this->isLoaded()) {
             $searchCriteria = $this->getSearchCriteria();
-            $searchResults = $this->ruleService->search($searchCriteria);
+            $searchResults = $this->ruleService->getList($searchCriteria);
             $this->_totalRecords = $searchResults->getTotalCount();
             foreach ($searchResults->getItems() as $taxRule) {
                 $this->_addItem($this->createTaxRuleCollectionItem($taxRule));

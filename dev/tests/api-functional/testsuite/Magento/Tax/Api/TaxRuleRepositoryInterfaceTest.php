@@ -47,7 +47,6 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
             'Magento\Framework\Api\FilterBuilder'
         );
         $objectManager = Bootstrap::getObjectManager();
-//        $this->taxRateService = $objectManager->get('Magento\Tax\Service\V1\TaxRuleService');
 
         $this->searchCriteriaBuilder = $objectManager->create(
             'Magento\Framework\Api\SearchCriteriaBuilder'
@@ -95,7 +94,7 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteByIdentifier'
+                'operation' => self::SERVICE_NAME . 'DeleteById'
             ]
         ];
         $requestData = ['ruleId' => $taxRuleId];
@@ -280,7 +279,7 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Search'
+                'operation' => self::SERVICE_NAME . 'GetList'
             ]
         ];
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
@@ -335,7 +334,7 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Search'
+                'operation' => self::SERVICE_NAME . 'GetList'
             ]
         ];
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
@@ -525,7 +524,7 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Search'
+                'operation' => self::SERVICE_NAME . 'GetList'
             ]
         ];
 

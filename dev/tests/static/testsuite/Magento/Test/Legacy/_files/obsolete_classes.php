@@ -2869,5 +2869,6 @@ return array(
     ['Magento\Tax\Service\V1\TaxClassServiceInterface', 'Magento\Tax\Api\TaxClassRepositoryInterface'],
     ['Magento\Tax\Service\V1\Data\TaxClassSearchResultsBuilder'],
     ['Magento\Tax\Service\V1\Data\TaxClassKeyBuilder'],
-    ['Magento\Tax\Service\V1\Data\TaxClassBuilder']
+    ['Magento\Tax\Service\V1\Data\TaxClassBuilder'],
+    ['Magento\Tax\Service\V1\Data\QuoteDetails\Item', 'Magento\Tax\Api\Data\QuoteDetailsItemInterface'],
 );
