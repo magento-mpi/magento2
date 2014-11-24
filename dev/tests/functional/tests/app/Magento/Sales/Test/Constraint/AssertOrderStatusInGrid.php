@@ -47,7 +47,7 @@ class AssertOrderStatusInGrid extends AbstractConstraint
     ) {
         $orderStatusIndexPage->open();
         $orderStatusLabel = $orderStatus->getLabel();
-        $filter = ['label' => $orderStatusLabel];
+        $filter = ['status' => $orderStatus->getStatus(), 'label' => $orderStatusLabel];
         if ($defaultState !== null) {
             $state = $this->prepareState($orderStatus->getState());
             $filter = ['label' => $defaultState, 'state' => $state];

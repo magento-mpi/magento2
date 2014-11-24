@@ -1,3 +1,253 @@
+0.1.0-alpha104
+=============
+* Various improvements:
+    * Merge SQL and Data Upgrades for the Sales and SalesRule modules
+    * Add getDefaultBilling and getDefaultShipping to Customer Interface
+    * Stabilized the Bundle module
+    * Stabilized the CatalogSearch module
+    * Stabilized the Cms module
+    * Stabilized the SalesRule module
+* Performance improvements:
+    * Introduced CatalogRule indexers based on Mview
+    * Significantly decreased the amount of unused objects, mostly in category and product view scenarios:
+		* Got rid of non-shared indexer instances all over the code introducing Magento\Indexer\Model\IndexerRegistry
+		* Magento\Catalog\Pricing\Price\BasePrice being created on demand only, instead of unconditioned creation in constructor
+		* Created proxies for unused objects with big amount of dependencies
+		* Fixed \Magento\Review\Block\Product\Review block which injected backend block context by mistake
+		* A customer model in \Magento\Customer\Model\Layout\DepersonalizePlugin being created on demand only, instead of constructor
+    * Introduced caching for product attribute metadata loading procedure
+    * Improved SavePayment Checkout step to save only payment related data
+    * Speed up all Checkout steps of the One Page Checkout
+    * Updated the benchmark.jmx jmeter script in the performance toolkit
+* Fixed bugs:
+    * Fixed an issue where performance toolkit generator created Products/Categories without URL rewrites due to install area elimination
+    * Fixed an issue where the Custom Options fieldset on Product Information page was collapsible
+    * Fixed an issue where the Base URL was added to target path for Custom UrlRewrite
+    * Fixed an issue where an invalid Cross-sells amount was displayed in the Shopping Cart
+    * Fixed an issue where the Mage_Catalog_Model_Product_Type_AbstractTest::testBeforeSave integration test failed when Mage_Downloadable module was not available
+    * Fixed an issue where the custom URL rewrite redirected to sub-folder when Request Path contained slash
+    * Fixed an issue where it was impossible to place an order if registering during checkout
+    * Fixed an issue where there was no possibility to save default billing and shipping addresses for customer on the store front
+    * Fixed an issue where a widget of Catalog Category Link type was not displayed on the store front
+    * Fixed an issue where the Versions tab was absent on the CMS page with version control
+    * Fixed an issue where it was impossible to insert Widgets and Images to a CMS page
+* Added the following functional tests:
+    * Create widget
+    * Print order from guest on frontend
+* Framework Improvements:
+    * Removed duplicated logic from API Builders and Builder generators. Added support for populating builders from the objects, implementing data interface
+* Processed GitHub requests:
+    * [#674](https://github.com/magento/magento2/issues/674) -- Widgets in content pages
+
+0.1.0-alpha103
+=============
+* Fixed bugs:
+    * Fixed an issue where an error message was displayed after successful product mass actions
+    * Fixed an issue where it is impossible to create a tax rate for all states (“*” in the State field)
+    * Fixed an issue where FPT was not shown on the storefront if a customer state did not match the default state from configuration
+    * Fixed the benchmark scenario
+    * Fixed an issue where the expand arrow next to Advanced Settings tab label was not clickable
+    * Fixed an issue where the Category menu disappeared when resizing a browser window
+    * Fixed an issue where the order additional info was not available for a guest customer
+    * Fixed an issue where a fatal error was thrown when trying to get a coupon report with Shopping Cart Price Rule set to Specified
+    * Fixed an issue where the URL of an attribute set for attribute mapping changed after resetting filter for the grid on the Google Contents Attributes page
+    * Fixed the implementation of the wishlist RSS-feed
+    * Fixed the incorrect name escaping in wishlist RSS
+    * Fixed an issue where a RSS feed for shared wishlist was not accessible
+    * Fixed an issue caused by REST POST/PUT requests with empty body
+    * Fixed an issues where postal code was still mandatory for non-US addresses that do not use it, even if set to be optional
+    * Fixed an issue where it was impossible to find a wishlist by using Wishlist Search
+    * Fixed an issue where no password validation was requested during customer registration on the storefront
+* Updated setup tools:
+    * Added the install script in the CatalogInventory module
+    * Removed old installation: Web and CLI, the Magento_Install module, install theme, install configuration scope
+    * Added usage of the new setup installation in all tests
+    * Added the ability to insert custom directory paths in the setup tools
+    * Added the uninstall tool: php -f setup/index.php uninstall
+    * Removed dependency on intl PHP extension until translations are re-introduced in the setup tool
+    * Made notification about unnecessarily writable directories after installation more specific
+* UI improvements:
+    * Improved UI for the Order by SKU, Invitation and Recurring Payments pages
+    * Implemented usage of Microdata and Schema vocabulary for product content
+    * Implemented UI for Catalog New Products List, Recently Compared Products, Recently Viewed Products widgets
+    * Implemented a new focus indicator
+    * Implemented the &lt;label&gt; element for form inputs
+    * Put in order the usage of the &lt;fieldset&gt; and &lt;legend&gt; tags
+    * Implemented the ability to skip to main content
+* Added the following functional tests:
+    * Add products to order from recently viewed products section
+    * Update configurable product
+* Various improvements:
+    * Stabilize URL rewrite module
+    * Moved getAdditional request into the basic one in OnePageCheckout
+    * Created a cron job in the Customer module for cleaning the customer_visitor table
+* Framework improvements:
+    * Refactored data builders auto-generation
+    * Implemented the Customer module interfaces
+    * Ported existing integration tests from Customer services
+    * Removed quote saving on GET requests (checkout/cart, checkout/onepage)
+
+0.1.0-alpha102
+=============
+* Fixed bugs:
+	* Fixed an issue where the categories tree was not displayed when adding a new category during product creation
+	* Fixed an issue where the Template field on the New Email Template page was labeled as required
+	* Fixed minor UI issues in Multiple Addresses Checkout for a desktop
+	* Fixed minor UI issues with Widgets on the storefront
+	* Fixed minor UI issues with pages printing view on the storefront
+	* Fixed minor UI issues in items Gift message on the Order View frontend page
+	* Fixed an issue in the Admin panel where no message was displayed after adding a product to cart with quantity exceeding the available quantity)
+* Framework improvements:
+	* To enhance the readability of tables for screen readers, added the <caption> tag and the “scope” attribute for tables
+	* Added customer module interfaces
+	* Created the ability to generate API documentation
+* Added the following functional tests:
+	* Create gift message in the Admin panel
+	* Delete term
+	* Product type switching when editing
+	* Re-authorize tokens for the Integration
+	* Revoke all access tokens for admin without tokens
+	* Update custom order status
+	* Update a product from a mini shopping cart
+* WebApi Framework improvements:
+	* Added Web API support to add/override matching identifier parameter in the body from URL
+* Documentation:
+	* Added README files with module description for the following modules:
+		* Authorizenet
+		* Centinel
+		* Customer
+		* CustomerImportExport
+		* Dhl
+		* Fedex
+		* OfflinePayments
+		* OfflineShipping
+		* Ogone
+		* PayPalRecurringPayment
+		* Payment
+		* Paypal
+		* ProductAlert
+		* RecurringPayment
+		* Sendfriend
+		* Shipping
+		* Ups
+		* Usps
+		* Wishlist
+* Container-Based Page Layout:
+    * Distributed the responsibility of View\Layout between three classes (PageLayout, PageConfig, GenericLayout)
+    * Refactored controller actions to use ResultInterface objects:
+        * Catalog
+        * Backend
+
+0.1.0-alpha101
+=============
+ * Framework improvements:
+  * Updated the Service infrastructure to support Module Service Contract based approach
+  * Added new base classes in the Service infrastructure lib to support extensible Data Interfaces
+  * Updated the WebApi framework serialization (for SOAP and REST) to process requests based on Data Interfaces and removed dependency on Data Objects
+  * Added base class for Data Interface based builders and implemented a code generator for the same
+ * File system improvements: 
+   * List of available application directories is complete now and defined in the \Magento\Framework\Filesystem\DirectoryList and the \Magento\Framework\App\Filesystem\DirectoryList classes. There is no ability to extend the list in configuration
+   * Directory paths  can be changed using environment/bootstrap
+   * Information about necessary permissions (writable, readable) belongs to Setup Application, Magento Application does not possess this info and does not verify. Setup Application performs permissions validation
+   * Unnecessary writable permissions are validated by Setup Application after installation and corresponding message is displayed to the user
+ * Functional tests:
+  * Configure a product in a customer wishlist  in the Admin panel 
+  * Configure a product in a customer wishlist on the storefront 
+  * Create terms and conditions 
+  * Manage products stock 
+  * Move a product from a shopping card to a wishlist 
+  * Un-assign custom order status 
+  * Update terms and conditions 
+  * Update URL rewrites after moving/deleting a category 
+  * Update URL rewrites after changing category assignment for a product
+  * View customer wishlist  in the Admin panel
+  * Tax calculation test
+  * Cross border trade setting
+ * Documentation:
+  * Code documentation:
+    * Added codeblock for the Checkout module
+  * Added README files with module description for the following modules:
+    * Backend
+    * Backup
+    * Cron
+    * Log
+    * PageCache
+    * Store
+    * Checkout
+    * GiftMessage
+    * Eav
+    * Multishipping
+    * CheckoutAgreement
+    * AdminNotification
+    * Authz
+    * Connect
+    * CurrencySymbol
+    * Directory
+    * Email
+    * Integration
+    * Service
+    * User
+    * Webapi
+    * Sales
+    * Tax
+    * Weee
+  * Added README files with component description for the following framework components:
+    * Magento\Framework\App\Cache
+    * Magento\Framework\Archive
+    * Magento\Framework\Backup
+    * Magento\Framework\Convert
+    * Magento\Framework\Encryption
+    * Magento\Framework\File
+    * Magento\Framework\Filesystem
+    * Magento\Framework\Flag
+    * Magento\Framework\Image
+    * Magento\Framework\Math
+    * Magento\Framework\Option
+    * Magento\Framework\Profiler
+    * Magento\Framework\Shell
+    * Magento\Framework\Stdlib
+    * Magento\Framework\Validator
+ * Performance improvements:
+  * Reduced checkout response time by loading only current checkout step 
+  * Reduced the number of AJAX calls on checkout steps 
+  * Improved performance on the billing and shipping checkout steps 
+  * Improved performance in certain areas by loading translation data from cache 
+  * Removed transactions from visitors logging 
+  * Fixed classmap generator to consider namespaces 
+  * Eliminated a redundant query for category tree rendering 
+  * Optimized StoreManager and Storage performance 
+  * Optimized Object Manager 
+ * Fixed bugs:
+  * Fixed an issue where partial invoices and partial credit memos contained incorrect customer's tax details 
+  * Fixed an issue where a PHP fatal error occurred when logging in during checkout to order a product with FPT 
+  * Fixed an issue where FPT was not calculated in reorders 
+  * Fixed an issue where there was a duplicated Administrator role after installation 
+  * Fixed an issue where the Try Again button was disabled after entering the incorrect data during installation 
+  * Fixed an issue where the "Application is not installed yet" error was thrown instead of redirecting to the Installation Wizard in the developer mode
+  * Fixed an issue where an error was thrown during installation with db_prefix option 
+  * Fixed an issue where the SQL query was not optimized for product search ('catalogsearch_query')
+  * Fixed an issue where the wrong message was displayed after changing customer password on the storefront 
+  * Fixed an issue where Newsletter preview led to an empty page 
+  * Fixed an issue where a new search term was not displayed in suggested results 
+  * Fixed an issue where no results were found for the Products Viewed report 
+  * Fixed an issue where no results were found for Coupons reports 
+  * Fixed an issue with incremental Qty setting 
+  * Fixed an issue with allowing importing of negative weight values 
+  * Fixed an issue with Inventory - Only X left Treshold being not dependent on Qty for Item's Status to Become Out of Stock 
+  * Fixed an issue where the "Catalog Search Index index was rebuilt." message was displayed when reindexing the Catalog Search index  
+ * Search module:
+  * Integrated the Search library to the advanced search functionality 
+    * Substituted the old logic of the EAV attributes search by Advanced Search 
+    * Introduced mappers for MySQL adapter 
+    * Restored  the currency calculation functionality 
+    * Fixed sorting by relevance in quick search and advanced search 
+  * Integrated the Search library into the search widget functionality 
+    * Removed the dependency on the catalogsearch_result table 
+    * Substituted the old logic of EAV attributes by Quick search APIs 
+  * Search modularity: 
+    * Removed circular dependency between Catalog and  Catalog Search 
+    * Removed exceeded dependencies of the Search module
+
 0.1.0-alpha100
 =============
  * Added the following functional tests:
@@ -411,7 +661,7 @@
    * Placing the order on frontend if enter in the street address line 1 and 2 255 symbols
    * Using  @357.farm domain emails in registration form
    * Validation for country_id/region_id and percentage_rate during Tax Rate creation
-   * Declaration of getSortOrders in Magento\Framework\Service\V1\Data\SearchCriteria
+   * Declaration of getSortOrders in Magento\Framework\Api\SearchCriteria
    * Order cancellation for online payment methods
    * Order online processing for Authorize.net Direct Post
    * Backend grids while search

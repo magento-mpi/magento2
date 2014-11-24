@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Framework\Module\Setup */
+/** @var $installer \Magento\Setup\Module\SetupModule */
 $installer = $this;
 $installer->startSetup();
 
@@ -81,11 +81,11 @@ $table = $installer->getConnection()->newTable(
 $installer->getConnection()->createTable($table);
 
 /**
- * Alter sales_flat_quote table with is_persistent flag
+ * Alter sales_quote table with is_persistent flag
  *
  */
 $installer->getConnection()->addColumn(
-    $installer->getTable('sales_flat_quote'),
+    $installer->getTable('sales_quote'),
     'is_persistent',
     array(
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,

@@ -13,22 +13,22 @@ namespace Magento\Framework\App;
 class RouterList implements RouterListInterface
 {
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
     /**
      * List of routers
      *
-     * @var array
+     * @var RouterInterface[]
      */
     protected $routerList;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param array $routerList
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, array $routerList)
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, array $routerList)
     {
         $this->objectManager = $objectManager;
         $this->routerList = $routerList;

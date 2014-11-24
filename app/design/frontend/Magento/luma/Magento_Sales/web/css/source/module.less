@@ -279,21 +279,25 @@
     }
 }
 
-.block.reorder {
-    .item {
-        .checkbox {
-            position: relative;
-            top: 2px;
-            vertical-align: baseline;
-        }
+.block-reorder {
+    .block-title {
+        &:extend(.abstract-block-widget-title all);
     }
+
     .actions-toolbar {
         margin: 17px 0;
-        max-width: 178px;
     }
-    .sidebar-main & .subtitle,
-    .sidebar-additional & .subtitle {
-        display: none;
+
+    .product-item-name {
+        display: inline-block;
+    }
+    .product-item {
+        .label {
+            &:extend(.abstract-visually-hidden all);
+        }
+        .field.item {
+            display: inline-block;
+        }
     }
 }
 

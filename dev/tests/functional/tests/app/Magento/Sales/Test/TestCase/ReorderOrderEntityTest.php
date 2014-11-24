@@ -33,77 +33,13 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 class ReorderOrderEntityTest extends Scenario
 {
     /**
-     * Configuration data set name
-     *
-     * @var string
-     */
-    protected $configuration;
-
-    /**
-     * Steps for scenario
-     *
-     * @var array
-     */
-    protected $scenario = [
-        'ReorderOrderEntityTest' => [
-            'methods' => [
-                'test' => [
-                    'scenario' => [
-                        'setupConfiguration' => [
-                            'module' => 'Magento_Core',
-                            'next' => 'createSalesRule'
-                        ],
-                        'createSalesRule' => [
-                            'module' => 'Magento_SalesRule',
-                            'next' => 'createOrder'
-                        ],
-                        'createOrder' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'openOrder'
-                        ],
-                        'openOrder' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'reorder'
-                        ],
-                        'reorder' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'applySalesRuleOnBackend'
-                        ],
-                        'applySalesRuleOnBackend' => [
-                            'module' => 'Magento_SalesRule',
-                            'next' => 'fillBillingAddress',
-                        ],
-                        'fillBillingAddress' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'selectPaymentMethodForOrder'
-                        ],
-                        'selectPaymentMethodForOrder' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'selectShippingMethodForOrder'
-                        ],
-                        'selectShippingMethodForOrder' => [
-                            'module' => 'Magento_Sales',
-                            'next' => 'submitOrder'
-                        ],
-                        'submitOrder' => [
-                            'module' => 'Magento_Sales',
-                        ],
-                    ]
-                ]
-            ]
-        ]
-    ];
-
-    /**
      * Reorder created order
      *
-     * @param string $configData
      * @return void
      */
-    public function test($configData)
+    public function test()
     {
-        $this->configuration = $configData;
-        $this->executeScenario($this->scenario);
+        $this->executeScenario();
     }
 
     /**
@@ -115,7 +51,7 @@ class ReorderOrderEntityTest extends Scenario
     {
         $setConfigStep = $this->objectManager->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
-            ['configData' => $this->configuration, 'rollback' => true]
+            ['configData' => $this->currentVariation['arguments']['configData'], 'rollback' => true]
         );
         $setConfigStep->run();
     }

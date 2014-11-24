@@ -8,39 +8,41 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceBlock name="checkout.onepage.payment.methods_additional">
-        <block class="Magento\Reward\Block\Checkout\Payment\Additional" template="checkout/onepage/payment/additional.phtml" name="reward.points" before="-" cacheable="false"/>
-    </referenceBlock>
-    <referenceContainer name="checkout.onepage.login.before">
-        <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout" template="tooltip.phtml" cacheable="false">
-            <arguments>
-                <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\OrderExtra</argument>
-            </arguments>
-            <action method="setWrapperClass">
-                <argument name="class" xsi:type="string">reward-checkout</argument>
-            </action>
-            <action method="setRewardMessage">
-                <argument translate="true" name="message" xsi:type="string">Log in now and earn %1 for this order.</argument>
-            </action>
-            <action method="setIsGuestNote">
-                <argument name="value" xsi:type="string">1</argument>
-            </action>
-        </block>
-    </referenceContainer>
-    <referenceContainer name="checkout.onepage.login.before">
-        <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout.salesrule" template="tooltip.phtml" cacheable="false">
-            <arguments>
-                <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\Salesrule</argument>
-            </arguments>
-            <action method="setWrapperClass">
-                <argument name="class" xsi:type="string">reward-checkout</argument>
-            </action>
-            <action method="setRewardMessage">
-                <argument translate="true" name="message" xsi:type="string">Log in now and earn %1 for this order.</argument>
-            </action>
-            <action method="setIsGuestNote">
-                <argument name="value" xsi:type="string">1</argument>
-            </action>
-        </block>
-    </referenceContainer>
+    <body>
+        <referenceBlock name="checkout.onepage.payment.methods_additional">
+            <block class="Magento\Reward\Block\Checkout\Payment\Additional" template="checkout/onepage/payment/additional.phtml" name="reward.points" before="-" cacheable="false"/>
+        </referenceBlock>
+        <referenceContainer name="checkout.onepage.login.before">
+            <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout" template="tooltip.phtml" cacheable="false">
+                <arguments>
+                    <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\OrderExtra</argument>
+                </arguments>
+                <action method="setWrapperClass">
+                    <argument name="class" xsi:type="string">reward-checkout</argument>
+                </action>
+                <action method="setRewardMessage">
+                    <argument translate="true" name="message" xsi:type="string">Log in now and earn %1 for this order.</argument>
+                </action>
+                <action method="setIsGuestNote">
+                    <argument name="value" xsi:type="string">1</argument>
+                </action>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="checkout.onepage.login.before">
+            <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout.salesrule" template="tooltip.phtml" cacheable="false">
+                <arguments>
+                    <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\Salesrule</argument>
+                </arguments>
+                <action method="setWrapperClass">
+                    <argument name="class" xsi:type="string">reward-checkout</argument>
+                </action>
+                <action method="setRewardMessage">
+                    <argument translate="true" name="message" xsi:type="string">Log in now and earn %1 for this order.</argument>
+                </action>
+                <action method="setIsGuestNote">
+                    <argument name="value" xsi:type="string">1</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
 </page>

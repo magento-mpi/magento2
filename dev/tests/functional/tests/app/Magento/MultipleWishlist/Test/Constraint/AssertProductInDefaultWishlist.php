@@ -35,7 +35,8 @@ class AssertProductInDefaultWishlist extends AbstractConstraint
      * @param WishlistIndex $wishlistIndex
      * @param InjectableFixture $product
      * @param string $qty
-     * @param string $qtyToMove
+     * @param int $qtyToAction
+     * @param string $typeAction
      * @return void
      */
     public function processAssert(
@@ -44,12 +45,14 @@ class AssertProductInDefaultWishlist extends AbstractConstraint
         WishlistIndex $wishlistIndex,
         InjectableFixture $product,
         $qty,
-        $qtyToMove
+        $qtyToAction,
+        $typeAction
     ) {
         $cmsIndex->getLinksBlock()->openLink('My Account');
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('My Wish List');
-        $actualQuantity = $wishlistIndex->getMultipleItemsBlock()->getItemProduct($product)->getData()['qty'];
-        $expectedQuantity = $qty - $qtyToMove;
+        $formData = $wishlistIndex->getMultipleItemsBlock()->getItemProduct($product)->getData();
+        $actualQuantity = ($qty == '-') ? '-' : $formData['qty'];
+        $expectedQuantity = ($typeAction == 'move') ? $qty - $qtyToAction : $qty;
 
         \PHPUnit_Framework_Assert::assertEquals(
             $expectedQuantity,

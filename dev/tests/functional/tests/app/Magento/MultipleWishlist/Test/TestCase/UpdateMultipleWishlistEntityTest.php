@@ -81,6 +81,7 @@ class UpdateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
         MultipleWishlist $multipleWishlist,
         CustomerInjectable $customer
     ) {
+        $this->markTestIncomplete("Bug: MAGETWO-30155");
         //Steps
         $multipleWishlistOriginal = $this->createMultipleWishlist($multipleWishlistOriginal, $customer);
         $this->openWishlistPage($customer);
@@ -99,16 +100,8 @@ class UpdateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
      */
     public static function tearDownAfterClass()
     {
-        $config = ObjectManager::getInstance()->create(
-            'Magento\Core\Test\Fixture\ConfigData',
-            ['dataSet' => 'disabled_multiple_wishlist_default']
-        );
-        $config->persist();
-        self::$browser->open(
-            $_ENV['app_backend_url'] . 'admin/widget_instance/edit/instance_id/'
-            . self::$wishlistId . '/code/wishlist_search/'
-        );
-        self::$widgetInstanceEdit->getPageActionsBlock()->delete();
+        parent::tearDownAfterClass();
+        ObjectManager::getInstance()->create('Magento\Widget\Test\TestStep\DeleteAllWidgetsStep')->run();
         self::$cachePage->open()->getActionsBlock()->flushMagentoCache();
     }
 }

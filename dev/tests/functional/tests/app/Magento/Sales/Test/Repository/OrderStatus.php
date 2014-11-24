@@ -25,6 +25,11 @@ class OrderStatus extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
+        $this->_data['default'] = [
+            'status' => 'order_status%isolation%',
+            'label' => 'orderLabel%isolation%',
+        ];
+
         $this->_data['assign_to_pending'] = [
             'status' => 'order_status%isolation%',
             'label' => 'orderLabel%isolation%',

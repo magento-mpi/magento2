@@ -47,5 +47,5 @@ class Grid extends AbstractGrid
      *
      * @var string
      */
-    protected $firstRowSelector = '[data-role="row"] td[data-column="rate_id"]';
+    protected $firstRowSelector = '//tr[./td[contains(@class, "col-rate_id")]][1]';
 }

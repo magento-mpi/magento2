@@ -8,7 +8,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <referenceContainer name="payment_methods_before">
-        <block class="Magento\CustomerBalance\Block\Checkout\Onepage\Payment\Additional" template="checkout/multishipping/payment.phtml" name="customerbalance" cacheable="false"/>
-    </referenceContainer>
+    <body>
+        <referenceContainer name="payment_methods_before">
+            <block class="Magento\CustomerBalance\Block\Checkout\Onepage\Payment\Additional" template="checkout/multishipping/payment.phtml" name="customerbalance" cacheable="false"/>
+        </referenceContainer>
+    </body>
 </page>

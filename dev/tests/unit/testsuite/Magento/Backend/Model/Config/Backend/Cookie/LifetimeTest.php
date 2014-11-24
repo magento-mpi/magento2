@@ -17,7 +17,7 @@ class LifetimeTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | CookieLifetimeValidator */
     private $validatorMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Install\Model\Resource\Resource */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Module\Resource */
     private $resourceMock;
 
     /** @var \Magento\Backend\Model\Config\Backend\Cookie\Lifetime */
@@ -29,8 +29,8 @@ class LifetimeTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Session\Config\Validator\CookieLifetimeValidator'
         )->disableOriginalConstructor()
             ->getMock();
-        $this->resourceMock = $this->getMockBuilder('Magento\Install\Model\Resource\Resource')
-            ->disableOriginalConstructor()
+        $this->resourceMock = $this->getMockBuilder('Magento\Framework\Module\Resource')
+            ->disableOriginalConstructor('delete')
             ->getMock();
 
         $objectManager = new ObjectManager($this);
@@ -61,7 +61,7 @@ class LifetimeTest extends \PHPUnit_Framework_TestCase
             ->willReturn(false);
 
         // Test
-        $this->model->setValue($invalidCookieLifetime)->save();
+        $this->model->setValue($invalidCookieLifetime)->beforeSave();
     }
 
     /**
@@ -77,10 +77,9 @@ class LifetimeTest extends \PHPUnit_Framework_TestCase
             ->method('isValid')
             ->with($validCookieLifetime)
             ->willReturn(true);
-        $this->resourceMock->expects($this->once())->method('addCommitCallback')->willReturnSelf();
 
         // Test
-        $this->model->setValue($validCookieLifetime)->save();
+        $this->model->setValue($validCookieLifetime)->beforeSave();
     }
 
     /**
@@ -95,9 +94,7 @@ class LifetimeTest extends \PHPUnit_Framework_TestCase
         $this->validatorMock->expects($this->never())
             ->method('isValid');
 
-        $this->resourceMock->expects($this->once())->method('addCommitCallback')->willReturnSelf();
-
         // Test
-        $this->model->setValue($validCookieLifetime)->save();
+        $this->model->setValue($validCookieLifetime)->beforeSave();
     }
 }

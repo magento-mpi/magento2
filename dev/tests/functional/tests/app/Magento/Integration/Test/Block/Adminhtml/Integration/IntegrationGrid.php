@@ -67,7 +67,7 @@ class IntegrationGrid extends Grid
      *
      * @var string
      */
-    protected $resourcesPopupSelector = './/ancestor::body/div[descendant::div[contains(@data-role,"tree-resources")]]';
+    protected $resourcesPopupSelector = './/ancestor::body/div[descendant::div[@id="integration-popup-container"]]';
 
     /**
      * Selector for Integration tokens popup container
@@ -102,6 +102,18 @@ class IntegrationGrid extends Grid
      * @return void
      */
     public function searchAndActivate(array $filter)
+    {
+        $this->search($filter);
+        $this->_rootElement->find($this->activateLink)->click();
+    }
+
+    /**
+     * Search and reauthorize current item
+     *
+     * @param array $filter
+     * @return void
+     */
+    public function searchAndReauthorize(array $filter)
     {
         $this->search($filter);
         $this->_rootElement->find($this->activateLink)->click();

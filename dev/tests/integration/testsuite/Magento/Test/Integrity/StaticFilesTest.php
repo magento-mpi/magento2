@@ -109,8 +109,6 @@ class StaticFilesTest extends \PHPUnit_Framework_TestCase
                 return $this->design->getConfigurationDesignTheme($area);
             case 'adminhtml':
                 return 'Magento/backend';
-            case 'install':
-                return 'Magento/basic';
             case 'doc':
                 return 'Magento/blank';
             default:
@@ -147,7 +145,7 @@ class StaticFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function referencesFromStaticFilesDataProvider()
     {
-        return \Magento\TestFramework\Utility\Files::init()->getStaticPreProcessingFiles('*.{less,css}');
+        return \Magento\Framework\Test\Utility\Files::init()->getStaticPreProcessingFiles('*.{less,css}');
     }
 
     /**
@@ -187,7 +185,7 @@ class StaticFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function lessNotConfusedWithCssDataProvider()
     {
-        return \Magento\TestFramework\Utility\Files::init()->getStaticPreProcessingFiles('*.{less,css}');
+        return \Magento\Framework\Test\Utility\Files::init()->getStaticPreProcessingFiles('*.{less,css}');
     }
 
     /**
@@ -214,7 +212,7 @@ class StaticFilesTest extends \PHPUnit_Framework_TestCase
     public function referencesFromPhtmlFilesDataProvider()
     {
         $result = array();
-        foreach (\Magento\TestFramework\Utility\Files::init()->getPhtmlFiles(true, false) as $info) {
+        foreach (\Magento\Framework\Test\Utility\Files::init()->getPhtmlFiles(true, false) as $info) {
             list($area, $themePath, , , $file) = $info;
             foreach ($this->collectGetViewFileUrl($file) as $fileId) {
                 $result[] = array($file, $area, $themePath, $fileId);
@@ -262,7 +260,7 @@ class StaticFilesTest extends \PHPUnit_Framework_TestCase
     public function referencesFromLayoutFilesDataProvider()
     {
         $result = array();
-        $files = \Magento\TestFramework\Utility\Files::init()->getLayoutFiles(array('with_metainfo' => true), false);
+        $files = \Magento\Framework\Test\Utility\Files::init()->getLayoutFiles(array('with_metainfo' => true), false);
         foreach ($files as $metaInfo) {
             list($area, $themePath, , ,$file) = $metaInfo;
             foreach ($this->collectFileIdsFromLayout($file) as $fileId) {

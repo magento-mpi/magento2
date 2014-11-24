@@ -139,7 +139,7 @@ class MoveProductFromCustomerActivityToOrderTest extends Injectable
             $this->orderCreateIndex->getConfigureProductBlock()->clickOk();
         }
 
-        return ['entityData' => ['products' => [$product]]];
+        return ['products' => [$product]];
     }
 
     /**
@@ -151,7 +151,7 @@ class MoveProductFromCustomerActivityToOrderTest extends Injectable
     {
         $setupConfig = ObjectManager::getInstance()->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
-            ['configData' => 'disabled_multiple_wishlist_default']
+            ['configData' => 'multiple_wishlist_default', 'rollback' => true]
         );
         $setupConfig->run();
     }

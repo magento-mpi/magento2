@@ -7,12 +7,6 @@
  */
 
 $rootDir = realpath(__DIR__ . '/../../../../../../..');
-require __DIR__ . '/../../../../../../../app/autoload.php';
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(
-    array(
-        $rootDir . '/lib/internal',
-        $rootDir . '/dev/tests/unit/framework',
-        $rootDir . '/app/code',
-        $rootDir . '/app',
-    )
-);
+$testsBaseDir = realpath(__DIR__ . '/../../../../');
+require_once $rootDir . '/app/autoload.php';
+require_once $testsBaseDir . '/framework/autoload.php';

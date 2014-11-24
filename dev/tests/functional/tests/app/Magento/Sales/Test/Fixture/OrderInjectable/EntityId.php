@@ -12,35 +12,32 @@ use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
 
 /**
- * Class EntityId
- * EntityId data
+ * EntityId data.
  */
 class EntityId implements FixtureInterface
 {
     /**
-     * Prepared dataSet data
+     * Prepared dataSet data.
      *
      * @var array
      */
     protected $data;
 
     /**
-     * Data set configuration settings
+     * Data set configuration settings.
      *
      * @var array
      */
     protected $params;
 
     /**
-     * Current preset
+     * Current preset.
      *
      * @var string
      */
     protected $currentPreset;
 
     /**
-     * Constructor
-     *
      * @constructor
      * @param FixtureFactory $fixtureFactory
      * @param array $data
@@ -58,19 +55,21 @@ class EntityId implements FixtureInterface
         if (!isset($data['products'])) {
             return;
         }
-        $products = explode(',', $data['products']);
-        foreach ($products as $product) {
-            list($fixture, $dataSet) = explode('::', $product);
-            $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
-            if ($product->hasData('id') === false) {
+        if (is_string($data['products'])) {
+            $products = explode(',', $data['products']);
+            foreach ($products as $product) {
+                list($fixture, $dataSet) = explode('::', $product);
+                $product = $fixtureFactory->createByCode($fixture, ['dataSet' => $dataSet]);
                 $product->persist();
+                $this->data['products'][] = $product;
             }
-            $this->data['products'][] = $product;
+        } elseif (is_array($data['products'])) {
+            $this->data['products'] = $data['products'];
         }
     }
 
     /**
-     * Persist order products
+     * Persist order products.
      *
      * @return void
      */
@@ -80,7 +79,7 @@ class EntityId implements FixtureInterface
     }
 
     /**
-     * Return prepared data set
+     * Return prepared data set.
      *
      * @param string $key [optional]
      * @return mixed
@@ -93,7 +92,7 @@ class EntityId implements FixtureInterface
     }
 
     /**
-     * Return data set configuration settings
+     * Return data set configuration settings.
      *
      * @return string
      */

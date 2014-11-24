@@ -12,7 +12,6 @@ use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
 use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -41,9 +40,9 @@ class Addresses extends GenericMetadata
     protected $_coreData;
 
     /**
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Options
      */
-    protected $_customerHelper;
+    protected $options;
 
     /**
      * @var \Magento\Directory\Helper\Data
@@ -80,7 +79,7 @@ class Addresses extends GenericMetadata
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Renderer\RegionFactory $regionFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Model\Options $options
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param AddressMetadataServiceInterface $addressMetadataService
@@ -101,7 +100,7 @@ class Addresses extends GenericMetadata
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Renderer\RegionFactory $regionFactory,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
-        \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Model\Options $options,
         \Magento\Customer\Helper\Address $addressHelper,
         CustomerAccountServiceInterface $customerAccountService,
         AddressMetadataServiceInterface $addressMetadataService,
@@ -111,7 +110,7 @@ class Addresses extends GenericMetadata
         \Magento\Directory\Helper\Data $directoryHelper,
         array $data = array()
     ) {
-        $this->_customerHelper = $customerHelper;
+        $this->options = $options;
         $this->_addressHelper = $addressHelper;
         $this->_coreData = $coreData;
         $this->_jsonEncoder = $jsonEncoder;
@@ -160,7 +159,8 @@ class Addresses extends GenericMetadata
                 'name' => 'add_address_button',
                 'element_name' => 'add_address_button',
                 'disabled' => $this->isReadonly(),
-                'class' => 'add' . ($this->isReadonly() ? ' disabled' : '')
+                'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
+                'data_attribute' => ['ui-id' => 'adminhtml-edit-tab-addresses-add-address-button']
             )
         );
         $this->addChild(
@@ -217,7 +217,6 @@ class Addresses extends GenericMetadata
      */
     public function initForm()
     {
-
         $customerData = $this->_backendSession->getCustomerData();
 
         /** @var \Magento\Framework\Data\Form $form */
@@ -278,6 +277,12 @@ class Addresses extends GenericMetadata
             $country->addClass('countries');
         }
 
+        $postcode = $form->getElement('postcode');
+        if ($postcode) {
+            $postcode->removeClass('required-entry')
+                ->setRequired(!$this->_directoryHelper->isZipCodeOptional($address->getCountryId()));
+        }
+
         if ($this->isReadonly()) {
             foreach ($this->_addressMetadataService->getAllAttributesMetadata() as $attribute) {
                 $element = $form->getElement($attribute->getAttributeCode());
@@ -294,7 +299,7 @@ class Addresses extends GenericMetadata
 
         $prefixElement = $form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->_customerHelper->getNamePrefixOptions($customerStoreId);
+            $prefixOptions = $this->options->getNamePrefixOptions($customerStoreId);
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(), 'select', $prefixElement->getData(), '^');
@@ -304,7 +309,7 @@ class Addresses extends GenericMetadata
 
         $suffixElement = $form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->_customerHelper->getNameSuffixOptions($customerStoreId);
+            $suffixOptions = $this->options->getNameSuffixOptions($customerStoreId);
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField(
@@ -325,6 +330,30 @@ class Addresses extends GenericMetadata
         $this->assign('addressCollection', $addressCollection);
         $form->setValues(AddressConverter::toFlatArray($address));
         $this->setForm($form);
+
+        return $this;
+    }
+
+    /**
+     * @param Address $address
+     * @return $this
+     */
+    public function initAddressForm(Address $address)
+    {
+        $form = $this->initForm()->getForm();
+
+        $postcode = $form->getElement('postcode');
+        if ($postcode) {
+            $postcode->removeClass('required-entry')
+                ->setRequired(!$this->_directoryHelper->isZipCodeOptional($address->getCountryId()));
+        }
+
+        $form->addValues(AddressConverter::toFlatArray($address))
+            ->setHtmlIdPrefix("_item{$address->getId()}")
+            ->setFieldNameSuffix('address[' . $address->getId() . ']');
+
+        $this->addValuesToNamePrefixElement($address->getPrefix())
+            ->addValuesToNameSuffixElement($address->getSuffix());
 
         return $this;
     }

@@ -39,7 +39,15 @@ class Curl extends AbstractCurl implements OrderStatusInterface
     protected $mappingData = [
         'state' => [
             'Pending' => 'new'
-        ]
+        ],
+        'is_default' => [
+            'Yes' => 1,
+            'No' => 0,
+        ],
+        'visible_on_front' => [
+            'Yes' => 1,
+            'No' => 0,
+        ],
     ];
 
     /**

@@ -27,9 +27,6 @@ class Curl extends AbstractCurl implements GiftCardAccountInterface
      * @var array
      */
     protected $mappingData = [
-        'website_id' => [
-            'Main Website' => 1,
-        ],
         'status' => [
             'Yes' => 1,
             'No' => 1,
@@ -64,6 +61,7 @@ class Curl extends AbstractCurl implements GiftCardAccountInterface
     public function persist(FixtureInterface $fixture = null)
     {
         $data = $this->replaceMappingData($fixture->getData());
+        $data['website_id'] = $fixture->getDataFieldConfig('website_id')['source']->getWebsite()->getWebsiteId();
 
         $url = $_ENV['app_backend_url'] . $this->activeTabInfo;
         $generateCode = $_ENV['app_backend_url'] . $this->generate;

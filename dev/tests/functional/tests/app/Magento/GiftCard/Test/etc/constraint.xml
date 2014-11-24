@@ -35,4 +35,7 @@
     <assertGiftCardProductInCustomerWishlistOnBackendGrid module="Magento_GiftCard">
         <severeness>low</severeness>
     </assertGiftCardProductInCustomerWishlistOnBackendGrid>
+    <assertGiftCardInGrid module="Magento_GiftCard">
+        <severeness>low</severeness>
+    </assertGiftCardInGrid>
 </constraint>

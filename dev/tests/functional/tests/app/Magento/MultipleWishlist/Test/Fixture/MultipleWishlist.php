@@ -27,7 +27,7 @@ class MultipleWishlist extends InjectableFixture
     protected $handlerInterface = 'Magento\MultipleWishlist\Test\Handler\MultipleWishlist\MultipleWishlistInterface';
 
     protected $defaultDataSet = [
-        'name' => 'New multiple wish list',
+        'name' => 'Wish list %isolation%',
         'visibility' => 'Yes'
     ];
 

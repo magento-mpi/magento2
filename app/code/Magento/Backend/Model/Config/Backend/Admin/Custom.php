@@ -62,7 +62,7 @@ class Custom extends \Magento\Framework\App\Config\Value
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $value = $this->getValue();
 
@@ -79,7 +79,7 @@ class Custom extends \Magento\Framework\App\Config\Value
      *
      * @return $this
      */
-    public function _afterSave()
+    public function afterSave()
     {
         $useCustomUrl = $this->getData('groups/url/fields/use_custom/value');
         $value = $this->getValue();

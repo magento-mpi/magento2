@@ -24,17 +24,19 @@ class AdvancedCheckoutCart extends Cart
      *
      * @var string
      */
-    protected $failedItem = '//*[@id="failed-products-table"]//tr[contains(@class,"info") and //div[contains(.,"%s")]]';
+    protected $failedItem = '//*[@class="cart item" and .//tr[contains(@class,"info") and .//div[contains(.,"%s")]]]';
 
     /**
      * Get failed item block
      *
-     * @param FixtureInterface $product
+     * @param FixtureInterface|string $product
      * @return Info
      */
-    protected function getFailedItemBlock(FixtureInterface $product)
+    protected function getFailedItemBlock($product)
     {
-        $failedItemBlockSelector = sprintf($this->failedItem, $product->getSku());
+        $failedItemBlockSelector = $product instanceof FixtureInterface
+            ? sprintf($this->failedItem, $product->getSku())
+            : sprintf($this->failedItem, 'nonExistentSku');
 
         return $this->blockFactory->create(
             'Magento\AdvancedCheckout\Test\Block\Sku\Products\Info',
@@ -104,5 +106,28 @@ class AdvancedCheckoutCart extends Cart
         $failedItemBlock = $this->getFailedItemBlock($product);
 
         return $failedItemBlock->isMsrpNoticeDisplayed();
+    }
+
+    /**
+     * Delete product
+     *
+     * @param FixtureInterface|string $product
+     * @return void
+     */
+    public function deleteProduct($product)
+    {
+        $failedItemBlock = $this->getFailedItemBlock($product);
+        $failedItemBlock->deleteProduct();
+    }
+
+    /**
+     * Check that failed product block visible
+     *
+     * @param FixtureInterface $product
+     * @return bool
+     */
+    public function isFailedItemBlockVisible(FixtureInterface $product)
+    {
+        return $this->getFailedItemBlock($product)->isVisible();
     }
 }

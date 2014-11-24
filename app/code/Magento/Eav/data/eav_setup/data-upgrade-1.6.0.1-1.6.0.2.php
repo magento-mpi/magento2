@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Framework\Module\Setup\Migration */
+/** @var $installer \Magento\Eav\Model\Entity\Setup */
 $installer = $this;
 $installer->startSetup();
 /** @var $groups \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection*/

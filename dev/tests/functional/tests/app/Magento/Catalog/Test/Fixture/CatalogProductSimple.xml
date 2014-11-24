@@ -409,11 +409,12 @@
             <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId</source>
             <group>product-details</group>
         </attribute_set_id>
-        <attributes>
+        <custom_attribute>
             <attribute_code>attributes</attribute_code>
             <backend_type>virtual</backend_type>
             <group>product-details</group>
-        </attributes>
+            <source>Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomAttribute</source>
+        </custom_attribute>
         <custom_options>
             <attribute_code>custom_options</attribute_code>
             <backend_type>virtual</backend_type>
@@ -469,6 +470,10 @@
             <backend_type>virtual</backend_type>
             <group>advanced-pricing</group>
         </recurring_payment>
+        <is_virtual>
+            <attribute_code>is_virtual</attribute_code>
+            <backend_type>virtual</backend_type>
+        </is_virtual>
     </fields>
     <data_set>
         <sku></sku>

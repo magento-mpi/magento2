@@ -17,6 +17,8 @@ interface ReadServiceInterface
      * Retrieve list of product attribute types
      *
      * @return \Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\Type[]
+     * @deprecated
+     * @see \Magento\Catalog\Api\AttributeTypesListInterface::getItems
      */
     public function types();
 
@@ -27,14 +29,18 @@ interface ReadServiceInterface
      * @return \Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata
      *
      * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @deprecated
+     * @see \Magento\Catalog\Api\ProductAttributeRepositoryInterface::get
      */
     public function info($id);
 
     /**
      * Retrieve the list of product attributes
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteria $searchCriteria
      * @return \Magento\Catalog\Service\V1\Data\Product\Attribute\SearchResults containing Data\Eav\Attribute objects
+     * @deprecated
+     * @see \Magento\Catalog\Api\ProductAttributeRepositoryInterface::getList
      */
-    public function search(\Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria);
+    public function search(\Magento\Framework\Api\SearchCriteria $searchCriteria);
 }

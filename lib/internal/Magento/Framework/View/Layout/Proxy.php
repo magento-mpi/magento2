@@ -17,7 +17,7 @@ class Proxy extends \Magento\Framework\View\Layout
     /**
      * Object Manager instance
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -43,12 +43,12 @@ class Proxy extends \Magento\Framework\View\Layout
     protected $isShared;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param string $instanceName
      * @param bool $shared
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         $instanceName = 'Magento\Framework\View\Layout',
         $shared = true
     ) {
@@ -485,16 +485,6 @@ class Proxy extends \Magento\Framework\View\Layout
     public function getBlockSingleton($type)
     {
         return $this->getSubject()->getBlockSingleton($type);
-    }
-
-    /**
-     * Retrieve block factory
-     *
-     * @return \Magento\Framework\View\Element\BlockFactory
-     */
-    public function getBlockFactory()
-    {
-        return $this->getSubject()->getBlockFactory();
     }
 
     /**

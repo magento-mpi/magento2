@@ -113,6 +113,10 @@ class AssertProductPage extends AbstractAssertForm
      */
     protected function verifyPrice()
     {
+        if ($this->product->hasData('price') == false) {
+            return null;
+        }
+
         $fixtureProductPrice = number_format($this->product->getPrice(), 2);
         $formProductPrice = $this->productView->getPriceBlock()->getRegularPrice();
 

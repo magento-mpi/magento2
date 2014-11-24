@@ -7,11 +7,12 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
-use \Magento\Framework\Service\Data\AbstractExtensibleObject;
-use Magento\Framework\Service\Data\MetadataObjectInterface;
+use \Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Api\MetadataObjectInterface;
 
 /**
  * @codeCoverageIgnore
+ * @todo this interface is never used. Recheck and remove it.
  */
 class AttributeMetadata extends AbstractExtensibleObject implements MetadataObjectInterface
 {

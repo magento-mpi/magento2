@@ -15,10 +15,10 @@
         <price>
             <selector>.col-price span.price</selector>
         </price>
+        <qty>
+            <selector>.col-qty input</selector>
+        </qty>
         <checkout_data composite="1">
-            <qty>
-                <selector>.col-qty input</selector>
-            </qty>
             <custom_price>
                 <selector>.col-price input.item-price</selector>
             </custom_price>

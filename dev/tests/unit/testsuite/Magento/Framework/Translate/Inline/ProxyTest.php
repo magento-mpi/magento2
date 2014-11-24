@@ -10,7 +10,7 @@ namespace Magento\Framework\Translate\Inline;
 class ProxyTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManagerMock;
 
@@ -21,13 +21,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->objectManagerMock = $this->getMock(
-            'Magento\Framework\ObjectManager',
-            array('get', 'create', 'configure'),
-            array(),
-            '',
-            false
-        );
+        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->translateMock = $this->getMock('Magento\Framework\Translate\Inline', array(), array(), '', false);
     }
 

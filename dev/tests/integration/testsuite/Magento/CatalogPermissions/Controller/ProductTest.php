@@ -38,12 +38,6 @@ class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
         )->getLastViewedProductId();
         $this->assertEquals(1, $lastViewedProductId);
 
-        /* Layout updates */
-        $handles = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\View\LayoutInterface'
-        )->getUpdate()->getHandles();
-        $this->assertContains('catalog_product_view_type_simple', $handles);
-
         $responseBody = $this->getResponse()->getBody();
         /* Product info */
         $this->assertContains('Simple Product 1 Name', $responseBody);

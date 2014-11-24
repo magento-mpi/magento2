@@ -9,8 +9,10 @@ namespace Magento\Catalog\Service\V1\Data;
 
 /**
  * @codeCoverageIgnore
+ * @deprecated
+ * @see \Magento\Catalog\Service\V1\Data\Product
  */
-class Product extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class Product extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**#@+
      * Constants defined for keys of array

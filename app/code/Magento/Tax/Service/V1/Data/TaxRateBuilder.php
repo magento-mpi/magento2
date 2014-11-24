@@ -7,16 +7,16 @@
  */
 namespace Magento\Tax\Service\V1\Data;
 
-use Magento\Framework\Service\Data\AttributeValueBuilder;
-use Magento\Framework\Service\Data\MetadataServiceInterface;
-use Magento\Framework\Service\Data\ObjectFactory;
+use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\ObjectFactory;
 
 /**
  * Builder for the TaxRate Service Data Object
  *
  * @method TaxRate create()
  */
-class TaxRateBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder
+class TaxRateBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
 {
     /**
      * ZipRange builder
@@ -36,14 +36,14 @@ class TaxRateBuilder extends \Magento\Framework\Service\Data\AbstractExtensibleO
      * Initialize dependencies.
      *
      * @param ObjectFactory $objectFactory
-     * @param AttributeValueBuilder $valueBuilder
+     * @param AttributeDataBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
      * @param ZipRangeBuilder $zipRangeBuilder
      * @param TaxRateTitleBuilder $taxRateTitleBuilder
      */
     public function __construct(
         ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder,
+        AttributeDataBuilder $valueBuilder,
         MetadataServiceInterface $metadataService,
         ZipRangeBuilder $zipRangeBuilder,
         TaxRateTitleBuilder $taxRateTitleBuilder

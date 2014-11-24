@@ -13,7 +13,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 {
     public function testInitRewardTypeClasses()
     {
-        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker = new \Magento\Framework\Test\Utility\AggregateInvoker($this);
         $invoker(
             /**
              * @param string $file
@@ -25,7 +25,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 /** @var \SimpleXMLElement $node */
                 foreach ($nodes as $node) {
                     $class = (string)$node;
-                    if (!\Magento\TestFramework\Utility\Files::init()->classFileExists($class, $path)) {
+                    if (!\Magento\Framework\Test\Utility\Files::init()->classFileExists($class, $path)) {
                         $errors[] = "'{$class}' => '{$path}'";
                     }
                 }
@@ -38,7 +38,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     );
                 }
             },
-            \Magento\TestFramework\Utility\Files::init()->getLayoutFiles()
+            \Magento\Framework\Test\Utility\Files::init()->getLayoutFiles()
         );
     }
 }

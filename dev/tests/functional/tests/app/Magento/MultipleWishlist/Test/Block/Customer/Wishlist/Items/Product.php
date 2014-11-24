@@ -12,33 +12,34 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Class Product
- * Wishlist item product form
+ * Wish list item product form.
  */
 class Product extends \Magento\Wishlist\Test\Block\Customer\Wishlist\Items\Product
 {
     /**
-     * Product move to wishlist dropdown
+     * Product action to wish list drop-down.
      *
      * @var string
      */
-    protected $moveToWishlist = '.move [data-toggle="dropdown"]';
+    protected $typeActionWishlist = '.%s [data-toggle="dropdown"]';
 
     /**
-     * Product move to wishlist dropdown items
+     * Product move to wish list drop-down items.
      *
      * @var string
      */
-    protected $moveToWishlistItem = 'span[title="%s"]';
+    protected $wishlistItem = 'div.%s span[title="%s"]';
 
     /**
-     * Move product to wishlist
+     * Action product to wish list.
      *
      * @param MultipleWishlist $wishlist
+     * @param string $action
      * @return void
      */
-    public function moveToWishlist(MultipleWishlist $wishlist)
+    public function actionToWishlist(MultipleWishlist $wishlist, $action)
     {
-        $this->_rootElement->find($this->moveToWishlist)->click();
-        $this->_rootElement->find(sprintf($this->moveToWishlistItem, $wishlist->getName()))->click();
+        $this->_rootElement->find(sprintf($this->typeActionWishlist, $action))->click();
+        $this->_rootElement->find(sprintf($this->wishlistItem, $action, $wishlist->getName()))->click();
     }
 }

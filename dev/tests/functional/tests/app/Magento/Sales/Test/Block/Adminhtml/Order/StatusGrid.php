@@ -30,6 +30,13 @@ class StatusGrid extends \Magento\Backend\Test\Block\Widget\Grid
     ];
 
     /**
+     * Locator value for link in action column
+     *
+     * @var string
+     */
+    protected $editLink = '[data-column="label"]';
+
+    /**
      * Selector for unassign custom status link
      *
      * @var string

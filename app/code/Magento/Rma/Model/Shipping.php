@@ -174,7 +174,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (is_null($this->getIsAdmin())) {
             $this->setIsAdmin(self::IS_ADMIN_STATUS_USER_TRACKING_NUMBER);

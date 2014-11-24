@@ -12,23 +12,16 @@ use Magento\Framework\Profiler;
 class StorageFactory
 {
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
     /**
-     * Default storage class name
+     * Storage class name
      *
      * @var string
      */
-    protected $_defaultStorageClassName;
-
-    /**
-     * Installed storage class name
-     *
-     * @var string
-     */
-    protected $_installedStorageClassName;
+    protected $_storageClassName;
 
     /**
      * @var \Magento\Framework\StoreManagerInterface[]
@@ -71,7 +64,7 @@ class StorageFactory
     protected $request;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
@@ -79,12 +72,11 @@ class StorageFactory
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param string $defaultStorageClassName
-     * @param string $installedStorageClassName
+     * @param string $storageClassName
      * @param string $writerModel
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
@@ -92,13 +84,11 @@ class StorageFactory
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\RequestInterface $request,
-        $defaultStorageClassName = 'Magento\Store\Model\Storage\DefaultStorage',
-        $installedStorageClassName = 'Magento\Store\Model\Storage\Db',
+        $storageClassName = 'Magento\Store\Model\Storage\Db',
         $writerModel = ''
     ) {
         $this->_objectManager = $objectManager;
-        $this->_defaultStorageClassName = $defaultStorageClassName;
-        $this->_installedStorageClassName = $installedStorageClassName;
+        $this->_storageClassName = $storageClassName;
         $this->_eventManager = $eventManager;
         $this->_log = $logger;
         $this->_appState = $appState;
@@ -118,8 +108,7 @@ class StorageFactory
      */
     public function get(array $arguments = array())
     {
-        $className =
-            $this->_appState->isInstalled() ? $this->_installedStorageClassName : $this->_defaultStorageClassName;
+        $className = $this->_storageClassName;
 
         if (false == isset($this->_cache[$className])) {
             /** @var $storage \Magento\Framework\StoreManagerInterface */
@@ -131,7 +120,7 @@ class StorageFactory
                 );
             }
             $this->_cache[$className] = $storage;
-            if ($className === $this->_installedStorageClassName) {
+            if ($className === $this->_storageClassName) {
                 $this->_reinitStores($storage, $arguments);
                 $useSid = $this->_scopeConfig->isSetFlag(
                     \Magento\Framework\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,

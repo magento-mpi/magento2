@@ -66,11 +66,11 @@ class AddressMetadataServiceTest extends WebapiAbstract
                     AttributeMetadata::STORE_LABEL => 'Zip/Postal Code',
                     AttributeMetadata::VALIDATION_RULES => [],
                     AttributeMetadata::VISIBLE => true,
-                    AttributeMetadata::REQUIRED => true,
+                    AttributeMetadata::REQUIRED => false,
                     AttributeMetadata::MULTILINE_COUNT => 0,
                     AttributeMetadata::DATA_MODEL => 'Magento\Customer\Model\Attribute\Data\Postcode',
                     AttributeMetadata::OPTIONS => [],
-                    AttributeMetadata::FRONTEND_CLASS => ' required-entry',
+                    AttributeMetadata::FRONTEND_CLASS => '',
                     AttributeMetadata::FRONTEND_LABEL => 'Zip/Postal Code',
                     AttributeMetadata::NOTE => '',
                     AttributeMetadata::SYSTEM => true,
@@ -129,7 +129,7 @@ class AddressMetadataServiceTest extends WebapiAbstract
         $requestData = ['attribute_code' => 'custom_attribute'];
         $attributeMetadata = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertCount(2, $attributeMetadata);
-        $this->assertEquals('custom_attribute', $attributeMetadata[0]['attribute_code']);
+        $this->assertEquals('custom_attribute_test', $attributeMetadata[0]['attribute_code']);
     }
 
     /**

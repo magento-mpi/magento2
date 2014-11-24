@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page mca="invitation/index/send" module="Magento_Invitation">
+    <blocks>
+        <invitationsBlock>
+            <class>Magento\Invitation\Test\Block\Form</class>
+            <locator>#invitationForm</locator>
+            <strategy>css selector</strategy>
+        </invitationsBlock>
+    </blocks>
+</page>

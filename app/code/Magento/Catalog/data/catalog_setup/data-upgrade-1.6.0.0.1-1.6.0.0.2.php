@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,

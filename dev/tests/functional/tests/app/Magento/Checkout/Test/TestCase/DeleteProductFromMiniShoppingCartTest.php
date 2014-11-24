@@ -11,7 +11,6 @@ namespace Magento\Checkout\Test\TestCase;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Checkout\Test\Page\CheckoutCart;
@@ -54,17 +53,12 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
     /**
      * Prepare test data
      *
-     * @param FixtureFactory $fixtureFactory
      * @param CmsIndex $cmsIndex
      * @param CheckoutCart $cartPage
      * @return void
      */
-    public function __prepare(
-        FixtureFactory $fixtureFactory,
-        CmsIndex $cmsIndex,
-        CheckoutCart $cartPage
-    ) {
-        $this->fixtureFactory = $fixtureFactory;
+    public function __prepare(CmsIndex $cmsIndex, CheckoutCart $cartPage)
+    {
         $this->cmsIndex = $cmsIndex;
         $this->cartPage = $cartPage;
     }
@@ -120,7 +114,7 @@ class DeleteProductFromMiniShoppingCartTest extends Injectable
     {
         $addToCartStep = ObjectManager::getInstance()->create(
             'Magento\Checkout\Test\TestStep\AddProductsToTheCartStep',
-            ['products' => $products, ]
+            ['products' => $products]
         );
         $addToCartStep->run();
     }

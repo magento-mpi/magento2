@@ -1,5 +1,6 @@
 # Files included in testing builds, but nor ready/approved for publication
 
+dev/tools/Magento/Tools/SampleData
 dev/tools/Magento/Tools/Formatter
 dev/tools/PHP-Parser
 
@@ -76,11 +77,13 @@ dev/tests/functional/tests/app/Magento/GiftRegistry
 dev/tests/functional/tests/app/Magento/GiftWrapping
 dev/tests/functional/tests/app/Magento/Logging
 dev/tests/functional/tests/app/Magento/Integration
+dev/tests/functional/tests/app/Magento/Invitation
 dev/tests/functional/tests/app/Magento/Multishipping
 dev/tests/functional/tests/app/Magento/Payment
 dev/tests/functional/tests/app/Magento/Paypal
 dev/tests/functional/tests/app/Magento/Pci
 dev/tests/functional/tests/app/Magento/RecurringPayment
+dev/tests/functional/tests/app/Magento/Reminder
 dev/tests/functional/tests/app/Magento/Reward
 dev/tests/functional/tests/app/Magento/Rma
 dev/tests/functional/tests/app/Magento/Sales

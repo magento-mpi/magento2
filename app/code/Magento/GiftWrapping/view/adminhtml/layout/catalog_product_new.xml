@@ -11,4 +11,5 @@
     <head>
         <css src="Magento_GiftWrapping::styles.css"/>
     </head>
+    <body/>
 </page>

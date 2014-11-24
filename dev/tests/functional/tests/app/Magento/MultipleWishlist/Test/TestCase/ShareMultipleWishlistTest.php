@@ -137,6 +137,7 @@ class ShareMultipleWishlistTest extends Injectable
         MultipleWishlist $multipleWishlist,
         array $sharingInfo
     ) {
+        $this->markTestIncomplete("Bug: MAGETWO-30155");
         // Preconditions
         $multipleWishlist->persist();
         $product->persist();
@@ -162,7 +163,7 @@ class ShareMultipleWishlistTest extends Injectable
     {
         $setupConfig = $this->objectManager->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
-            ['configData' => 'disabled_multiple_wishlist_default']
+            ['configData' => 'multiple_wishlist_default', 'rollback' => true]
         );
         $setupConfig->run();
     }
