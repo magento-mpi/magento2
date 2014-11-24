@@ -477,7 +477,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel implements EntityInter
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if ((!$this->getId() || null !== $this->_items) && !count($this->getAllItems())) {
             throw new \Magento\Framework\Model\Exception(__('We cannot create an empty shipment.'));
@@ -488,15 +488,15 @@ class Shipment extends \Magento\Sales\Model\AbstractModel implements EntityInter
             $this->setShippingAddressId($this->getOrder()->getShippingAddress()->getId());
         }
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
      * @return \Magento\Framework\Model\AbstractModel
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**
@@ -504,7 +504,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel implements EntityInter
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if (null !== $this->_items) {
             foreach ($this->_items as $item) {
@@ -524,7 +524,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel implements EntityInter
             }
         }
 
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**

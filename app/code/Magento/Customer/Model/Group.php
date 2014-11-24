@@ -166,10 +166,10 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $this->_prepareData();
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
