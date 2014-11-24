@@ -606,19 +606,20 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Converts a composer json component name into the Magento Module form
-     * 
+     *
      * @param string $jsonName The name of a composer json component or dependency e.g. 'magento/module-theme'
      * @return string The corresponding Magento Module e.g. 'Magento\Theme'
      */
-    protected static function convertModuleName($jsonName) {
-        if(strpos($jsonName,'magento/module') !== false) {
+    protected static function convertModuleName($jsonName)
+    {
+        if (strpos($jsonName, 'magento/module') !== false) {
             $moduleName = str_replace('-', ' ', $jsonName);
             $moduleName = ucwords($moduleName);
             $moduleName = str_replace('module ', '', $moduleName);
             $moduleName = str_replace(' ', '', $moduleName);
             $moduleName = str_replace('/', '\\', $moduleName);
             return $moduleName;
-        } elseif(strpos($jsonName,'magento/magento') !== false || strpos($jsonName,'magento/framework') !== false) {
+        } elseif (strpos($jsonName, 'magento/magento') !== false || strpos($jsonName, 'magento/framework') !== false) {
             $moduleName = str_replace('/', "\t", $jsonName);
             $moduleName = str_replace('-', ' ', $moduleName);
             $moduleName = ucwords($moduleName);
@@ -636,7 +637,10 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
      */
     protected static function _initDependencies()
     {
-        $jsonFiles = \Magento\TestFramework\Utility\Files::init()->getFiles([BP .'/app/code/Magento/*/'], 'composer.json');
+        $jsonFiles = \Magento\TestFramework\Utility\Files::init()->getFiles(
+            [BP . '/app/code/Magento/*/'],
+            'composer.json'
+        );
         foreach ($jsonFiles as $file) {
             $contents = file_get_contents($file);
             $json = json_decode($contents);
@@ -667,7 +671,23 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                     }
                 }
             }
+            if (isset($json->suggest) && !empty($json->suggest)) {
+                foreach ($json->suggest as $requiredModule => $version) {
+                    if (0 === strpos($requiredModule, 'magento/')
+                        && 'magento/magento-composer-installer' != $requiredModule
+                    ) {
+                        $type = self::TYPE_SOFT;
+                        self::_addDependencies(
+                            $moduleName,
+                            $type,
+                            self::MAP_TYPE_DECLARED,
+                            self::convertModuleName($requiredModule)
+                        );
+                    }
+                }
+            }
         }
+        $test = 0;
     }
 
     /**
