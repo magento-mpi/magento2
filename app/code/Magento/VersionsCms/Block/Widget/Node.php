@@ -96,7 +96,9 @@ class Node extends \Magento\Framework\View\Element\Html\Link implements \Magento
      */
     public function getAnchorText()
     {
-        return $this->_getInstanceData('anchor_text');
+        $value = $this->_getInstanceData('anchor_text');
+
+        return $value !== false ? $value : $this->getLabel();
     }
 
     /**
