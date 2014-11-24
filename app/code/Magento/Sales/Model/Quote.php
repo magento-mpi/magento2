@@ -746,11 +746,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function addCustomerAddress(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        $address = $this->addressBuilder->mergeDataObjectWithArray(
-            $address,
-            [\Magento\Customer\Api\Data\AddressInterface::CUSTOMER_ID => $this->getCustomer()->getId()]
-        )->create();
-        $this->addressRepository->save($address);
+        $address = $this->addressBuilder->populate($address)->create();
+        $addresses = (array)$this->getCustomer()->getAddresses();
+        $addresses[] = $address;
+        $customer = $this->customerBuilder->populate($this->getCustomer())->setAddresses($addresses)->create();
+        $this->setCustomer($customer);
 
         return $this;
     }
@@ -765,7 +765,6 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     {
         $customer = $this->customerBuilder->mergeDataObjects($this->getCustomer(), $customer)
             ->create();
-        $customer = $this->customerRepository->save($customer);
         $this->setCustomer($customer);
         return $this;
     }

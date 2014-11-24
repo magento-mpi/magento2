@@ -173,7 +173,6 @@ class Quote
     protected function prepareCustomerData(\Magento\Sales\Model\Quote $quote)
     {
         $customer = $quote->getCustomer();
-        $addresses = $customer->getAddresses();
 
         if (!$customer->getId()) {
             $customer = $this->accountManagement->createAccountWithPasswordHash(
