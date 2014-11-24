@@ -48,7 +48,7 @@ class Mode extends \Magento\Framework\App\Config\Value
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->_getResource()->addCommitCallback(array($this, 'processValue'));
         return $this;

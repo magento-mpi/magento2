@@ -39,16 +39,16 @@ class Compared extends AbstractAccordion
     protected $_catalogConfig;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Stock\Status
+     * @var \Magento\CatalogInventory\Helper\Stock
      */
-    protected $_catalogStockStatus;
+    protected $stockHelper;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
+     * @param \Magento\CatalogInventory\Helper\Stock $stockHelper
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory
@@ -59,13 +59,13 @@ class Compared extends AbstractAccordion
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
+        \Magento\CatalogInventory\Helper\Stock $stockHelper,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
         array $data = array()
     ) {
-        $this->_catalogStockStatus = $catalogStockStatus;
+        $this->stockHelper = $stockHelper;
         $this->_catalogConfig = $catalogConfig;
         $this->_compareListFactory = $compareListFactory;
         $this->_adminhtmlSales = $adminhtmlSales;
@@ -107,7 +107,7 @@ class Compared extends AbstractAccordion
                 'status',
                 ProductStatus::STATUS_ENABLED
             );
-            $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
+            $this->stockHelper->addIsInStockFilterToCollection($collection);
             $collection = $this->_adminhtmlSales->applySalableProductTypesFilter($collection);
             $collection->addOptionsToResult();
             $this->setData('items_collection', $collection);

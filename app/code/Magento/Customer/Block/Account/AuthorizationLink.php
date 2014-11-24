@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Block\Account;
 
+use Magento\Customer\Model\Context;
+
 /**
  * Customer authorization link
  */
@@ -20,9 +22,9 @@ class AuthorizationLink extends \Magento\Framework\View\Element\Html\Link
     protected $httpContext;
 
     /**
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Url
      */
-    protected $_customerHelper;
+    protected $_customerUrl;
 
     /**
      * @var \Magento\Core\Helper\PostData
@@ -32,20 +34,20 @@ class AuthorizationLink extends \Magento\Framework\View\Element\Html\Link
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Model\Url $customerUrl
      * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Model\Url $customerUrl,
         \Magento\Core\Helper\PostData $postDataHelper,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->httpContext = $httpContext;
-        $this->_customerHelper = $customerHelper;
+        $this->_customerUrl = $customerUrl;
         $this->_postDataHelper = $postDataHelper;
     }
 
@@ -55,8 +57,8 @@ class AuthorizationLink extends \Magento\Framework\View\Element\Html\Link
     public function getHref()
     {
         return $this->isLoggedIn()
-            ? $this->_customerHelper->getLogoutUrl()
-            : $this->_customerHelper->getLoginUrl();
+            ? $this->_customerUrl->getLogoutUrl()
+            : $this->_customerUrl->getLoginUrl();
     }
 
     /**
@@ -84,6 +86,6 @@ class AuthorizationLink extends \Magento\Framework\View\Element\Html\Link
      */
     public function isLoggedIn()
     {
-        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
+        return $this->httpContext->getValue(Context::CONTEXT_AUTH);
     }
 }
