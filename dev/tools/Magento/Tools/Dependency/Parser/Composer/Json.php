@@ -72,7 +72,7 @@ class Json implements ParserInterface
     protected function extractDependencies($package)
     {
         $dependencies = [];
-        $requires = $package->get('require', '/^magento\/module-/');
+        $requires = $package->get('require', '/.+\/module-/');
         if ($requires) {
             foreach ($requires as $key => $value) {
                 $dependencies[] = [
@@ -82,7 +82,7 @@ class Json implements ParserInterface
             }
         }
 
-        $suggests = $package->get('suggest', '/^magento\/module-/');
+        $suggests = $package->get('suggest', '/.+\/module-/');
         if ($suggests) {
             foreach ($suggests as $key => $value) {
                 $dependencies[] = [
