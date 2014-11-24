@@ -94,8 +94,6 @@ class Compiled implements \Magento\Framework\ObjectManager\FactoryInterface
      * @param array $arguments
      * @return object
      * @throws \Exception
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function create($requestedType, array $arguments = array())
     {
