@@ -11,7 +11,7 @@ namespace Magento\Tools\Formatter\Tree;
  * This class is used to hold the source representation in tree format. Child in the trees represent indentation levels.
  * Class Tree
  */
-class Tree implements Node
+class Tree implements NodeInterface
 {
     /**
      * This member holds the root(s) of the tree.
@@ -124,10 +124,10 @@ class Tree implements Node
     /**
      * This method traverses the tree and allows the passed in visitor to visit every node in the tree.
      *
-     * @param NodeVisitor $visitor Instance doing the visiting.
+     * @param NodeVisitorInterface $visitor Instance doing the visiting.
      * @return void
      */
-    public function traverse(NodeVisitor $visitor)
+    public function traverse(NodeVisitorInterface $visitor)
     {
         if (null !== $this->rootNode) {
             if (is_array($this->rootNode)) {
@@ -148,10 +148,10 @@ class Tree implements Node
      * This method visits the passed in node and recursively calls the method to process all the children.
      *
      * @param TreeNode $treeNode Node to traversed.
-     * @param NodeVisitor $visitor Instance doing the visiting.
+     * @param NodeVisitorInterface $visitor Instance doing the visiting.
      * @return void
      */
-    protected function traverseNode(TreeNode $treeNode, NodeVisitor $visitor)
+    protected function traverseNode(TreeNode $treeNode, NodeVisitorInterface $visitor)
     {
         // call the visitor for the current node
         $visitor->nodeEntry($treeNode);

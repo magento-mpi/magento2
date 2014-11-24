@@ -9,6 +9,8 @@
 namespace Magento\Framework\App;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Autoload\AutoloaderRegistry;
+use Magento\Framework\Autoload\Populator;
 use Magento\Framework\Filesystem\DriverPool;
 use Magento\Framework\Profiler;
 use Magento\Framework\AppInterface;
@@ -80,7 +82,7 @@ class Bootstrap
     /**
      * Object manager
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     private $objectManager;
 
@@ -122,10 +124,25 @@ class Bootstrap
      */
     public static function create($rootDir, array $initParams, ObjectManagerFactory $factory = null)
     {
+        self::populateAutoloader($rootDir, $initParams);
         if ($factory === null) {
             $factory = self::createObjectManagerFactory($rootDir, $initParams);
         }
         return new self($factory, $rootDir, $initParams);
+    }
+
+    /**
+     * Populates autoloader with mapping info
+     *
+     * @param string $rootDir
+     * @param array $initParams
+     * @return void
+     */
+    public static function populateAutoloader($rootDir, $initParams)
+    {
+        $dirList = self::createFilesystemDirectoryList($rootDir, $initParams);
+        $autoloadWrapper = AutoloaderRegistry::getAutoloader();
+        Populator::populateMappings($autoloadWrapper, $dirList);
     }
 
     /**
@@ -330,7 +347,7 @@ class Bootstrap
     /**
      * Gets the object manager instance
      *
-     * @return \Magento\Framework\ObjectManager
+     * @return \Magento\Framework\ObjectManagerInterface
      */
     public function getObjectManager()
     {

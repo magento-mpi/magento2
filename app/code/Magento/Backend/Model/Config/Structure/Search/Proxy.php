@@ -11,7 +11,7 @@ class Proxy implements \Magento\Backend\Model\Config\Structure\SearchInterface
 {
     /**
      * Object manager
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -21,9 +21,9 @@ class Proxy implements \Magento\Backend\Model\Config\Structure\SearchInterface
     protected $_subject;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager)
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
