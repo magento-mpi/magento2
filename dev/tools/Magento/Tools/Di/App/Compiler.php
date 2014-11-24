@@ -144,6 +144,9 @@ class Compiler implements \Magento\Framework\AppInterface
      *
      * @param App\Bootstrap $bootstrap
      * @param \Exception $exception
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @return bool
      */
     public function catchException(App\Bootstrap $bootstrap, \Exception $exception)
