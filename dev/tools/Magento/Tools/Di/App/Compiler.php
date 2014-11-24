@@ -20,7 +20,7 @@ use Magento\Tools\Di\Code\Generator\InterceptionConfigurationBuilder;
 class Compiler implements \Magento\Framework\AppInterface
 {
     /**
-     * @var \Magento\Framework\ObjectManager\Config
+     * @var \Magento\Framework\ObjectManager\ConfigInterface
      */
     private $diContainerConfig;
 
@@ -67,7 +67,7 @@ class Compiler implements \Magento\Framework\AppInterface
     ];
 
     /**
-     * @param \Magento\Framework\ObjectManager\Config $diContainerConfig
+     * @param \Magento\Framework\ObjectManager\ConfigInterface $diContainerConfig
      * @param App\AreaList $areaList
      * @param App\ObjectManager\ConfigLoader $configLoader
      * @param ArgumentsResolverFactory $argumentsResolverFactory
@@ -76,7 +76,7 @@ class Compiler implements \Magento\Framework\AppInterface
      * @param InterceptionConfigurationBuilder $interceptionConfigurationBuilder
      */
     public function __construct(
-        \Magento\Framework\ObjectManager\Config $diContainerConfig,
+        \Magento\Framework\ObjectManager\ConfigInterface $diContainerConfig,
         App\AreaList $areaList,
         App\ObjectManager\ConfigLoader $configLoader,
         ArgumentsResolverFactory $argumentsResolverFactory,

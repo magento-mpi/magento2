@@ -14,17 +14,17 @@ class ArgumentsResolverFactory
     /**
      * Object Manager instance
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
     /**
      * Factory constructor
      *
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager
+        \Magento\Framework\ObjectManagerInterface $objectManager
     ) {
         $this->_objectManager = $objectManager;
     }
@@ -32,10 +32,10 @@ class ArgumentsResolverFactory
     /**
      * Create class instance with config
      *
-     * @param \Magento\Framework\ObjectManager\Config $diContainerConfig
+     * @param \Magento\Framework\ObjectManager\ConfigInterface $diContainerConfig
      * @return \Magento\Tools\Di\Compiler\ArgumentsResolver
      */
-    public function create(\Magento\Framework\ObjectManager\Config $diContainerConfig)
+    public function create(\Magento\Framework\ObjectManager\ConfigInterface $diContainerConfig)
     {
         return new ArgumentsResolver($diContainerConfig);
     }
