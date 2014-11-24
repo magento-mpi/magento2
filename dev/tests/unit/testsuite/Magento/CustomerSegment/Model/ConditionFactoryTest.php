@@ -16,7 +16,7 @@ class ConditionFactoryTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -32,7 +32,7 @@ class ConditionFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->objectManager = $this->getMock('Magento\Framework\ObjectManager');
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
 
         $this->context = $this->getMockBuilder('Magento\Rule\Model\Condition\Context')
             ->disableOriginalConstructor()

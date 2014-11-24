@@ -41,7 +41,7 @@ class Css extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Abstra
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Theme\Model\Uploader\Service $uploaderService
      * @param \Magento\Framework\Encryption\UrlCoder $urlCoder
      * @param array $data
@@ -50,7 +50,7 @@ class Css extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Abstra
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Theme\Model\Uploader\Service $uploaderService,
         \Magento\Framework\Encryption\UrlCoder $urlCoder,
         array $data = array()

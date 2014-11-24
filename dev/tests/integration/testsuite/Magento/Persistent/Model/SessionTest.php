@@ -19,7 +19,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     /**
      * Object manager
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 

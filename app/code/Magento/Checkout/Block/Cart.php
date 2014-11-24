@@ -7,6 +7,8 @@
  */
 namespace Magento\Checkout\Block;
 
+use Magento\Customer\Model\Context;
+
 /**
  * Shopping cart block
  */
@@ -131,7 +133,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
                 'wishlist/general/active',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             ) && $this->httpContext->getValue(
-                \Magento\Customer\Helper\Data::CONTEXT_AUTH
+                Context::CONTEXT_AUTH
             );
             $this->setIsWishlistActive($isActive);
         }

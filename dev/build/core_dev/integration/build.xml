@@ -141,12 +141,18 @@
         </replace>
     </target>
 
+   
     <target name="_integration_tests_magento" depends="_integration_tests_configuration" description="Product integration tests">
+        <condition property="vendor_dir" value="${env.COMPOSER_HOME}">
+            <isset property="env.COMPOSER_HOME"/>
+        </condition>
+        <property name="vendor_dir" value="${product_root_dir}/vendor"/>
         <script language="javascript"><![CDATA[
             importClass(java.io.File);
             var maxInstances = project.getProperty('max_instances');
             var productRootDir = project.getProperty('product_root_dir');
             var baseDir = project.getProperty('basedir');
+            var vendorDir = project.getProperty('vendor_dir');
             var additionalOptions = project.getProperty('additional_options');
 
             if (maxInstances > 1) {
@@ -161,7 +167,7 @@
                 parallel_run_exec.execute();
             } else {
                 var phpunit_exec = project.createTask('exec');
-                phpunit_exec.setExecutable('phpunit');
+                phpunit_exec.setExecutable(vendorDir + '/phpunit/phpunit/phpunit');
                 phpunit_exec.setDir(new File(productRootDir + '/dev/tests/integration'));
                 phpunit_exec.setFailonerror(true);
                 var arg = phpunit_exec.createArg();

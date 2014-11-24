@@ -76,7 +76,7 @@ class TierPriceService implements TierPriceServiceInterface
      */
     public function set($productSku, $customerGroupId, \Magento\Catalog\Service\V1\Data\Product\TierPrice $price)
     {
-        $product = $this->productRepository->get($productSku, true);
+        $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
 
         $tierPrices = $product->getData('tier_price');
         $websiteId = 0;
@@ -134,7 +134,7 @@ class TierPriceService implements TierPriceServiceInterface
      */
     public function delete($productSku, $customerGroupId, $qty)
     {
-        $product = $this->productRepository->get($productSku, true);
+        $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
             $websiteId = 0;
         } else {
@@ -149,7 +149,7 @@ class TierPriceService implements TierPriceServiceInterface
      */
     public function getList($productSku, $customerGroupId)
     {
-        $product = $this->productRepository->get($productSku, true);
+        $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
 
         $priceKey = 'website_price';
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {

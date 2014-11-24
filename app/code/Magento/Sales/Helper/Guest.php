@@ -28,7 +28,7 @@ class Guest extends \Magento\Core\Helper\Data
     protected $customerSession;
     
     /**
-     * @var \Magento\Framework\Stdlib\CookieManager
+     * @var \Magento\Framework\Stdlib\CookieManagerInterface
      */
     protected $cookieManager;
 
@@ -70,7 +70,7 @@ class Guest extends \Magento\Core\Helper\Data
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
+     * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
      * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -87,7 +87,7 @@ class Guest extends \Magento\Core\Helper\Data
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\Stdlib\CookieManager $cookieManager,
+        \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Sales\Model\OrderFactory $orderFactory,

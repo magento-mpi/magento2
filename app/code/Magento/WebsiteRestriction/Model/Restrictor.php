@@ -8,6 +8,8 @@
  */
 namespace Magento\WebsiteRestriction\Model;
 
+use Magento\Customer\Model\Url;
+
 class Restrictor
 {
     /**
@@ -26,9 +28,9 @@ class Restrictor
     protected $_actionFlag;
 
     /**
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Registration
      */
-    protected $_customerHelper;
+    protected $registration;
 
     /**
      * @var \Magento\Framework\Session\Generic
@@ -41,23 +43,39 @@ class Restrictor
     protected $_scopeConfig;
 
     /**
+     * @var \Magento\Customer\Model\Url
+     */
+    protected $customerUrl;
+
+    /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param ConfigInterface $config
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Model\Registration $registration
      * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\UrlFactory $urlFactory
      * @param \Magento\Framework\App\ActionFlag $actionFlag
+     * @param \Magento\Customer\Model\Url $customerUrl
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\WebsiteRestriction\Model\ConfigInterface $config,
-        \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Model\Registration $registration,
         \Magento\Framework\Session\Generic $session,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\UrlFactory $urlFactory,
-        \Magento\Framework\App\ActionFlag $actionFlag
+        \Magento\Framework\App\ActionFlag $actionFlag,
+        \Magento\Customer\Model\Url $customerUrl,
+        \Magento\Customer\Model\Session $customerSession
     ) {
+        $this->customerUrl = $customerUrl;
         $this->_config = $config;
-        $this->_customerHelper = $customerHelper;
+        $this->registration = $registration;
+        $this->_customerSession = $customerSession;
         $this->_session = $session;
         $this->_scopeConfig = $scopeConfig;
         $this->_url = $urlFactory;
@@ -100,11 +118,11 @@ class Restrictor
 
                 //redirect to landing page/login
             case \Magento\WebsiteRestriction\Model\Mode::ALLOW_LOGIN:
-                if (!$isCustomerLoggedIn && !$this->_customerHelper->isLoggedIn()) {
+                if (!$isCustomerLoggedIn && !$this->_customerSession->isLoggedIn()) {
                     // see whether redirect is required and where
                     $redirectUrl = false;
                     $allowedActionNames = $this->_config->getGenericActions();
-                    if ($this->_customerHelper->isRegistrationAllowed()) {
+                    if ($this->registration->isAllowed()) {
                         $allowedActionNames = array_merge($allowedActionNames, $this->_config->getRegisterActions());
                     }
 
@@ -131,11 +149,11 @@ class Restrictor
                         $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
                     }
                     $redirectToDashboard = $this->_scopeConfig->isSetFlag(
-                        \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+                        Url::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                     );
                     if ($redirectToDashboard) {
-                        $afterLoginUrl = $this->_customerHelper->getDashboardUrl();
+                        $afterLoginUrl = $this->customerUrl->getDashboardUrl();
                     } else {
                         $afterLoginUrl = $this->_url->getUrl();
                     }

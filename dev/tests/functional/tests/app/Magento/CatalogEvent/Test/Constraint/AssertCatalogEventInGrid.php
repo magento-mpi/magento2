@@ -86,9 +86,9 @@ class AssertCatalogEventInGrid extends AbstractConstraint
             $sortOrder = "";
         }
 
-        $dateStart = strftime("%b %#d, %Y %I:%M:%S %p", $dateStart);
+        $dateStart = strftime("%b %#d, %Y", $dateStart);
         $filter['start_on'] = $dateStart;
-        $dateEnd = strftime("%b %#d, %Y %I:%M:%S %p", $dateEnd);
+        $dateEnd = strftime("%b %#d, %Y", $dateEnd);
         $filter['end_on'] = $dateEnd;
 
         $filter = [
@@ -99,9 +99,10 @@ class AssertCatalogEventInGrid extends AbstractConstraint
             'countdown_ticker' => $this->prepareDisplayStateForFilter(),
             'sort_order' => $sortOrder
         ];
+        $catalogEventIndex->getEventGrid()->search(['category_name' => $filter['category_name']]);
         $catalogEventIndex->open();
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogEventIndex->getEventGrid()->isRowVisible($filter),
+            $catalogEventIndex->getEventGrid()->isRowVisible($filter, false, false),
             'Event on Category Name \'' . $categoryName . '\' is absent in Events grid.'
         );
     }

@@ -110,7 +110,9 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
         if ($this->getRequest()->getPost('update_items')) {
             if ((int)$this->getRequest()->getPost('empty_customer_cart') == 1) {
                 // Empty customer's shopping cart
-                $this->getCartModel()->getQuote()->removeAllItems()->collectTotals()->save();
+                $this->_objectManager->get('Magento\Sales\Model\QuoteRepository')->save(
+                    $this->getCartModel()->getQuote()->removeAllItems()->collectTotals()
+                );
             } else {
                 $items = $this->getRequest()->getPost('item', array());
                 $items = $this->_processFiles($items);

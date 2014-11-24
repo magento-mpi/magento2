@@ -8,24 +8,22 @@
  */
 namespace Magento\Solr\Controller\Adminhtml\Search\System\Config\Testconnection;
 
-use \Magento\Backend\App\Action;
-use Magento\Framework\Filesystem;
+use Magento\Backend\App\Action;
+use Magento\Framework\Filesystem\File\ReadFactory;
 
 class Ping extends \Magento\Backend\App\Action
 {
-    /**
-     * @var \Magento\Framework\Filesystem
-     */
-    protected $filesystem;
+    /** @var ReadFactory */
+    protected $fileReadFactory;
 
     /**
      * @param Action\Context $context
-     * @param Filesystem $filesystem
+     * @param ReadFactory $fileReadFactory
      */
-    public function __construct(Action\Context $context, Filesystem $filesystem)
+    public function __construct(Action\Context $context, ReadFactory $fileReadFactory)
     {
         parent::__construct($context);
-        $this->filesystem = $filesystem;
+        $this->fileReadFactory = $fileReadFactory;
     }
 
     /**
@@ -48,7 +46,7 @@ class Ping extends \Magento\Backend\App\Action
         }
 
         $path = $host . ':' . $port . '/' . $path . '/admin/ping';
-        $httpResource = $this->filesystem->getRemoteResource($path, \Magento\Framework\Filesystem\DriverPool::HTTP);
+        $httpResource = $this->fileReadFactory->create($path, \Magento\Framework\Filesystem\DriverPool::HTTP);
 
         if (isset($_REQUEST['timeout'])) {
             $timeout = (int)$_REQUEST['timeout'];
