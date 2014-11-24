@@ -75,24 +75,24 @@ class TaxRuleFixtureFactory
     public function createTaxRates($ratesData)
     {
 
-        /** @var \Magento\Tax\Api\Data\TaxRateDataBuilder$taxRateBuilder */
+        /** @var \Magento\Tax\Api\Data\TaxRateDataBuilder $taxRateBuilder */
         $taxRateBuilder = $this->objectManager->create('Magento\Tax\Api\Data\TaxRateDataBuilder');
         /** @var \Magento\Tax\Api\TaxRateRepositoryInterface $taxRateService */
         $taxRateService = $this->objectManager->create('Magento\Tax\Api\TaxRateRepositoryInterface');
 
         $rates = [];
         foreach ($ratesData as $rateData) {
-            $code = "{$rateData['country']} - {$rateData['region_name']} - {$rateData['tax_postcode']}";
+            $code = "{$rateData['country']} - {$rateData['region']} - {$rateData['percentage']}";
             $postcode = '*';
-            if (isset($rateData['tax_postcode'])) {
-                $postcode = $rateData['tax_postcode'];
+            if (isset($rateData['postcode'])) {
+                $postcode = $rateData['postcode'];
                 $code = $code . " - " . $postcode;
             }
-            $taxRateBuilder->setTaxCountryId($rateData['tax_country_id'])
-                ->setTaxRegionId($rateData['region_name'])
+            $taxRateBuilder->setTaxCountryId($rateData['country'])
+                ->setTaxRegionId($rateData['region'])
                 ->setTaxPostcode($postcode)
                 ->setCode($code)
-                ->setRate($rateData['rate']);
+                ->setRate($rateData['percentage']);
 
             $rates[$code] =
                 $taxRateService->save($taxRateBuilder->create())->getId();
