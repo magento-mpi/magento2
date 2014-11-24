@@ -240,9 +240,9 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         $this->setUpdatedAt($this->_date->gmtDate());
         return $this;
     }
@@ -252,9 +252,9 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
 
         if (null !== $this->_itemCollection) {
             $this->getItemCollection()->save();
@@ -648,17 +648,6 @@ class Wishlist extends \Magento\Framework\Model\AbstractModel implements \Magent
             throw new Exception(__('The product does not exist.'));
         }
         return $this;
-    }
-
-    /**
-     * Save wishlist.
-     *
-     * @return $this
-     */
-    public function save()
-    {
-        $this->_hasDataChanges = true;
-        return parent::save();
     }
 
     /**

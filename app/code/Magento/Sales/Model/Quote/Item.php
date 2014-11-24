@@ -175,9 +175,9 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     protected $_compareHelper;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     /**
      * @param \Magento\Framework\Model\Context $context
@@ -188,7 +188,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param Item\OptionFactory $itemOptionFactory
      * @param \Magento\Sales\Helper\Quote\Item\Compare $compareHelper
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -204,7 +204,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
         \Magento\Sales\Helper\Quote\Item\Compare $compareHelper,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -213,7 +213,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         $this->_localeFormat = $localeFormat;
         $this->_itemOptionFactory = $itemOptionFactory;
         $this->_compareHelper = $compareHelper;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
         parent::__construct(
             $context,
             $registry,
@@ -240,9 +240,9 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         $this->setIsVirtual($this->getProduct()->getIsVirtual());
         if ($this->getQuote()) {
             $this->setQuoteId($this->getQuote()->getId());
@@ -342,6 +342,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         if ($this->getQuote() && $this->getQuote()->getIgnoreOldQty()) {
             return $this;
         }
+
         if ($this->getUseOldQty()) {
             $this->setData('qty', $oldQty);
         }
@@ -418,11 +419,8 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
             ->setTaxClassId($product->getTaxClassId())
             ->setBaseCost($product->getCost());
 
-        /** @var \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItemDo */
-        $stockItemDo = $this->stockItemService->getStockItem($product->getId());
-        if ($stockItemDo->getStockId()) {
-            $this->setIsQtyDecimal($stockItemDo->getIsQtyDecimal());
-        }
+        $stockItem = $this->stockRegistry->getStockItem($product->getId(), $product->getStore()->getWebsiteId());
+        $this->setIsQtyDecimal($stockItem->getIsQtyDecimal());
 
         $this->_eventManager->dispatch(
             'sales_quote_item_set_product',
@@ -712,7 +710,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      *
      * @return $this
      */
-    protected function _saveItemOptions()
+    public function saveItemOptions()
     {
         foreach ($this->_options as $index => $option) {
             if ($option->isDeleted()) {
@@ -731,21 +729,24 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     }
 
     /**
-     * Save model plus its options
-     * Ensures saving options in case when resource model was not changed
+     * Mar option save requirement
      *
-     * @return $this
+     * @param bool $flag
+     * @return void
      */
-    public function save()
+    public function setIsOptionsSaved($flag)
     {
-        $hasDataChanges = $this->hasDataChanges();
-        $this->_flagOptionsSaved = false;
+        $this->_flagOptionsSaved = $flag;
+    }
 
-        parent::save();
-
-        if ($hasDataChanges && !$this->_flagOptionsSaved) {
-            $this->_saveItemOptions();
-        }
+    /**
+     * Were options saved
+     *
+     * @return bool
+     */
+    public function isOptionsSaved()
+    {
+        return $this->_flagOptionsSaved;
     }
 
     /**
@@ -753,10 +754,10 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      *
      * @return \Magento\Sales\Model\Quote\Item
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        $this->_saveItemOptions();
-        return parent::_afterSave();
+        $this->saveItemOptions();
+        return parent::afterSave();
     }
 
     /**

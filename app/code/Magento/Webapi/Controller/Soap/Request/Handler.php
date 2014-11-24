@@ -32,7 +32,7 @@ class Handler
     /** @var SoapRequest */
     protected $_request;
 
-    /** @var \Magento\Framework\ObjectManager */
+    /** @var \Magento\Framework\ObjectManagerInterface */
     protected $_objectManager;
 
     /** @var SoapConfig */
@@ -54,7 +54,7 @@ class Handler
      * Initialize dependencies.
      *
      * @param SoapRequest $request
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param SoapConfig $apiConfig
      * @param AuthorizationInterface $authorization
      * @param SimpleDataObjectConverter $dataObjectConverter
@@ -63,7 +63,7 @@ class Handler
      */
     public function __construct(
         SoapRequest $request,
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         SoapConfig $apiConfig,
         AuthorizationInterface $authorization,
         SimpleDataObjectConverter $dataObjectConverter,
@@ -152,7 +152,7 @@ class Handler
         /** @var string $dataType */
         $dataType = $this->_dataObjectProcessor->getMethodReturnType($serviceClassName, $serviceMethodName);
         $result = null;
-        if ($data instanceof ExtensibleDataInterface) {
+        if (is_object($data)) {
             $result = $this->_dataObjectConverter
                 ->convertKeysToCamelCase($this->_dataObjectProcessor->buildOutputDataArray($data, $dataType));
         } elseif (is_array($data)) {
