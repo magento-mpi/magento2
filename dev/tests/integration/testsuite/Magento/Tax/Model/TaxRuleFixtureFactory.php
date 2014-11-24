@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Tax\Service\V1;
+namespace Magento\Tax\Model;
 
 use Magento\TestFramework\Helper\Bootstrap;
 

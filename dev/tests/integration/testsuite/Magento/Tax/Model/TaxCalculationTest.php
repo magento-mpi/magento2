@@ -5,17 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Tax\Model;
 
-namespace Magento\Tax\Service\V1;
-
-use Magento\Tax\Model\ClassModel;
+use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
 
 /**
  * @magentoDbIsolation enabled
  */
-class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
+class TaxCalculationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Object Manager
@@ -27,21 +26,21 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * Tax calculation service
      *
-     * @var \Magento\Tax\Service\V1\TaxCalculationService
+     * @var \Magento\Tax\Api\TaxCalculationInterface
      */
     private $taxCalculationService;
 
     /**
      * Tax Details Builder
      *
-     * @var \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder
+     * @var \Magento\Tax\Api\Data\QuoteDetailsDataBuilder
      */
     private $quoteDetailsBuilder;
 
     /**
      * Tax Details Item Builder
      *
-     * @var \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder
+     * @var \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder
      */
     private $quoteDetailsItemBuilder;
 
@@ -83,10 +82,10 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager = Bootstrap::getObjectManager();
         $this->quoteDetailsBuilder = $this->objectManager
-            ->create('Magento\Tax\Service\V1\Data\QuoteDetailsBuilder');
+            ->create('Magento\Tax\Api\Data\QuoteDetailsDataBuilder');
         $this->quoteDetailsItemBuilder = $this->objectManager
-            ->create('Magento\Tax\Service\V1\data\QuoteDetails\ItemBuilder');
-        $this->taxCalculationService = $this->objectManager->get('\Magento\Tax\Service\V1\TaxCalculationService');
+            ->create('Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder');
+        $this->taxCalculationService = $this->objectManager->get('Magento\Tax\Api\TaxCalculationInterface');
         $this->taxRuleFixtureFactory = new TaxRuleFixtureFactory();
 
         $this->setUpDefaultRules();
@@ -107,7 +106,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
         $quoteDetails = $this->quoteDetailsBuilder->populateWithArray($quoteDetailsData)->create();
 
         $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, 1);
-        $this->assertEquals($expected, $taxDetails->__toArray());
+        $this->assertEquals($expected, $this->convertObjectToArray($taxDetails));
     }
 
     /**
@@ -470,7 +469,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
 
         $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
 
-        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
+        $this->assertEquals($expectedTaxDetails, $this->convertObjectToArray($taxDetails));
     }
 
     public function calculateTaxTotalBasedDataProvider()
@@ -930,7 +929,8 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
 
         $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails);
 
-        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
+        $this->assertEquals($expectedTaxDetails, $this->convertObjectToArray($taxDetails));
+        $this->assertEquals($expectedTaxDetails, $this->convertObjectToArray($taxDetails));
     }
 
     /**
@@ -1678,7 +1678,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
 
         $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails);
 
-        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
+        $this->assertEquals($expectedTaxDetails, $this->convertObjectToArray($taxDetails));
     }
 
     /**
@@ -1711,7 +1711,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
 
         $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails);
 
-        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
+        $this->assertEquals($expectedTaxDetails, $this->convertObjectToArray($taxDetails));
     }
 
     /**
@@ -1754,7 +1754,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
 
         $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails);
 
-        $this->assertEquals($expectedTaxDetails, $taxDetails->__toArray());
+        $this->assertEquals($expectedTaxDetails, $this->convertObjectToArray($taxDetails));
     }
 
     /**
@@ -1928,5 +1928,30 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
             'customer_tax_class_key' => 'DefaultCustomerClass',
         ];
         return $baseQuote;
+    }
+
+    /**
+     * Convert given object to array.
+     *
+     * This utility function is used to simplify expected result verification.
+     *
+     * @param AbstractExtensibleModel $object
+     * @return array
+     */
+    private function convertObjectToArray(AbstractExtensibleModel $object) {
+        $data = $object->getData();
+        foreach ($data as $key => $value) {
+            if (is_object($value)) {
+                $data[$key] = $this->convertObjectToArray($value);
+            } elseif (is_array($value)) {
+                foreach ($value as $nestedKey => $nestedValue) {
+                    if (is_object($nestedValue)) {
+                        $value[$nestedKey] = $this->convertObjectToArray($nestedValue);
+                    }
+                }
+                $data[$key] = $value;
+            }
+        }
+        return $data;
     }
 }

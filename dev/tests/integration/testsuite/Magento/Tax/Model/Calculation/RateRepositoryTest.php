@@ -10,11 +10,11 @@ namespace Magento\Tax\Service\V1;
 
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Tax\Service\V1\Data\ZipRangeBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Tax\Service\V1\Data\TaxRate;
+use Magento\Tax\Api\Data\TaxRateInterface;
+use Magento\Tax\Model\TaxRuleFixtureFactory;
 
-class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
+class RateRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Object Manager
@@ -33,9 +33,9 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * TaxRateService
      *
-     * @var \Magento\Tax\Service\V1\TaxRateServiceInterface
+     * @var \Magento\Tax\Api\TaxRateRepositoryInterface
      */
-    private $taxRateService;
+    private $rateRepository;
 
     /**
      * Helps in creating required tax rules.
@@ -57,7 +57,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
-        $this->taxRateService = $this->objectManager->get('Magento\Tax\Service\V1\TaxRateServiceInterface');
+        $this->rateRepository = $this->objectManager->get('Magento\Tax\Api\TaxRateRepositoryInterface');
         $this->taxRateBuilder = $this->objectManager->create('Magento\Tax\Api\Data\TaxRateDataBuilder');
         $this->taxRateFixtureFactory = new TaxRuleFixtureFactory();
         $this->countryFactory = $this->objectManager->create('Magento\Directory\Model\CountryFactory');
@@ -67,30 +67,31 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      */
-    public function testCreateTaxRate()
+    public function testSave()
     {
         $taxData = [
-            'country_id' => 'US',
-            'region_id' => '8',
-            'percentage_rate' => '8.25',
+            'tax_country_id' => 'US',
+            'tax_region_id' => '8',
+            'rate' => '8.25',
             'code' => 'US-CA-*-Rate' . rand(),
-            'zip_range' => ['from' => 78765, 'to' => 78780]
+            'zip_is_range' => true,
+            'zip_from' => 78765,
+            'zip_to' => 78780,
         ];
         // Tax rate data object created
         $taxRate = $this->taxRateBuilder->populateWithArray($taxData)->create();
         //Tax rate service call
-        $taxRateServiceData = $this->taxRateService->createTaxRate($taxRate);
+        $taxRateServiceData = $this->rateRepository->save($taxRate);
 
         //Assertions
-        $this->assertInstanceOf('Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
-        $this->assertEquals($taxData['country_id'], $taxRateServiceData->getCountryId());
-        $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
-        $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
+        $this->assertInstanceOf('Magento\Tax\Api\Data\TaxRateInterface', $taxRateServiceData);
+        $this->assertEquals($taxData['tax_country_id'], $taxRateServiceData->getTaxCountryId());
+        $this->assertEquals($taxData['tax_region_id'], $taxRateServiceData->getTaxRegionId());
+        $this->assertEquals($taxData['rate'], $taxRateServiceData->getRate());
         $this->assertEquals($taxData['code'], $taxRateServiceData->getCode());
-        $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
-        $this->assertEquals($taxData['zip_range']['from'], $taxRateServiceData->getZipRange()->getFrom());
-        $this->assertEquals($taxData['zip_range']['to'], $taxRateServiceData->getZipRange()->getTo());
-        $this->assertEquals('78765-78780', $taxRateServiceData->getPostcode());
+        $this->assertEquals($taxData['zip_from'], $taxRateServiceData->getZipFrom());
+        $this->assertEquals($taxData['zip_to'], $taxRateServiceData->getZipTo());
+        $this->assertEquals('78765-78780', $taxRateServiceData->getTaxPostcode());
         $this->assertNotNull($taxRateServiceData->getId());
     }
 
@@ -98,17 +99,19 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDbIsolation enabled
      * @magentoDataFixture Magento/Store/_files/store.php
      */
-    public function testCreateTaxRateWithTitles()
+    public function testSaveWithTitles()
     {
         $store = $this->objectManager->get('Magento\Store\Model\Store');
         $store->load('test', 'code');
 
         $taxData = [
-            'country_id' => 'US',
-            'region_id' => '8',
-            'percentage_rate' => '8.25',
+            'tax_country_id' => 'US',
+            'tax_region_id' => '8',
+            'rate' => '8.25',
             'code' => 'US-CA-*-Rate' . rand(),
-            'zip_range' => ['from' => 78765, 'to' => 78780],
+            'zip_is_range' => true,
+            'zip_from' => 78765,
+            'zip_to' => 78780,
             'titles' => [
                 [
                     'store_id' => $store->getId(),
@@ -119,18 +122,17 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         // Tax rate data object created
         $taxRate = $this->taxRateBuilder->populateWithArray($taxData)->create();
         //Tax rate service call
-        $taxRateServiceData = $this->taxRateService->createTaxRate($taxRate);
+        $taxRateServiceData = $this->rateRepository->save($taxRate);
 
         //Assertions
-        $this->assertInstanceOf('Magento\Tax\Service\V1\Data\TaxRate', $taxRateServiceData);
-        $this->assertEquals($taxData['country_id'], $taxRateServiceData->getCountryId());
-        $this->assertEquals($taxData['region_id'], $taxRateServiceData->getRegionId());
-        $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
+        $this->assertInstanceOf('Magento\Tax\Api\Data\TaxRateInterface', $taxRateServiceData);
+        $this->assertEquals($taxData['tax_country_id'], $taxRateServiceData->getTaxCountryId());
+        $this->assertEquals($taxData['tax_region_id'], $taxRateServiceData->getTaxRegionId());
+        $this->assertEquals($taxData['rate'], $taxRateServiceData->getRate());
         $this->assertEquals($taxData['code'], $taxRateServiceData->getCode());
-        $this->assertEquals($taxData['percentage_rate'], $taxRateServiceData->getPercentageRate());
-        $this->assertEquals($taxData['zip_range']['from'], $taxRateServiceData->getZipRange()->getFrom());
-        $this->assertEquals($taxData['zip_range']['to'], $taxRateServiceData->getZipRange()->getTo());
-        $this->assertEquals('78765-78780', $taxRateServiceData->getPostcode());
+        $this->assertEquals($taxData['zip_from'], $taxRateServiceData->getZipFrom());
+        $this->assertEquals($taxData['zip_to'], $taxRateServiceData->getZipTo());
+        $this->assertEquals('78765-78780', $taxRateServiceData->getTaxPostcode());
         $this->assertNotNull($taxRateServiceData->getId());
 
         $titles = $taxRateServiceData->getTitles();
@@ -138,7 +140,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($store->getId(), $titles[0]->getStoreId());
         $this->assertEquals($taxData['titles'][0]['value'], $titles[0]->getValue());
 
-        $taxRateServiceData = $this->taxRateService->getTaxRate($taxRateServiceData->getId());
+        $taxRateServiceData = $this->rateRepository->get($taxRateServiceData->getId());
 
         $titles = $taxRateServiceData->getTitles();
         $this->assertEquals(1, count($titles));
@@ -147,22 +149,24 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Framework\Exception\InputException
-     * @expectedExceptionMessage id is not expected for this request.
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with taxRateId = 9999
      * @magentoDbIsolation enabled
      */
-    public function testCreateTaxRateWithId()
+    public function testSaveThrowsExceptionIfTargetTaxRateDoesNotExist()
     {
         $invalidTaxData = [
-            'id' => 2,
-            'country_id' => 'US',
-            'region_id' => '8',
-            'percentage_rate' => '8.25',
+            'id' => 9999,
+            'tax_country_id' => 'US',
+            'tax_region_id' => '8',
+            'rate' => '8.25',
             'code' => 'US-CA-*-Rate' . rand(),
-            'zip_range' => ['from' => 78765, 'to' => 78780]
+            'zip_is_range' => true,
+            'zip_from' => 78765,
+            'zip_to' => 78780,
         ];
         $taxRate = $this->taxRateBuilder->populateWithArray($invalidTaxData)->create();
-        $this->taxRateService->createTaxRate($taxRate);
+        $this->rateRepository->save($taxRate);
     }
 
     /**
@@ -170,19 +174,22 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      * @expectedExceptionMessage Code already exists.
      * @magentoDbIsolation enabled
      */
-    public function testCreateTaxRateDuplicateCodes()
+    public function testSaveThrowsExceptionIfTaxRateWithCorrespondingCodeAlreadyExists()
     {
         $invalidTaxData = [
-            'country_id' => 'US',
-            'region_id' => '8',
-            'percentage_rate' => '8.25',
+            'tax_country_id' => 'US',
+            'tax_region_id' => '8',
+            'rate' => '8.25',
             'code' => 'US-CA-*-Rate' . rand(),
-            'zip_range' => ['from' => 78765, 'to' => 78780]
+            'zip_is_range' => true,
+            'zip_from' => 78765,
+            'zip_to' => 78780,
         ];
-        $taxRate = $this->taxRateBuilder->populateWithArray($invalidTaxData)->create();
+        $taxRate1 = $this->taxRateBuilder->populateWithArray($invalidTaxData)->create();
+        $taxRate2 = $this->taxRateBuilder->populateWithArray($invalidTaxData)->create();
         //Service call initiated twice to add the same code
-        $this->taxRateService->createTaxRate($taxRate);
-        $this->taxRateService->createTaxRate($taxRate);
+        $this->rateRepository->save($taxRate1);
+        $this->rateRepository->save($taxRate2);
     }
 
     /**
@@ -194,11 +201,11 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Framework\Exception\InputException
      * @magentoDbIsolation enabled
      */
-    public function testCreateTaxRateWithExceptionMessages($dataArray, $errorMessages)
+    public function testSaveThrowsExceptionIfGivenDataIsInvalid($dataArray, $errorMessages)
     {
         $taxRate = $this->taxRateBuilder->populateWithArray($dataArray)->create();
         try {
-            $this->taxRateService->createTaxRate($taxRate);
+            $this->rateRepository->save($taxRate);
         } catch (InputException $exception) {
             $errors = $exception->getErrors();
             foreach ($errors as $key => $error) {
@@ -215,7 +222,11 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'invalidZipRange' => [
-                ['zip_range' => ['from' => 'from', 'to' => 'to']],
+                [
+                    'zip_is_range' => true,
+                    'zip_from' => 'from',
+                    'zip_to' => 'to',
+                ],
                 'error' => [
                     'country_id is a required field.',
                     'percentage_rate is a required field.',
@@ -225,7 +236,11 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'emptyZipRange' => [
-                ['zip_range' => ['from' => '', 'to' => '']],
+                [
+                    'zip_is_range' => true,
+                    'zip_from' => '',
+                    'zip_to' => '',
+                ],
                 'error' => [
                     'country_id is a required field.',
                     'percentage_rate is a required field.',
@@ -244,7 +259,12 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'zipRangeAndPostcode' => [
-                ['postcode' => 78727, 'zip_range' => ['from' => 78765, 'to' => 78780]],
+                [
+                    'postcode' => 78727,
+                    'zip_is_range' => true,
+                    'zip_from' => 78765,
+                    'zip_to' => 78780,
+                ],
                 'error' => [
                     'country_id is a required field.',
                     'percentage_rate is a required field.',
@@ -252,7 +272,11 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'higherRange' => [
-                ['zip_range' => ['from' => 78780, 'to' => 78765]],
+                [
+                    'zip_is_range' => true,
+                    'zip_from' => 78765,
+                    'zip_to' => 78780,
+                ],
                 'error' => [
                     'country_id is a required field.',
                     'percentage_rate is a required field.',
@@ -261,7 +285,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'invalidCountry' => [
-                ['country_id' => 'XX'],
+                ['tax_country_id' => 'XX'],
                 'error' => [
                     'Invalid value of "XX" provided for the country_id field.',
                     'percentage_rate is a required field.',
@@ -270,7 +294,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'invalidCountry2' => [
-                ['country_id' => ' '],
+                ['tax_country_id' => ' '],
                 'error' => [
                     'country_id is a required field.',
                     'percentage_rate is a required field.',
@@ -279,7 +303,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'invalidRegion1' => [
-                ['region_id' => '-'],
+                ['tax_region_id' => '-'],
                 'error' => [
                     'country_id is a required field.',
                     'Invalid value of "-" provided for the region_id field.',
@@ -289,7 +313,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'spaceRegion' => [
-                ['region_id' => ' '],
+                ['tax_region_id' => ' '],
                 'error' => [
                     'country_id is a required field.',
                     'percentage_rate is a required field.',
@@ -298,11 +322,14 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'emptyPercentageRate' => [
-                ['country_id' => 'US',
-                    'region_id' => '8',
-                    'percentage_rate' => '',
+                [
+                    'tax_country_id' => 'US',
+                    'tax_region_id' => '8',
+                    'rate' => '',
                     'code' => 'US-CA-*-Rate' . rand(),
-                    'zip_range' => ['from' => 78765, 'to' => 78780]
+                    'zip_is_range' => true,
+                    'zip_from' => 78765,
+                    'zip_to' => 78780,
                 ],
                 'error' => [
                     'percentage_rate is a required field.'
@@ -315,7 +342,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      */
-    public function testGetTaxRate()
+    public function testGet()
     {
         $data = [
             'tax_country_id' => 'US',
@@ -328,71 +355,57 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             ->setData($data)
             ->save();
 
-        $taxRate = $this->taxRateService->getTaxRate($rate->getId());
+        $taxRate = $this->rateRepository->get($rate->getId());
 
-        $this->assertEquals('US', $taxRate->getCountryId());
-        $this->assertEquals(12, $taxRate->getRegionId());
-        $this->assertEquals('*', $taxRate->getPostcode());
+        $this->assertEquals('US', $taxRate->getTaxCountryId());
+        $this->assertEquals(12, $taxRate->getTaxRegionId());
+        $this->assertEquals('*', $taxRate->getTaxPostcode());
         $this->assertEquals('US_12_Code', $taxRate->getCode());
-        $this->assertEquals(7.5, $taxRate->getPercentageRate());
-        $this->assertNull($taxRate->getZipRange());
+        $this->assertEquals(7.5, $taxRate->getRate());
+        $this->assertNull($taxRate->getZipIsRange());
+        $this->assertNull($taxRate->getZipTo());
+        $this->assertNull($taxRate->getZipFrom());
     }
 
     /**
      * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage No such entity with taxRateId = -1
+     * @expectedExceptionMessage No such entity with taxRateId = 9999
      */
-    public function testGetRateWithNoSuchEntityException()
+    public function testGetThrowsExceptionIfTargetTaxRateDoesNotExist()
     {
-        $this->taxRateService->getTaxRate(-1);
+        $this->rateRepository->get(9999);
     }
 
     /**
      * @magentoDbIsolation enabled
      */
-    public function testUpdateTaxRates()
+    public function testSaveUpdatesTaxRate()
     {
-        /** @var ZipRangeBuilder $zipRangeBuilder */
-        $zipRangeBuilder = $this->objectManager->get('Magento\Tax\Service\V1\Data\ZipRangeBuilder');
         $taxRate = $this->taxRateBuilder
-            ->setCountryId('US')
-            ->setRegionId(42)
-            ->setPercentageRate(8.25)
+            ->setTaxCountryId('US')
+            ->setTaxRegionId(42)
+            ->setRate(8.25)
             ->setCode('UpdateTaxRates')
-            ->setPostcode('78780')
+            ->setTaxPostcode('78780')
             ->create();
-        $taxRate = $this->taxRateService->createTaxRate($taxRate);
-        $zipRange = $zipRangeBuilder->setFrom(78700)->setTo(78780)->create();
-        $updatedTaxRate = $this->taxRateBuilder->populate($taxRate)
-            ->setPostcode(null)
-            ->setZipRange($zipRange)
+        $taxRate = $this->rateRepository->save($taxRate);
+        $updatedTaxRate = $this->taxRateBuilder
+            ->setId($taxRate->getId())
+            ->setCode('UpdateTaxRates')
+            ->setTaxCountryId('US')
+            ->setTaxRegionId(42)
+            ->setRate(8.25)
+            ->setZipIsRange(true)
+            ->setZipFrom(78700)
+            ->setZipTo(78780)
             ->create();
 
-        $this->taxRateService->updateTaxRate($updatedTaxRate);
+        $updatedTaxRate = $this->rateRepository->save($updatedTaxRate);
 
-        $retrievedRate = $this->taxRateService->getTaxRate($taxRate->getId());
+        $retrievedRate = $this->rateRepository->get($taxRate->getId());
         // Expect the service to have filled in the new postcode for us
-        $updatedTaxRate = $this->taxRateBuilder->populate($updatedTaxRate)->setPostcode('78700-78780')->create();
-        $this->assertEquals($retrievedRate->__toArray(), $updatedTaxRate->__toArray());
-        $this->assertNotEquals($retrievedRate->__toArray(), $taxRate->__toArray());
-    }
-
-    /**
-     * @magentoDbIsolation enabled
-     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
-     * @expectedExceptionMessage taxRateId =
-     */
-    public function testUpdateTaxRateNoId()
-    {
-        $taxRate = $this->taxRateBuilder
-            ->setCountryId('US')
-            ->setRegionId(42)
-            ->setPercentageRate(8.25)
-            ->setCode('UpdateTaxRates')
-            ->setPostcode('78780')
-            ->create();
-
-        $this->taxRateService->updateTaxRate($taxRate);
+        $this->assertEquals($updatedTaxRate->getTaxPostcode(), $retrievedRate->getTaxPostcode());
+        $this->assertNotEquals($taxRate->getTaxPostcode(), $retrievedRate->getTaxPostcode());
     }
 
     /**
@@ -400,44 +413,49 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage postcode
      */
-    public function testUpdateTaxRateMissingRequiredFields()
+    public function testSaveThrowsExceptionIfTargetTaxRateExistsButProvidedDataIsInvalid()
     {
         $taxRate = $this->taxRateBuilder
-            ->setCountryId('US')
-            ->setRegionId(42)
-            ->setPercentageRate(8.25)
+            ->setTaxCountryId('US')
+            ->setTaxRegionId(42)
+            ->setRate(8.25)
             ->setCode('UpdateTaxRates')
-            ->setPostcode('78780')
+            ->setTaxPostcode('78780')
             ->create();
-        $taxRate = $this->taxRateService->createTaxRate($taxRate);
-        $updatedTaxRate = $this->taxRateBuilder->populate($taxRate)
-            ->setPostcode(null)
+        $taxRate = $this->rateRepository->save($taxRate);
+        $updatedTaxRate = $this->taxRateBuilder
+            ->setId($taxRate->getId())
+            ->setTaxCountryId('US')
+            ->setTaxRegionId(42)
+            ->setRate(8.25)
+            ->setCode('UpdateTaxRates')
+            ->setTaxPostcode(null)
             ->create();
 
-        $this->taxRateService->updateTaxRate($updatedTaxRate);
+        $this->rateRepository->save($updatedTaxRate);
     }
 
     /**
      * @magentoDbIsolation enabled
      */
-    public function testDeleteTaxRate()
+    public function testDeleteById()
     {
         // Create a new tax rate
         $taxRateData = $this->taxRateBuilder
             ->setCode('TX')
-            ->setCountryId('US')
-            ->setPercentageRate(5)
-            ->setPostcode(77000)
-            ->setRegionId(1)
+            ->setTaxCountryId('US')
+            ->setRate(5)
+            ->setTaxPostcode(77000)
+            ->setTaxRegionId(1)
             ->create();
-        $taxRateId = $this->taxRateService->createTaxRate($taxRateData)->getId();
+        $taxRateId = $this->rateRepository->save($taxRateData)->getId();
 
         // Delete the new tax rate
-        $this->assertTrue($this->taxRateService->deleteTaxRate($taxRateId));
+        $this->assertTrue($this->rateRepository->deleteById($taxRateId));
 
         // Get the new tax rate, this should fail
         try {
-            $this->taxRateService->getTaxRate($taxRateId);
+            $this->rateRepository->get($taxRateId);
             $this->fail('NoSuchEntityException expected but not thrown');
         } catch (NoSuchEntityException $e) {
             $expectedParams = [
@@ -453,24 +471,24 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      */
-    public function testDeleteTaxRateException()
+    public function testDeleteThrowsExceptionIfTargetTaxRateDoesNotExist()
     {
         // Create a new tax rate
         $taxRateData = $this->taxRateBuilder
             ->setCode('TX')
-            ->setCountryId('US')
-            ->setPercentageRate(6)
-            ->setPostcode(77001)
-            ->setRegionId(1)
+            ->setTaxCountryId('US')
+            ->setRate(6)
+            ->setTaxPostcode(77001)
+            ->setTaxRegionId(1)
             ->create();
-        $taxRateId = $this->taxRateService->createTaxRate($taxRateData)->getId();
+        $taxRateId = $this->rateRepository->save($taxRateData)->getId();
 
         // Delete the new tax rate
-        $this->assertTrue($this->taxRateService->deleteTaxRate($taxRateId));
+        $this->assertTrue($this->rateRepository->deleteById($taxRateId));
 
         // Delete the new tax rate again, this should fail
         try {
-            $this->taxRateService->deleteTaxRate($taxRateId);
+            $this->rateRepository->deleteById($taxRateId);
             $this->fail('NoSuchEntityException expected but not thrown');
         } catch (NoSuchEntityException $e) {
             $expectedParams = [
@@ -492,7 +510,7 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDbIsolation enabled
      * @dataProvider searchTaxRatesDataProvider
      */
-    public function testSearchTaxRates($filters, $filterGroup, $expectedRateCodes)
+    public function testGetList($filters, $filterGroup, $expectedRateCodes)
     {
         $taxRates = $this->taxRateFixtureFactory->createTaxRates(
             [
@@ -514,22 +532,13 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
         }
         $searchCriteria = $searchBuilder->create();
 
-        $searchResults = $this->taxRateService->searchTaxRates($searchCriteria);
+        $searchResults = $this->rateRepository->getList($searchCriteria);
 
-        $items = [];
-        foreach ($expectedRateCodes as $rateCode) {
-            $rateId = $taxRates[$rateCode];
-            $items[] = $this->taxRateService->getTaxRate($rateId);
+        $this->assertEquals($searchCriteria, $searchResults->getSearchCriteria());
+        $this->assertEquals(count($expectedRateCodes), $searchResults->getTotalCount());
+        foreach ($searchResults->getItems() as $rate) {
+            $this->assertContains($rate->getCode(), $expectedRateCodes);
         }
-
-        $resultsBuilder = Bootstrap::getObjectManager()
-            ->create('Magento\Tax\Service\V1\Data\TaxRateSearchResultsBuilder');
-        $expectedResult = $resultsBuilder->setItems($items)
-            ->setTotalCount(count($items))
-            ->setSearchCriteria($searchCriteria)
-            ->create();
-
-        $this->assertEquals($expectedResult, $searchResults);
     }
 
     public function searchTaxRatesDataProvider()
@@ -538,14 +547,14 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
 
         return [
             'eq' => [
-                [$filterBuilder->setField(TaxRate::KEY_REGION_ID)->setValue(42)->create()],
+                [$filterBuilder->setField(TaxRateInterface::KEY_REGION_ID)->setValue(42)->create()],
                 null,
                 ['US - 42 - 7.5', 'US - 42 - 22']
             ],
             'and' => [
                 [
-                    $filterBuilder->setField(TaxRate::KEY_REGION_ID)->setValue(42)->create(),
-                    $filterBuilder->setField(TaxRate::KEY_PERCENTAGE_RATE)->setValue(22.0)->create(),
+                    $filterBuilder->setField(TaxRateInterface::KEY_REGION_ID)->setValue(42)->create(),
+                    $filterBuilder->setField(TaxRateInterface::KEY_PERCENTAGE_RATE)->setValue(22.0)->create(),
                 ],
                 [],
                 ['US - 42 - 22']
@@ -553,14 +562,14 @@ class TaxRateServiceTest extends \PHPUnit_Framework_TestCase
             'or' => [
                 [],
                 [
-                    $filterBuilder->setField(TaxRate::KEY_PERCENTAGE_RATE)->setValue(22.0)->create(),
-                    $filterBuilder->setField(TaxRate::KEY_PERCENTAGE_RATE)->setValue(10.0)->create(),
+                    $filterBuilder->setField(TaxRateInterface::KEY_PERCENTAGE_RATE)->setValue(22.0)->create(),
+                    $filterBuilder->setField(TaxRateInterface::KEY_PERCENTAGE_RATE)->setValue(10.0)->create(),
                 ],
                 ['US - 42 - 22', 'US - 12 - 10']
             ],
             'like' => [
                 [
-                    $filterBuilder->setField(TaxRate::KEY_CODE)->setValue('%7.5')->setConditionType('like')
+                    $filterBuilder->setField(TaxRateInterface::KEY_CODE)->setValue('%7.5')->setConditionType('like')
                         ->create()
                 ],
                 [],
