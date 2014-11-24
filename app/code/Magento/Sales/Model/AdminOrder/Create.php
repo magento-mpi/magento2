@@ -1513,9 +1513,9 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $customerData = $this->extensibleDataObjectConverter->toFlatArray($customer);
         foreach ($form->getAttributes() as $attribute) {
             $code = sprintf('customer_%s', $attribute->getAttributeCode());
-            $data[$code] = isset(
-                $customerData[$attribute->getAttributeCode()]
-            ) ? $customerData[$attribute->getAttributeCode()] : null;
+            $data[$code] = isset($customerData[$attribute->getAttributeCode()])
+                ? $customerData[$attribute->getAttributeCode()]
+                : null;
         }
 
         if (isset($data['customer_group_id'])) {
@@ -1621,6 +1621,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                 unset($data[$key]);
             }
         }
+
         return $this->customerBuilder->mergeDataObjectWithArray($customer, $data)
             ->create();
     }
@@ -1667,13 +1668,17 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         }
         if ($this->getBillingAddress()->getSaveInAddressBook()) {
             $this->_prepareCustomerAddress($customer, $this->getBillingAddress());
+            $customer =  $this->getQuote()->getCustomer();
         }
         if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
             $this->_prepareCustomerAddress($customer, $this->getShippingAddress());
+            $customer =  $this->getQuote()->getCustomer();
         }
         $this->getQuote()->updateCustomerData($customer);
 
-        $customerData = $this->extensibleDataObjectConverter->toFlatArray($customer);
+        $customerData = $this->extensibleDataObjectConverter->toFlatArray(
+            $this->customerBuilder->populate($customer)->setAddresses([])->create()
+        );
         foreach ($this->_createCustomerForm($customer)->getUserAttributes() as $attribute) {
             if (isset($customerData[$attribute->getAttributeCode()])) {
                 $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
@@ -1695,8 +1700,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected function _prepareCustomerAddress($customer, $quoteCustomerAddress)
     {
         // Possible that customerId is null for new customers
-        $customerId = $customer->getId();
-        $quoteCustomerAddress->setCustomerId($customerId);
+        $quoteCustomerAddress->setCustomerId($customer->getId());
         $customerAddress = $quoteCustomerAddress->exportCustomerAddress();
         $quoteAddressId = $quoteCustomerAddress->getCustomerAddressId();
         $addressType = $quoteCustomerAddress->getAddressType();
@@ -1704,10 +1708,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             /** Update existing address */
             $existingAddressDataObject = $this->addressRepository->getById($quoteAddressId);
             /** Update customer address data */
-            $customerAddress = $this->addressBuilder->mergeDataObjects(
-                $existingAddressDataObject,
-                $customerAddress
-            )->create();
+            $customerAddress = $this->addressBuilder->mergeDataObjects($existingAddressDataObject, $customerAddress)
+                ->create();
         } elseif ($addressType == \Magento\Sales\Model\Quote\Address::ADDRESS_TYPE_SHIPPING) {
             try {
                 $billingAddressDataObject = $customer->getDefaultBilling();

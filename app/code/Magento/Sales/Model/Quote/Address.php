@@ -224,7 +224,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_addressTotalFactory;
 
     /**
-     * @var \Magento\Customer\Api\Data\AddressInterfaceDataBuilder
+     * @var \Magento\Customer\Api\Data\AddressDataBuilder
      */
     protected $addressBuilder;
 
