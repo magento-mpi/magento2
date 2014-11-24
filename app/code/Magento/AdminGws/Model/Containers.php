@@ -548,7 +548,7 @@ class Containers implements CallbackProcessorInterface
         /* @var $model \Magento\Cms\Model\Page */
         $model = $this->registry->registry('cms_page');
         if ($model && $model->getId()) {
-            $storeIds = $this->cmsPageResource->lookupStoreIds($model->getPageId());
+            $storeIds = $this->cmsPageResource->lookupStoreIds($model->getId());
             if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
                 $container->removeButton('publish');
                 $container->removeButton('save_publish');
@@ -567,7 +567,7 @@ class Containers implements CallbackProcessorInterface
     {
         $model = $this->registry->registry('cms_page');
         if ($model && $model->getId()) {
-            $storeIds = $this->cmsPageResource->lookupStoreIds($model->getPageId());
+            $storeIds = $this->cmsPageResource->lookupStoreIds($model->getId());
             if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
                 $container->removeButton('publish');
             }

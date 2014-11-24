@@ -7,19 +7,19 @@
  */
 namespace Magento\Cms\Model\Resource;
 
-use Magento\Cms\Api\PageCriteriaInterface;
+use Magento\Cms\Api\BlockCriteriaInterface;
 
 /**
- * Class PageCriteria
+ * Class BlockCriteria
  * @package Magento\Cms\Model\Resource
  */
-class PageCriteria extends CmsAbstractCriteria implements PageCriteriaInterface
+class BlockCriteria extends CmsAbstractCriteria implements BlockCriteriaInterface
 {
     /**
      * @param string $mapper
      */
     public function __construct($mapper = '')
     {
-        $this->mapperInterfaceName = $mapper ?: 'Magento\Cms\Model\Resource\PageCriteriaMapper';
+        $this->mapperInterfaceName = $mapper ?: 'Magento\Cms\Model\Resource\BlockCriteriaMapper';
     }
 }

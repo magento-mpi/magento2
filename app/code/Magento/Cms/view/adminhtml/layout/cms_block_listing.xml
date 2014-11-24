@@ -12,7 +12,7 @@
         <referenceBlock name="listing">
             <arguments>
                 <argument name="name" xsi:type="string">cms_block_listing</argument>
-                <argument name="dataSource" xsi:type="object">Magento\Cms\Model\Resource\Block\Grid\Collection</argument>
+                <argument name="dataSource" xsi:type="object">Magento\Cms\Model\DataSource\BlockCollection</argument>
                 <argument name="save_parameters_in_session" xsi:type="string">1</argument>
                 <argument name="configuration" xsi:type="array">
                     <item name="page_actions" xsi:type="array">
@@ -114,7 +114,7 @@
                         <argument name="config" xsi:type="array">
                             <item name="types" xsi:type="array">
                                 <item name="filter_store" xsi:type="array">
-                                    <item name="content_template" xsi:type="string">Magento_Store/templates/filter/store.html</item>
+                                    <item name="template" xsi:type="string">Magento_Store/templates/filter/filter_store.html</item>
                                     <item name="control" xsi:type="string">Magento_Store/js/listing/filter/store</item>
                                 </item>
                             </item>

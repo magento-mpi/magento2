@@ -142,7 +142,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
                                 'target' => '#edit_form',
                                 'eventData' => array(
                                     'action' => $this->getNewVersionUrl(),
-                                    'target' => 'cms-page-preview-' . ($page ? $page->getPageId() : '')
+                                    'target' => 'cms-page-preview-' . ($page ? $page->getId() : '')
                                 )
                             )
                         )
@@ -225,7 +225,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
         $page = $this->_coreRegistry->registry('cms_page');
         return $this->getUrl(
             'adminhtml/cms_page_version/edit',
-            array('page_id' => $page ? $page->getPageId() : null, 'version_id' => $page ? $page->getVersionId() : null)
+            array('page_id' => $page ? $page->getId() : null, 'version_id' => $page ? $page->getVersionId() : null)
         );
     }
 

@@ -239,7 +239,8 @@ define([
          * @returns {String} - path to template based on type of filter
          */
         getTemplateFor: function (filter) {
-            return 'ui/filter/' + filter.type;
+            var module = filter.module || 'ui';
+            return module + '/filter/' + filter.type;
         },
 
         /**

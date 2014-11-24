@@ -25,7 +25,7 @@ interface PageInterface
      *
      * @return int
      */
-    public function getPageId();
+    public function getId();
 
     /**
      * Retrieve page identifier
