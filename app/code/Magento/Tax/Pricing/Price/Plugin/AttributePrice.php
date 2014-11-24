@@ -20,18 +20,18 @@ class AttributePrice
     /**
      * @var \Magento\Tax\Api\TaxCalculationInterface
      */
-    protected $taxCalculationService;
+    protected $taxCalculation;
 
     /**
      * @param \Magento\Tax\Helper\Data $helper
-     * @param \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService
+     * @param \Magento\Tax\Api\TaxCalculationInterface $taxCalculation
      */
     public function __construct(
         \Magento\Tax\Helper\Data $helper,
-        \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService
+        \Magento\Tax\Api\TaxCalculationInterface $taxCalculation
     ) {
         $this->taxHelper = $helper;
-        $this->taxCalculationService = $taxCalculationService;
+        $this->taxCalculation = $taxCalculation;
     }
 
     /**
@@ -49,13 +49,13 @@ class AttributePrice
 
         $productClassId = $product->getTaxClassId();
 
-        $defaultValue = $this->taxCalculationService->getDefaultCalculatedRate(
+        $defaultValue = $this->taxCalculation->getDefaultCalculatedRate(
             $productClassId,
             $result['customerId']
         );
         $result['defaultTax'] = $defaultValue + $result['defaultTax'];
 
-        $currentTax = $this->taxCalculationService->getCalculatedRate(
+        $currentTax = $this->taxCalculation->getCalculatedRate(
             $productClassId,
             $result['customerId']
         );

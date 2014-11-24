@@ -16,9 +16,6 @@ use Magento\Tax\Api\Data\AppliedTaxRateDataBuilder;
 use Magento\Tax\Api\Data\TaxDetailsItemInterface;
 use Magento\Tax\Api\TaxClassManagementInterface;
 
-/**
- * @todo MAGETWO-30349 adopt this interface
- */
 abstract class AbstractCalculator
 {
     /**#@+

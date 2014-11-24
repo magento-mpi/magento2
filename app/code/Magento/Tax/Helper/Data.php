@@ -118,7 +118,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var TaxCalculationInterface
      */
-    protected $taxCalculationService;
+    protected $taxCalculation;
 
     /**
      * Address converter
@@ -171,7 +171,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param QuoteDetailsDataBuilder $quoteDetailsBuilder
      * @param QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder
      * @param TaxClassKeyDataBuilder $taxClassKeyBuilder
-     * @param TaxCalculationInterface $taxCalculationService
+     * @param TaxCalculationInterface $taxCalculation
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
      * @param \Magento\Catalog\Helper\Data $catalogHelper
@@ -193,7 +193,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         QuoteDetailsDataBuilder $quoteDetailsBuilder,
         QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder,
         TaxClassKeyDataBuilder $taxClassKeyBuilder,
-        TaxCalculationInterface $taxCalculationService,
+        TaxCalculationInterface $taxCalculation,
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
         \Magento\Catalog\Helper\Data $catalogHelper,
@@ -215,7 +215,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->quoteDetailsBuilder = $quoteDetailsBuilder;
         $this->quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
         $this->taxClassKeyBuilder = $taxClassKeyBuilder;
-        $this->taxCalculationService = $taxCalculationService;
+        $this->taxCalculation = $taxCalculation;
         $this->customerSession = $customerSession;
         $this->addressConverter = $addressConverter;
         $this->catalogHelper = $catalogHelper;
