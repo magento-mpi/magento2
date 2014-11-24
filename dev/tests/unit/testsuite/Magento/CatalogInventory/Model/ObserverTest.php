@@ -109,8 +109,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->stock = $this->getMock('Magento\CatalogInventory\Model\Stock', [], [], '', false);
         $this->stockIndexProcessor = $this->getMock(
             '\Magento\Catalog\Model\Indexer\Product\Stock\Processor',
-        $this->priceIndexer = $this->getMock(
-            '\Magento\Catalog\Model\Indexer\Product\Price\Processor',
             ['reindexList', 'reindexRow'],
             [],
             '',
@@ -189,6 +187,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->priceIndexer = $this->getMockBuilder('Magento\Catalog\Model\Indexer\Product\Price\Processor')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->observer = $objectManagerHelper->getObject(
