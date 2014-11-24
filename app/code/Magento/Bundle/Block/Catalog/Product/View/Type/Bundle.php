@@ -210,19 +210,28 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 
                 $bundleOptionPriceAmount = $currentProduct->getPriceInfo()->getPrice('bundle_option')
                     ->getOptionSelectionAmount($selectionItem);
-                $priceInclTax = $bundleOptionPriceAmount->getValue();
-                $priceExclTax = $bundleOptionPriceAmount->getBaseAmount();
+                $finalPrice = $bundleOptionPriceAmount->getValue();
+                $basePrice = $bundleOptionPriceAmount->getBaseAmount();
 
                 $selection = array(
                     'qty' => $qty,
                     'customQty' => $selectionItem->getSelectionCanChangeQty(),
-                    'inclTaxPrice' => $this->priceCurrency->convert($priceInclTax),
-                    'exclTaxPrice' => $this->priceCurrency->convert($priceExclTax),
+                    'prices' => [
+                        'oldPrice' => [
+                            'amount' => $this->priceCurrency->convert($basePrice) // todo: calculate for regular price
+                        ],
+                        'basePrice' => [
+                            'amount' => $this->priceCurrency->convert($basePrice)
+                        ],
+                        'finalPrice' => [
+                            'amount' => $this->priceCurrency->convert($finalPrice)
+                        ]
+                    ],
+                    'inclTaxPrice' => $this->priceCurrency->convert($finalPrice),
+                    'exclTaxPrice' => $this->priceCurrency->convert($basePrice),
                     'priceType' => $selectionItem->getSelectionPriceType(),
                     'tierPrice' => $tierPrices,
                     'name' => $selectionItem->getName(),
-                    'plusDisposition' => 0,
-                    'minusDisposition' => 0,
                     'canApplyMsrp' => false
                 );
 
@@ -273,6 +282,17 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'selected' => $selected,
             'bundleId' => $currentProduct->getId(),
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
+            'prices' => [
+                'oldPrice' => [
+                    'amount' => $this->priceCurrency->convert($baseProductAmount->getValue())
+                ],
+                'basePrice' => [
+                    'amount' => $isFixedPrice ? $this->priceCurrency->convert($productAmount->getBaseAmount()) : 0
+                ],
+                'finalPrice' => [
+                    'amount' => $isFixedPrice ? $this->priceCurrency->convert($productAmount->getValue()) : 0
+                ]
+            ],
             'basePrice' => $this->priceCurrency->convert($baseProductAmount->getValue()),
             'finalBasePriceInclTax' => $isFixedPrice
                 ? $this->priceCurrency->convert($productAmount->getValue())
