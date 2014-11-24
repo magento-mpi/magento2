@@ -101,7 +101,7 @@
                  username="${env.webnode_login}"
                  password="${env.webnode_password}"
                  trust="yes"
-                 command="php -f ${env.magento_dir}/dev/tools/performance-toolkit/generate.php -- --profile=${env.magento_dir}/dev/build/core_dev/performance/benchmark/profiles/performance_test.xml"/>
+                 command="php -f ${env.magento_dir}/dev/tools/performance-toolkit/generate.php -- --profile=${env.magento_dir}/dev/tools/performance-toolkit/profiles/${env.size}.xml"/>
     </target>
 
     <target name="_bootstrap" description="Check whether common parameters is set">
