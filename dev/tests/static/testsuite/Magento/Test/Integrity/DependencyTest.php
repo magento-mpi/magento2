@@ -637,27 +637,26 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
      */
     protected static function _initDependencies()
     {
-        $jsonFiles = \Magento\Framework\Test\Utility\Files::init()->getFiles(
-            [BP . '/app/code/Magento/*/'],
-            'composer.json'
-        );
+        $jsonFiles = \Magento\Framework\Test\Utility\Files::init()->getComposerFiles('code/Magento/*/', false);
         foreach ($jsonFiles as $file) {
             $contents = file_get_contents($file);
-            $json = json_decode($contents);
-            $moduleName = self::convertModuleName($json->name);
+            $json = new \Magento\Framework\Config\Composer\Package(json_decode($contents));
+            $moduleName = self::convertModuleName($json->get('name'));
             self::$_mapDependencies[$moduleName] = @(self::$_mapDependencies[$moduleName] ?: []);
 
             foreach (self::_getTypes() as $type) {
                 if (!isset(self::$_mapDependencies[$moduleName][$type])) {
                     self::$_mapDependencies[$moduleName][$type] = [
-                        self::MAP_TYPE_DECLARED => [],
-                        self::MAP_TYPE_FOUND => [],
+                        self::MAP_TYPE_DECLARED  => [],
+                        self::MAP_TYPE_FOUND     => [],
                         self::MAP_TYPE_REDUNDANT => []
                     ];
                 }
             }
-            if (isset($json->require) && !empty($json->require)) {
-                foreach ($json->require as $requiredModule => $version) {
+            
+            $require = $json->get('require');
+            if (isset($require) && !empty($require)) {
+                foreach ($require as $requiredModule => $version) {
                     if (0 === strpos($requiredModule, 'magento/')
                         && 'magento/magento-composer-installer' != $requiredModule
                     ) {
@@ -671,8 +670,9 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                     }
                 }
             }
-            if (isset($json->suggest) && !empty($json->suggest)) {
-                foreach ($json->suggest as $requiredModule => $version) {
+            $suggest = $json->get('suggest');
+            if (isset($suggest) && !empty($suggest)) {
+                foreach ($suggest as $requiredModule => $version) {
                     if (0 === strpos($requiredModule, 'magento/')
                         && 'magento/magento-composer-installer' != $requiredModule
                     ) {
@@ -687,7 +687,6 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                 }
             }
         }
-        $test = 0;
     }
 
     /**
