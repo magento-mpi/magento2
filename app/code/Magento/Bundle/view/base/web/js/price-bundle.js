@@ -35,6 +35,9 @@ define([
 
         bundleOptions.on('change', onBundleOptionChanged.bind(this)).trigger('change');
         qtyFields.on('change', onQtyFieldChanged.bind(this));
+        this.element.trigger('updateProductSummary', {
+            config: this.options.bundleConfig
+        });
     }
 
     function onBundleOptionChanged(event) {
@@ -52,6 +55,9 @@ define([
         }
 
         priceBox.trigger('updatePrice', changes);
+        this.element.trigger('updateProductSummary', {
+            config: this.options.bundleConfig
+        });
     }
 
     function defaultGetOptionValue(element, config) {
