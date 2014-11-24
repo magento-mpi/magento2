@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Api\Data;
 
-interface ProductCustomOptionOptionTypeInterface
+interface ProductCustomOptionTypeInterface
 {
     /**
      * Get option type label

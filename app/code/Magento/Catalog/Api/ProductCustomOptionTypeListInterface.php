@@ -8,12 +8,12 @@
 
 namespace Magento\Catalog\Api;
 
-interface ProductCustomOptionOptionTypeListInterface
+interface ProductCustomOptionTypeListInterface
 {
     /**
      * Get custom option types
      *
-     * @return \Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterface[]
+     * @return \Magento\Catalog\Api\Data\ProductCustomOptionTypeInterface[]
      */
     public function getItems();
 }

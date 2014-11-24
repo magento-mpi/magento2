@@ -11,11 +11,11 @@ namespace Magento\Catalog\Api;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
-class ProductCustomOptionOptionTypeListTest extends WebapiAbstract
+class ProductCustomOptionTypeListTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/products/options/';
 
-    const SERVICE_NAME = 'catalogProductCustomOptionOptionTypeListV1';
+    const SERVICE_NAME = 'catalogProductCustomOptionTypeListV1';
 
     /**
      * @magentoAppIsolation enabled
