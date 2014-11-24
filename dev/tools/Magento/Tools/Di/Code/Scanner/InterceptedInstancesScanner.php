@@ -42,5 +42,4 @@ class InterceptedInstancesScanner implements ScannerInterface
         }
         return $interceptedInstances;
     }
-
 }
