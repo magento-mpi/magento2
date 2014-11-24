@@ -21,8 +21,6 @@ $product->setTypeId(
     3
 )->setAttributeSetId(
     4
-)->setWebsiteIds(
-    array(1)
 )->setName(
     'Bundle Product'
 )->setSku(
