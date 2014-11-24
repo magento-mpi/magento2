@@ -76,7 +76,7 @@ class TaxRuleCollection extends AbstractServiceCollection
         $collectionItem->setCode($taxRule->getCode());
         /* should cast to string so that some optional fields won't be null on the collection grid pages */
         $collectionItem->setPriority((string)$taxRule->getPriority());
-        $collectionItem->setPosition((string)$taxRule->getSortOrder());
+        $collectionItem->setPosition((string)$taxRule->getPosition());
         $collectionItem->setCalculateSubtotal($taxRule->getCalculateSubtotal() ? '1' : '0');
         $collectionItem->setCustomerTaxClasses($taxRule->getCustomerTaxClassIds());
         $collectionItem->setProductTaxClasses($taxRule->getProductTaxClassIds());

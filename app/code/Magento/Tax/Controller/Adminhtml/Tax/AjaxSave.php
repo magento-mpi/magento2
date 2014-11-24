@@ -25,7 +25,7 @@ class AjaxSave extends \Magento\Tax\Controller\Adminhtml\Tax
                 ->setClassType((string)$this->getRequest()->getPost('class_type'))
                 ->setClassName($this->_processClassName((string)$this->getRequest()->getPost('class_name')))
                 ->create();
-            $this->taxClassRepository->save($taxClass);
+            $taxClassId = $this->taxClassRepository->save($taxClass);
 
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
