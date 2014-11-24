@@ -2870,5 +2870,17 @@ return array(
     ['Magento\Tax\Service\V1\Data\TaxClassSearchResultsBuilder'],
     ['Magento\Tax\Service\V1\Data\TaxClassKeyBuilder'],
     ['Magento\Tax\Service\V1\Data\TaxClassBuilder'],
+    ['Magento\Tax\Service\V1\Data\OrderTaxDetails', 'Magento\Tax\Api\Data\OrderTaxDetailsInterface'],
+    [
+        'Magento\Tax\Service\V1\Data\OrderTaxDetails\AppliedTax',
+        'Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxInterface'
+    ],
+    ['Magento\Tax\Service\V1\Data\OrderTaxDetails\Item', 'Magento\Tax\Api\Data\OrderTaxDetailsItemInterface'],
+    ['Magento\Tax\Service\V1\Data\QuoteDetails', 'Magento\Tax\Api\Data\QuoteDetailsInterface'],
     ['Magento\Tax\Service\V1\Data\QuoteDetails\Item', 'Magento\Tax\Api\Data\QuoteDetailsItemInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxDetails', 'Magento\Tax\Api\Data\TaxDetailsInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax', 'Magento\Tax\Api\Data\AppliedTaxInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxRate', 'Magento\Tax\Api\Data\AppliedTaxRateInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxDetails\Item', 'Magento\Tax\Api\Data\TaxDetailsItemInterface'],
+    ['Magento\Tax\Service\V1\OrderTaxServiceInterface', 'Magento\Tax\Api\OrderTaxManagementInterface'],
 );
