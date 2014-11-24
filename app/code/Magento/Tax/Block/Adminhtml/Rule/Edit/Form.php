@@ -46,11 +46,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $productTaxClassSource;
 
     /**
-     * @var \Magento\Tax\Helper\Data
-     */
-    protected $taxHelper;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
@@ -59,7 +54,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService
      * @param \Magento\Tax\Model\TaxClass\Source\Customer $customerTaxClassSource
      * @param \Magento\Tax\Model\TaxClass\Source\Product $productTaxClassSource
-     * @param \Magento\Tax\Helper\Data $taxHelper
      * @param array $data
      */
     public function __construct(
@@ -71,7 +65,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService,
         \Magento\Tax\Model\TaxClass\Source\Customer $customerTaxClassSource,
         \Magento\Tax\Model\TaxClass\Source\Product $productTaxClassSource,
-        \Magento\Tax\Helper\Data $taxHelper,
         array $data = array()
     ) {
         $this->rateSource = $rateSource;
@@ -80,7 +73,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->taxClassService = $taxClassService;
         $this->customerTaxClassSource = $customerTaxClassSource;
         $this->productTaxClassSource = $productTaxClassSource;
-        $this->taxHelper = $taxHelper;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
