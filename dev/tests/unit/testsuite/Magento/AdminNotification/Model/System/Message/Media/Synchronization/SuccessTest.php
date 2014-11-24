@@ -28,7 +28,7 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
     {
         $this->_syncFlagMock = $this->getMock(
             'Magento\Core\Model\File\Storage\Flag',
-            array('getState', 'getFlagData', 'setState', '__sleep', '__wakeup'),
+            array('getState', 'getFlagData', 'setState', '__sleep', '__wakeup', 'save'),
             array(),
             '',
             false
