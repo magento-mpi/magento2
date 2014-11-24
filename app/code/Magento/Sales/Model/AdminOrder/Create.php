@@ -1668,11 +1668,9 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         }
         if ($this->getBillingAddress()->getSaveInAddressBook()) {
             $this->_prepareCustomerAddress($customer, $this->getBillingAddress());
-            $customer =  $this->getQuote()->getCustomer();
         }
         if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
             $this->_prepareCustomerAddress($customer, $this->getShippingAddress());
-            $customer =  $this->getQuote()->getCustomer();
         }
         $this->getQuote()->updateCustomerData($customer);
 
@@ -1743,6 +1741,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             default:
                 throw new \InvalidArgumentException('Customer address type is invalid.');
         }
+        $this->getQuote()->setCustomer($customer);
         $this->getQuote()->addCustomerAddress($customerAddress);
     }
 

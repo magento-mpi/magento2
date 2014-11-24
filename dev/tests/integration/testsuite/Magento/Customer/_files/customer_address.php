@@ -8,9 +8,8 @@
  * @license     {license_link}
  */
 /** @var \Magento\Customer\Model\Address $customerAddress */
-$customerAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-    'Magento\Customer\Model\Address'
-);
+$customerAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Customer\Model\Address');
 $customerAddress->isObjectNew(true);
 $customerAddress->setData(
     [
@@ -27,11 +26,5 @@ $customerAddress->setData(
         'parent_id' => 1,
         'region_id' => 1
     ]
-)->setCustomerId(
-    1
-);
+)->setCustomerId(1);
 $customerAddress->save();
-
-/** @var \Magento\Customer\Model\Customer $customer */
-$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
-$customer->load(1)->save();
