@@ -92,7 +92,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                     'version' => '0.1.1',
                     'media' => array('preview_image' => ''),
                     'title' => 'Test',
-                    'parent' => ['magento', 'default_default'],
+                    'parent' => ['Magento', 'default_default'],
                 ))),
             array(
                 'default_test2',
@@ -100,7 +100,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                     'version' => '0.1.2',
                     'media' => array('preview_image' => ''),
                     'title' => 'Test2',
-                    'parent' => ['magento', 'default_test'],
+                    'parent' => ['Magento', 'default_test'],
                 ))),
             array(
                 'test_default',
@@ -116,7 +116,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                     'version' => '0.1.4',
                     'media' => ['preview_image' => ''],
                     'title' => 'Default',
-                    'parent' => ['magento', 'default_test2'],
+                    'parent' => ['Magento', 'default_test2'],
                 ))),
         );
     }

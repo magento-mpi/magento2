@@ -134,7 +134,7 @@ class Theme
             return null;
         }
         $parent = $this->parseThemeName($parentTheme);
-        return [$parent['vendor'], $parent['name']];
+        return [ucfirst($parent['vendor']), $parent['name']];
     }
 
     /**
