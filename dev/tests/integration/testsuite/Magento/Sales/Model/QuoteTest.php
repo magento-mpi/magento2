@@ -67,6 +67,11 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $customerBuilder->populateWithArray($expected);
         $customerDataSet = $customerBuilder->create();
         $this->assertEquals($expected, $this->convertToArray($customerDataSet));
+        /**
+         * @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+         */
+        $customerRepository = Bootstrap::getObjectManager()->create('\Magento\Customer\Api\CustomerRepositoryInterface');
+        $customerRepository->save($customerDataSet);
         $quote->setCustomer($customerDataSet);
         $expected = $this->_getCustomerDataArray();
         $expected = $this->changeEmailInCustomerData('test@example.com', $expected);
