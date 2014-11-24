@@ -30,6 +30,7 @@ class ProductServiceTest extends WebapiAbstract
 
     public function testCreateBundle()
     {
+        $this->markTestIncomplete('MAGETWO-31016: incompatible with ZF 1.12.9');
         $response = $this->createProduct($this->getSimpleProductData());
         $simpleProductSku = $response[Product::SKU];
 
