@@ -12,14 +12,14 @@ namespace Magento\Tools\Di\Compiler;
 class ArgumentsResolver
 {
     /**
-     * @var \Magento\Framework\ObjectManager\Config
+     * @var \Magento\Framework\ObjectManager\ConfigInterface
      */
     private $diContainerConfig;
 
     /**
-     * @param \Magento\Framework\ObjectManager\Config $diContainerConfig
+     * @param \Magento\Framework\ObjectManager\ConfigInterface $diContainerConfig
      */
-    public function __construct(\Magento\Framework\ObjectManager\Config $diContainerConfig)
+    public function __construct(\Magento\Framework\ObjectManager\ConfigInterface $diContainerConfig)
     {
         $this->diContainerConfig = $diContainerConfig;
     }

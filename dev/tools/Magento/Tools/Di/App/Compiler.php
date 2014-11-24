@@ -118,18 +118,17 @@ class Compiler implements \Magento\Framework\AppInterface
 
         $generatorIo = new \Magento\Framework\Code\Generator\Io(
             new \Magento\Framework\Filesystem\Driver\File(),
-            null,
             BP . '/var/generation'
         );
         $generator = new \Magento\Tools\Di\Code\Generator(
-            null,
             $generatorIo,
             array(
                 \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
                     'Magento\Tools\Di\Code\Generator\Interceptor',
             )
         );
-        $generator->generateList($this->interceptionConfigurationBuilder->getInterceptionConfiguration());
+        $interceptionConfiguration = $this->interceptionConfigurationBuilder->getInterceptionConfiguration();
+        $generator->generateList($interceptionConfiguration);
 
         $response = new \Magento\Framework\App\Console\Response();
         $response->setCode(0);
@@ -149,7 +148,7 @@ class Compiler implements \Magento\Framework\AppInterface
      */
     public function catchException(App\Bootstrap $bootstrap, \Exception $exception)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -217,7 +216,7 @@ class Compiler implements \Magento\Framework\AppInterface
 
     /**
      * @param DefinitionsCollection $definitionsCollection
-     * @param \Magento\Framework\ObjectManager\Config $config
+     * @param \Magento\Framework\ObjectManager\ConfigInterface $config
      * @return array|mixed
      * @throws \ReflectionException
      */
