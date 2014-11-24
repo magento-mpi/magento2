@@ -4,15 +4,15 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9d48398a335257544d5875a7a3423ca7",
+    "hash": "7d4aedd5933d1f5a16cae6f4a037222e",
     "packages": [
         {
             "name": "magento/zendframework1",
             "version": "1.12.9",
             "source": {
                 "type": "git",
-                "url": "git@github.corp.ebay.com:magento2/zf1.git",
-                "reference": "a0cb19f51f169e0d7b5e9cb3d789dfda396836c5"
+                "url": "git@github.corp.ebay.com:magento2/zf1",
+                "reference": "c22ff60d6e49862a51281600aa7a8e58fbc3940f"
             },
             "archive": {
                 "exclude": [
@@ -51,7 +51,7 @@
                 "framework",
                 "zf1"
             ],
-            "time": "2014-11-12 19:48:51"
+            "time": "2014-11-24 22:50:41"
         },
         {
             "name": "zendframework/zend-code",
