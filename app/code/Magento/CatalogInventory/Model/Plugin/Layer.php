@@ -12,27 +12,27 @@ class Layer
     /**
      * Stock status instance
      *
-     * @var \Magento\CatalogInventory\Model\Stock\Status
+     * @var \Magento\CatalogInventory\Helper\Stock
      */
-    protected $_stockStatus;
+    protected $stockHelper;
 
     /**
      * Store config instance
      *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_scopeConfig;
+    protected $scopeConfig;
 
     /**
-     * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
+     * @param \Magento\CatalogInventory\Helper\Stock $stockHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
+        \Magento\CatalogInventory\Helper\Stock $stockHelper,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->_stockStatus = $stockStatus;
-        $this->_scopeConfig = $scopeConfig;
+        $this->stockHelper = $stockHelper;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -51,7 +51,7 @@ class Layer
         if ($this->_isEnabledShowOutOfStock()) {
             return;
         }
-        $this->_stockStatus->addIsInStockFilterToCollection($collection);
+        $this->stockHelper->addIsInStockFilterToCollection($collection);
     }
 
     /**
@@ -61,6 +61,9 @@ class Layer
      */
     protected function _isEnabledShowOutOfStock()
     {
-        return $this->_scopeConfig->isSetFlag('cataloginventory/options/show_out_of_stock', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(
+            'cataloginventory/options/show_out_of_stock',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }

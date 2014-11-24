@@ -58,4 +58,16 @@ class Customer extends Grid
         }
         $this->getTemplateBlock()->waitLoader();
     }
+
+    /**
+     * Search item and open it.
+     *
+     * @param array $filter
+     * @return void
+     */
+    public function searchAndOpen(array $filter)
+    {
+        parent::searchAndOpen($filter);
+        $this->getTemplateBlock()->waitLoader();
+    }
 }

@@ -31,7 +31,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject  */
     protected $messageManager;
 
-    /** @var  \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var  \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
     /**
@@ -92,11 +92,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Message\ManagerInterface'
         )->disableOriginalConstructor()->getMockForAbstractClass();
 
-        $this->_objectManagerMock = $this->getMockBuilder(
-            'Magento\Framework\ObjectManager'
-        )->setMethods(
-            array('create', 'get', 'configure', 'setFactory')
-        )->disableOriginalConstructor()->getMock();
+        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
 
         $this->_eventFactoryMock = $this->getMock(
             'Magento\Logging\Model\EventFactory',

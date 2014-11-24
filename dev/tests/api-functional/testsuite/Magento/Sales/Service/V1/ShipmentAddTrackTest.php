@@ -32,7 +32,7 @@ class ShipmentAddTrackTest extends WebapiAbstract
     const SHIPMENT_INCREMENT_ID = '100000001';
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 

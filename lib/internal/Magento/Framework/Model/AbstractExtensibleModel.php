@@ -48,6 +48,9 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         $this->metadataService = $metadataService;
         $data = $this->filterCustomAttributes($data);
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        if (isset($data['id'])) {
+            $this->setId($data['id']);
+        }
     }
 
     /**
@@ -107,7 +110,7 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
      */
     public function setData($key, $value = null)
     {
-        if ($key == self::CUSTOM_ATTRIBUTES) {
+        if ($key === self::CUSTOM_ATTRIBUTES) {
             throw new \LogicException("Custom attributes must be set only using setCustomAttribute() method.");
         }
         return parent::setData($key, $value);
@@ -132,9 +135,9 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
      */
     public function getData($key = '', $index = null)
     {
-        if ($key == self::CUSTOM_ATTRIBUTES) {
+        if ($key === self::CUSTOM_ATTRIBUTES) {
             throw new \LogicException("Custom attributes array should be retrieved via getCustomAttributes() only.");
-        } else if ($key == '') {
+        } else if ($key === '') {
             /** Represent model data and custom attributes as a flat array */
             $data = array_merge($this->_data, $this->getCustomAttributes());
             unset($data[self::CUSTOM_ATTRIBUTES]);
@@ -170,5 +173,17 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         }
         $this->customAttributesCodes = $attributeCodes;
         return $attributeCodes;
+    }
+
+    /**
+     * Identifier setter
+     *
+     * @param mixed $value
+     * @return $this
+     */
+    public function setId($value)
+    {
+        parent::setId($value);
+        return $this->setData('id', $value);
     }
 }
