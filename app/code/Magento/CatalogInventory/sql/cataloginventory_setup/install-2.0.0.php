@@ -24,14 +24,34 @@ $table = $installer->getConnection()
         'Stock Id'
     )
     ->addColumn(
+        'website_id',
+        [
+            'TYPE' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+            'LENGTH' => 5,
+            'UNSIGNED' => true,
+            'NULLABLE' => false,
+            'COMMENT' => 'Website Id'
+        ]
+    )
+    ->addColumn(
         'stock_name',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         255,
         [],
         'Stock Name'
     )
+    ->addIndex(
+        $this->getIdxName(
+            $installer->getTable('cataloginventory_stock'),
+            ['website_id'],
+            \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
+        ),
+        ['website_id'],
+        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
+    )
     ->setComment('Cataloginventory Stock');
-$installer->getConnection()->createTable($table);
+$installer->getConnection()
+    ->createTable($table);
 
 /**
  * Create table 'cataloginventory_stock_item'
@@ -213,6 +233,17 @@ $table = $installer->getConnection()
         ['unsigned' => true, 'nullable' => false, 'default' => '0'],
         'Is Divided into Multiple Boxes for Shipping'
     )
+    ->addColumn(
+        'website_id',
+        [
+            'TYPE' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+            'LENGTH' => 5,
+            'UNSIGNED' => true,
+            'NULLABLE' => false,
+            'DEFAULT' => 0,
+            'COMMENT' => 'Is Divided into Multiple Boxes for Shipping'
+        ]
+    )
     ->addIndex(
         $installer->getIdxName(
             'cataloginventory_stock_item',
@@ -221,6 +252,15 @@ $table = $installer->getConnection()
         ),
         ['product_id', 'stock_id'],
         ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
+    )
+    ->addIndex(
+        $installer->getIdxName(
+            'cataloginventory_stock_item',
+            ['website_id'],
+            \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
+        ),
+        ['website_id'],
+        ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX]
     )
     ->addIndex(
         $installer->getIdxName('cataloginventory_stock_item', ['stock_id']),
@@ -243,7 +283,8 @@ $table = $installer->getConnection()
         \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
     )
     ->setComment('Cataloginventory Stock Item');
-$installer->getConnection()->createTable($table);
+$installer->getConnection()
+    ->createTable($table);
 
 /**
  * Create table 'cataloginventory_stock_status'
@@ -294,7 +335,8 @@ $table = $installer->getConnection()
         ['website_id']
     )
     ->setComment('Cataloginventory Stock Status');
-$installer->getConnection()->createTable($table);
+$installer->getConnection()
+    ->createTable($table);
 
 /**
  * Create table 'cataloginventory_stock_status_idx'
@@ -345,7 +387,8 @@ $table = $installer->getConnection()
         ['website_id']
     )
     ->setComment('Cataloginventory Stock Status Indexer Idx');
-$installer->getConnection()->createTable($table);
+$installer->getConnection()
+    ->createTable($table);
 
 /**
  * Create table 'cataloginventory_stock_status_tmp'
@@ -400,6 +443,7 @@ $table = $installer->getConnection()
         \Magento\Framework\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY
     )
     ->setComment('Cataloginventory Stock Status Indexer Tmp');
-$installer->getConnection()->createTable($table);
+$installer->getConnection()
+    ->createTable($table);
 
 $installer->endSetup();
