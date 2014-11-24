@@ -7,9 +7,6 @@
  */
 namespace Magento\Tax\Api;
 
-/**
- * @see \Magento\Tax\Service\V1\OrderTaxServiceInterface
- */
 interface OrderTaxManagementInterface
 {
     /**
