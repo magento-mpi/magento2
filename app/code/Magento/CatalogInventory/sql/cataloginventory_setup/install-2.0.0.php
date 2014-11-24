@@ -237,11 +237,7 @@ $table = $installer->getConnection()
         'website_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         5,
-        [
-            'UNSIGNED' => true,
-            'NULLABLE' => false,
-            'DEFAULT' => 0
-        ],
+        ['unsigned' => true, 'nullable' => false, 'default' => 0],
         'Is Divided into Multiple Boxes for Shipping'
     )
     ->addIndex(
