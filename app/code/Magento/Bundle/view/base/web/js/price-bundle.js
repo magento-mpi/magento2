@@ -68,29 +68,36 @@ define([
             case 'radio':
             case 'select-one':
                 optionHash = 'bundle-option-' + optionName;
-                changes[optionHash] = optionConfig[optionValue] && optionConfig[optionValue].prices || {};
+                if(optionValue) {
+                    optionQty = optionConfig[optionValue].qty || 0;
+                    tempChanges = utils.deepClone(optionConfig[optionValue].prices);
+                    tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig);
+                    tempChanges = applyQty(tempChanges, optionQty);
+                }
+                changes[optionHash] = tempChanges || {};
                 break;
             case 'select-multiple':
                 _.each(optionConfig, function(row, optionValueCode) {
                     optionHash = 'bundle-option-' + optionName + '##' + optionValueCode;
-                    changes[optionHash] = _.contains(optionValue, optionValueCode) ? row.prices : {};
+                    optionQty = row.qty || 0;
+                    tempChanges = utils.deepClone(row.prices);
+                    tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig);
+                    tempChanges = applyQty(tempChanges, optionQty);
+                    changes[optionHash] = _.contains(optionValue, optionValueCode) ? tempChanges : {};
                 });
                 break;
             case 'checkbox':
                 optionHash = 'bundle-option-' + optionName + '##' + optionValue;
-                optionQty = optionConfig[optionValue].qty;
-                tempChanges = { 'finalPrice': {'amount': optionConfig[optionValue].price}};
-                _.each(tempChanges, function(everyPrice){
-                    everyPrice.amount *= optionQty;
-                    _.each(everyPrice.adjustments, function(el, index){
-                        everyPrice.adjustments[index] *= optionQty
-                    });
-                });
+                optionQty = optionConfig[optionValue].qty || 0;
+                tempChanges = utils.deepClone(optionConfig[optionValue].prices);
+                tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig);
+                tempChanges = applyQty(tempChanges, optionQty);
                 changes[optionHash] = element.is(':checked') ? tempChanges : {};
-
                 break;
         }
+        console.log(changes);
         return changes;
+
     }
 
     function onQtyFieldChanged(event) { }
@@ -102,6 +109,20 @@ define([
         } else {
             element.addClass('qty-disabled');
         }
+    }
+
+    function applyQty( prices, qty) {
+        _.each(prices, function(everyPrice){
+            everyPrice.amount *= qty;
+            _.each(everyPrice.adjustments, function(el, index){
+                everyPrice.adjustments[index] *= qty;
+            });
+        });
+        return prices;
+    }
+
+    function applyTierPrice( prices, qty, tiers ) {
+        return prices;
     }
 
     /**
