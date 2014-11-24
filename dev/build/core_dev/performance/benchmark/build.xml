@@ -190,17 +190,17 @@
         <fail unless="env.mysql_database" message="Variable 'mysql_database' must be defined"/>
     </target>
 
-    <target name="merge-logs" description="Benchmark Logs Merge">
+    <target name="compare-reports" description="Compare jMeter Reports">
         <exec executable="php">
             <arg value="-f"/>
-            <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/benchmark_logs_merge.php"/>
+            <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/compare_reports.php"/>
             <arg value="--"/>
-            <arg value="--xml"/>
-            <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time.jtl"/>
-            <arg value="--csv"/>
-            <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/report/${env.bamboo_buildResultKey}_perfmon.jtl"/>
-            <arg value="--logs"/>
-            <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/report/${env.bamboo_buildResultKey}_logs_merge.jtl"/>
+            <arg value="--mainline"/>
+            <arg value="${env.bamboo_build_working_directory}/mainline/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time.jtl"/>
+            <arg value="--branch"/>
+            <arg value="${env.bamboo_build_working_directory}/team/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time.jtl"/>
+            <arg value="--output"/>
+            <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time_summary.jtl"/>
         </exec>
     </target>
 </project>
