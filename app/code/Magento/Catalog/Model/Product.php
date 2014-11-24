@@ -1431,8 +1431,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         if (method_exists($productType, 'getIsSalable')) {
             return $productType->getIsSalable($this);
         }
-        if ($this->hasData('is_salable')) {
-            return $this->getData('is_salable');
+        if ($this->hasData('is_saleable')) {
+            return $this->getData('is_saleable');
         }
 
         return $this->isSalable();
