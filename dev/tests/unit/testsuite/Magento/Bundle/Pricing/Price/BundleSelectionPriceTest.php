@@ -137,47 +137,72 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->priceInfoMock));
 
         $this->quantity = 1;
+    }
+
+    protected function setupSelectionPrice($useRegularPrice = false)
+    {
         $this->selectionPrice = new \Magento\Bundle\Pricing\Price\BundleSelectionPrice(
             $this->productMock,
             $this->quantity,
             $this->calculatorMock,
             $this->bundleMock,
             $this->eventManagerMock,
-            $this->discountCalculatorMock
+            $this->discountCalculatorMock,
+            $useRegularPrice
         );
     }
 
     /**
      *  test fro method getValue with dynamic productType
+     *
+     * @param bool $useRegularPrice
+     * @dataProvider useRegularPriceDataProvider
      */
-    public function testGetValueTypeDynamic()
+    public function testGetValueTypeDynamic($useRegularPrice)
     {
+        $this->setupSelectionPrice($useRegularPrice);
+        $priceCode = $useRegularPrice ? RegularPrice::PRICE_CODE : FinalPrice::PRICE_CODE;
+        $regularPrice = 100;
+        $discountedPrice = 70;
+        $expectedPrice = $useRegularPrice ? $regularPrice : $discountedPrice;
+
         $this->bundleMock->expects($this->once())
             ->method('getPriceType')
             ->will($this->returnValue(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC));
         $this->priceInfoMock->expects($this->once())
             ->method('getPrice')
-            ->with($this->equalTo(FinalPrice::PRICE_CODE))
+            ->with($this->equalTo($priceCode))
             ->will($this->returnValue($this->finalPriceMock));
         $this->finalPriceMock->expects($this->once())
             ->method('getValue')
-            ->will($this->returnValue(100));
-        $this->discountCalculatorMock->expects($this->once())
-            ->method('calculateDiscount')
-            ->with(
-                $this->equalTo($this->bundleMock),
-                $this->equalTo(100)
-            )
-            ->will($this->returnValue(70));
-        $this->assertEquals(70, $this->selectionPrice->getValue());
-        $this->assertEquals(70, $this->selectionPrice->getValue());
+            ->will($this->returnValue($regularPrice));
+
+        if (!$useRegularPrice) {
+            $this->discountCalculatorMock->expects($this->once())
+                ->method('calculateDiscount')
+                ->with(
+                    $this->equalTo($this->bundleMock),
+                    $this->equalTo($regularPrice)
+                )
+                ->will($this->returnValue($discountedPrice));
+        }
+        $this->assertEquals($expectedPrice, $this->selectionPrice->getValue());
+        $this->assertEquals($expectedPrice, $this->selectionPrice->getValue());
     }
 
     /**
      * test for method getValue with type Fixed and selectionPriceType not null
+     *
+     * @param bool $useRegularPrice
+     * @dataProvider useRegularPriceDataProvider
      */
-    public function testGetValueTypeFixedWithSelectionPriceType()
+    public function testGetValueTypeFixedWithSelectionPriceType($useRegularPrice)
     {
+        $this->setupSelectionPrice($useRegularPrice);
+        $regularPrice = 100;
+        $discountedPrice = 70;
+        $expectedPrice = $useRegularPrice ? $regularPrice : $discountedPrice;
+
         $this->bundleMock->expects($this->once())
             ->method('getPriceType')
             ->will($this->returnValue(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED));
@@ -190,7 +215,7 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->regularPriceMock));
         $this->regularPriceMock->expects($this->once())
             ->method('getValue')
-            ->will($this->returnValue(100));
+            ->will($this->returnValue($regularPrice));
         $this->bundleMock->expects($this->once())
             ->method('setFinalPrice')
             ->will($this->returnSelf());
@@ -210,22 +235,33 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->productMock->expects($this->any())
             ->method('getSelectionPriceValue')
-            ->will($this->returnValue(100));
-        $this->discountCalculatorMock->expects($this->once())
-            ->method('calculateDiscount')
-            ->with(
-                $this->equalTo($this->bundleMock),
-                $this->equalTo(100)
-            )
-            ->will($this->returnValue(70));
-        $this->assertEquals(70, $this->selectionPrice->getValue());
+            ->will($this->returnValue($regularPrice));
+
+        if (!$useRegularPrice) {
+            $this->discountCalculatorMock->expects($this->once())
+                ->method('calculateDiscount')
+                ->with(
+                    $this->equalTo($this->bundleMock),
+                    $this->equalTo($regularPrice)
+                )
+                ->will($this->returnValue($discountedPrice));
+        }
+        $this->assertEquals($expectedPrice, $this->selectionPrice->getValue());
     }
 
     /**
      * test for method getValue with type Fixed and selectionPriceType is empty or zero
+     *
+     * @param bool $useRegularPrice
+     * @dataProvider useRegularPriceDataProvider
      */
-    public function testGetValueTypeFixedWithoutSelectionPriceType()
+    public function testGetValueTypeFixedWithoutSelectionPriceType($useRegularPrice)
     {
+        $this->setupSelectionPrice($useRegularPrice);
+        $regularPrice = 100;
+        $discountedPrice = 70;
+        $expectedPrice = $useRegularPrice ? $regularPrice : $discountedPrice;
+
         $this->bundleMock->expects($this->once())
             ->method('getPriceType')
             ->will($this->returnValue(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED));
@@ -235,13 +271,28 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->any())
             ->method('getSelectionPriceValue')
             ->will($this->returnValue(100));
-        $this->discountCalculatorMock->expects($this->once())
-            ->method('calculateDiscount')
-            ->with(
-                $this->equalTo($this->bundleMock),
-                $this->equalTo(100)
-            )
-            ->will($this->returnValue(70));
-        $this->assertEquals(70, $this->selectionPrice->getValue());
+
+        if (!$useRegularPrice) {
+            $this->discountCalculatorMock->expects($this->once())
+                ->method('calculateDiscount')
+                ->with(
+                    $this->equalTo($this->bundleMock),
+                    $this->equalTo($regularPrice)
+                )
+                ->will($this->returnValue($discountedPrice));
+        }
+        $this->assertEquals($expectedPrice, $this->selectionPrice->getValue());
+    }
+
+    public function useRegularPriceDataProvider()
+    {
+        return [
+            'useRegularPrice' => [
+                true
+            ],
+            'notUseRegularPrice' => [
+                false
+            ],
+        ];
     }
 }
