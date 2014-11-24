@@ -115,7 +115,7 @@ XML;
         return [
             [ 'name', 'test' ],
             [ 'new', 'beard' ],
-            [ 'data', 'some-data']
+            [ 'data', 'some-data' ]
         ];
     }
 }
