@@ -47,11 +47,6 @@ class Deploy
             $mediaDir = $this->directoryList->getPath(DirectoryList::MEDIA);
             $this->copyAll($vendorsMagentoMedia, $mediaDir, array('/composer.json', '/.git'));
         }
-        $vendorsMagentoTheme = $vendorsMagentoDir . '/sample-data-styles';
-        if (file_exists($vendorsMagentoTheme)) {
-            $themesDir = $this->directoryList->getPath(DirectoryList::THEMES);
-            $this->copyAll($vendorsMagentoTheme, $themesDir, array('/composer.json', '/.git'));
-        }
     }
 
     /**

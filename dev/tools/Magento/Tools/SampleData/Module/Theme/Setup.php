@@ -29,6 +29,28 @@ class Setup implements SetupInterface
     private $themeCollection;
 
     /**
+     * Url configuration
+     *
+     * @var \Magento\Framework\UrlInterface
+     */
+    protected $baseUrl;
+
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $scopeConfig;
+
+    /**
+     * @var \Magento\Framework\App\Config\Storage\WriterInterface
+     */
+    protected $configWriter;
+
+    /**
+     * @var \Magento\Framework\App\Cache\Type\Config
+     */
+    protected $configCacheType;
+
+    /**
      * @var Logger
      */
     protected $logger;
@@ -36,15 +58,27 @@ class Setup implements SetupInterface
     /**
      * @param \Magento\Theme\Model\Config $config
      * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeCollection
+     * @param \Magento\Framework\UrlInterface $baseUrl
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
      * @param Logger $logger
      */
     public function __construct(
         \Magento\Theme\Model\Config $config,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeCollection,
+        \Magento\Framework\UrlInterface $baseUrl,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
         Logger $logger
     ) {
         $this->config = $config;
         $this->themeCollection = $themeCollection;
+        $this->baseUrl = $baseUrl;
+        $this->scopeConfig = $scopeConfig;
+        $this->configWriter = $configWriter;
+        $this->configCacheType = $configCacheType;
         $this->logger = $logger;
     }
 
@@ -54,6 +88,18 @@ class Setup implements SetupInterface
     public function run()
     {
         $this->logger->log('Installing theme' . PHP_EOL);
+        $this->assignTheme();
+        $this->addHeadInclude();
+        $this->logger->log('.' . PHP_EOL);
+    }
+
+    /**
+     * Assign Theme
+     *
+     * @return void
+     */
+    protected function assignTheme()
+    {
         $themes = $this->themeCollection->create()->loadRegisteredThemes();
         /** @var \Magento\Core\Model\Theme $theme */
         foreach ($themes as $theme) {
@@ -61,6 +107,25 @@ class Setup implements SetupInterface
                 $this->config->assignToStore($theme, [Store::DEFAULT_STORE_ID], ScopeInterface::SCOPE_DEFAULT);
             }
         }
-        $this->logger->log('.' . PHP_EOL);
     }
+
+    /**
+     * Add Link to Head
+     *
+     * @return void
+     */
+    protected function addHeadInclude()
+    {
+        $linkTemplate = '<link  rel="stylesheet" type="text/css"  media="all" href="%sluma-sample-data.css" />';
+        $baseUrl = $this->baseUrl->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA));
+        $linkText = sprintf($linkTemplate, $baseUrl);
+
+        $miscScriptsNode = 'design/head/includes';
+        $miscScripts = $this->scopeConfig->getValue($miscScriptsNode);
+        if (strpos($miscScripts, $linkText) === false) {
+            $this->configWriter->save($miscScriptsNode, $miscScripts . $linkText);
+            $this->configCacheType->clean();
+        }
+    }
+
 }
