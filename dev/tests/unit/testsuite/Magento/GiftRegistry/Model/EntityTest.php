@@ -108,8 +108,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);
         $item = $this->getMock('Magento\GiftRegistry\Model\Item', array(), array(), '', false);
         $type = $this->getMock('Magento\GiftRegistry\Model\Type', array(), array(), '', false);
-        $stockItemService = $this->getMock(
-            'Magento\CatalogInventory\Service\V1\StockItemService',
+        $stockRegistry = $this->getMock(
+            'Magento\CatalogInventory\Model\StockRegistry',
             array(),
             array(),
             '',
@@ -117,7 +117,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         );
         $session = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
 
-        $quoteFactory = $this->getMock('Magento\Sales\Model\QuoteFactory', array(), array(), '', false);
+        $quoteRepository = $this->getMock('Magento\Sales\Model\QuoteRepository', array(), array(), '', false);
         $customerFactory = $this->getMock('Magento\Customer\Model\CustomerFactory', array(), array(), '', false);
         $personFactory = $this->getMock('Magento\GiftRegistry\Model\PersonFactory', array(), array(), '', false);
         $itemFactory = $this->getMock('Magento\GiftRegistry\Model\ItemFactory', array(), array(), '', false);
@@ -146,9 +146,9 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             $type,
             $attributeConfig,
             $item,
-            $stockItemService,
+            $stockRegistry,
             $session,
-            $quoteFactory,
+            $quoteRepository,
             $customerFactory,
             $personFactory,
             $itemFactory,

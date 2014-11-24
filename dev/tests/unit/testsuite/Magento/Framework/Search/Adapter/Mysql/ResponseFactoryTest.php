@@ -22,7 +22,7 @@ class ResponseFactoryTest extends \PHPUnit_Framework_TestCase
     private $documentFactory;
 
     /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $objectManager;
 
@@ -35,10 +35,7 @@ class ResponseFactoryTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->objectManager = $this->getMockBuilder('\Magento\Framework\ObjectManager')
-            ->setMethods(['create'])
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
 
         $this->factory = $helper->getObject(
             'Magento\Framework\Search\Adapter\Mysql\ResponseFactory',

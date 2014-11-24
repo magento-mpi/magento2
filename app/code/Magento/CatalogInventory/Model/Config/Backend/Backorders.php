@@ -21,14 +21,14 @@ class Backorders extends AbstractValue
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if ($this->isValueChanged() && (
                 $this->getOldValue() == \Magento\CatalogInventory\Model\Stock::BACKORDERS_NO
                 || $this->getValue() == \Magento\CatalogInventory\Model\Stock::BACKORDERS_NO
             )
         ) {
-            $this->_stockStatus->rebuild();
+            $this->stockIndex->rebuild();
             $this->_stockIndexerProcessor->markIndexerAsInvalid();
         }
         return $this;

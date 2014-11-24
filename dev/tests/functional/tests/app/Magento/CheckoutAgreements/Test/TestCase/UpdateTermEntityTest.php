@@ -8,14 +8,14 @@
 
 namespace Magento\CheckoutAgreements\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Mtf\ObjectManager;
+use Mtf\TestCase\Injectable;
 use Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement;
 use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementNew;
 use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 
 /**
- * Test creation for UpdateTermEntityTest
+ * Test creation for UpdateTermEntityTest.
  *
  * Test Flow:
  *
@@ -35,12 +35,13 @@ use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
  */
 class UpdateTermEntityTest extends Injectable
 {
+    // TODO: Move set up configuration to "__prepare" method after fix bug MAGETWO-29331
     /**
-     * Set up configuration
+     * Set up configuration.
      *
      * @return void
      */
-    public function __prepare()
+    public function __inject()
     {
         $this->objectManager->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
@@ -49,7 +50,7 @@ class UpdateTermEntityTest extends Injectable
     }
 
     /**
-     * Update Term Entity test
+     * Update Term Entity test.
      *
      * @param CheckoutAgreementNew $agreementNew
      * @param CheckoutAgreementIndex $agreementIndex
@@ -74,22 +75,15 @@ class UpdateTermEntityTest extends Injectable
     }
 
     /**
-     * Delete all terms on backend
+     * Clear data after test.
      *
      * @return void
      */
     public function tearDown()
     {
         $this->objectManager->create('Magento\CheckoutAgreements\Test\TestStep\DeleteAllTermsEntityStep')->run();
-    }
 
-    /**
-     * Set default configuration
-     *
-     * @return void
-     */
-    public static function tearDownAfterClass()
-    {
+        // TODO: Move set default configuration to "tearDownAfterClass" method after fix bug MAGETWO-29331
         ObjectManager::getInstance()->create(
             'Magento\Core\Test\TestStep\SetupConfigurationStep',
             ['configData' => 'checkout_term_condition', 'rollback' => true]

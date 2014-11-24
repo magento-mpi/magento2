@@ -7,7 +7,7 @@
  */
 namespace Magento\Ui;
 
-use Magento\Framework\Data\Collection as DataCollection;
+use Magento\Framework\Data\CollectionDataSourceInterface;
 use Magento\Framework\View\Element\UiComponent\ConfigInterface;
 use Magento\Framework\View\Element\UiComponent\ConfigStorageInterface;
 
@@ -40,7 +40,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     /**
      * Data collection storage
      *
-     * @var DataCollection[]
+     * @var CollectionDataSourceInterface[]
      */
     protected $collectionStorage = [];
 
@@ -52,10 +52,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     protected $globalDataStorage = [];
 
     /**
-     * Add components configuration
-     *
-     * @param ConfigInterface $configuration
-     * @return void
+     * @inheritdoc
      */
     public function addComponentsData(ConfigInterface $configuration)
     {
@@ -65,10 +62,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Remove components configuration
-     *
-     * @param ConfigInterface $configuration
-     * @return void
+     * @inheritdoc
      */
     public function removeComponentsData(ConfigInterface $configuration)
     {
@@ -76,10 +70,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Get components configuration
-     *
-     * @param string|null $name
-     * @return ConfigInterface|null|array
+     * @inheritdoc
      */
     public function getComponentsData($name = null)
     {
@@ -90,11 +81,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Add data in storage
-     *
-     * @param string $key
-     * @param array $data
-     * @return void
+     * @inheritdoc
      */
     public function addData($key, array $data)
     {
@@ -104,10 +91,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Remove data in storage
-     *
-     * @param string $key
-     * @return void
+     * @inheritdoc
      */
     public function removeData($key)
     {
@@ -115,10 +99,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Get data from storage
-     *
-     * @param string|null $key
-     * @return array|null
+     * @inheritdoc
      */
     public function getData($key = null)
     {
@@ -129,11 +110,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Update data in storage
-     *
-     * @param string $key
-     * @param array $data
-     * @return void
+     * @inheritdoc
      */
     public function updateData($key, array $data)
     {
@@ -143,11 +120,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Add meta data
-     *
-     * @param string $key
-     * @param array $data
-     * @return mixed
+     * @inheritdoc
      */
     public function addMeta($key, array $data)
     {
@@ -157,10 +130,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Remove meta data
-     *
-     * @param string $key
-     * @return array
+     * @inheritdoc
      */
     public function removeMeta($key)
     {
@@ -168,10 +138,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Get meta data
-     *
-     * @param string|null $key
-     * @return array
+     * @inheritdoc
      */
     public function getMeta($key = null)
     {
@@ -182,11 +149,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Update meta data in storage
-     *
-     * @param string $key
-     * @param array $data
-     * @return void
+     * @inheritdoc
      */
     public function updateMeta($key, array $data)
     {
@@ -196,13 +159,9 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Set data collection
-     *
-     * @param string $key
-     * @param DataCollection $dataCollection
-     * @return void
+     * @inheritdoc
      */
-    public function addDataCollection($key, DataCollection $dataCollection)
+    public function addDataCollection($key, CollectionDataSourceInterface $dataCollection)
     {
         if (!isset($this->collectionStorage[$key])) {
             $this->collectionStorage[$key] = $dataCollection;
@@ -210,10 +169,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Get data collection
-     *
-     * @param string|null $key
-     * @return DataCollection|null
+     * @inheritdoc
      */
     public function getDataCollection($key = null)
     {
@@ -224,13 +180,9 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Update data collection in storage
-     *
-     * @param string $key
-     * @param DataCollection $dataCollection
-     * @return mixed
+     * @inheritdoc
      */
-    public function updateDataCollection($key, DataCollection $dataCollection)
+    public function updateDataCollection($key, CollectionDataSourceInterface $dataCollection)
     {
         if (isset($this->collectionStorage[$key])) {
             $this->collectionStorage[$key] = $dataCollection;
@@ -238,11 +190,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Add cloud data in storage
-     *
-     * @param string $key
-     * @param array $data
-     * @return void
+     * @inheritdoc
      */
     public function addGlobalData($key, array $data)
     {
@@ -252,10 +200,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Remove cloud data in storage
-     *
-     * @param string $key
-     * @return void
+     * @inheritdoc
      */
     public function removeGlobalData($key)
     {
@@ -263,10 +208,7 @@ class ConfigurationStorage implements ConfigStorageInterface
     }
 
     /**
-     * Get cloud data from storage
-     *
-     * @param string|null $key
-     * @return array|null
+     * @inheritdoc
      */
     public function getGlobalData($key = null)
     {

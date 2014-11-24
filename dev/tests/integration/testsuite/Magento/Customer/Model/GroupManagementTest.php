@@ -17,7 +17,7 @@ use Magento\Store\Model\ScopeInterface;
 class GroupManagementTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 

@@ -18,9 +18,18 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $cart = $this->getCartMock($productId, $websiteId, $sku);
         $product = $this->getProductMock($productId, $sku, $typeId);
-        $status = $this->getCatalogInventoryStatusMock();
         $helper = $this->getCoreHelperMock();
         $entity = $this->getEntityFactoryMock();
+        $stockStatusMock = $this->getMockBuilder('Magento\CatalogInventory\Api\Data\StockStatusInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $registryMock = $this->getMockBuilder('Magento\CatalogInventory\Api\StockRegistryInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $registryMock->expects($this->any())
+            ->method('getStockStatus')
+            ->withAnyParameters()
+            ->willReturn($stockStatusMock);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $collection = $objectManager->getObject('\Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid\Collection',
@@ -29,7 +38,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'cart' => $cart,
                 'productModel' => $product,
                 'coreHelper' => $helper,
-                'stockStatusService' => $status
+                'stockRegistry' => $registryMock
             )
         );
         $collection->loadData();
@@ -137,22 +146,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $productMock->expects($this->once())->method('_getResource')->will($this->returnValue($resourceMock));
 
         return $productMock;
-    }
-
-    /**
-     * Return catalogInventoryStatus mock instance
-     *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Model\Customer
-     */
-    protected function getCatalogInventoryStatusMock()
-    {
-        $inventoryMock = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\StockStatusService')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getProductStockStatus'))
-            ->getMock();
-        $inventoryMock->expects($this->any())->method('getProductStockStatus')->will($this->returnValue(array()));
-
-        return $inventoryMock;
     }
 
     /**
