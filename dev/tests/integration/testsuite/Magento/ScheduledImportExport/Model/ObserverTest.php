@@ -51,7 +51,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         chdir($cwd);
 
         $observer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-        ->get('\Magento\ScheduledImportExport\Model\Observer');
+            ->get('\Magento\ScheduledImportExport\Model\Observer');
         $observer->scheduledLogClean('not_used', true);
 
         // Verify
