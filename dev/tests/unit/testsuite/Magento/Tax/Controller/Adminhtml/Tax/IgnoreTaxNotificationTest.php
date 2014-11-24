@@ -18,12 +18,15 @@ class IgnoreTaxNotificationTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['cleanType'])
             ->getMock();
+        $cacheTypeList->expects($this->once())
+            ->method('cleanType')
+            ->with('block_html')
+            ->will($this->returnValue(null));
 
         $request = $this->getMockBuilder('\Magento\Framework\App\Request\Http')
             ->disableOriginalConstructor()
             ->setMethods(['getParam'])
             ->getMock();
-
         $request->expects($this->once())
             ->method('getParam')
             ->will($this->returnValue('tax'));
@@ -37,6 +40,10 @@ class IgnoreTaxNotificationTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['saveConfig'])
             ->getMock();
+        $config->expects($this->once())
+            ->method('saveConfig')
+            ->with('tax/notification/ignore_tax', 1, \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT, 0)
+            ->will($this->returnValue(null));
 
         $manager = $this->getMockBuilder('\Magento\Framework\ObjectManager')
             ->disableOriginalConstructor()
