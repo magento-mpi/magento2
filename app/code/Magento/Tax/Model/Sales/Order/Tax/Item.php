@@ -7,9 +7,6 @@
  */
 namespace Magento\Tax\Model\Sales\Order\Tax;
 
-/**
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Item extends \Magento\Framework\Model\AbstractExtensibleModel implements
     \Magento\Tax\Api\Data\OrderTaxDetailsItemInterface
 {

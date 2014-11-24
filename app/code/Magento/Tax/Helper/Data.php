@@ -17,7 +17,7 @@ use Magento\Tax\Api\Data\TaxClassKeyDataBuilder;
 use Magento\Tax\Api\TaxCalculationInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\Session as CustomerSession;
-use \Magento\Tax\Api\OrderTaxManagementInterface;
+use Magento\Tax\Api\OrderTaxManagementInterface;
 
 /**
  * Catalog data helper

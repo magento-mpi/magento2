@@ -9,10 +9,7 @@
 
 namespace Magento\Tax\Api\Data;
 
-/**
- * @see \Magento\Tax\Service\V1\Data\OrderTaxDetails\AppliedTax
- */
-interface OrderTaxDetailsAppliedTaxInterface
+interface OrderTaxDetailsAppliedTaxInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**#@+
      * Constants defined for keys of array, makes typos less likely

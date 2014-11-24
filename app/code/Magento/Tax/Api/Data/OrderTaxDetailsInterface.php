@@ -2,10 +2,7 @@
 
 namespace Magento\Tax\Api\Data;
 
-/**
- * @see \Magento\Tax\Service\V1\Data\OrderTaxDetails
- */
-interface OrderTaxDetailsInterface
+interface OrderTaxDetailsInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     const KEY_APPLIED_TAXES = 'applied_taxes';
 
