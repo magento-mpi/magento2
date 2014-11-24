@@ -101,7 +101,6 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
     public function pricesSegmentationDataProvider()
     {
         $testCases = include __DIR__ . '/_files/_algorithm_base_data.php';
-        $testCases = [$testCases[0], $testCases[1], $testCases[2], $testCases[3]];
         $result = [];
         foreach ($testCases as $index => $testCase) {
             $result[] = [

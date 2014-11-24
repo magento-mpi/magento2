@@ -38,8 +38,7 @@ class Interval implements IntervalInterface
     {
         $field = $this->select->getPart(Select::COLUMNS)[0];
 
-        return $this->select->getAdapter()
-            ->quoteIdentifier($field[1]);
+        return $field[1];
     }
 
     /**
