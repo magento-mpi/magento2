@@ -206,6 +206,7 @@ class Review implements SetupInterface
                 );
             }
         }
+        $review->aggregate();
     }
 
     /**
