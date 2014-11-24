@@ -13,6 +13,7 @@ interface ReadServiceInterface
      * Get all types for options for bundle products
      *
      * @return \Magento\Bundle\Service\V1\Data\Product\Option\Type[]
+     * @see \Magento\Bundle\Api\ProductOptionTypeListInterface::getItems
      */
     public function getTypes();
 }

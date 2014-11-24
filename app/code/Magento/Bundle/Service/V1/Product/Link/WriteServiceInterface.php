@@ -20,6 +20,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Framework\Exception\InputException
      * @return int
+     * @see \Magento\Bundle\Api\ProductLinkManagementInterface::addChild
      */
     public function addChild($productSku, $optionId, \Magento\Bundle\Service\V1\Data\Product\Link $linkedProduct);
 
@@ -32,6 +33,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Webapi\Exception
      * @return bool
+     * @see \Magento\Bundle\Api\ProductLinkManagementInterface::removeChild
      */
     public function removeChild($productSku, $optionId, $childSku);
 }

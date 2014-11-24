@@ -17,6 +17,7 @@ interface WriteServiceInterface
      * @return bool
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Webapi\Exception
+     * @see \Magento\Bundle\Api\ProductOptionRepositoryInterface::deleteById
      */
     public function remove($productSku, $optionId);
 
@@ -28,6 +29,7 @@ interface WriteServiceInterface
      * @return int
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Webapi\Exception
+     * @see \Magento\Bundle\Api\ProductOptionRepositoryInterface::save
      */
     public function add($productSku, \Magento\Bundle\Service\V1\Data\Product\Option $option);
 
@@ -40,6 +42,7 @@ interface WriteServiceInterface
      * @return bool
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Webapi\Exception
+     * @see \Magento\Bundle\Api\ProductOptionRepositoryInterface::save
      */
     public function update($productSku, $optionId, \Magento\Bundle\Service\V1\Data\Product\Option $option);
 }

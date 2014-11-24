@@ -16,6 +16,7 @@ interface ReadServiceInterface
      * @return \Magento\Bundle\Service\V1\Data\Product\Link[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Webapi\Exception
+     * @see \Magento\Bundle\Api\ProductLinkManagementInterface::getChildren
      */
     public function getChildren($productId);
 }

@@ -11,6 +11,7 @@ use \Magento\Framework\Api\AbstractExtensibleObject;
 
 /**
  * @codeCoverageIgnore
+ * @see \Magento\Bundle\Api\Data\OptionInterface
  */
 class Option extends AbstractExtensibleObject
 {
