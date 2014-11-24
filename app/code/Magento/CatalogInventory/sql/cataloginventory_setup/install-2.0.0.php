@@ -235,14 +235,14 @@ $table = $installer->getConnection()
     )
     ->addColumn(
         'website_id',
+        \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+        5,
         [
-            'TYPE' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-            'LENGTH' => 5,
             'UNSIGNED' => true,
             'NULLABLE' => false,
-            'DEFAULT' => 0,
-            'COMMENT' => 'Is Divided into Multiple Boxes for Shipping'
-        ]
+            'DEFAULT' => 0
+        ],
+        'Is Divided into Multiple Boxes for Shipping'
     )
     ->addIndex(
         $installer->getIdxName(
