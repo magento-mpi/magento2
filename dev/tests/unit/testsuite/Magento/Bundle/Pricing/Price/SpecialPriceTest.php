@@ -92,9 +92,8 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
             ->with($store, $specialFromDate, $specialToDate)
             ->will($this->returnValue($isScopeDateInInterval));
 
-        $this->priceCurrencyMock->expects($this->any())
-            ->method('convertAndRound')
-            ->will($this->returnArgument(0));
+        $this->priceCurrencyMock->expects($this->never())
+            ->method('convertAndRound');
 
         if ($isScopeDateInInterval) {
             $price = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');

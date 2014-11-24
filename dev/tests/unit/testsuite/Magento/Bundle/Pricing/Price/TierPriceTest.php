@@ -87,9 +87,8 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getAmount')
             ->will($this->returnArgument(0));
 
-        $this->priceCurrencyMock->expects($this->any())
-            ->method('convertAndRound')
-            ->will($this->returnArgument(0));
+        $this->priceCurrencyMock->expects($this->never())
+            ->method('convertAndRound');
 
         $this->assertEquals($expectedResult, $this->model->getTierPriceList());
         $this->assertEquals(count($expectedResult), $this->model->getTierPriceCount());

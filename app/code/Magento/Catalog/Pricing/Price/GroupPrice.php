@@ -63,7 +63,9 @@ class GroupPrice extends AbstractPrice implements BasePriceProviderInterface
             foreach ($this->getStoredGroupPrice() as $groupPrice) {
                 if ($groupPrice['cust_group'] == $customerGroup) {
                     $this->value = (float) $groupPrice['website_price'];
-                    $this->value = $this->priceCurrency->convertAndRound($this->value);
+                    if (!$this->isPercentageDiscount()) {
+                        $this->value = $this->priceCurrency->convertAndRound($this->value);
+                    }
                     break;
                 }
             }
@@ -99,5 +101,13 @@ class GroupPrice extends AbstractPrice implements BasePriceProviderInterface
             }
         }
         return $this->storedGroupPrice;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPercentageDiscount()
+    {
+        return false;
     }
 }

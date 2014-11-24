@@ -259,16 +259,27 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
             if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {
                 $this->rawPriceList = array();
             }
-            foreach ($this->rawPriceList as $index => $rawPrice) {
-                if (isset($rawPrice['price'])) {
-                    $this->rawPriceList[$index]['price'] = $this->priceCurrency->convertAndRound($rawPrice['price']);
-                }
-                if (isset($rawPrice['website_price'])) {
-                    $this->rawPriceList[$index]['website_price'] =
-                        $this->priceCurrency->convertAndRound($rawPrice['website_price']);
+            if (!$this->isPercentageDiscount()) {
+                foreach ($this->rawPriceList as $index => $rawPrice) {
+                    if (isset($rawPrice['price'])) {
+                        $this->rawPriceList[$index]['price'] =
+                            $this->priceCurrency->convertAndRound($rawPrice['price']);
+                    }
+                    if (isset($rawPrice['website_price'])) {
+                        $this->rawPriceList[$index]['website_price'] =
+                            $this->priceCurrency->convertAndRound($rawPrice['website_price']);
+                    }
                 }
             }
         }
         return $this->rawPriceList;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPercentageDiscount()
+    {
+        return false;
     }
 }

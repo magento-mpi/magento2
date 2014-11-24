@@ -176,9 +176,8 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
             ->method('afterLoad')
             ->with($this->equalTo($this->productMock))
             ->will($this->returnValue($this->backendMock));
-        $this->priceCurrencyMock->expects($this->any())
-            ->method('convertAndRound')
-            ->will($this->returnArgument(0));
+        $this->priceCurrencyMock->expects($this->never())
+            ->method('convertAndRound');
         $this->productMock->expects($this->once())
             ->method('getData')
             ->with(
