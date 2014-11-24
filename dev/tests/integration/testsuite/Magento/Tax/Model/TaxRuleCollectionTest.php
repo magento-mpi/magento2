@@ -23,6 +23,7 @@ class TaxRuleCollectionTest extends \PHPUnit_Framework_TestCase
         $collection = Bootstrap::getObjectManager()->get('Magento\Tax\Model\Resource\Calculation\Rule\Collection');
         $dbTaxRulesQty = $collection->count();
 
+        /** @var \Magento\Tax\Model\Calculation\Rule $firstTaxRuleFixture */
         $firstTaxRuleFixture = Bootstrap::getObjectManager()->get('Magento\Framework\Registry')
             ->registry('_fixture/Magento_Tax_Model_Calculation_Rule');
         $expectedFirstTaxRuleId = $firstTaxRuleFixture->getId();
@@ -42,9 +43,9 @@ class TaxRuleCollectionTest extends \PHPUnit_Framework_TestCase
             'priority' => '0',
             'position' => '0',
             'calculate_subtotal' => '0',
-            'customer_tax_classes' => $firstTaxRuleFixture->getTaxCustomerClass(),
-            'product_tax_classes' => $firstTaxRuleFixture->getTaxProductClass(),
-            'tax_rates' => $firstTaxRuleFixture->getTaxRate()
+            'customer_tax_classes' => $firstTaxRuleFixture->getCustomerTaxClassIds(),
+            'product_tax_classes' => $firstTaxRuleFixture->getProductTaxClassIds(),
+            'tax_rates' => $firstTaxRuleFixture->getTaxRateIds()
         ];
 
         $this->assertEquals($expectedTaxRuleData, $taxRule, 'Tax rule data is invalid.');
