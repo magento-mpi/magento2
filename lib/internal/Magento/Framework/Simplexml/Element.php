@@ -150,6 +150,21 @@ class Element extends \SimpleXMLElement
     }
 
     /**
+     * Create attribute if it does not exists and set value to it
+     *
+     * @param $name
+     * @param $value
+     */
+    public function setAttribute($name, $value)
+    {
+        if (!isset($this->attributes()[$name])) {
+            $this->addAttribute($name, $value);
+        }
+
+        $this->attributes()[$name] = $value;
+    }
+
+    /**
      * Returns the node and children as an array
      *
      * @return array|string

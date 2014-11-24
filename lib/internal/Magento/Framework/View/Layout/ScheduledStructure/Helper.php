@@ -73,7 +73,7 @@ class Helper
         // if it hasn't a name it must be generated
         if (!(string)$currentNode->getAttribute('name')) {
             $name = $this->_generateAnonymousName($parentNode->getElementName() . '_schedule_block');
-            $currentNode->addAttribute('name', $name);
+            $currentNode->setAttribute('name', $name);
         }
         $path = $name = (string)$currentNode->getAttribute('name');
 
