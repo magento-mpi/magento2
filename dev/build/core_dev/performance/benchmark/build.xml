@@ -101,7 +101,7 @@
                  username="${env.webnode_login}"
                  password="${env.webnode_password}"
                  trust="yes"
-                 command="php -f ${env.magento_dir}/dev/tools/performance-toolkit/generate.php -- --profile=${env.magento_dir}/dev/tools/performance-toolkit/profiles/${env.size}.xml"/>
+                 command="php -f ${env.magento_dir}/dev/tools/performance-toolkit/generate.php -- --profile=${env.magento_dir}/dev/build/core_dev/performance/benchmark/profiles/performance_test.xml"/>
     </target>
 
     <target name="_bootstrap" description="Check whether common parameters is set">
@@ -200,7 +200,7 @@
             <arg value="--branch"/>
             <arg value="${env.bamboo_build_working_directory}/team/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time.jtl"/>
             <arg value="--output"/>
-            <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time_summary.jtl"/>
+            <arg value="${env.bamboo_build_working_directory}/team/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time_summary.jtl"/>
         </exec>
     </target>
 </project>
