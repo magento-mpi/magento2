@@ -15,7 +15,7 @@ class ComposerJsonTest extends \PHPUnit_Framework_TestCase
     public function testGet()
     {
         $mockModuleRoot = __DIR__ . '/_files';
-        $mockModules = ['Module1', 'Module2', 'Module3'];
+        $mockModules = ['module1', 'module2', 'module3'];
         $fileName = 'composer.json';
         foreach($mockModules as $module) {
             $expectedFileList[] = $mockModuleRoot . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $fileName;
