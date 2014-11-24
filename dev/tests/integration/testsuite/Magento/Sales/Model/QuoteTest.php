@@ -58,26 +58,23 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateCustomerData()
     {
-        $changeMail = function (array &$expected) {
-            $expected[\Magento\Customer\Model\Data\Customer::EMAIL] = 'test@example.com';
-        };
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
         $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         $expected = $this->_getCustomerDataArray();
         //For save in repository
-        unset($expected[\Magento\Customer\Model\Data\Customer::ID]);
+        $expected = $this->removeIdFromCustomerData($expected);
         $customerBuilder->populateWithArray($expected);
         $customerDataSet = $customerBuilder->create();
         $this->assertEquals($expected, $this->convertToArray($customerDataSet));
         $quote->setCustomer($customerDataSet);
-        $changeMail($expected);
+        $expected = $this->changeEmailInCustomerData('test@example.com', $expected);
         $customerBuilder->populateWithArray($expected);
         $customerDataUpdated = $customerBuilder->create();
         $quote->updateCustomerData($customerDataUpdated);
         $customer = $quote->getCustomer();
         $expected = $this->_getCustomerDataArray();
-        $changeMail($expected);
+        $expected = $this->changeEmailInCustomerData('test@example.com', $expected);
         $expected['disable_auto_group_change'] = 0;
         unset($expected['addresses']);
         ksort($expected);
@@ -288,6 +285,27 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             $quote->getShippingAddress()->getId(),
             "Precondition failed: shipping address should be empty."
         );
+        return $customerData;
+    }
+
+    /**
+     * @param $email
+     * @param array $customerData
+     * @return array
+     */
+    protected function changeEmailInCustomerData($email, array $customerData)
+    {
+        $customerData[\Magento\Customer\Model\Data\Customer::EMAIL] = $email;
+        return $customerData;
+    }
+
+    /**
+     * @param array $customerData
+     * @return array
+     */
+    protected function removeIdFromCustomerData(array $customerData)
+    {
+        unset($customerData[\Magento\Customer\Model\Data\Customer::ID]);
         return $customerData;
     }
 
