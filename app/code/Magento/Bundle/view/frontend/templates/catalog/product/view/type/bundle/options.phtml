@@ -26,10 +26,10 @@ require([
 //            .trigger('changeSelection');
 
         $('#product_addtocart_form').mage('priceBundle', {
-            optionConfig:<?php echo $this->getJsonConfig()?>})
-            .trigger('changeSelection');
-
-
+            optionConfig:<?php echo $this->getJsonConfig()?>,
+            controlContainer: '.field',
+            qtyFieldSelector: '.input-text.qty'
+        }).trigger('changeSelection');
     });
 });
 </script>
