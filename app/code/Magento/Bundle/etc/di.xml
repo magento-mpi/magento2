@@ -103,6 +103,9 @@
     <type name="Magento\Catalog\Model\Product\Attribute\Backend\Price">
         <plugin name="bundle" type="Magento\Bundle\Model\Plugin\PriceBackend" sortOrder="100" />
     </type>
+    <type name="Magento\Catalog\Api\ProductRepositoryInterface">
+        <plugin name="bundleOptions" type="\Magento\Bundle\Model\Plugin\BundleOptions"/>
+    </type>
     <type name="Magento\Bundle\Model\Product\Type">
         <arguments>
             <argument name="stockRegistry" xsi:type="object">Magento\CatalogInventory\Api\StockRegistryInterface\Proxy</argument>
