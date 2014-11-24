@@ -68,12 +68,12 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $customerDataSet = $customerBuilder->create();
         $this->assertEquals($expected, $this->convertToArray($customerDataSet));
         $quote->setCustomer($customerDataSet);
+        $expected = $this->_getCustomerDataArray();
         $expected = $this->changeEmailInCustomerData('test@example.com', $expected);
         $customerBuilder->populateWithArray($expected);
         $customerDataUpdated = $customerBuilder->create();
         $quote->updateCustomerData($customerDataUpdated);
         $customer = $quote->getCustomer();
-        $expected = $this->_getCustomerDataArray();
         $expected = $this->changeEmailInCustomerData('test@example.com', $expected);
         $expected['disable_auto_group_change'] = 0;
         unset($expected['addresses']);
