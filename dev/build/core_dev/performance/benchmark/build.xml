@@ -139,7 +139,8 @@
         <fail unless="env.git_branch" message="Variable 'git_branch' must be defined"/>
 
         <ac:propertyregex property="git_repository_part" input="${env.git_repository}" regexp="https:\/\/(.+)" select="\1" casesensitive="false" />
-
+        <echo message="Checking out: ${env.git_repository} : ${env.git_branch}"/>
+        <echo message="Repository part value: ${git_repository_part}"/>
         <sshexec host="${server_ip}"
                  username="${env.webnode_login}"
                  password="${env.webnode_password}"
