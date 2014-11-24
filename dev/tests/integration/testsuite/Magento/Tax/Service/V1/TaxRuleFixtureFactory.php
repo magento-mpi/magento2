@@ -34,8 +34,8 @@ class TaxRuleFixtureFactory
      */
     public function createTaxRules($rulesData)
     {
-        /** @var \Magento\Tax\Service\V1\Data\TaxRuleBuilder $taxRuleBuilder */
-        $taxRuleBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRuleBuilder');
+        /** @var \Magento\Tax\Api\Data\TaxRuleDataBuilder $taxRuleBuilder */
+        $taxRuleBuilder = $this->objectManager->create('Magento\Tax\Api\Data\TaxRuleDataBuilder');
         /** @var \Magento\Tax\Api\TaxRuleRepositoryInterface $taxRuleService */
         $taxRuleService = $this->objectManager->create('Magento\Tax\Api\TaxRuleRepositoryInterface');
 
@@ -60,7 +60,7 @@ class TaxRuleFixtureFactory
         $taxRuleService = $this->objectManager->create('Magento\Tax\Api\TaxRuleRepositoryInterface');
 
         foreach ($ruleIds as $ruleId) {
-            $taxRuleService->deleteTaxRule($ruleId);
+            $taxRuleService->deleteById($ruleId);
         }
     }
 
@@ -75,27 +75,27 @@ class TaxRuleFixtureFactory
     public function createTaxRates($ratesData)
     {
 
-        /** @var \Magento\Tax\Service\V1\Data\TaxRateBuilder $taxRateBuilder */
-        $taxRateBuilder = $this->objectManager->create('Magento\Tax\Service\V1\Data\TaxRateBuilder');
-        /** @var \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService */
-        $taxRateService = $this->objectManager->create('Magento\Tax\Service\V1\TaxRateServiceInterface');
+        /** @var \Magento\Tax\Api\Data\TaxRateDataBuilder$taxRateBuilder */
+        $taxRateBuilder = $this->objectManager->create('Magento\Tax\Api\Data\TaxRateDataBuilder');
+        /** @var \Magento\Tax\Api\TaxRateRepositoryInterface $taxRateService */
+        $taxRateService = $this->objectManager->create('Magento\Tax\Api\TaxRateRepositoryInterface');
 
         $rates = [];
         foreach ($ratesData as $rateData) {
-            $code = "{$rateData['country']} - {$rateData['region']} - {$rateData['percentage']}";
+            $code = "{$rateData['country']} - {$rateData['region_name']} - {$rateData['tax_postcode']}";
             $postcode = '*';
-            if (isset($rateData['postcode'])) {
-                $postcode = $rateData['postcode'];
+            if (isset($rateData['tax_postcode'])) {
+                $postcode = $rateData['tax_postcode'];
                 $code = $code . " - " . $postcode;
             }
-            $taxRateBuilder->setCountryId($rateData['country'])
-                ->setRegionId($rateData['region'])
-                ->setPostcode($postcode)
+            $taxRateBuilder->setTaxCountryId($rateData['tax_country_id'])
+                ->setTaxRegionId($rateData['region_name'])
+                ->setTaxPostcode($postcode)
                 ->setCode($code)
-                ->setPercentageRate($rateData['percentage']);
+                ->setRate($rateData['rate']);
 
             $rates[$code] =
-                $taxRateService->createTaxRate($taxRateBuilder->create())->getId();
+                $taxRateService->save($taxRateBuilder->create())->getId();
         }
         return $rates;
     }
@@ -107,10 +107,10 @@ class TaxRuleFixtureFactory
      */
     public function deleteTaxRates($rateIds)
     {
-        /** @var \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService */
-        $taxRateService = $this->objectManager->create('Magento\Tax\Service\V1\TaxRateServiceInterface');
+        /** @var \Magento\Tax\Api\TaxRateRepositoryInterface $taxRateService */
+        $taxRateService = $this->objectManager->create('Magento\Tax\Api\TaxRateRepositoryInterface');
         foreach ($rateIds as $rateId) {
-            $taxRateService->deleteTaxRate($rateId);
+            $taxRateService->deleteById($rateId);
         }
     }
 
