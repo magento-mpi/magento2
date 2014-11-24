@@ -18,7 +18,7 @@ try {
     $directory = $console->getOption('directory') ?: BP;
 
     Files::setInstance(new \Magento\Framework\Test\Utility\Files($directory));
-    $filesForParse = Files::init()->getComposerFiles('code/Magento', false);
+    $filesForParse = Files::init()->getComposerFiles('code', false);
 
     ServiceLocator::getDependenciesReportBuilder()->build(
         array(
