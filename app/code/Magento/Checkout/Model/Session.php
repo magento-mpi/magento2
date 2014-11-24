@@ -306,7 +306,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         } else {
             $this->getQuote()->getBillingAddress();
             $this->getQuote()->getShippingAddress();
-            $this->getQuote()->setCustomer($this->_customerSession->getCustomer())
+            $this->getQuote()->setCustomer($this->_customerSession->getCustomerDataObject())
                 ->setTotalsCollectedFlag(false)
                 ->collectTotals()
                 ->save();
