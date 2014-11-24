@@ -39,6 +39,7 @@ class InterceptionConfigurationBuilder
 
     /**
      * @param InterceptionConfig $interceptionConfig
+     * @param PluginList $pluginList
      */
     public function __construct(InterceptionConfig $interceptionConfig, PluginList $pluginList)
     {

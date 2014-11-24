@@ -18,6 +18,9 @@ class ProxyConfig implements \Magento\Framework\ObjectManager\ConfigInterface
      */
     private $subjectConfig;
 
+    /**
+     * @param \Magento\Framework\ObjectManager\ConfigInterface $config
+     */
     public function __construct(\Magento\Framework\ObjectManager\ConfigInterface $config)
     {
         $this->subjectConfig = $config;

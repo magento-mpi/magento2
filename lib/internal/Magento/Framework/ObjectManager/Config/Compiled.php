@@ -14,14 +14,29 @@ use Magento\Framework\ObjectManager\RelationsInterface;
 
 class Compiled implements \Magento\Framework\ObjectManager\ConfigInterface
 {
+    /**
+     * @var array
+     */
     private $arguments;
 
+    /**
+     * @var array
+     */
     private $nonShared;
 
+    /**
+     * @var array
+     */
     private $virtualTypes;
 
+    /**
+     * @var array
+     */
     private $preferences;
 
+    /**
+     * @param array $data
+     */
     public function __construct($data)
     {
         $this->arguments = $data['arguments'];

@@ -18,6 +18,9 @@ class ClassReaderDecorator implements \Magento\Framework\Code\Reader\ClassReader
      */
     private $classReader;
 
+    /**
+     * @param \Magento\Framework\Code\Reader\ClassReader $classReader
+     */
     public function __construct(\Magento\Framework\Code\Reader\ClassReader $classReader)
     {
         $this->classReader = $classReader;

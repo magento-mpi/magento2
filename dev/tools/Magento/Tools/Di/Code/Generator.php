@@ -44,6 +44,7 @@ class Generator extends FrameworkGenerator
      *
      * @param array $classesToGenerate
      * @throws \Magento\Framework\Exception
+     * @return void
      */
     public function generateList($classesToGenerate)
     {
@@ -58,6 +59,7 @@ class Generator extends FrameworkGenerator
      * Sets class methods
      *
      * @param array $methods
+     * @return void
      */
     private function setClassMethods($methods)
     {
@@ -66,6 +68,7 @@ class Generator extends FrameworkGenerator
 
     /**
      * Clear class methods
+     * @return void
      */
     private function clearClassMethods()
     {

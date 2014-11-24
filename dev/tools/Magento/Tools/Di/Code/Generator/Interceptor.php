@@ -24,6 +24,7 @@ class Interceptor extends FrameworkInterceptor
      * Whether method is intercepted
      *
      * @param \ReflectionMethod $method
+     *
      * @return bool
      */
     protected function isInterceptedMethod(\ReflectionMethod $method)
@@ -34,7 +35,9 @@ class Interceptor extends FrameworkInterceptor
     /**
      * Sets list of intercepted methods
      *
-     * @param $interceptedMethods
+     * @param array $interceptedMethods
+     *
+     * @return void
      */
     public function setInterceptedMethods($interceptedMethods)
     {

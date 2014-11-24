@@ -216,9 +216,9 @@ class Interceptor extends \Magento\Framework\Code\Generator\EntityAbstract
             $method->isFinal() ||
             $method->isStatic() ||
             $method->isDestructor()) && !in_array(
-            $method->getName(),
-            array('__sleep', '__wakeup', '__clone')
-        );
+                $method->getName(),
+                array('__sleep', '__wakeup', '__clone')
+            );
     }
 
     /**

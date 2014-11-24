@@ -29,6 +29,7 @@ class PluginList extends Interception\PluginList\PluginList
      * Sets scope priority scheme
      *
      * @param $areaCodes
+     * @return void
      */
     public function setScopePriorityScheme($areaCodes)
     {
@@ -48,6 +49,7 @@ class PluginList extends Interception\PluginList\PluginList
 
     /**
      * @param $interceptedClasses
+     * @return void
      */
     public function setInterceptedClasses($interceptedClasses)
     {

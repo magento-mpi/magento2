@@ -32,6 +32,8 @@ class Collection
      * Initializes collection with array of definitions
      *
      * @param array $definitions
+     *
+     * @return void
      */
     public function initialize($definitions)
     {
@@ -42,6 +44,8 @@ class Collection
      * Adds collection to current collection
      *
      * @param Collection $collection
+     *
+     * @return void
      */
     public function addCollection(Collection $collection)
     {
@@ -53,6 +57,8 @@ class Collection
      *
      * @param string $instance
      * @param array $arguments
+     *
+     * @return void
      */
     public function addDefinition($instance, $arguments = [])
     {

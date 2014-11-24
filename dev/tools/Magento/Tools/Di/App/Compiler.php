@@ -54,6 +54,9 @@ class Compiler implements \Magento\Framework\AppInterface
      */
     private $interceptionConfigurationBuilder;
 
+    /**
+     * @var array
+     */
     protected $assertions = [
         'adminhtml.ser' => 'e576720abbc6538849772ffee9a5bd89',
         'global.ser' => '571698d6bdecc3b5126cb7b01c77a764',
@@ -149,19 +152,29 @@ class Compiler implements \Magento\Framework\AppInterface
         return true;
     }
 
+    /**
+     * @param $fileName
+     *
+     * @return void
+     */
     private function assertMd5($fileName)
     {
-        echo ($this->assertions[$fileName] == md5_file(BP . '/var/di/' . $fileName) ? '. ' : 'Failed for '. $fileName . ' ');
+        echo ($this->assertions[$fileName] ==
+            md5_file(BP . '/var/di/' . $fileName) ? '. ' : 'Failed for '. $fileName . ' ');
     }
 
     /**
      * @param DefinitionsCollection $definitionsCollection
      * @param string $areaCode
      * @param bool $extendConfig
-     * @param InterceptionConfigurationBuilder $interceptorGenerator
+     *
+     * @return void
      */
-    private function generateCachePerScope(DefinitionsCollection $definitionsCollection, $areaCode, $extendConfig = false)
-    {
+    private function generateCachePerScope(
+        DefinitionsCollection $definitionsCollection,
+        $areaCode,
+        $extendConfig = false
+    ) {
         $areaConfig = clone $this->diContainerConfig;
         if ($extendConfig) {
             $areaConfig->extend($this->configLoader->load($areaCode));

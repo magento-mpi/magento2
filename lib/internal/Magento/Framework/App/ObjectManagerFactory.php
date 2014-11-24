@@ -36,6 +36,11 @@ class ObjectManagerFactory
      */
     protected $_configClassName = 'Magento\Framework\Interception\ObjectManager\Config';
 
+    /**
+     * Environment factory class name
+     *
+     * @var string
+     */
     protected $envFactoryClassName = 'Magento\Framework\ObjectManager\EnvironmentFactory';
 
     /**
@@ -58,8 +63,6 @@ class ObjectManagerFactory
      * @var \Magento\Framework\ObjectManager\FactoryInterface
      */
     protected $factory;
-
-    private $compiledConfig = false;
 
     /**
      * Constructor
