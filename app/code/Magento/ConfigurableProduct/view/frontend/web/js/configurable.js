@@ -7,9 +7,27 @@
 /*jshint browser:true jquery:true*/
 define([
     "jquery",
+    "underscore",
     "jquery/ui",
     "jquery/jquery.parsequery"
-], function($){
+], function($, _){
+
+    function getPrices(elems){
+        var prices = {},
+            selected,
+            config;
+
+        elems.forEach(function(elem){
+            selected    = elem.options[elem.selectedIndex],
+            config      = selected && selected.config;
+
+            prices[elem.attributeId] = config ? 
+                _.clone(config.prices) :
+                {};
+        });
+
+        return prices;
+    }
 
     $.widget('mage.configurable', {
         options: {
@@ -126,19 +144,25 @@ define([
          * @private
          */
         _setChildSettings: function() {
-            var childSettings = [];
-            for (var j = this.options.settings.length - 1; j >= 0; j--) {
-                var prevSetting = this.options.settings[j - 1] ? this.options.settings[j - 1] : false,
-                    nextSetting = this.options.settings[j + 1] ? this.options.settings[j + 1] : false;
-                if (j === 0) {
-                    this._fillSelect(this.options.settings[j]);
-                } else {
-                    this.options.settings[j].disabled = true;
-                }
-                this.options.settings[j].childSettings = childSettings.slice(0);
-                this.options.settings[j].prevSetting = prevSetting;
-                this.options.settings[j].nextSetting = nextSetting;
-                childSettings.push(this.options.settings[j]);
+            var childSettings   = [],
+                settings        = this.options.settings,
+                index           = settings.length,
+                option;
+
+            while (index--) {
+                option = settings[index];
+                
+                !index ?
+                    this._fillSelect(option) :
+                    (option.disabled = true);
+                
+                _.extend(option, {
+                    childSettings:  childSettings.slice(),
+                    prevSetting:    settings[index - 1],
+                    nextSetting:    settings[index + 1]
+                });
+
+                childSettings.push(option);
             }
         },
 
@@ -407,31 +431,12 @@ define([
          * @return {Number} The price of the configurable product including selected options.
          */
         _reloadPrice: function() {
-            if (this.options.spConfig.disablePriceReload) {
-                return true;
-            }
-            var oldPrice = 0,
-                    basePrice = 0,
-                        finalPrice = 0;
-            for (var i = this.options.settings.length - 1; i >= 0; i--) {
-                var selected = this.options.settings[i].options[this.options.settings[i].selectedIndex];
-                if (selected && selected.config) {
-                    oldPrice += parseFloat(selected.config.prices.oldPrice.amount);
-                    basePrice += parseFloat(selected.config.prices.basePrice.amount);
-                    finalPrice += parseFloat(selected.config.prices.finalPrice.amount);
-                }
-            }
-            $(this.options.priceHolderSelector).trigger('updatePrice', {
-                'oldPrice': {
-                    'amount': oldPrice
-                },
-                'basePrice': {
-                    'amount': basePrice
-                },
-                'finalPrice': {
-                    'amount': finalPrice
-                }
-            }).trigger('reloadPrice');
+            var options     = this.options,
+                settings    = _.toArray(options.settings);
+
+            $(options.priceHolderSelector)
+                .trigger('updatePrice', getPrices(settings))
+                .trigger('reloadPrice');
         }
     });
 });
