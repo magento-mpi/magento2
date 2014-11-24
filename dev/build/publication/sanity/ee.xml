@@ -39,7 +39,7 @@
             <word>{copyright}</word>
             <word>{license_link}</word>
             <word>{license_notice}</word>
-            <path>dev/tests/unit/testsuite/Magento/Test/Tools/Migration/Acl/GeneratorTest.php</path>
+            <path>dev/tests/unit/testsuite/Magento/Tools/Migration/Acl/GeneratorTest.php</path>
         </item>
         <item>
             <word>{copyright}</word>
