@@ -137,10 +137,11 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
         $this->groupManagement = $this->getMock(
             'Magento\Customer\Api\GroupManagementInterface',
-            array('getDefaultGroup','getNotLoggedInGroup','isReadOnly','getLoggedInGroups','getAllCustomersGroup'),
-            array(),
+            ['getDefaultGroup', 'getNotLoggedInGroup', 'isReadOnly', 'getLoggedInGroups', 'getAllCustomersGroup'],
+            [],
             '',
-            false);
+            false
+        );
 
         $this->model = $this->objectManager->getObject(
             'Magento\Sales\Model\Observer\Frontend\Quote\Address\CollectTotals',
@@ -252,9 +253,31 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $this->customerDataMock->expects($this->once())->method('getId')->will($this->returnValue(null));
 
         /** Assertions */
-        $this->quoteAddressMock->expects($this->never())->method('setPrevQuoteCustomerGroupId');
-        $this->customerBuilderMock->expects($this->never())->method('mergeDataObjectWithArray');
-        $this->quoteMock->expects($this->never())->method('setCustomerGroupId');
+        $this->quoteAddressMock->expects($this->once())->method('setPrevQuoteCustomerGroupId');
+
+        $this->customerBuilderMock->expects($this->once())
+            ->method('mergeDataObjectWithArray')
+            ->will($this->returnSelf());
+
+        $this->customerBuilderMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->customerDataMock));
+
+        $this->quoteMock->expects($this->once())->method('setCustomerGroupId')->with('notLoggedInGroupId');
+
+        $notLoggedInGroup = $this->getMock(
+            'Magento\Customer\Model\Group',
+            ['getId'],
+            [],
+            '',
+            false
+        );
+        $notLoggedInGroup->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue('notLoggedInGroupId'));
+        $this->groupManagement->expects($this->any())
+            ->method('getNotLoggedInGroup')
+            ->will($this->returnValue($notLoggedInGroup));
 
         /** SUT execution */
         $this->model->dispatch($this->observerMock);
