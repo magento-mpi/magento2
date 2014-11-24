@@ -13,13 +13,11 @@ define([
 ], function($, _){
 
     function getPrices(elems){
-        var prices = {},
-            selected,
-            config;
+        var prices = {};
 
         elems.forEach(function(elem){
-            selected    = elem.options[elem.selectedIndex],
-            config      = selected && selected.config;
+            var selected    = elem.options[elem.selectedIndex],
+                config      = selected && selected.config;
 
             prices[elem.attributeId] = config ? 
                 _.clone(config.prices) :
@@ -432,11 +430,11 @@ define([
          */
         _reloadPrice: function() {
             var options     = this.options,
-                settings    = _.toArray(options.settings);
+                settings    = _.toArray(options.settings),
+                prices      = getPrices(settings);
 
             $(options.priceHolderSelector)
-                .trigger('updatePrice', getPrices(settings))
-                .trigger('reloadPrice');
+                .trigger('updatePrice', prices);
         }
     });
 });
