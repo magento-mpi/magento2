@@ -30,13 +30,15 @@ class BundleRegularPrice extends \Magento\Catalog\Pricing\Price\RegularPrice imp
      * @param Product $saleableItem
      * @param float $quantity
      * @param BundleCalculatorInterface $calculator
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
-        BundleCalculatorInterface $calculator
+        BundleCalculatorInterface $calculator,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
     ) {
-        parent::__construct($saleableItem, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator, $priceCurrency);
     }
 
     /**

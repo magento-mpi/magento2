@@ -33,6 +33,11 @@ class BundleRegularPriceTest extends \PHPUnit_Framework_TestCase
     protected $quantity = 1;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceCurrencyMock;
+
+    /**
      * @return void
      */
     protected function setUp()
@@ -46,11 +51,14 @@ class BundleRegularPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
 
+        $this->priceCurrencyMock = $this->getMock('\Magento\Framework\Pricing\PriceCurrencyInterface');
+
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->regularPrice = new \Magento\Bundle\Pricing\Price\BundleRegularPrice(
             $this->saleableInterfaceMock,
             $this->quantity,
-            $this->bundleCalculatorMock
+            $this->bundleCalculatorMock,
+            $this->priceCurrencyMock
         );
     }
 
@@ -66,6 +74,10 @@ class BundleRegularPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getMinRegularAmount')
             ->with($expectedResult, $this->saleableInterfaceMock)
             ->will($this->returnValue($expectedResult));
+
+        $this->priceCurrencyMock->expects($this->once())
+            ->method('convertAndRound')
+            ->will($this->returnArgument(0));
 
         $result = $this->regularPrice->getAmount();
         $this->assertEquals($expectedResult, $result, 'Incorrect amount');
@@ -88,6 +100,10 @@ class BundleRegularPriceTest extends \PHPUnit_Framework_TestCase
             ->with($expectedResult, $this->saleableInterfaceMock)
             ->will($this->returnValue($expectedResult));
 
+        $this->priceCurrencyMock->expects($this->once())
+            ->method('convertAndRound')
+            ->will($this->returnArgument(0));
+
         $result = $this->regularPrice->getMaximalPrice();
         $this->assertEquals($expectedResult, $result, 'Incorrect amount');
 
@@ -103,6 +119,10 @@ class BundleRegularPriceTest extends \PHPUnit_Framework_TestCase
         $this->saleableInterfaceMock->expects($this->once())
             ->method('getPrice')
             ->will($this->returnValue($expectedResult));
+
+        $this->priceCurrencyMock->expects($this->once())
+            ->method('convertAndRound')
+            ->will($this->returnArgument(0));
 
         $this->bundleCalculatorMock->expects($this->once())
             ->method('getMinRegularAmount')

@@ -48,9 +48,15 @@ class BundleSelectionPrice extends AbstractPrice
     protected $useRegularPrice;
 
     /**
+     * @var Product
+     */
+    protected $selection;
+
+    /**
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param SaleableInterface $bundleProduct
      * @param ManagerInterface $eventManager
      * @param DiscountCalculator $discountCalculator
@@ -60,16 +66,18 @@ class BundleSelectionPrice extends AbstractPrice
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         SaleableInterface $bundleProduct,
         ManagerInterface $eventManager,
         DiscountCalculator $discountCalculator,
         $useRegularPrice = false
     ) {
-        parent::__construct($saleableItem, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator, $priceCurrency);
         $this->bundleProduct = $bundleProduct;
         $this->eventManager = $eventManager;
         $this->discountCalculator = $discountCalculator;
         $this->useRegularPrice = $useRegularPrice;
+        $this->selection = $saleableItem;
     }
 
     /**
@@ -100,10 +108,11 @@ class BundleSelectionPrice extends AbstractPrice
                     'catalog_product_get_final_price',
                     array('product' => $product, 'qty' => $this->bundleProduct->getQty())
                 );
-                $value = $product->getData('final_price') * ($this->product->getSelectionPriceValue() / 100);
+                $value = $product->getData('final_price') * ($this->selection->getSelectionPriceValue() / 100);
             } else {
                 // calculate price for selection type fixed
-                $value = $this->product->getSelectionPriceValue() * $this->quantity;
+                $selectionPriceValue = $this->selection->getSelectionPriceValue();
+                $value = $this->priceCurrency->convertAndRound($selectionPriceValue) * $this->quantity;
             }
         }
         if (!$this->useRegularPrice) {
@@ -111,5 +120,17 @@ class BundleSelectionPrice extends AbstractPrice
         }
         $this->value = $value;
         return $this->value;
+    }
+
+    /**
+     * @return SaleableInterface
+     */
+    public function getProduct()
+    {
+        if ($this->bundleProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
+            return parent::getProduct();
+        } else {
+            return $this->bundleProduct;
+        }
     }
 }

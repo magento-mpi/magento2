@@ -64,6 +64,11 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
     protected $discountCalculatorMock;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceCurrencyMock;
+
+    /**
      * @var float
      */
     protected $quantity;
@@ -132,11 +137,15 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->productMock->expects($this->once())
+        $this->productMock->expects($this->atLeastOnce())
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
 
+        $this->priceCurrencyMock = $this->getMock('\Magento\Framework\Pricing\PriceCurrencyInterface');
+
         $this->quantity = 1;
+
+        $this->setupSelectionPrice();
     }
 
     protected function setupSelectionPrice($useRegularPrice = false)
@@ -145,6 +154,7 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
             $this->productMock,
             $this->quantity,
             $this->calculatorMock,
+            $this->priceCurrencyMock,
             $this->bundleMock,
             $this->eventManagerMock,
             $this->discountCalculatorMock,
@@ -260,7 +270,9 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
         $this->setupSelectionPrice($useRegularPrice);
         $regularPrice = 100;
         $discountedPrice = 70;
-        $expectedPrice = $useRegularPrice ? $regularPrice : $discountedPrice;
+        $convertedValue = 100.02;
+        $expectedPrice = $useRegularPrice ? $convertedValue : $discountedPrice;
+
 
         $this->bundleMock->expects($this->once())
             ->method('getPriceType')
@@ -270,14 +282,19 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
         $this->productMock->expects($this->any())
             ->method('getSelectionPriceValue')
-            ->will($this->returnValue(100));
+            ->will($this->returnValue($regularPrice));
+
+        $this->priceCurrencyMock->expects($this->once())
+            ->method('convertAndRound')
+            ->with($regularPrice)
+            ->will($this->returnValue($convertedValue));
 
         if (!$useRegularPrice) {
             $this->discountCalculatorMock->expects($this->once())
                 ->method('calculateDiscount')
                 ->with(
                     $this->equalTo($this->bundleMock),
-                    $this->equalTo($regularPrice)
+                    $this->equalTo($convertedValue)
                 )
                 ->will($this->returnValue($discountedPrice));
         }
@@ -294,5 +311,23 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
                 false
             ],
         ];
+    }
+    
+    public function testGetProductFixedBundle()
+    {
+        $this->bundleMock->expects($this->any())
+            ->method('getPriceType')
+            ->will($this->returnValue(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED));
+        $product = $this->selectionPrice->getProduct();
+        $this->assertEquals($this->bundleMock, $product);
+    }
+
+    public function testGetProductDynamicBundle()
+    {
+        $this->bundleMock->expects($this->any())
+            ->method('getPriceType')
+            ->will($this->returnValue(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC));
+        $product = $this->selectionPrice->getProduct();
+        $this->assertEquals($this->productMock, $product);
     }
 }
