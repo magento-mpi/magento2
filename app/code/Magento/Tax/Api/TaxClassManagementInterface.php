@@ -24,7 +24,6 @@ interface TaxClassManagementInterface
      * @param \Magento\Tax\Api\Data\TaxClassKeyInterface|null $taxClassKey
      * @param string $taxClassType
      * @return int|null
-     * @see \Magento\Tax\Service\V1\TaxClassServiceInterface::getTaxClassId
      */
     public function getTaxClassId($taxClassKey, $taxClassType = self::TYPE_PRODUCT);
 

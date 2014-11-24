@@ -9,10 +9,6 @@
 
 namespace Magento\Tax\Api\Data;
 
-/**
- * will be implemented by \Magento\Tax\Model\ClassModel
- * @see \Magento\Tax\Service\V1\Data\TaxClass
- */
 interface TaxClassInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**#@+

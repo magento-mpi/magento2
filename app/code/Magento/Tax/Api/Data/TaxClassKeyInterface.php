@@ -10,9 +10,6 @@ namespace Magento\Tax\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
 
-/**
- * previous implementation @see \Magento\Tax\Service\V1\Data\TaxClassKey
- */
 interface TaxClassKeyInterface extends ExtensibleDataInterface
 {
     /**#@+

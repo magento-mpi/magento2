@@ -9,9 +9,6 @@
 
 namespace Magento\Tax\Api;
 
-/**
- * @see \Magento\Tax\Service\V1\TaxClassServiceInterface
- */
 interface TaxClassRepositoryInterface
 {
     /**
@@ -20,7 +17,6 @@ interface TaxClassRepositoryInterface
      * @param int $taxClassId
      * @return \Magento\Tax\Api\Data\TaxClassInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If tax class with $taxClassId does not exist
-     * @see \Magento\Tax\Service\V1\TaxClassServiceInterface::getTaxClassId
      */
     public function get($taxClassId);
 
@@ -30,7 +26,6 @@ interface TaxClassRepositoryInterface
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Magento\Tax\Api\Data\TaxRateSearchResultsInterface containing Data\TaxClassInterface
      * @throws \Magento\Framework\Exception\InputException
-     * @see \Magento\Tax\Service\V1\TaxClassServiceInterface::searchTaxClass
      */
     public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
 
@@ -41,8 +36,6 @@ interface TaxClassRepositoryInterface
      * @return string id for the newly created Tax class
      * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Model\Exception
-     * @see \Magento\Tax\Service\V1\TaxClassServiceInterface::updateTaxClass
-     * @see \Magento\Tax\Service\V1\TaxClassServiceInterface::createTaxClass
      */
     public function save(\Magento\Tax\Api\Data\TaxClassInterface $taxClass);
 
@@ -63,7 +56,6 @@ interface TaxClassRepositoryInterface
      * @return bool True if the tax class was deleted, false otherwise
      * @throws \Magento\Framework\Exception\NoSuchEntityException If tax class with $taxClassId does not exist
      * @throws \Magento\Framework\Exception\CouldNotDeleteException
-     * @see \Magento\Tax\Service\V1\TaxClassServiceInterface::deleteTaxClass
      */
     public function deleteById($taxClassId);
 }

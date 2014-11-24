@@ -25,12 +25,12 @@ class Tax extends \Magento\Backend\App\Action
     /**
      * @var \Magento\Tax\Api\Data\TaxClassDataBuilder
      */
-    protected $taxClassBuilder;
+    protected $taxClassDataBuilder;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassService
-     * @param \Magento\Tax\Api\Data\TaxClassDataBuilder $taxClassBuilder
+     * @param \Magento\Tax\Api\Data\TaxClassDataBuilder taxClassDataBuilder
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -38,7 +38,7 @@ class Tax extends \Magento\Backend\App\Action
         \Magento\Tax\Api\Data\TaxClassDataBuilder $taxClassBuilder
     ) {
         $this->taxClassRepository = $taxClassService;
-        $this->taxClassBuilder = $taxClassBuilder;
+        $this->taxClassDataBuilder = $taxClassBuilder;
         parent::__construct($context);
     }
 
