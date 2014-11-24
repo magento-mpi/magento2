@@ -344,9 +344,9 @@ class SetupUtil
             'code' => 'Test Rule',
             'priority' => '0',
             'position' => '0',
-            'tax_customer_class' => $customerClassIds,
-            'tax_product_class' => $this->getProductTaxClassIds(),
-            'tax_rate' => $this->getDefaultTaxRateIds(),
+            'customer_tax_class_ids' => $customerClassIds,
+            'product_tax_class_ids' => $this->getProductTaxClassIds(),
+            'tax_rate_ids' => $this->getDefaultTaxRateIds(),
         ];
 
         //Create tax rules
@@ -356,9 +356,9 @@ class SetupUtil
                 'code' => 'Shipping Tax Rule',
                 'priority' => '0',
                 'position' => '0',
-                'tax_customer_class' => $customerClassIds,
-                'tax_product_class' => [$this->productTaxClasses[self::SHIPPING_TAX_CLASS]],
-                'tax_rate' => [$this->taxRates[self::TAX_RATE_SHIPPING]['id']],
+                'customer_tax_class_ids' => $customerClassIds,
+                'product_tax_class_ids' => [$this->productTaxClasses[self::SHIPPING_TAX_CLASS]],
+                'tax_rate_ids' => [$this->taxRates[self::TAX_RATE_SHIPPING]['id']],
             ];
             $this->taxRules[$shippingTaxRuleData['code']] = $this->objectManager
                 ->create('Magento\Tax\Model\Calculation\Rule')
