@@ -86,4 +86,4 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $result = $this->helper->isMinimalPriceLessMsrp($this->productMock);
         $this->assertTrue($result, "isMinimalPriceLessMsrp returned incorrect value");
     }
- }
+}
