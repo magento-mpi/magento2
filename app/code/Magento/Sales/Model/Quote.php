@@ -7,6 +7,7 @@
  */
 namespace Magento\Sales\Model;
 
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Sales\Model\Quote\Address;
 use Magento\Customer\Api\Data\GroupInterface;
 
@@ -581,7 +582,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     public function loadByCustomer($customer)
     {
         /* @TODO: remove this if after external usages of loadByCustomerId are refactored in MAGETWO-19935 */
-        if ($customer instanceof \Magento\Customer\Model\Customer) {
+        if ($customer instanceof \Magento\Customer\Model\Customer || $customer instanceof CustomerInterface) {
             $customerId = $customer->getId();
         } else {
             $customerId = (int)$customer;

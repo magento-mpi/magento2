@@ -67,8 +67,10 @@ class WriteServiceTest extends WebapiAbstract
         /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test01', 'reserved_order_id');
         $cartId = $quote->getId();
-        /** @var $customer \Magento\Customer\Model\Customer */
-        $customer = $this->objectManager->create('\Magento\Customer\Model\Customer')->load(1);
+        /** @var $repository \Magento\Customer\Api\CustomerRepositoryInterface */
+        $repository = $this->objectManager->create('\Magento\Customer\Api\CustomerRepositoryInterface');
+        /** @var $customer \Magento\Customer\Api\Data\CustomerInterface */
+        $customer = $repository->getById(1);
         $customerId = $customer->getId();
 
         $serviceInfo = array(
