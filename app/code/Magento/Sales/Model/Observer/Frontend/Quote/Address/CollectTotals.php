@@ -15,9 +15,9 @@ class CollectTotals
     protected $customerAddressHelper;
 
     /**
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Vat
      */
-    protected $customerHelper;
+    protected $customerVat;
 
     /**
      * @var VatValidator
@@ -30,23 +30,33 @@ class CollectTotals
     protected $customerBuilder;
 
     /**
+     * Group Management
+     *
+     * @var \Magento\Customer\Api\GroupManagementInterface
+     */
+    protected $groupManagement;
+
+    /**
      * Initialize dependencies.
      *
      * @param \Magento\Customer\Helper\Address $customerAddressHelper
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Model\Vat $customerVat
      * @param VatValidator $vatValidator
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddressHelper,
-        \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Model\Vat $customerVat,
         VatValidator $vatValidator,
-        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement
     ) {
-        $this->customerHelper = $customerHelper;
+        $this->customerVat = $customerVat;
         $this->customerAddressHelper = $customerAddressHelper;
         $this->vatValidator = $vatValidator;
         $this->customerBuilder = $customerBuilder;
+        $this->groupManagement = $groupManagement;
     }
 
     /**
@@ -74,13 +84,13 @@ class CollectTotals
         $customerCountryCode = $quoteAddress->getCountryId();
         $customerVatNumber = $quoteAddress->getVatId();
         $groupId = null;
-        if (empty($customerVatNumber) || false == $this->customerHelper->isCountryInEU($customerCountryCode)) {
-            $groupId = $customerData->getId() ? $this->customerHelper->getDefaultCustomerGroupId(
-                $storeId
-            ) : \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
+        if (empty($customerVatNumber) || false == $this->customerVat->isCountryInEU($customerCountryCode)) {
+            $groupId = $customerData->getId() ?
+                $this->groupManagement->getDefaultGroup($storeId)->getId() :
+                $this->groupManagement->getNotLoggedInGroup()->getId();
         } else {
             // Magento always has to emulate group even if customer uses default billing/shipping address
-            $groupId = $this->customerHelper->getCustomerGroupIdBasedOnVatNumber(
+            $groupId = $this->customerVat->getCustomerGroupIdBasedOnVatNumber(
                 $customerCountryCode,
                 $this->vatValidator->validate($quoteAddress, $storeId),
                 $storeId

@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
+use Magento\Customer\Api\Data\AttributeMetadataInterface;
 use Magento\Customer\Model\AccountManagement;
 
 /**
@@ -38,9 +39,9 @@ class Account extends GenericMetadata
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Options
      */
-    protected $_customerHelper;
+    protected $options;
 
     /**
      * @var \Magento\Customer\Api\AccountManagementInterface
@@ -80,7 +81,7 @@ class Account extends GenericMetadata
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Store\Model\System\Store $systemStore
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Model\Options $options
      * @param \Magento\Customer\Api\AccountManagementInterface $accountManagement
      * @param \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
@@ -97,14 +98,14 @@ class Account extends GenericMetadata
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Store\Model\System\Store $systemStore,
-        \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Model\Options $options,
         \Magento\Customer\Api\AccountManagementInterface $accountManagement,
         \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         array $data = array()
     ) {
-        $this->_customerHelper = $customerHelper;
+        $this->options = $options;
         $this->_jsonEncoder = $jsonEncoder;
         $this->_systemStore = $systemStore;
         $this->_customerFormFactory = $customerFormFactory;
@@ -202,11 +203,11 @@ class Account extends GenericMetadata
         $element = $fieldset->getForm()->getElement($elementName);
         if ($element) {
             if ($elementName == 'prefix') {
-                $options = $this->_customerHelper->getNamePrefixOptions($this->_getCustomerDataObject()->getStoreId());
+                $options = $this->options->getNamePrefixOptions($this->_getCustomerDataObject()->getStoreId());
                 $prevSibling = $fieldset->getForm()->getElement('group_id')->getId();
             }
             if ($elementName == 'suffix') {
-                $options = $this->_customerHelper->getNameSuffixOptions($this->_getCustomerDataObject()->getStoreId());
+                $options = $this->options->getNameSuffixOptions($this->_getCustomerDataObject()->getStoreId());
                 $prevSibling = $fieldset->getForm()->getElement('lastname')->getId();
             }
 
@@ -255,7 +256,7 @@ class Account extends GenericMetadata
     /**
      * Initialize attribute set.
      *
-     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
+     * @return AttributeMetadataInterface[]
      */
     protected function _initCustomerAttributes()
     {
@@ -290,7 +291,7 @@ class Account extends GenericMetadata
      *
      * @param \Magento\Framework\Data\Form $form
      * @param int $customerId
-     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes
+     * @param AttributeMetadataInterface[] $attributes
      * @return void
      */
     protected function _handleReadOnlyCustomer($form, $customerId, $attributes)

@@ -8,6 +8,8 @@
  */
 namespace Magento\Customer\Controller\Account;
 
+use Magento\Customer\Api\Data\AddressInterface;
+use Magento\Customer\Model\Url;
 use Magento\Customer\Model\AccountManagement;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
@@ -21,7 +23,8 @@ use Magento\Newsletter\Model\SubscriberFactory;
 use Magento\Customer\Api\Data\RegionDataBuilder;
 use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
-use Magento\Customer\Helper\Data as CustomerHelper;
+use Magento\Customer\Model\Url as CustomerUrl;
+use Magento\Customer\Model\Registration;
 use Magento\Framework\Escaper;
 use Magento\Customer\Model\CustomerExtractor;
 use Magento\Framework\Exception\StateException;
@@ -51,17 +54,20 @@ class CreatePost extends \Magento\Customer\Controller\Account
     /** @var SubscriberFactory */
     protected $subscriberFactory;
 
-    /** @var RegionBuilder */
+    /** @var RegionDataBuilder */
     protected $regionBuilder;
 
-    /** @var AddressBuilder */
+    /** @var AddressDataBuilder */
     protected $addressBuilder;
+
+    /** @var Registration */
+    protected $registration;
 
     /** @var CustomerDataBuilder */
     protected $customerDataBuilder;
 
-    /** @var CustomerHelper */
-    protected $customerHelperData;
+    /** @var CustomerUrl */
+    protected $customerUrl;
 
     /** @var Escaper */
     protected $escaper;
@@ -85,7 +91,8 @@ class CreatePost extends \Magento\Customer\Controller\Account
      * @param RegionDataBuilder $regionBuilder
      * @param AddressDataBuilder $addressBuilder
      * @param CustomerDataBuilder $customerDetailsBuilder
-     * @param CustomerHelper $customerHelperData
+     * @param CustomerUrl $customerUrl
+     * @param Registration $registration
      * @param Escaper $escaper
      * @param CustomerExtractor $customerExtractor
      *
@@ -104,7 +111,8 @@ class CreatePost extends \Magento\Customer\Controller\Account
         RegionDataBuilder $regionBuilder,
         AddressDataBuilder $addressBuilder,
         CustomerDataBuilder $customerDetailsBuilder,
-        CustomerHelper $customerHelperData,
+        CustomerUrl $customerUrl,
+        Registration $registration,
         Escaper $escaper,
         CustomerExtractor $customerExtractor
     ) {
@@ -117,7 +125,8 @@ class CreatePost extends \Magento\Customer\Controller\Account
         $this->regionBuilder = $regionBuilder;
         $this->addressBuilder = $addressBuilder;
         $this->customerDataBuilder = $customerDetailsBuilder;
-        $this->customerHelperData = $customerHelperData;
+        $this->customerUrl = $customerUrl;
+        $this->registration = $registration;
         $this->escaper = $escaper;
         $this->customerExtractor = $customerExtractor;
         $this->urlModel = $urlFactory->create();
@@ -127,7 +136,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
     /**
      * Add address to customer during create account
      *
-     * @return \Magento\Customer\Service\V1\Data\Address|null
+     * @return AddressInterface|null
      */
     protected function extractAddress()
     {
@@ -176,7 +185,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
      */
     public function execute()
     {
-        if ($this->_getSession()->isLoggedIn() || !$this->customerHelperData->isRegistrationAllowed()) {
+        if ($this->_getSession()->isLoggedIn() || !$this->registration->isAllowed()) {
             $this->_redirect('*/*/');
             return;
         }
@@ -219,7 +228,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
 
             $confirmationStatus = $this->accountManagement->getConfirmationStatus($customer->getId());
             if ($confirmationStatus === AccountManagement::ACCOUNT_CONFIRMATION_REQUIRED) {
-                $email = $this->customerHelperData->getEmailConfirmationUrl($customer->getEmail());
+                $email = $this->customerUrl->getEmailConfirmationUrl($customer->getEmail());
                 // @codingStandardsIgnoreStart
                 $this->messageManager->addSuccess(
                     __(
@@ -312,7 +321,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
     protected function getSuccessRedirect()
     {
         $redirectToDashboard = $this->scopeConfig->isSetFlag(
-            CustomerHelper::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+            Url::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
             ScopeInterface::SCOPE_STORE
         );
         if (!$redirectToDashboard && $this->_getSession()->getBeforeAuthUrl()) {

@@ -98,6 +98,7 @@ class GroupManagementTest extends \PHPUnit_Framework_TestCase
         $loggedInGroups = $this->groupManagement->getLoggedInGroups();
         foreach ($loggedInGroups as $group) {
             $this->assertNotEquals(GroupManagement::NOT_LOGGED_IN_ID, $group->getId());
+            $this->assertNotEquals(GroupManagement::CUST_GROUP_ALL, $group->getId());
         }
     }
 

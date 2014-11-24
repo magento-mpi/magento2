@@ -27,7 +27,7 @@ class CustomerRegistrationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->restrictionConfig = $this->getMock('Magento\WebsiteRestriction\Model\ConfigInterface');
-        $this->subjectMock = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Customer\Model\Registration', array(), array(), '', false);
         $this->model = new \Magento\WebsiteRestriction\Model\Plugin\CustomerRegistration($this->restrictionConfig);
     }
 
@@ -49,6 +49,6 @@ class CustomerRegistrationTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(\Magento\WebsiteRestriction\Model\Mode::ALLOW_NONE)
         );
-        $this->assertFalse($this->model->afterIsRegistrationAllowed($this->subjectMock, true));
+        $this->assertFalse($this->model->afterIsAllowed($this->subjectMock, true));
     }
 }

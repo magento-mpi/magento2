@@ -101,7 +101,7 @@ class ReadService implements ReadServiceInterface
      */
     public function getCart($cartId)
     {
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
         return $this->cartMapper->map($quote);
     }
 
@@ -114,7 +114,7 @@ class ReadService implements ReadServiceInterface
      */
     public function getCartForCustomer($customerId)
     {
-        $quote = $this->quoteRepository->getForCustomer($customerId);
+        $quote = $this->quoteRepository->getActiveForCustomer($customerId);
         return $this->cartMapper->map($quote);
     }
 

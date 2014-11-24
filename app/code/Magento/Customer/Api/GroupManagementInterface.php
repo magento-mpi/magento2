@@ -46,7 +46,6 @@ interface GroupManagementInterface
      * Get all customer groups except group representing customers not logged in.
      *
      * @return \Magento\Customer\Api\Data\GroupInterface[]
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getLoggedInGroups();
@@ -55,7 +54,6 @@ interface GroupManagementInterface
      * Get customer group representing all customers.
      *
      * @return \Magento\Customer\Api\Data\GroupInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getAllCustomersGroup();

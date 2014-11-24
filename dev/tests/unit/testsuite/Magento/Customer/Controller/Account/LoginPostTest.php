@@ -10,6 +10,7 @@
  * Test customer account controller
  */
 namespace Magento\Customer\Controller\Account;
+use Magento\Customer\Model\Url;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -47,9 +48,9 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
     protected $objectManager;
 
     /**
-     * @var \Magento\Customer\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Model\Url|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerHelperMock;
+    protected $customerUrl;
 
     /**
      * @var \Magento\Framework\App\Response\RedirectInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -129,8 +130,8 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->customerHelperMock = $this->getMock(
-            'Magento\Customer\Helper\Data',
+        $this->customerUrl = $this->getMock(
+            'Magento\Customer\Model\Url',
             [],
             [],
             '',
@@ -158,7 +159,7 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
                 'response' => $this->response,
                 'objectManager' => $this->objectManager,
                 'formKeyValidator' => $this->_formKeyValidator,
-                'customerHelperData' => $this->customerHelperMock,
+                'customerUrl' => $this->customerUrl,
                 'redirect' => $this->redirectMock,
                 'view' => $this->viewMock,
                 'customerAccountManagement' => $this->customerAccountManagementMock,
@@ -191,7 +192,6 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValueMap(
                 array(
-                    array('Magento\Customer\Helper\Data', new \Magento\Framework\Object(array('account_url' => 1))),
                     array(
                         'Magento\Framework\App\Config\ScopeConfigInterface',
                         new \Magento\Framework\Object(array('config_flag' => 1))
@@ -210,7 +210,7 @@ class LoginPostTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getParam'
         )->with(
-            \Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME
+            Url::REFERER_QUERY_PARAM_NAME
         )->will(
             $this->returnValue('referer')
         );

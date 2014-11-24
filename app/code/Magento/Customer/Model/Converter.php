@@ -7,11 +7,9 @@
  */
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
 use Magento\Customer\Api\Data\CustomerDataBuilder as CustomerDataObjectBuilder;
-use Magento\Framework\Api\ExtensibleDataObjectConverter;
 use Magento\Framework\StoreManagerInterface;
 
 /**

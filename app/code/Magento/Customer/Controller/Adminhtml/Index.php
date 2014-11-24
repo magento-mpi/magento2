@@ -57,11 +57,6 @@ class Index extends \Magento\Backend\App\Action
     protected $_subscriberFactory;
 
     /**
-     * @var \Magento\Customer\Helper\Data
-     */
-    protected $_dataHelper = null;
-
-    /**
      * @var \Magento\Customer\Model\Metadata\FormFactory
      */
     protected $_formFactory;
@@ -124,7 +119,6 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Customer\Helper\View $viewHelper
-     * @param \Magento\Customer\Helper\Data $helper
      * @param \Magento\Framework\Math\Random $random
      * @param CustomerRepositoryInterface $customerRepository
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
@@ -147,7 +141,6 @@ class Index extends \Magento\Backend\App\Action
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Customer\Helper\View $viewHelper,
-        \Magento\Customer\Helper\Data $helper,
         \Magento\Framework\Math\Random $random,
         CustomerRepositoryInterface $customerRepository,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
@@ -166,7 +159,6 @@ class Index extends \Magento\Backend\App\Action
         $this->_formFactory = $formFactory;
         $this->_subscriberFactory = $subscriberFactory;
         $this->_viewHelper = $viewHelper;
-        $this->_dataHelper = $helper;
         $this->_random = $random;
         $this->_customerRepository = $customerRepository;
         $this->_extensibleDataObjectConverter = $extensibleDataObjectConverter;

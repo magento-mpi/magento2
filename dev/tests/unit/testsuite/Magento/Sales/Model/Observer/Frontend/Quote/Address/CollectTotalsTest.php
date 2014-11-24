@@ -22,7 +22,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerHelperMock;
+    protected $customerVatMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -59,6 +59,9 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
      */
     protected $customerBuilderMock;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $groupManagement;
+
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
@@ -72,7 +75,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getStoreId', 'getCustomAttribute', 'getId', '__wakeup'])
             ->getMockForAbstractClass();
         $this->customerAddressMock = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
-        $this->customerHelperMock = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
+        $this->customerVatMock = $this->getMock('Magento\Customer\Model\Vat', array(), array(), '', false);
         $this->customerBuilderMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerDataBuilder',
             array('mergeDataObjectWithArray', 'create'),
@@ -132,13 +135,21 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
         $this->customerDataMock->expects($this->any())->method('getStoreId')->will($this->returnValue($this->storeId));
 
+        $this->groupManagement = $this->getMock(
+            'Magento\Customer\Api\GroupManagementInterface',
+            array('getDefaultGroup','getNotLoggedInGroup','isReadOnly','getLoggedInGroups','getAllCustomersGroup'),
+            array(),
+            '',
+            false);
+
         $this->model = $this->objectManager->getObject(
             'Magento\Sales\Model\Observer\Frontend\Quote\Address\CollectTotals',
             array(
                 'customerAddressHelper' => $this->customerAddressMock,
-                'customerHelper' => $this->customerHelperMock,
+                'customerVat' => $this->customerVatMock,
                 'vatValidator' => $this->vatValidatorMock,
-                'customerBuilder' => $this->customerBuilderMock
+                'customerBuilder' => $this->customerBuilderMock,
+                'groupManagement' => $this->groupManagement
             )
         );
     }
@@ -228,7 +239,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         );
         $this->quoteAddressMock->expects($this->once())->method('getVatId')->will($this->returnValue('vatId'));
 
-        $this->customerHelperMock->expects(
+        $this->customerVatMock->expects(
             $this->once()
         )->method(
             'isCountryInEU'
@@ -295,13 +306,18 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->customerDataMock->expects($this->once())->method('getId')->will($this->returnValue('1'));
-        $this->customerHelperMock->expects(
-            $this->once()
-        )->method(
-            'getDefaultCustomerGroupId'
-        )->will(
-            $this->returnValue('defaultCustomerGroupId')
+
+        $defaultCustomerGroup = $this->getMock(
+            'Magento\Customer\Model\Group',
+            ['getId'],
+            [],
+            '',
+            false
         );
+        $defaultCustomerGroup->expects($this->once())->method('getId')
+            ->will($this->returnValue('defaultCustomerGroupId'));
+        $this->groupManagement->expects($this->any())->method('getDefaultGroup')->with($this->storeId)
+            ->will($this->returnValue($defaultCustomerGroup));
 
         /** Assertions */
         $this->quoteAddressMock->expects(
@@ -360,7 +376,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             ->method('getVatId')
             ->will($this->returnValue('vatID'));
 
-        $this->customerHelperMock->expects($this->once())
+        $this->customerVatMock->expects($this->once())
             ->method('isCountryInEU')
             ->with('customerCountryCode')
             ->will($this->returnValue($attributeValueBuilder->create()));
@@ -375,7 +391,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             ->with($this->quoteAddressMock, $this->storeId)
             ->will($this->returnValue($validationResult));
 
-        $this->customerHelperMock->expects($this->once())
+        $this->customerVatMock->expects($this->once())
             ->method('getCustomerGroupIdBasedOnVatNumber')
             ->with('customerCountryCode', $validationResult, $this->storeId)
             ->will($this->returnValue('customerGroupId'));
