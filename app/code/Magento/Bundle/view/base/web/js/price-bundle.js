@@ -43,6 +43,7 @@ define([
         var priceBox = $(this.options.priceBoxSelector);
         var handler = this.options.optionHandlers[bundleOption.data('role')];
         bundleOption.data('optionContainer', bundleOption.closest(this.options.controlContainer));
+        bundleOption.data('qtyField', bundleOption.data('optionContainer').find(this.options.qtyFieldSelector));
 
         if(handler && handler instanceof Function) {
             changes = handler(bundleOption, this.options.optionConfig, this);
