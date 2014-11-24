@@ -634,6 +634,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
      * Initialise map of dependencies
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected static function _initDependencies()
     {
