@@ -314,14 +314,9 @@ class Application
             array(
                 'preferences' => [
                     'Magento\Framework\App\State' => 'Magento\TestFramework\App\State',
-                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock'
-                ],
-                'Magento\ProductAlert\Model\Email' => [
-                    'arguments' => [
-                        'transportBuilder' => [
-                            'instance' => 'Magento\TestFramework\Mail\Template\TransportBuilderMock'
-                        ],
-                    ],
+                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock',
+                    'Magento\Framework\Mail\Template\TransportBuilder' =>
+                        'Magento\TestFramework\Mail\Template\TransportBuilderMock',
                 ],
             )
         );
