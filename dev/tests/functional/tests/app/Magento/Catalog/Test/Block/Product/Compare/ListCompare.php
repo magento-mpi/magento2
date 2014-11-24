@@ -150,6 +150,39 @@ class ListCompare extends Block
     }
 
     /**
+     * Get item compare product attribute.
+     *
+     * @param string $key
+     * @return Element
+     */
+    public function getCompareProductAttribute($key)
+    {
+        $rootElement = $this->_rootElement;
+        $element = $this->nameSelector;
+        $this->_rootElement->waitUntil(
+            function () use ($rootElement, $element) {
+                return $rootElement->find($element, Locator::SELECTOR_XPATH)->isVisible() ? true : null;
+            }
+        );
+        return $this->_rootElement->find(sprintf($this->productAttribute, $key), Locator::SELECTOR_XPATH);
+    }
+
+    /**
+     * Get item attribute.
+     *
+     * @param int $indexProduct
+     * @param string $attributeKey
+     * @return string
+     */
+    public function getProductAttribute($indexProduct, $attributeKey)
+    {
+        return trim(
+            $this->getCompareProductAttribute($attributeKey)
+                ->find(sprintf($this->attributeSelector, $indexProduct), Locator::SELECTOR_XPATH)->getText()
+        );
+    }
+
+    /**
      * Remove product from compare product list.
      *
      * @param int $index [optional]
