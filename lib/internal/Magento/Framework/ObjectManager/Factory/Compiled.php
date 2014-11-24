@@ -129,7 +129,7 @@ class Compiled implements \Magento\Framework\ObjectManager\FactoryInterface
         }
         $args = array_values($args);
         if (substr($type, -12) == '\Interceptor') {
-            $args = array_merge([$this->objectManager, $this->objectManager->get('Magento\Framework\Interception\PluginListInterface'), $this->objectManager->get('Magento\Framework\Interception\Chain')], $args);
+            $args = array_merge([$this->objectManager, $this->objectManager->get('Magento\Framework\Interception\PluginListInterface'), $this->objectManager->get('Magento\Framework\Interception\ChainInterface')], $args);
         }
         switch (count($args)) {
             case 1:

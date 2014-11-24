@@ -79,7 +79,7 @@ class Compiled implements \Magento\Framework\ObjectManager\ConfigInterface
         if (isset($this->arguments[$type])) {
             return $this->arguments[$type];
         } else {
-            return ['Magento\Framework\ObjectManager'];
+            return ['Magento\Framework\ObjectManagerInterface'];
         }
     }
 
