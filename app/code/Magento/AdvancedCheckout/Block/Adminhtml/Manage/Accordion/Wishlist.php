@@ -41,9 +41,9 @@ class Wishlist extends AbstractAccordion
     protected $_itemFactory;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -51,7 +51,7 @@ class Wishlist extends AbstractAccordion
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemFactory
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param array $data
      */
     public function __construct(
@@ -60,11 +60,11 @@ class Wishlist extends AbstractAccordion
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemFactory,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         array $data = array()
     ) {
         $this->_itemFactory = $itemFactory;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
         parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $data);
     }
 
@@ -122,7 +122,11 @@ class Wishlist extends AbstractAccordion
             foreach ($collection as $item) {
                 $product = $item->getProduct();
                 if ($product) {
-                    if (!$this->stockItemService->getIsInStock($product->getId()) || !$product->isInStock()) {
+                    $stockItem = $this->stockRegistry->getStockItem(
+                        $product->getId(),
+                        $this->_getStore()->getWebsiteId()
+                    );
+                    if (!$stockItem->getIsInStock() || !$product->isInStock()) {
                         // Remove disabled and out of stock products from the grid
                         $collection->removeItemByKey($item->getId());
                     } else {

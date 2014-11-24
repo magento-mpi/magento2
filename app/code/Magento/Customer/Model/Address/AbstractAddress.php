@@ -441,9 +441,9 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
     /**
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         $this->getRegion();
         return $this;
     }

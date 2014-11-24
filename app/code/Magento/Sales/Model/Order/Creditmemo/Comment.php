@@ -109,9 +109,9 @@ class Comment extends \Magento\Sales\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         if (!$this->getParentId() && $this->getCreditmemo()) {
             $this->setParentId($this->getCreditmemo()->getId());

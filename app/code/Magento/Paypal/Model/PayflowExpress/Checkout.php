@@ -36,6 +36,6 @@ class Checkout extends \Magento\Paypal\Model\Express\Checkout
     public function updateShippingMethod($methodCode)
     {
         parent::updateShippingMethod($methodCode);
-        $this->_quote->save();
+        $this->quoteRepository->save($this->_quote);
     }
 }

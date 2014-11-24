@@ -5,10 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute\Tab;
-
-use Magento\CatalogInventory\Model\Stock\Item;
 
 /**
  * Products mass update inventory tab
@@ -21,16 +18,24 @@ class Inventory extends \Magento\Backend\Block\Widget implements \Magento\Backen
     protected $_backorders;
 
     /**
+     * @var \Magento\CatalogInventory\Api\StockConfigurationInterface
+     */
+    protected $stockConfiguration;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\CatalogInventory\Model\Source\Backorders $backorders
+     * @param \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\CatalogInventory\Model\Source\Backorders $backorders,
-        array $data = array()
+        \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration,
+        array $data = []
     ) {
         $this->_backorders = $backorders;
+        $this->stockConfiguration = $stockConfiguration;
         parent::__construct($context, $data);
     }
 
@@ -73,11 +78,7 @@ class Inventory extends \Magento\Backend\Block\Widget implements \Magento\Backen
      */
     public function getDefaultConfigValue($field)
     {
-        return $this->_scopeConfig->getValue(
-            Item::XML_PATH_ITEM . $field,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $this->getStoreId()
-        );
+        return $this->stockConfiguration->getDefaultConfigValue($field);
     }
 
     /**
