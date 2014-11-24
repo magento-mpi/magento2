@@ -187,7 +187,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $this->setConditionSql($this->getConditions()->getConditionsSql(null, new \Zend_Db_Expr(':website_id')));
 
@@ -195,7 +195,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             $this->setSalesruleId(null);
         }
 
-        parent::_beforeSave();
+        parent::beforeSave();
         return $this;
     }
 

@@ -94,7 +94,7 @@ class Element extends \Magento\Framework\Model\AbstractModel
      * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (!$this->getTypeId()) {
             throw new Exception(__('Invalid form type.'));
@@ -103,7 +103,7 @@ class Element extends \Magento\Framework\Model\AbstractModel
             throw new Exception(__('Invalid EAV attribute'));
         }
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
