@@ -41,16 +41,26 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
+
         $this->scopeConfig = $this->objectManager->create('Magento\Framework\App\MutableScopeConfig');
         $this->scopeConfig->setValue(Observer::IMPORT_ENABLE, 1, ScopeInterface::SCOPE_STORE);
         $this->scopeConfig->setValue(Observer::CRON_STRING_PATH, 'cron-string-path', ScopeInterface::SCOPE_STORE);
         $this->scopeConfig->setValue(Observer::IMPORT_SERVICE, 'webservicex', ScopeInterface::SCOPE_STORE);
 
+        $this->configResource = $this->objectManager->get('Magento\Core\Model\Resource\Config');
+        $this->configResource->saveConfig(
+            $this->baseCurrencyPath,
+            $this->baseCurrency,
+            ScopeInterface::SCOPE_STORE,
+            0
+        );
+
+        $this->observer = $this->objectManager->create('Magento\Directory\Model\Observer');
     }
 
     public function testScheduledUpdateCurrencyRates()
     {
-        //skipping test if service is unavilable
+        //skipping test if service is unavailable
         $url = str_replace('{{CURRENCY_FROM}}', 'USD',
             \Magento\Directory\Model\Currency\Import\Webservicex::CURRENCY_CONVERTER_URL);
         $url = str_replace('{{CURRENCY_TO}}', 'GBP', $url);
