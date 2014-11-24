@@ -41,20 +41,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
-        $this->objectManager->configure(
-            [
-                'Magento\ProductAlert\Model\Email' => [
-                    'arguments' => [
-                        'transportBuilder' => [
-                            'instance' => 'Magento\TestFramework\Mail\Template\TransportBuilderMock'
-                        ]
-                    ]
-                ],
-                'preferences' => [
-                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock'
-                ]
-            ]
-        );
         $this->scopeConfig = $this->objectManager->create('Magento\Framework\App\MutableScopeConfig');
         $this->scopeConfig->setValue(Observer::IMPORT_ENABLE, 1, ScopeInterface::SCOPE_STORE);
         $this->scopeConfig->setValue(Observer::CRON_STRING_PATH, 'cron-string-path', ScopeInterface::SCOPE_STORE);
