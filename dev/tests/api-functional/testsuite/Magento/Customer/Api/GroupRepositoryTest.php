@@ -65,7 +65,7 @@ class GroupRepositoryTest extends WebapiAbstract
      *
      * @dataProvider getGroupDataProvider
      */
-    public function testGetGroup($testGroup)
+    public function testGetGroupById($testGroup)
     {
         $groupId = $testGroup[CustomerGroup::ID];
         $serviceInfo = [
@@ -76,7 +76,7 @@ class GroupRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerGroupRepositoryV1Get'
+                'operation' => 'customerGroupRepositoryV1GetById'
             ]
         ];
         $requestData = [CustomerGroup::ID => $groupId];
