@@ -8,7 +8,7 @@
 
 $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Attribute');
 $model->setName(
-    'custom_attribute'
+    'custom_attribute_test'
 )->setEntityTypeId(
     2
 )->setAttributeSetId(
@@ -26,7 +26,7 @@ $model->save();
 
 $model2 = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Attribute');
 $model2->setName(
-    'custom_attributes'
+    'custom_attributes_test'
 )->setEntityTypeId(
     2
 )->setAttributeSetId(

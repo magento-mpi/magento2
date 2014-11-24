@@ -48,9 +48,9 @@ class DefaultPrice extends \Magento\Framework\App\Config\Value
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         $defaultProductPriceValue = floatval($this->getValue());
         if (!$this->_pricePermData->getCanAdminEditProductPrice() || $defaultProductPriceValue < 0) {
             $defaultProductPriceValue = floatval($this->getOldValue());
