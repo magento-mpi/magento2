@@ -40,7 +40,7 @@ class FlagTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $appResource = $this->getMock(
             'Magento\Framework\App\Resource',
-            ['beginTransaction', 'getConnection'],
+            [],
             [],
             '',
             false,

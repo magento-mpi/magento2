@@ -11,7 +11,7 @@
  */
 namespace Magento\Enterprise\Model\Resource;
 
-class Setup extends \Magento\Framework\Module\Setup
+class Setup extends \Magento\Framework\Module\DataSetup
 {
     /**
      * Block model factory
