@@ -17,17 +17,17 @@ class Suggestions
     /**
      * Search layer
      *
-     * @var \Magento\Catalog\Model\Layer\Search
+     * @var \Magento\Catalog\Model\Layer
      */
     protected $_searchLayer;
 
     /**
-     * @param \Magento\Catalog\Model\Layer\Search $searchLayer
+     * @param \Magento\Catalog\Model\Layer\Resolver $layerResolver
      */
     public function __construct(
-        \Magento\Catalog\Model\Layer\Search $searchLayer
+        \Magento\Catalog\Model\Layer\Resolver $layerResolver
     ) {
-        $this->_searchLayer = $searchLayer;
+        $this->_searchLayer = $layerResolver->get();
     }
 
     /**

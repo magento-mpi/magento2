@@ -698,7 +698,6 @@ return array(
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array('Magento\CatalogSearch\Model\Layer', 'Magento\Catalog\Model\Layer'),
-    array('Magento\CatalogSearch\Model\Layer\Filter\Attribute'),
     array('Magento\Solr\Block\Catalog\Layer\View', 'Magento\LayeredNavigation\Block\Navigation'),
     array(
         'Magento\Solr\Block\Catalog\Layer\Filter\Attribute',
@@ -1736,7 +1735,7 @@ return array(
     array('Magento\Adminhtml\Block\Report\Sales\Shipping', 'Magento\Reports\Block\Adminhtml\Sales\Shipping'),
     array('Magento\Adminhtml\Block\Report\Sales\Tax\Grid', 'Magento\Reports\Block\Adminhtml\Sales\Tax\Grid'),
     array('Magento\Adminhtml\Block\Report\Sales\Tax', 'Magento\Reports\Block\Adminhtml\Sales\Tax'),
-    array('Magento\Adminhtml\Block\Report\Search', 'Magento\Reports\Block\Adminhtml\Search'),
+    array('Magento\Adminhtml\Block\Report\Search', 'Magento\Search\Block\Adminhtml\Reports\Search'),
     array(
         'Magento\Adminhtml\Block\Report\Shopcart\Abandoned\Grid',
         'Magento\Reports\Block\Adminhtml\Shopcart\Abandoned\Grid'

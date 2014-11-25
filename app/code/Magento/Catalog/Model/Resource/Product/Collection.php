@@ -366,9 +366,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function getPriceExpression($select)
     {
-        if (null === $this->_priceExpression) {
-            $this->_preparePriceExpressionParameters($select);
-        }
+        //@todo: Add caching of price expresion
+        $this->_preparePriceExpressionParameters($select);
         return $this->_priceExpression;
     }
 
