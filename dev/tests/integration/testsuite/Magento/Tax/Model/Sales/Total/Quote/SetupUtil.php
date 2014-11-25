@@ -249,26 +249,26 @@ class SetupUtil
      */
     protected function processTaxRuleOverrides($taxRuleOverrideData, $taxRateIds)
     {
-        if (!empty($taxRuleOverrideData['tax_customer_class'])) {
+        if (!empty($taxRuleOverrideData['customer_tax_class_ids'])) {
             $customerTaxClassIds = [];
-            foreach ($taxRuleOverrideData['tax_customer_class'] as $customerClassCode) {
+            foreach ($taxRuleOverrideData['customer_tax_class_ids'] as $customerClassCode) {
                 $customerTaxClassIds[] = $this->customerTaxClasses[$customerClassCode];
             }
-            $taxRuleOverrideData['tax_customer_class'] = $customerTaxClassIds;
+            $taxRuleOverrideData['customer_tax_class_ids'] = $customerTaxClassIds;
         }
-        if (!empty($taxRuleOverrideData['tax_product_class'])) {
+        if (!empty($taxRuleOverrideData['product_tax_class_ids'])) {
             $productTaxClassIds = [];
-            foreach ($taxRuleOverrideData['tax_product_class'] as $productClassCode) {
+            foreach ($taxRuleOverrideData['product_tax_class_ids'] as $productClassCode) {
                 $productTaxClassIds[] = $this->productTaxClasses[$productClassCode];
             }
-            $taxRuleOverrideData['tax_product_class'] = $productTaxClassIds;
+            $taxRuleOverrideData['product_tax_class_ids'] = $productTaxClassIds;
         }
-        if (!empty($taxRuleOverrideData['tax_rate'])) {
+        if (!empty($taxRuleOverrideData['tax_rate_ids'])) {
             $taxRateIdsForRule = [];
-            foreach ($taxRuleOverrideData['tax_rate'] as $taxRateCode) {
+            foreach ($taxRuleOverrideData['tax_rate_ids'] as $taxRateCode) {
                 $taxRateIdsForRule[] = $taxRateIds[$taxRateCode];
             }
-            $taxRuleOverrideData['tax_rate'] = $taxRateIdsForRule;
+            $taxRuleOverrideData['tax_rate_ids'] = $taxRateIdsForRule;
         }
 
         return $taxRuleOverrideData;
