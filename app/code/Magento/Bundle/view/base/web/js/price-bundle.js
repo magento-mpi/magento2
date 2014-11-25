@@ -22,22 +22,32 @@ define([
 
     $.widget('mage.priceBundle', {
         options: globalOptions,
+        _init: initPriceBundle,
         _create: createPriceBundle,
         _setOptions: setOptions
     });
 
     return $.mage.priceBundle;
 
+    function initPriceBundle() {
+        var form = this.element;
+        var bundleOptions = $(this.options.productBundleSelector, form);
+
+        if(this.options.optionConfig) {
+            bundleOptions.trigger('change');
+        }
+    }
+
     function createPriceBundle() {
         var form = this.element;
         var bundleOptions = $(this.options.productBundleSelector, form);
         var qtyFields = $(this.options.qtyFieldSelector, form);
 
-        bundleOptions.on('change', onBundleOptionChanged.bind(this)).trigger('change');
+        bundleOptions.on('change', onBundleOptionChanged.bind(this));
         qtyFields.on('change', onQtyFieldChanged.bind(this));
-        this.element.trigger('updateProductSummary', {
-            config: this.options.bundleConfig
-        });
+//        this.element.trigger('updateProductSummary', {
+//            config: this.options.bundleConfig
+//        });
     }
 
     function onBundleOptionChanged(event) {
@@ -45,6 +55,7 @@ define([
         var bundleOption = $(event.target);
         var priceBox = $(this.options.priceBoxSelector);
         var handler = this.options.optionHandlers[bundleOption.data('role')];
+
         bundleOption.data('optionContainer', bundleOption.closest(this.options.controlContainer));
         bundleOption.data('qtyField', bundleOption.data('optionContainer').find(this.options.qtyFieldSelector));
 
@@ -55,9 +66,9 @@ define([
         }
 
         priceBox.trigger('updatePrice', changes);
-        this.element.trigger('updateProductSummary', {
-            config: this.options.bundleConfig
-        });
+//        this.element.trigger('updateProductSummary', {
+//            config: this.options.bundleConfig
+//        });
     }
 
     function defaultGetOptionValue(element, config) {
@@ -75,10 +86,17 @@ define([
             case 'radio':
             case 'select-one':
                 optionHash = 'bundle-option-' + optionName;
-                if(optionValue) {
-                    optionQty = optionConfig[optionValue].qty || 0;
+                if (optionValue && optionConfig[optionValue]) {
+                    optionQty = element.data('qty') || optionConfig[optionValue].qty || 0;
+                    if(optionType === 'radio' && element.is(':checked') || optionType === 'select-one') {
+                        var canQtyCustomize = optionConfig[optionValue].customQty === '1';
+                        var qtyField = element.data('qtyField');
+
+                        toggleQtyField(qtyField, optionQty, canQtyCustomize);
+                    }
+
                     tempChanges = utils.deepClone(optionConfig[optionValue].prices);
-                    tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig);
+                    tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig[optionValue].tierPrice);
                     tempChanges = applyQty(tempChanges, optionQty);
                 }
                 changes[optionHash] = tempChanges || {};
@@ -102,15 +120,19 @@ define([
                 changes[optionHash] = element.is(':checked') ? tempChanges : {};
                 break;
         }
+
         console.log(changes);
         return changes;
+    }
+
+    function onQtyFieldChanged(event) {
 
     }
 
-    function onQtyFieldChanged(event) { }
-
     function toggleQtyField(element, value, canEdit) {
-        element.val(value).attr('disabled', !canEdit);
+        element
+            .val(value)
+            .attr('disabled', !canEdit);
         if (canEdit) {
             element.removeClass('qty-disabled');
         } else {

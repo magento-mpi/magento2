@@ -157,7 +157,7 @@ define([
             html = priceTemplate(price);
             $('[data-price-type="' + priceCode + '"]', box).html(html);
 
-            console.log('To render ', priceCode, ': ', prices[priceCode]['formatted'], prices[priceCode]['final'], box);
+            console.log('To render ', priceCode, ': ', prices[priceCode]['formatted'], prices[priceCode]['final']);
         });
 
     }
