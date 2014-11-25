@@ -112,4 +112,7 @@
             <argument name="stockState" xsi:type="object">Magento\CatalogInventory\Api\StockStateInterface\Proxy</argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="bundle" type="Magento\Bundle\Model\Plugin\Product" sortOrder="100" />
+    </type>
 </config>
