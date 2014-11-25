@@ -1,5 +1,5 @@
 {
-    "name": "magento/theme-frontend-test_parent",
+    "name": "test/theme-frontend-parent",
     "description": "N/A",
     "require": {
         "php": "~5.4.11|~5.5.0",
