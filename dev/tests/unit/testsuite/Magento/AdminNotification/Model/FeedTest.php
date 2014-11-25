@@ -44,8 +44,8 @@ class FeedTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->inboxFactory = $this->getMock('Magento\AdminNotification\Model\InboxFactory', ['create']);
-        $this->curlFactory = $this->getMock('\Magento\Framework\HTTP\Adapter\CurlFactory', ['create']);
+        $this->inboxFactory = $this->getMock('Magento\AdminNotification\Model\InboxFactory', ['create'], [], '', false);
+        $this->curlFactory = $this->getMock('\Magento\Framework\HTTP\Adapter\CurlFactory', ['create'], [], '', false);
         $this->curl = $this->getMock('\Magento\Framework\HTTP\Adapter\Curl', ['read']);
         $this->appState = $this->getMock('\Magento\Framework\App\State', ['getInstallDate'], [], '', false);
         $this->inboxModel = $this->getMock(

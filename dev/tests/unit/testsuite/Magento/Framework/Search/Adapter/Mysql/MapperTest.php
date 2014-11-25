@@ -13,55 +13,57 @@ use Magento\Framework\Search\Request\Query\Bool;
 use Magento\Framework\Search\Request\Query\Filter;
 use Magento\Framework\Search\Request\QueryInterface;
 use Magento\TestFramework\Helper\ObjectManager;
+use \PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class MapperTest extends \PHPUnit_Framework_TestCase
 {
+    const INDEX_NAME = 'test_index_fulltext';
 
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\Dimensions|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Search\Adapter\Mysql\Dimensions|MockObject
      */
     private $dimensionsBuilder;
 
     /**
-     * @var \Magento\Framework\Search\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Search\RequestInterface|MockObject
      */
     private $request;
 
     /**
-     * @var \Magento\Framework\DB\Select|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\DB\Select|MockObject
      */
     private $select;
 
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\ScoreBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Search\Adapter\Mysql\ScoreBuilder|MockObject
      */
     private $scoreBuilder;
 
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\ScoreBuilderFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Search\Adapter\Mysql\ScoreBuilderFactory|MockObject
      */
     private $scoreBuilderFactory;
 
     /**
-     * @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Resource|MockObject
      */
     private $resource;
 
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Search\Adapter\Mysql\Query\Builder\Match|MockObject
      */
     private $matchQueryBuilder;
 
     /**
-     * @var \Magento\Framework\Search\Adapter\Mysql\Filter\Builder|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Search\Adapter\Mysql\Filter\Builder|MockObject
      */
     private $filterBuilder;
 
     /**
-     * @var \Magento\Framework\Search\Request\FilterInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Search\Request\FilterInterface|MockObject
      */
     private $filter;
 
@@ -110,7 +112,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->request = $this->getMockBuilder('Magento\Framework\Search\RequestInterface')
-            ->setMethods(['getQuery', 'getDimensions'])
+            ->setMethods(['getQuery', 'getDimensions', 'getIndex'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
@@ -128,6 +130,20 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        /** @var MockObject|\Magento\Framework\Search\Adapter\Mysql\IndexBuilderInterface $indexBuilder */
+        $indexBuilder = $this->getMockBuilder('\Magento\Framework\Search\Adapter\Mysql\IndexBuilderInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(['build'])
+            ->getMockForAbstractClass();
+        $indexBuilder->expects($this->once())
+            ->method('build')
+            ->will($this->returnValue($this->select));
+
+        $index = self::INDEX_NAME;
+        $this->request->expects($this->exactly(2))
+            ->method('getIndex')
+            ->will($this->returnValue($index));
+
         $this->mapper = $helper->getObject(
             'Magento\Framework\Search\Adapter\Mysql\Mapper',
             [
@@ -136,6 +152,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 'matchQueryBuilder' => $this->matchQueryBuilder,
                 'filterBuilder' => $this->filterBuilder,
                 'dimensionsBuilder' => $this->dimensionsBuilder,
+                'indexProviders' => [$index => $indexBuilder]
             ]
         );
     }
@@ -164,7 +181,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
         $this->request->expects($this->once())->method('getQuery')->will($this->returnValue($query));
 
-        $this->select->expects($this->once())->method('from')->will($this->returnValue($this->select));
         $this->select->expects($this->once())->method('columns')->will($this->returnValue($this->select));
 
         $response = $this->mapper->buildQuery($this->request);
@@ -187,7 +203,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $query->expects($this->once())->method('getReferenceType')->will($this->returnValue(Filter::REFERENCE_FILTER));
         $query->expects($this->once())->method('getReference')->will($this->returnValue($this->filter));
 
-        $this->select->expects($this->once())->method('from')->will($this->returnValue($this->select));
         $this->select->expects($this->once())->method('columns')->will($this->returnValue($this->select));
 
         $this->request->expects($this->once())->method('getQuery')->will($this->returnValue($query));
@@ -222,7 +237,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
         $this->filterBuilder->expects($this->once())->method('build')->will($this->returnValue('(1)'));
 
-        $this->select->expects($this->once())->method('from')->will($this->returnValue($this->select));
         $this->select->expects($this->once())->method('columns')->will($this->returnValue($this->select));
 
         $query->expects($this->once())
@@ -303,7 +317,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Framework\Search\Request\Dimension|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Framework\Search\Request\Dimension|MockObject
      */
     private function createDimension()
     {
@@ -325,7 +339,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject
      */
     private function createBoolQuery()
     {
