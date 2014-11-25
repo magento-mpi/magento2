@@ -113,9 +113,9 @@ XML;
     public function setAttributeDataProvider()
     {
         return [
-            [ 'name', 'test' ],
-            [ 'new', 'beard' ],
-            [ 'data', 'some-data' ]
+            ['name', 'test'],
+            ['new', 'beard'],
+            ['data', 'some-data']
         ];
     }
 }
