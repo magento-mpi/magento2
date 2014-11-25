@@ -2849,7 +2849,6 @@ return array(
     ['Magento\Tax\Service\V1\Data\TaxRuleBuilder'],
     ['Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder'],
     ['Magento\Tax\Service\V1\Collection\TaxRuleCollection', 'Magento\Tax\Model\TaxRuleCollection'],
-    ['Magento\Tax\Service\V1\Collection\TaxRuleCollection', 'Magento\Tax\Model\TaxRuleCollection'],
     ['Magento\Tax\Service\V1\TaxRateServiceInterface', 'Magento\Tax\Api\TaxRateRepositoryInterface'],
     ['Magento\Tax\Service\V1\Data\TaxRateTitle', 'Magento\Tax\Api\Data\TaxRateTitleInterface'],
     ['Magento\Tax\Service\V1\Data\TaxRate', 'Magento\Tax\Api\Data\TaxRateInterface'],
