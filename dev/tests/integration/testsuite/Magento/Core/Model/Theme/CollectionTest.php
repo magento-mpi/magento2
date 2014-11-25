@@ -82,8 +82,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                     'theme_version' => '0.1.0',
                     'parent_id' => null,
                     'parent_theme_path' => null,
-                    'theme_path' => 'magento_default',
-                    'code' => 'magento_default',
+                    'theme_path' => 'Magento/default',
+                    'code' => 'Magento/default',
                     'preview_image' => null,
                     'type' => \Magento\Framework\View\Design\ThemeInterface::TYPE_PHYSICAL
                 )
