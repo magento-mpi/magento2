@@ -29,7 +29,7 @@ class Recommendations
     protected $searchData = null;
 
     /**
-     * @var \Magento\Catalog\Model\Layer\Search
+     * @var \Magento\Catalog\Model\Layer
      */
     protected $searchLayer;
 
@@ -40,18 +40,18 @@ class Recommendations
 
     /**
      * @param \Magento\Solr\Model\Resource\RecommendationsFactory $recommendationsFactory
-     * @param \Magento\Catalog\Model\Layer\Search $searchLayer
+     * @param \Magento\Catalog\Model\Layer\Resolver $layerResolver
      * @param \Magento\Solr\Helper\Data $searchData
      * @param \Magento\Search\Model\QueryFactory $queryFactory
      */
     public function __construct(
         \Magento\Solr\Model\Resource\RecommendationsFactory $recommendationsFactory,
-        \Magento\Catalog\Model\Layer\Search $searchLayer,
+        \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         \Magento\Solr\Helper\Data $searchData,
         \Magento\Search\Model\QueryFactory $queryFactory
     ) {
         $this->recommendationsFactory = $recommendationsFactory;
-        $this->searchLayer = $searchLayer;
+        $this->searchLayer = $layerResolver->get();
         $this->searchData = $searchData;
         $this->queryFactory = $queryFactory;
     }
