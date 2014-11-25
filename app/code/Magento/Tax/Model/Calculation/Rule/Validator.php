@@ -92,7 +92,8 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
                         );
                     }
                 } catch (NoSuchEntityException $e) {
-                    $this->addErrorMessage($messages,
+                    $this->addErrorMessage(
+                        $messages,
                         $e->getRawMessage(),
                         $e->getParameters()
                     );

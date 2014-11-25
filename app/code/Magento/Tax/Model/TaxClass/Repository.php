@@ -101,7 +101,7 @@ class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface
         }
         $this->validateTaxClassData($taxClass);
         try {
-            $this->taxClassResource->save($taxClass);;
+            $this->taxClassResource->save($taxClass);
         } catch (ModelException $e) {
             if (strpos($e->getMessage(), \Magento\Tax\Model\Resource\TaxClass::UNIQUE_TAX_CLASS_MSG) !== false) {
                 throw new InputException(

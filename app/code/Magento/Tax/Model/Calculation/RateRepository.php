@@ -252,15 +252,21 @@ class RateRepository implements \Magento\Tax\Api\TaxRateRepositoryInterface
             'NotEmpty'
         )) {
             $exception->addError(
-                InputException::INVALID_FIELD_VALUE, ['fieldName' => 'country_id', 'value' => $countryCode]
+                InputException::INVALID_FIELD_VALUE,
+                [
+                    'fieldName' => 'country_id',
+                    'value' => $countryCode
+                ]
             );
         }
 
         $regionCode = $taxRate->getTaxRegionId();
         // if regionCode eq 0 (all regions *), do not validate with existing region list
         if (\Zend_Validate::is($regionCode, 'NotEmpty') &&
-            ($regionCode != "0" &&
-                !\Zend_Validate::is($this->regionFactory->create()->load($regionCode)->getId(), 'NotEmpty'))
+            $regionCode != "0" && !\Zend_Validate::is(
+                $this->regionFactory->create()->load($regionCode)->getId(),
+                'NotEmpty'
+            )
         ) {
             $exception->addError(
                 InputException::INVALID_FIELD_VALUE, ['fieldName' => 'region_id', 'value' => $regionCode]

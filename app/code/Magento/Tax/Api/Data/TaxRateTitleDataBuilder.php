@@ -22,7 +22,7 @@ class TaxRateTitleDataBuilder extends \Magento\Framework\Api\Builder
      * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
      * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
      * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
-     * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
+     * @param \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig
      * @param string|null $modelClassInterface
      */
     public function __construct(
@@ -72,7 +72,6 @@ class TaxRateTitleDataBuilder extends \Magento\Framework\Api\Builder
      */
     public function create()
     {
-        /** TODO: temporary fix while problem with hasDataChanges flag not solved. MAGETWO-30324 */
         $object = parent::create();
         $object->setDataChanges(true);
         return $object;
