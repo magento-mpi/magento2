@@ -7,29 +7,8 @@
  */
 namespace Magento\Framework\ObjectManager\Factory\Dynamic;
 
-class Developer implements \Magento\Framework\ObjectManager\FactoryInterface
+class Developer extends \Magento\Framework\ObjectManager\Factory\AbstractFactory
 {
-    /**
-     * Object manager
-     *
-     * @var \Magento\Framework\ObjectManagerInterface
-     */
-    protected $objectManager;
-
-    /**
-     * Object manager config
-     *
-     * @var \Magento\Framework\ObjectManager\ConfigInterface
-     */
-    protected $config;
-
-    /**
-     * Definition list
-     *
-     * @var \Magento\Framework\ObjectManager\DefinitionInterface
-     */
-    protected $definitions;
-
     /**
      * Object creation stack
      *
@@ -38,46 +17,16 @@ class Developer implements \Magento\Framework\ObjectManager\FactoryInterface
     protected $creationStack = array();
 
     /**
-     * @param \Magento\Framework\ObjectManager\ConfigInterface $config
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
-     * @param \Magento\Framework\ObjectManager\DefinitionInterface $definitions
-     * @param array $globalArguments
-     */
-    public function __construct(
-        \Magento\Framework\ObjectManager\ConfigInterface $config,
-        \Magento\Framework\ObjectManagerInterface $objectManager = null,
-        \Magento\Framework\ObjectManager\DefinitionInterface $definitions = null,
-        $globalArguments = array()
-    ) {
-        $this->config = $config;
-        $this->objectManager = $objectManager;
-        $this->definitions = $definitions ?: new \Magento\Framework\ObjectManager\Definition\Runtime();
-        $this->globalArguments = $globalArguments;
-    }
-
-    /**
-     * Set object manager
-     *
-     * @param \Magento\Framework\ObjectManagerInterface $objectManager
-     * @return void
-     */
-    public function setObjectManager(\Magento\Framework\ObjectManagerInterface $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
-
-    /**
      * Resolve constructor arguments
      *
      * @param string $requestedType
      * @param array $parameters
      * @param array $arguments
+     *
      * @return array
+     *
      * @throws \UnexpectedValueException
      * @throws \BadMethodCallException
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _resolveArguments($requestedType, array $parameters, array $arguments = array())
     {
@@ -102,56 +51,12 @@ class Developer implements \Magento\Framework\ObjectManager\FactoryInterface
             } else {
                 $argument = $paramDefault;
             }
-            if ($paramType && $argument !== $paramDefault && !is_object($argument)) {
-                if (!isset($argument['instance']) || !is_array($argument)) {
-                    throw new \UnexpectedValueException(
-                        'Invalid parameter configuration provided for $' . $paramName . ' argument of ' . $requestedType
-                    );
-                }
-                $argumentType = $argument['instance'];
-                $isShared = (isset($argument['shared']) ? $argument['shared'] : $this->config->isShared($argumentType));
-                $argument = $isShared
-                    ? $this->objectManager->get($argumentType)
-                    : $this->objectManager->create($argumentType);
-            } else if (is_array($argument)) {
-                if (isset($argument['argument'])) {
-                    $argument = isset($this->globalArguments[$argument['argument']])
-                        ? $this->globalArguments[$argument['argument']]
-                        : $paramDefault;
-                } else if (!empty($argument)) {
-                    $this->parseArray($argument);
-                }
-            }
+
+            $this->resolveArgument($argument, $paramType, $paramDefault, $paramName, $requestedType);
+
             $resolvedArguments[] = $argument;
         }
         return $resolvedArguments;
-    }
-
-    /**
-     * Parse array argument
-     *
-     * @param array $array
-     * @return void
-     */
-    protected function parseArray(&$array)
-    {
-        foreach ($array as $key => $item) {
-            if (is_array($item)) {
-                if (isset($item['instance'])) {
-                    $itemType = $item['instance'];
-                    $isShared = (isset($item['shared'])) ? $item['shared'] : $this->config->isShared($itemType);
-                    $array[$key] = $isShared
-                        ? $this->objectManager->get($itemType)
-                        : $this->objectManager->create($itemType);
-                } elseif (isset($item['argument'])) {
-                    $array[$key] = isset($this->globalArguments[$item['argument']])
-                        ? $this->globalArguments[$item['argument']]
-                        : null;
-                } else {
-                    $this->parseArray($array[$key]);
-                }
-            }
-        }
     }
 
     /**
@@ -184,37 +89,7 @@ class Developer implements \Magento\Framework\ObjectManager\FactoryInterface
             unset($this->creationStack[$requestedType]);
             throw $e;
         }
-        switch (count($args)) {
-            case 1:
-                return new $type($args[0]);
-            case 2:
-                return new $type($args[0], $args[1]);
-            case 3:
-                return new $type($args[0], $args[1], $args[2]);
-            case 4:
-                return new $type($args[0], $args[1], $args[2], $args[3]);
-            case 5:
-                return new $type($args[0], $args[1], $args[2], $args[3], $args[4]);
-            case 6:
-                return new $type($args[0], $args[1], $args[2], $args[3], $args[4], $args[5]);
-            case 7:
-                return new $type($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6]);
-            case 8:
-                return new $type($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7]);
-            default:
-                $reflection = new \ReflectionClass($type);
-                return $reflection->newInstanceArgs($args);
-        }
-    }
 
-    /**
-     * Set global arguments
-     *
-     * @param array $arguments
-     * @return void
-     */
-    public function setArguments($arguments)
-    {
-        $this->globalArguments = $arguments;
+        return $this->createObject($type, $args);
     }
 }
