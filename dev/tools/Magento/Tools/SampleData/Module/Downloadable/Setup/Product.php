@@ -99,6 +99,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
         if (isset($this->downloadableData[$data['sku']])) {
             $product->setDownloadableData($this->downloadableData[$data['sku']]);
         }
+        $this->setVirtualStockData($product);
         return $this;
     }
 }

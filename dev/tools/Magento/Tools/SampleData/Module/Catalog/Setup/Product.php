@@ -170,4 +170,19 @@ class Product implements SetupInterface
         $this->fixtures = $fixtures;
         return $this;
     }
+
+    /**
+     * @param \Magento\Framework\Model\AbstractModel $product
+     * @return void
+     */
+    public function setVirtualStockData($product)
+    {
+        $product->setStockData(
+            [
+                'use_config_manage_stock' => 0,
+                'is_in_stock' => 1,
+                'manage_stock' => 0
+            ]
+        );
+    }
 }
