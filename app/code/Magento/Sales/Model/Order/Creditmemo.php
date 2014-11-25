@@ -828,7 +828,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel implements EntityInt
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if (null !== $this->_items) {
             foreach ($this->_items as $item) {
@@ -842,7 +842,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel implements EntityInt
             }
         }
 
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -850,9 +850,9 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel implements EntityInt
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         if (!$this->getOrderId() && $this->getOrder()) {
             $this->setOrderId($this->getOrder()->getId());

@@ -48,20 +48,6 @@ class EmailTest extends \PHPUnit_Framework_TestCase
      */
     public function testSend($isCustomerIdUsed)
     {
-        $this->_objectManager->configure(
-            [
-                'Magento\ProductAlert\Model\Email' => [
-                    'arguments' => [
-                        'transportBuilder' => [
-                            'instance' => 'Magento\TestFramework\Mail\Template\TransportBuilderMock'
-                        ]
-                    ]
-                ],
-                'preferences' => [
-                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock'
-                ]
-            ]
-        );
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
 

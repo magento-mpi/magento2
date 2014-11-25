@@ -58,9 +58,9 @@ class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
         if ($this->isValueChanged() && !$this->getValue()) {
             $this->_archive->removeOrdersFromArchive();
         }

@@ -45,29 +45,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcess()
     {
-        $this->_objectManager->configure(
-            [
-                'Magento\ProductAlert\Model\Observer' => [
-                    'arguments' => [
-                        'transportBuilder' => [
-                            'instance' => 'Magento\TestFramework\Mail\Template\TransportBuilderMock'
-                        ]
-                    ]
-                ],
-                'Magento\ProductAlert\Model\Email' => [
-                    'arguments' => [
-                        'transportBuilder' => [
-                            'instance' => 'Magento\TestFramework\Mail\Template\TransportBuilderMock'
-                        ]
-                    ]
-                ],
-                'preferences' => [
-                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock',
-                    'Magento\TestFramework\Mail\Template\TransportBuilder' =>
-                        'Magento\TestFramework\Mail\Template\TransportBuilderMock'
-                ]
-            ]
-        );
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
         $observer = $this->_objectManager->get('Magento\ProductAlert\Model\Observer');
         $observer->process();
