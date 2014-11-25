@@ -121,7 +121,7 @@ class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface
      */
     public function get($taxClassId)
     {
-        return $taxClassModel = $this->classModelRegistry->retrieve($taxClassId);
+        return $this->classModelRegistry->retrieve($taxClassId);
     }
 
     /**
@@ -147,7 +147,6 @@ class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface
     public function deleteById($taxClassId)
     {
         $taxClassModel = $this->get($taxClassId);
-
         return $this->delete($taxClassModel);
     }
 
@@ -191,7 +190,6 @@ class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface
         $this->searchResultsBuilder->setSearchCriteria($searchCriteria);
         /** @var TaxClassCollection $collection */
         $collection = $this->taxClassCollectionFactory->create();
-        /** TODO: This method duplicates functionality of search methods in other services and should be refactored. */
         foreach ($searchCriteria->getFilterGroups() as $group) {
             $this->addFilterGroupToCollection($group, $collection);
         }
@@ -208,12 +206,7 @@ class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
-        $taxClasses = [];
-        /** @var \Magento\Tax\Model\ClassModel $taxClassModel */
-        foreach ($collection->getItems() as $taxClassModel) {
-            $taxClasses[] = $taxClassModel;
-        }
-        $this->searchResultsBuilder->setItems($taxClasses);
+        $this->searchResultsBuilder->setItems($collection->getItems());
         return $this->searchResultsBuilder->create();
     }
 
