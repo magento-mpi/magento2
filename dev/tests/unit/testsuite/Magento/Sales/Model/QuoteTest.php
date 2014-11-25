@@ -567,16 +567,15 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             ->method('getAddresses')
             ->will($this->returnValue($addresses));
 
-        $this->customerBuilderMock->expects($this->once())
+        $this->customerBuilderMock->expects($this->atLeastOnce())
             ->method('populate')
             ->with($customerMock)
             ->will($this->returnSelf());
         $addresses[] = $addressMock;
-        $this->customerBuilderMock->expects($this->once())
+        $this->customerBuilderMock->expects($this->atLeastOnce())
             ->method('setAddresses')
-            ->with($addresses)
             ->will($this->returnSelf());
-        $this->customerBuilderMock->expects($this->once())
+        $this->customerBuilderMock->expects($this->atLeastOnce())
             ->method('create')
             ->will($this->returnValue($customerResultMock));
         $this->objectFactoryMock->expects($this->once())
