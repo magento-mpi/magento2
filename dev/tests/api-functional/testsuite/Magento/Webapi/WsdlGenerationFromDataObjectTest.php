@@ -35,7 +35,9 @@ class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\W
 
     public function testMultiServiceWsdl()
     {
-        $this->markTestIncomplete('MAGETWO-31016: incompatible with ZF 1.12.9');
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->markTestIncomplete('MAGETWO-31016: incompatible with ZF 1.12.9');
+        }
         $wsdlUrl = $this->_getBaseWsdlUrl() . 'testModule5AllSoapAndRestV1,testModule5AllSoapAndRestV2';
         $wsdlContent = $this->_convertXmlToString($this->_getWsdlContent($wsdlUrl));
 
