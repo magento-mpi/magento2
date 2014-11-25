@@ -10,16 +10,16 @@
 //    PayPal checkout button
 //--------------------------------------
 .paypal {
-    &.after:after {
+    &.after:before {
         content: "- " attr(data-label) " -";
         display: block;
-        margin: 0 5px 10px;
+        margin: 0 @indent-xs-base @indent-s-base;
         text-transform: uppercase;
     }
     &.before:before {
         content: "- " attr(data-label) " -";
         display: block;
-        margin: 10px 5px;
+        margin: @indent-s-base @indent-xs-base;
         text-align: center;
         text-transform: uppercase;
     }

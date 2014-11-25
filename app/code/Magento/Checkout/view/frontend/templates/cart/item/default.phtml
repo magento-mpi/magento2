@@ -103,9 +103,9 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
         <?php $cols++; ?>
     </td>
 </tr>
-<tr class="item actions item-actions">
+<tr class="item-actions">
     <td colspan="<?php echo $cols;?>">
-        <div class="actions">
+        <div class="actions-toolbar">
             <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllowInCart()) : ?>
                 <?php if ($isVisibleProduct): ?>
                     <a href="#" data-post='<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getMoveFromCartParams($_item->getId()); ?>' class="use-ajax action towishlist">

@@ -239,21 +239,22 @@
     .item-content {
         margin: 0;
         > .fieldset {
-            padding: 0 10px 40px;
+            padding: 0 @indent-s-base @indent-xl-base;
             &.redirect {
                 padding: 0;
-                margin: 10px 0 30px 37px;
+                margin: @indent-s-base 0 @indent-l-base 37px;
                 width: 80%;
             }
         }
     }
     img {
+        margin-right: @indent-xs-base;
         vertical-align: middle;
     }
 
     .field {
         &.month {
-            padding-right: 10px;
+            padding-right: @indent-s-base;
             .control {
                 position: relative;
                 &:after {
@@ -261,7 +262,7 @@
                     color: @color-primary-light;
                     position: absolute;
                     right: -9px;
-                    top: 5px;
+                    top: @indent-xs-base;
                 }
             }
         }

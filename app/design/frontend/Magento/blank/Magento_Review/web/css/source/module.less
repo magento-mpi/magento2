@@ -82,6 +82,7 @@
 
 .product-reviews-summary {
     display: table;
+    margin: @indent-s-base 0 12px;
     .products.wrapper.list & {
         margin: 0 auto;
     }
@@ -98,12 +99,9 @@
     .reviews-actions {
         display: table-cell;
         vertical-align: middle;
-        line-height: floor(@rating-icon-font-size * @line-height-base);
-        font-size: floor(0.8 * @font-size-base);
+        line-height: @rating-icon-font-size;
         a {
             margin-right: @indent-xs-base;
-        }
-        .action.view span {
         }
     }
 }

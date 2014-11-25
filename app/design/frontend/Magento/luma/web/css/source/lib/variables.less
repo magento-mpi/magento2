@@ -19,22 +19,21 @@
 @icon-font-name: 'luma-icons';
 
 // Colors
-
-@color-white: #ffffff;
+@color-white: #fff;
+@color-gray20: #333;
 @color-gray56: #8f8f8f;
 
 // Color nesting
-
 @color-background-page: @color-white;
 @color-background-copyright: @color-gray56;
-@color-primary: #333;
+@color-primary: @color-gray20;
 @color-primary-dark: darken(@color-primary, 35%);  // #000
 @color-primary-darker: darken(@color-primary, 13.5%);  // #111
 @color-primary-lighter: lighten(@color-primary, 29%);  // #7d7d7d
 @color-primary-light: lighten(@color-primary, 45%);  // #a6a6a6
 @color-secondary: #e8e8e8;
 @color-secondary-light: lighten(@color-secondary, 5%);
-@page-bg-color: #fff;
+@page-bg-color: @color-white;
 @panel-bg: #f6f6f6;
 @color-active: #ff5501;
 @color-error: #e02b27;
@@ -343,7 +342,7 @@
 
 @navigation-level0-item-background-active: '';
 @navigation-level0-item-border-active: '';
-@navigation-level0-item-color-active: #333;
+@navigation-level0-item-color-active: @color-primary;
 @navigation-level0-item-text-decoration-active: '';
 
 @submenu-background: '';
@@ -380,7 +379,7 @@
 
 @navigation-desktop-level0-item-background-hover: '';
 @navigation-desktop-level0-item-border-hover: '';
-@navigation-desktop-level0-item-color-hover: #333;
+@navigation-desktop-level0-item-color-hover: @color-primary;
 @navigation-desktop-level0-item-text-decoration-hover: @navigation-desktop-level0-item-text-decoration;
 
 @navigation-desktop-level0-item-background-active: '';
@@ -561,19 +560,19 @@
 
 @button-primary-background: #1979c3;
 @button-primary-border: 1px solid #1979c3;
-@button-primary-color: #fff;
+@button-primary-color: @color-white;
 @button-primary-gradient-start-color: false;
 @button-primary-gradient-end-color: false;
 
 @button-primary-background-hover: #006bb4;
 @button-primary-border-hover: 1px solid #006bb4;
-@button-primary-color-hover: #fff;
+@button-primary-color-hover: @color-white;
 @button-primary-gradient-start-color-hover: false;
 @button-primary-gradient-end-color-hover: false;
 
 @button-primary-background-active: #006bb4;
 @button-primary-border-active: 1px solid #006bb4;
-@button-primary-color-active: #fff;
+@button-primary-color-active: @color-white;
 @button-primary-gradient-start-color-active: false;
 @button-primary-gradient-end-color-active: false;
 
@@ -715,7 +714,7 @@
 @message-info-border-color: @message-border-color;
 @message-info-icon: @icon-warning;
 @message-info-icon-color-inner: #c07600;
-@message-info-icon-color-lateral: #fff;
+@message-info-icon-color-lateral: @color-white;
 @message-info-icon-background: #6f4400;
 @message-info-icon-top: @message-icon-top;
 @message-info-icon-right: @message-icon-right;
@@ -747,7 +746,7 @@
 @message-error-border-color: @message-border-color;
 @message-error-icon: @icon-error;
 @message-error-icon-color-inner: #b30000;
-@message-error-icon-color-lateral: #fff;
+@message-error-icon-color-lateral: @color-white;
 @message-error-icon-background: #b30000;
 @message-error-icon-top: @message-icon-top;
 @message-error-icon-right: @message-icon-right;
@@ -763,7 +762,7 @@
 @message-success-border-color: @message-border-color;
 @message-success-icon: @icon-success;
 @message-success-icon-color-inner: #006400;
-@message-success-icon-color-lateral: #fff;
+@message-success-icon-color-lateral: @color-white;
 @message-success-icon-background: #006400;
 @message-success-icon-top: @message-icon-top;
 @message-success-icon-right: @message-icon-right;
@@ -789,11 +788,11 @@
 //
 //    Tooltips variables
 //--------------------------------------
-@tooltip-background: #fff;
+@tooltip-background: @color-white;
 @tooltip-border-color: #bbb;
 @tooltip-border-width: 1px;
 @tooltip-border-radius: false;
-@tooltip-color: #333;
+@tooltip-color: @color-primary;
 @tooltip-cursor: help;
 @tooltip-font-size: false;
 @tooltip-font-family: false;
@@ -836,7 +835,7 @@
 
 // Form elements inputs default variables
 @form-element-input-type: ''; // input-text, select, textarea, input-radio, input-checkbox
-@form-element-input-background: #fff;
+@form-element-input-background: @color-white;
 @form-element-input-border-color: #c2c2c2;
 @form-element-input-border: 1px solid @form-element-input-border-color;
 @form-element-input-border-radius: 1px;
@@ -1241,7 +1240,7 @@
 @dropdown-list-position-bottom: false;
 @dropdown-list-position-left: false;
 @dropdown-list-pointer: true; // true | false
-@dropdown-list-background: #fff;
+@dropdown-list-background: @color-white;
 @dropdown-list-border: 1px solid #bbb;
 @dropdown-list-pointer-border: #bbb;
 @dropdown-list-pointer-position: left; // right
@@ -1397,7 +1396,7 @@
 @popup-width: auto;
 @popup-height: auto;
 @popup-padding: 22px;
-@popup-background: #fff;
+@popup-background: @color-white;
 @popup-border-color: #adadad;
 @popup-border: 1px solid @popup-border-color;
 @popup-shadow: 0 3px 3px rgba(0,0,0,.15);
