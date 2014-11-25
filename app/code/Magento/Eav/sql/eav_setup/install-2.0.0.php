@@ -898,6 +898,18 @@ $table = $installer->getConnection()->newTable(
     null,
     array('unsigned' => true, 'default' => '0'),
     'Default Id'
+)->addColumn(
+    'attribute_group_code',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('default' => null),
+    'Attribute Group Code'
+)->addColumn(
+    'tab_group_code',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array('default' => null),
+    'Tab Group Code'
 )->addIndex(
     $installer->getIdxName(
         'eav_attribute_group',
