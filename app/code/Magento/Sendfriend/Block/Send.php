@@ -7,6 +7,8 @@
  */
 namespace Magento\Sendfriend\Block;
 
+use Magento\Customer\Model\Context;
+
 /**
  * Email to a Friend Block
  *
@@ -85,7 +87,7 @@ class Send extends \Magento\Framework\View\Element\Template
         /* @var $session \Magento\Customer\Model\Session */
         $session = $this->_customerSession;
 
-        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+        if ($this->httpContext->getValue(Context::CONTEXT_AUTH)) {
             return $this->_customerViewHelper->getCustomerName(
                 $session->getCustomerDataObject()
             );
@@ -109,7 +111,7 @@ class Send extends \Magento\Framework\View\Element\Template
         /* @var $session \Magento\Customer\Model\Session */
         $session = $this->_customerSession;
 
-        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+        if ($this->httpContext->getValue(Context::CONTEXT_AUTH)) {
             return $session->getCustomerDataObject()->getEmail();
         }
 

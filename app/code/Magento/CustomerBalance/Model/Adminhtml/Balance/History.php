@@ -62,7 +62,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $balance = $this->getBalanceModel();
         if (in_array((int)$balance->getHistoryAction(), array(self::ACTION_CREATED, self::ACTION_UPDATED))
@@ -78,6 +78,6 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
             }
         }
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 }

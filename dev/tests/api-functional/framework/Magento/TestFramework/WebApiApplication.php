@@ -8,6 +8,7 @@
 namespace Magento\TestFramework;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Autoload\AutoloaderInterface;
 
 /**
  * Provides access to the application for the tests
@@ -22,6 +23,7 @@ class WebApiApplication extends Application
      * @param array $moduleConfigFiles
      * @param string $appMode
      * @param \Magento\Framework\Shell $shell
+     * @param AutoloaderInterface $autoloadWrapper
      * @return Application|WebApiApplication
      */
     public static function getInstance(
@@ -29,7 +31,8 @@ class WebApiApplication extends Application
         $globalConfigDir,
         array $moduleConfigFiles,
         $appMode,
-        \Magento\Framework\Shell $shell
+        \Magento\Framework\Shell $shell,
+        AutoloaderInterface $autoloadWrapper
     ) {
         if (!file_exists($installConfigFile)) {
             $installConfigFile = $installConfigFile . '.dist';
@@ -41,7 +44,8 @@ class WebApiApplication extends Application
             $installConfigFile,
             $globalConfigDir,
             $moduleConfigFiles,
-            $appMode
+            $appMode,
+            $autoloadWrapper
         );
     }
 

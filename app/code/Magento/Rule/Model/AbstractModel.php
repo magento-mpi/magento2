@@ -103,7 +103,7 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         // Check if discount amount not negative
         if ($this->hasDiscountAmount()) {
@@ -146,7 +146,7 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractModel
             }
         }
 
-        parent::_beforeSave();
+        parent::beforeSave();
         return $this;
     }
 

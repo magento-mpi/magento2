@@ -83,10 +83,10 @@
 <?php endif; ?>
 <script type="text/javascript">
     require([
-        'jquery',
-        'mage/mage',
-        'mage/components'
-    ], function ($) {
+        "jquery",
+        "mage/mage"
+    ], function($){
+        "use strict";
         $('[data-block="minicart"]').mage('sidebar', {
             checkoutUrl: '<?php echo $this->getCheckoutUrl();?>',
             checkoutButton: '#top-cart-btn-checkout',

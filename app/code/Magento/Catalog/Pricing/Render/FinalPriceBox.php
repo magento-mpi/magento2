@@ -48,7 +48,8 @@ class FinalPriceBox extends BasePriceBox
                 MsrpPrice::PRICE_CODE,
                 $this->getSaleableItem(),
                 [
-                    'real_price_html' => $result
+                    'real_price_html' => $result,
+                    'zone' => $this->getZone(),
                 ]
             );
             $result = $msrpBlock->toHtml();

@@ -6,7 +6,7 @@
  * @license    {license_link}
  */
 require_once __DIR__ . '/bootstrap.php';
-use Magento\Tools\I18n\Code\ServiceLocator;
+use Magento\Tools\I18n\ServiceLocator;
 
 try {
     $console = new \Zend_Console_Getopt(

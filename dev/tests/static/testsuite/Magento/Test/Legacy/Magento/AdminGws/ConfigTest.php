@@ -13,7 +13,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testEventSubscriberFormat()
     {
-        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker = new \Magento\Framework\Test\Utility\AggregateInvoker($this);
         $invoker(
             /**
              * @param string $file
@@ -32,7 +32,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     $this->fail("Obsolete class names detected in {$file}:\n" . implode(PHP_EOL, $errors) . PHP_EOL);
                 }
             },
-            \Magento\TestFramework\Utility\Files::init()->getMainConfigFiles()
+            \Magento\Framework\Test\Utility\Files::init()->getMainConfigFiles()
         );
     }
 }

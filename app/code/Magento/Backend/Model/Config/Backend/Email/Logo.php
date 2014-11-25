@@ -54,7 +54,7 @@ class Logo extends \Magento\Backend\Model\Config\Backend\Image
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $value = $this->getValue();
         $deleteFlag = is_array($value) && !empty($value['delete']);
@@ -63,6 +63,6 @@ class Logo extends \Magento\Backend\Model\Config\Backend\Image
         if ($this->getOldValue() && ($fileTmpName || $deleteFlag)) {
             $this->_mediaDirectory->delete(self::UPLOAD_DIR . '/' . $this->getOldValue());
         }
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 }
