@@ -200,11 +200,14 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     $priceBaseAmount = $bundleProductPrice->getLowestPrice($currentProduct, $priceBaseAmount);
                     $priceValue = $bundleProductPrice->getLowestPrice($currentProduct, $priceValue);
 
-                    $tierPriceInfo['price'] = $this->priceCurrency->convert(
-                        $this->_taxData->displayPriceIncludingTax() ? $priceValue : $priceBaseAmount
-                    );
-                    $tierPriceInfo['exclTaxPrice'] = $this->priceCurrency->convert($priceBaseAmount);
-                    $tierPriceInfo['inclTaxPrice'] = $this->priceCurrency->convert($priceValue);
+                    $tierPriceInfo['prices'] = [
+                        'basePrice' => [
+                            'amount' => $this->priceCurrency->convert($priceBaseAmount)
+                        ],
+                        'finalPrice' => [
+                            'amount' => $this->priceCurrency->convert($priceValue)
+                        ]
+                    ];
                 }
                 // break the reference with the last element
 
@@ -227,17 +230,11 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                             'amount' => $this->priceCurrency->convert($finalPrice)
                         ]
                     ],
-                    'inclTaxPrice' => $this->priceCurrency->convert($finalPrice),
-                    'exclTaxPrice' => $this->priceCurrency->convert($basePrice),
                     'priceType' => $selectionItem->getSelectionPriceType(),
                     'tierPrice' => $tierPrices,
                     'name' => $selectionItem->getName(),
                     'canApplyMsrp' => false
                 );
-
-                $selection['price'] = $this->_taxData->displayPriceIncludingTax()
-                    ? $selection['inclTaxPrice']
-                    : $selection['exclTaxPrice'];
 
                 $responseObject = new \Magento\Framework\Object();
                 $args = array('response_object' => $responseObject, 'selection' => $selectionItem);
@@ -293,13 +290,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     'amount' => $isFixedPrice ? $this->priceCurrency->convert($productAmount->getValue()) : 0
                 ]
             ],
-            'basePrice' => $this->priceCurrency->convert($baseProductAmount->getValue()),
-            'finalBasePriceInclTax' => $isFixedPrice
-                ? $this->priceCurrency->convert($productAmount->getValue())
-                : 0,
-            'finalBasePriceExclTax' => $isFixedPrice
-                ? $this->priceCurrency->convert($productAmount->getBaseAmount())
-                : 0,
             'priceType' => $currentProduct->getPriceType(),
             'specialPrice' => $currentProduct
                 ->getPriceInfo()
@@ -308,10 +298,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'includeTax' => $this->_taxData->priceIncludesTax() ? 'true' : 'false',
             'isFixedPrice' => $isFixedPrice,
         );
-
-        $config['finalPrice'] = $this->_taxData->displayPriceIncludingTax()
-            ? $config['finalBasePriceInclTax']
-            : $config['finalBasePriceExclTax'];
 
         if ($preConfiguredFlag && !empty($defaultValues)) {
             $config['defaultValues'] = $defaultValues;

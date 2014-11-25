@@ -27,6 +27,7 @@ $finalPriceModel = $this->getPrice();
             <?php echo $this->renderAmount($finalPriceModel->getMinimalPrice(), [
                 'display_label'     => __('From'),
                 'price_id'          => $this->getPriceId('from-'),
+                'price_type'        => 'minPrice',
                 'include_container' => true
             ]); ?>
         </p>
@@ -34,6 +35,7 @@ $finalPriceModel = $this->getPrice();
             <?php echo $this->renderAmount($finalPriceModel->getMaximalPrice(), [
                 'display_label'     => __('To'),
                 'price_id'          => $this->getPriceId('to-'),
+                'price_type'        => 'maxPrice',
                 'include_container' => true
             ]); ?>
         </p>
