@@ -9,13 +9,11 @@ namespace Magento\Cms\Model\Resource\Block;
 
 use Magento\Cms\Api\Data\BlockCollectionInterface;
 use Magento\Cms\Model\Resource\AbstractCollection;
-use Magento\Cms\Api\Data\BlockInterface;
 
 /**
  * CMS block collection
  *
  * Class Collection
- * @package Magento\Cms\Model\Resource\Block
  */
 class Collection extends AbstractCollection implements BlockCollectionInterface
 {

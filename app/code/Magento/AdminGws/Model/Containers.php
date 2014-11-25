@@ -7,9 +7,11 @@
  */
 namespace Magento\AdminGws\Model;
 
-use Magento\AdminGws\Model\Role;
 use \Magento\Backend\Block\Widget\ContainerInterface;
 
+/**
+ * Class Containers
+ */
 class Containers implements CallbackProcessorInterface
 {
     /**
