@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Logger;
 use Magento\Store\Model\ScopeInterface;
@@ -81,16 +80,13 @@ class Vat
     protected $groupManagement;
 
     /**
-     * @param GroupManagementInterface $groupManagement
      * @param ScopeConfigInterface $scopeConfig
      * @param Logger $logger
      */
     public function __construct(
-        GroupManagementInterface $groupManagement,
         ScopeConfigInterface $scopeConfig,
         Logger $logger
     ) {
-        $this->groupManagement = $groupManagement;
         $this->scopeConfig = $scopeConfig;
         $this->logger = $logger;
     }
