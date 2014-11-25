@@ -146,17 +146,15 @@ class Install extends AbstractActionController
     {
         $source = Json::decode($this->getRequest()->getContent(), Json::TYPE_ARRAY);
         $result = [];
+        if (!empty($source['config']['address']['base_url'])) {
+            $result[UserConfig::KEY_BASE_URL] = $source['config']['address']['base_url'];
+        }
         $result[UserConfig::KEY_USE_SEF_URL] = isset($source['config']['rewrites']['allowed'])
             ? $source['config']['rewrites']['allowed'] : '';
-        $result[UserConfig::KEY_BASE_URL] = isset($source['config']['address']['web'])
-            ? $source['config']['address']['web'] : '';
         $result[UserConfig::KEY_IS_SECURE] = isset($source['config']['https']['front'])
             ? $source['config']['https']['front'] : '';
         $result[UserConfig::KEY_IS_SECURE_ADMIN] = isset($source['config']['https']['admin'])
             ? $source['config']['https']['admin'] : '';
-        $result[UserConfig::KEY_BASE_URL_SECURE] = (isset($source['config']['https']['front'])
-            || isset($source['config']['https']['admin']))
-            ? str_replace('http:', 'https:', $source['config']['address']['web']) : '';
         $result[UserConfig::KEY_LANGUAGE] = isset($source['store']['language'])
             ? $source['store']['language'] : '';
         $result[UserConfig::KEY_TIMEZONE] = isset($source['store']['timezone'])

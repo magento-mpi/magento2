@@ -12,4 +12,5 @@ angular.module('success', ['ngStorage'])
         $scope.admin  = $localStorage.admin;
         $scope.config = $localStorage.config;
         $scope.messages = $localStorage.messages;
+        $localStorage.$reset();
     }]);

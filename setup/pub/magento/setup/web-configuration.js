@@ -10,6 +10,9 @@ angular.module('web-configuration', ['ngStorage'])
     .controller('webConfigurationController', ['$scope', '$state', '$localStorage', function ($scope, $state, $localStorage) {
         $scope.config = {
             address: {
+                base_url: '',
+                auto_base_url: '',
+                actual_base_url: '',
                 admin: 'admin'
             },
             https: {
@@ -39,6 +42,14 @@ angular.module('web-configuration', ['ngStorage'])
         $scope.updateOnExpand = function(obj) {
             obj.expanded = !obj.expanded;
         }
+
+        $scope.$watch('config.address.base_url', function() {
+            if (angular.equals($scope.config.address.base_url, '')) {
+                $scope.config.address.actual_base_url = $scope.config.address.auto_base_url;
+            } else {
+                $scope.config.address.actual_base_url = $scope.config.address.base_url;
+            }
+        });
 
         $scope.$watch('config.encrypt.type', function() {
             if(angular.equals($scope.config.encrypt.type, 'magento')){

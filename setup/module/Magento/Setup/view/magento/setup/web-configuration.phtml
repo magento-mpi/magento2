@@ -8,20 +8,21 @@
 ?>
 <?php
 $hints = [
-    'address_web' => sprintf(
+    'base_url' => sprintf(
         '<div><p>%s</p><p>%s</p></div>',
         'Enter the base URL that brings shoppers to your store (Ex. http://example.com/).',
-        'We recommend not using your actual IP address when your store goes live, otherwise all your shoppers will see it.'
+        'Leave empty for automatic detection (not recommended for production environment).'
     ),
     'encrypt_key' => sprintf(
         '<p>%s</p>',
-        'Key to encrypt sensitive data such as passwords and personally identifiable customer informaton in the Magento database. The encryption key is stored in [your Magento install dir]/app/etc/config.php/'
+        'Key to encrypt sensitive data such as passwords and personally identifiable customer informaton in the Magento database. The encryption key is stored in [your Magento install dir]/app/etc/local.xml/'
     ),
 ];
 ?>
+
 <div class="step-controls">
-    <a href="" class="btn btn-primary" ng-click="previousState()">Previous</a>
-    <a href="" class="btn btn-primary" ng-click="nextState()">Next</a>
+    <a href="#" class="btn btn-primary" ng-click="previousState()">Previous</a>
+    <a href="#" class="btn btn-primary" ng-click="nextState()">Next</a>
 </div>
 
 <div class="page-header">
@@ -29,31 +30,29 @@ $hints = [
 </div>
 
 <form novalidate name="webconfig" class="form-horizontal" role="form">
-    <div class="form-group" ng-class="{'has-error': webconfig.web.$invalid && webconfig.submitted}">
-        <label class="col-md-3 control-label">Your Store Address&nbsp;<span class="required">*</span></label>
+    <div class="form-group" ng-class="{'has-error': webconfig.base_url.$invalid && webconfig.submitted}">
+        <label class="col-md-3 control-label">Base URL</label>
         <div class="col-md-4">
             <input type="text"
-                   name="web"
-                   ng-model="config.address.web"
+                   name="base_url"
+                   ng-model="config.address.base_url"
+                   ng-init="config.address.auto_base_url = '<?php echo $this->autoBaseUrl ?>'; config.address.base_url = config.address.auto_base_url;"
                    class="form-control"
-                   ng-init="config.address.web = '<?php echo $this->baseUrl?>'"
                    tooltip-placement="right"
-                   tooltip-html-unsafe="<?php echo $hints['address_web']; ?>"
+                   tooltip-html-unsafe="<?php echo $hints['base_url']; ?>"
                    tooltip-trigger="focus"
                    tooltip-append-to-body="true"
-                   required />
-        </div>
-        <div class="col-md-offset-3 col-md-4" ng-show="webconfig.web.$invalid && webconfig.submitted">
-            <div class="error-container">
-                <span ng-show="webconfig.web.$error.required">Please enter a valid base URL Admin URL path. (ex: http://www.example.com/)</span>
+                />
+            <div class="error-container" ng-show="webconfig.base_url.$invalid && webconfig.submitted">
+                <span>Please enter a valid Base URL (ex: http://www.example.com/)</span>
             </div>
         </div>
     </div>
 
     <div class="form-group" ng-class="{'has-error': webconfig.admin.$invalid && webconfig.submitted}">
         <label class="col-md-3 control-label">Magento Admin Address&nbsp;<span class="required">*</span></label>
-        <div class="col-md-4 input-group" style="padding-left: 15px; padding-right: 15px;">
-            <span class="input-group-addon">{{config.address.web}}</span>
+        <div class="input-group" style="padding-left: 15px; padding-right: 15px;">
+            <span class="input-group-addon">{{config.address.base_url}}</span>
             <input type="text"
                    name="admin"
                    class="form-control"
@@ -62,13 +61,13 @@ $hints = [
         </div>
         <div class="col-md-offset-3 col-md-4" ng-show="webconfig.admin.$invalid && webconfig.submitted">
             <div class="error-container">
-                <span ng-show="webconfig.admin.$error.required">Please enter a valid admin URL path.</span>
+                <span ng-show="webconfig.admin.$error.required">Please enter a valid Admin URL Path.</span>
             </div>
         </div>
     </div>
 
     <div class="collapsed-options">
-        <a href="" class="collapsed-options" ng-click="updateOnExpand(config.advanced)">Advanced Options</a>
+        <a href="#" class="collapsed-options" ng-click="updateOnExpand(config.advanced)">Advanced Options</a>
         <span class="caret"></span>
     </div>
 
@@ -142,6 +141,6 @@ $hints = [
 </form>
 
 <div class="step-controls">
-    <a href="" class="btn btn-primary" ng-click="previousState()">Previous</a>
-    <a href="" class="btn btn-primary" ng-click="nextState()">Next</a>
+    <a href="#" class="btn btn-primary" ng-click="previousState()">Previous</a>
+    <a href="#" class="btn btn-primary" ng-click="nextState()">Next</a>
 </div>

@@ -10,7 +10,10 @@ angular.module('add-database', ['ngStorage'])
     .controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', '$timeout', function ($scope, $state, $localStorage, $http, $timeout) {
         $scope.db = {
             useExistingDb: 1,
-            useAccess: 1
+            useAccess: 1,
+            host: 'localhost',
+            user: 'root',
+            name: 'magento'
         };
 
         if ($localStorage.db) {
