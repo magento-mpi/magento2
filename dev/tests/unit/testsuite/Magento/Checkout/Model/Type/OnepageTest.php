@@ -385,7 +385,15 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->any())->method('getShippingAddress')->will($this->returnValue($shippingAddressMock));
         $addressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
-            ['setSaveInAddressBook', 'getData', 'setEmail', '__wakeup', 'importCustomerAddressData', 'validate'],
+            [
+                'setSaveInAddressBook',
+                'getData',
+                'setEmail',
+                '__wakeup',
+                'importCustomerAddressData',
+                'validate',
+                'save'
+            ],
             [],
             '',
             false

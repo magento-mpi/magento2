@@ -215,9 +215,9 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         if (!$this->getId()) {
             $now = $this->_localeDate->date()->setTimezone(
@@ -286,7 +286,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
     /**
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if ($this->getIsNew()) {
             $this->getPoolModel()->setId(
@@ -297,7 +297,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
             self::$_alreadySelectedIds[] = $this->getCode();
         }
 
-        parent::_afterSave();
+        parent::afterSave();
     }
 
     /**
