@@ -266,8 +266,13 @@
             <arg line="utils/generate/factory.php"/>
         </exec>
 
+        <condition property="env.bamboo_mtf_compiler_name" value="compiler">
+            <not><isset property="env.bamboo_mtf_compiler_name"/></not>
+        </condition>
+
         <antcall target="_run_compiler">
             <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}" />
+            <param name="compiler_name" value="${env.bamboo_mtf_compiler_name}" />
         </antcall>
 
         <antcall target="_run_composer_dump_autoload">
@@ -284,7 +289,7 @@
 
     <target name="_run_compiler" description="Run DI compiler tool">
         <exec executable="php" failonerror="true" >
-            <arg line='-f ${product_root_dir}/dev/tools/Magento/Tools/Di/compiler.php'/>
+            <arg line='-f ${product_root_dir}/dev/tools/Magento/Tools/Di/${compiler_name}.php'/>
         </exec>
     </target>
 
