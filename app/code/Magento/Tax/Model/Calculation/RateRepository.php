@@ -248,9 +248,10 @@ class RateRepository implements \Magento\Tax\Api\TaxRateRepositoryInterface
         $countryCode = $taxRate->getTaxCountryId();
         if (!\Zend_Validate::is($countryCode, 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'country_id']);
-        } else if (!\Zend_Validate::is($this->countryFactory->create()->loadByCode($countryCode)->getId(),
-            'NotEmpty')
-        ) {
+        } else if (!\Zend_Validate::is(
+            $this->countryFactory->create()->loadByCode($countryCode)->getId(),
+            'NotEmpty'
+        )) {
             $exception->addError(
                 InputException::INVALID_FIELD_VALUE, ['fieldName' => 'country_id', 'value' => $countryCode]
             );

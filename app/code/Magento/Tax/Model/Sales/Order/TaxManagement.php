@@ -15,9 +15,10 @@ use Magento\Tax\Api\Data\OrderTaxDetailsItemInterface as Item;
 use Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxDataBuilder as TaxDetailsBuilder;
 
 class TaxManagement implements \Magento\Tax\Api\OrderTaxManagementInterface
-{    /**
- * @var \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory
- */
+{
+    /**
+     * @var \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory
+     */
     protected $orderItemTaxFactory;
 
     /**

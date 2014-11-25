@@ -9,7 +9,9 @@
 
 namespace Magento\Tax\Api\Data;
 
-interface TaxRateSearchResultsInterface extends \Magento\Framework\Api\SearchResultsInterface
+use \Magento\Framework\Api\SearchResultsInterface;
+
+interface TaxRateSearchResultsInterface extends SearchResultsInterface
 {
     /**
      * Get items
@@ -17,5 +19,4 @@ interface TaxRateSearchResultsInterface extends \Magento\Framework\Api\SearchRes
      * @return \Magento\Tax\Api\Data\TaxRateInterface[]
      */
     public function getItems();
-
 }

@@ -12,7 +12,6 @@ use Magento\Sales\Model\Quote\Address;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\Tax\Model\Calculation;
 
-
 /**
  * Tax totals calculation model
  */

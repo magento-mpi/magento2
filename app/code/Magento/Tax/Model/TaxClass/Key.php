@@ -27,5 +27,4 @@ class Key extends AbstractExtensibleModel implements TaxClassKeyInterface
     {
         return $this->getData(TaxClassKeyInterface::KEY_VALUE);
     }
-
 }

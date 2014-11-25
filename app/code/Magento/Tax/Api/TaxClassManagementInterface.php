@@ -26,5 +26,4 @@ interface TaxClassManagementInterface
      * @return int|null
      */
     public function getTaxClassId($taxClassKey, $taxClassType = self::TYPE_PRODUCT);
-
 }

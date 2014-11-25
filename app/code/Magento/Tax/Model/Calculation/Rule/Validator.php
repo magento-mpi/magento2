@@ -45,7 +45,8 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
             $this->addErrorMessage($messages, InputException::REQUIRED_FIELD, ['fieldName' => 'position']);
         }
         if (!\Zend_Validate::is(trim($value->getPosition()), 'GreaterThan', [-1])) {
-            $this->addErrorMessage($messages,
+            $this->addErrorMessage(
+                $messages,
                 InputException::INVALID_FIELD_MIN_VALUE,
                 ['fieldName' => 'position', 'value' => $value->getPosition(), 'minValue' => 0]
             );
@@ -56,7 +57,8 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
             $this->addErrorMessage($messages, InputException::REQUIRED_FIELD, ['fieldName' => 'priority']);
         }
         if (!\Zend_Validate::is(trim($value->getPriority()), 'GreaterThan', [-1])) {
-            $this->addErrorMessage($messages,
+            $this->addErrorMessage(
+                $messages,
                 InputException::INVALID_FIELD_MIN_VALUE,
                 ['fieldName' => 'priority', 'value' => $value->getPriority(), 'minValue' => 0]
             );
@@ -69,14 +71,19 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
 
         // customer tax class ids is required
         if (($value->getCustomerTaxClassIds() === null) || !$value->getCustomerTaxClassIds()) {
-            $this->addErrorMessage($messages, InputException::REQUIRED_FIELD, ['fieldName' => 'customer_tax_class_ids']);
+            $this->addErrorMessage(
+                $messages,
+                InputException::REQUIRED_FIELD,
+                ['fieldName' => 'customer_tax_class_ids']
+            );
         } else { // see if the customer tax class ids exist
             $customerTaxClassIds = $value->getCustomerTaxClassIds();
             foreach ($customerTaxClassIds as $customerTaxClassId) {
                 try {
                     $taxClass = $this->classModelRegistry->retrieve($customerTaxClassId);
                     if (is_null($taxClass) || !($taxClass->getClassType() == TaxClassModel::TAX_CLASS_TYPE_CUSTOMER)) {
-                        $this->addErrorMessage($messages,
+                        $this->addErrorMessage(
+                            $messages,
                             NoSuchEntityException::MESSAGE_SINGLE_FIELD,
                             [
                                 'fieldName' => 'customer_tax_class_ids',
@@ -102,7 +109,8 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
                 try {
                     $taxClass = $this->classModelRegistry->retrieve($productTaxClassId);
                     if (is_null($taxClass) || !($taxClass->getClassType() == TaxClassModel::TAX_CLASS_TYPE_PRODUCT)) {
-                        $this->addErrorMessage($messages,
+                        $this->addErrorMessage(
+                            $messages,
                             NoSuchEntityException::MESSAGE_SINGLE_FIELD,
                             [
                                 'fieldName' => 'product_tax_class_ids',
@@ -111,7 +119,8 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
                         );
                     }
                 } catch (NoSuchEntityException $e) {
-                    $this->addErrorMessage($messages,
+                    $this->addErrorMessage(
+                        $messages,
                         $e->getRawMessage(),
                         $e->getParameters()
                     );

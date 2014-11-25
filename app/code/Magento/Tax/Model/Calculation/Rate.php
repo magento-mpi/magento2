@@ -361,7 +361,8 @@ class Rate extends \Magento\Framework\Model\AbstractExtensibleModel implements \
     /**
      * {@inheritdoc}
      */
-    public function getZipIsRange(){
+    public function getZipIsRange()
+    {
         return $this->getData('zip_is_range');
     }
 }
