@@ -43,10 +43,7 @@ class Match implements QueryInterface
         $conditionType
     ) {
         /** @var $query \Magento\Framework\Search\Request\Query\Match */
-        $queryValue = $query->getValue();
-        $queryValue = str_replace($this->replaceSymbols, ' ', $queryValue);
-
-        $queryValue = $this->prepareQuery($queryValue, $conditionType);
+        $queryValue = $this->prepareQuery($query->getValue(), $conditionType);
 
         $fieldList = [];
         foreach ($query->getMatches() as $match) {
@@ -71,6 +68,8 @@ class Match implements QueryInterface
      */
     protected function prepareQuery($queryValue, $conditionType)
     {
+        $queryValue = str_replace($this->replaceSymbols, ' ', $queryValue);
+
         $stringPrefix = '';
         if ($conditionType === Bool::QUERY_CONDITION_MUST) {
             $stringPrefix = '+';
