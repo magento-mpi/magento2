@@ -76,7 +76,7 @@ class ReadService implements ReadServiceInterface
     public function getPayment($cartId)
     {
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
         $payment = $quote->getPayment();
         if (!$payment->getId()) {
             return null;
@@ -95,7 +95,7 @@ class ReadService implements ReadServiceInterface
     {
         $output = [];
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
         foreach ($this->methodList->getAvailableMethods($quote) as $method) {
             $output[] = $this->paymentMethodConverter->toDataObject($method);
         }

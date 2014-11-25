@@ -46,6 +46,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->_engineProviderMock = $this->getMock(
             'Magento\CatalogSearch\Model\Resource\EngineProvider',
             array(),

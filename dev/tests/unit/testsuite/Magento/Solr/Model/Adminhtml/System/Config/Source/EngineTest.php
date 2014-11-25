@@ -16,6 +16,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->_model = new \Magento\Solr\Model\Adminhtml\System\Config\Source\Engine();
     }
 

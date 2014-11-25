@@ -5,6 +5,7 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
+use Magento\Customer\Model\Context;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class BillingTest extends \PHPUnit_Framework_TestCase
@@ -64,7 +65,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         $checkoutSession->setLoadInactive(true);
 
         $objectManager->get('Magento\Framework\App\Http\Context')
-            ->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, true, false);
+            ->setValue(Context::CONTEXT_AUTH, true, false);
         $this->_block = $objectManager->get('Magento\Framework\View\LayoutInterface')
             ->createBlock(
                 'Magento\Checkout\Block\Onepage\Billing',

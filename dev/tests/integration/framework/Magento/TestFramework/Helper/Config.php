@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,13 +20,10 @@ class Config
      */
     public function getEnabledModules()
     {
-        $result = array();
+        /** @var \Magento\Framework\Module\ModuleListInterface $moduleList */
         $moduleList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\Module\ModuleListInterface'
         );
-        foreach ($moduleList->getModules() as $module) {
-            $result[] = $module['name'];
-        }
-        return $result;
+        return $moduleList->getNames();
     }
 }

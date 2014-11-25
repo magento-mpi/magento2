@@ -121,12 +121,12 @@
                 </field>
                 <field id="search_type">
                     <depends>
-                        <field id="engine">Magento\CatalogSearch\Model\Resource\Fulltext\Engine</field>
+                        <field id="engine">Magento\CatalogSearch\Model\Resource\Engine</field>
                     </depends>
                 </field>
                 <field id="use_layered_navigation_count">
                     <depends>
-                        <field id="engine">Magento\CatalogSearch\Model\Resource\Fulltext\Engine</field>
+                        <field id="engine">Magento\CatalogSearch\Model\Resource\Engine</field>
                     </depends>
                 </field>
             </group>

@@ -72,9 +72,9 @@ class Rule extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
         $this->saveCalculationData();
         $this->_eventManager->dispatch('tax_settings_change_after');
         return $this;
@@ -86,10 +86,10 @@ class Rule extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterDelete()
+    public function afterDelete()
     {
         $this->_eventManager->dispatch('tax_settings_change_after');
-        return parent::_afterDelete();
+        return parent::afterDelete();
     }
 
     /**

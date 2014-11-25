@@ -85,7 +85,7 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
 
         $resource = $this->getMock(
             'Magento\Framework\App\Resource',
-            array('getTableName', 'getConnection'),
+            array(),
             array(),
             '',
             false,
@@ -109,7 +109,7 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
     {
         $resource = $this->getMock(
             'Magento\Framework\App\Resource',
-            array('getTableName', 'getConnection'),
+            array(),
             array(),
             '',
             false,
@@ -150,7 +150,7 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
 
         $resource = $this->getMock(
             'Magento\Framework\App\Resource',
-            array('getTableName', 'getConnection'),
+            array(),
             array(),
             '',
             false,
@@ -187,7 +187,7 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
     {
         $resource = $this->getMock(
             'Magento\Framework\App\Resource',
-            array('getTableName', 'getConnection'),
+            array(),
             array(),
             '',
             false,

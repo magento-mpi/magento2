@@ -37,6 +37,7 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->objectManagerMock = $this->getMock('\Magento\Framework\ObjectManagerInterface');
         $this->attributeListMock = $this->getMock(
             'Magento\Catalog\Model\Layer\Category\FilterableAttributeList',
