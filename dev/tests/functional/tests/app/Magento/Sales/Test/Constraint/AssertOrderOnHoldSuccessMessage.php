@@ -43,7 +43,7 @@ class AssertOrderOnHoldSuccessMessage extends AbstractConstraint
      */
     public function processAssert(OrderIndex $orderIndex, $ordersCount = null)
     {
-        $successOnHoldMessage = ($ordersCount > 1 && $ordersCount !== null)
+        $successOnHoldMessage = ($ordersCount > 1)
             ? sprintf(self::MULTIPLE_SUCCESS_ON_HOLD_MESSAGE, $ordersCount)
             : self::SINGLE_SUCCESS_ON_HOLD_MESSAGE;
 

@@ -60,6 +60,6 @@ class CreateOrderBackendTest extends Scenario
         );
         $setConfigStep->run();
 
-        $this->objectManager->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep')->run();
+        $this->objectManager->create('Magento\SalesRule\Test\TestStep\DeleteAllSalesRuleStep')->run();
     }
 }

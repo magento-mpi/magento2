@@ -29,7 +29,6 @@ class OnlineRefundTest extends RefundTest
      */
     public function testRefund(OrderCheckout $fixture)
     {
-        $this->markTestIncomplete('Bug: MAGETWO-30090');
         // Setup preconditions
         parent::setupPreconditions($fixture);
 
@@ -103,6 +102,6 @@ class OnlineRefundTest extends RefundTest
      */
     public static function tearDownAfterClass()
     {
-        ObjectManager::getInstance()->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep', [])->run();
+        ObjectManager::getInstance()->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep')->run();
     }
 }
