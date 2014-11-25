@@ -84,7 +84,7 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
             $collection->getMinPrice(),
             $collection->getMaxPrice(),
             $collection->getPriceStandardDeviation(),
-            $collection->getSize()
+            $collection->getPricesCount()
         );
         return $model;
     }
