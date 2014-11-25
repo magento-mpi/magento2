@@ -872,7 +872,7 @@ class Onepage
     {
         $customer = $this->getQuote()->getCustomer();
         $confirmationStatus = $this->accountManagement->getConfirmationStatus($customer->getId());
-        if ($confirmationStatus === AccountManagementInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
+        if ($confirmationStatus === \Magento\Customer\Model\AccountManagement::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
                 // @codingStandardsIgnoreStart
