@@ -269,7 +269,8 @@ class RateRepository implements \Magento\Tax\Api\TaxRateRepositoryInterface
             )
         ) {
             $exception->addError(
-                InputException::INVALID_FIELD_VALUE, ['fieldName' => 'region_id', 'value' => $regionCode]
+                InputException::INVALID_FIELD_VALUE,
+                ['fieldName' => 'region_id', 'value' => $regionCode]
             );
         }
 
