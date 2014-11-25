@@ -214,9 +214,9 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
                     $form->getHtmlIdPrefix() . "store_0_content_use').checked == true" ?
                     "$('" . $form->getHtmlIdPrefix() .
                     "store_" . $store->getId() . "_content_use').checked = false;
-                    \n $('" . $form->getHtmlIdPrefix() . "s_" . $store->getId() . "_content').disabled = false;
-                    \n $('s_" . $store->getId() . "_content').show();" : "'';") .
-                    "\n $('" . $form->getHtmlIdPrefix() .
+                    $('" . $form->getHtmlIdPrefix() . "s_" . $store->getId() . "_content').disabled = false;
+                    $('s_" . $store->getId() . "_content').show();" : "'';") .
+                    "$('" . $form->getHtmlIdPrefix() .
                     "store_" . $store->getId() . "_content_use').disabled = $('" .
                     $form->getHtmlIdPrefix() . "store_0_content_use').checked;";
                 }
@@ -283,14 +283,28 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
                     $storeContent = isset($storeContents[$store->getId()]) ? $storeContents[$store->getId()] : '';
                     $contentFieldId = 's_' . $store->getId() . '_content';
                     $wysiwygConfig = clone $this->_getWysiwygConfig();
-                    $afterHtml = '<label for="' . $form->getHtmlIdPrefix() . 'store_' . $store->getId() .
-                        '_content_use">' . __('Use Default') . '</label><script type="text/javascript">' .
-                        ("\n $('" . $form->getHtmlIdPrefix() .
-                        "store_0_content_use').checked == false" ?
-                        "\n $('" . $form->getHtmlIdPrefix() . "store_" . $store->getId() . "_content_use" .
-                        "').disabled = false;" :
-                        "\n $('" . $form->getHtmlIdPrefix() . "store_" . $store->getId() . "_content_use" .
-                        "').disabled = true;)") . '</script>';
+                    $afterHtml = '<script type="text/javascript">' .
+                        ("if ($('" . $form->getHtmlIdPrefix() . "store_0_content_use').checked) {" .
+                            "$('" . $form->getHtmlIdPrefix() . "store_" . $store->getId() . "_content_use" .
+                            "').disabled = true;" .
+                            "$('" . $form->getHtmlIdPrefix() . "store_" . $store->getId() . "_content_use" .
+                            "').checked = false;" .
+                        "} else {" .
+                            "$('" . $form->getHtmlIdPrefix() . "store_" . $store->getId() . "_content_use" .
+                            "').disabled = false;}") .
+                        '</script>';
+                    $afterEditorHtml = '<script type="text/javascript">' .
+                        ("if (" . !$storeContent  . ") {" .
+                            "if ($('" . $form->getHtmlIdPrefix() . "store_0_content_use').checked) {" .
+                                "$('" . $contentFieldId . "').show();" .
+                            "} else {" .
+                                "$('" . $contentFieldId . "').hide();" .
+                                "$('" . $form->getHtmlIdPrefix() . $contentFieldId . "').disabled = true;" .
+                            "}" .
+                        "} else if ('" . (bool)$model->getIsReadonly() . "') {" .
+                            "$('buttons" . $form->getHtmlIdPrefix() . $contentFieldId . "').hide();" .
+                        "}").
+                        '</script>';
                     $fieldset->addField(
                         'store_' . $store->getId() . '_content_use',
                         'checkbox',
@@ -309,7 +323,9 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
                             $contentFieldId .
                             "').disabled;",
                             'checked' => $storeContent ? false : true,
-                            'after_element_html' => $afterHtml
+                            'after_element_html' => $afterHtml .
+                            '<label for="' . $form->getHtmlIdPrefix() . 'store_' . $store->getId() .
+                            '_content_use">' . __('Use Default') . '</label>'
                         )
                     );
 
@@ -324,27 +340,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
                             'container_id' => $contentFieldId,
                             'config' => $wysiwygConfig,
                             'wysiwyg' => false,
-                            'after_element_html' => '<script type="text/javascript">' .
-                            ((bool)$model->getIsReadonly() ? '$(\'buttons' .
-                            $form->getHtmlIdPrefix() .
-                            $contentFieldId .
-                            '\').hide(); ' : '') .
-                            ($storeContent ? '' : '$(\'' .
-                            $contentFieldId .
-                            '\').hide();') .
-                            ('$(\'' .
-                            $form->getHtmlIdPrefix() .
-                            'store_0_content_use' .
-                            '\').checked == false' ?
-                            ($storeContent ? '' : '$(\'' .
-                            $contentFieldId .
-                            '\').hide();' . '$(\'' .
-                            $form->getHtmlIdPrefix() .
-                            $contentFieldId .
-                            '\').disabled = true;') : '$(\'' .
-                            $contentFieldId .
-                            '\').show();') .
-                            '</script>'
+                            'after_element_html' => $afterEditorHtml
                         )
                     );
                 }
