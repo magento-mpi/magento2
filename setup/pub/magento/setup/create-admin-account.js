@@ -46,6 +46,14 @@ angular.module('create-admin-account', ['ngStorage'])
             $localStorage.admin = $scope.admin;
         });
 
+        $scope.checkPasswordValidity = function() {
+            if (($scope.admin.passwordStatus.class === 'to-short') || ($scope.admin.passwordStatus.class === 'none')) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
         // Listens on form validate event, dispatched by parent controller
         $scope.$on('validate-' + $state.current.id, function() {
             $scope.validate();
@@ -68,6 +76,25 @@ angular.module('create-admin-account', ['ngStorage'])
             }
         });
     }])
+    .directive('checkPassword', function() {
+        return{
+            require: "ngModel",
+            link: function(scope, elm, attrs, ctrl){
+                var validator = function(value){
+                    var validated;
+                    if (!((value.length > 6) && (value.match(/[\d]+/) && value.match(/[a-zA-Z]+/)))) {
+                        validated = false;
+                    } else {
+                        validated = true;
+                    }
+                    ctrl.$setValidity('checkPassword', validated);
+                    return value;
+                };
+                ctrl.$parsers.unshift(validator);
+                ctrl.$formatters.unshift(validator);
+            }
+        };
+    })
     .directive('confirmPassword', function() {
         return {
             require: 'ngModel',

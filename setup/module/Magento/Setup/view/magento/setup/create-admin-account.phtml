@@ -85,10 +85,12 @@ $passwordWizard = sprintf(
                    type="password"
                    name="adminPassword"
                    ng-model="admin.password"
-                   required />
+                   required
+                   check-Password />
         </div>
         <div class="col-sm-offset-3 col-sm-4" ng-show="account.adminPassword.$invalid && account.submitted">
             <div class="error-container">
+                <span ng-show="account.adminPassword.$error.checkPassword">You must enter a valid password.</span>
                 <span ng-show="account.adminPassword.$error.required">Please enter your new password.</span>
             </div>
         </div>
