@@ -343,6 +343,8 @@ class Installer
         }
         $cryptConfigData =
             array(ConfigMapper::$paramMap[ConfigMapper::KEY_ENCRYPTION_KEY] => $key);
+
+        $this->installInfo[EncryptConfig::KEY_ENCRYPTION_KEY] = array_pop(explode("\n", $key));
         return new EncryptConfig($cryptConfigData);
     }
 
@@ -489,8 +491,6 @@ class Installer
     public function installDeploymentConfig($data)
     {
         $data[InstallConfig::KEY_DATE] = date('r');
-
-        $this->installInfo[EncryptConfig::KEY_ENCRYPTION_KEY] = $data[EncryptConfig::KEY_ENCRYPTION_KEY];
 
         $configs = [
             $this->createBackendConfig($data),
