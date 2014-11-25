@@ -45,7 +45,7 @@ class IgnoreTaxNotificationTest extends \PHPUnit_Framework_TestCase
             ->with('tax/notification/ignore_tax', 1, \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT, 0)
             ->will($this->returnValue(null));
 
-        $manager = $this->getMockBuilder('\Magento\Framework\ObjectManager')
+        $manager = $this->getMockBuilder('\Magento\Framework\ObjectManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods(['get', 'create', 'configure'])
             ->getMock();

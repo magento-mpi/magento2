@@ -584,7 +584,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $calculatorMock->expects($this->once())
             ->method('getSelectionAmounts')
-            ->with($this->saleableItem,$searchMin, $useRegularPrice)
+            ->with($this->saleableItem, $searchMin, $useRegularPrice)
             ->will($this->returnValue($selections));
 
         $calculatorMock->expects($this->once())

@@ -10,6 +10,7 @@ namespace Magento\Bundle\Pricing\Price;
 
 use Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Framework\Pricing\Amount\AmountInterface;
 
 /**
  * Bundle product regular price model

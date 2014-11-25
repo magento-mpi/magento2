@@ -114,6 +114,7 @@ class AddressMetadataServiceTest extends WebapiAbstract
      */
     public function testGetCustomAttributesMetadata()
     {
+        $customAttributeCode = 'custom_attribute1';
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/custom',
@@ -126,10 +127,10 @@ class AddressMetadataServiceTest extends WebapiAbstract
             ]
         ];
 
-        $requestData = ['attribute_code' => 'custom_attribute'];
+        $requestData = ['attribute_code' => $customAttributeCode];
         $attributeMetadata = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertCount(2, $attributeMetadata);
-        $this->assertEquals('custom_attribute_test', $attributeMetadata[0]['attribute_code']);
+        $this->assertEquals($customAttributeCode, $attributeMetadata[0]['attribute_code']);
     }
 
     /**
