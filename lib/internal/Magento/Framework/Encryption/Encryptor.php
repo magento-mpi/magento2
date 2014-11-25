@@ -75,8 +75,7 @@ class Encryptor implements EncryptorInterface
     public function __construct(
         \Magento\Framework\Math\Random $randomGenerator,
         DeploymentConfig $deploymentConfig
-    )
-    {
+    ) {
         $this->randomGenerator = $randomGenerator;
         // load all possible keys
         $this->keys = preg_split('/\s+/s', trim($deploymentConfig->get(self::PARAM_CRYPT_KEY)));
