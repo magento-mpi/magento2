@@ -140,8 +140,6 @@ while ($productsCount) {
         $product->getId()
     )->setTypeId(
         $product->getTypeId()
-    )->setStockId(
-        Magento_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID
     )->setIsInStock(
         1
     )->setQty(

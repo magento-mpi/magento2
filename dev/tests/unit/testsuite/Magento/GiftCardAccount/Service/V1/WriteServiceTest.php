@@ -106,7 +106,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(0));
@@ -126,7 +126,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));
@@ -154,7 +154,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));
@@ -185,7 +185,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(0));
@@ -204,7 +204,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));
@@ -230,7 +230,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('getItemsCount')->will($this->returnValue(1));

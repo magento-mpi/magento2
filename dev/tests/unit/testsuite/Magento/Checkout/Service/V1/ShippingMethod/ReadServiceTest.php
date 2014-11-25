@@ -116,7 +116,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     {
         $cartId = 666;
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->shippingAddressMock));
         $this->shippingAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue(null));
@@ -132,7 +132,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     {
         $cartId = 884;
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->shippingAddressMock));
         $this->shippingAddressMock->expects($this->once())->method('getCountryId')->will($this->returnValue(34));
@@ -148,7 +148,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 666;
         $countryId = 1;
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->shippingAddressMock));
         $this->shippingAddressMock->expects($this->any())
@@ -183,7 +183,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $countryId = 1;
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')->will($this->returnValue($this->shippingAddressMock));
         $this->shippingAddressMock->expects($this->any())
@@ -198,7 +198,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     {
         $cartId = 834;
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('isVirtual')->will($this->returnValue(true));
 
@@ -209,7 +209,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     {
         $cartId = 834;
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('isVirtual')->will($this->returnValue(false));
         $this->quoteMock->expects($this->once())
@@ -226,7 +226,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     {
         $cartId = 834;
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('isVirtual')->will($this->returnValue(false));
         $this->quoteMock->expects($this->once())
@@ -242,7 +242,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     {
         $cartId = 834;
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('isVirtual')->will($this->returnValue(false));
         $this->quoteMock->expects($this->once())

@@ -813,9 +813,9 @@ class Invoice extends \Magento\Sales\Model\AbstractModel implements EntityInterf
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         if (!$this->getOrderId() && $this->getOrder()) {
             $this->setOrderId($this->getOrder()->getId());
@@ -830,7 +830,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel implements EntityInterf
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
 
         if (null !== $this->_items) {
@@ -849,7 +849,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel implements EntityInterf
             }
         }
 
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**

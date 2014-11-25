@@ -11,7 +11,6 @@ namespace Magento\Framework\App;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Profiler;
-use Magento\Framework\Code\Generator\FileResolver;
 use Magento\Framework\Filesystem\DriverPool;
 
 /**
@@ -51,7 +50,7 @@ class ObjectManagerFactory
     /**
      * Factory
      *
-     * @var \Magento\Framework\ObjectManager\Factory
+     * @var \Magento\Framework\ObjectManager\FactoryInterface
      */
     protected $factory;
 
@@ -72,14 +71,12 @@ class ObjectManagerFactory
      *
      * @param array $arguments
      * @param bool $useCompiled
-     * @return \Magento\Framework\ObjectManager
+     * @return \Magento\Framework\ObjectManagerInterface
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function create(array $arguments, $useCompiled = true)
     {
-        FileResolver::addIncludePath($this->directoryList->getPath(DirectoryList::GENERATION));
-
         $appArguments = $this->createAppArguments($this->directoryList, $arguments);
 
         $definitionFactory = new \Magento\Framework\ObjectManager\DefinitionFactory(
@@ -126,17 +123,17 @@ class ObjectManagerFactory
             'Magento\Framework\App\Filesystem\DirectoryList' => $this->directoryList,
             'Magento\Framework\Filesystem\DirectoryList' => $this->directoryList,
             'Magento\Framework\Filesystem\DriverPool' => $this->driverPool,
-            'Magento\Framework\ObjectManager\Relations' => $relations,
-            'Magento\Framework\Interception\Definition' => $definitionFactory->createPluginDefinition(),
-            'Magento\Framework\ObjectManager\Config' => $diConfig,
-            'Magento\Framework\ObjectManager\Definition' => $definitions,
+            'Magento\Framework\ObjectManager\RelationsInterface' => $relations,
+            'Magento\Framework\Interception\DefinitionInterface' => $definitionFactory->createPluginDefinition(),
+            'Magento\Framework\ObjectManager\ConfigInterface' => $diConfig,
+            'Magento\Framework\ObjectManager\DefinitionInterface' => $definitions,
             'Magento\Framework\Stdlib\BooleanUtils' => $booleanUtils,
             'Magento\Framework\ObjectManager\Config\Mapper\Dom' => $argumentMapper,
             $configClass => $diConfig
         ];
 
         $className = $this->_locatorClassName;
-        /** @var \Magento\Framework\ObjectManager $objectManager */
+        /** @var \Magento\Framework\ObjectManagerInterface $objectManager */
         $objectManager = new $className($this->factory, $diConfig, $sharedInstances);
 
         $this->factory->setObjectManager($objectManager);
@@ -243,19 +240,19 @@ class ObjectManagerFactory
     /**
      * Crete plugin list object
      *
-     * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Framework\ObjectManager\Relations $relations
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param \Magento\Framework\ObjectManager\RelationsInterface $relations
      * @param \Magento\Framework\ObjectManager\DefinitionFactory $definitionFactory
      * @param \Magento\Framework\ObjectManager\Config\Config $diConfig
-     * @param \Magento\Framework\ObjectManager\Definition $definitions
+     * @param \Magento\Framework\ObjectManager\DefinitionInterface $definitions
      * @return \Magento\Framework\Interception\PluginList\PluginList
      */
     protected function _createPluginList(
-        \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Framework\ObjectManager\Relations $relations,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
+        \Magento\Framework\ObjectManager\RelationsInterface $relations,
         \Magento\Framework\ObjectManager\DefinitionFactory $definitionFactory,
         \Magento\Framework\ObjectManager\Config\Config $diConfig,
-        \Magento\Framework\ObjectManager\Definition $definitions
+        \Magento\Framework\ObjectManager\DefinitionInterface $definitions
     ) {
         return $objectManager->create(
             'Magento\Framework\Interception\PluginList\PluginList',

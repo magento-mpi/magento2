@@ -79,7 +79,7 @@ class GroupPriceService implements GroupPriceServiceInterface
     public function set($productSku, \Magento\Catalog\Service\V1\Data\Product\GroupPrice $price)
     {
         $customerGroup = $this->customerGroupService->getGroup($price->getCustomerGroupId());
-        $product = $this->productRepository->get($productSku, true);
+        $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
 
         $groupPrices = $product->getData('group_price');
         $websiteId = 0;
@@ -125,7 +125,7 @@ class GroupPriceService implements GroupPriceServiceInterface
      */
     public function delete($productSku, $customerGroupId)
     {
-        $product = $this->productRepository->get($productSku, true);
+        $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
             $websiteId = 0;
         } else {
@@ -140,7 +140,7 @@ class GroupPriceService implements GroupPriceServiceInterface
      */
     public function getList($productSku)
     {
-        $product = $this->productRepository->get($productSku, true);
+        $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
         $priceKey = 'website_price';
         if ($this->config->getValue('catalog/price/scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE) == 0) {
             $priceKey = 'price';

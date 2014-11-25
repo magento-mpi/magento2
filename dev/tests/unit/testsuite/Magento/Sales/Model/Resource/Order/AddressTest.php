@@ -46,7 +46,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $this->addressMock = $this->getMock(
             'Magento\Sales\Model\Order\Address',
-            ['__wakeup', 'getOrderId', 'hasDataChanges'],
+            ['__wakeup', 'getOrderId', 'hasDataChanges', 'beforeSave', 'afterSave', 'validateBeforeSave'],
             [],
             '',
             false
@@ -60,7 +60,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
         $this->adapterMock = $this->getMock(
             'Magento\Framework\DB\Adapter\Pdo\Mysql',
-            ['describeTable', 'insert', 'lastInsertId'],
+            [],
             [],
             '',
             false
@@ -109,7 +109,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->method('validate')
             ->with($this->equalTo($this->addressMock))
             ->will($this->returnValue([]));
-        $this->addressMock->expects($this->once())
+        $this->addressMock->expects($this->any())
             ->method('hasDataChanges')
             ->will($this->returnValue(true));
         $this->addressMock->expects($this->exactly(2))
@@ -121,7 +121,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
 
         $this->addressResource->save($this->addressMock);
-        $this->assertTrue(true);
     }
 
     /**
@@ -132,11 +131,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveValidationFailed()
     {
+        $this->addressMock->expects($this->any())
+            ->method('hasDataChanges')
+            ->will($this->returnValue(true));
         $this->validatorMock->expects($this->once())
             ->method('validate')
             ->with($this->equalTo($this->addressMock))
             ->will($this->returnValue(['warning message']));
         $this->addressResource->save($this->addressMock);
-        $this->assertTrue(true);
     }
 }

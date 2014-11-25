@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Block\Guest;
 
+use Magento\Customer\Model\Context;
+
 /**
  * "Orders and Returns" link
  */
@@ -39,7 +41,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link\Current
      */
     protected function _toHtml()
     {
-        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+        if ($this->httpContext->getValue(Context::CONTEXT_AUTH)) {
             return '';
         }
         return parent::_toHtml();

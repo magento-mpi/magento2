@@ -176,7 +176,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this|void
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (!$this->getRmaEntityId() && $this->getRma()) {
             $this->setRmaEntityId($this->getRma()->getId());
@@ -190,7 +190,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         if ($this->getQtyApproved() === '') {
             $this->unsQtyApproved();
         }
-        parent::_beforeSave();
+        parent::beforeSave();
     }
 
     /**
@@ -198,7 +198,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this|void
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $qtyReturnedChange = 0;
         if ($this->getOrigData('status') == \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED) {
@@ -219,7 +219,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
                 $item->setQtyReturned($item->getQtyReturned() + $qtyReturnedChange)->save();
             }
         }
-        parent::_afterSave();
+        parent::afterSave();
     }
 
     /**
