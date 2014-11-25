@@ -22,7 +22,7 @@
                 <?php echo __('ID') ?>: <?php echo $this->escapeHtml($_rma->getIncrementId()) ?><br>
                 <?php echo __('Order ID') ?>: <a href="<?php echo $this->getOrderUrl($_rma) ?>"><?php echo $this->escapeHtml($_rma->getOrderIncrementId()) ?></a><br>
                 <?php echo __('Date Requested') ?>: <?php echo $this->helper('Magento\Rma\Helper\Data')->getFormatedDate($_rma->getDateRequested()) ?><br>
-                <?php echo __('Email Address') ?>: <?php echo $this->escapeHtml($_order->getCustomerEmail()) ?>
+                <?php echo __('Email') ?>: <?php echo $this->escapeHtml($_order->getCustomerEmail()) ?>
                 <?php if ($_rma->getCustomerCustomEmail()): ?>
                     <br>
                     <?php echo __('Contact Email Address') ?>: <?php echo $this->escapeHtml($_rma->getCustomerCustomEmail()) ?>

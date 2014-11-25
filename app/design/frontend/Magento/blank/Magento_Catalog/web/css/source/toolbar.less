@@ -12,7 +12,6 @@
 .page-products .columns {
     position: relative;
     z-index: 1;
-    padding-top: 38px;
 }
 
 .toolbar {
@@ -59,12 +58,15 @@
         width: auto;
     }
     &-action {
+        vertical-align: top;
         .icon-font(
             @icon-arrow-down,
-            @_icon-font-size: 24px,
-            @_icon-font-color: @text-color-muted
+            @_icon-font-size: 28px,
+            @_icon-font-line-height: 32px,
+            @_icon-font-color: @text-color-muted,
+            @_icon-font-color-hover: @color-primary,
+            @_icon-font-text-hide: true
         );
-        .icon-text-hide();
         &.sort-desc:before {
             content: @icon-arrow-down;
         }

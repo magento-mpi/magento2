@@ -143,6 +143,15 @@
 }
 
 //
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .block-search {
+        margin-top: @indent-s-base;
+    }
+}
+
+//
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
