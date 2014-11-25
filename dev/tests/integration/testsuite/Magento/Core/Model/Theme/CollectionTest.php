@@ -50,7 +50,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadThemesFromFileSystem()
     {
-        $pathPattern = implode('/', array('frontend', '*', 'theme.xml'));
+        $pathPattern = implode('/', array('frontend', '*', '*', 'theme.xml'));
         $this->_model->addTargetPattern($pathPattern);
         $this->assertEquals(8, count($this->_model));
     }
@@ -75,7 +75,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'themePath' => implode('/', array('frontend', 'magento_default', 'theme.xml')),
+                'themePath' => implode('/', array('frontend', 'Magento', 'default', 'theme.xml')),
                 'expectedData' => array(
                     'area' => 'frontend',
                     'theme_title' => 'Default',

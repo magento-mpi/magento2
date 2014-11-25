@@ -57,7 +57,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
      */
     protected function registerThemes()
     {
-        $pathPattern = 'frontend/*/theme.xml';
+        $pathPattern = 'frontend/*/*/theme.xml';
         $this->_model->register($pathPattern);
         return $this;
     }
