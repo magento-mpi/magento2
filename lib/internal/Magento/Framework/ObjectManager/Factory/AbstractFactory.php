@@ -115,13 +115,15 @@ abstract class AbstractFactory implements \Magento\Framework\ObjectManager\Facto
     /**
      * Resolve an argument
      *
-     * @param $argument
-     * @param $paramType
-     * @param $paramDefault
-     * @param $paramName
-     * @param $requestedType
+     * @param array $argument
+     * @param string $paramType
+     * @param mixed $paramDefault
+     * @param string $paramName
+     * @param string $requestedType
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function resolveArgument(&$argument, $paramType, $paramDefault, $paramName, $requestedType)
     {
