@@ -12,6 +12,7 @@ namespace Magento\Tools\Di\Code\Generator;
 use Magento\Framework\ObjectManager\Config;
 use Magento\Tools\Di\Code\Scanner;
 use Magento\Framework\Interception\Config\Config as InterceptionConfig;
+use Magento\Tools\Di\Code\Reader\Type;
 
 class InterceptionConfigurationBuilder
 {
@@ -33,6 +34,11 @@ class InterceptionConfigurationBuilder
     private $pluginList;
 
     /**
+     * @var Type
+     */
+    private $typeReader;
+
+    /**
      * @var string
      */
     const GLOBAL_CONFIG = 'global';
@@ -40,13 +46,14 @@ class InterceptionConfigurationBuilder
     /**
      * @param InterceptionConfig $interceptionConfig
      * @param PluginList $pluginList
+     * @param Type $typeReader
      */
-    public function __construct(InterceptionConfig $interceptionConfig, PluginList $pluginList)
+    public function __construct(InterceptionConfig $interceptionConfig, PluginList $pluginList, Type $typeReader)
     {
         $this->interceptionConfig = $interceptionConfig;
         $this->pluginList = $pluginList;
+        $this->typeReader = $typeReader;
     }
-
 
     /**
      * Adds area code
@@ -64,11 +71,11 @@ class InterceptionConfigurationBuilder
     /**
      * Builds interception configuration for all defined classes
      *
+     * @param array $definedClasses
      * @return array
      */
-    public function getInterceptionConfiguration()
+    public function getInterceptionConfiguration($definedClasses)
     {
-        $definedClasses = get_declared_classes();
         $interceptedInstances = $this->getInterceptedClasses($definedClasses);
         $inheritedConfig = $this->getPluginsList($interceptedInstances);
         $mergedAreaPlugins = $this->mergeAreaPlugins($inheritedConfig);
@@ -87,7 +94,7 @@ class InterceptionConfigurationBuilder
     {
         $intercepted = [];
         foreach ($definedClasses as $definedClass) {
-            if ($this->interceptionConfig->hasPlugins($definedClass) && $this->isConcrete($definedClass)) {
+            if ($this->interceptionConfig->hasPlugins($definedClass) && $this->typeReader->isConcrete($definedClass)) {
                 $intercepted[] = $definedClass;
             }
         }
@@ -96,7 +103,7 @@ class InterceptionConfigurationBuilder
 
     /**
      * Returns plugin list:
-     * 'concrete class name' => ['plugin name' => [plugin data]]
+     * ['concrete class name' => ['plugin name' => [instance => 'instance name', 'order' => 'Order Number']]]
      *
      * @param array $interceptedInstances
      * @return array
@@ -129,7 +136,7 @@ class InterceptionConfigurationBuilder
     {
         $filteredData = [];
         foreach ($pluginInheritance as $instance => $plugins) {
-            if (is_null($plugins) || !$this->isConcrete($instance)) {
+            if (is_null($plugins) || !$this->typeReader->isConcrete($instance)) {
                 continue;
             }
 
@@ -185,17 +192,5 @@ class InterceptionConfigurationBuilder
             $plugins = $pluginsMethods;
         }
         return $interceptionConfiguration;
-    }
-
-    /**
-     * Whether instance is concrete implementation
-     *
-     * @param string $instance
-     * @return bool
-     */
-    private function isConcrete($instance)
-    {
-        $instance = new \ReflectionClass($instance);
-        return !$instance->isAbstract() && !$instance->isInterface();
     }
 }

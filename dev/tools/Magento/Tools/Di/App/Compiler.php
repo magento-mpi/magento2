@@ -10,7 +10,7 @@ namespace Magento\Tools\Di\App;
 
 use Magento\Framework\App;
 use Magento\Tools\Di\Definition\Collection as DefinitionsCollection;
-use Magento\Tools\Di\Compiler\Config\Reader as ConfigReader;
+use Magento\Tools\Di\Compiler\Config;
 use Magento\Tools\Di\Code\Reader\ClassesScanner;
 use Magento\Tools\Di\Code\Generator\InterceptionConfigurationBuilder;
 
@@ -38,26 +38,34 @@ class Compiler implements \Magento\Framework\AppInterface
     private $interceptionConfigurationBuilder;
 
     /**
-     * @var ConfigReader
+     * @var Config\Reader
      */
     private $configReader;
+
+    /**
+     * @var Config\Writer\Filesystem
+     */
+    private $configWriter;
 
     /**
      * @param App\AreaList $areaList
      * @param ClassesScanner $classesScanner
      * @param InterceptionConfigurationBuilder $interceptionConfigurationBuilder
-     * @param ConfigReader $configReader
+     * @param Config\Reader $configReader
+     * @param Config\Writer\Filesystem $configWriter
      */
     public function __construct(
         App\AreaList $areaList,
         ClassesScanner $classesScanner,
         InterceptionConfigurationBuilder $interceptionConfigurationBuilder,
-        ConfigReader $configReader
+        Config\Reader $configReader,
+        Config\Writer\Filesystem $configWriter
     ) {
         $this->areaList = $areaList;
         $this->classesScanner = $classesScanner;
         $this->interceptionConfigurationBuilder = $interceptionConfigurationBuilder;
         $this->configReader = $configReader;
+        $this->configWriter = $configWriter;
     }
 
     /**
@@ -73,11 +81,17 @@ class Compiler implements \Magento\Framework\AppInterface
             $definitionsCollection->addCollection($this->getDefinitionsCollection(BP . '/' . $path));
         }
 
-        $this->configReader->generateCachePerScope($definitionsCollection, 'global');
+        $this->configWriter->write(
+            'global',
+            $this->configReader->generateCachePerScope($definitionsCollection, 'global')
+        );
         $this->interceptionConfigurationBuilder->addAreaCode('global');
         foreach ($this->areaList->getCodes() as $areaCode) {
             $this->interceptionConfigurationBuilder->addAreaCode($areaCode);
-            $this->configReader->generateCachePerScope($definitionsCollection, $areaCode, true);
+            $this->configWriter->write(
+                $areaCode,
+                $this->configReader->generateCachePerScope($definitionsCollection, $areaCode, true)
+            );
         }
 
         $this->generateInterceptors();
@@ -138,7 +152,7 @@ class Compiler implements \Magento\Framework\AppInterface
                     'Magento\Tools\Di\Code\Generator\Interceptor',
             )
         );
-        $interceptionConfiguration = $this->interceptionConfigurationBuilder->getInterceptionConfiguration();
-        $generator->generateList($interceptionConfiguration);
+        $configuration = $this->interceptionConfigurationBuilder->getInterceptionConfiguration(get_declared_classes());
+        $generator->generateList($configuration);
     }
 }

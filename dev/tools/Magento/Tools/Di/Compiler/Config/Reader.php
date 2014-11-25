@@ -13,11 +13,13 @@ use Magento\Framework\App;
 use Magento\Tools\Di\Code\Reader\ClassReaderDecorator;
 use Magento\Tools\Di\Compiler\ArgumentsResolverFactory;
 use Magento\Tools\Di\Definition\Collection as DefinitionsCollection;
+use Magento\Tools\Di\Code\Reader\Type;
+use Magento\Framework\ObjectManager\ConfigInterface;
 
 class Reader
 {
     /**
-     * @var \Magento\Framework\ObjectManager\ConfigInterface
+     * @var ConfigInterface
      */
     private $diContainerConfig;
 
@@ -37,39 +39,38 @@ class Reader
     private $classReaderDecorator;
 
     /**
-     * @var Writer\Filesystem
+     * @var Type
      */
-    private $configWriter;
+    private $typeReader;
 
     /**
      * @param \Magento\Framework\ObjectManager\ConfigInterface $diContainerConfig
      * @param App\ObjectManager\ConfigLoader $configLoader
      * @param ArgumentsResolverFactory $argumentsResolverFactory
      * @param ClassReaderDecorator $classReaderDecorator
-     * @param Writer\Filesystem $configWriter
      */
     public function __construct(
         \Magento\Framework\ObjectManager\ConfigInterface $diContainerConfig,
         App\ObjectManager\ConfigLoader $configLoader,
         ArgumentsResolverFactory $argumentsResolverFactory,
         ClassReaderDecorator $classReaderDecorator,
-        Writer\Filesystem $configWriter
+        Type $typeReader
     ) {
         $this->diContainerConfig = $diContainerConfig;
         $this->configLoader = $configLoader;
         $this->argumentsResolverFactory = $argumentsResolverFactory;
         $this->classReaderDecorator = $classReaderDecorator;
-        $this->configWriter = $configWriter;
+        $this->typeReader = $typeReader;
     }
 
     /**
-     * Generates config per scope and writes it to some storage
+     * Generates config per scope and returns it
      *
      * @param DefinitionsCollection $definitionsCollection
      * @param string $areaCode
      * @param bool $extendConfig
      *
-     * @return void
+     * @return array
      */
     public function generateCachePerScope(
         DefinitionsCollection $definitionsCollection,
@@ -95,25 +96,23 @@ class Reader
         foreach (array_keys($areaConfig->getVirtualTypes()) as $virtualType) {
             $config['instanceTypes'][$virtualType] = $areaConfig->getInstanceType($virtualType);
         }
-
-        $this->configWriter->write($areaCode, $config);
+        return $config;
     }
 
     /**
      * Returns constructor with defined arguments
      *
      * @param DefinitionsCollection $definitionsCollection
-     * @param \Magento\Framework\ObjectManager\ConfigInterface $config
+     * @param ConfigInterface $config
      * @return array|mixed
      * @throws \ReflectionException
      */
-    private function getConfigForScope(DefinitionsCollection $definitionsCollection, $config)
+    private function getConfigForScope(DefinitionsCollection $definitionsCollection, ConfigInterface $config)
     {
         $constructors = array();
         $argumentsResolver = $this->argumentsResolverFactory->create($config);
         foreach ($definitionsCollection->getInstancesNamesList() as $instanceType) {
-            $refl = new \ReflectionClass($instanceType);
-            if ($refl->isInterface() || $refl->isAbstract()) {
+            if (!$this->typeReader->isConcrete($instanceType)) {
                 continue;
             }
             $constructor = $definitionsCollection->getInstanceArguments($instanceType);
@@ -125,8 +124,7 @@ class Reader
         foreach (array_keys($config->getVirtualTypes()) as $instanceType) {
             $originalType = $config->getInstanceType($instanceType);
             if (!$definitionsCollection->hasInstance($originalType)) {
-                $refl = new \ReflectionClass($originalType);
-                if ($refl->isInterface() || $refl->isAbstract()) {
+                if (!$this->typeReader->isConcrete($originalType)) {
                     continue;
                 }
                 $constructor = $this->classReaderDecorator->getConstructor($originalType);
