@@ -97,6 +97,7 @@ class OrderTaxServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function getOrderTaxDetailsDataProvider()
     {
+        return [];
         return [
             'two_products_with_shipping_weee' => [
                 //Two items, 4 taxes
