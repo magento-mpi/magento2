@@ -40,6 +40,7 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Engine
      * @dataProvider pricesSegmentationDataProvider
+     * @covers \Magento\Framework\Search\Dynamic\Algorithm::calculateSeparators
      */
     public function testPricesSegmentation($categoryId, array $entityIds, array $intervalItems)
     {
