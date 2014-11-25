@@ -9,8 +9,6 @@
 use Magento\Framework\Autoload\AutoloaderRegistry;
 
 require_once __DIR__ . '/../../../../app/bootstrap.php';
-require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/Classes.php';
-require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/AggregateInvoker.php';
 require_once __DIR__ . '/autoload.php';
 
 $testsBaseDir = dirname(__DIR__);
@@ -59,7 +57,7 @@ try {
 
     \Magento\TestFramework\Helper\Bootstrap::setInstance(new \Magento\TestFramework\Helper\Bootstrap($bootstrap));
 
-    \Magento\TestFramework\Utility\Files::setInstance(new Magento\TestFramework\Utility\Files($magentoBaseDir));
+    \Magento\Framework\Test\Utility\Files::setInstance(new Magento\Framework\Test\Utility\Files($magentoBaseDir));
 
     /* Unset declared global variables to release the PHPUnit from maintaining their values between tests */
     unset($testsBaseDir, $testsTmpDir, $magentoBaseDir, $logWriter, $settings, $shell, $application, $bootstrap);

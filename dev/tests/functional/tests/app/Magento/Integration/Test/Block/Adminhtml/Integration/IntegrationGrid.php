@@ -67,7 +67,7 @@ class IntegrationGrid extends Grid
      *
      * @var string
      */
-    protected $resourcesPopupSelector = './/ancestor::body/div[descendant::div[contains(@data-role,"tree-resources")]]';
+    protected $resourcesPopupSelector = './/ancestor::body/div[descendant::div[@id="integration-popup-container"]]';
 
     /**
      * Selector for Integration tokens popup container

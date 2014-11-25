@@ -31,6 +31,7 @@ class Address extends Form
      */
     public function getExistingAddresses()
     {
+        $this->reinitRootElement();
         return explode("\n", $this->_rootElement->find($this->existingAddressSelector)->getText());
     }
 }

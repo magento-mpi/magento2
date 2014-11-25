@@ -64,9 +64,9 @@ class Expiration extends \Magento\Framework\App\Config\Value
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         if (!$this->isValueChanged()) {
             return $this;
         }
@@ -105,9 +105,9 @@ class Expiration extends \Magento\Framework\App\Config\Value
      *
      * @return $this
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
-        parent::_beforeDelete();
+        parent::beforeDelete();
         if ($this->getScope() == \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES) {
             $default = (string)$this->_config->getValue(self::XML_PATH_EXPIRATION_DAYS, 'default');
             $websiteIds = array($this->_storeManager->getWebsite($this->getScopeCode())->getId());

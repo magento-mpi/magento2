@@ -2843,4 +2843,8 @@ return array(
     ['Magento\Framework\ObjectManager\Definition', 'Magento\Framework\ObjectManager\DefinitionInterface'],
     ['Magento\Framework\ObjectManager', 'Magento\Framework\ObjectManagerInterface'],
     ['Magento\Framework\HTTP\IClient', 'Magento\Framework\HTTP\ClientInterface'],
+    ['Magento\Tools\I18n\Code', 'Magento\Tools\I18n'],
+    ['Magento\TestFramework\Utility\AggregateInvoker', 'Magento\Framework\Test\Utility\AggregateInvoker'],
+    ['Magento\TestFramework\Utility\Classes', 'Magento\Framework\Test\Utility\Classes'],
+    ['Magento\TestFramework\Utility\Files', 'Magento\Framework\Test\Utility\Files'],
 );
