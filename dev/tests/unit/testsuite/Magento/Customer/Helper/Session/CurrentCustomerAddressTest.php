@@ -30,7 +30,7 @@ class CurrentCustomerAddressTest extends \PHPUnit_Framework_TestCase
     protected $customerAccountManagementMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\Address
+     * @var \Magento\Customer\Api\Data\AddressInterface
      */
     protected $customerAddressDataMock;
 

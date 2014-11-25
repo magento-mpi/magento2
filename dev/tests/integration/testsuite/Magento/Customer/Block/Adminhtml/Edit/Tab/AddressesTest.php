@@ -7,14 +7,9 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\Customer\Mapper;
-use Magento\Customer\Service\V1\Data\Address;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Service\V1\Data\AddressConverter;
 
 /**
  * Test Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses
@@ -27,12 +22,6 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     /** @var CustomerRepositoryInterface */
     private $_customerRepository;
 
-    /** @var AddressRepositoryInterface */
-    private $_addressService;
-
-    /** @var  \Magento\Framework\Registry */
-    private $_coreRegistry;
-
     /** @var \Magento\Backend\Model\Session */
     private $_backendSession;
 
@@ -41,11 +30,6 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
 
     /** @var  array */
     private $_customerData;
-
-    /**
-     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
-     */
-    private $_extensibleDataObjectConverter;
 
     /**
      * @var Mapper
@@ -64,17 +48,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $this->_customerRepository = $this->_objectManager->get(
             'Magento\Customer\Api\CustomerRepositoryInterface'
         );
-        $this->_addressService = $this->_objectManager->get(
-            'Magento\Customer\Api\AddressRepositoryInterface'
-        );
-        $this->_coreRegistry = $this->_objectManager->get('Magento\Framework\Registry');
         $this->_backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
-
-        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
-
-        $this->_extensibleDataObjectConverter = $this->_objectManager->get(
-            'Magento\Framework\Api\ExtensibleDataObjectConverter'
-        );
 
         $this->customerMapper = $this->_objectManager->get(
             'Magento\Customer\Model\Customer\Mapper'
@@ -88,7 +62,6 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->_backendSession->unsCustomerData();
-        $this->_coreRegistry->unregister(RegistryConstants::CURRENT_CUSTOMER_ID);
     }
 
     /**
@@ -183,7 +156,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
             'account' => $this->customerMapper->toFlatArray($customer)
         );
         $this->_customerData['account']['id'] = $customer->getId();
-        /** @var Address[] $addresses */
+        /** @var \Magento\Customer\Api\Data\AddressInterface[] $addresses */
         $addresses = $customer->getAddresses();
         foreach ($addresses as $addressData) {
             $this->_customerData['address'][$addressData->getId()] = $this->addressMapper->toFlatArray($addressData);
