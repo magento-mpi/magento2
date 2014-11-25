@@ -16,6 +16,11 @@ use Magento\Framework\Search\Request\QueryInterface as RequestQueryInterface;
 class Match implements QueryInterface
 {
     /**
+     * @var string[]
+     */
+    private $replaceSymbols = ['-', '+', '~'];
+
+    /**
      * @var ResolverInterface
      */
     private $resolver;
@@ -39,12 +44,10 @@ class Match implements QueryInterface
     ) {
         /** @var $query \Magento\Framework\Search\Request\Query\Match */
         $queryValue = $query->getValue();
-        if ($conditionType === Bool::QUERY_CONDITION_MUST) {
-            $queryValue = '+' . $queryValue;
-        } elseif ($conditionType === Bool::QUERY_CONDITION_NOT) {
-            $queryValue = '-' . $queryValue;
-        }
-        
+        $queryValue = str_replace($this->replaceSymbols, ' ', $queryValue);
+
+        $queryValue = $this->prepareQuery($queryValue, $conditionType);
+
         $fieldList = [];
         foreach ($query->getMatches() as $match) {
             $fieldList[] = $match['field'];
@@ -59,5 +62,34 @@ class Match implements QueryInterface
         $select->match($resolvedFieldList, $queryValue, true, Select::FULLTEXT_MODE_BOOLEAN);
 
         return $select;
+    }
+
+    /**
+     * @param $queryValue
+     * @param $conditionType
+     * @return string
+     */
+    protected function prepareQuery($queryValue, $conditionType)
+    {
+        $stringPrefix = '';
+        if ($conditionType === Bool::QUERY_CONDITION_MUST) {
+            $stringPrefix = '+';
+        } elseif ($conditionType === Bool::QUERY_CONDITION_NOT) {
+            $stringPrefix = '-';
+        }
+
+        $queryValues = explode(' ', $queryValue);
+
+        foreach ($queryValues as $queryKey => $queryValue) {
+            if (empty($queryValue)) {
+                unset($queryValues[$queryKey]);
+            } else {
+                $queryValues[$queryKey] = $stringPrefix . $queryValue . '*';
+            }
+        }
+
+        $queryValue = implode(' ', $queryValues);
+
+        return $queryValue;
     }
 }
