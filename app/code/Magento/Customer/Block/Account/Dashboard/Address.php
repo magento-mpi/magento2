@@ -120,7 +120,7 @@ class Address extends \Magento\Framework\View\Element\Template
      */
     public function getPrimaryShippingAddressEditUrl()
     {
-        if (is_null($this->getCustomer())) {
+        if (is_null($this->getCustomer()) || is_null($this->currentCustomerAddress->getDefaultShippingAddress())) {
             return '';
         } else {
             $address = $this->currentCustomerAddress->getDefaultShippingAddress();
@@ -141,7 +141,7 @@ class Address extends \Magento\Framework\View\Element\Template
      */
     public function getPrimaryBillingAddressEditUrl()
     {
-        if (is_null($this->getCustomer())) {
+        if (is_null($this->getCustomer()) || is_null($this->currentCustomerAddress->getDefaultBillingAddress())) {
             return '';
         } else {
             $address = $this->currentCustomerAddress->getDefaultBillingAddress();

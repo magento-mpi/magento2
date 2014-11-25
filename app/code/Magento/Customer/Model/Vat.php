@@ -307,15 +307,4 @@ class Vat
         );
         return in_array($countryCode, $euCountries);
     }
-
-    /**
-     * Get default customer group id
-     *
-     * @param \Magento\Store\Model\Store|string|int $store
-     * @return int
-     */
-    public function getDefaultCustomerGroupId($store = null)
-    {
-        return $this->groupManagement->getDefaultGroup($store)->getId();
-    }
 }

@@ -17,14 +17,14 @@ Magento/Paypal
 Magento/Downloadable
 Magento/Core/Model/Resource/Helper
 Magento/Catalog/Block/Adminhtml
-Magento/Catalog/Model/Resource/Collection/AbstractCollection
+Magento/Catalog/Model/Resource/Collection
 Magento/Catalog/Model/Resource/Product/Indexer
 Magento/CatalogInventory/Model/Resource/Indexer/Stock
 Magento/Sales/Model/Order
 Magento/CatalogInventory/Model/Source
 Magento/CatalogSearch/Model/Resource/Helper
-Magento/CatalogSearch/Model/Resource/Advanced/Collection
-Magento/CatalogSearch/Model/Resource/Search/Collection
+Magento/CatalogSearch/Model/Resource/Advanced
+Magento/CatalogSearch/Model/Resource/Search
 Magento/Centinel/Controller
 Magento/Centinel/Model/State
 Magento/Checkout/Block/Multishipping
@@ -33,7 +33,7 @@ Magento/Catalog/Model/Template
 Magento/Cms/Model
 Magento/GiftMessage/Model
 Magento/GoogleShopping/Model/Attribute
-Magento/GroupedProduct/Model/Resource/Product/Type/Grouped/AssociatedProductsCollection
+Magento/GroupedProduct/Model/Resource/Product/Type/Grouped
 Magento/Sales/Block/Order
 Magento/Sales/Controller/Adminhtml/Order
 Magento/Sales/Model/Resource/Helper
@@ -43,7 +43,7 @@ Magento/Catalog/Block/Product
 Magento/Catalog/Model/Resource/Product
 Magento/Catalog/Model/Layer
 Magento/Catalog/Service/V1/Data
-Magento/Eav/Model/Entity/Collection/AbstractCollection
+Magento/Eav/Model/Entity/Collection
 Magento/CatalogImportExport/Model/Export
 Magento/CatalogImportExport/Model/Import
 Magento/CatalogRule/Block/Adminhtml/Promo/Catalog/Edit/Tab
@@ -59,7 +59,7 @@ Magento/Customer/Block/Account/Dashboard
 Magento/Customer/Model/Config/Backend/Show
 Magento/Customer/Model/Metadata
 Magento/Customer/Service/V1
-Magento/Customer/Model/Resource/Customer/Collection
+Magento/Customer/Model/Resource/Customer
 Magento/DesignEditor/Block/Adminhtml/Editor/Tools/Code
 Magento/DesignEditor/Block/Adminhtml/Theme/Selector/Tab
 Magento/DesignEditor/Model/Url
@@ -80,7 +80,7 @@ Magento/Reports/Controller/Adminhtml/Report
 Magento/Reports/Model/Resource/Helper
 Magento/Reports/Model/Resource
 Magento/Review/Block
-Magento/Review/Model/Resource/Review/Product/Collection
+Magento/Review/Model/Resource/Review/Product
 Magento/Rss/Block/Catalog
 Magento/Rule
 Magento/Sales/Block/Adminhtml/Order
@@ -140,3 +140,5 @@ Magento/CatalogSearch/Model/Resource/Fulltext
 lib/internal/Magento/Framework/Data
 lib/internal/Magento/Framework/Service
 app/code/Magento/CatalogInventory/Api/Data
+Magento/Catalog/Service
+Magento/Catalog/Model/ProductLink

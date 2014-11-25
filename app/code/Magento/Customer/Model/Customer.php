@@ -339,7 +339,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param  string $password
      * @return bool
      * @throws \Magento\Framework\Model\Exception
-     * @deprecated Use \Magento\Customer\Model\Api\AccountManagement::authenticate
+     * @deprecated Use \Magento\Customer\Api\AccountManagementInterface::authenticate
      */
     public function authenticate($login, $password)
     {
@@ -381,9 +381,9 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         $storeId = $this->getStoreId();
         if ($storeId === null) {
@@ -397,7 +397,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     /**
      * {@inheritdoc}
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $customerData = (array)$this->getData();
         $customerData[CustomerData::ID] = $this->getId();
@@ -409,7 +409,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
             'customer_save_after_data_object',
             array('customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject)
         );
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -774,7 +774,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Check if accounts confirmation is required in config
      *
      * @return bool
-     * @deprecated Maybe this needs to be moved to helper
      */
     public function isConfirmationRequired()
     {
@@ -872,7 +871,8 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Send email to when password is resetting
      *
      * @return $this
-     * @deprecated
+     * @deprecated Moved to \Magento\Customer\Model\AccountManagement::sendPasswordResetNotificationEmail. Will be
+     * deleted once the Customer/Services/V1 are removed.
      */
     public function sendPasswordResetNotificationEmail()
     {
@@ -1114,10 +1114,10 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      *
      * @return $this
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         //TODO : Revisit and figure handling permissions in MAGETWO-11084 Implementation: Service Context Provider
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**

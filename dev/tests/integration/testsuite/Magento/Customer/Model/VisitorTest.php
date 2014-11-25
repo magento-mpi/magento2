@@ -102,9 +102,9 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
      */
     protected function _loginCustomer($username, $password)
     {
-        /** @var \Magento\Customer\Service\V1\CustomerAccountService $service */
-        $service = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        return $service->authenticate($username, $password);
+        /** @var \Magento\Customer\Api\AccountManagementInterface $accountManagement */
+        $accountManagement = Bootstrap::getObjectManager()->create('Magento\Customer\Api\AccountManagementInterface');
+        return $accountManagement->authenticate($username, $password);
     }
 
     /**

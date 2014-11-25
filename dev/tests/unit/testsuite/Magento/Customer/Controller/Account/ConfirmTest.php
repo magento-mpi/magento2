@@ -118,7 +118,7 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
         $this->customerAccountManagementMock =
             $this->getMockForAbstractClass('Magento\Customer\Api\AccountManagementInterface');
         $this->customerDataMock = $this->getMock(
-            'Magento\Customer\Service\V1\Data\Customer', [], [], '', false
+            'Magento\Customer\Api\Data\CustomerInterface', [], [], '', false
         );
 
         $this->customerRepositoryMock =

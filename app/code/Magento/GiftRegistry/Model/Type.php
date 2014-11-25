@@ -89,7 +89,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if (!$this->hasStoreId() && !$this->getStoreId()) {
             $this->_cleanupData();
@@ -97,7 +97,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
             $this->setMetaXml($xmlModel->processData($this));
         }
 
-        parent::_beforeSave();
+        parent::beforeSave();
     }
 
     /**
@@ -105,7 +105,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->_getResource()->saveTypeStoreData($this);
         if ($this->getStoreId()) {

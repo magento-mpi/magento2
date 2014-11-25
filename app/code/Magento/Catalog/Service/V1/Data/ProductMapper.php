@@ -7,6 +7,9 @@
  */
 namespace Magento\Catalog\Service\V1\Data;
 
+/**
+ * @deprecated
+ */
 class ProductMapper
 {
     /** @var  \Magento\Catalog\Model\ProductFactory */

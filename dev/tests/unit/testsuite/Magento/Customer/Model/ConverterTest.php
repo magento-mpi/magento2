@@ -9,18 +9,16 @@
  */
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Customer\Api\Data\AttributeMetadataInterface;
+use Magento\Customer\Api\CustomerMetadataInterface;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  \PHPUnit_Framework_MockObject_MockObject | AttributeMetadata */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject | AttributeMetadataInterface */
     private $_attributeMetadata;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject | CustomerMetadataServiceInterface */
-    private $_metadataService;
+    /** @var  \PHPUnit_Framework_MockObject_MockObject | CustomerMetadataInterface */
+    private $_customerMetadata;
 
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
@@ -51,14 +49,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->_metadataService = $this->getMockForAbstractClass(
-            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface',
+        $this->_customerMetadata = $this->getMockForAbstractClass(
+            'Magento\Customer\Api\CustomerMetadataInterface',
             array(),
             '',
             false
         );
 
-        $this->_metadataService->expects(
+        $this->_customerMetadata->expects(
             $this->any()
         )->method(
             'getAttributeMetadata'
@@ -66,7 +64,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_attributeMetadata)
         );
 
-        $this->_metadataService->expects(
+        $this->_customerMetadata->expects(
             $this->any()
         )->method(
             'getCustomAttributesMetadata'
@@ -75,7 +73,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_attributeMetadata = $this->getMock(
-            'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
+            'Magento\Customer\Api\Data\AttributeMetadataInterface',
             array(),
             array(),
             '',
@@ -84,7 +82,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $this->customerBuilderMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerDataBuilder',
-            array(),
+            array('populateWithArray','setId','setFirstname','setLastname','setEmail','create'),
             array(),
             '',
             false
@@ -120,6 +118,10 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getId', 'getFirstname', 'getLastname', 'getEmail', 'getAttributes', 'getData', '__wakeup'])
             ->getMock();
 
+        $customerMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $attributeModelMock = $this->getMockBuilder('Magento\Customer\Model\Attribute')
             ->disableOriginalConstructor()
             ->getMock();
@@ -136,6 +138,15 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->method('getAttributeCode')
             ->will($this->returnValue('attribute_code3'));
 
+        $attributeModelMock1 = $this->getMockBuilder('Magento\Customer\Model\Attribute')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $attributeModelMock1->expects($this->once())
+            ->method('getAttribute')
+            ->with('attribute_code')
+            ->will($this->returnValue('attributeValue'));
+
         $this->_mockReturnValue(
             $customerModelMock,
             array(
@@ -143,7 +154,18 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'getFirstname' => 'Tess',
                 'getLastname' => 'Tester',
                 'getEmail' => 'ttester@example.com',
-                'getAttributes' => array($attributeModelMock, $attributeModelMock, $attributeModelMock)
+                'getAttributes' => array($attributeModelMock1, $attributeModelMock, $attributeModelMock)
+            )
+        );
+
+        $this->_mockReturnValue(
+            $customerMock,
+            array(
+                'getId' => 1,
+                'getFirstname' => 'Tess',
+                'getLastname' => 'Tester',
+                'getEmail' => 'ttester@example.com',
+                'getAttributes' => array($attributeModelMock1, $attributeModelMock, $attributeModelMock)
             )
         );
 
@@ -153,26 +175,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             array('attribute_code3', null, null)
         );
         $customerModelMock->expects($this->any())->method('getData')->will($this->returnValueMap($map));
+        $customerMock->expects($this->any())->method('getData')->will($this->returnValueMap($map));
 
-        $objectManagerConfig = $this->getMockBuilder('Magento\Framework\ObjectManager\Config')
-            ->setMethods(['getPreference'])
-            ->getMockForAbstractClass();
-
-        $objectManagerConfig->expects($this->any())
-            ->method('getPreference')
-            ->will($this->returnValue('Magento\Customer\Model\Data\Customer'));
-
-        $customerBuilder = $this->_objectManager->getObject(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
-            [
-                'metadataService' => $this->_metadataService,
-                'objectManagerConfig' => $objectManagerConfig
-            ]
-        );
-
-        $customerFactory = $this->getMockBuilder(
-            'Magento\Customer\Model\CustomerFactory'
-        )->disableOriginalConstructor()->getMock();
+        $this->customerBuilderMock->expects($this->any())->method('populateWithArray')->will($this->returnSelf());
+        $this->customerBuilderMock->expects($this->any())->method('setId')->will($this->returnSelf());
+        $this->customerBuilderMock->expects($this->any())->method('setFirstname')->will($this->returnSelf());
+        $this->customerBuilderMock->expects($this->any())->method('setLastname')->will($this->returnSelf());
+        $this->customerBuilderMock->expects($this->any())->method('setEmail')->will($this->returnSelf());
+        $this->customerBuilderMock->expects($this->any())->method('create')->will($this->returnValue($customerMock));
 
         $converter = new Converter(
             $this->customerBuilderMock,
@@ -182,16 +192,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
         $customerDataObject = $converter->createCustomerFromModel($customerModelMock);
 
-
-        $customerBuilder = $this->_objectManager->getObject(
-            'Magento\Customer\Api\Data\CustomerDataBuilder',
-            [
-                'metadataService' => $this->_metadataService,
-                'objectManagerConfig' => $objectManagerConfig
-            ]
-        );
-
-        $customerData = array(
+        $expectedCustomerData = array(
             'firstname' => 'Tess',
             'email' => 'ttester@example.com',
             'lastname' => 'Tester',
@@ -199,11 +200,19 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'attribute_code' => 'attributeValue',
             'attribute_code2' => 'attributeValue2'
         );
-        // There will be no attribute_code3: it has a value of null, so the converter will drop it
-        $customerBuilder->populateWithArray($customerData);
-        $expectedCustomerData = $customerBuilder->create();
 
-        $this->assertEquals($expectedCustomerData, $customerDataObject);
+        $this->assertEquals('Tess', $customerDataObject->getFirstname());
+        $this->assertEquals('Tester', $customerDataObject->getLastname());
+        $this->assertEquals('ttester@example.com', $customerDataObject->getEmail());
+        $this->assertEquals(1, $customerDataObject->getId());
+        $this->assertEquals('attributeValue', $customerDataObject->getCustomAttribute('attribute_code'));
+        $this->assertEquals('attributeValue2', $customerDataObject->getCustomAttribute('attribute_code2'));
+        /** @var \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor */
+//        $dataObjectProcessor = $this->_objectManager->getObject('Magento\Framework\Reflection\DataObjectProcessor');
+//        $this->assertEquals(
+//            $expectedCustomerData,
+//            $dataObjectProcessor
+//                ->buildOutputDataArray($customerDataObject, 'Magento\Customer\Api\Data\CustomerInterface'));
     }
 
     protected function prepareGetCustomerModel($customerId)

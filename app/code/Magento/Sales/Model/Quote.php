@@ -464,7 +464,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         /**
          * Currency logic
@@ -509,7 +509,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             $this->setCustomerId($this->_customer->getId());
         }
 
-        parent::_beforeSave();
+        parent::beforeSave();
     }
 
     /**
@@ -517,9 +517,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
 
         if (null !== $this->_addresses) {
             $this->getAddressesCollection()->save();
@@ -2308,16 +2308,13 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Save quote with prevention checking
+     * Check if model can be saved
      *
-     * @return $this
+     * @return bool
      */
-    public function save()
+    public function isPreventSaving()
     {
-        if ($this->_preventSaving) {
-            return $this;
-        }
-        return parent::save();
+        return $this->_preventSaving;
     }
 
     /**

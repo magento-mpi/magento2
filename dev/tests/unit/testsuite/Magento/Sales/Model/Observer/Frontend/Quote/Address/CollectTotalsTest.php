@@ -59,6 +59,9 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
      */
     protected $customerBuilderMock;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $groupManagement;
+
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
@@ -132,13 +135,22 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
         $this->customerDataMock->expects($this->any())->method('getStoreId')->will($this->returnValue($this->storeId));
 
+        $this->groupManagement = $this->getMock(
+            'Magento\Customer\Api\GroupManagementInterface',
+            ['getDefaultGroup', 'getNotLoggedInGroup', 'isReadOnly', 'getLoggedInGroups', 'getAllCustomersGroup'],
+            [],
+            '',
+            false
+        );
+
         $this->model = $this->objectManager->getObject(
             'Magento\Sales\Model\Observer\Frontend\Quote\Address\CollectTotals',
             array(
                 'customerAddressHelper' => $this->customerAddressMock,
                 'customerVat' => $this->customerVatMock,
                 'vatValidator' => $this->vatValidatorMock,
-                'customerBuilder' => $this->customerBuilderMock
+                'customerBuilder' => $this->customerBuilderMock,
+                'groupManagement' => $this->groupManagement
             )
         );
     }
@@ -241,9 +253,31 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $this->customerDataMock->expects($this->once())->method('getId')->will($this->returnValue(null));
 
         /** Assertions */
-        $this->quoteAddressMock->expects($this->never())->method('setPrevQuoteCustomerGroupId');
-        $this->customerBuilderMock->expects($this->never())->method('mergeDataObjectWithArray');
-        $this->quoteMock->expects($this->never())->method('setCustomerGroupId');
+        $this->quoteAddressMock->expects($this->once())->method('setPrevQuoteCustomerGroupId');
+
+        $this->customerBuilderMock->expects($this->once())
+            ->method('mergeDataObjectWithArray')
+            ->will($this->returnSelf());
+
+        $this->customerBuilderMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($this->customerDataMock));
+
+        $this->quoteMock->expects($this->once())->method('setCustomerGroupId')->with('notLoggedInGroupId');
+
+        $notLoggedInGroup = $this->getMock(
+            'Magento\Customer\Model\Group',
+            ['getId'],
+            [],
+            '',
+            false
+        );
+        $notLoggedInGroup->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue('notLoggedInGroupId'));
+        $this->groupManagement->expects($this->any())
+            ->method('getNotLoggedInGroup')
+            ->will($this->returnValue($notLoggedInGroup));
 
         /** SUT execution */
         $this->model->dispatch($this->observerMock);
@@ -295,13 +329,18 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->customerDataMock->expects($this->once())->method('getId')->will($this->returnValue('1'));
-        $this->customerVatMock->expects(
-            $this->once()
-        )->method(
-            'getDefaultCustomerGroupId'
-        )->will(
-            $this->returnValue('defaultCustomerGroupId')
+
+        $defaultCustomerGroup = $this->getMock(
+            'Magento\Customer\Model\Group',
+            ['getId'],
+            [],
+            '',
+            false
         );
+        $defaultCustomerGroup->expects($this->once())->method('getId')
+            ->will($this->returnValue('defaultCustomerGroupId'));
+        $this->groupManagement->expects($this->any())->method('getDefaultGroup')->with($this->storeId)
+            ->will($this->returnValue($defaultCustomerGroup));
 
         /** Assertions */
         $this->quoteAddressMock->expects(

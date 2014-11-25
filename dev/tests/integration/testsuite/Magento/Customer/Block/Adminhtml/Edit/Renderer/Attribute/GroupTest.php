@@ -37,7 +37,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     public function testRender()
     {
-        /** @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService */
+        /** @var \Magento\Customer\Api\CustomerMetadataInterface $metadataService */
         $metadataService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Api\CustomerMetadataInterface'
         );
