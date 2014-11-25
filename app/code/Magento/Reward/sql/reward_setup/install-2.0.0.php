@@ -129,6 +129,17 @@ $table = $installer->getConnection()->newTable(
     array('nullable' => false, 'default' => '0'),
     'Points Used'
 )->addColumn(
+    'points_voided',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array(
+        'unsigned'  => true,
+        'nullable'  => false,
+        'default'   => '0',
+        'after'     => 'points_used'
+    ),
+    'Points Voided'
+)->addColumn(
     'currency_amount',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
@@ -162,7 +173,10 @@ $table = $installer->getConnection()->newTable(
     'created_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT),
+    array(
+        'nullable' => false,
+        'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT
+    ),
     'Created At'
 )->addColumn(
     'expired_at_static',

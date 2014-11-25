@@ -151,7 +151,7 @@ $installer->addAttribute(
     array(
         'type' => 'int',
         'visible' => 0,
-        'required' => true,
+        'required' => false,
         'visible_on_front' => 1,
         'is_user_defined' => 0,
         'is_system' => 1,
@@ -166,7 +166,7 @@ $installer->addAttribute(
     array(
         'type' => 'int',
         'visible' => 0,
-        'required' => true,
+        'required' => false,
         'visible_on_front' => 1,
         'is_user_defined' => 0,
         'is_system' => 1,
