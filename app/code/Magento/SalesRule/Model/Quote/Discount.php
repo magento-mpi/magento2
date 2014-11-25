@@ -11,7 +11,6 @@ use Magento\Sales\Model\Quote\Address;
 use Magento\Sales\Model\Quote\Item\AbstractItem;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
-
 class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
@@ -42,13 +41,13 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\SalesRule\Model\Validator $validator
+     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\SalesRule\Model\Validator $validator,
         PriceCurrencyInterface $priceCurrency
-
     ) {
         $this->_eventManager = $eventManager;
         $this->setCode('discount');
