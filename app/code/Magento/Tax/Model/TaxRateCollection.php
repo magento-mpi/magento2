@@ -18,7 +18,6 @@ use Magento\Framework\Api\SortOrderBuilder;
 
 /**
  * Tax rate collection for a grid backed by Services
- * @see Magento\Tax\Service\V1\Collection\TaxRateCollection
  */
 
 class TaxRateCollection extends AbstractServiceCollection

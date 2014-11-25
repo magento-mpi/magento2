@@ -11,7 +11,7 @@ namespace Magento\GoogleShopping\Model\Attribute;
 use Magento\Tax\Model\ClassModel;
 use Magento\Tax\Api\Data\TaxRuleDataBuilder;
 use Magento\Tax\Api\Data\TaxRateDataBuilde as TaxRateBuilder;
-use Magento\Tax\Service\V1\TaxRuleFixtureFactory;
+use Magento\Tax\Model\TaxRuleFixtureFactory;
 
 /**
  * Tests GoogleShopping\Model\Attribute\Tax
@@ -38,7 +38,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     /**
      * TaxRate builder
      *
-     * @var TaxRateBuilder
+     * @var TaxRateDataBuilder
      */
     private $taxRateBuilder;
 

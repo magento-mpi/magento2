@@ -76,7 +76,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         );
 
         $expectedArray = [
-            'Magento\Tax\Service\V1\Data\TaxRate' => [],
+            'Magento\Tax\Api\Data\TaxRateInterface' => [],
             'Magento\Catalog\Service\Data\V1\Product' => [
                 'stock_item' => "Magento\CatalogInventory\Service\Data\V1\StockItem"
             ],

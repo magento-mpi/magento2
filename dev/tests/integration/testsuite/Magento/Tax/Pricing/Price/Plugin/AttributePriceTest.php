@@ -9,7 +9,6 @@
 namespace Magento\Tax\Pricing\Price\Plugin;
 
 use Magento\Tax\Model\ClassModel;
-use Magento\Tax\Service\V1\TaxRuleFixtureFactory;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Tax\Model\Config;
 

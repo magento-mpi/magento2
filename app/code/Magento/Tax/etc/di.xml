@@ -70,4 +70,5 @@
     <preference for="Magento\Tax\Api\Data\AppliedTaxRateInterface" type="Magento\Tax\Model\TaxDetails\AppliedTaxRate" />
     <preference for="Magento\Tax\Api\Data\TaxDetailsInterface" type="Magento\Tax\Model\TaxDetails\TaxDetails" />
     <preference for="Magento\Tax\Api\Data\TaxDetailsItemInterface" type="Magento\Tax\Model\TaxDetails\ItemDetails" />
+    <preference for="Magento\Tax\Api\TaxRateManagementInterface" type="Magento\Tax\Model\TaxRateManagement"/>
 </config>
