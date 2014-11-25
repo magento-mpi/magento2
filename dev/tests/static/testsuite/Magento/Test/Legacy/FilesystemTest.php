@@ -53,7 +53,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             'The "community" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array(
                 'app/code/community'
             ),
-            'Eliminated Magento/plushe theme' => ['app/design/frontend/Magento/plushe'],
+            'Eliminated Magento/luma theme' => ['app/design/frontend/Magento/luma'],
         );
     }
 

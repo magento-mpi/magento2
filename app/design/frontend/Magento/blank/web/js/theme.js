@@ -7,6 +7,7 @@
 define([
     "jquery",
     'mage/smart-keyboard-handler',
+    'mage/ie-class-fixer',
     "jquery/ui"
 ],function($, keyboardHandler) {
     'use strict';
@@ -22,7 +23,7 @@ define([
         }
         if($('.cart-summary').length){
             $('.cart-summary').mage('sticky', {
-                container: '.cart-container'
+                container: '#maincontent'
             });
         }
 

@@ -53,8 +53,10 @@ require(['jquery', 'mage/mage'], function($){
                     </div>
                 </div>
                 <div class="actions-toolbar">
-                    <input type="hidden" name="params[search]" value="type">
-                    <button type="submit" title="<?php echo __('Find') ?>" class="action search"><span><?php echo __('Find') ?></span></button>
+                    <div class="primary">
+                        <input type="hidden" name="params[search]" value="type">
+                        <button type="submit" title="<?php echo __('Find') ?>" class="action search"><span><?php echo __('Find') ?></span></button>
+                    </div>
                 </div>
             </fieldset>
         </form>
@@ -74,8 +76,10 @@ require(['jquery', 'mage/mage'], function($){
                     </div>
                 </div>
                 <div class="actions-toolbar">
-                    <input type="hidden" name="params[search]" value="email">
-                    <button type="submit" title="<?php echo __('Go') ?>" class="action search"><span><?php echo __('Search') ?></span></button>
+                    <div class="primary">
+                        <input type="hidden" name="params[search]" value="email">
+                        <button type="submit" title="<?php echo __('Go') ?>" class="action search"><span><?php echo __('Find') ?></span></button>
+                    </div>
                 </div>
             </fieldset>
         </form>

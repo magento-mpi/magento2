@@ -19,6 +19,7 @@ atlassian*
 /lib/internal/flex/varien/.flexLibProperties
 /lib/internal/flex/varien/.project
 /lib/internal/flex/varien/.settings
+/node_modules
 
 /pub/media/*.*
 !/pub/media/.htaccess
