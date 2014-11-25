@@ -87,13 +87,6 @@ class Bootstrap
     private $objectManager;
 
     /**
-     * Configuration directory
-     *
-     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
-     */
-    private $configDir;
-
-    /**
      * Maintenance mode manager
      *
      * @var \Magento\Framework\App\MaintenanceMode
@@ -225,7 +218,7 @@ class Bootstrap
     public function createApplication($type, $arguments = [])
     {
         try {
-            $this->init();
+            $this->initObjectManager();
             $application = $this->objectManager->create($type, $arguments);
             if (!($application instanceof AppInterface)) {
                 throw new \InvalidArgumentException("The provided class doesn't implement AppInterface: {$type}");
@@ -248,7 +241,7 @@ class Bootstrap
             try {
                 \Magento\Framework\Profiler::start('magento');
                 $this->initErrorHandler();
-                $this->init();
+                $this->initObjectManager();
                 $this->assertMaintenance();
                 $this->assertInstalled();
                 $response = $application->launch();
@@ -277,7 +270,9 @@ class Bootstrap
         if (null === $isExpected) {
             return;
         }
-        $this->init();
+        $this->initObjectManager();
+        /** @var \Magento\Framework\App\MaintenanceMode $maintenance */
+        $this->maintenance = $this->objectManager->get('Magento\Framework\App\MaintenanceMode');
         $isOn = $this->maintenance->isOn(isset($this->server['REMOTE_ADDR']) ? $this->server['REMOTE_ADDR'] : '');
         if ($isOn && !$isExpected) {
             $this->errorCode = self::ERR_MAINTENANCE;
@@ -301,7 +296,7 @@ class Bootstrap
         if (null === $isExpected) {
             return;
         }
-        $this->init();
+        $this->initObjectManager();
         $isInstalled = $this->isInstalled();
         if (!$isInstalled && $isExpected) {
             $this->errorCode = self::ERR_IS_INSTALLED;
@@ -340,8 +335,10 @@ class Bootstrap
      */
     private function isInstalled()
     {
-        $this->init();
-        return $this->configDir->isExist('local.xml');
+        $this->initObjectManager();
+        /** @var \Magento\Framework\App\DeploymentConfig $deploymentConfig */
+        $deploymentConfig = $this->objectManager->get('Magento\Framework\App\DeploymentConfig');
+        return $deploymentConfig->isAvailable();
     }
 
     /**
@@ -351,7 +348,7 @@ class Bootstrap
      */
     public function getObjectManager()
     {
-        $this->init();
+        $this->initObjectManager();
         return $this->objectManager;
     }
 
@@ -367,18 +364,15 @@ class Bootstrap
     }
 
     /**
-     * Initializes the essential objects
+     * Initializes object manager
      *
      * @return void
      */
-    private function init()
+    private function initObjectManager()
     {
         if (!$this->objectManager) {
             $this->objectManager = $this->factory->create($this->server);
             $this->maintenance = $this->objectManager->get('Magento\Framework\App\MaintenanceMode');
-            /** @var $fileSystem \Magento\Framework\Filesystem */
-            $fileSystem = $this->objectManager->get('Magento\Framework\Filesystem');
-            $this->configDir = $fileSystem->getDirectoryRead(DirectoryList::CONFIG);
         }
     }
 

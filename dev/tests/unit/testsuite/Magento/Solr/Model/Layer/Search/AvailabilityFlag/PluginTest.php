@@ -57,6 +57,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->filterMock = $this->getMock(
             'Magento\Catalog\Model\Layer\Filter\AbstractFilter', array(), array(), '', false
         );

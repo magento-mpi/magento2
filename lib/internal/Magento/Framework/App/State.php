@@ -61,7 +61,6 @@ class State
     const MODE_DEFAULT = 'default';
 
     /**#@-*/
-    const PARAM_INSTALL_DATE = 'install.date';
 
     /**
      * @param \Magento\Framework\Config\ScopeInterface $configScope

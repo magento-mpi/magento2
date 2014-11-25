@@ -22,7 +22,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_loggingDom = new \DOMDocument();
-        $this->_loggingDom->load(__DIR__ . '/_files/Magento/Test/etc/logging.xml');
+        $this->_loggingDom->load(__DIR__ . '/_files/logging.xml');
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_converter = $objectManager->get('Magento\Logging\Model\Config\Converter');
     }

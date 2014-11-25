@@ -78,15 +78,15 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomAttributesMetadataWithAttributeNamedCustomAttribute()
     {
         $customAttributesMetadata = $this->_service->getCustomAttributesMetadata();
-        $customAttributeCode = 'custom_attribute';
+        $customAttributeCodeOne = 'custom_attribute1';
         $customAttributeFound = false;
-        $customAttributesCode = 'custom_attributes';
+        $customAttributeCodeTwo = 'custom_attribute2';
         $customAttributesFound = false;
         foreach ($customAttributesMetadata as $attribute) {
-            if ($attribute->getAttributeCode() == $customAttributeCode) {
+            if ($attribute->getAttributeCode() == $customAttributeCodeOne) {
                 $customAttributeFound = true;
             }
-            if ($attribute->getAttributeCode() == $customAttributesCode) {
+            if ($attribute->getAttributeCode() == $customAttributeCodeTwo) {
                 $customAttributesFound = true;
             }
         }
