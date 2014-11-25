@@ -38,7 +38,8 @@ class ClassModel extends \Magento\Framework\Model\AbstractExtensibleModel implem
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Tax\Model\TaxClass\Factory $classFactory
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param TaxClass\Factory $classFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data

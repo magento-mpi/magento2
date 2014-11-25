@@ -142,6 +142,7 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
      * @param string[] $messages
      * @param string $message
      * @param array $params
+     * @return void
      */
     protected function addErrorMessage(&$messages, $message, $params)
     {

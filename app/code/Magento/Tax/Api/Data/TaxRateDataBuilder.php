@@ -14,15 +14,13 @@ namespace Magento\Tax\Api\Data;
 class TaxRateDataBuilder extends \Magento\Framework\Api\Builder
 {
     /**
-     * Initialize the builder
-     *
      * @param \Magento\Framework\Api\ObjectFactory $objectFactory
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Framework\Api\AttributeDataBuilder $attributeValueBuilder
      * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
      * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
      * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
-     * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
+     * @param \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig
      * @param string|null $modelClassInterface
      */
     public function __construct(
@@ -148,7 +146,7 @@ class TaxRateDataBuilder extends \Magento\Framework\Api\Builder
     }
 
     /**
-     * @param int|null
+     * @param int|null $zipIsRange
      * @return $this
      */
     public function setZipIsRange($zipIsRange)

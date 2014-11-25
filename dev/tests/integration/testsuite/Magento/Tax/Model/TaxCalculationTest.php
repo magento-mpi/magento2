@@ -1938,7 +1938,8 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
      * @param AbstractExtensibleModel $object
      * @return array
      */
-    private function convertObjectToArray(AbstractExtensibleModel $object) {
+    private function convertObjectToArray(AbstractExtensibleModel $object)
+    {
         $data = $object->getData();
         foreach ($data as $key => $value) {
             if (is_object($value)) {

@@ -71,8 +71,6 @@ class RateRepository implements \Magento\Tax\Api\TaxRateRepositoryInterface
     protected $resourceModel;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Tax\Api\Data\TaxRateDataBuilder $rateBuilder
      * @param Converter $converter
      * @param RateRegistry $rateRegistry
@@ -80,6 +78,7 @@ class RateRepository implements \Magento\Tax\Api\TaxRateRepositoryInterface
      * @param RateFactory $rateFactory
      * @param CountryFactory $countryFactory
      * @param RegionFactory $regionFactory
+     * @param \Magento\Tax\Model\Resource\Calculation\Rate $rateResource
      */
     public function __construct(
         \Magento\Tax\Api\Data\TaxRateDataBuilder $rateBuilder,
