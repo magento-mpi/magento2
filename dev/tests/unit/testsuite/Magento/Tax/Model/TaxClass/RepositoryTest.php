@@ -8,9 +8,7 @@
 
 namespace Magento\Tax\Model\TaxClass;
 
-use Magento\Framework\Api\SearchCriteriaInterface;
-use \Magento\Framework\Exception\CouldNotDeleteException;
-use Magento\Tax\Api\Data\TaxClassInterface;
+use Magento\Framework\Exception\CouldNotDeleteException;
 
 class RepositoryTest extends \PHPUnit_Framework_TestCase
 {

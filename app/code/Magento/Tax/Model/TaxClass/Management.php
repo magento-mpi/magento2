@@ -74,7 +74,6 @@ class Management implements \Magento\Tax\Api\TaxClassManagementInterface
                     $taxClasses = $this->classRepository->getList($searchCriteria)->getItems();
                     $taxClass = array_shift($taxClasses);
                     return (null == $taxClass) ? null : $taxClass->getClassId();
-                default:
             }
         }
         return null;
