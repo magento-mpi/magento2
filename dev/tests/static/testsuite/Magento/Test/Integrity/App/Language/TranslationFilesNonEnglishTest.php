@@ -15,7 +15,7 @@ class TranslationFilesNonEnglishTest extends TranslationFiles
     /**
      * @var string
      */
-    protected $defaultLocale = \Magento\Tools\I18n\Code\Locale::DEFAULT_SYSTEM_LOCALE;
+    protected $defaultLocale = \Magento\Tools\I18n\Locale::DEFAULT_SYSTEM_LOCALE;
 
     /**
      * Checked whether all the phrases from en_US.csv file is present in all other locale csv files,
@@ -79,7 +79,7 @@ class TranslationFilesNonEnglishTest extends TranslationFiles
      */
     protected function getDeclaredLocales()
     {
-        $pathToSource = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
+        $pathToSource = \Magento\Framework\Test\Utility\Files::init()->getPathToSource();
         $result = [];
         foreach (Package::readDeclarationFiles($pathToSource) as $row) {
             $languageConfig = new Config(file_get_contents($row[0]));

@@ -59,8 +59,7 @@ class ActionPool implements ActionPoolInterface
         $this->context = $context;
         $this->itemFactory = $itemFactory;
         $this->toolbarBlock = $this->context->getPageLayout()
-            ? $this->context->getPageLayout()->getBlock(static::ACTIONS_PAGE_TOOLBAR) : false;
-    }
+            ? $this->context->getPageLayout()->getBlock(static::ACTIONS_PAGE_TOOLBAR) : false;    }
 
     /**
      * Add button

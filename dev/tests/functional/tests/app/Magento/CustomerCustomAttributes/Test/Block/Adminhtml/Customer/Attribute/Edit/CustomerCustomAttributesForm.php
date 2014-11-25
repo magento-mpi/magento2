@@ -11,8 +11,7 @@ namespace Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribu
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
- * Class CustomerCustomAttributesForm
- * Customer Attribute form
+ * Customer Attribute form.
  */
 class CustomerCustomAttributesForm extends FormTabs
 {

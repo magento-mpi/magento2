@@ -334,9 +334,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         $this->_populateBeforeSaveData();
         return $this;
     }
@@ -424,9 +424,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
         if (null !== $this->_items) {
             $this->getItemsCollection()->save();
         }

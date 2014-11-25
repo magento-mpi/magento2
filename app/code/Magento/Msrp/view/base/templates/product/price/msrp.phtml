@@ -80,7 +80,7 @@ if ($product->isSaleable()) {
     </span>
 <?php endif; ?>
 
-<?php if ($this->getZone() == \Magento\Framework\Pricing\Render::ZONE_ITEM_VIEW): ?>
+<?php if ($block->getZone() == \Magento\Framework\Pricing\Render::ZONE_ITEM_VIEW): ?>
     <?php $helpLinkId = 'msrp-help-' . $productId . $this->getRandomString(20); ?>
     <a href="#"
        id="<?php echo $helpLinkId;?>"
