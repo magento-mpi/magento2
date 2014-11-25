@@ -14,6 +14,8 @@ namespace Magento\CatalogSearch\Model\Layer\Filter;
  */
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
+    const CURRENT_CATEGORY_FILTER = 'current_category_filter';
+
     /**
      * @var \Magento\CatalogSearch\Model\Layer\Filter\Category
      */
@@ -39,6 +41,13 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->_model->setRequestVar('cat');
     }
 
+    protected function tearDown()
+    {
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\Framework\Registry')->unregister(self::CURRENT_CATEGORY_FILTER);
+    }
+
     public function testGetResetValue()
     {
         $this->assertNull($this->_model->getResetValue());
@@ -57,7 +66,9 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->assertNull($objectManager->get('Magento\Framework\Registry')->registry('current_category_filter'));
+        $this->assertNull($objectManager->get('Magento\Framework\Registry')->registry(
+                 self::CURRENT_CATEGORY_FILTER
+            ));
     }
 
     public function testApply()
@@ -68,7 +79,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->_model->apply($request);
 
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = $objectManager->get('Magento\Framework\Registry')->registry('current_category_filter');
+        $category = $objectManager->get('Magento\Framework\Registry')->registry(self::CURRENT_CATEGORY_FILTER);
         $this->assertInstanceOf('Magento\Catalog\Model\Category', $category);
         $this->assertEquals(3, $category->getId());
 
@@ -96,7 +107,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->_model->apply($request);
 
         /** @var $category \Magento\Catalog\Model\Category */
-        $category = $objectManager->get('Magento\Framework\Registry')->registry('current_category_filter');
+        $category = $objectManager->get('Magento\Framework\Registry')->registry(self::CURRENT_CATEGORY_FILTER);
         $this->assertInstanceOf('Magento\Catalog\Model\Category', $category);
         $this->assertEquals(4, $category->getId());
 
