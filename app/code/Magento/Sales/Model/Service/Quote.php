@@ -129,6 +129,7 @@ class Quote
         $this->_convertor = $convertQuoteFactory->create();
         $this->_customerSession = $customerSession;
         $this->_transactionFactory = $transactionFactory;
+        $this->addressRepository = $addressRepository;
         $this->customerRepository = $customerRepository;
     }
 
@@ -183,7 +184,7 @@ class Quote
             $this->customerRepository->save($customer);
         }
 
-        if (!$quote->getBillingAddress()->getId() && $customer->getDefaultBilling()) {
+        if (1 && $customer->getDefaultBilling()) {
             $quote->getBillingAddress()->importCustomerAddressData(
                 $this->addressRepository->getById($customer->getDefaultBilling())
             );

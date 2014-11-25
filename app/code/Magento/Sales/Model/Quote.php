@@ -692,8 +692,13 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         /* @TODO: Remove the method after all external usages are refactored in MAGETWO-19930 */
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
-        $customerData = $this->objectFactory->create($this->extensibleDataObjectConverter->toFlatArray($customer));
+        $customerData = $this->objectFactory->create(
+            $this->extensibleDataObjectConverter->toFlatArray(
+                $this->customerBuilder->populate($customer)->setAddresses([])->create()
+            )
+        );
         $this->_objectCopyService->copyFieldsetToTarget('customer_account', 'to_quote', $customerData, $this);
+
         return $this;
     }
 
@@ -746,10 +751,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function addCustomerAddress(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        $address = $this->addressBuilder->populate($address)->create();
         $addresses = (array)$this->getCustomer()->getAddresses();
         $addresses[] = $address;
-        $customer = $this->customerBuilder->populate($this->getCustomer())->setAddresses($addresses)->create();
+        $customer = $this->customerBuilder->populate($this->getCustomer())
+            ->setAddresses($addresses)
+            ->create();
         $this->setCustomer($customer);
 
         return $this;
