@@ -155,7 +155,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->_filesystemMock->expects($this->any())->method('getDirectoryRead')->with(DirectoryList::MODULES)
             ->will($this->returnValue($modulesDirectoryMock));
 
-        $this->_moduleListMock->expects($this->once())->method('getModules')->will($this->returnValue(['Test_Module']));
+        $this->_moduleListMock->expects($this->once())->method('getNames')->will($this->returnValue(['Test_Module']));
         $model = new \Magento\Framework\Module\Dir\Reader(
             $this->_dirsMock,
             $this->_moduleListMock,
