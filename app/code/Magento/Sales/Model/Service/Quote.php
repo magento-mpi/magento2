@@ -184,7 +184,7 @@ class Quote
             $this->customerRepository->save($customer);
         }
 
-        if (1 && $customer->getDefaultBilling()) {
+        if (!$quote->getBillingAddress()->getId() && $customer->getDefaultBilling()) {
             $quote->getBillingAddress()->importCustomerAddressData(
                 $this->addressRepository->getById($customer->getDefaultBilling())
             );
