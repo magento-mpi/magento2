@@ -9,6 +9,7 @@ namespace Magento\Pci\Model;
 
 use Magento\Framework\Encryption\Crypt;
 use Magento\TestFramework\Helper\ObjectManager;
+use Magento\Framework\App\DeploymentConfig;
 
 /**
  * Class EncryptionTest tests Magento\Pci\Model\Encryption
@@ -21,6 +22,12 @@ class EncryptionTest extends \PHPUnit_Framework_TestCase
         $data = 'Mares eat oats and does eat oats, but little lambs eat ivy.';
         $key = 'testKey';
 
+        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', [], [], '', false);
+        $deploymentConfigMock->expects($this->any())
+            ->method('get')
+            ->with(Encryption::PARAM_CRYPT_KEY)
+            ->will($this->returnValue($key));
+
         // Encrypt data with known key
         $objectManager = new ObjectManager($this);
         /**
@@ -28,7 +35,7 @@ class EncryptionTest extends \PHPUnit_Framework_TestCase
          */
         $encryption  = $objectManager->getObject(
             'Magento\Pci\Model\Encryption',
-            ['cryptKey' => $key]
+            ['deploymentConfig' => $deploymentConfigMock]
         );
         $actual = $encryption->encrypt($data);
 

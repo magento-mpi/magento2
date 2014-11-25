@@ -691,4 +691,12 @@ return array(
     ['XML_PATH_SUPPORT_EMAIL', 'Magento\Customer\Helper\Data'],
     ['CONTEXT_GROUP', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Context::CONTEXT_GROUP'],
     ['CONTEXT_AUTH', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Context::CONTEXT_AUTH'],
+    ['DEBUG_CONNECT', 'Magento\Framework\DB\Adapter\Pdo\Mysql', 'Magento\Framework\DB\LoggerInterface::TYPE_CONNECT'],
+    ['DEBUG_TRANSACTION', 'Magento\Framework\DB\Adapter\Pdo\Mysql', 'Magento\Framework\DB\LoggerInterface::TYPE_TRANSACTION'],
+    ['DEBUG_QUERY', 'Magento\Framework\DB\Adapter\Pdo\Mysql', 'Magento\Framework\DB\LoggerInterface::TYPE_QUERY'],
+    [
+        'PARAM_ALLOWED_MODULES',
+        'Magento\Framework\Module\Declaration\Reader\Filesystem',
+        'Magento\Framework\App\ObjectManagerFactory::INIT_PARAM_DEPLOYMENT_CONFIG'
+    ],
 );

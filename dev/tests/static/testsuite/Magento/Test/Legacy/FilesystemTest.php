@@ -54,6 +54,8 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
                 'app/code/community'
             ),
             'Eliminated Magento/plushe theme' => ['app/design/frontend/Magento/plushe'],
+            'Eliminated local.xml - use config.php instead' => ['app/etc/local.xml'],
+            'Eliminated app/etc/module.xml - use config.php instead' => ['app/etc/module.xml'],
         );
     }
 
