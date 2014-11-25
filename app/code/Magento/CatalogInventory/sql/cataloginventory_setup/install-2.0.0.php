@@ -240,10 +240,10 @@ $table = $installer->getConnection()
     ->addIndex(
         $installer->getIdxName(
             'cataloginventory_stock_item',
-            ['product_id', 'stock_id'],
+            ['product_id', 'website_id'],
             \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
         ),
-        ['product_id', 'stock_id'],
+        ['product_id', 'website_id'],
         ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
     )
     ->addIndex(
