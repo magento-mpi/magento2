@@ -1,5 +1,5 @@
 {
-    "name": "magento/frontend-vendor_standalone_theme",
+    "name": "vendor/theme-frontend-default",
     "description": "N/A",
     "require": {
         "php": "~5.4.11|~5.5.0",
