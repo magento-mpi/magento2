@@ -54,7 +54,7 @@ define([
         setDefaultsFromDataSet.call(this);
 
         var box = this.element;
-        this.cache.displayPrices = utils.deepClone(this.options.prices);
+        this.cache.displayPrices = _.clone(this.options.prices);
 
         box.on('reloadPrice', reDrawPrices.bind(this));
         box.on('updatePrice', onUpdatePrice.bind(this));
@@ -115,7 +115,7 @@ define([
         });
 
         if (_.isEmpty(additionalPrice)) {
-            this.cache.displayPrices = utils.deepClone(this.options.prices);
+            this.cache.displayPrices = _.clone(this.options.prices);
         } else {
             _.each(additionalPrice, function (option, priceCode) {
                 var origin = this.options.prices[priceCode] || {};
