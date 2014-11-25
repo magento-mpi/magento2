@@ -505,7 +505,7 @@ class Website extends \Magento\Framework\Model\AbstractModel implements
     /**
      * @return $this
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         $this->_configDataResource->clearScopeData(
             \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES,
@@ -515,7 +515,7 @@ class Website extends \Magento\Framework\Model\AbstractModel implements
             \Magento\Store\Model\ScopeInterface::SCOPE_STORES,
             $this->getStoreIds()
         );
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**
@@ -523,10 +523,10 @@ class Website extends \Magento\Framework\Model\AbstractModel implements
      *
      * @return $this
      */
-    protected function _afterDelete()
+    public function afterDelete()
     {
         $this->_storeManager->clearWebsiteCache($this->getId());
-        parent::_afterDelete();
+        parent::afterDelete();
         return $this;
     }
 
