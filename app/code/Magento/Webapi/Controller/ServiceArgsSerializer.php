@@ -95,11 +95,7 @@ class ServiceArgsSerializer
                     ? $inputArray[$paramName]
                     : $inputArray[$snakeCaseParamName];
 
-                if ($this->_isArrayParam($param)) {
-                    $paramType = $this->getParamType($param);
-                } else {
-                    $paramType = $param->getType();
-                }
+                $paramType = $this->getParamType($param);
                 $inputData[] = $this->_convertValue($paramValue, $paramType);
             } else {
                 $inputData[] = $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null;
@@ -117,14 +113,17 @@ class ServiceArgsSerializer
      */
     private function getParamType(ParameterReflection $param)
     {
-        $docBlock = $param->getDeclaringFunction()->getDocBlock();
-        $precedingParamsPattern = str_repeat('.*\@param.*', $param->getPosition());
-        $matches = [];
-        preg_match("/.*{$precedingParamsPattern}\@param\s+(\S*\[\]).*/is", $docBlock->getContents(), $matches);
-        if (count($matches) > 1) {
-            return $matches[1];
+        $type = $param->getType();
+        if ($type == 'array') {
+            // try to determine class, if it's array of objects
+            $docBlock = $param->getDeclaringFunction()->getDocBlock();
+            $pattern = "/\@param\s+([\w\\\_]+\[\])\s+\\\${$param->getName()}\n/";
+            if (preg_match($pattern, $docBlock->getContents(), $matches)) {
+                return $matches[1];
+            }
+            return "{$type}[]";
         }
-        return "{$param->getType()}[]";
+        return $type;
     }
 
     /**

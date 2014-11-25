@@ -19,6 +19,11 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var ObjectManagerHelper
+     */
+    protected $objectManagerHelper;
+
+    /**
      * @var \Magento\Catalog\Model\Product
      */
     protected $model;
@@ -206,8 +211,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->website));
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
 
-        $objectManagerHelper = new ObjectManagerHelper($this);
-        $this->model = $objectManagerHelper->getObject(
+        $this->objectManagerHelper = new ObjectManagerHelper($this);
+        $this->model = $this->objectManagerHelper->getObject(
             'Magento\Catalog\Model\Product',
             [
                 'context' => $contextMock,
@@ -563,10 +568,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->method('isModuleEnabled')
             ->with('Magento_CatalogInventory')
             ->will($this->returnValue(true));
-        $this->stockItemBuilderMock->expects($this->once())
-            ->method('populateWithArray')
-            ->with($data['stock_item'])
-            ->will($this->returnSelf());
         $this->stockItemBuilderMock->expects($this->once())
             ->method('populateWithArray')
             ->with($data['stock_item'])
