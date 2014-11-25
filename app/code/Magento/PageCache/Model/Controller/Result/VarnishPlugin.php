@@ -46,6 +46,7 @@ class VarnishPlugin
      * @param \Magento\Framework\App\PageCache\Version $version
      * @param \Magento\Framework\App\PageCache\Kernel $kernel
      * @param \Magento\Framework\App\State $state
+     * @param \Magento\Framework\Registry $registry
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,

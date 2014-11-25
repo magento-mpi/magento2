@@ -16,7 +16,8 @@ class VarnishPluginTest extends \PHPUnit_Framework_TestCase
      * @param \PHPUnit_Framework_MockObject_Matcher_InvokedCount $processCount
      * @dataProvider dataProvider
      */
-    public function testAroundResult($usePlugin, $setCacheDebugHeaderCount, $getModeCount, $processCount) {
+    public function testAroundResult($usePlugin, $setCacheDebugHeaderCount, $getModeCount, $processCount)
+    {
         /** @var \Magento\Framework\App\Response\Http|\PHPUnit_Framework_MockObject_MockObject $response */
         $response = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
         $response->expects($setCacheDebugHeaderCount)->method('setHeader')
