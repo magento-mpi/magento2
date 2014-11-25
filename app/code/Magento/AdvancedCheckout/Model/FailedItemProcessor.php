@@ -39,7 +39,6 @@ class FailedItemProcessor
 
     /**
      * @param \Magento\Sales\Model\Quote $quote
-     * @param Cart $cart
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory

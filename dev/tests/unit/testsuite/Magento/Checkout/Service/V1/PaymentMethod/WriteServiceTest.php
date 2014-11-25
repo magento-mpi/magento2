@@ -84,7 +84,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->any())->method('getBillingAddress')->will($this->returnValue($billingAddressMock));
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($quoteMock));
 
@@ -133,7 +133,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->once())->method('getPayment')->will($this->returnValue($paymentMock));
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($quoteMock));
 
@@ -194,7 +194,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->never())->method('getPayment');
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($quoteMock));
 
@@ -235,7 +235,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->getMock('\Magento\Sales\Model\Quote\Address', [], [], '', false)));
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($quoteMock));
 
@@ -292,7 +292,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->once())->method('getPayment')->will($this->returnValue($paymentMock));
 
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($quoteMock));
 

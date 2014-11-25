@@ -73,26 +73,20 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * magentoDataFixture Magento/Customer/_files/attribute_user_defined_custom_attribute.php
+     * @magentoDataFixture Magento/Customer/_files/attribute_user_defined_custom_attribute.php
      */
     public function testGetCustomAttributesMetadataWithAttributeNamedCustomAttribute()
     {
-        /**
-         * After changes introduced in \Magento\Framework\Api\AbstractExtensibleObject it is impossible to save
-         * attribute that has code custom_attribute or custom_attributes. This test must be refactored or removed
-         * after Magento_Customer services are refactored.
-         */
-        $this->markTestSkipped('It is impossible to save EAV attribute with custom_attribute code.');
         $customAttributesMetadata = $this->_service->getCustomAttributesMetadata();
-        $customAttributeCode = 'custom_attribute';
+        $customAttributeCodeOne = 'custom_attribute1';
         $customAttributeFound = false;
-        $customAttributesCode = 'custom_attributes';
+        $customAttributeCodeTwo = 'custom_attribute2';
         $customAttributesFound = false;
         foreach ($customAttributesMetadata as $attribute) {
-            if ($attribute->getAttributeCode() == $customAttributeCode) {
+            if ($attribute->getAttributeCode() == $customAttributeCodeOne) {
                 $customAttributeFound = true;
             }
-            if ($attribute->getAttributeCode() == $customAttributesCode) {
+            if ($attribute->getAttributeCode() == $customAttributeCodeTwo) {
                 $customAttributesFound = true;
             }
         }

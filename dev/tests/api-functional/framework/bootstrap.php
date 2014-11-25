@@ -6,25 +6,14 @@
  * @license     {license_link}
  */
 
+use Magento\Framework\Autoload\AutoloaderRegistry;
+
 require_once __DIR__ . '/../../../../app/bootstrap.php';
-
-$includePath = new \Magento\Framework\Autoload\IncludePath();
-spl_autoload_register([$includePath, 'load']);
-
-require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/Classes.php';
 require_once __DIR__ . '/../lib/OAuth/bootstrap.php';
+require_once __DIR__ . '/autoload.php';
 
 $testsBaseDir = dirname(__DIR__);
 $integrationTestsDir = realpath("{$testsBaseDir}/../integration");
-
-$includePath->addIncludePath(
-    array(
-        "{$testsBaseDir}/framework",
-        "{$testsBaseDir}/testsuite",
-        "{$testsBaseDir}/lib",
-        "{$integrationTestsDir}/framework",
-    )
-);
 
 $logWriter = new \Zend_Log_Writer_Stream('php://output');
 $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
@@ -39,8 +28,8 @@ $application = \Magento\TestFramework\WebApiApplication::getInstance(
     BP . '/app/etc/',
     glob(BP . '/app/etc/*/module.xml'),
     $settings->get('TESTS_MAGENTO_MODE'),
-    BP . '/var/',
-    $shell
+    $shell,
+    AutoloaderRegistry::getAutoloader()
 );
 if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {
     if (defined('TESTS_CLEANUP') && TESTS_CLEANUP === 'enabled') {
@@ -62,5 +51,5 @@ $bootstrap->runBootstrap();
 $application->initialize();
 
 \Magento\TestFramework\Helper\Bootstrap::setInstance(new \Magento\TestFramework\Helper\Bootstrap($bootstrap));
-\Magento\TestFramework\Utility\Files::setInstance(new \Magento\TestFramework\Utility\Files(BP));
+\Magento\Framework\Test\Utility\Files::setInstance(new \Magento\Framework\Test\Utility\Files(BP));
 unset($bootstrap, $application, $settings, $shell);

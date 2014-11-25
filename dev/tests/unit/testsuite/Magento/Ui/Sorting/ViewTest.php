@@ -129,10 +129,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $dataCollectionMock = $this->getMock(
-            'Magento\Framework\Data\Collection',
-            ['setOrder'],
-            [],
+        $dataCollectionMock = $this->getMockForAbstractClass(
+            'Magento\Framework\Api\CriteriaInterface',
+            ['addOrder'],
             '',
             false
         );
@@ -174,7 +173,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($dataCollectionMock));
 
         $dataCollectionMock->expects($this->once())
-            ->method('setOrder')
+            ->method('addOrder')
             ->with('field', 'FIELD');
 
         $this->renderContextMock->expects($this->any())

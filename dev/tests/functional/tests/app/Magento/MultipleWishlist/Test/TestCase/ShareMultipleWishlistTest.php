@@ -84,16 +84,6 @@ class ShareMultipleWishlistTest extends Injectable
     protected $browser;
 
     /**
-     * Skip failed tests
-     *
-     * @return void
-     */
-    public static function setUpBeforeClass()
-    {
-        self::markTestIncomplete("Bug: MAGETWO-30105");
-    }
-
-    /**
      * Enable Multiple wishlist in configuration
      *
      * @return void
@@ -147,6 +137,7 @@ class ShareMultipleWishlistTest extends Injectable
         MultipleWishlist $multipleWishlist,
         array $sharingInfo
     ) {
+        $this->markTestIncomplete("Bug: MAGETWO-30155");
         // Preconditions
         $multipleWishlist->persist();
         $product->persist();

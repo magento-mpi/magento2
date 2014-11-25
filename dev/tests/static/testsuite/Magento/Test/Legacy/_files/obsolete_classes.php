@@ -2883,4 +2883,8 @@ return array(
     ['Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxRate', 'Magento\Tax\Api\Data\AppliedTaxRateInterface'],
     ['Magento\Tax\Service\V1\Data\TaxDetails\Item', 'Magento\Tax\Api\Data\TaxDetailsItemInterface'],
     ['Magento\Tax\Service\V1\OrderTaxServiceInterface', 'Magento\Tax\Api\OrderTaxManagementInterface'],
+    ['Magento\Tools\I18n\Code', 'Magento\Tools\I18n'],
+    ['Magento\TestFramework\Utility\AggregateInvoker', 'Magento\Framework\Test\Utility\AggregateInvoker'],
+    ['Magento\TestFramework\Utility\Classes', 'Magento\Framework\Test\Utility\Classes'],
+    ['Magento\TestFramework\Utility\Files', 'Magento\Framework\Test\Utility\Files'],
 );
