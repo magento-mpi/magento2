@@ -208,11 +208,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('attributeValue', $customerDataObject->getCustomAttribute('attribute_code'));
         $this->assertEquals('attributeValue2', $customerDataObject->getCustomAttribute('attribute_code2'));
         /** @var \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor */
-//        $dataObjectProcessor = $this->_objectManager->getObject('Magento\Framework\Reflection\DataObjectProcessor');
-//        $this->assertEquals(
-//            $expectedCustomerData,
-//            $dataObjectProcessor
-//                ->buildOutputDataArray($customerDataObject, 'Magento\Customer\Api\Data\CustomerInterface'));
+        //        $dataObjectProcessor = $this->_objectManager->getObject('Magento\Framework\Reflection\DataObjectProcessor');
+        //        $this->assertEquals(
+        //            $expectedCustomerData,
+        //            $dataObjectProcessor
+        //                ->buildOutputDataArray($customerDataObject, 'Magento\Customer\Api\Data\CustomerInterface'));
     }
 
     protected function prepareGetCustomerModel($customerId)

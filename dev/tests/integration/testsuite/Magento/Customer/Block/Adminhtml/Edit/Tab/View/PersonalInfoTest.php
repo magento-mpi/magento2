@@ -245,7 +245,7 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
             'email@email.com'
         )->create();
         $data = array('account' => $this->_dataObjectProcessor
-            ->buildOutputDataArray($customer,'Magento\Customer\Api\Data\CustomerInterface'));
+            ->buildOutputDataArray($customer, 'Magento\Customer\Api\Data\CustomerInterface'));
         $this->_context->getBackendSession()->setCustomerData($data);
         return $customer;
     }
@@ -257,7 +257,7 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
     {
         $customer = $this->_customerRepository->getById(1);
         $data = array('account' => $this->_dataObjectProcessor
-            ->buildOutputDataArray($customer,'Magento\Customer\Api\Data\CustomerInterface'));
+            ->buildOutputDataArray($customer, 'Magento\Customer\Api\Data\CustomerInterface'));
         $this->_context->getBackendSession()->setCustomerData($data);
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
         return $customer;
