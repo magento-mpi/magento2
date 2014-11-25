@@ -80,8 +80,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $quote->updateCustomerData($customerDataUpdated);
         $customer = $quote->getCustomer();
         $expected = $this->changeEmailInCustomerData('test@example.com', $expected);
-        $expected['disable_auto_group_change'] = 0;
-        unset($expected['addresses']);
         ksort($expected);
         $actual = $this->convertToArray($customer);
         ksort($actual);
