@@ -77,7 +77,7 @@ class BuiltinPlugin
                 $this->kernel->process($result);
             }
         } else {
-            $this->addDebugHeader($result, 'X-Magento-Cache-Debug', 'HIT');
+            $this->addDebugHeader($result, 'X-Magento-Cache-Debug', 'HIT', true);
         }
         return $result;
     }
@@ -92,7 +92,7 @@ class BuiltinPlugin
     {
         $cacheControl = $result->getHeader('Cache-Control')['value'];
         $this->addDebugHeader($result, 'X-Magento-Cache-Control', $cacheControl);
-        $this->addDebugHeader($result, 'X-Magento-Cache-Debug', 'MISS');
+        $this->addDebugHeader($result, 'X-Magento-Cache-Debug', 'MISS', true);
         return $result;
     }
 
@@ -102,12 +102,13 @@ class BuiltinPlugin
      * @param ResponseHttp $response
      * @param string $name
      * @param string $value
+     * @param bool $replace
      * @return void
      */
-    protected function addDebugHeader(ResponseHttp $response, $name, $value)
+    protected function addDebugHeader(ResponseHttp $response, $name, $value, $replace = false)
     {
         if ($this->state->getMode() == \Magento\Framework\App\State::MODE_DEVELOPER) {
-            $response->setHeader($name, $value);
+            $response->setHeader($name, $value, $replace);
         }
     }
 }
