@@ -294,7 +294,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
                             "').disabled = false;}") .
                         '</script>';
                     $afterEditorHtml = '<script type="text/javascript">' .
-                        ("if (" . !$storeContent  . ") {" .
+                        ("if ('" . !$storeContent  . "') {" .
                             "if ($('" . $form->getHtmlIdPrefix() . "store_0_content_use').checked) {" .
                                 "$('" . $contentFieldId . "').show();" .
                             "} else {" .
