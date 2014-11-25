@@ -97,6 +97,11 @@ class Quote
     protected $customerRepository;
 
     /**
+     * @var
+     */
+    protected $regionBuilder;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Quote $quote
      * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
@@ -118,7 +123,8 @@ class Quote
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder,
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
-        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
+        \Magento\Customer\Api\Data\RegionDataBuilder $regionDataBuilder
     ) {
 
         $this->accountManagement = $accountManagement;
@@ -131,6 +137,7 @@ class Quote
         $this->_transactionFactory = $transactionFactory;
         $this->addressRepository = $addressRepository;
         $this->customerRepository = $customerRepository;
+        $this->regionBuilder = $regionDataBuilder;
     }
 
     /**
@@ -169,6 +176,25 @@ class Quote
 
     /**
      * @param \Magento\Sales\Model\Quote $quote
+     */
+    protected function processQuoteAddresses(\Magento\Sales\Model\Quote $quote)
+    {
+        foreach ($quote->getAllAddresses() as $address) {
+            $customerAddress = $this->addressRepository->save(
+                $this->addressBuilder->populateWithArray($address->getData())
+                    ->setCustomerId($quote->getCustomer()->getId())
+                    ->setRegion($this->regionBuilder->setRegion($address->getRegion())
+                        ->setRegionCode($address->getRegionCode())
+                        ->setRegionId($address->getRegionId())
+                        ->create())
+                    ->create());
+            $address->setCustomerAddressId($customerAddress->getId());
+            $address->setCustomerAddressData($customerAddress);
+        }
+    }
+
+    /**
+     * @param \Magento\Sales\Model\Quote $quote
      * @return void
      */
     protected function prepareCustomerData(\Magento\Sales\Model\Quote $quote)
@@ -197,6 +223,7 @@ class Quote
                 $this->addressRepository->getById($customer->getDefaultBilling())
             );
         }
+        $quote->setCustomer($customer);
     }
 
     /**
@@ -215,6 +242,7 @@ class Quote
         $transaction = $this->_transactionFactory->create();
         if (!$quote->getCustomerIsGuest()) {
             $this->prepareCustomerData($quote);
+            $this->processQuoteAddresses($quote);
         }
         $transaction->addObject($quote);
 
