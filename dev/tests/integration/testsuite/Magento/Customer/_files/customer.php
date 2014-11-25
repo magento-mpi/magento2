@@ -27,5 +27,3 @@ $customer->setWebsiteId(1)
     ->setDefaultShipping(1);
 $customer->isObjectNew(true);
 $customer->save();
-
-$customer = $repository->getById($customer->getId());
