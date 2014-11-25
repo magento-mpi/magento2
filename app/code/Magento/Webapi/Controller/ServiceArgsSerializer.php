@@ -127,29 +127,6 @@ class ServiceArgsSerializer
     }
 
     /**
-     * Check if parameter is an array.
-     *
-     * @param ParameterReflection $param
-     * @return bool
-     */
-    protected function _isArrayParam($param)
-    {
-        $isArray = $param->isArray();
-        $docBlock = $param->getDeclaringFunction()->getDocBlock();
-        /** If array type is not set explicitly in the method interface, examine annotations */
-        if (!$isArray && $docBlock) {
-            /** This pattern will help to skip parameters declarations which precede to the current one */
-            $precedingParamsPattern = str_repeat('.*\@param.*', $param->getPosition());
-            $paramType = str_replace('[]', '\[\]', $param->getType());
-            $paramType = str_replace('\\', '\\\\', $paramType);
-            if (preg_match("/.*{$precedingParamsPattern}\@param\s+({$paramType}\[\]).*/is", $docBlock->getContents())) {
-                $isArray = true;
-            }
-        }
-        return $isArray;
-    }
-
-    /**
      * Creates a new instance of the given class and populates it with the array of data. The data can
      * be in different forms depending on the adapter being used, REST vs. SOAP. For REST, the data is
      * in snake_case (e.g. tax_class_id) while for SOAP the data is in camelCase (e.g. taxClassId).
