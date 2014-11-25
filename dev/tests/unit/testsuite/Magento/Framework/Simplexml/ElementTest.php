@@ -97,8 +97,8 @@ XML;
 
     /**
      * @dataProvider setAttributeDataProvider
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param string $value
      */
     public function testSetAttribute($name, $value)
     {

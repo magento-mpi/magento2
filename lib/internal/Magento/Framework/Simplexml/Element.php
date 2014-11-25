@@ -152,8 +152,8 @@ class Element extends \SimpleXMLElement
     /**
      * Create attribute if it does not exists and set value to it
      *
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param string $value
      */
     public function setAttribute($name, $value)
     {
