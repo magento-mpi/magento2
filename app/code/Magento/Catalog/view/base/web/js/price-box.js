@@ -44,17 +44,17 @@ define([
     function initPriceBox() {
         var box = this.element;
         box.trigger('updatePrice');
+        this.cache.displayPrices = utils.deepClone(this.options.prices);
     }
 
     /**
      * Widget creating.
      */
     function createPriceBox() {
+        var box = this.element;
+
         setDefaultsFromPriceConfig.call(this);
         setDefaultsFromDataSet.call(this);
-
-        var box = this.element;
-        this.cache.displayPrices = _.clone(this.options.prices);
 
         box.on('reloadPrice', reDrawPrices.bind(this));
         box.on('updatePrice', onUpdatePrice.bind(this));
@@ -115,7 +115,7 @@ define([
         });
 
         if (_.isEmpty(additionalPrice)) {
-            this.cache.displayPrices = _.clone(this.options.prices);
+            this.cache.displayPrices = utils.deepClone(this.options.prices);
         } else {
             _.each(additionalPrice, function (option, priceCode) {
                 var origin = this.options.prices[priceCode] || {};
@@ -157,7 +157,7 @@ define([
             html = priceTemplate(price);
             $('[data-price-type="' + priceCode + '"]', box).html(html);
 
-            console.log('To render ', priceCode, ': ', prices[priceCode]['formatted'], prices[priceCode]['final']);
+            console.log('To render ', priceCode, ': ', prices[priceCode]['formatted'], prices[priceCode]['final'], box);
         });
 
     }
@@ -188,7 +188,9 @@ define([
                 var type = $(element).data('priceType');
                 var amount = $(element).data('priceAmount');
 
-                prices[type] = {amount: amount};
+                if(type && amount) {
+                    prices[type] = {amount: amount};
+                }
             });
         }
     }
