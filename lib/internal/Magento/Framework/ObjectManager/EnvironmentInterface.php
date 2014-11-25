@@ -23,7 +23,7 @@ interface EnvironmentInterface
      *
      * @return string
      */
-    public static function getMode();
+    public function getMode();
 
     /**
      * Return config object

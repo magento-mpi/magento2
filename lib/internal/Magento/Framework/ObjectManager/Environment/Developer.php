@@ -8,17 +8,16 @@
 
 namespace Magento\Framework\ObjectManager\Environment;
 
-use Magento\Framework\ObjectManager\EnvironmentFactory;
 use Magento\Framework\ObjectManager\EnvironmentInterface;
-use Magento\Framework\ObjectManager\Profiler\FactoryDecorator;
-use Magento\Framework\ObjectManager\Factory\Dynamic\Developer as FactoryDeveloper;
 
-class Developer implements EnvironmentInterface
+class Developer extends AbstractEnvironment implements EnvironmentInterface
 {
-    /**
+    /**#@+
      * Mode name
      */
     const MODE = 'developer';
+    protected $mode = self::MODE;
+    /**#@- */
 
     /**
      * @var \Magento\Framework\Interception\ObjectManager\Config
@@ -26,22 +25,9 @@ class Developer implements EnvironmentInterface
     protected $config;
 
     /**
-     * @var \Magento\Framework\ObjectManager\FactoryInterface
+     * @var string
      */
-    private $factory;
-
-    /**
-     * @var EnvironmentFactory
-     */
-    protected $envFactory;
-
-    /**
-     * @param EnvironmentFactory $envFactory
-     */
-    public function __construct(EnvironmentFactory $envFactory)
-    {
-        $this->envFactory = $envFactory;
-    }
+    protected $configPreference = '\Magento\Framework\ObjectManager\Factory\Dynamic\Developer';
 
     /**
      * @return \Magento\Framework\Interception\ObjectManager\Config
@@ -58,40 +44,6 @@ class Developer implements EnvironmentInterface
         }
 
         return $this->config;
-    }
-
-    /**
-     * @return FactoryDecorator | FactoryDeveloper
-     */
-    public function getObjectManagerFactory()
-    {
-        $factoryClass = $this->config->getPreference('\Magento\Framework\ObjectManager\Factory\Dynamic\Developer');
-
-        $this->factory = new $factoryClass(
-            $this->config,
-            null,
-            $this->envFactory->getDefinitions(),
-            $this->envFactory->getAppArguments()->get()
-        );
-
-        if ($this->envFactory->getAppArguments()->get('MAGE_PROFILER') == 2) {
-            $this->factory = new FactoryDecorator(
-                $this->factory,
-                \Magento\Framework\ObjectManager\Profiler\Log::getInstance()
-            );
-        }
-
-        return $this->factory;
-    }
-
-    /**
-     * Return name of running mode
-     *
-     * @return string
-     */
-    public static function getMode()
-    {
-        return self::MODE;
     }
 
     /**

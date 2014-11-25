@@ -8,18 +8,10 @@
 
 namespace Magento\Framework\ObjectManager\Environment;
 
-use Magento\Framework\ObjectManager\EnvironmentFactory;
 use Magento\Framework\ObjectManager\EnvironmentInterface;
-use Magento\Framework\ObjectManager\Profiler\FactoryDecorator;
-use Magento\Framework\ObjectManager\Factory\Compiled as FactoryCompiled;
 
-class Compiled implements EnvironmentInterface
+class Compiled extends AbstractEnvironment implements EnvironmentInterface
 {
-    /**
-     * Mode name
-     */
-    const MODE = 'compiled';
-
     /**
      * File name with compiled data
      */
@@ -37,28 +29,17 @@ class Compiled implements EnvironmentInterface
      */
     private $compiledConfig = [];
 
-    /**
-     * @var \Magento\Framework\Interception\ObjectManager\Config
+    /**#@+
+     * Mode name
      */
-    private $config;
+    const MODE = 'compiled';
+    protected $mode = self::MODE;
+    /**#@- */
 
     /**
-     * @var \Magento\Framework\ObjectManager\FactoryInterface
+     * @var string
      */
-    private $factory;
-
-    /**
-     * @var EnvironmentFactory
-     */
-    private $envFactory;
-
-    /**
-     * @param EnvironmentFactory $envFactory
-     */
-    public function __construct(EnvironmentFactory $envFactory)
-    {
-        $this->envFactory = $envFactory;
-    }
+    protected $configPreference = '\Magento\Framework\ObjectManager\Factory\Compiled';
 
     /**
      * @return \Magento\Framework\Interception\ObjectManager\Config
@@ -66,7 +47,7 @@ class Compiled implements EnvironmentInterface
     public function getDiConfig()
     {
         if (!$this->config) {
-            $this->compiledConfig =  $this->getConfigData();
+            $this->compiledConfig = $this->getConfigData();
             $this->config = new \Magento\Framework\Interception\ObjectManager\Config(
                 new \Magento\Framework\ObjectManager\Config\Compiled($this->compiledConfig)
             );
@@ -90,40 +71,6 @@ class Compiled implements EnvironmentInterface
     public static function getFilePath()
     {
         return BP . self::RELATIVE_FILE_PATH . self::FILE_NAME;
-    }
-
-    /**
-     * @return FactoryDecorator | FactoryCompiled
-     */
-    public function getObjectManagerFactory()
-    {
-        $factoryClass = $this->config->getPreference('\Magento\Framework\ObjectManager\Factory\Compiled');
-
-        $this->factory = new $factoryClass(
-            $this->config,
-            null,
-            $this->envFactory->getDefinitions(),
-            $this->envFactory->getAppArguments()->get()
-        );
-
-        if ($this->envFactory->getAppArguments()->get('MAGE_PROFILER') == 2) {
-            $this->factory = new \Magento\Framework\ObjectManager\Profiler\FactoryDecorator(
-                $this->factory,
-                \Magento\Framework\ObjectManager\Profiler\Log::getInstance()
-            );
-        }
-
-        return $this->factory;
-    }
-
-    /**
-     * Return name of running mode
-     *
-     * @return string
-     */
-    public static function getMode()
-    {
-        return self::MODE;
     }
 
     /**
