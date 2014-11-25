@@ -166,10 +166,10 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $targetCountry = $this->_config->getTargetCountry($product->getStoreId());
         $ratesTotal = 0;
         foreach ($rates as $rate) {
-            $countryId = $rate->getCountryId();
-            $postcode = $rate->getPostcode();
+            $countryId = $rate->getTaxCountryId();
+            $postcode = $rate->getTaxPostcode();
             if ($targetCountry == $countryId) {
-                $regions = $this->_getRegionsByRegionId($rate->getRegionId(), $postcode);
+                $regions = $this->_getRegionsByRegionId($rate->getTaxRegionId(), $postcode);
                 $ratesTotal += count($regions);
                 if ($ratesTotal > self::RATES_MAX) {
                     throw new \Magento\Framework\Model\Exception(
@@ -199,13 +199,13 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 
                     $billingAddressDataArray = [
                         'country_id' => $countryId,
-                        'region' => ['region_id' => $rate->getRegionId()],
+                        'region' => ['region_id' => $rate->getTaxRegionId()],
                         'postcode' => $postcode,
                     ];
 
                     $shippingAddressDataArray = [
                         'country_id' => $countryId,
-                        'region' => ['region_id' => $rate->getRegionId()],
+                        'region' => ['region_id' => $rate->getTaxRegionId()],
                         'postcode' => $postcode,
                     ];
 
