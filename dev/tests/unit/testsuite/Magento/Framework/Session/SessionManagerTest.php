@@ -73,7 +73,7 @@ namespace Magento\Framework\Session {
         private $mockSessionConfig;
 
         /**
-         * @var \Magento\Framework\Stdlib\CookieManager | \PHPUnit_Framework_MockObject_MockObject
+         * @var \Magento\Framework\Stdlib\CookieManagerInterface | \PHPUnit_Framework_MockObject_MockObject
          */
         private $mockCookieManager;
 
@@ -94,9 +94,7 @@ namespace Magento\Framework\Session {
             $this->mockSessionConfig = $this->getMockBuilder('\Magento\Framework\Session\Config\ConfigInterface')
                 ->disableOriginalConstructor()
                 ->getMock();
-            $this->mockCookieManager = $this->getMockBuilder('\Magento\Framework\Stdlib\CookieManager')
-                ->disableOriginalConstructor()
-                ->getMock();
+            $this->mockCookieManager = $this->getMock('\Magento\Framework\Stdlib\CookieManagerInterface');
             $this->mockCookieMetadataFactory = $this->getMockBuilder(
                 'Magento\Framework\Stdlib\Cookie\CookieMetadataFactory'
             )

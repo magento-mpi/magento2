@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $objectManager \Magento\Framework\ObjectManager */
+/** @var $objectManager \Magento\Framework\ObjectManagerInterface */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 $objectManager->get('Magento\Framework\App\AreaList')
     ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)

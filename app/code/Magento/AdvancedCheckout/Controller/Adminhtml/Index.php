@@ -147,7 +147,7 @@ class Index extends \Magento\Backend\App\Action
             $quote->setStore($storeManager->getStore($storeId))->setCustomer($customer);
             $quote->getBillingAddress();
             $quote->getShippingAddress();
-            $quote->save();
+            $this->_objectManager->get('Magento\Sales\Model\QuoteRepository')->save($quote);
         }
 
         $this->_registry->register('checkout_current_quote', $quote);

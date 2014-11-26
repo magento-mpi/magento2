@@ -40,7 +40,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
     private $moduleList;
 
     /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $objectManager;
 
@@ -62,7 +62,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
         $this->publisher = $this->getMock('Magento\Framework\App\View\Asset\Publisher', array(), array(), '', false);
         $this->assetRepo = $this->getMock('Magento\Framework\View\Asset\Repository', array(), array(), '', false);
         $this->moduleList = $this->getMock('Magento\Framework\Module\ModuleList', array(), array(), '', false);
-        $this->objectManager = $this->getMockForAbstractClass('Magento\Framework\ObjectManager');
+        $this->objectManager = $this->getMockForAbstractClass('Magento\Framework\ObjectManagerInterface');
         $this->configLoader = $this->getMock(
             'Magento\Framework\App\ObjectManager\ConfigLoader', array(), array(), '', false
         );
@@ -95,7 +95,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $mode
      * @param string $requestedPath
-     * @param string $expectedModule
+     * @param string $requestedModule
      * @param bool $moduleExists
      * @param string $expectedFile
      * @param array $expectedParams
@@ -105,7 +105,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
     public function testLaunch(
         $mode,
         $requestedPath,
-        $expectedModule,
+        $requestedModule,
         $moduleExists,
         $expectedFile,
         array $expectedParams
@@ -128,8 +128,8 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
             ->with('resource')
             ->will($this->returnValue($requestedPath));
         $this->moduleList->expects($this->any())
-            ->method('getModule')
-            ->with($expectedModule)
+            ->method('has')
+            ->with($requestedModule)
             ->will($this->returnValue($moduleExists));
         $asset = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\LocalInterface');
         $asset->expects($this->once())->method('getSourceFile')->will($this->returnValue('resource/file.css'));
@@ -154,7 +154,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
                 \Magento\Framework\App\State::MODE_DEVELOPER,
                 'area/Magento/theme/locale/dir/file.js',
                 'dir',
-                null,
+                false,
                 'dir/file.js',
                 array('area' => 'area', 'locale' => 'locale', 'module' => '', 'theme' => 'Magento/theme'),
             ),
@@ -162,7 +162,7 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
                 \Magento\Framework\App\State::MODE_DEFAULT,
                 'area/Magento/theme/locale/Namespace_Module/dir/file.js',
                 'Namespace_Module',
-                array('some data'),
+                true,
                 'dir/file.js',
                 array(
                     'area' => 'area', 'locale' => 'locale', 'module' => 'Namespace_Module', 'theme' => 'Magento/theme'

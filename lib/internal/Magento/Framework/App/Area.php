@@ -55,7 +55,7 @@ class Area implements \Magento\Framework\App\AreaInterface
     /**
      * Object manager
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -90,7 +90,7 @@ class Area implements \Magento\Framework\App\AreaInterface
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\TranslateInterface $translator
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\App\ObjectManager\ConfigLoader $diConfigLoader
      * @param \Magento\Framework\App\DesignInterface $design
      * @param \Magento\Framework\App\ScopeResolverInterface $scopeResolver
@@ -101,7 +101,7 @@ class Area implements \Magento\Framework\App\AreaInterface
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\TranslateInterface $translator,
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\App\ObjectManager\ConfigLoader $diConfigLoader,
         \Magento\Framework\App\DesignInterface $design,
         \Magento\Framework\App\ScopeResolverInterface $scopeResolver,

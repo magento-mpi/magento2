@@ -17,7 +17,12 @@ class Index extends \Magento\Pci\Controller\Adminhtml\Crypt\Key
      */
     public function execute()
     {
-        $this->_checkIsLocalXmlWriteable();
+        /** @var \Magento\Framework\App\DeploymentConfig\Writer $writer */
+        $writer = $this->_objectManager->get('Magento\Framework\App\DeploymentConfig\Writer');
+        if (!$writer->checkIfWritable()) {
+            $this->messageManager->addError(__('Deployment configuration file is not writable.'));
+        }
+
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Pci::system_crypt_key');
         $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Encryption Key'));

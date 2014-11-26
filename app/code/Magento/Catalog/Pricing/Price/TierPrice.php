@@ -52,26 +52,21 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
     protected $priceList;
 
     /**
-     * Should filter by base price or not
-     *
-     * @var bool
-     */
-    protected $filterByBasePrice = true;
-
-    /**
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param Session $customerSession
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         Session $customerSession
     ) {
         $quantity = $quantity ?: 1;
-        parent::__construct($saleableItem, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator, $priceCurrency);
         $this->customerSession = $customerSession;
         if ($saleableItem->hasCustomerGroupId()) {
             $this->customerGroup = (int) $saleableItem->getCustomerGroupId();
@@ -163,11 +158,6 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
                 unset($priceList[$priceKey]);
                 continue;
             }
-            /* select a lower price between Tier price and base price */
-            if ($this->filterByBasePrice && $price['price'] > $this->getBasePrice()) {
-                unset($priceList[$priceKey]);
-                continue;
-            }
             /* select a lower price for each quantity */
             if (isset($qtyCache[$price['price_qty']])) {
                 $priceQty = $qtyCache[$price['price_qty']];
@@ -200,7 +190,7 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
     public function getSavePercent(AmountInterface $amount)
     {
         return ceil(
-            100 - ((100 / $this->priceInfo->getPrice(BasePrice::PRICE_CODE)->getAmount()->getBaseAmount())
+            100 - ((100 / $this->priceInfo->getPrice(RegularPrice::PRICE_CODE)->getAmount()->getBaseAmount())
                 * $amount->getBaseAmount())
         );
     }
@@ -269,7 +259,27 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
             if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {
                 $this->rawPriceList = array();
             }
+            if (!$this->isPercentageDiscount()) {
+                foreach ($this->rawPriceList as $index => $rawPrice) {
+                    if (isset($rawPrice['price'])) {
+                        $this->rawPriceList[$index]['price'] =
+                            $this->priceCurrency->convertAndRound($rawPrice['price']);
+                    }
+                    if (isset($rawPrice['website_price'])) {
+                        $this->rawPriceList[$index]['website_price'] =
+                            $this->priceCurrency->convertAndRound($rawPrice['website_price']);
+                    }
+                }
+            }
         }
         return $this->rawPriceList;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPercentageDiscount()
+    {
+        return false;
     }
 }

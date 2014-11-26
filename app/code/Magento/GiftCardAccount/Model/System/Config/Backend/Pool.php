@@ -41,7 +41,7 @@ class Pool extends \Magento\Framework\App\Config\Value
     /**
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if ($this->isValueChanged()) {
             if (!$this->_registry->registry('giftcardaccount_code_length_check')) {
@@ -49,18 +49,18 @@ class Pool extends \Magento\Framework\App\Config\Value
                 $this->_checkMaxLength();
             }
         }
-        parent::_beforeSave();
+        parent::beforeSave();
     }
 
     /**
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if ($this->isValueChanged()) {
             $this->_giftCardAccountPool->cleanupFree();
         }
-        parent::_afterSave();
+        parent::afterSave();
     }
 
     /**

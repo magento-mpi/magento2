@@ -54,6 +54,6 @@ class ConfigFileTest extends \PHPUnit_Framework_TestCase
      */
     public function giftRegistryConfigFilesDataProvider()
     {
-        return \Magento\TestFramework\Utility\Files::init()->getConfigFiles('giftregistry.xml');
+        return \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('giftregistry.xml');
     }
 }

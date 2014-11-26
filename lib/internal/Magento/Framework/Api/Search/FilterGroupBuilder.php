@@ -31,7 +31,7 @@ class FilterGroupBuilder extends Builder
      * @param \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor
      * @param \Magento\Framework\Reflection\TypeProcessor $typeProcessor
      * @param \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory
-     * @param \Magento\Framework\ObjectManager\Config $objectManagerConfig
+     * @param \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig
      * @param FilterBuilder $filterBuilder
      * @param string|null $modelClassInterface
      */
@@ -42,7 +42,7 @@ class FilterGroupBuilder extends Builder
         \Magento\Framework\Reflection\DataObjectProcessor $objectProcessor,
         \Magento\Framework\Reflection\TypeProcessor $typeProcessor,
         \Magento\Framework\Serialization\DataBuilderFactory $dataBuilderFactory,
-        \Magento\Framework\ObjectManager\Config $objectManagerConfig,
+        \Magento\Framework\ObjectManager\ConfigInterface $objectManagerConfig,
         FilterBuilder $filterBuilder,
         $modelClassInterface = null
     ) {

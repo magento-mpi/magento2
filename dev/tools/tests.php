@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+$vendorDir = require '../../app/etc/vendor_path.php';
+
 $commands = array(
     'unit'                   => array('../tests/unit', ''),
     'unit-performance'       => array('../tests/performance/framework/tests/unit', ''),
@@ -48,7 +50,7 @@ foreach ($runCommands as $key) {
     list($dir, $options) = $commands[$key];
     $dirName = realpath(__DIR__ . '/' . $dir);
     chdir($dirName);
-    $command = 'phpunit' . $options;
+    $command = realpath(__DIR__ . '/../../') . '/' . $vendorDir . '/phpunit/phpunit/phpunit' . $options;
     $message = $dirName . '> ' . $command;
     echo "\n\n";
     echo str_pad("---- {$message} ", 70, '-');

@@ -166,16 +166,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Catalog inventory stock item service
      *
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService = null;
+    protected $stockRegistry = null;
 
     /**
      * Catalog inventory stock status service
      *
-     * @var \Magento\CatalogInventory\Service\V1\StockStatusService
+     * @var \Magento\CatalogInventory\Helper\Stock
      */
-    protected $stockStatusService;
+    protected $stockHelper;
 
     /**
      * Advanced checkout import factory
@@ -209,8 +209,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\AdvancedCheckout\Model\ImportFactory $importFactory
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
-     * @param \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param \Magento\CatalogInventory\Helper\Stock $stockHelper
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
@@ -230,8 +230,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\AdvancedCheckout\Model\ImportFactory $importFactory,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
-        \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Magento\CatalogInventory\Helper\Stock $stockHelper,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
@@ -250,8 +250,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
         $this->_importFactory = $importFactory;
-        $this->stockItemService = $stockItemService;
-        $this->stockStatusService = $stockStatusService;
+        $this->stockRegistry = $stockRegistry;
+        $this->stockHelper = $stockHelper;
         $this->_productFactory = $productFactory;
         $this->_quoteItemFactory = $quoteItemFactory;
         $this->messageManager = $messageManager;
@@ -369,10 +369,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
                 if ($this->_customerSession) {
                     $groupId = $this->_customerSession->getCustomerGroupId();
-                    $result = $groupId === CustomerGroupServiceInterface::NOT_LOGGED_IN_ID || in_array(
-                        $groupId,
-                        $this->getSkuCustomerGroups()
-                    );
+                    $result = $groupId === CustomerGroupServiceInterface::NOT_LOGGED_IN_ID
+                        || in_array($groupId, $this->getSkuCustomerGroups());
                 }
                 break;
         }
@@ -483,8 +481,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                             $quoteItem->setCanApplyMsrp(false);
                         }
 
-                        $stockItemDo = $this->stockItemService->getStockItem($itemProduct->getId());
-                        $this->stockStatusService->assignProduct($itemProduct, $stockItemDo->getStockId());
+                        $this->stockHelper->assignStatusToProduct($itemProduct);
+                        $stockItemDo = $this->stockRegistry->getStockItem(
+                            $itemProduct->getId(),
+                            $quote->getStore()->getWebsiteId()
+                        );
                         $quoteItem->setStockItem($stockItemDo);
 
                         $quoteItemsCollection[] = $quoteItem;

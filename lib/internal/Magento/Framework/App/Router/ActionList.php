@@ -20,7 +20,15 @@ class ActionList
     /**
      * @var array
      */
-    protected $reservedWords;
+    protected $reservedWords = [
+        'abstract', 'and', 'array', 'as', 'break', 'callable', 'case', 'catch', 'class', 'clone', 'const',
+        'continue', 'declare', 'default', 'die', 'do', 'echo', 'else', 'elseif', 'empty', 'enddeclare',
+        'endfor', 'endforeach', 'endif', 'endswitch', 'endwhile', 'eval', 'exit', 'extends', 'final',
+        'for', 'foreach', 'function', 'global', 'goto', 'if', 'implements', 'include', 'instanceof',
+        'insteadof','interface', 'isset', 'list', 'namespace', 'new', 'or', 'print', 'private', 'protected',
+        'public', 'require', 'return', 'static', 'switch', 'throw', 'trait', 'try', 'unset', 'use', 'var',
+        'while', 'xor'
+    ];
 
     /**
      * @param \Magento\Framework\Config\CacheInterface $cache
@@ -34,9 +42,9 @@ class ActionList
         ActionList\Reader $actionReader,
         $actionInterface = '\Magento\Framework\App\ActionInterface',
         $cacheKey = 'app_action_list',
-        $reservedWords = array('new', 'switch', 'return', 'print', 'list')
+        $reservedWords = []
     ) {
-        $this->reservedWords = $reservedWords;
+        $this->reservedWords = array_merge($reservedWords, $this->reservedWords);
         $this->actionInterface = $actionInterface;
         $data = $cache->load($cacheKey);
         if (!$data) {
@@ -64,12 +72,17 @@ class ActionList
         if (in_array(strtolower($action), $this->reservedWords)) {
             $action .= 'action';
         }
-        $fullPath = str_replace('_', '\\', strtolower(
-            $module . '\\controller' . $area . '\\' . $namespace . '\\' . $action
-        ));
+        $fullPath = str_replace(
+            '_',
+            '\\',
+            strtolower(
+                $module . '\\controller' . $area . '\\' . $namespace . '\\' . $action
+            )
+        );
         if (isset($this->actions[$fullPath])) {
             return is_subclass_of($this->actions[$fullPath], $this->actionInterface) ? $this->actions[$fullPath] : null;
         }
+
         return null;
     }
 }
