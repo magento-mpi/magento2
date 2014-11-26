@@ -262,7 +262,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         /** @var $resource \Magento\Framework\App\Resource */
         $resource = $this->getMock(
             'Magento\Framework\App\Resource',
-            array('getTableName', 'getConnection'),
+            array(),
             array(),
             '',
             false,

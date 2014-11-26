@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Framework\Module\Setup */
+/* @var $installer \Magento\Framework\Module\DataSetup */
 $installer = $this;
 
 $installer->startSetup();

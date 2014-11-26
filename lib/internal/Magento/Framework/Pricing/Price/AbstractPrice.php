@@ -60,23 +60,31 @@ abstract class AbstractPrice implements PriceInterface
     protected $value;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param SaleableInterface $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         SaleableInterface $saleableItem,
         $quantity,
-        CalculatorInterface $calculator
+        CalculatorInterface $calculator,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
     ) {
         $this->product = $saleableItem;
         $this->quantity = $quantity;
         $this->calculator = $calculator;
+        $this->priceCurrency = $priceCurrency;
         $this->priceInfo = $saleableItem->getPriceInfo();
     }
 
     /**
-     * Get price value
+     * Get price value in display currency
      *
      * @return float|bool
      */
@@ -90,7 +98,7 @@ abstract class AbstractPrice implements PriceInterface
     public function getAmount()
     {
         if (null === $this->amount) {
-            $this->amount = $this->calculator->getAmount($this->getValue(), $this->product);
+            $this->amount = $this->calculator->getAmount($this->getValue(), $this->getProduct());
         }
         return $this->amount;
     }
@@ -103,8 +111,12 @@ abstract class AbstractPrice implements PriceInterface
      */
     public function getCustomAmount($amount = null, $exclude = null, $context = [])
     {
-        $amount = (null === $amount) ? $this->getValue() : $amount;
-        return $this->calculator->getAmount($amount, $this->product, $exclude, $context);
+        if (null !== $amount) {
+            $amount = $this->priceCurrency->convertAndRound($amount);
+        } else {
+            $amount = $this->getValue();
+        }
+        return $this->calculator->getAmount($amount, $this->getProduct(), $exclude, $context);
     }
 
     /**
@@ -115,5 +127,13 @@ abstract class AbstractPrice implements PriceInterface
     public function getPriceCode()
     {
         return static::PRICE_CODE;
+    }
+
+    /**
+     * @return SaleableInterface
+     */
+    public function getProduct()
+    {
+        return $this->product;
     }
 }

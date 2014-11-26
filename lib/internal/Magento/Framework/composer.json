@@ -26,5 +26,10 @@
                 "Magento/Framework"
             ]
         ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Magento\\Framework\\": ""
+        }
     }
 }

@@ -45,7 +45,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
 
         $this->_resourceMock = $this->getMock(
             'Magento\Framework\App\Resource',
-            array('getTableName', 'getConnection'),
+            array(),
             array(),
             '',
             false

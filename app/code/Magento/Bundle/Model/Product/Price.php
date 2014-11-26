@@ -323,28 +323,6 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     }
 
     /**
-     * Calculate Minimal price of bundle (counting all required options)
-     *
-     * @param  \Magento\Catalog\Model\Product $product
-     * @return float
-     */
-    public function getMinimalPrice($product)
-    {
-        return $this->getPricesTierPrice($product, 'min');
-    }
-
-    /**
-     * Calculate maximal price of bundle
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return float
-     */
-    public function getMaximalPrice($product)
-    {
-        return $this->getPricesTierPrice($product, 'max');
-    }
-
-    /**
      * Get Options with attached Selections collection
      *
      * @param \Magento\Catalog\Model\Product $product
