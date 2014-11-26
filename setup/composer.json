@@ -6,12 +6,6 @@
         "composer/composer": "1.0.0-alpha8",
         "magento/zendframework1": "1.12.9"
     },
-    "repositories": [
-        {
-            "type":"git",
-            "url":"git@github.corp.ebay.com:magento2/zf1"
-        }
-    ],
     "require-dev": {
         "phpunit/phpunit": "4.1.*",
         "squizlabs/php_codesniffer": "1.*",

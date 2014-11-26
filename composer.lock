@@ -4,22 +4,21 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7d4aedd5933d1f5a16cae6f4a037222e",
+    "hash": "9fe6e5d0d3a08d91ec2d6a401831f2f0",
     "packages": [
         {
             "name": "magento/zendframework1",
             "version": "1.12.9",
             "source": {
                 "type": "git",
-                "url": "git@github.corp.ebay.com:magento2/zf1",
+                "url": "https://github.com/magento/zf1.git",
                 "reference": "c22ff60d6e49862a51281600aa7a8e58fbc3940f"
             },
-            "archive": {
-                "exclude": [
-                    "/demos",
-                    "/documentation",
-                    "/tests"
-                ]
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/magento/zf1/zipball/c22ff60d6e49862a51281600aa7a8e58fbc3940f",
+                "reference": "c22ff60d6e49862a51281600aa7a8e58fbc3940f",
+                "shasum": ""
             },
             "require": {
                 "php": ">=5.2.11"
@@ -39,6 +38,7 @@
                     "Zend_": "library/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "include-path": [
                 "library/"
             ],
@@ -48,8 +48,8 @@
             "description": "Magento Zend Framework 1",
             "homepage": "http://framework.zend.com/",
             "keywords": [
-                "framework",
-                "zf1"
+                "ZF1",
+                "framework"
             ],
             "time": "2014-11-24 22:50:41"
         },
