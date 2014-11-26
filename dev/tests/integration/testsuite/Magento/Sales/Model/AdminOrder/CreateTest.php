@@ -556,7 +556,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(
             $customerEmail,
-            $this->_model->getQuote()->getCustomer()->getData('email'),
+            $this->_model->getQuote()->getCustomer()->getEmail(),
             'Precondition failed: Customer data is invalid in create order model'
         );
         $this->assertEquals(
