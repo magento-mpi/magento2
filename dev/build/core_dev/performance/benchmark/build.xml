@@ -11,7 +11,7 @@
 -->
 <project name="Core Development Performance Benchmarking" basedir="." xmlns:ac="antlib:net.sf.antcontrib">
     <property environment="env"/>
-    <target name="deploy" depends="cleanup,checkout,credential_substitution,install-magento" description="Install Magento on webnode"/>
+    <target name="deploy" depends="cleanup,checkout,install-magento" description="Install Magento on webnode"/>
 
     <target name="cleanup" depends="_bootstrap" description="Cleanup environment">
         <antcall target="_remote-rmdir">
@@ -29,25 +29,6 @@
             <param name="product_root_dir" value="${env.magento_dir}"/>
             <param name="server_ip" value="${env.webnode_initial}"/>
         </antcall>
-    </target>
-
-    <target name="credential_substitution" depends="_bootstrap" description="Credentials substitution in configuration file from environment variables">
-        <property name="remote_host" value="${env.webnode_login}:${env.webnode_password}@${env.webnode_initial}"/>
-
-        <scp file="${remote_host}:${env.magento_dir}/dev/build/core_dev/performance/benchmark/dev/tests/performance/config.php" todir="${basedir}" trust="yes"/>
-
-        <replace file="config.php">
-            <replacefilter token="{{web_access_host}}" value="${env.base_url}"/>
-            <replacefilter token="{{web_access_path}}" value="${env.base_path}"/>
-            <replacefilter token="{{db_host}}" value="${env.mysql_host}"/>
-            <replacefilter token="{{db_name}}" value="${env.mysql_database}"/>
-            <replacefilter token="{{db_user}}" value="${env.mysql_user}"/>
-            <replacefilter token="{{db_password}}" value="${env.mysql_password}"/>
-        </replace>
-
-        <scp file="${basedir}/config.php" todir="${remote_host}:${env.magento_dir}/dev/tests/performance/config.php" trust="yes"/>
-
-        <delete file="${basedir}/config.php"/>
     </target>
 
     <target name="_composer_install" description="Run composer install">
