@@ -18,7 +18,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
-    /** @var \Magento\Sales\Model\OrderRepository|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Sales\Api\OrderRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $orderRepositoryMock;
 
     /** @var \Magento\SalesArchive\Service\V1\Data\ArchiveMapper|\PHPUnit_Framework_MockObject_MockObject */
@@ -26,7 +26,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->orderRepositoryMock = $this->getMock('Magento\Sales\Model\OrderRepository', ['get'], [], '', false);
+        $this->orderRepositoryMock = $this->getMock('Magento\Sales\Api\OrderRepositoryInterface', [], [], '', false);
         $this->archiveMapMock = $this->getMock('Magento\SalesArchive\Service\V1\Data\ArchiveMapper', [], [], '', false);
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
