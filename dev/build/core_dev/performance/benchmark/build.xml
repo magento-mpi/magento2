@@ -174,6 +174,8 @@
             <arg value="${env.bamboo_build_working_directory}/team/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time.jtl"/>
             <arg value="-o"/>
             <arg value="${env.bamboo_build_working_directory}/team/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time_summary.jtl"/>
+            <arg value="-p"/>
+            <arg value="${env.skip_percents}"/>
         </exec>
     </target>
 </project>

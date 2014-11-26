@@ -14,9 +14,10 @@ $usageMessage =
 . 'Parameters:' . PHP_EOL
 . '   -m   - mainline report file' . PHP_EOL
 . '   -b   - branch report file' . PHP_EOL
-. '   -o   - output xml file' . PHP_EOL;
+. '   -o   - output xml file' . PHP_EOL
+. '   -p   - percent of measurements, that will be skipped (default = 15)' . PHP_EOL;
 
-$args = getopt('m:b:o:');
+$args = getopt('m:b:o:p:');
 if (empty($args)) {
     echo $usageMessage;
     exit(0);
@@ -25,6 +26,7 @@ if (empty($args)) {
 $mainlineFile = $args['m'];
 $branchFile = $args['b'];
 $outputFile = $args['o'];
+$skipMeasurementsPercent = isset($args['p']) && $args['p'] != '' ? min(100, max(0, $args['p'])) : 15;
 
 try {
     $mainlineResults = readResponseTimeReport($mainlineFile);
@@ -77,9 +79,9 @@ function readResponseTimeReport($filename) {
 }
 
 function getMeanValue(array $times) {
-    $skipLargestPercent = 15;
+    global $skipMeasurementsPercent;
     sort($times);
-    $slice = array_slice($times, 0, round(count($times) - count($times) * $skipLargestPercent / 100));
+    $slice = array_slice($times, 0, round(count($times) - count($times) * $skipMeasurementsPercent / 100));
 
     return array_sum($slice) / count($slice);
 }
