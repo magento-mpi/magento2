@@ -125,6 +125,15 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
                 }
             )
             );
+        $groupMock = $this->getMockBuilder('Magento\Customer\Api\Data\GroupInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $groupMock->expects($this->any())
+            ->method('getId')
+            ->willReturn(Group::CUST_GROUP_ALL);
+        $this->groupManagement->expects($this->any())
+            ->method('getAllCustomersGroup')
+            ->willReturn($groupMock);
         $this->product->setData(TierPrice::PRICE_CODE, $tierPrices);
         $this->assertEquals($convertedExpectedValue, $this->model->getValue());
     }

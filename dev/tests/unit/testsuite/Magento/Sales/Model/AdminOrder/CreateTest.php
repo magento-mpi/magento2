@@ -188,12 +188,11 @@ class CreateTest extends \PHPUnit_Framework_TestCase
                 'metadataFormFactory' => $this->formFactoryMock,
                 'customerBuilder' => $this->customerBuilderMock,
                 'customerHelper' => $customerHelperMock,
-                'customerGroupService' => $this->customerGroupServiceMock,
+                'groupRepository' => $this->groupRepositoryMock,
                 'quoteItemUpdater' => $this->itemUpdater,
                 'extensibleDataObjectConverter' => $this->extensibleDataObjectConverterMock,
                 'objectFactory' => $this->objectFactory,
                 'accountManagement' => $this->accountManagementMock,
-                'customerBuilder' => $this->customerBuilderMock
             ]
         );
     }
