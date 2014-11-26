@@ -84,7 +84,7 @@ define([
 
             templateContainer = document.createElement('div');
 
-            wrap(toArray($(rawHtml)), templateContainer);
+            wrap(toArray($.parseHTML(rawHtml)), templateContainer);
 
             extendNodes          = getExtendNodesFrom(templateContainer);
             templatesToRender    = extendNodes.map(extractTemplatePath, this)

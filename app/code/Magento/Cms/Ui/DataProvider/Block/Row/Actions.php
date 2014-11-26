@@ -44,8 +44,7 @@ class Actions implements RowInterface
         return [
             'edit' => [
                 'href' => $this->urlBuilder->getUrl(static::URL_PATH, ['block_id' => $dataRow['block_id']]),
-                'title' => __('Edit'),
-
+                'label' => __('Edit'),
             ]
         ];
     }

@@ -54,7 +54,7 @@ class Actions implements RowInterface
         return [
             'edit' => [
                 'href' => $this->urlBuilder->getUrl(static::URL_PATH, ['page_id' => $dataRow['page_id']]),
-                'title' => __('Edit'),
+                'label' => __('Edit'),
                 'hidden' => true
 
             ],
@@ -64,7 +64,7 @@ class Actions implements RowInterface
                     isset($dataRow['_first_store_id']) ? $dataRow['_first_store_id'] : null,
                     isset($dataRow['store_code']) ? $dataRow['store_code'] : null
                 ),
-                'title' => __('Preview')
+                'label' => __('Preview')
             ]
         ];
     }
