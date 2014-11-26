@@ -153,6 +153,30 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($encrypted, base64_encode($crypt->encrypt($actual)));
     }
 
+    public function testEncryptDecryptNewKeyAdded()
+    {
+        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', array(), array(), '', false);
+        $deploymentConfigMock->expects($this->at(0))
+            ->method('get')
+            ->with(Encryptor::PARAM_CRYPT_KEY)
+            ->will($this->returnValue("cryptKey1"));
+        $deploymentConfigMock->expects($this->at(1))
+            ->method('get')
+            ->with(Encryptor::PARAM_CRYPT_KEY)
+            ->will($this->returnValue("cryptKey1\ncryptKey2"));
+        $model1 = new Encryptor($this->_randomGenerator, $deploymentConfigMock);
+        // simulate an encryption key is being added
+        $model2 = new Encryptor($this->_randomGenerator, $deploymentConfigMock);
+
+        // sample data to encrypt
+        $data = 'Mares eat oats and does eat oats, but little lambs eat ivy.';
+        // encrypt with old key
+        $encryptedData = $model1->encrypt($data);
+        $decryptedData = $model2->decrypt($encryptedData);
+
+        $this->assertSame($data, $decryptedData, 'Encryptor failed to decrypt data encrypted by old keys.');
+    }
+
     public function testValidateKey()
     {
         $actual = $this->_model->validateKey('some_key');

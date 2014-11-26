@@ -33,6 +33,7 @@ use Magento\Framework\App\DeploymentConfig\InstallConfig;
 use Magento\Framework\App\DeploymentConfig\SessionConfig;
 use Magento\Framework\App\DeploymentConfig\ResourceConfig;
 use Magento\Setup\Module\Setup\ConfigMapper;
+use Magento\Framework\App\DeploymentConfig\Reader;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -324,6 +325,8 @@ class Installer
 
     /**
      * Creates encrypt deployment configuration segment
+     * No encryption key will be generated if there is an existing deployment config file.
+     * Old encryption keys will persist.
      *
      * @param \ArrayObject|array $data
      * @return \Magento\Framework\App\DeploymentConfig\SegmentInterface
@@ -332,7 +335,7 @@ class Installer
     {
         $key = $data[ConfigMapper::KEY_ENCRYPTION_KEY];
         // retrieve old encryption keys
-        $reader = new \Magento\Framework\App\DeploymentConfig\Reader($this->directoryList);
+        $reader = new Reader($this->directoryList);
         $deploymentConfig = new Config($reader);
         if ($deploymentConfig->isAvailable()) {
             $encryptInfo = $deploymentConfig->getSegment(EncryptConfig::CONFIG_KEY);

@@ -306,7 +306,7 @@ class Encryptor implements EncryptorInterface
      */
     protected function getCrypt($key = null, $cipherVersion = null, $initVector = true)
     {
-        if (null === $key && null == $cipherVersion) {
+        if (null === $key && null === $cipherVersion) {
             $cipherVersion = self::CIPHER_RIJNDAEL_256;
         }
 
