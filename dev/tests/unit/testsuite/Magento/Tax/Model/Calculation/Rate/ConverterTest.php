@@ -10,70 +10,33 @@ namespace Magento\Tax\Model\Calculation\Rate;
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\TestFramework\Helper\ObjectManager
+     * @var \Magento\Tax\Model\Calculation\Rate\Converter
      */
-    protected $objectManager;
+    protected $converter;
 
     public function setUp()
     {
-        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->converter = new Converter();
     }
 
-    /**
-     * @param array $data
-     * @dataProvider createTaxRateTitleDataProvider
-     */
-    public function testCreateTitlesFromServiceObject($data)
+    public function testCreateTitlesFromServiceObject()
     {
-        $taxRateBuilder = $this->objectManager->getObject(
-            'Magento\Tax\Api\Data\TaxRateDataBuilder'
-        );
+        $taxRateMock = $this->getMock('Magento\Tax\Api\Data\TaxRateInterface');
+        $titlesMock = $this->getMock('Magento\Tax\Api\Data\TaxRateTitleInterface');
 
-        $taxRate = $taxRateBuilder->setTitles($data)->create();
+        $taxRateMock->expects($this->once())->method('getTitles')->willReturn([$titlesMock]);
+        $titlesMock->expects($this->once())->method('getStoreId')->willReturn(1);
+        $titlesMock->expects($this->once())->method('getValue')->willReturn('Value');
 
-        /** @var  $converter \Magento\Tax\Model\Calculation\Rate\Converter */
-        $converter = $this->objectManager->getObject(
-            'Magento\Tax\Model\Calculation\Rate\Converter'
-        );
-
-        $titles = $converter->createTitleArrayFromServiceObject($taxRate);
-        foreach ($data as $expectedTitle) {
-            $storeId = $expectedTitle->getStoreId();
-            $this->assertTrue(isset($titles[$storeId]), "Title for store id {$storeId} was not set.");
-            $this->assertEquals($expectedTitle->getValue(), $titles[$storeId]);
-        }
+        $this->assertEquals([1=>'Value'], $this->converter->createTitleArrayFromServiceObject($taxRateMock));
     }
 
-    public function createTaxRateTitleDataProvider()
+    public function testCreateTitlesFromServiceObjectWhenTitlesAreNotExist()
     {
-        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $taxRateMock = $this->getMock('Magento\Tax\Api\Data\TaxRateInterface');
 
-        $titleBuilder = $this->objectManager->getObject('Magento\Tax\Api\Data\TaxRateTitleDataBuilder');
-        $titleBuilder->setValue('tax title');
-        $titleBuilder->setStoreId(5);
+        $taxRateMock->expects($this->once())->method('getTitles')->willReturn([]);
 
-        $title1 = $titleBuilder->create();
-
-        $titleBuilder->setValue('tax title 2');
-        $titleBuilder->setStoreId(1);
-
-        $title2 = $titleBuilder->create();
-
-        return [
-            'no titles' => [
-                []
-            ],
-            '1 title' => [
-                [
-                    $title1
-                ]
-            ],
-            '2 title2' => [
-                [
-                  $title1,
-                  $title2,
-                ]
-            ]
-        ];
+        $this->assertEquals([], $this->converter->createTitleArrayFromServiceObject($taxRateMock));
     }
 }
