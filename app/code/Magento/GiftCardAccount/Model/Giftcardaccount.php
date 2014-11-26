@@ -144,12 +144,17 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
     protected $_localeDate;
 
     /**
+     * @var \Magento\Sales\Model\QuoteRepository
+     */
+    protected $quoteRepository;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
-     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
@@ -158,6 +163,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftCardAccount\Model\PoolFactory $poolFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -176,6 +182,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftCardAccount\Model\PoolFactory $poolFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -191,6 +198,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
         $this->_localeCurrency = $localeCurrency;
         $this->_poolFactory = $poolFactory;
         $this->_localeDate = $localeDate;
+        $this->quoteRepository = $quoteRepository;
     }
 
     /**
@@ -207,9 +215,9 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         if (!$this->getId()) {
             $now = $this->_localeDate->date()->setTimezone(
@@ -278,7 +286,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
     /**
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if ($this->getIsNew()) {
             $this->getPoolModel()->setId(
@@ -289,7 +297,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
             self::$_alreadySelectedIds[] = $this->getCode();
         }
 
-        parent::_afterSave();
+        parent::afterSave();
     }
 
     /**
@@ -349,7 +357,8 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
             $this->_giftCardAccountData->setCards($quote, $cards);
 
             if ($saveQuote) {
-                $quote->collectTotals()->save();
+                $quote->collectTotals();
+                $this->quoteRepository->save($quote);
             }
         }
 
@@ -381,7 +390,8 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
                     $this->_giftCardAccountData->setCards($quote, $cards);
 
                     if ($saveQuote) {
-                        $quote->collectTotals()->save();
+                        $quote->collectTotals();
+                        $this->quoteRepository->save($quote);
                     }
                     return $this;
                 }

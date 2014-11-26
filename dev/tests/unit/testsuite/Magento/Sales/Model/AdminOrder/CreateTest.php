@@ -103,7 +103,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $customerHelperMock = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
+        $customerHelperMock = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
+        $this->customerGroupServiceMock = $this->getMock('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
         $this->itemUpdater = $this->getMock('Magento\Sales\Model\Quote\Item\Updater', [], [], '', false);
 
@@ -185,10 +186,9 @@ class CreateTest extends \PHPUnit_Framework_TestCase
                 'addressRepository' => $this->addressRepositoryMock,
                 'addressBuilder' => $this->addressBuilderMock,
                 'metadataFormFactory' => $this->formFactoryMock,
+                'customerBuilder' => $this->customerBuilderMock,
                 'customerHelper' => $customerHelperMock,
-                'groupRepository' => $this->groupRepositoryMock,
-                'scopeConfig' => $this->scopeConfigMock,
-                'emailSender' => $this->emailSenderMock,
+                'customerGroupService' => $this->customerGroupServiceMock,
                 'quoteItemUpdater' => $this->itemUpdater,
                 'extensibleDataObjectConverter' => $this->extensibleDataObjectConverterMock,
                 'objectFactory' => $this->objectFactory,

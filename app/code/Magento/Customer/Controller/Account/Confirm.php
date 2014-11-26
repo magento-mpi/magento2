@@ -8,6 +8,7 @@
  */
 namespace Magento\Customer\Controller\Account;
 
+use Magento\Customer\Model\Url;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -17,7 +18,6 @@ use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Helper\Address;
 use Magento\Framework\UrlFactory;
 use Magento\Framework\Exception\StateException;
-use Magento\Customer\Helper\Data as CustomerData;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -149,7 +149,7 @@ class Confirm extends \Magento\Customer\Controller\Account
     {
         $backUrl = $this->getRequest()->getParam('back_url', false);
         $redirectToDashboard = $this->scopeConfig->isSetFlag(
-            CustomerData::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+            Url::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
             ScopeInterface::SCOPE_STORE
         );
         if (!$redirectToDashboard && $this->_getSession()->getBeforeAuthUrl()) {

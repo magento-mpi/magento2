@@ -60,6 +60,7 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param Session $customerSession
      * @param GroupManagementInterface $groupManagement
      */
@@ -67,11 +68,12 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         Session $customerSession,
         GroupManagementInterface $groupManagement
     ) {
         $quantity = $quantity ?: 1;
-        parent::__construct($saleableItem, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator, $priceCurrency);
         $this->customerSession = $customerSession;
         $this->groupManagement = $groupManagement;
         if ($saleableItem->hasCustomerGroupId()) {
@@ -266,7 +268,27 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
             if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {
                 $this->rawPriceList = array();
             }
+            if (!$this->isPercentageDiscount()) {
+                foreach ($this->rawPriceList as $index => $rawPrice) {
+                    if (isset($rawPrice['price'])) {
+                        $this->rawPriceList[$index]['price'] =
+                            $this->priceCurrency->convertAndRound($rawPrice['price']);
+                    }
+                    if (isset($rawPrice['website_price'])) {
+                        $this->rawPriceList[$index]['website_price'] =
+                            $this->priceCurrency->convertAndRound($rawPrice['website_price']);
+                    }
+                }
+            }
         }
         return $this->rawPriceList;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPercentageDiscount()
+    {
+        return false;
     }
 }

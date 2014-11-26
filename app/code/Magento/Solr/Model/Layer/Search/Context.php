@@ -13,7 +13,7 @@ use Magento\Catalog\Model\Layer\ItemCollectionProviderInterface;
 use Magento\Catalog\Model\Layer\StateKeyInterface;
 use Magento\Solr\Helper\Data;
 
-class Context extends \Magento\Catalog\Model\Layer\Search\Context
+class Context extends \Magento\Catalog\Model\Layer\Context
 {
     /**
      * @var Data

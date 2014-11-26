@@ -19,16 +19,17 @@ use Mtf\TestCase\Scenario;
  * 3. Open product on frontend.
  *
  * Steps:
- * 1. Open Customers > All Customers.
- * 2. Search and open customer from preconditions.
- * 3. Click Create Order.
- * 4. Check product in Recently Viewed Products section.
- * 5. Click Update Changes.
- * 6. Click Configure.
- * 7. Fill data from dataSet.
- * 8. Click OK.
- * 9. Click Update Items and Qty's button.
- * 10. Perform all assertions.
+ * 1. Login in to Backend.
+ * 2. Open Customers > All Customers.
+ * 3. Search and open customer from preconditions.
+ * 4. Click Create Order.
+ * 5. Check product in Recently Viewed Products section.
+ * 6. Click Update Changes.
+ * 7. Click Configure.
+ * 8. Fill data from dataSet.
+ * 9. Click OK.
+ * 10. Click Update Items and Qty's button.
+ * 11. Perform all assertions.
  *
  * @group Order_Management_(CS)
  * @ZephyrId MAGETWO-29723

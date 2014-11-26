@@ -25,7 +25,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerHelperMock;
+    protected $customerVatMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -80,8 +80,8 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             true,
             ['getStoreId', 'getCustomAttribute', 'getId', '__wakeup']
         );
-        $this->customerAddressMock = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
-        $this->customerHelperMock = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
+        $this->customerAddressMock = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
+        $this->customerVatMock = $this->getMock('Magento\Customer\Model\Vat', array(), array(), '', false);
         $this->customerBuilderMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerDataBuilder',
             ['mergeDataObjectWithArray', 'create'],
@@ -136,7 +136,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             'Magento\Sales\Model\Observer\Frontend\Quote\Address\CollectTotals',
             [
                 'customerAddressHelper' => $this->customerAddressMock,
-                'customerHelper' => $this->customerHelperMock,
+                'customerVat' => $this->customerVatMock,
                 'vatValidator' => $this->vatValidatorMock,
                 'customerBuilder' => $this->customerBuilderMock
             ]
@@ -173,10 +173,15 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('customerCountryCode'));
         $this->quoteAddressMock->expects($this->once())->method('getVatId')->will($this->returnValue('vatId'));
 
-        $this->customerHelperMock->expects($this->once())
-            ->method('isCountryInEU')
-            ->with('customerCountryCode')
-            ->will($this->returnValue(false));
+        $this->customerVatMock->expects(
+            $this->once()
+        )->method(
+            'isCountryInEU'
+        )->with(
+            'customerCountryCode'
+        )->will(
+            $this->returnValue(false)
+        );
 
         $this->customerMock->expects($this->once())->method('getId')->will($this->returnValue(null));
 
@@ -209,6 +214,8 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
         $this->customerMock->expects($this->once())->method('getId')->will($this->returnValue('1'));
         $this->customerHelperMock->expects(
+        $this->customerDataMock->expects($this->once())->method('getId')->will($this->returnValue('1'));
+        $this->customerVatMock->expects(
             $this->once()
         )->method('getDefaultCustomerGroupId')->will($this->returnValue('defaultCustomerGroupId'));
 
@@ -246,7 +253,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             ->method('getVatId')
             ->will($this->returnValue('vatID'));
 
-        $this->customerHelperMock->expects($this->once())
+        $this->customerVatMock->expects($this->once())
             ->method('isCountryInEU')
             ->with('customerCountryCode')
             ->willReturn(true);
@@ -261,7 +268,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             ->with($this->quoteAddressMock, $this->storeId)
             ->will($this->returnValue($validationResult));
 
-        $this->customerHelperMock->expects($this->once())
+        $this->customerVatMock->expects($this->once())
             ->method('getCustomerGroupIdBasedOnVatNumber')
             ->with('customerCountryCode', $validationResult, $this->storeId)
             ->will($this->returnValue('customerGroupId'));

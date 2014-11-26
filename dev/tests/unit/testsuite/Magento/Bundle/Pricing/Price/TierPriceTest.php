@@ -39,6 +39,11 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     protected $groupManagement;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceCurrencyMock;
+
+    /**
      * Initialize base dependencies
      */
     protected function setUp()
@@ -58,11 +63,14 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         $this->groupManagement = $this
             ->getMock('Magento\Customer\Api\GroupManagementInterface', array(), array(), '', false);
 
+        $this->priceCurrencyMock = $this->getMock('\Magento\Framework\Pricing\PriceCurrencyInterface');
+
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject('Magento\Bundle\Pricing\Price\TierPrice', [
                 'saleableItem' => $this->product,
                 'calculator' => $this->calculator,
-                'groupManagement' => $this->groupManagement
+                'groupManagement' => $this->groupManagement,
+                'priceCurrency' => $this->priceCurrencyMock
         ]);
     }
 
@@ -86,6 +94,9 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         $this->calculator->expects($this->atLeastOnce())
             ->method('getAmount')
             ->will($this->returnArgument(0));
+
+        $this->priceCurrencyMock->expects($this->never())
+            ->method('convertAndRound');
 
         $group = $this->getMock(
             '\Magento\Customer\Model\Data\Group',

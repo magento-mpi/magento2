@@ -23,23 +23,23 @@ class CustomerQuote
     protected $_storeManager;
 
     /**
-     * @var \Magento\Sales\Model\QuoteFactory
+     * @var \Magento\Sales\Model\QuoteRepository
      */
-    protected $_quoteFactory;
+    protected $quoteRepository;
 
     /**
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Config\Share $config
-     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      */
     public function __construct(
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Config\Share $config,
-        \Magento\Sales\Model\QuoteFactory $quoteFactory
+        \Magento\Sales\Model\QuoteRepository $quoteRepository
     ) {
         $this->_storeManager = $storeManager;
         $this->_config = $config;
-        $this->_quoteFactory = $quoteFactory;
+        $this->quoteRepository = $quoteRepository;
     }
 
     /**
@@ -65,13 +65,14 @@ class CustomerQuote
                 : $this->_storeManager->getWebsites();
 
             foreach ($websites as $website) {
-                $quote = $this->_quoteFactory->create();
-                $quote->setWebsite($website);
-                $quote->loadByCustomer($customer->getId());
-                if ($quote->getId()) {
-                    $quote->setCustomerGroupId($customer->getGroupId());
-                    $quote->collectTotals();
-                    $quote->save();
+                try {
+                    $quote = $this->quoteRepository->getForCustomer($customer->getId());
+                    $quote->setWebsite($website);
+                        $quote->setCustomerGroupId($customer->getGroupId());
+                        $quote->collectTotals();
+                        $this->quoteRepository->save($quote);
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+
                 }
             }
         }

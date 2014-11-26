@@ -22,9 +22,6 @@ use Magento\Customer\Api\AddressMetadataInterface as AddressMetadata;
 use Magento\Customer\Api\Data\AddressDataBuilder as AddressBuilder;
 use Magento\Customer\Api\Data\CustomerDataBuilder as CustomerBuilder;
 
-/**
- * Class Onepage
- */
 class Onepage
 {
     /**
@@ -62,11 +59,11 @@ class Onepage
     protected $_logger;
 
     /**
-     * Customer data
+     * Customer url
      *
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Url
      */
-    protected $_customerData = null;
+    protected $_customerUrl;
 
     /**
      * Core event manager proxy
@@ -156,6 +153,11 @@ class Onepage
     protected $orderSender;
 
     /**
+     * @var \Magento\Sales\Model\QuoteRepository
+     */
+    protected $quoteRepository;
+
+    /**
      * @var CustomerRepositoryInterface
      */
     protected $customerRepository;
@@ -163,7 +165,7 @@ class Onepage
     /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Helper\Data $helper
-     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Customer\Model\Url $customerUrl
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
@@ -186,11 +188,12 @@ class Onepage
      * @param OrderSender $orderSender
      * @param CustomerRepositoryInterface $customerRepository
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Checkout\Helper\Data $helper,
-        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Customer\Model\Url $customerUrl,
         \Magento\Framework\Logger $logger,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
@@ -212,10 +215,11 @@ class Onepage
         AccountManagementInterface $accountManagement,
         OrderSender $orderSender,
         CustomerRepositoryInterface $customerRepository,
-        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository
     ) {
         $this->_eventManager = $eventManager;
-        $this->_customerData = $customerData;
+        $this->_customerUrl = $customerUrl;
         $this->_helper = $helper;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
@@ -239,6 +243,7 @@ class Onepage
         $this->orderSender = $orderSender;
         $this->customerRepository = $customerRepository;
         $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
+        $this->quoteRepository = $quoteRepository;
     }
 
     /**
@@ -306,7 +311,7 @@ class Onepage
         $quote = $this->getQuote();
         if ($quote->isMultipleShippingAddresses()) {
             $quote->removeAllAddresses();
-            $quote->save();
+            $this->quoteRepository->save($quote);
         }
 
         /*
@@ -352,7 +357,7 @@ class Onepage
             return ['error' => -1, 'message' => __('Invalid data')];
         }
 
-        $this->getQuote()->setCheckoutMethod($method)->save();
+        $this->quoteRepository->save($this->getQuote()->setCheckoutMethod($method));
         $this->getCheckout()->setStepData('billing', 'allow', true);
         return [];
     }
@@ -490,7 +495,7 @@ class Onepage
             }
         }
 
-        $address->save();
+        $this->quoteRepository->save($this->getQuote());
 
         $this->getCheckout()->setStepData(
             'billing',
@@ -725,7 +730,7 @@ class Onepage
         $payment = $quote->getPayment();
         $payment->importData($data);
 
-        $quote->save();
+        $this->quoteRepository->save($quote);
 
         $this->getCheckout()->setStepData('payment', 'complete', true)->setStepData('review', 'allow', true);
 

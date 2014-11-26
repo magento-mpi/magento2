@@ -167,9 +167,9 @@ class Checkout
     /**
      * Customer data
      *
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Url
      */
-    protected $_customerData;
+    protected $_customerUrl;
 
     /**
      * @var \Magento\Framework\Logger
@@ -267,8 +267,15 @@ class Checkout
     protected $paypalQuote;
 
     /**
+     * @var \Magento\Sales\Model\QuoteRepository
+     */
+    protected $quoteRepository;
+
+    /**
+     * Set config, session and quote instances
+     *
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Customer\Model\Url $customerUrl
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -291,12 +298,13 @@ class Checkout
      * @param AccountManagement $accountManagement
      * @param PaypalQuote $paypalQuote
      * @param OrderSender $orderSender
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param array $params
      * @throws \Exception
      */
     public function __construct(
         \Magento\Framework\Logger $logger,
-        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Customer\Model\Url $customerUrl,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Customer\Model\Session $customerSession,
@@ -319,9 +327,10 @@ class Checkout
         AccountManagement $accountManagement,
         PaypalQuote $paypalQuote,
         OrderSender $orderSender,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         $params = array()
     ) {
-        $this->_customerData = $customerData;
+        $this->_customerUrl = $customerUrl;
         $this->_taxData = $taxData;
         $this->_checkoutData = $checkoutData;
         $this->_configCacheType = $configCacheType;
@@ -344,6 +353,7 @@ class Checkout
         $this->orderSender = $orderSender;
         $this->_accountManagement = $accountManagement;
         $this->paypalQuote = $paypalQuote;
+        $this->quoteRepository = $quoteRepository;
         $this->_customerSession = isset($params['session'])
             && $params['session'] instanceof \Magento\Customer\Model\Session ? $params['session'] : $customerSession;
 
@@ -487,7 +497,8 @@ class Checkout
             );
         }
 
-        $this->_quote->reserveOrderId()->save();
+        $this->_quote->reserveOrderId();
+        $this->quoteRepository->save($this->_quote);
         // prepare API
         $this->_getApi();
         $solutionType = $this->_config->getMerchantCountry() == 'DE'
@@ -683,7 +694,8 @@ class Checkout
         $this->_paypalInfo->importToPayment($this->_api, $payment);
         $payment->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_PAYER_ID, $this->_api->getPayerId())
             ->setAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_TOKEN, $token);
-        $quote->collectTotals()->save();
+        $quote->collectTotals();
+        $this->quoteRepository->save($quote);
     }
 
     /**
@@ -706,7 +718,8 @@ class Checkout
             '' == $this->_quote->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_TRANSPORT_SHIPPING_METHOD)
         );
         $this->_ignoreAddressValidation();
-        $this->_quote->collectTotals()->save();
+        $this->_quote->collectTotals();
+        $this->quoteRepository->save($this->_quote);
     }
 
     /**
@@ -762,7 +775,8 @@ class Checkout
             if ($methodCode != $shippingAddress->getShippingMethod()) {
                 $this->_ignoreAddressValidation();
                 $shippingAddress->setShippingMethod($methodCode)->setCollectShippingRates(true);
-                $this->_quote->collectTotals()->save();
+                $this->_quote->collectTotals();
+                $this->quoteRepository->save($this->_quote);
             }
         }
     }
@@ -799,7 +813,7 @@ class Checkout
         $parameters = array('quote' => $this->_quote);
         $service = $this->_serviceQuoteFactory->create($parameters);
         $service->submitAllWithDataObject();
-        $this->_quote->save();
+        $this->quoteRepository->save($this->_quote);
 
         if ($isNewCustomer) {
             try {
@@ -1150,7 +1164,7 @@ class Checkout
         $customer = $this->_quote->getCustomerData();
         $confirmationStatus = $this->_accountManagement->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === AccountManagement::ACCOUNT_CONFIRMATION_REQUIRED) {
-            $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
+            $url = $this->_customerUrl->getEmailConfirmationUrl($customer->getEmail());
             $this->_messageManager->addSuccess(
             // @codingStandardsIgnoreStart
                 __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)

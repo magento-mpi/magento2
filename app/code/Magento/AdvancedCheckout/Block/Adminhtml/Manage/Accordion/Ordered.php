@@ -52,9 +52,9 @@ class Ordered extends AbstractAccordion
     protected $_catalogConfig;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Stock\Status
+     * @var \Magento\CatalogInventory\Helper\Stock
      */
-    protected $_stockStatus;
+    protected $stockHelper;
 
     /**
      * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
@@ -67,7 +67,7 @@ class Ordered extends AbstractAccordion
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
+     * @param \Magento\CatalogInventory\Helper\Stock $stockHelper
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -81,14 +81,14 @@ class Ordered extends AbstractAccordion
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
+        \Magento\CatalogInventory\Helper\Stock $stockHelper,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_catalogConfig = $catalogConfig;
-        $this->_stockStatus = $stockStatus;
+        $this->stockHelper = $stockHelper;
         $this->_ordersFactory = $ordersFactory;
         $this->_salesConfig = $salesConfig;
         $this->_productFactory = $productFactory;
@@ -180,7 +180,7 @@ class Ordered extends AbstractAccordion
                     )->addIdFilter(
                         $productIds
                     );
-                    $this->_stockStatus->addIsInStockFilterToCollection($products);
+                    $this->stockHelper->addIsInStockFilterToCollection($products);
                     $products->addOptionsToResult();
 
                     // Set products to items

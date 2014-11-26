@@ -16,7 +16,6 @@ use Magento\Customer\Helper\Data as CustomerDataHelper;
 use Magento\Customer\Helper\View as CustomerViewHelper;
 use Magento\Customer\Model\Config\Share as ConfigShare;
 use Magento\Customer\Model\Customer as CustomerModel;
-use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\Metadata\Validator;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -116,7 +115,6 @@ class AccountManagement implements AccountManagementInterface
      */
     private $validationResultsDataBuilder;
 
-
     /**
      * @var ManagerInterface
      */
@@ -206,11 +204,6 @@ class AccountManagement implements AccountManagementInterface
     protected $registry;
 
     /**
-     * @var CustomerDataHelper
-     */
-    protected $customerDataHelper;
-
-    /**
      * @var CustomerViewHelper
      */
     protected $customerViewHelper;
@@ -224,6 +217,11 @@ class AccountManagement implements AccountManagementInterface
      * @var \Magento\Framework\ObjectFactory
      */
     protected $objectFactory;
+
+    /**
+     * @var CustomerModel
+     */
+    protected $customerModel;
 
     /**
      * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
@@ -252,9 +250,9 @@ class AccountManagement implements AccountManagementInterface
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerDataBuilder
      * @param DataObjectProcessor $dataProcessor
      * @param \Magento\Framework\Registry $registry
-     * @param CustomerDataHelper $customerDataHelper
      * @param CustomerViewHelper $customerViewHelper
      * @param DateTime $dateTime
+     * @param CustomerModel $customerModel
      * @param \Magento\Framework\ObjectFactory $objectFactory
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      *
@@ -282,9 +280,9 @@ class AccountManagement implements AccountManagementInterface
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerDataBuilder,
         DataObjectProcessor $dataProcessor,
         \Magento\Framework\Registry $registry,
-        CustomerDataHelper $customerDataHelper,
         CustomerViewHelper $customerViewHelper,
         DateTime $dateTime,
+        CustomerModel $customerModel,
         \Magento\Framework\ObjectFactory $objectFactory,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
@@ -309,9 +307,9 @@ class AccountManagement implements AccountManagementInterface
         $this->customerDataBuilder = $customerDataBuilder;
         $this->dataProcessor = $dataProcessor;
         $this->registry = $registry;
-        $this->customerDataHelper = $customerDataHelper;
         $this->customerViewHelper = $customerViewHelper;
         $this->dateTime = $dateTime;
+        $this->customerModel = $customerModel;
         $this->objectFactory = $objectFactory;
         $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
     }
@@ -972,7 +970,7 @@ class AccountManagement implements AccountManagementInterface
             return true;
         }
 
-        $expirationPeriod = $this->customerDataHelper->getResetPasswordLinkExpirationPeriod();
+        $expirationPeriod = $this->customerModel->getResetPasswordLinkExpirationPeriod();
 
         $currentTimestamp = $this->dateTime->toTimestamp($this->dateTime->now());
         $tokenTimestamp = $this->dateTime->toTimestamp($rpTokenCreatedAt);

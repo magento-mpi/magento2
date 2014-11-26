@@ -116,6 +116,8 @@ use Magento\Customer\Api\Data\GroupInterface;
  * @method Quote setGiftMessageId(int $value)
  * @method bool|null getIsPersistent()
  * @method Quote setIsPersistent(bool $value)
+ * @method Quote setSharedStoreIds(array $values)
+ * @method Quote setWebsite($value)
  */
 class Quote extends \Magento\Framework\Model\AbstractModel
 {
@@ -296,9 +298,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $filterBuilder;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     /**
      * @var \Magento\Sales\Model\Quote\Item\Processor
@@ -351,7 +353,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Model\Address\Converter $addressConverter
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param Quote\Item\Processor $itemProcessor
      * @param \Magento\Framework\Object\Factory $objectFactory
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
@@ -386,7 +388,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Object\Copy $objectCopyService,
         \Magento\Customer\Model\Converter $converter,
         \Magento\Customer\Model\Address\Converter $addressConverter,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Sales\Model\Quote\Item\Processor $itemProcessor,
         \Magento\Framework\Object\Factory $objectFactory,
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
@@ -420,7 +422,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->addressRepository = $addressRepository;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->filterBuilder = $filterBuilder;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
         $this->itemProcessor = $itemProcessor;
         $this->objectFactory = $objectFactory;
         $this->addressBuilder = $addressBuilder;
@@ -498,7 +500,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         /**
          * Currency logic
@@ -543,7 +545,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             $this->setCustomerId($this->_customer->getId());
         }
 
-        parent::_beforeSave();
+        parent::beforeSave();
     }
 
     /**
@@ -551,9 +553,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
 
         if (null !== $this->_addresses) {
             $this->getAddressesCollection()->save();
@@ -1129,9 +1131,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     public function hasItemsWithDecimalQty()
     {
         foreach ($this->getAllItems() as $item) {
-            /** @var \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItemDo */
-            $stockItemDo = $this->stockItemService->getStockItem($item->getProduct()->getId());
-            if ($stockItemDo->getStockId() && $stockItemDo->getIsQtyDecimal()) {
+            $stockItemDo = $this->stockRegistry->getStockItem($item->getProduct()->getId(), $item->getStore()->getWebsiteId());
+            if ($stockItemDo->getId() && $stockItemDo->getIsQtyDecimal()) {
                 return true;
             }
         }
@@ -2298,16 +2299,13 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Save quote with prevention checking
+     * Check if model can be saved
      *
-     * @return $this
+     * @return bool
      */
-    public function save()
+    public function isPreventSaving()
     {
-        if ($this->_preventSaving) {
-            return $this;
-        }
-        return parent::save();
+        return $this->_preventSaving;
     }
 
     /**

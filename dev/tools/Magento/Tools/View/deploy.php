@@ -11,13 +11,16 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+use Magento\Framework\Autoload\AutoloaderRegistry;
+
 $baseName = basename(__FILE__);
 $options = getopt('', array('langs::', 'dry-run', 'verbose::', 'help'));
 define('USAGE', "USAGE:\n\tphp -f {$baseName} -- [--langs=en_US,de_DE,...] [--verbose=0|1] [--dry-run] [--help]\n");
 require __DIR__ . '/../../../../../app/bootstrap.php';
 
-\Magento\Framework\Code\Generator\FileResolver::addIncludePath(
-    [BP . '/dev/tests/static/framework', realpath(__DIR__ . '/../../..')]
+AutoloaderRegistry::getAutoloader()->addPsr4(
+    'Magento\\',
+    [BP . '/dev/tests/static/framework/Magento/', realpath(__DIR__ . '/../../../Magento/')]
 );
 
 // parse all options
@@ -43,7 +46,7 @@ if (isset($options['verbose'])) {
 }
 
 // run the deployment logic
-$filesUtil = new \Magento\TestFramework\Utility\Files(BP);
+$filesUtil = new \Magento\Framework\Test\Utility\Files(BP);
 $omFactory = \Magento\Framework\App\Bootstrap::createObjectManagerFactory(BP, []);
 $objectManager = $omFactory->create(
     [\Magento\Framework\App\State::PARAM_MODE => \Magento\Framework\App\State::MODE_DEFAULT]

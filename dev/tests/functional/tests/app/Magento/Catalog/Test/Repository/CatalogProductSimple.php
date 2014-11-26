@@ -43,6 +43,22 @@ class CatalogProductSimple extends AbstractRepository
             'checkout_data' => ['preset' => 'order_default'],
         ];
 
+        $this->_data['product_with_url_key'] = [
+            'name' => 'Simple Product %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'is_virtual' => 'No',
+            'weight' => 1,
+            'quantity_and_stock_status' => [
+                'qty' => 25.0000,
+                'is_in_stock' => 'In Stock',
+            ],
+            'url_key' => 'simple-product-%isolation%',
+            'price' => ['value' => 560.00, 'preset' => '-'],
+            'website_ids' => ['Main Website'],
+            'visibility' => 'Catalog, Search',
+            'checkout_data' => ['preset' => 'order_default'],
+        ];
+
         $this->_data['simple_big_qty'] = [
             'attribute_set_id' => ['dataSet' => 'default'],
             'name' => 'Simple Product %isolation%',
@@ -346,6 +362,19 @@ class CatalogProductSimple extends AbstractRepository
             'checkout_data' => ['preset' => 'with_two_custom_option']
         ];
 
+        $this->_data['with_one_custom_option_and_category'] = [
+            'type_id' => 'simple',
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'name' => 'Simple Product %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'price' => ['value' => 300, 'preset' => '-'],
+            'weight' => 1,
+            'custom_options' => ['preset' => 'drop_down_with_one_option_percent_price'],
+            'checkout_data' => ['preset' => 'drop_down_with_one_option_percent_price'],
+            'website_ids' => ['Main Website'],
+            'category_ids' => ['presets' => 'default_subcategory'],
+        ];
+
         $this->_data['with_all_custom_option'] = [
             'type_id' => 'simple',
             'attribute_set_id' => ['dataSet' => 'default'],
@@ -540,6 +569,48 @@ class CatalogProductSimple extends AbstractRepository
             'checkout_data' => ['preset' => 'drop_down_with_one_option_percent_price'],
             'website_ids' => ['Main Website'],
             'category_ids' => ['presets' => 'default_subcategory'],
+        ];
+
+        $this->_data['product_with_category_with_anchor'] = [
+            'sku' => 'simple_product_with_category_%isolation%',
+            'name' => 'Simple product with category %isolation%',
+            'quantity_and_stock_status' => [
+                'qty' => 666.0000,
+                'is_in_stock' => 'In Stock',
+            ],
+            'weight' => 1,
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'price' => ['value' => 100, 'preset' => ''],
+            'category_ids' => ['presets' => 'default_anchor_subcategory'],
+            'website_ids' => ['Main Website'],
+            'mtf_dataset_name' => 'simple_with_category',
+        ];
+
+        $this->_data['with_custom_option_and_fpt'] = [
+            'type_id' => 'simple',
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'category_ids' => ['presets' => 'default_subcategory'],
+            'website_ids' => ['Main Website'],
+            'name' => 'Simple Product With Fpt %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'price' => ['value' => 70, 'preset' => '-'],
+            'weight' => 1,
+            'custom_options' => ['preset' => 'drop_down_with_one_option_fixed_price'],
+            'checkout_data' => ['preset' => 'drop_down_with_one_option_fixed_price'],
+            'fpt' => ['preset' => 'one_fpt_for_all_states']
+        ];
+
+        $this->_data['with_special_price_and_fpt'] = [
+            'type_id' => 'simple',
+            'attribute_set_id' => ['dataSet' => 'default'],
+            'category_ids' => ['presets' => 'default_subcategory'],
+            'website_ids' => ['Main Website'],
+            'name' => 'Simple Product With Fpt %isolation%',
+            'sku' => 'sku_simple_product_%isolation%',
+            'price' => ['value' => 110, 'preset' => '-'],
+            'special_price' => 100,
+            'weight' => 1,
+            'fpt' => ['preset' => 'one_fpt_for_all_states']
         ];
     }
 }

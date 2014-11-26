@@ -37,11 +37,11 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     protected $_coreData;
 
     /**
-     * Customer helper
+     * Customer options
      *
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Options
      */
-    protected $_customerHelper;
+    protected $options;
 
     /**
      * Address service
@@ -88,12 +88,8 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Model\Options $options
      * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
-     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
-     * @param \Magento\Customer\Model\Address\Mapper $mapper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -109,15 +105,15 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
-        \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Model\Options $options,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Api\AddressRepositoryInterface $addressService,
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Customer\Model\Address\Mapper $mapper,
-        array $data = []
+        array $data = array()
     ) {
-        $this->_customerHelper = $customerHelper;
+        $this->options = $options;
         $this->_coreData = $coreData;
         $this->_jsonEncoder = $jsonEncoder;
         $this->_customerFormFactory = $customerFormFactory;
@@ -215,7 +211,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
 
         $prefixElement = $this->_form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->_customerHelper->getNamePrefixOptions($this->getStore());
+            $prefixOptions = $this->options->getNamePrefixOptions($this->getStore());
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(), 'select', $prefixElement->getData(), '^');
@@ -228,7 +224,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
 
         $suffixElement = $this->_form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->_customerHelper->getNameSuffixOptions($this->getStore());
+            $suffixOptions = $this->options->getNameSuffixOptions($this->getStore());
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField(

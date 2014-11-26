@@ -151,7 +151,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                     } elseif (isset($attributeValue['in'])) {
                         $this->requestBuilder->bind($attributeCode, $attributeValue['in']);
                     } elseif (isset($attributeValue['in_set'])) {
-                        $this->requestBuilder->bind($attributeCode, implode('%', $attributeValue['in_set']));
+                        $this->requestBuilder->bind($attributeCode, $attributeValue['in_set']);
                     }
                 }
             }

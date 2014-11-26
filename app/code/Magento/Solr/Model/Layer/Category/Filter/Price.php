@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Solr\Model\Layer\Category\Filter;
+use Magento\Framework\Search\Dynamic\IntervalFactory;
 
 /**
  * Layer price filter
@@ -28,7 +29,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      *
      * @var array
      */
-    protected $_facets = array();
+    protected $_facets = [];
 
     /**
      * Resource engine
@@ -50,9 +51,15 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     protected $cacheStateTags;
 
     /**
+     * @var IntervalFactory
+     */
+    private $intervalFactory;
+
+    /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer\Category $layer
+     * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\Price $resource
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Search\Dynamic\Algorithm $priceAlgorithm
@@ -62,22 +69,26 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      * @param \Magento\Solr\Model\Resource\Solr\Engine $resourceEngine
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Solr\Model\Layer\Category\CacheStateTags $cacheStateTags
+     * @param \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory $algorithmFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Layer\Category $layer,
+        \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\Price $resource,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Search\Dynamic\Algorithm $priceAlgorithm,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory $algorithmFactory,
         \Magento\Solr\Model\Resource\Solr\Engine $resourceEngine,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Solr\Model\Layer\Category\CacheStateTags $cacheStateTags,
-        array $data = array()
+        IntervalFactory $intervalFactory,
+        array $data = []
     ) {
         $this->_resourceEngine = $resourceEngine;
         $this->_cache = $cache;
@@ -86,14 +97,17 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $filterItemFactory,
             $storeManager,
             $layer,
+            $itemDataBuilder,
             $resource,
             $customerSession,
             $priceAlgorithm,
             $coreRegistry,
             $scopeConfig,
             $priceCurrency,
+            $algorithmFactory,
             $data
         );
+        $this->intervalFactory = $intervalFactory;
     }
 
     /**
@@ -126,7 +140,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     protected function _getItemsData()
     {
         if (!$this->_divisible) {
-            return array();
+            return [];
         }
 
         $isAuto = $this->_scopeConfig->getValue(
@@ -134,11 +148,11 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) == self::RANGE_CALCULATION_IMPROVED;
         if (!$isAuto && $this->getInterval()) {
-            return array();
+            return [];
         }
 
         $facets = $this->getLayer()->getProductCollection()->getFacetedData($this->_getFilterField());
-        $data = array();
+        $data = [];
         if (!empty($facets)) {
             foreach ($facets as $k => $count) {
                 if ($count <= 0) {
@@ -197,7 +211,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                     }
                 }
 
-                $data[$i - 1] = array(
+                $data[$i - 1] = [
                     'label' => is_null(
                         $label
                     ) ? $this->_renderRangeLabel(
@@ -210,7 +224,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                     'count' => $count,
                     'from' => $separator[1],
                     'to' => $separator[2]
-                );
+                ];
             }
 
             if (isset($data[$i - 1]) && $data[$i - 1]['from'] != $data[$i - 1]['to']) {
@@ -307,9 +321,9 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                     $statistics['count']
                 );
             }
-
-            $cachedData = array();
-            foreach ($this->_priceAlgorithm->calculateSeparators() as $separator) {
+            $interval = $this->intervalFactory->create();
+            $cachedData = [];
+            foreach ($this->_priceAlgorithm->calculateSeparators($interval) as $separator) {
                 $cachedData[] = $separator['from'] . '-' . $separator['to'];
             }
             $cachedData = implode(',', $cachedData);
@@ -320,7 +334,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         }
 
         if (!$cachedData) {
-            return array();
+            return [];
         }
 
         $cachedData = explode(',', $cachedData);
@@ -385,7 +399,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         if ($from != '*') {
             $from = $this->_prepareFacetedValue($from);
         }
-        return array('from' => $from, 'to' => $to);
+        return ['from' => $from, 'to' => $to];
     }
 
     /**
@@ -395,8 +409,8 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      */
     protected function _addCalculatedFacetCondition()
     {
-        $priceFacets = array();
-        $this->_facets = array();
+        $priceFacets = [];
+        $this->_facets = [];
         foreach ($this->_getSeparators() as $separator) {
             $facetedRange = $this->_prepareFacetRange($separator[0], $separator[1]);
             $this->_facets[$facetedRange['from'] . '_' . $facetedRange['to']] = $separator;
@@ -420,15 +434,15 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             return $this->_addCalculatedFacetCondition();
         }
 
-        $this->_facets = array();
+        $this->_facets = [];
         $range = $this->getPriceRange();
         $maxPrice = $this->getMaxPriceInt();
         if ($maxPrice >= 0) {
-            $priceFacets = array();
+            $priceFacets = [];
             $facetCount = ceil($maxPrice / $range);
 
             for ($i = 0; $i < $facetCount + 1; $i++) {
-                $separator = array($i * $range, ($i + 1) * $range);
+                $separator = [$i * $range, ($i + 1) * $range];
                 $facetedRange = $this->_prepareFacetRange($separator[0], $separator[1]);
                 $this->_facets[$facetedRange['from'] . '_' . $facetedRange['to']] = $separator;
                 $priceFacets[] = $facetedRange;
@@ -449,7 +463,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     {
         list($from, $to) = $this->getInterval();
         $this->getLayer()->getProductCollection()->addFqFilter(
-            array($this->_getFilterField() => $this->_prepareFacetRange($from, $to))
+            [$this->_getFilterField() => $this->_prepareFacetRange($from, $to)]
         );
 
         return $this;
