@@ -21,6 +21,10 @@ class Void extends View
     public function execute()
     {
         $invoice = $this->getInvoice();
+        if (!$invoice) {
+            $this->_forward('noroute');
+            return;
+        }
         try {
             $invoice->void();
             $invoice->getOrder()->setIsInProcess(true);

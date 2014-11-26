@@ -21,6 +21,10 @@ class Cancel extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice
     public function execute()
     {
         $invoice = $this->getInvoice();
+        if (!$invoice) {
+            $this->_forward('noroute');
+            return;
+        }
         try {
             $invoice->cancel();
             $invoice->getOrder()->setIsInProcess(true);

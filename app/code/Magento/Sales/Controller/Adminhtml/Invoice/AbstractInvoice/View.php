@@ -25,7 +25,7 @@ abstract class View extends \Magento\Backend\App\Action
     public function __construct(Context $context, Registry $registry)
     {
         $this->registry = $registry;
-        parent::__construct($context, $registry);
+        parent::__construct($context);
     }
 
     /**
@@ -51,18 +51,18 @@ abstract class View extends \Magento\Backend\App\Action
     }
 
     /**
-     * @return \Magento\Sales\Model\Order\Invoice
+     * @return \Magento\Sales\Model\Order\Invoice|bool
      */
-    public function getInvoice()
+    protected function getInvoice()
     {
         $invoiceId = $this->getRequest()->getParam('invoice_id');
         if (!$invoiceId) {
-            $this->_forward('noroute');
+            return false;
         }
         /** @var \Magento\Sales\Model\Order\Invoice $invoice */
         $invoice = $this->_objectManager->create('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
         if (!$invoice) {
-            $this->_forward('noroute');
+            return false;
         }
         $this->registry->register('current_invoice', $invoice);
         return $invoice;

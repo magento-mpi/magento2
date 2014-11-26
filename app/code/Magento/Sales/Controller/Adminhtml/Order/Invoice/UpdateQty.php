@@ -24,6 +24,10 @@ class UpdateQty extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvo
             $this->_title->add(__('Invoices'));
             $invoiceData = $this->getRequest()->getParam('invoice', []);
             $invoice = $this->getInvoice();
+            if (!$invoice) {
+                $this->_forward('noroute');
+                return;
+            }
             // Save invoice comment text in current invoice object in order to display it in corresponding view
             $invoiceRawCommentText = $invoiceData['comment_text'];
             $invoice->setCommentText($invoiceRawCommentText);

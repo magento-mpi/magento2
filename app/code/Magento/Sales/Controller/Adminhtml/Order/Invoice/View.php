@@ -19,6 +19,10 @@ class View extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice\V
     {
         $this->_title->add(__('Invoices'));
         $invoice = $this->getInvoice();
+        if (!$invoice) {
+            $this->_forward('noroute');
+            return;
+        }
         $this->_title->add(sprintf("#%s", $invoice->getIncrementId()));
 
         $this->_view->loadLayout();

@@ -21,6 +21,10 @@ class Capture extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     public function execute()
     {
         $invoice = $this->getInvoice();
+        if (!$invoice) {
+            $this->_forward('noroute');
+            return;
+        }
         try {
             $invoice->capture();
             $invoice->getOrder()->setIsInProcess(true);

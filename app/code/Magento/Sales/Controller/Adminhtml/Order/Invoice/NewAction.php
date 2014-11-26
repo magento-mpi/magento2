@@ -80,9 +80,9 @@ class NewAction extends \Magento\Backend\App\Action
             $this->_view->renderLayout();
         } catch (\Magento\Framework\Exception $exception) {
             $this->messageManager->addError($exception->getMessage());
-            $this->_redirect('sales/order/view', ['order_id' => $this->getRequest()->getParam('order_id')]);
+            $this->_redirect('sales/order/view', ['order_id' => $orderId]);
         } catch (\Exception $exception) {
-            $this->_redirect('sales/order/view', ['order_id' => $this->getRequest()->getParam('order_id')]);
+            $this->_redirect('sales/order/view', ['order_id' => $orderId]);
         }
     }
 }

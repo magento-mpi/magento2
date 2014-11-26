@@ -50,6 +50,10 @@ class AddComment extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInv
             }
             $this->_title->add(__('Invoices'));
             $invoice = $this->getInvoice();
+            if (!$invoice) {
+                $this->_forward('noroute');
+                return;
+            }
             $invoice->addComment(
                 $data['comment'],
                 isset($data['is_customer_notified']),
