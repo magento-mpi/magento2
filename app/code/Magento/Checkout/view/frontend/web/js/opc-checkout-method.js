@@ -70,8 +70,12 @@ define([
                     }, 300);
                 }
             };
+
+            $(document).on({
+                'ajaxError': this._ajaxError.bind(this)
+            });
+
             $.extend(events, {
-                ajaxError: '_ajaxError',
                 showAjaxLoader: '_ajaxSend',
                 hideAjaxLoader: '_ajaxComplete',
                 gotoSection: function(e, section) {
