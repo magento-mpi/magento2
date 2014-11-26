@@ -11,7 +11,6 @@ use Magento\Cms\Api\PageCriteriaInterface;
 
 /**
  * Class PageCriteria
- * @package Magento\Cms\Model\Resource
  */
 class PageCriteria extends CmsAbstractCriteria implements PageCriteriaInterface
 {
@@ -20,6 +19,6 @@ class PageCriteria extends CmsAbstractCriteria implements PageCriteriaInterface
      */
     public function __construct($mapper = '')
     {
-        $this->mapperInterfaceName = $mapper;
+        $this->mapperInterfaceName = $mapper ?: 'Magento\Cms\Model\Resource\PageCriteriaMapper';
     }
 }

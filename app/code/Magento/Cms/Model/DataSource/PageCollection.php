@@ -26,10 +26,8 @@ class PageCollection extends PageCriteria implements CollectionDataSourceInterfa
      * @param \Magento\Cms\Api\PageRepositoryInterface $repository
      * @param string $mapper
      */
-    public function __construct(
-        \Magento\Cms\Api\PageRepositoryInterface $repository,
-        $mapper = 'Magento\Cms\Model\Resource\PageCriteriaMapper'
-    ) {
+    public function __construct(\Magento\Cms\Api\PageRepositoryInterface $repository, $mapper = '')
+    {
         $this->repository = $repository;
         $this->setFirstStoreFlag(true);
         parent::__construct($mapper);
