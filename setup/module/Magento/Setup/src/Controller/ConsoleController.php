@@ -298,9 +298,9 @@ class ConsoleController extends AbstractActionController
      */
     public function installDeploymentConfigAction()
     {
-        $this->installer->checkInstallationFilePermissions();
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
+        $this->installer->checkInstallationFilePermissions();
         $this->installer->installDeploymentConfig($request->getParams());
     }
 
