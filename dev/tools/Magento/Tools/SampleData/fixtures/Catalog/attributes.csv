@@ -106,7 +106,7 @@ TSA Approved
 Reflective
 Laptop Sleeve
 Lockable",,features_bags,1,,0,,,0,1,0,0,,1,0,,1,1,1,0,0,Bag
-Gender,select,0,"Men
+Gender,multiselect,0,"Men
 Women
 Boys
 Girls

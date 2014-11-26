@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+use Magento\Framework\App\State;
 use \Magento\Framework\App\Bootstrap;
 use \Magento\Framework\Shell\ComplexParameter;
 
@@ -25,6 +26,7 @@ if (!isset($data['admin_username']) || empty($data['admin_username'])) {
 $bootstrapParam = new ComplexParameter('bootstrap');
 $params = $bootstrapParam->mergeFromArgv($_SERVER, $_SERVER);
 $params[Bootstrap::PARAM_REQUIRE_MAINTENANCE] = null;
+$params[State::PARAM_MODE] = State::MODE_DEVELOPER;
 
 $bootstrap = Bootstrap::create(BP, $params);
 $app = $bootstrap->createApplication('Magento\Tools\SampleData\Installer', ['data' => $data]);
