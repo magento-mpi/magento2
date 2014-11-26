@@ -26,6 +26,7 @@ class RegularFactoryTest extends \PHPUnit_Framework_TestCase
     /** Set Solr Clients mocks */
     public function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_clientMock = $this->getMock('Magento\Solr\Model\Client\Solr', array(), array(), '', false, false);
         $this->_adapterMock = $this->getMock(

@@ -8,7 +8,7 @@
 namespace Magento\Sales\Service\V1;
 
 use Magento\Webapi\Model\Rest\Config;
-use Magento\Sales\Service\V1\Data\ShipmentTrack;
+use Magento\Sales\Api\Data\ShipmentTrackInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
@@ -19,7 +19,7 @@ class ShipmentAddTrackTest extends WebapiAbstract
     /**
      * Service read name
      */
-    const SERVICE_READ_NAME = 'salesShipmentWriteV1';
+    const SERVICE_READ_NAME = 'salesShipmentTrackRepositoryV1';
 
     /**
      * Service version
@@ -53,21 +53,21 @@ class ShipmentAddTrackTest extends WebapiAbstract
         $shipment = $shipmentCollection->getFirstItem();
 
         $trackData = [
-            ShipmentTrack::ENTITY_ID => null,
-            ShipmentTrack::ORDER_ID => $shipment->getOrderId(),
-            ShipmentTrack::CREATED_AT => null,
-            ShipmentTrack::PARENT_ID => $shipment->getId(),
-            ShipmentTrack::WEIGHT => 20,
-            ShipmentTrack::QTY => 5,
-            ShipmentTrack::TRACK_NUMBER => 2,
-            ShipmentTrack::DESCRIPTION => 'Shipment description',
-            ShipmentTrack::TITLE => 'Shipment title',
-            ShipmentTrack::CARRIER_CODE => \Magento\Sales\Model\Order\Shipment\Track::CUSTOM_CARRIER_CODE,
-            ShipmentTrack::CREATED_AT => null,
-            ShipmentTrack::UPDATED_AT => null
+            ShipmentTrackInterface::ENTITY_ID => null,
+            ShipmentTrackInterface::ORDER_ID => $shipment->getOrderId(),
+            ShipmentTrackInterface::CREATED_AT => null,
+            ShipmentTrackInterface::PARENT_ID => $shipment->getId(),
+            ShipmentTrackInterface::WEIGHT => 20,
+            ShipmentTrackInterface::QTY => 5,
+            ShipmentTrackInterface::TRACK_NUMBER => 2,
+            ShipmentTrackInterface::DESCRIPTION => 'Shipment description',
+            ShipmentTrackInterface::TITLE => 'Shipment title',
+            ShipmentTrackInterface::CARRIER_CODE => \Magento\Sales\Model\Order\Shipment\Track::CUSTOM_CARRIER_CODE,
+            ShipmentTrackInterface::CREATED_AT => null,
+            ShipmentTrackInterface::UPDATED_AT => null
         ];
 
-        $requestData = ['track' => $trackData];
+        $requestData = ['entity' => $trackData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/shipment/track',
@@ -76,10 +76,11 @@ class ShipmentAddTrackTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'addTrack'
+                'operation' => self::SERVICE_READ_NAME . 'save'
             ]
         ];
 
-        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+        $result = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertNotEmpty($result);
     }
 }

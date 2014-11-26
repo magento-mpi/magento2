@@ -8,7 +8,7 @@
 namespace Magento\Sales\Service\V1;
 
 use Magento\Webapi\Model\Rest\Config;
-use Magento\Sales\Service\V1\Data\Comment;
+use Magento\Sales\Api\Data\ShipmentCommentInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
@@ -19,7 +19,7 @@ class ShipmentAddCommentTest extends WebapiAbstract
     /**
      * Service read name
      */
-    const SERVICE_READ_NAME = 'salesShipmentWriteV1';
+    const SERVICE_READ_NAME = 'salesShipmentCommentRepositoryV1';
 
     /**
      * Service version
@@ -53,15 +53,15 @@ class ShipmentAddCommentTest extends WebapiAbstract
         $shipment = $shipmentCollection->getFirstItem();
 
         $commentData = [
-            Comment::COMMENT => 'Hello world!',
-            Comment::ENTITY_ID => null,
-            Comment::CREATED_AT => null,
-            Comment::PARENT_ID => $shipment->getId(),
-            Comment::IS_VISIBLE_ON_FRONT => true,
-            Comment::IS_CUSTOMER_NOTIFIED => true
+            ShipmentCommentInterface::COMMENT => 'Hello world!',
+            ShipmentCommentInterface::ENTITY_ID => null,
+            ShipmentCommentInterface::CREATED_AT => null,
+            ShipmentCommentInterface::PARENT_ID => $shipment->getId(),
+            ShipmentCommentInterface::IS_VISIBLE_ON_FRONT => true,
+            ShipmentCommentInterface::IS_CUSTOMER_NOTIFIED => true
         ];
 
-        $requestData = ['comment' => $commentData];
+        $requestData = ['entity' => $commentData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/shipment/comment',
@@ -70,10 +70,11 @@ class ShipmentAddCommentTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'addComment'
+                'operation' => self::SERVICE_READ_NAME . 'save'
             ]
         ];
 
-        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+        $result = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertNotEmpty($result);
     }
 }

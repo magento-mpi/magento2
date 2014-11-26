@@ -21,7 +21,7 @@ namespace Magento\Customer\Model\Address;
  * @method string getPostcode()
  * @method bool getShouldIgnoreValidation()
  */
-class AbstractAddress extends \Magento\Framework\Model\AbstractModel
+class AbstractAddress extends \Magento\Framework\Model\AbstractExtensibleModel
 {
     /**
      * Possible customer address types
@@ -88,6 +88,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param Config $addressConfig
@@ -100,6 +101,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Eav\Model\Config $eavConfig,
         Config $addressConfig,
@@ -115,7 +117,14 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
         $this->_addressConfig = $addressConfig;
         $this->_regionFactory = $regionFactory;
         $this->_countryFactory = $countryFactory;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
@@ -130,9 +139,8 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
             $name .= $this->getPrefix() . ' ';
         }
         $name .= $this->getFirstname();
-        if ($this->_eavConfig->getAttribute('customer_address', 'middlename')->getIsVisible()
-            && $this->getMiddlename()
-        ) {
+        $middleName = $this->_eavConfig->getAttribute('customer_address', 'middlename');
+        if ($middleName->getIsVisible() && $this->getMiddlename()) {
             $name .= ' ' . $this->getMiddlename();
         }
         $name .= ' ' . $this->getLastname();
@@ -145,53 +153,26 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
     /**
      * Retrieve street field of an address
      *
-     * @param int|null $line Number of a line, value of which to return. Supported values:
-     *                       0|null - return array of all lines
-     *                       1..n   - return text of individual line
-     * @return array|string
+     * @return string[]
      */
-    public function getStreet($line = 0)
+    public function getStreet()
     {
-        $lines = explode("\n", $this->getStreetFull());
-        if (0 === $line || $line === null) {
-            return $lines;
-        } elseif (isset($lines[$line - 1])) {
-            return $lines[$line - 1];
-        } else {
-            return '';
+        if (is_array($this->getStreetFull())) {
+            return $this->getStreetFull();
         }
+        return explode("\n", $this->getStreetFull());
     }
 
     /**
+     * Get steet line by number
+     *
+     * @param int $number
      * @return string
      */
-    public function getStreet1()
+    public function getStreetLine($number)
     {
-        return $this->getStreet(1);
-    }
-
-    /**
-     * @return string
-     */
-    public function getStreet2()
-    {
-        return $this->getStreet(2);
-    }
-
-    /**
-     * @return string
-     */
-    public function getStreet3()
-    {
-        return $this->getStreet(3);
-    }
-
-    /**
-     * @return string
-     */
-    public function getStreet4()
-    {
-        return $this->getStreet(4);
+        $lines = $this->getStreet();
+        return isset($lines[$number - 1]) ? $lines[$number - 1] : '';
     }
 
     /**
@@ -465,7 +446,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
             $errors[] = __('Please enter the last name.');
         }
 
-        if (!\Zend_Validate::is($this->getStreet(1), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getStreetLine(1), 'NotEmpty')) {
             $errors[] = __('Please enter the street.');
         }
 

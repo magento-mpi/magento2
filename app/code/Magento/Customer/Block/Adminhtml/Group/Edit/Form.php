@@ -20,6 +20,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_taxCustomer;
 
     /**
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $_taxHelper;
+    
+    /**
      * @var \Magento\Customer\Api\GroupRepositoryInterface
      */
     protected $_groupRepository;
@@ -34,6 +39,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer
+     * @param \Magento\Tax\Helper\Data $taxHelper
      * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
      * @param \Magento\Customer\Api\Data\GroupDataBuilder $groupBuilder
      * @param array $data
@@ -43,11 +49,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer,
+        \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
         \Magento\Customer\Api\Data\GroupDataBuilder $groupBuilder,
         array $data = array()
     ) {
         $this->_taxCustomer = $taxCustomer;
+        $this->_taxHelper = $taxHelper;
         $this->_groupRepository = $groupRepository;
         $this->_groupBuilder = $groupBuilder;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -69,8 +77,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Customer\Api\Data\GroupDataBuilder $customerGroup */
         if (is_null($groupId)) {
             $customerGroup = $this->_groupBuilder->create();
+            $defaultCustomerTaxClass = $this->_taxHelper->getDefaultCustomerTaxClass();
         } else {
             $customerGroup = $this->_groupRepository->getById($groupId);
+            $defaultCustomerTaxClass = $customerGroup->getTaxClassId();
         }
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Group Information')));
@@ -108,7 +118,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'title' => __('Tax Class'),
                 'class' => 'required-entry',
                 'required' => true,
-                'values' => $this->_taxCustomer->toOptionArray(false)
+                'values' => $this->_taxCustomer->toOptionArray(true),
             )
         );
 
@@ -126,7 +136,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 array(
                     'id' => $customerGroup->getId(),
                     'customer_group_code' => $customerGroup->getCode(),
-                    'tax_class_id' => $customerGroup->getTaxClassId()
+                    'tax_class_id' => $defaultCustomerTaxClass
                 )
             );
         }
