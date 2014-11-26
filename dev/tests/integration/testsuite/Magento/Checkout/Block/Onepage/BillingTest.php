@@ -5,6 +5,7 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
+use Magento\Customer\Model\Context;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class BillingTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +19,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Sales\Model\Quote\AddressFactory */
     protected $_quoteAddressFactory;
 
-    /** @var  \Magento\Customer\Service\V1\Data\CustomerBuilder */
+    /** @var  \Magento\Customer\Api\Data\CustomerDataBuilder */
     protected $_customerBuilder;
 
     /** @var \Magento\Customer\Service\V1\CustomerAccountService */
@@ -36,7 +37,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $objectManager = Bootstrap::getObjectManager();
-        $this->_customerBuilder = $objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $this->_customerBuilder = $objectManager->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         $this->_customerService = $objectManager->create('Magento\Customer\Service\V1\CustomerAccountService');
         $customerData = $this->_customerService->getCustomer(self::FIXTURE_CUSTOMER_ID);
 
@@ -64,7 +65,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         $checkoutSession->setLoadInactive(true);
 
         $objectManager->get('Magento\Framework\App\Http\Context')
-            ->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, true, false);
+            ->setValue(Context::CONTEXT_AUTH, true, false);
         $this->_block = $objectManager->get('Magento\Framework\View\LayoutInterface')
             ->createBlock(
                 'Magento\Checkout\Block\Onepage\Billing',

@@ -412,7 +412,8 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
      *
      * Deprecated, use this code instead:
      * $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-     * $addressData = \Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address);
+     * $addressMapper = // \Magento\Customer\Model\Address\Mapper type
+     * $addressData = $addressMapper->toFlatArray($address);
      * $formattedAddress = $renderer->renderArray($addressData);
      *
      * @param string $type
@@ -441,9 +442,9 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
     /**
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         $this->getRegion();
         return $this;
     }

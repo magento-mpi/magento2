@@ -8,9 +8,7 @@
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Service\V1\Data\Customer;
 
 /**
  * Class TabsTest
@@ -27,11 +25,11 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     private $block;
 
     /**
-     * Customer service.
+     * Customer repository.
      *
-     * @var CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    private $customerAccountService;
+    private $customerRepository;
 
     /**
      * Backend context.
@@ -48,6 +46,11 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     private $coreRegistry;
 
     /**
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
+     */
+    protected $dataObjectProcessor;
+
+    /**
      * Execute per test initialization.
      */
     public function setUp()
@@ -56,12 +59,13 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Framework\App\State')->setAreaCode('adminhtml');
 
         $this->context = $objectManager->get('Magento\Backend\Block\Template\Context');
-        $this->customerAccountService = $objectManager->get(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        $this->customerRepository = $objectManager->get(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
 
         $this->coreRegistry = $objectManager->get('Magento\Framework\Registry');
         $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
+        $this->dataObjectProcessor = $objectManager->get('Magento\Framework\Reflection\DataObjectProcessor');
 
         $this->block = $objectManager->get(
             'Magento\Framework\View\LayoutInterface'
@@ -86,12 +90,14 @@ class TabsTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtml()
     {
-        $customer = $this->customerAccountService->getCustomer(
+        /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
+        $customer = $this->customerRepository->getById(
             $this->coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
         );
 
         $customerData['customer_id'] = $customer->getId();
-        $customerData['account'] = $customer->__toArray();
+        $customerData['account'] = $this->dataObjectProcessor
+            ->buildOutputDataArray($customer, '\Magento\Customer\Api\Data\CustomerInterface');
         $customerData['address'] = array();
         $this->context->getBackendSession()->setCustomerData($customerData);
 
@@ -113,11 +119,11 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $this->coreRegistry->unregister(RegistryConstants::CURRENT_CUSTOMER_ID);
 
         $customerData['account'] = array(
-            Customer::FIRSTNAME => 'John',
-            Customer::LASTNAME => 'Doe',
-            Customer::EMAIL => 'john.doe@gmail.com',
-            Customer::GROUP_ID => 1,
-            Customer::WEBSITE_ID => 1
+            \Magento\Customer\Model\Data\Customer::FIRSTNAME => 'John',
+            \Magento\Customer\Model\Data\Customer::LASTNAME => 'Doe',
+            \Magento\Customer\Model\Data\Customer::EMAIL => 'john.doe@gmail.com',
+            \Magento\Customer\Model\Data\Customer::GROUP_ID => 1,
+            \Magento\Customer\Model\Data\Customer::WEBSITE_ID => 1
         );
         $customerData['address'] = array();
 

@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Account;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class DashboardTest extends \PHPUnit_Framework_TestCase
@@ -18,8 +18,8 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Session */
     private $customerSession;
 
-    /** @var CustomerAccountServiceInterface */
-    private $customerAccountService;
+    /** @var CustomerRepositoryInterface */
+    private $customerRepository;
 
     /**
      * Execute per test initialization.
@@ -27,8 +27,8 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->customerSession = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
-        $this->customerAccountService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        $this->customerRepository = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
 
         $this->block = Bootstrap::getObjectManager()->get(
@@ -38,7 +38,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
             '',
             array(
                 'customerSession' => $this->customerSession,
-                'customerAccountService' => $this->customerAccountService
+                'customerRepository' => $this->customerRepository
             )
         );
     }
@@ -64,11 +64,11 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomer()
     {
-        $customer = $this->customerAccountService->getCustomer(1);
+        $customer = $this->customerRepository->getById(1);
         $this->customerSession->setCustomerId(1);
         $object = $this->block->getCustomer();
         $this->assertEquals($customer, $object);
-        $this->assertInstanceOf('Magento\Customer\Service\V1\Data\Customer', $object);
+        $this->assertInstanceOf('Magento\Customer\Api\Data\CustomerInterface', $object);
     }
 
     /**
@@ -90,12 +90,12 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPrimaryAddressesBillingShippingSame()
     {
-        $customer = $this->customerAccountService->getCustomer(1);
+        $customer = $this->customerRepository->getById(1);
         $this->customerSession->setCustomerId(1);
         $addresses = $this->block->getPrimaryAddresses();
         $this->assertCount(1, $addresses);
         $address = $addresses[0];
-        $this->assertInstanceOf('Magento\Customer\Service\V1\Data\Address', $address);
+        $this->assertInstanceOf('Magento\Customer\Api\Data\AddressInterface', $address);
         $this->assertEquals($customer->getDefaultBilling(), $address->getId());
         $this->assertEquals($customer->getDefaultShipping(), $address->getId());
     }

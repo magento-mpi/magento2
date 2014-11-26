@@ -14,6 +14,8 @@
  */
 namespace Magento\Wishlist\Block\Customer;
 
+use Magento\Customer\Model\Context;
+
 class Sidebar extends \Magento\Wishlist\Block\AbstractBlock implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
@@ -61,7 +63,7 @@ class Sidebar extends \Magento\Wishlist\Block\AbstractBlock implements \Magento\
      */
     public function getCanDisplayWishlist()
     {
-        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
+        return $this->httpContext->getValue(Context::CONTEXT_AUTH);
     }
 
     /**

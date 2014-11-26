@@ -28,9 +28,9 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_cart;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -42,7 +42,7 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -57,13 +57,13 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         array $data = array()
     ) {
         $this->_cart = $cart;
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
         parent::__construct(
             $context,
             $customerSession,
@@ -199,8 +199,12 @@ class Products extends \Magento\Checkout\Block\Cart
             $productsByGroups = $product->getTypeInstance()->getProductsToPurchaseByReqGroups($product);
             foreach ($productsByGroups as $productsInGroup) {
                 foreach ($productsInGroup as $childProduct) {
+                    $stockItem = $this->stockRegistry->getStockItem(
+                        $childProduct->getId(),
+                        $item->getStore()->getWebsiteId()
+                    );
                     if ($childProduct->hasStockItem()
-                        && $this->stockItemService->getIsInStock($childProduct->getId())
+                        && $stockItem->getIsInStock()
                         && !$childProduct->isDisabled()
                     ) {
                         return true;

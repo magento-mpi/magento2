@@ -84,12 +84,12 @@ class Changes extends \Magento\Framework\Model\AbstractModel
      *
      * @return \Magento\Logging\Model\Event
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $this->_calculateDifference();
         $this->setOriginalData(serialize($this->getOriginalData()));
         $this->setResultData(serialize($this->getResultData()));
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**

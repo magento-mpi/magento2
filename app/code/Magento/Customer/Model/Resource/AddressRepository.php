@@ -126,7 +126,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
      * @return \Magento\Customer\Api\Data\AddressInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function get($addressId)
+    public function getById($addressId)
     {
         $address = $this->addressRegistry->retrieve($addressId);
         return $address->getDataModel();
@@ -168,7 +168,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         $addresses = [];
         $addressIds = $collection->getAllIds();
         foreach ($addressIds as $addressId) {
-            $addresses[] = $this->get($addressId);
+            $addresses[] = $this->getById($addressId);
         }
         $this->addressSearchResultsBuilder->setItems($addresses);
         return $this->addressSearchResultsBuilder->create();
@@ -205,11 +205,12 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
      */
     public function delete(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        $address = $this->addressRegistry->retrieve($address->getId());
+        $addressId = $address->getId();
+        $address = $this->addressRegistry->retrieve($addressId);
         $customerModel = $this->customerRegistry->retrieve($address->getCustomerId());
         $customerModel->getAddressesCollection()->clear();
         $this->addressResource->delete($address);
-        $this->addressRegistry->remove($address->getId());
+        $this->addressRegistry->remove($addressId);
         return true;
     }
 

@@ -13,45 +13,82 @@ use Magento\Framework\Api\AbstractExtensibleObject;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
+use \Magento\Catalog\Api\Data\ProductInterface;
 
 /**
  * Class ProductServiceTest for testing Bundle Product API
  */
 class ProductServiceTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'catalogProductServiceV1';
+    const SERVICE_NAME = 'catalogProductRepositoryV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/products';
 
     /**
-     * @var \Magento\Catalog\Model\Product
+     * @var \Magento\Catalog\Model\Resource\Product\Collection
      */
-    private $bundleModel;
+    protected $productCollection;
 
+    /**
+     * Execute per test initialization
+     */
+    public function setUp()
+    {
+        $objectManager = Bootstrap::getObjectManager();
+        $this->productCollection = $objectManager->get('Magento\Catalog\Model\Resource\Product\Collection');
+    }
+
+    /**
+     * Execute per test cleanup
+     */
+    public function tearDown()
+    {
+        /** @var \Magento\Framework\Registry $registry */
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
+
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', true);
+
+        $this->productCollection->addFieldToFilter(
+            'sku',
+            ['in' => ['sku-test-product-bundle']]
+        )->delete();
+        unset($this->productCollection);
+
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', false);
+        parent::tearDown();
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Catalog/_files/products_new.php
+     */
     public function testCreateBundle()
     {
-        $response = $this->createProduct($this->getSimpleProductData());
-        $simpleProductSku = $response[Product::SKU];
-
         $bundleProductOptions = [
             "attribute_code" => "bundle_product_options",
             "value" => [
                 [
+                    "title" => "test option",
+                    "type" => "checkbox",
+                    "required" => 1,
                     "product_links" => [
                         [
-                            "sku" => $simpleProductSku
+                            "sku" => 'simple',
+                            "qty" => 1
                         ]
                     ]
                 ]
             ]
         ];
 
-        $uniqueId = uniqid('sku-', true);
+        $uniqueId = 'sku-test-product-bundle';
         $product = [
             "sku" => $uniqueId,
             "name" => $uniqueId,
             "type_id" => "bundle",
             "price" => 50,
+            'attribute_set_id' => 4,
             "custom_attributes" => [
                 "bundle_product_options" => $bundleProductOptions,
                 "price_view" => [
@@ -62,8 +99,8 @@ class ProductServiceTest extends WebapiAbstract
         ];
 
         $response = $this->createProduct($product);
-        $this->assertEquals($uniqueId, $response[Product::SKU]);
 
+        $this->assertEquals($uniqueId, $response[ProductInterface::SKU]);
         $this->assertEquals(
             $bundleProductOptions,
             $response[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY]["bundle_product_options"]
@@ -73,14 +110,11 @@ class ProductServiceTest extends WebapiAbstract
         $foundBundleProductOptions = false;
         foreach ($response[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY] as $customAttribute) {
             if ($customAttribute["attribute_code"] === 'bundle_product_options') {
-                $this->assertEquals($simpleProductSku, $customAttribute["value"][0]["product_links"][0]["sku"]);
+                $this->assertEquals('simple', $customAttribute["value"][0]["product_links"][0]["sku"]);
                 $foundBundleProductOptions = true;
             }
         }
         $this->assertTrue($foundBundleProductOptions);
-
-        $this->deleteProduct($response[Product::SKU]);
-        $this->deleteProduct($simpleProductSku);
     }
 
     /**
@@ -99,12 +133,12 @@ class ProductServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'get'
+                'operation' => self::SERVICE_NAME . 'Get'
             ]
         ];
 
         $response = (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['id' => $productSku]) : $this->_webApiCall($serviceInfo);
+            $this->_webApiCall($serviceInfo, ['productSku' => $productSku]) : $this->_webApiCall($serviceInfo);
 
         return $response;
     }
@@ -122,53 +156,12 @@ class ProductServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'create'
+                'operation' => self::SERVICE_NAME . 'Save'
             ],
         ];
         $requestData = ['product' => $product];
-        $product[Product::SKU] = $this->_webApiCall($serviceInfo, $requestData);
+        $response = $this->_webApiCall($serviceInfo, $requestData);
+        $product[ProductInterface::SKU] = $response[ProductInterface::SKU];
         return $product;
-    }
-
-    /**
-     * Delete Product
-     *
-     * @param string $sku
-     * @return boolean
-     */
-    protected function deleteProduct($sku)
-    {
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $sku,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'delete'
-            ]
-        ];
-
-        return (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?
-            $this->_webApiCall($serviceInfo, ['id' => $sku]) : $this->_webApiCall($serviceInfo);
-    }
-
-    /**
-     * Creates simple product data.
-     *
-     * @return array
-     */
-    private function getSimpleProductData()
-    {
-        return [
-            Product::SKU => uniqid('sku-', true),
-            Product::NAME => uniqid('sku-', true),
-            Product::VISIBILITY => 4,
-            Product::TYPE_ID => 'simple',
-            Product::PRICE => 3.62,
-            Product::STATUS => 1,
-            Product::TYPE_ID => 'simple'
-        ];
     }
 }

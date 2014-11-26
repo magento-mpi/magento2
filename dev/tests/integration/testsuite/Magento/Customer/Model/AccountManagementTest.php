@@ -12,7 +12,6 @@ use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\AddressInterface;
-use Magento\Customer\Service\V1;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\State\ExpiredException;
@@ -38,10 +37,10 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /** @var AddressRepositoryInterface needed to setup tests */
     private $addressRepository;
 
-    /** @var \Magento\Framework\ObjectManager */
+    /** @var \Magento\Framework\ObjectManagerInterface */
     private $objectManager;
 
-    /** @var \Magento\Customer\Service\V1\Data\Address[] */
+    /** @var AddressInterface[] */
     private $_expectedAddresses;
 
     /** @var \Magento\Customer\Api\Data\AddressDataBuilder */
@@ -52,6 +51,9 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
 
     /** @var DataObjectProcessor */
     private $dataProcessor;
+
+    /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter */
+    private $extensibleDataObjectConverter;
 
     protected function setUp()
     {
@@ -79,7 +81,9 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             ->setTelephone('3468676')
             ->setCity('CityM')
             ->setFirstname('John')
-            ->setLastname('Smith');
+            ->setLastname('Smith')
+            ->setDefaultShipping(true)
+            ->setDefaultBilling(true);
         $address = $this->addressBuilder->create();
 
         $this->addressBuilder->setId('2')
@@ -101,6 +105,9 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
 
         $this->dataProcessor = $this->objectManager
             ->create('Magento\Framework\Reflection\DataObjectProcessor');
+
+        $this->extensibleDataObjectConverter = $this->objectManager
+            ->create('Magento\Framework\Api\ExtensibleDataObjectConverter');
     }
 
     /**
@@ -110,8 +117,12 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
         $customerRegistry = $this->objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        /** @var \Magento\Customer\Model\CustomerRegistry $addressRegistry */
+        $addressRegistry = $this->objectManager->get('Magento\Customer\Model\AddressRegistry');
         //Cleanup customer from registry
         $customerRegistry->remove(1);
+        $addressRegistry->remove(1);
+        $addressRegistry->remove(2);
     }
 
     /**
@@ -168,16 +179,16 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      */
     public function testChangePasswordWrongPassword()
     {
-        $this->accountManagement->changePassword(1, 'wrongPassword', 'new_password');
+        $this->accountManagement->changePassword('customer@example.com', 'wrongPassword', 'new_password');
     }
 
     /**
      * @expectedException \Magento\Framework\Exception\InvalidEmailOrPasswordException
-     * @expectedExceptionMessage Password doesn't match for this account
+     * @expectedExceptionMessage Invalid login or password.
      */
     public function testChangePasswordWrongUser()
     {
-        $this->accountManagement->changePassword(4200, 'password', 'new_password');
+        $this->accountManagement->changePassword('wrong.email@example.com', 'password', 'new_password');
     }
 
     /**
@@ -593,8 +604,8 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             'aPassword',
             true
         );
-        $attributesBefore = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($existingCustomer);
-        $attributesAfter = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = $this->extensibleDataObjectConverter->toFlatArray($existingCustomer);
+        $attributesAfter = $this->extensibleDataObjectConverter->toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -616,7 +627,6 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             'firstname',
             'id',
             'lastname',
-            'confirmation'
         ];
         sort($expectedInAfter);
         $actualInAfterOnly = array_keys($inAfterOnly);
@@ -660,7 +670,12 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
         $customerData = $this->accountManagement->createAccount($newCustomerEntity, $password);
         $this->assertNotNull($customerData->getId());
         $savedCustomer = $this->customerRepository->getById($customerData->getId());
-        $dataInService = \Magento\Framework\Api\SimpleDataObjectConverter::toFlatArray($savedCustomer);
+
+        /** @var \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter */
+        $simpleDataObjectConverter = Bootstrap::getObjectManager()
+            ->get('Magento\Framework\Api\SimpleDataObjectConverter');
+
+        $dataInService = $simpleDataObjectConverter->toFlatArray($savedCustomer);
         $expectedDifferences = [
             'created_at',
             'updated_at',
@@ -885,13 +900,9 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             $shippingResponse,
             'Magento\Customer\Api\Data\AddressInterface'
         );
-        /*
-         * TODO : Data builder / populateWithArray currently does not detect
-         * array type and returns street as string instead of array. Need to fix this.
-         */
-        unset($addressShippingExpected[AddressInterface::STREET]);
-        unset($shippingResponse[AddressInterface::STREET]);
 
+        // Response should have this set since we save as default shipping
+        $addressShippingExpected[AddressInterface::DEFAULT_SHIPPING] = true;
         $this->assertEquals($addressShippingExpected, $shippingResponse);
 
         // Verify if the new Billing address created is same as returned by the api under test :
@@ -904,13 +915,9 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             $billingResponse,
             'Magento\Customer\Api\Data\AddressInterface'
         );
-        /*
-         * TODO : Data builder / populateWithArray currently does not detect
-         * array type and returns street as string instead of array. Need to fix this.
-         */
-        unset($addressBillingExpected[AddressInterface::STREET]);
-        unset($billingResponse[AddressInterface::STREET]);
 
+        // Response should have this set since we save as default billing
+        $addressBillingExpected[AddressInterface::DEFAULT_BILLING] = true;
         $this->assertEquals($addressBillingExpected, $billingResponse);
     }
 

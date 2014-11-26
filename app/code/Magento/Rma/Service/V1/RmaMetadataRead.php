@@ -8,7 +8,7 @@
  
 namespace Magento\Rma\Service\V1;
 
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataConverter;
+use Magento\Customer\Model\AttributeMetadataConverter;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Api\Config\MetadataConfig;
@@ -34,19 +34,19 @@ class RmaMetadataRead implements RmaMetadataReadInterface
     private $attributeMetadataConverter;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataDataProvider
+     * @var \Magento\Customer\Model\AttributeMetadataDataProvider
      */
     private $attributeMetadataDataProvider;
 
     /**
      * @param MetadataConfig $metadataConfig
      * @param AttributeMetadataConverter $attributeMetadataConverter
-     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataDataProvider $attributeMetadataDataProvider
+     * @param \Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider
      */
     public function __construct(
         MetadataConfig $metadataConfig,
         AttributeMetadataConverter $attributeMetadataConverter,
-        \Magento\Customer\Service\V1\Data\Eav\AttributeMetadataDataProvider $attributeMetadataDataProvider
+        \Magento\Customer\Model\AttributeMetadataDataProvider $attributeMetadataDataProvider
     ) {
         $this->metadataConfig = $metadataConfig;
         $this->attributeMetadataConverter = $attributeMetadataConverter;

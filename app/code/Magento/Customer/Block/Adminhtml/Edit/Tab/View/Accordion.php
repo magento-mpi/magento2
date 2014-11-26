@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
-use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Controller\RegistryConstants;
 
@@ -25,9 +25,9 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Sales\Model\QuoteFactory
+     * @var \Magento\Sales\Model\QuoteRepository
      */
-    protected $_quoteFactory;
+    protected $quoteRepository;
 
     /**
      * @var \Magento\Wishlist\Model\Resource\Item\CollectionFactory
@@ -37,37 +37,37 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
     /** @var \Magento\Customer\Model\Config\Share  */
     protected $_shareConfig;
 
-    /** @var CustomerAccountServiceInterface  */
-    protected $_customerAccountService;
+    /** @var CustomerRepositoryInterface */
+    protected $_customerRepositoryInterface;
 
-    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder  */
+    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder  */
     protected $_customerBuilder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Customer\Model\Config\Share $shareConfig
-     * @param CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+     * @param CustomerRepositoryInterface $customerRepositoryInterface
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory,
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\Config\Share $shareConfig,
-        CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
+        CustomerRepositoryInterface $customerRepositoryInterface,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_quoteFactory = $quoteFactory;
+        $this->quoteRepository = $quoteRepository;
         $this->_itemsFactory = $itemsFactory;
         $this->_shareConfig = $shareConfig;
-        $this->_customerAccountService = $customerAccountService;
+        $this->_customerRepositoryInterface = $customerRepositoryInterface;
         $this->_customerBuilder = $customerBuilder;
         parent::__construct($context, $data);
     }
@@ -96,16 +96,15 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
             $website = $this->_storeManager->getWebsite($websiteId);
 
             // count cart items
-            $cartItemsCount = $this->_quoteFactory->create()->setWebsite(
-                $website
-            )->loadByCustomer(
-                $customerId
-            )->getItemsCollection(
-                false
-            )->addFieldToFilter(
-                'parent_item_id',
-                array('null' => true)
-            )->getSize();
+            try {
+                $cartItemsCount = $this->quoteRepository->getForCustomer($customerId)
+                    ->setWebsite($website)
+                    ->getItemsCollection(false)
+                    ->addFieldToFilter('parent_item_id', array('null' => true))
+                    ->getSize();
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                $cartItemsCount = 0;
+            }
             // prepare title for cart
             $title = __('Shopping Cart - %1 item(s)', $cartItemsCount);
             if (count($websiteIds) > 1) {
@@ -143,7 +142,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
      * Get customer data from session or service.
      *
      * @param int|null $customerId possible customer ID from DB
-     * @return Customer
+     * @return CustomerInterface
      * @throws NoSuchEntityException
      */
     protected function getCustomer($customerId)
@@ -152,7 +151,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         if (!empty($customerData['account'])) {
             return $this->_customerBuilder->populateWithArray($customerData['account'])->create();
         } elseif ($customerId) {
-            return $this->_customerAccountService->getCustomer($customerId);
+            return $this->_customerRepositoryInterface->getById($customerId);
         } else {
             return $this->_customerBuilder->create();
         }

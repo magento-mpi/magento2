@@ -36,12 +36,29 @@ class MinsaleqtyTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('_'))
             ->will($this->returnValue('unique_hash'));
 
+        $groupManagement = $this->getMockBuilder('Magento\Customer\Api\GroupManagementInterface')
+            ->setMethods(['getAllCustomersGroup'])
+            ->getMockForAbstractClass();
+
+        $allGroup = $this->getMockBuilder('Magento\Customer\Api\Data\GroupInterface')
+            ->setMethods(['getId'])
+            ->getMockForAbstractClass();
+
+        $allGroup->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(32000));
+
+        $groupManagement->expects($this->any())
+            ->method('getAllCustomersGroup')
+            ->will($this->returnValue($allGroup));
+
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->minsaleqty = $this->objectManagerHelper->getObject(
             'Magento\CatalogInventory\Helper\Minsaleqty',
             [
                 'scopeConfig' => $this->scopeConfigMock,
-                'mathRandom' => $this->randomMock
+                'mathRandom' => $this->randomMock,
+                'groupManagement' => $groupManagement
             ]
         );
     }
@@ -58,7 +75,7 @@ class MinsaleqtyTest extends \PHPUnit_Framework_TestCase
         $this->scopeConfigMock->expects($this->once())
             ->method('getValue')
             ->with(
-                $this->equalTo(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MIN_SALE_QTY),
+                $this->equalTo(\Magento\CatalogInventory\Model\Configuration::XML_PATH_MIN_SALE_QTY),
                 $this->equalTo(\Magento\Store\Model\ScopeInterface::SCOPE_STORE),
                 $this->equalTo($store)
             )

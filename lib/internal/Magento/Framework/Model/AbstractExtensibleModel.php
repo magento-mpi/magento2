@@ -57,6 +57,9 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         $this->customAttributeBuilder = $customAttributeBuilder;
         $data = $this->filterCustomAttributes($data);
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        if (isset($data['id'])) {
+            $this->setId($data['id']);
+        }
     }
 
     /**
@@ -144,9 +147,9 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
      */
     public function getData($key = '', $index = null)
     {
-        if ($key == self::CUSTOM_ATTRIBUTES) {
+        if ($key === self::CUSTOM_ATTRIBUTES) {
             throw new \LogicException("Custom attributes array should be retrieved via getCustomAttributes() only.");
-        } else if ($key == '') {
+        } else if ($key === '') {
             /** Represent model data and custom attributes as a flat array */
             $customAttributes = isset($this->_data[self::CUSTOM_ATTRIBUTES])
                 ? $this->_data[self::CUSTOM_ATTRIBUTES]
@@ -185,5 +188,17 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         }
         $this->customAttributesCodes = $attributeCodes;
         return $attributeCodes;
+    }
+
+    /**
+     * Identifier setter
+     *
+     * @param mixed $value
+     * @return $this
+     */
+    public function setId($value)
+    {
+        parent::setId($value);
+        return $this->setData('id', $value);
     }
 }
