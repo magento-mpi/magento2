@@ -191,7 +191,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->_quote->setCustomer($this->_customer);
         $this->_setCustomerAddressAndSave($unsetId);
         $sameAsBilling = $this->_quote->getShippingAddress()->getSameAsBilling();
-        $this->assertEquals(0, $sameAsBilling);
+        $this->assertEquals(1, $sameAsBilling);
     }
 
     /**
