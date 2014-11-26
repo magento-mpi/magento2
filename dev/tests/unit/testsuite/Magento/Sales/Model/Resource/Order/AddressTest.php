@@ -28,6 +28,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected $addressMock;
 
     /**
+     * @var \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $orderMock;
+    
+    /**
      * @var \Magento\Framework\DB\Adapter\Pdo\Mysql|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $adapterMock;
@@ -46,7 +51,14 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $this->addressMock = $this->getMock(
             'Magento\Sales\Model\Order\Address',
-            ['__wakeup', 'getOrderId', 'hasDataChanges', 'beforeSave', 'afterSave', 'validateBeforeSave'],
+            ['__wakeup', 'getOrderId', 'hasDataChanges', 'beforeSave', 'afterSave', 'validateBeforeSave', 'getOrder'],
+            [],
+            '',
+            false
+        );
+        $this->orderMock = $this->getMock(
+            'Magento\Sales\Model\Order',
+            ['__wakeup', 'getId'],
             [],
             '',
             false
@@ -112,6 +124,12 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->addressMock->expects($this->any())
             ->method('hasDataChanges')
             ->will($this->returnValue(true));
+        $this->addressMock->expects($this->exactly(2))
+            ->method('getOrder')
+            ->will($this->returnValue($this->orderMock));
+        $this->orderMock->expects($this->once())
+            ->method('getId')
+            ->willReturn(1);
         $this->addressMock->expects($this->exactly(2))
             ->method('getOrderId')
             ->will($this->returnValue(2));

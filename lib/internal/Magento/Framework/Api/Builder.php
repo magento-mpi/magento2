@@ -158,7 +158,10 @@ class Builder implements BuilderInterface
                 ['builder' => $this]
             );
         }
-        $this->data = array();
+        if ($dataObject instanceof \Magento\Framework\Object) {
+            $dataObject->setDataChanges(true);
+        }
+        $this->data = [];
         return $dataObject;
     }
 

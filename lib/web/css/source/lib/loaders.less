@@ -32,8 +32,8 @@
     background-color: @_loader-overlay-background-color;
     z-index: @_loader-overlay-z-index;
     &:before {
-        .box-sizing();
-        .add-padding(@_loader-icon-padding);
+        box-sizing: border-box;
+        .css(padding, @_loader-icon-padding);
         background-color: @_loader-icon-background-color;
         background-image: @_loader-icon-background-image;
         background-position: @_loader-icon-background-position;

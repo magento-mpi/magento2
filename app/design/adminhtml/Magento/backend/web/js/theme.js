@@ -9,6 +9,7 @@ define([
     "jquery",
     'mage/smart-keyboard-handler',
     "mage/backend/floating-header",
+    'mage/ie-class-fixer',
     "jquery/ui",
     "jquery/hover-intent",
     "jquery/jquery.details",

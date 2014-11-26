@@ -198,9 +198,10 @@
         width: 45%;
         text-align: right;
         float: right;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
+        -moz-user-select: none; // use in 36 Firefox
+        -webkit-user-select: none; // use in 41 Chrome
+        -ms-user-select: none; // use in 11 IE
+        user-select: none;
     }
 
     .action-next{
@@ -337,8 +338,6 @@
         margin: 14px 0;
         background: #ffffff;
         border: 1px solid #bbbbbb;
-        -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
-        -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
         box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
         .action-close {
             position: absolute;
@@ -413,7 +412,7 @@
         }
         .control {
             width: 100%;
-            .box-sizing();
+            box-sizing: border-box;
             padding-right: 20px;
             position: relative;
             z-index: 1;
@@ -430,8 +429,6 @@
   border: 1px solid #bbbbbb;
   position: absolute;
   z-index: 100;
-  -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
   margin-top: 4px;
 
@@ -506,8 +503,6 @@
         background: #ffffff;
         border: 1px solid #bbbbbb;
         min-width: 175px;
-        -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
-        -moz-box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
         box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
         li {
           margin: 0;

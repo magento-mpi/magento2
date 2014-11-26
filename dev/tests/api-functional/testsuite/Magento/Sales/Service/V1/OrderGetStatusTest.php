@@ -18,7 +18,7 @@ class OrderGetStatusTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/order/%d/status';
 
-    const SERVICE_READ_NAME = 'salesOrderReadV1';
+    const SERVICE_READ_NAME = 'salesOrderManagementV1';
 
     const SERVICE_VERSION = 'V1';
 

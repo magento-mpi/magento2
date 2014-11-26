@@ -75,6 +75,7 @@ define([
             $('html, body').animate({
                 scrollTop: $(this.options.bundleOptionsContainer).offset().top
             }, 600);
+            $('#product-options-wrapper > fieldset').focus();
         },
         _hide: function() {
             $('html, body').animate({
