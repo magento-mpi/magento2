@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Search\Dynamic\Algorithm;
 
-use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
+use Magento\Framework\Search\Dynamic\DataProviderInterface;
 use Magento\Framework\Search\Request\BucketInterface;
 
 class Auto implements AlgorithmInterface
@@ -63,7 +63,6 @@ class Auto implements AlgorithmInterface
     /**
      * Get maximum price from layer products set
      *
-     * @param DataProviderInterface $dataProvider
      * @param int[] $entityIds
      * @return float
      */

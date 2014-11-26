@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Search\Dynamic\Algorithm;
 
-use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
+use Magento\Framework\Search\Dynamic\DataProviderInterface;
 use Magento\Framework\Search\Dynamic\Algorithm;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\IntervalFactory;
 use Magento\Framework\Search\Request\BucketInterface;
@@ -55,10 +55,6 @@ class Improved implements AlgorithmInterface
         if ($aggregations['count'] < $options['interval_division_limit']) {
             return [];
         }
-        $select = $this->dataProvider->getDataSet($bucket, $dimensions);
-        $select->where('main_table.entity_id IN (?)', $entityIds);
-
-        $interval = $this->intervalFactory->create(['select' => $select]);
         $this->algorithm->setStatistics(
             $aggregations['min'],
             $aggregations['max'],
@@ -66,6 +62,7 @@ class Improved implements AlgorithmInterface
             $aggregations['count']
         );
 
+        $interval = $this->dataProvider->getInterval($bucket, $dimensions, $entityIds);
         return $this->algorithm->calculateSeparators($interval);
     }
 }
