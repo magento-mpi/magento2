@@ -1,0 +1,96 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.table-wrapper {
+    margin-bottom: @indent-base;
+}
+
+table {
+    .table-caption();
+}
+
+.table {
+    tfoot {
+        > tr:first-child {
+            th,
+            td {
+                border-top: @table-border-width @table-border-style @table-border-color;
+                padding-top: @indent-base;
+            }
+        }
+        th,
+        td {
+            background: @sidebar-background;
+            border: 0;
+        }
+        .mark {
+            font-weight: @font-weight-base;
+            text-align: right;
+        }
+    }
+}
+
+//
+//    Mobile
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .table-wrapper {
+        border-top: @table-border-width @table-border-style @table-border-color;
+        .table-overflow();
+        position: relative; // to hide unnecessary horizontal scrollbar in Safari
+        .table {
+            .table-responsive();
+            tbody {
+                > tr {
+                    > td:first-child {
+                        padding-top: 15px;
+                    }
+                    > td:last-child {
+                        border-bottom: @table-border-width @table-border-style @table-border-color;
+                        padding-bottom: 15px;
+                    }
+                    > td.col.qty {
+                        text-align: left;
+                    }
+                }
+            }
+            tfoot {
+                > tr:first-child {
+                    td {
+                        border-top: 0;
+                        padding-top: 15px;
+                    }
+                }
+                .mark {
+                    display: none;
+                }
+                .amount {
+                    padding-top: 0;
+                    text-align: left;
+                }
+                .grand.totals {
+                    .font-size(16);
+                    .amount {
+                        padding-bottom: @indent-s-base;
+                    }
+                }
+            }
+        }
+    }
+}
+
+//
+//    Desktop
+//--------------------------------------
+.responsive(@break) when (@break = @screen-s) {
+    .table {
+        .table-bordered(
+            @_table_type: horizontal_body
+        );
+    }
+}

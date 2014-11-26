@@ -26,7 +26,9 @@
 }
 
 .account .table-wrapper .data.table.wishlist {
-    .table-bordered(@_type: horizontal);
+    .table-bordered(
+        @_table_type: horizontal
+    );
     thead > tr > th {
         border-bottom: 0;
     }
@@ -96,11 +98,9 @@
 .products-grid.wishlist {
     .product {
         &-item {
-            &-info {
-            }
             &-photo {
                 margin-bottom: @indent-s-base;
-                display: inline-block;
+                display: block;
             }
             &-name {
                 margin-top: 0;
@@ -112,8 +112,6 @@
                 .label {
                     &:extend(.abstract-visually-hidden all);
                 }
-            }
-            &-tooltip {
             }
             &-comment {
                 display: block;
@@ -130,8 +128,10 @@
             }
             .box-tocart {
                 input.qty {
-                    height: 35px;
                     &:extend(.abstract-input-qty all);
+                }
+                .tocart {
+                    &:extend(.abstract-revert-secondary-size all);
                 }
             }
         }
@@ -153,18 +153,12 @@
                 &:first-child {
                     border-top: 1px solid @color-secondary;
                 }
-                &-info {
-                }
                 &-photo {
                     margin-right: @indent-base;
                     float: left;
                 }
                 &-name {
                     .font-size(16);
-                }
-                &-tooltip {
-                }
-                &-comment {
                 }
                 &-actions {
                     display: block;
@@ -229,27 +223,14 @@
         .product {
             &-item {
                 &-info {
-                    .product-item-comment,
-                    .field.qty,
-                    .stock {
-                        visibility: hidden;
-                    }
                     &:hover {
-                        .product-item-comment,
-                        .field.qty,
-                        .stock {
-                            visibility: visible;
+                        .product-item-inner {
+                            display: block;
                         }
                     }
                 }
-                &-photo {
-                }
-                &-name {
-                }
                 &-tooltip {
                     display: inline-block;
-                }
-                &-comment {
                 }
                 &-actions {
                     margin: @indent-s-base 0 0;
@@ -285,38 +266,59 @@
         }
     }
     .wishlist-index-index  {
-        .product {
-            &-item {
-                &-info {
-                    width: 200px;
-                }
-            }
+        .product-item-info {
+            width: auto;
         }
     }
 }
 
 .responsive(@break) when (@break = @screen-s) {
     //.wishlist-index-index .products-grid .product-item { width: 100%/3 }
+    .wishlist-index-index {
+        .products-grid {
+            .product-item {
+                margin-bottom: 20px;
+            }
+        }
+    }
+
 }
 .responsive(@break) when (@break = @screen-m) {
     //.wishlist-index-index .products-grid .product-item { width: 100%/3 }
-}
-.responsive(@break) when (@break = @screen-l) {
-    .wishlist-index-index .products-grid .product-items { margin: 0; }
-    .wishlist-index-index .products-grid .product-item {
-        width: 100%/4;
-        width: 200px;
-        margin: 0;
-        margin-left: calc(~"(100% - 4 * 200px) / 3");
-        padding: 0;
-        &:nth-child(4n+1) {
-            margin-left: 0;
+    .wishlist-index-index {
+        .product-item-inner {
+            display: none;
+            position: absolute;
+            left: 0;
+            right: -1px;
+            z-index: 2;
+            background: #fff;
+            padding: 0 9px 9px 9px;
+            margin: 9px 0 0 -1px;
+            border: 1px solid #bbb;
+            border-top: none;
+            @_shadow: 3px 3px 4px 0px rgba(0, 0, 0, .3);
+            .css(box-shadow, @_shadow);
+            .comment-box {
+                margin-top: -18px;
+            }
         }
     }
-    .products-grid.wishlist {
-        .product {
-            &-item {
-                //margin-bottom: -165px;
+}
+.responsive(@break) when (@break = @screen-l) {
+    .wishlist-index-index {
+        .products-grid {
+            .product-items {
+                margin: 0;
+            }
+            .product-item {
+                width: 24%;
+                margin-left: calc(~"(100% - 4 * 24%) / 3");
+                margin-bottom: @indent-base;
+                padding: 0;
+                &:nth-child(4n+1) {
+                    margin-left: 0;
+                }
             }
         }
     }
