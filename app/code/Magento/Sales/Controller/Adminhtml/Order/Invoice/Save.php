@@ -124,13 +124,14 @@ class Save extends \Magento\Backend\App\Action
             $invoice = $this->_objectManager->create('Magento\Sales\Model\Service\Order', ['order' => $order])
                 ->prepareInvoice($invoiceItems);
 
+            if (!$invoice) {
+                throw new Exception(__('We can\'t save the invoice.'));
+            }
+
             if (!$invoice->getTotalQty()) {
                 throw new \Magento\Framework\Exception(__('Cannot create an invoice without products.'));
             }
             $this->registry->register('current_invoice', $invoice);
-            if (!$invoice) {
-                $this->_redirect('sales/*/new', ['order_id' => $orderId]);
-            }
             if (!empty($data['capture_case'])) {
                 $invoice->setRequestedCaptureCase($data['capture_case']);
             }

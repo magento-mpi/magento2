@@ -82,6 +82,7 @@ class NewAction extends \Magento\Backend\App\Action
             $this->messageManager->addError($exception->getMessage());
             $this->_redirect('sales/order/view', ['order_id' => $orderId]);
         } catch (\Exception $exception) {
+            $this->messageManager->addException($exception, 'Cannot create an invoice.');
             $this->_redirect('sales/order/view', ['order_id' => $orderId]);
         }
     }
