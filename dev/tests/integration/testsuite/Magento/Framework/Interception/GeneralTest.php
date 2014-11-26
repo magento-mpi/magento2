@@ -93,6 +93,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
                 'Magento\Framework\Config\ReaderInterface' => $this->_configReader,
                 'Magento\Framework\ObjectManager\RelationsInterface' => $relations,
                 'Magento\Framework\ObjectManager\ConfigInterface' => $config,
+                'Magento\Framework\Interception\ObjectManager\Config' => $config,
                 'Magento\Framework\ObjectManager\DefinitionInterface' => $definitions,
                 'Magento\Framework\Interception\DefinitionInterface' => $interceptionDefinitions
             )

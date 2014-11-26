@@ -129,6 +129,7 @@ class ObjectManagerFactory
             'Magento\Framework\ObjectManager\RelationsInterface' => $relations,
             'Magento\Framework\Interception\DefinitionInterface' => $definitionFactory->createPluginDefinition(),
             'Magento\Framework\ObjectManager\ConfigInterface' => $diConfig,
+            'Magento\Framework\Interception\ObjectManager\Config' => $diConfig,
             'Magento\Framework\ObjectManager\DefinitionInterface' => $definitions,
             'Magento\Framework\Stdlib\BooleanUtils' => $booleanUtils,
             'Magento\Framework\ObjectManager\Config\Mapper\Dom' => $argumentMapper,
