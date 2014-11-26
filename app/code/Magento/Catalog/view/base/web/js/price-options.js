@@ -29,6 +29,10 @@ define([
 
     return $.mage.priceOptions;
 
+    /**
+     * Widget creating method.
+     * Triggered once.
+     */
     function createPriceOptions() {
         var form = this.element;
         var options = $(this.options.optionsSelector, form);
@@ -36,6 +40,10 @@ define([
         options.on('change', onOptionChanged.bind(this));
     }
 
+    /**
+     * Custom option change-event handler
+     * @param event
+     */
     function onOptionChanged(event) {
         var changes;
         var option = $(event.target);
@@ -51,6 +59,12 @@ define([
         $(this.options.priceHolderSelector).trigger('updatePrice', changes);
     }
 
+    /**
+     * Custom option preprocessor
+     * @param element
+     * @param  {Object} optionsConfig part of config
+     * @return {Object}
+     */
     function defaultGetOptionValue(element, optionsConfig) {
         var changes = {};
         var optionValue = element.val();
@@ -58,35 +72,29 @@ define([
         var optionName = element.prop('name');
         var optionType = element.prop('type');
         var optionConfig = optionsConfig[optionId];
-        var optionHash;
+        var optionHash = optionName;
         switch (optionType) {
             case 'text':
             case 'textarea':
-                optionHash = 'price-option-' + optionName;
                 changes[optionHash] = optionValue ? optionConfig.prices : {};
                 break;
             case 'radio':
             case 'select-one':
-                optionHash = 'price-option-' + optionName;
                 changes[optionHash] = optionConfig[optionValue] && optionConfig[optionValue].prices || {};
                 break;
             case 'select-multiple':
                 _.each(optionConfig, function(row, optionValueCode) {
-                    optionHash = 'price-option-' + optionName + '##' + optionValueCode;
+                    optionHash = optionName + '##' + optionValueCode;
                     changes[optionHash] = _.contains(optionValue, optionValueCode) ? row.prices : {};
                 });
                 break;
             case 'checkbox':
-                optionHash = 'price-option-' + optionName + '##' + optionValue;
+                optionHash = optionName + '##' + optionValue;
                 changes[optionHash] = element.is(':checked') ? optionConfig[optionValue].prices : {};
                 break;
             case 'file':
-                optionHash = 'price-option-' + optionName;
                 // Checking for 'disable' property equal to checking DOMNode with id*="change-"
                 changes[optionHash] = optionValue || element.prop('disabled') ? optionConfig.prices : {};
-                break;
-            case 'hidden':
-            default:
                 break;
         }
         return changes;

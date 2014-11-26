@@ -86,20 +86,21 @@ define([
     function updatePrices(newPrices) {
         var prices = this.cache.displayPrices;
         var additionalPrice = {};
+        var keys = [];
 
         this.cache.additionalPriceObject = this.cache.additionalPriceObject || {};
         if (newPrices) {
             $.extend(this.cache.additionalPriceObject, newPrices);
         }
+        if (!_.isEmpty(additionalPrice)) {
+            keys = _.keys(additionalPrice);
+        } else if (!_.isEmpty(prices)) {
+            keys = _.keys(prices);
+        }
 
         _.each(this.cache.additionalPriceObject, function (additional) {
-            var keys = [];
-            if (!_.isEmpty(additional)) {
+            if (additional && !_.isEmpty(additional)) {
                 keys = _.keys(additional);
-            } else if (!_.isEmpty(additionalPrice)) {
-                keys = _.keys(additionalPrice);
-            } else if (!_.isEmpty(prices)) {
-                keys = _.keys(prices);
             }
             _.each(keys, function (priceCode) {
                 var priceValue = additional[priceCode] || {};
