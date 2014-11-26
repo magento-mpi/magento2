@@ -46,11 +46,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $productTaxClassSource;
 
     /**
-     * @var \Magento\Tax\Helper\Data
-     */
-    protected $taxHelper;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
@@ -59,7 +54,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassService
      * @param \Magento\Tax\Model\TaxClass\Source\Customer $customerTaxClassSource
      * @param \Magento\Tax\Model\TaxClass\Source\Product $productTaxClassSource
-     * @param \Magento\Tax\Helper\Data $taxHelper
      * @param array $data
      */
     public function __construct(
@@ -71,7 +65,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassService,
         \Magento\Tax\Model\TaxClass\Source\Customer $customerTaxClassSource,
         \Magento\Tax\Model\TaxClass\Source\Product $productTaxClassSource,
-        \Magento\Tax\Helper\Data $taxHelper,
         array $data = array()
     ) {
         $this->rateSource = $rateSource;
@@ -80,7 +73,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->taxClassService = $taxClassService;
         $this->customerTaxClassSource = $customerTaxClassSource;
         $this->productTaxClassSource = $productTaxClassSource;
-        $this->taxHelper = $taxHelper;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -133,9 +125,17 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         // Editable multiselect for customer tax class
         $selectConfig = $this->getTaxClassSelectConfig(TaxClassManagementInterface::TYPE_CUSTOMER);
+        $options = $this->customerTaxClassSource->getAllOptions(false);
+        if (!empty($options)) {
+            $selected = $options[0];
+        } else {
+            $selected = null;
+        }
+
+        // Use the rule data or pick the first class in the list
         $selectedCustomerTax = isset($formValues['tax_customer_class'])
             ? $formValues['tax_customer_class']
-            : $this->getDefaultCustomerTaxClass();
+            : $selected;
         $fieldset->addField(
             'tax_customer_class',
             'editablemultiselect',
@@ -143,7 +143,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => 'tax_customer_class',
                 'label' => __('Customer Tax Class'),
                 'class' => 'required-entry',
-                'values' => $this->customerTaxClassSource->getAllOptions(false),
+                'values' => $options,
                 'value' => $selectedCustomerTax,
                 'required' => true,
                 'select_config' => $selectConfig
@@ -154,9 +154,17 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         // Editable multiselect for product tax class
         $selectConfig = $this->getTaxClassSelectConfig(TaxClassManagementInterface::TYPE_PRODUCT);
+        $options = $this->productTaxClassSource->getAllOptions(false);
+        if (!empty($options)) {
+            $selected = $options[0];
+        } else {
+            $selected = null;
+        }
+
+        // Use the rule data or pick the first class in the list
         $selectedProductTax = isset($formValues['tax_product_class'])
             ? $formValues['tax_product_class']
-            : $this->getDefaultProductTaxClass();
+            : $selected;
         $fieldset->addField(
             'tax_product_class',
             'editablemultiselect',
@@ -164,7 +172,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => 'tax_product_class',
                 'label' => __('Product Tax Class'),
                 'class' => 'required-entry',
-                'values' => $this->productTaxClassSource->getAllOptions(false),
+                'values' => $options,
                 'value' => $selectedProductTax,
                 'required' => true,
                 'select_config' => $selectConfig
@@ -243,46 +251,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->setForm($form);
 
         return parent::_prepareForm();
-    }
-
-    /**
-     * Identify default customer tax class ID.
-     *
-     * @return int|null
-     */
-    public function getDefaultCustomerTaxClass()
-    {
-        $configValue = $this->taxHelper->getDefaultCustomerTaxClass();
-        if (!empty($configValue)) {
-            return $configValue;
-        }
-        $taxClasses = $this->customerTaxClassSource->getAllOptions(false);
-        if (!empty($taxClasses)) {
-            $firstClass = array_shift($taxClasses);
-            return isset($firstClass['value']) ? $firstClass['value'] : null;
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Identify default product tax class ID.
-     *
-     * @return int|null
-     */
-    public function getDefaultProductTaxClass()
-    {
-        $configValue = $this->taxHelper->getDefaultProductTaxClass();
-        if (!empty($configValue)) {
-            return $configValue;
-        }
-        $taxClasses = $this->productTaxClassSource->getAllOptions(false);
-        if (!empty($taxClasses)) {
-            $firstClass = array_shift($taxClasses);
-            return isset($firstClass['value']) ? $firstClass['value'] : null;
-        } else {
-            return null;
-        }
     }
 
     /**

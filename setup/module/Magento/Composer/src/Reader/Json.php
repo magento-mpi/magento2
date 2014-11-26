@@ -1,7 +1,5 @@
 <?php
 /**
- * Module declaration reader. Reads module.xml declaration files from module /etc directories.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -43,7 +41,7 @@ class Json
      */
     public function read()
     {
-        $fileList = $this->fileResolver->get($this->fileName);
+        $fileList = $this->fileResolver->get($this->fileName, '');
         if (!count($fileList)) {
             return [];
         }

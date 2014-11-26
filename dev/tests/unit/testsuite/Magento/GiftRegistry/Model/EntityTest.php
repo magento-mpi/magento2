@@ -36,6 +36,26 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     private $_transportBuilderMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $itemModelMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockRegistryMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $itemFactoryMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockItemMock;
+
+    /**
      * @return void
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
@@ -106,12 +126,19 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
 
         $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);
-        $item = $this->getMock('Magento\GiftRegistry\Model\Item', array(), array(), '', false);
+        $this->itemModelMock = $this->getMock('Magento\GiftRegistry\Model\Item', array(), array(), '', false);
         $type = $this->getMock('Magento\GiftRegistry\Model\Type', array(), array(), '', false);
-        $stockRegistry = $this->getMock(
+        $this->stockRegistryMock = $this->getMock(
             'Magento\CatalogInventory\Model\StockRegistry',
             array(),
             array(),
+            '',
+            false
+        );
+        $this->stockItemMock = $this->getMock(
+            '\Magento\CatalogInventory\Model\Stock\StockItemRepository',
+            ['getIsQtyDecimal'],
+            [],
             '',
             false
         );
@@ -120,7 +147,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $quoteRepository = $this->getMock('Magento\Sales\Model\QuoteRepository', array(), array(), '', false);
         $customerFactory = $this->getMock('Magento\Customer\Model\CustomerFactory', array(), array(), '', false);
         $personFactory = $this->getMock('Magento\GiftRegistry\Model\PersonFactory', array(), array(), '', false);
-        $itemFactory = $this->getMock('Magento\GiftRegistry\Model\ItemFactory', array(), array(), '', false);
+        $this->itemFactoryMock = $this->getMock('Magento\GiftRegistry\Model\ItemFactory', ['create'], [], '', false);
         $addressFactory = $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false);
         $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
         $dateFactory = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTimeFactory', array(), array(), '', false);
@@ -145,13 +172,13 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             $this->_transportBuilderMock,
             $type,
             $attributeConfig,
-            $item,
-            $stockRegistry,
+            $this->itemModelMock,
+            $this->stockRegistryMock,
             $session,
             $quoteRepository,
             $customerFactory,
             $personFactory,
-            $itemFactory,
+            $this->itemFactoryMock,
             $addressFactory,
             $productFactory,
             $dateFactory,
@@ -283,5 +310,87 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     protected function _initSenderInfo($senderName, $senderMessage, $senderEmail)
     {
         $this->_model->setSenderName($senderName)->setSenderMessage($senderMessage)->setSenderEmail($senderEmail);
+    }
+
+    public function testUpdateItems()
+    {
+        $modelId = 1;
+        $productId = 1;
+        $items = [
+            1 => ['note' => 'test', 'qty' => 5],
+            2 => ['note' => '', 'qty' => 1, 'delete' => 1]
+        ];
+        $this->_model->setId($modelId);
+        $modelMock = $this->getMock(
+            '\Magento\Framework\Model\AbstractModel',
+            ['getProductId', 'getId', 'getEntityId', 'save', 'delete', 'isDeleted', 'setQty', 'setNote'],
+            [],
+            '',
+            false
+        );
+        $this->itemFactoryMock->expects($this->exactly(2))->method('create')->willReturn($this->itemModelMock);
+        $this->itemModelMock->expects($this->exactly(4))->method('load')->willReturn($modelMock);
+        $modelMock->expects($this->atLeastOnce())->method('getId')->willReturn(1);
+        $modelMock->expects($this->atLeastOnce())->method('getEntityId')->willReturn(1);
+        $modelMock->expects($this->once())->method('getProductId')->willReturn($productId);
+        $modelMock->expects($this->once())->method('delete');
+        $modelMock->expects($this->once())->method('setQty')->with($items[1]['qty']);
+        $modelMock->expects($this->once())->method('setNote')->with($items[1]['note']);
+        $modelMock->expects($this->once())->method('save');
+        $this->stockRegistryMock->expects($this->once())->method('getStockItem')->with($productId)
+            ->willReturn($this->stockItemMock);
+        $this->stockItemMock->expects($this->once())->method('getIsQtyDecimal')->willReturn(10);
+        $this->assertEquals($this->_model, $this->_model->updateItems($items));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Exception
+     * @expectedExceptionMessage Please correct the  gift registry item quantity.
+     */
+    public function testUpdateItemsWithIncorrectQuantity()
+    {
+        $modelId = 1;
+        $productId = 1;
+        $items = [
+            1 => ['note' => 'test', 'qty' => '.1']
+        ];
+        $this->_model->setId($modelId);
+        $modelMock = $this->getMock(
+            '\Magento\Framework\Model\AbstractModel',
+            ['getProductId', 'getId', 'getEntityId'],
+            [],
+            '',
+            false
+        );
+        $this->itemModelMock->expects($this->once())->method('load')->willReturn($modelMock);
+        $modelMock->expects($this->atLeastOnce())->method('getId')->willReturn(1);
+        $modelMock->expects($this->atLeastOnce())->method('getEntityId')->willReturn(1);
+        $modelMock->expects($this->once())->method('getProductId')->willReturn($productId);
+        $this->stockRegistryMock->expects($this->once())->method('getStockItem')->with($productId)
+            ->willReturn($this->stockItemMock);
+        $this->stockItemMock->expects($this->once())->method('getIsQtyDecimal')->willReturn(0);
+        $this->assertEquals($this->_model, $this->_model->updateItems($items));
+    }
+
+    /**
+     * @expectedException \Magento\Framework\Model\Exception
+     * @expectedExceptionMessage Please correct the gift registry item ID.
+     */
+    public function testUpdateItemsWithIncorrectItemId()
+    {
+        $modelId = 1;
+        $items = [
+            1 => ['note' => 'test', 'qty' => '.1']
+        ];
+        $this->_model->setId($modelId);
+        $modelMock = $this->getMock(
+            '\Magento\Framework\Model\AbstractModel',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->itemModelMock->expects($this->once())->method('load')->willReturn($modelMock);
+        $this->assertEquals($this->_model, $this->_model->updateItems($items));
     }
 }

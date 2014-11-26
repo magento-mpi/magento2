@@ -256,7 +256,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'lastname']);
         }
 
-        if (!\Zend_Validate::is($customerAddressModel->getStreet(1), 'NotEmpty')) {
+        if (!\Zend_Validate::is($customerAddressModel->getStreetLine(1), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'street']);
         }
 

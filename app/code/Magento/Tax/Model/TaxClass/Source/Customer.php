@@ -54,7 +54,7 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * @param bool $withEmpty
      * @return array
      */
-    public function getAllOptions($withEmpty = false)
+    public function getAllOptions($withEmpty = true)
     {
         if (!$this->_options) {
             $filter = $this->filterBuilder
@@ -70,8 +70,13 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
                 );
             }
         }
+
         if ($withEmpty) {
-            return array_merge(array(array('value' => '0', 'label' => __('None'))), $this->_options);
+            if (!$this->_options) {
+                return array(array('value' => '0', 'label' => __('None')));
+            } else {
+                return array_merge(array(array('value' => '0', 'label' => __('None'))), $this->_options);
+            }
         }
         return $this->_options;
     }
