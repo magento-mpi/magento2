@@ -34,11 +34,11 @@
 
 .order-details-items {
     border: @border-width-base solid @border-color-base;
-    margin-bottom: 40px;
-    padding: 10px;
+    margin-bottom: @indent-xl-base;
+    padding: @indent-s-base;
     .order-title {
         border-bottom: @border-width-base solid @border-color-base;
-        padding: 0 0 10px;
+        padding: 0 0 @indent-s-base;
         > strong {
             .font-size(24);
             font-weight: @font-weight-light;
@@ -320,8 +320,10 @@
         &.orders-recent {
             &:extend(.abstract-account-table-margin-mobile all);
         }
-        &.orders-history {
-            &:extend(.abstract-account-table-border all);
+    }
+    .table-wrapper {
+        &.orders-recent {
+            &:extend(.abstract-no-border-top all);
         }
     }
     .account {
@@ -333,9 +335,15 @@
                 display: inline-block;
                 margin: 0;
             }
-        }
-        .data.table.table-order-items tfoot tr td {
-            display: table-cell;
+            .action.show {
+                margin-top: 0;
+            }
+            .col {
+                &.actions,
+                &.options {
+                    &:extend(.abstract-col-no-prefix all);
+                }
+            }
         }
     }
     .account,
@@ -343,6 +351,9 @@
         &:extend(.abstract-title-orders-mobile all);
     }
     .order-details-items {
+        .table-wrapper {
+            &:extend(.abstract-no-border-top all);
+        }
         .order-title {
             strong {
                 display: block;
@@ -394,6 +405,7 @@
         }
     }
 }
+
 //
 //    Desktop
 //--------------------------------------
@@ -479,9 +491,11 @@
             &.name {
                 padding-left: 0;
             }
-            &.price,
-            &.subtotal {
+            &.price {
                 text-align: center;
+            }
+            &.subtotal {
+                text-align: right;
             }
         }
         tbody td {
@@ -516,12 +530,15 @@
             }
         }
         &.creditmemo {
-            .col.qty,
-            .col.discount{
-                text-align: center;
-            }
-            .col.total {
-                text-align: right;
+            .col {
+                &.qty,
+                &.discount,
+                &.subtotal {
+                    text-align: center;
+                }
+                &.total {
+                    text-align: right;
+                }
             }
         }
     }

@@ -110,7 +110,7 @@
 //    Input quantity
 //--------------------------------------
 .abstract-input-qty {
-    .form-element-size(@_width: 47px);
+    width: 47px;
     text-align: center;
 }
 
@@ -296,12 +296,12 @@
 //    Box-sizing
 //--------------------------------------
 .add-box-sizing {
-    .box-sizing();
+    box-sizing: border-box;
 }
 
 .responsive(@break) when (@break = @screen-m) {
     .add-box-sizing-desktop {
-        .box-sizing();
+        box-sizing: border-box;
     }
 }
 

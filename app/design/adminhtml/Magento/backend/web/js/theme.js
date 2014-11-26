@@ -8,6 +8,7 @@
 define([
     "jquery",
     'mage/smart-keyboard-handler',
+    'mage/ie-class-fixer',
     "jquery/ui",
     "jquery/hover-intent",
     "jquery/jquery.details",

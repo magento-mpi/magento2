@@ -12,6 +12,8 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Customer front  newsletter manage block
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Newsletter extends \Magento\Customer\Block\Account\Dashboard
 {

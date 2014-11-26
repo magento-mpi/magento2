@@ -12,6 +12,8 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Customer edit form block
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Edit extends \Magento\Customer\Block\Account\Dashboard
 {

@@ -135,7 +135,6 @@
         "magento/theme-adminhtml-backend": "self.version",
         "magento/theme-frontend-blank": "self.version",
         "magento/theme-frontend-luma": "self.version",
-        "magento/theme-frontend-plushe": "self.version",
         "magento/language-de_de": "self.version",
         "magento/language-en_us": "self.version",
         "magento/language-es_es": "self.version",

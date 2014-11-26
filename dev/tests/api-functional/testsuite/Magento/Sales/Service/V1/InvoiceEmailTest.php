@@ -7,19 +7,17 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract,
-    Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 /**
  * Class InvoiceEmailTest
- *
- * @package Magento\Sales\Service\V1
  */
 class InvoiceEmailTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesInvoiceWriteV1';
+    const SERVICE_NAME = 'salesInvoiceManagementV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/invoice.php
@@ -37,10 +35,11 @@ class InvoiceEmailTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'email'
+                'operation' => self::SERVICE_NAME . 'notify'
             ]
         ];
         $requestData = ['id' => $invoice->getId()];
-        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+        $result = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue($result);
     }
 }
