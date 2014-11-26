@@ -270,11 +270,6 @@
             <not><isset property="env.bamboo_mtf_compiler_name"/></not>
         </condition>
 
-        <antcall target="_run_compiler">
-            <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}" />
-            <param name="compiler_name" value="${env.bamboo_mtf_compiler_name}" />
-        </antcall>
-
         <antcall target="_run_composer_dump_autoload">
             <param name="target_composer_dir" value="${basedir}/dev/tests/functional"/>
         </antcall>
@@ -285,6 +280,11 @@
                 self.project.executeTarget( '_install_standalone_application' );
             }
         ]]></script>
+
+        <antcall target="_run_compiler">
+            <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}" />
+            <param name="compiler_name" value="${env.bamboo_mtf_compiler_name}" />
+        </antcall>
     </target>
 
     <target name="_run_compiler" description="Run DI compiler tool">
