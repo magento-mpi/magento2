@@ -694,7 +694,7 @@ class Transaction extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         // set parent id
         $this->_verifyPaymentObject();
@@ -710,7 +710,7 @@ class Transaction extends \Magento\Framework\Model\AbstractModel
 
             $this->setCreatedAt($this->_dateFactory->create()->gmtDate());
         }
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**

@@ -7,9 +7,8 @@
  */
 namespace Magento\Search\Block\Adminhtml\Term;
 
-
 /**
- * Admin tag edit block
+ * Admin term edit block
  */
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {

@@ -18,16 +18,38 @@ use Magento\Catalog\Pricing\Price\BasePrice;
 class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice implements FinalPriceInterface
 {
     /**
+     * @var \Magento\Framework\Pricing\Amount\AmountInterface
+     */
+    protected $maximalPrice;
+
+    /**
+     * @var \Magento\Framework\Pricing\Amount\AmountInterface
+     */
+    protected $minimalPrice;
+
+    /**
+     * @var \Magento\Framework\Pricing\Amount\AmountInterface
+     */
+    protected $priceWithoutOption;
+
+    /**
+     * @var \Magento\Bundle\Pricing\Price\BundleOptionPrice
+     */
+    protected $bundleOptionPrice;
+
+    /**
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
-        CalculatorInterface $calculator
+        CalculatorInterface $calculator,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
     ) {
-        parent::__construct($saleableItem, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator, $priceCurrency);
     }
 
     /**
@@ -48,7 +70,10 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice implements Fi
      */
     public function getMaximalPrice()
     {
-        return $this->calculator->getMaxAmount($this->getBasePrice()->getValue(), $this->product);
+        if (!$this->maximalPrice) {
+            $this->maximalPrice = $this->calculator->getMaxAmount($this->getBasePrice()->getValue(), $this->product);
+        }
+        return $this->maximalPrice;
     }
 
     /**
@@ -68,7 +93,10 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice implements Fi
      */
     public function getAmount()
     {
-        return $this->calculator->getAmount(parent::getValue(), $this->product);
+        if (!$this->minimalPrice) {
+            $this->minimalPrice = $this->calculator->getAmount(parent::getValue(), $this->product);
+        }
+        return $this->minimalPrice;
     }
 
     /**
@@ -78,7 +106,10 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice implements Fi
      */
     public function getPriceWithoutOption()
     {
-        return $this->calculator->getAmountWithoutOption(parent::getValue(), $this->product);
+        if (!$this->priceWithoutOption) {
+            $this->priceWithoutOption = $this->calculator->getAmountWithoutOption(parent::getValue(), $this->product);
+        }
+        return $this->priceWithoutOption;
     }
 
     /**
@@ -88,6 +119,9 @@ class FinalPrice extends \Magento\Catalog\Pricing\Price\FinalPrice implements Fi
      */
     protected function getBundleOptionPrice()
     {
-        return $this->priceInfo->getPrice(BundleOptionPrice::PRICE_CODE);
+        if (!$this->bundleOptionPrice) {
+            $this->bundleOptionPrice = $this->priceInfo->getPrice(BundleOptionPrice::PRICE_CODE);
+        }
+        return $this->bundleOptionPrice;
     }
 }
