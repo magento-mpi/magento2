@@ -2846,4 +2846,13 @@ return array(
     ['Magento\TestFramework\Utility\AggregateInvoker', 'Magento\Framework\Test\Utility\AggregateInvoker'],
     ['Magento\TestFramework\Utility\Classes', 'Magento\Framework\Test\Utility\Classes'],
     ['Magento\TestFramework\Utility\Files', 'Magento\Framework\Test\Utility\Files'],
+    ['Magento\Framework\Module\Declaration\Reader\Filesystem', 'Magento\Framework\Module\ModuleList\Loader'],
+    ['Magento\Framework\Module\Declaration\FileIterator'],
+    ['Magento\Framework\Module\Declaration\FileIteratorFactory'],
+    ['Magento\Framework\Module\Declaration\FileResolver', 'Magento\Framework\Module\ModuleList\Loader'],
+    ['Magento\Framework\Module\Declaration\SchemaLocator'],
+    ['Magento\Framework\Module\DependencyManager'],
+    ['Magento\Framework\Module\DependencyManagerInterface'],
+    ['Magento\Framework\App\Arguments\Loader'],
+    ['Magento\Framework\App\Arguments', 'Magento\Framework\App\DeploymentConfig'],
 );

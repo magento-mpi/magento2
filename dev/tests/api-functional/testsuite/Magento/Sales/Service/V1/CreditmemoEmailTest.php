@@ -12,14 +12,12 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 /**
  * Class CreditmemoEmailTest
- *
- * @package Magento\Sales\Service\V1
  */
 class CreditmemoEmailTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesCreditmemoWriteV1';
+    const SERVICE_NAME = 'salesCreditmemoManagementV1';
 
     const CREDITMEMO_INCREMENT_ID = '100000001';
 
@@ -41,7 +39,7 @@ class CreditmemoEmailTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'email'
+                'operation' => self::SERVICE_NAME . 'notify'
             ]
         ];
         $requestData = ['id' => $creditmemo->getId()];
