@@ -41,7 +41,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->_customerSession->unsCustomerId();
+        $this->_customerSession->setCustomerId(null);
     }
 
     /**
@@ -109,7 +109,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer_no_address.php
      * @dataProvider getPrimaryBillingAddressHtmlDataProvider
      */
-    public function testGetPrimaryBillingingAddressHtml($customerId, $expected)
+    public function testGetPrimaryBillingAddressHtml($customerId, $expected)
     {
         if (!empty($customerId)) {
             $this->_customerSession->setCustomerId($customerId);

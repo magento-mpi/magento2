@@ -95,9 +95,10 @@ class Converter
             }
         }
         // Set customer related data
-        $isBilling = $address->isDefaultBilling();
+        $isBilling = (bool)$address->isDefaultBilling();
         $addressModel->setIsDefaultBilling($isBilling);
-        $addressModel->setIsDefaultShipping($address->isDefaultShipping());
+        $isShipping = (bool)$address->isDefaultShipping();
+        $addressModel->setIsDefaultShipping($isShipping);
         // Need to use attribute set or future updates can cause data loss
         if (!$addressModel->getAttributeSetId()) {
             $addressModel->setAttributeSetId(AddressMetadataInterface::ATTRIBUTE_SET_ID_ADDRESS);

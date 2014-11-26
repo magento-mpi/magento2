@@ -115,16 +115,24 @@ class PersonalInfo extends \Magento\Backend\Block\Template
     }
 
     /**
+     * Returns customer's created date in the assigned store
+     *
      * @return string
      */
     public function getStoreCreateDate()
     {
-        $date = $this->_localeDate->scopeDate(
-            $this->getCustomer()->getStoreId(),
-            $this->dateTime->toTimestamp($this->getCustomer()->getCreatedAt()),
-            true
-        );
-        return $this->formatDate($date, TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
+        $createdAt = $this->getCustomer()->getCreatedAt();
+        try {
+            $date = $this->_localeDate->scopeDate(
+                $this->getCustomer()->getStoreId(),
+                $this->dateTime->toTimestamp($createdAt),
+                true
+            );
+            return $this->formatDate($date, TimezoneInterface::FORMAT_TYPE_MEDIUM, true);
+        } catch (\Exception $e) {
+            $this->_logger->logException($e);
+            return '';
+        }
     }
 
     /**
