@@ -9,6 +9,8 @@ namespace Magento\RecurringPayment\Block\Payment\View;
 
 /**
  * Recurring payment view reference
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Reference extends \Magento\RecurringPayment\Block\Payment\View
 {

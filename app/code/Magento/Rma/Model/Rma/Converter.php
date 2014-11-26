@@ -24,7 +24,7 @@ class Converter
     private $rmaDataMapper;
 
     /**
-     * @var \Magento\Sales\Model\OrderRepository
+     * @var \Magento\Sales\Api\OrderRepositoryInterface
      */
     private $orderRepository;
 
@@ -41,14 +41,14 @@ class Converter
     /**
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\RmaRepository $rmaRepository
-     * @param \Magento\Sales\Model\OrderRepository $orderRepository
+     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param Source\StatusFactory $statusFactory
      * @param RmaDataMapper $rmaDataMapper
      */
     public function __construct(
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\RmaRepository $rmaRepository,
-        \Magento\Sales\Model\OrderRepository $orderRepository,
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         Source\StatusFactory $statusFactory,
         RmaDataMapper $rmaDataMapper
     ) {

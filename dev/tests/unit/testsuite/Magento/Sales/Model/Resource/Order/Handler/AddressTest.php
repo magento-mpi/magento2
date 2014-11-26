@@ -46,7 +46,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'Magento\Sales\Model\Order',
             [
                 '__wakeup',
-                'getAddressesCollection',
+                'getAddresses',
                 'save',
                 'getBillingAddress',
                 'getShippingAddress',
@@ -88,8 +88,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function testProcessBillingAddress()
     {
         $this->orderMock->expects($this->exactly(2))
-            ->method('getAddressesCollection')
-            ->will($this->returnValue($this->addressCollectionMock));
+            ->method('getAddresses')
+            ->willReturn([$this->addressCollectionMock]);
         $this->addressCollectionMock->expects($this->once())
             ->method('save')
             ->will($this->returnSelf());
@@ -121,8 +121,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function testProcessShippingAddress()
     {
         $this->orderMock->expects($this->exactly(2))
-            ->method('getAddressesCollection')
-            ->will($this->returnValue($this->addressCollectionMock));
+            ->method('getAddresses')
+            ->willReturn([$this->addressCollectionMock]);
         $this->addressCollectionMock->expects($this->once())
             ->method('save')
             ->will($this->returnSelf());

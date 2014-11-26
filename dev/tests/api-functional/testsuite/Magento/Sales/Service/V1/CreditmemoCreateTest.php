@@ -7,19 +7,17 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
  * Class CreditmemoCreateTest
- *
- * @package Magento\Sales\Service\V1
  */
 class CreditmemoCreateTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/creditmemo';
 
-    const SERVICE_READ_NAME = 'salesCreditmemoWriteV1';
+    const SERVICE_READ_NAME = 'salesCreditmemoRepositoryV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -39,7 +37,11 @@ class CreditmemoCreateTest extends WebapiAbstract
     public function testInvoke()
     {
         /** @var \Magento\Sales\Model\Order $order */
-        $order = $this->objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId('100000001');
+        $orderCollection = $this->objectManager->get('\Magento\Sales\Model\Resource\Order\Collection');
+        $order = $orderCollection->getFirstItem();
+
+
+//        $order = $this->objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId('100000001');
         /** @var \Magento\Sales\Model\Order\Item $orderItem */
         $orderItem = current($order->getAllItems());
         $items = [
@@ -53,7 +55,7 @@ class CreditmemoCreateTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'create'
+                'operation' => self::SERVICE_READ_NAME . 'save'
             ]
         ];
         $data = [
@@ -107,7 +109,7 @@ class CreditmemoCreateTest extends WebapiAbstract
             'updated_at' => null,
             'items' => $items,
         ];
-        $result = $this->_webApiCall($serviceInfo, ['creditmemoDataObject' => $data]);
-        $this->assertTrue($result);
+        $result = $this->_webApiCall($serviceInfo, ['entity' => $data]);
+        $this->assertNotEmpty($result);
     }
 }
