@@ -168,11 +168,11 @@
             <arg value="-f"/>
             <arg value="${env.bamboo_build_working_directory}/team/dev/tests/performance/compare_reports.php"/>
             <arg value="--"/>
-            <arg value="--mainline"/>
+            <arg value="-m"/>
             <arg value="${env.bamboo_build_working_directory}/mainline/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time.jtl"/>
-            <arg value="--branch"/>
+            <arg value="-b"/>
             <arg value="${env.bamboo_build_working_directory}/team/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time.jtl"/>
-            <arg value="--output"/>
+            <arg value="-o"/>
             <arg value="${env.bamboo_build_working_directory}/team/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time_summary.jtl"/>
         </exec>
     </target>
