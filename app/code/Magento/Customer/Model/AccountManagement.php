@@ -12,12 +12,10 @@ use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Customer\Helper\Data as CustomerDataHelper;
 use Magento\Customer\Helper\View as CustomerViewHelper;
 use Magento\Customer\Model\Config\Share as ConfigShare;
 use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Customer\Model\Metadata\Validator;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface as Encryptor;
 use Magento\Framework\Event\ManagerInterface;
@@ -146,11 +144,6 @@ class AccountManagement implements AccountManagementInterface
     private $addressRepository;
 
     /**
-     * @var CustomerMetadataServiceInterface
-     */
-    private $customerMetadataService;
-
-    /**
      * @var UrlInterface
      */
     private $url;
@@ -237,7 +230,6 @@ class AccountManagement implements AccountManagementInterface
      * @param Validator $validator
      * @param \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder
      * @param AddressRepositoryInterface $addressRepository
-     * @param CustomerMetadataServiceInterface $customerMetadataService
      * @param CustomerRegistry $customerRegistry
      * @param UrlInterface $url
      * @param Logger $logger
@@ -267,7 +259,6 @@ class AccountManagement implements AccountManagementInterface
         Validator $validator,
         \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder,
         AddressRepositoryInterface $addressRepository,
-        CustomerMetadataServiceInterface $customerMetadataService,
         CustomerRegistry $customerRegistry,
         UrlInterface $url,
         Logger $logger,
@@ -294,7 +285,6 @@ class AccountManagement implements AccountManagementInterface
         $this->validator = $validator;
         $this->validationResultsDataBuilder = $validationResultsDataBuilder;
         $this->addressRepository = $addressRepository;
-        $this->customerMetadataService = $customerMetadataService;
         $this->customerRegistry = $customerRegistry;
         $this->url = $url;
         $this->logger = $logger;

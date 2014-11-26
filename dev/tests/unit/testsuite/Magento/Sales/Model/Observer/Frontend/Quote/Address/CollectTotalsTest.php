@@ -213,7 +213,6 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->customerMock->expects($this->once())->method('getId')->will($this->returnValue('1'));
-        $this->customerHelperMock->expects(
         $this->customerDataMock->expects($this->once())->method('getId')->will($this->returnValue('1'));
         $this->customerVatMock->expects(
             $this->once()

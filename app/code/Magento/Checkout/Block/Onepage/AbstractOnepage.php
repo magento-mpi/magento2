@@ -183,7 +183,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
      */
     public function isCustomerLoggedIn()
     {
-        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
+        return $this->httpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH);
     }
 
     /**

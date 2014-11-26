@@ -58,7 +58,7 @@ class Customer extends \Magento\Framework\View\Element\Template
      */
     public function customerLoggedIn()
     {
-        return (bool)$this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
+        return (bool)$this->httpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH);
     }
 
     /**
