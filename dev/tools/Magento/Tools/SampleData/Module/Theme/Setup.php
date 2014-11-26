@@ -10,8 +10,9 @@ namespace Magento\Tools\SampleData\Module\Theme;
 
 use \Magento\Framework\App\ScopeInterface;
 use \Magento\Store\Model\Store;
-use Magento\Tools\SampleData\Logger;
+use \Magento\Tools\SampleData\Logger;
 use \Magento\Tools\SampleData\SetupInterface;
+use \Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Launches setup of sample data for Theme module
@@ -51,6 +52,21 @@ class Setup implements SetupInterface
     protected $configCacheType;
 
     /**
+     * @var \Magento\Framework\App\Filesystem\DirectoryList
+     */
+    private $directoryList;
+
+    /**
+     * @var \Magento\Framework\Module\ModuleListInterface
+     */
+    protected $moduleList;
+
+    /**
+     * @var FixtureHelper
+     */
+    protected $fixtureHelper;
+
+    /**
      * @var Logger
      */
     protected $logger;
@@ -62,6 +78,9 @@ class Setup implements SetupInterface
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
+     * @param FixtureHelper $fixtureHelper
      * @param Logger $logger
      */
     public function __construct(
@@ -71,6 +90,9 @@ class Setup implements SetupInterface
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
+        \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
+        \Magento\Framework\Module\ModuleListInterface $moduleList,
+        FixtureHelper $fixtureHelper,
         Logger $logger
     ) {
         $this->config = $config;
@@ -79,6 +101,9 @@ class Setup implements SetupInterface
         $this->scopeConfig = $scopeConfig;
         $this->configWriter = $configWriter;
         $this->configCacheType = $configCacheType;
+        $this->directoryList = $directoryList;
+        $this->moduleList = $moduleList;
+        $this->fixtureHelper = $fixtureHelper;
         $this->logger = $logger;
     }
 
@@ -116,7 +141,21 @@ class Setup implements SetupInterface
      */
     protected function addHeadInclude()
     {
-        $linkTemplate = '<link  rel="stylesheet" type="text/css"  media="all" href="%sluma-sample-data.css" />';
+        $styleContent = '';
+        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
+            $fileName = substr($moduleName, strpos($moduleName, "_") + 1) . '/styles.css';
+            $fileName = $this->fixtureHelper->getPath($fileName);
+            if (!$fileName) {
+                continue;
+            }
+            $styleContent .= file_get_contents($fileName);
+        }
+        if (empty($styleContent)) {
+            return;
+        }
+        $themesDir = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
+        file_put_contents("$themesDir/styles.css", $styleContent);
+        $linkTemplate = '<link  rel="stylesheet" type="text/css"  media="all" href="%sstyles.css" />';
         $baseUrl = $this->baseUrl->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA));
         $linkText = sprintf($linkTemplate, $baseUrl);
 
