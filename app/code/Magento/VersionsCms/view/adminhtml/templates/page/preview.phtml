@@ -10,24 +10,24 @@
     <div class="toolbar">
         <?php echo $this->getChildHtml('tools') ?>
     </div>
-<iframe name="preview_iframe" id="preview_iframe" frameborder="0" title="<?php echo __('Preview') ?>" width="100%" onload="iframeSetHeight()"></iframe>
+<iframe name="preview_iframe" id="preview_iframe" frameborder="0" title="<?php echo __('Preview') ?>" width="100%" ></iframe>
 <?php echo $this->getChildHtml('preview_form') ?>
 </div>
 <div id="loading-mask" style="display:none">
     <p class="loader" id="loading_mask_loader"><img src="<?php echo $this->getViewFileUrl('images/ajax-loader-tr.gif') ?>" alt="<?php echo __('Loading...') ?>"/><br/><?php echo __('Please wait...') ?></p>
 </div>
 <script type="text/javascript">
-require(['protottpe'], function(){
+
+require(['jquery','prototype'], function(jQuery){
 
 //<![CDATA[
-    var previewForm = $('preview_form');
-    var loadingMask = $('loading-mask');
-    var previewIframe = $('preview_iframe');
+    var previewForm = $('preview_form'),
+     loadingMask = $('loading-mask'),
+     previewIframe = $('preview_iframe'),
+     publishUrlTemplate = '<?php echo $this->getUrl('*/*/publish', array('revision_id' => '{{value}}'))?>',
+     publishUrl = '';
 
-    var publishUrlTemplate = '<?php echo $this->getUrl('*/*/publish', array('revision_id' => '{{value}}'))?>';
-    var publishUrl = '';
-
-    function preview() {
+    preview = function () {
         previewForm.writeAttribute('target', previewIframe.readAttribute('id'));
         blockPreview();
         previewForm.submit();
@@ -37,7 +37,7 @@ require(['protottpe'], function(){
         var cumulativeOffset = $('cms-revision-preview').cumulativeOffset();
 
         $('loading-mask').setStyle({
-            top:  ( cumulativeOffset.top ) + 'px',
+            top: ( cumulativeOffset.top ) + 'px',
             left: ( cumulativeOffset.left ) + 'px',
             width: $('cms-revision-preview').getWidth() + 'px',
             height: $('cms-revision-preview').getHeight() + 'px'
@@ -52,9 +52,6 @@ require(['protottpe'], function(){
         toggleSelectsUnderBlock(loadingMask, true);
         Element.hide(loadingMask);
     }
-
-    Event.observe(window, 'load', preview);
-    Event.observe(previewIframe, 'load', unBlockPreview);
 
     function togglePublish(state) {
         var button = $('preview-buttons-publish');
@@ -76,13 +73,16 @@ require(['protottpe'], function(){
 
     function iframeSetHeight() {
         var iFrameID = document.getElementById('preview_iframe');
-        if(iFrameID) {
+        if (iFrameID) {
             iFrameID.height = "";
             iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + "px";
         }
     }
 
-//]]>
+    jQuery('#preview_iframe').on('load', iframeSetHeight)
+        .on('load', unBlockPreview);
 
+    jQuery(preview);
+//]]>
 });
 </script>
