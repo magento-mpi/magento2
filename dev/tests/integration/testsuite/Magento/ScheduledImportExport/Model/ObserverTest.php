@@ -50,29 +50,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         // Restore current working directory
         chdir($cwd);
 
-        $operationFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\ScheduledImportExport\Model\Scheduled\OperationFactory'
-        );
-        $transportBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\Mail\Template\TransportBuilder'
-        );
-        $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Store\Model\StoreManager'
-        );
-        $scopeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\App\Config\ScopeConfigInterface'
-        );
-        /** @var \Magento\Framework\Filesystem $filesystem */
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Framework\Filesystem');
-
-        $observer = new \Magento\ScheduledImportExport\Model\Observer(
-            $operationFactory,
-            $transportBuilder,
-            $scopeConfig,
-            $storeManager,
-            $filesystem
-        );
+        $observer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('\Magento\ScheduledImportExport\Model\Observer');
         $observer->scheduledLogClean('not_used', true);
 
         // Verify

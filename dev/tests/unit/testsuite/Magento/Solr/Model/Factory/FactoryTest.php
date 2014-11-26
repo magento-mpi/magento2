@@ -33,6 +33,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_solrStateMock = $this->getMock('Magento\Solr\Model\Solr\State', array(), array(), '', false, false);
         $this->_solrFactoryMock = $this->getMock(

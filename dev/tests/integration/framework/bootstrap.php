@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 use Magento\Framework\Autoload\AutoloaderRegistry;
 
 require_once __DIR__ . '/../../../../app/bootstrap.php';
@@ -27,13 +26,18 @@ try {
         $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer);
     }
 
-    $application = \Magento\TestFramework\Application::getInstance(
-        $settings->getAsConfigFile('TESTS_INSTALL_CONFIG_FILE'),
-        $settings->get('TESTS_GLOBAL_CONFIG_DIR'),
-        $settings->getAsMatchingPaths('TESTS_MODULE_CONFIG_FILES'),
-        $settings->get('TESTS_MAGENTO_MODE'),
-        $testsTmpDir,
+    $installConfigFile = $settings->getAsConfigFile('TESTS_INSTALL_CONFIG_FILE');
+    if (!file_exists($installConfigFile)) {
+        $installConfigFile = $installConfigFile . '.dist';
+    }
+    $sandboxUniqueId = md5(sha1_file($installConfigFile));
+    $installDir = "{$testsTmpDir}/sandbox-{$sandboxUniqueId}";
+    $application = new \Magento\TestFramework\Application(
         $shell,
+        $installDir,
+        $installConfigFile,
+        $settings->get('TESTS_GLOBAL_CONFIG_DIR'),
+        $settings->get('TESTS_MAGENTO_MODE'),
         AutoloaderRegistry::getAutoloader()
     );
 
