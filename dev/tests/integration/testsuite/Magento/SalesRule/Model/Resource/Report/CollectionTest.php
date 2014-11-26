@@ -63,53 +63,38 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function periodDataProvider()
     {
+        $currentDate = time();
         return array(
             [
                 'period'    => 'year',
                 'date_from' => null,
                 'date_to'   => null,
-                'expected_period' => date('Y', time())
+                'expected_period' => date('Y', $currentDate)
             ],
             [
                 'period'    => 'month',
                 'date_from' => null,
                 'date_to'   => null,
-                'expected_period' => date('Y-m', time())
+                'expected_period' => date('Y-m', $currentDate)
             ],
             [
                 'period'    => 'day',
                 'date_from' => null,
                 'date_to'   => null,
-                'expected_period' => $this->getNow()
+                'expected_period' => date('Y-m-d', $currentDate)
             ],
             [
                 'period'    => 'undefinedPeriod',
                 'date_from' => null,
                 'date_to'   => null,
-                'expected_period' => $this->getNow()
+                'expected_period' => date('Y-m-d', $currentDate)
             ],
             [
                 'period'    => null,
-                'date_from' => date('Y-m-d', strtotime('-1 year', time())),
-                'date_to'   => date('Y-m-d', time()),
-                'expected_period' => $this->getNow()
+                'date_from' => date('Y-m-d', strtotime('-1 year', $currentDate)),
+                'date_to'   => date('Y-m-d', $currentDate),
+                'expected_period' => date('Y-m-d', $currentDate)
             ]
         );
-    }
-
-    /**
-     * Retrieve date in MySQL timezone
-     *
-     * @return string
-     */
-    protected function getNow()
-    {
-        /** @var \Magento\Framework\App\Resource $resources */
-        $resources = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Framework\App\Resource'
-        );
-        $connection = $resources->getConnection('salesrule_read');
-        $now = $connection->fetchOne("SELECT CURDATE()");
-        return $now;
     }
 }
