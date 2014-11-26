@@ -22,7 +22,7 @@ interface ProductLinkManagementInterface
     public function getChildren($productId);
 
     /**
-     * Add child product to specified Bundle option
+     * Add child product to specified Bundle option by product sku
      *
      * @param string $productSku
      * @param int $optionId
@@ -33,7 +33,22 @@ interface ProductLinkManagementInterface
      * @return int
      * @see \Magento\Bundle\Service\V1\Product\Link\WriteServiceInterface::addChild
      */
-    public function addChild($productSku, $optionId, \Magento\Bundle\Api\Data\LinkInterface $linkedProduct);
+    public function addChildByProductSku($productSku, $optionId, \Magento\Bundle\Api\Data\LinkInterface $linkedProduct);
+
+    /**
+     * @param \Magento\Catalog\Api\Data\ProductInterface $product
+     * @param $optionId
+     * @param Data\LinkInterface $linkedProduct
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\CouldNotSaveException
+     * @throws \Magento\Framework\Exception\InputException
+     * @return int
+     */
+    public function addChild(
+        \Magento\Catalog\Api\Data\ProductInterface $product,
+        $optionId,
+        \Magento\Bundle\Api\Data\LinkInterface $linkedProduct
+    );
 
     /**
      * Remove product from Bundle product option

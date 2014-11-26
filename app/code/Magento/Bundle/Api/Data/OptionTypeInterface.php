@@ -8,7 +8,7 @@
  */
 namespace Magento\Bundle\Api\Data;
 
-interface OptionTypeInterface
+interface OptionTypeInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**
      * Get type label

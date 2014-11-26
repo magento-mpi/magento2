@@ -11,11 +11,6 @@ namespace Magento\Bundle\Model\Plugin;
 class BundleOptions
 {
     /**
-     * @var \Magento\Bundle\Service\V1\Product\Option\WriteService
-     */
-    protected $optionWriteService;
-
-    /**
      * @var \Magento\Bundle\Service\V1\Product\Option\ReadService
      */
     protected $optionReadService;
@@ -26,34 +21,24 @@ class BundleOptions
     protected $productBuilder;
 
     /**
-     * @var \Magento\Bundle\Service\V1\Data\Product\OptionBuilder
+     * @var \Magento\Bundle\Api\ProductOptionRepositoryInterface
      */
-    protected $optionBuilder;
+    protected $optionRepository;
 
     /**
-     * @var \Magento\Bundle\Service\V1\Data\Product\LinkBuilder
-     */
-    protected $linkBuilder;
-
-    /**
-     * @param \Magento\Bundle\Service\V1\Product\Option\WriteService $optionWriteService
+     * @param \Magento\Bundle\Api\ProductOptionRepositoryInterface $optionRepository
      * @param \Magento\Bundle\Service\V1\Product\Option\ReadService $optionReadService
      * @param \Magento\Catalog\Api\Data\ProductDataBuilder $productBuilder
-     * @param \Magento\Bundle\Service\V1\Data\Product\OptionBuilder $optionBuilder
      * @param \Magento\Bundle\Service\V1\Data\Product\LinkBuilder $linkBuilder
      */
     public function __construct(
-        \Magento\Bundle\Service\V1\Product\Option\WriteService $optionWriteService,
+        \Magento\Bundle\Api\ProductOptionRepositoryInterface $optionRepository,
         \Magento\Bundle\Service\V1\Product\Option\ReadService $optionReadService,
-        \Magento\Catalog\Api\Data\ProductDataBuilder $productBuilder,
-        \Magento\Bundle\Service\V1\Data\Product\OptionBuilder $optionBuilder,
-        \Magento\Bundle\Service\V1\Data\Product\LinkBuilder $linkBuilder
+        \Magento\Catalog\Api\Data\ProductDataBuilder $productBuilder
     ) {
-        $this->optionWriteService = $optionWriteService;
+        $this->optionRepository = $optionRepository;
         $this->optionReadService = $optionReadService;
         $this->productBuilder = $productBuilder;
-        $this->optionBuilder = $optionBuilder;
-        $this->linkBuilder = $linkBuilder;
     }
 
     /**
@@ -88,7 +73,7 @@ class BundleOptions
 
         if (is_array($bundleProductOptions)) {
             foreach ($bundleProductOptions as $option) {
-                $this->optionWriteService->addOptionToProduct($result, $option);
+                $this->optionRepository->save($result, $option);
             }
         }
         return $result;

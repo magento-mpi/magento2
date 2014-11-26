@@ -1,18 +1,18 @@
 <?php
 /**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Bundle\Service\V1\Product\Option\Type;
+namespace Magento\Bundle\Api;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
 
-class ReadServiceTest extends WebapiAbstract
+class ProductOptionTypeListTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-    const SERVICE_READ_NAME = 'bundleProductOptionTypeReadServiceV1';
+    const SERVICE_READ_NAME = 'bundleProductOptionTypeListV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/bundle-products/option/types';
 
@@ -42,7 +42,7 @@ class ReadServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'getTypes'
+                'operation' => self::SERVICE_READ_NAME . 'getItems'
             ]
         ];
         return $this->_webApiCall($serviceInfo);

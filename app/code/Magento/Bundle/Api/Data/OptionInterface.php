@@ -13,14 +13,14 @@ namespace Magento\Bundle\Api\Data;
  * @package Magento\Bundle\Api\Data
  * @see \Magento\Bundle\Service\V1\Data\Product\Option
  */
-interface OptionInterface
+interface OptionInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**
      * Get option id
      *
      * @return int|null
      */
-    public function getId();
+    public function getOptionId();
 
     /**
      * Get option title
@@ -34,7 +34,7 @@ interface OptionInterface
      *
      * @return bool|null
      */
-    public function getIsRequired();
+    public function getRequired();
 
     /**
      * Get input type

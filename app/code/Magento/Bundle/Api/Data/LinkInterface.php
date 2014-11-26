@@ -13,7 +13,7 @@ namespace Magento\Bundle\Api\Data;
  * @package Magento\Bundle\Api\Data
  * @see \Magento\Bundle\Service\V1\Data\Product\Link
  */
-interface LinkInterface
+interface LinkInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**
      * Get linked product sku

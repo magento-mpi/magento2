@@ -58,6 +58,7 @@ interface ProductOptionRepositoryInterface
     /**
      * Add new option for bundle product
      *
+     * @param \Magento\Catalog\Api\Data\ProductInterface $product
      * @param \Magento\Bundle\Api\Data\OptionInterface $option
      * @return int
      * @throws \Magento\Framework\Exception\CouldNotSaveException
@@ -65,5 +66,8 @@ interface ProductOptionRepositoryInterface
      * @see \Magento\Bundle\Service\V1\Product\Option\WriteServiceInterface::add
      * @see \Magento\Bundle\Service\V1\Product\Option\WriteServiceInterface::update
      */
-    public function save(\Magento\Bundle\Api\Data\OptionInterface $option);
+    public function save(
+        \Magento\Catalog\Api\Data\ProductInterface $product,
+        \Magento\Bundle\Api\Data\OptionInterface $option
+    );
 }
