@@ -50,6 +50,6 @@ class Populator
         FileResolver::addIncludePath($generationDir);
 
         /** Required to autoload custom classes */
-        $autoloader->addPsr0('', [$modulesDir, $frameworkDir]);
+        $autoloader->addPsr0('', [$modulesDir, $generationDir]);
     }
 }
