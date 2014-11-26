@@ -85,6 +85,21 @@ class NodeTest extends \PHPUnit_Framework_TestCase
                 $storeId = 1,
                 $data = ['anchor_text_2' => 'value_2', 'anchor_text' => 'value'],
                 $value = 'value'
+            ],
+            [
+                'storeId' => 1,
+                'data' => ['label' => 'some_label'],
+                'value' => 'some_label'
+            ],
+            [
+                'storeId' => 1,
+                'data' =>
+                    [
+                        'anchor_text' => null,
+                        'anchor_text_1' => null,
+                        'label' => 'some_label',
+                        'label_1' => 'another_label'],
+                'value' => 'another_label'
             ]
         ];
     }
