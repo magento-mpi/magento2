@@ -52,7 +52,7 @@ interface TaxRateRepositoryInterface
     /**
      * Delete tax rate
      *
-     * @param int $rateId
+     * @param \Magento\Tax\Api\Data\TaxRateInterface $taxRate
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException If no TaxRate with the given ID can be found.
      * @throws \Exception If something went wrong while performing the delete.
