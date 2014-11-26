@@ -119,7 +119,7 @@ class RowBaseAndTotalBaseCalculatorTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param $calculator RowBaseCalculator|TotalBaseCalculator
-     * @return \Magento\Tax\Service\V1\Data\QuoteDetails\Item
+     * @return \Magento\Tax\Api\Data\TaxDetailsItemInterface
      */
     public function calculate($calculator)
     {

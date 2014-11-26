@@ -546,7 +546,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
 
         $address = $this->getMockBuilder('\Magento\Sales\Model\Quote\Address')
             ->disableOriginalConstructor()
-            ->setMethods(['getAssociatedTaxables', 'getQuote', 'getBillingAddress', 'getRegionId','__wakeup'])
+            ->setMethods(['getAssociatedTaxables', 'getQuote', 'getBillingAddress', 'getRegionId', '__wakeup'])
             ->getMock();
         $quote
             ->expects($this->any())
