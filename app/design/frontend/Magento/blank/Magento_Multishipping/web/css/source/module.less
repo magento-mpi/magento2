@@ -219,22 +219,21 @@
 
         &.order-review {
             .box-items {
-                .data.table thead {
-                    .col.item {
+                .data.table {
+                    thead {
                         display: block;
-                        padding: 0;
+                        tr {
+                            display: block;
+                        }
+                        .col.item {
+                            display: block;
+                            padding: 0;
+                        }
                     }
                 }
             }
             .data.table {
-                .col {
-                    &.qty {
-                        text-align: left;
-                    }
-                    &.actions:before {
-                        &:extend(.abstract-no-display-s all);
-                    }
-                }
+                &:extend(.abstract-checkout-order-review all);
             }
         }
 

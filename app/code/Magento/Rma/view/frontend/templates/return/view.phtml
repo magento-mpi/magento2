@@ -79,6 +79,9 @@
                                     <th scope="col" class="col actions"><?php echo __('Action') ?></th>
                                 </tr>
                             </thead>
+                            <tbody id="track-info-tbody">
+                                <?php echo $this->getTrackingInfo('tracking') ?>
+                            </tbody>
                             <?php if ($this->isPrintShippingLabelAllowed()): ?>
                             <tfoot>
                                 <tr>
@@ -99,9 +102,6 @@
                                 </tr>
                             </tfoot>
                             <?php endif ?>
-                            <tbody id="track-info-tbody">
-                                <?php echo $this->getTrackingInfo('tracking') ?>
-                            </tbody>
                         </table>
                     </div>
                 </form>

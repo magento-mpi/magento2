@@ -17,9 +17,6 @@
             padding-bottom: @form-field-vertical-indent !important;
         }
     }
-    .product-options-wrapper {
-        margin-top: @form-field-vertical-indent;
-    }
     .product-info-main {
         .price-box {
             .old-price {
@@ -52,6 +49,10 @@
         clear: none;
         border: 0;
         padding-top: 0;
+        .product-options-wrapper .field:not(.text) {
+            margin-top: @form-field-vertical-indent;
+            margin-bottom: @form-field-vertical-indent;
+        }
     }
     .giftcard.form {
         clear: both;

@@ -649,6 +649,45 @@
 }
 
 //
+//    Checkout order review
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .abstract-checkout-order-review {
+        tbody tr {
+            &:not(:last-child) {
+                border-bottom: @border-width-base solid @border-color-base;
+            }
+            &:extend(.abstract-add-clearfix-mobile all);
+            .col {
+                &.item {
+                    &:before {
+                        display: none;
+                    }
+                }
+                &.qty,
+                &.price,
+                &.subtotal {
+                    box-sizing: border-box;
+                    float: left;
+                    text-align: center;
+                    white-space: nowrap;
+                    width: 33%;
+                    &:before {
+                        content: attr(data-th) ":";
+                        display: block;
+                        font-weight: @font-weight-bold;
+                        padding-bottom: @indent-s-base;
+                    }
+                }
+            }
+            .product-item-name {
+                margin: 0;
+            }
+        }
+    }
+}
+
+//
 //    Add colon
 //--------------------------------------
 .abstract-colon {

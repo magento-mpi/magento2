@@ -452,35 +452,23 @@
 //    Mobile
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-s) {
-    .table-order-review {
-        tbody tr {
-            td:not(:last-child) {
-                border: none;
-            }
-            td:last-child {
-                border-top: none;
-                border-bottom: @border-width-base solid @border-color-base;
-            }
-            .product-item-name {
-                display: inline-block;
-            }
-            .col {
-                &.price,
-                &.subtotal {
-                    text-align: left;
-                    .price-including-tax,
-                    .price-excluding-tax {
-                        display: inline-block;
-                    }
+    .table-wrapper.order-review-wrapper {
+        &:extend(.abstract-no-border-top all);
+        .table.table-order-review {
+            tbody tr {
+                td:not(:last-child) {
+                    border: none;
+                }
+                td:last-child {
+                    border-top: none;
+                    border-bottom: @border-width-base solid @border-color-base;
+                }
+                &:first-child td:first-child {
+                    padding-top: 0;
                 }
             }
-            &:first-child td:first-child {
-                padding-top: 0;
-            }
+            &:extend(.abstract-checkout-order-review all);
         }
-    }
-    .table-wrapper&.order-review-wrapper {
-        &:extend(.abstract-no-border-top all);
     }
 }
 
