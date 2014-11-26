@@ -10,6 +10,7 @@ namespace Magento\Pbridge\Model;
 use Magento\Framework\Math\Random;
 use Magento\Framework\Encryption\CryptFactory;
 use Magento\Framework\Encryption\Crypt;
+use Magento\Framework\App\DeploymentConfig;
 
 class Encryption extends \Magento\Pci\Model\Encryption
 {
@@ -18,12 +19,16 @@ class Encryption extends \Magento\Pci\Model\Encryption
      *
      * @param Random $randomGenerator
      * @param CryptFactory $cryptFactory
-     * @param string $cryptKey
+     * @param DeploymentConfig $deploymentConfig
      * @param string $key
      */
-    public function __construct(Random $randomGenerator, CryptFactory $cryptFactory, $cryptKey, $key)
-    {
-        parent::__construct($randomGenerator, $cryptFactory, $cryptKey);
+    public function __construct(
+        Random $randomGenerator,
+        CryptFactory $cryptFactory,
+        DeploymentConfig $deploymentConfig,
+        $key
+    ) {
+        parent::__construct($randomGenerator, $cryptFactory, $deploymentConfig);
         $this->_keys = array($key);
         $this->_keyVersion = 0;
     }

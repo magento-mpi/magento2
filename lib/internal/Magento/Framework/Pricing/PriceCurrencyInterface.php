@@ -22,11 +22,11 @@ interface PriceCurrencyInterface
      * Convert price value
      *
      * @param float $amount
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @param \Magento\Directory\Model\Currency|string|null $currency
+     * @param null|string|bool|int|\Magento\Framework\App\ScopeInterface $scope
+     * @param \Magento\Framework\Model\AbstractModel|string|null $currency
      * @return float
      */
-    public function convert($amount, $store = null, $currency = null);
+    public function convert($amount, $scope = null, $currency = null);
 
     /**
      * Convert and round price value
@@ -45,15 +45,15 @@ interface PriceCurrencyInterface
      * @param float $amount
      * @param bool $includeContainer
      * @param int $precision
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @param \Magento\Directory\Model\Currency|string|null $currency
+     * @param null|string|bool|int|\Magento\Framework\App\ScopeInterface $scope
+     * @param \Magento\Framework\Model\AbstractModel|string|null $currency
      * @return float
      */
     public function format(
         $amount,
         $includeContainer = true,
         $precision = self::DEFAULT_PRECISION,
-        $store = null,
+        $scope = null,
         $currency = null
     );
 
@@ -63,15 +63,15 @@ interface PriceCurrencyInterface
      * @param float $amount
      * @param bool $includeContainer
      * @param int $precision
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @param \Magento\Directory\Model\Currency|string|null $currency
+     * @param null|string|bool|int|\Magento\Framework\App\ScopeInterface $scope
+     * @param \Magento\Framework\Model\AbstractModel|string|null $currency
      * @return string
      */
     public function convertAndFormat(
         $amount,
         $includeContainer = true,
         $precision = self::DEFAULT_PRECISION,
-        $store = null,
+        $scope = null,
         $currency = null
     );
 
@@ -86,9 +86,9 @@ interface PriceCurrencyInterface
     /**
      * Get currency model
      *
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @param \Magento\Directory\Model\Currency|string|null $currency
-     * @return \Magento\Directory\Model\Currency
+     * @param null|string|bool|int|\Magento\Framework\App\ScopeInterface $scope
+     * @param \Magento\Framework\Model\AbstractModel|string|null $currency
+     * @return \Magento\Framework\Model\AbstractModel
      */
-    public function getCurrency($store = null, $currency = null);
+    public function getCurrency($scope = null, $currency = null);
 }
