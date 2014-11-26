@@ -100,11 +100,6 @@ class Multishipping extends \Magento\Framework\Object
     protected $priceCurrency;
 
     /**
-     * @var \Magento\Framework\Api\SearchCriteriaBuilder
-     */
-    protected $searchCriteriaBuilder;
-
-    /**
      * @var \Magento\Sales\Model\QuoteRepository
      */
     protected $quoteRepository;
@@ -124,7 +119,6 @@ class Multishipping extends \Magento\Framework\Object
      * @param \Magento\Multishipping\Helper\Data $helper
      * @param OrderSender $orderSender
      * @param PriceCurrencyInterface $priceCurrency
-     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param array $data
      */
@@ -143,7 +137,6 @@ class Multishipping extends \Magento\Framework\Object
         \Magento\Multishipping\Helper\Data $helper,
         OrderSender $orderSender,
         PriceCurrencyInterface $priceCurrency,
-        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         array $data = []
     ) {
@@ -161,7 +154,6 @@ class Multishipping extends \Magento\Framework\Object
         $this->addressRepository = $addressRepository;
         $this->orderSender = $orderSender;
         $this->priceCurrency = $priceCurrency;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->quoteRepository = $quoteRepository;
         parent::__construct($data);
         $this->_init();
