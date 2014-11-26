@@ -135,4 +135,19 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(123, $this->form->getParentCategoryId());
     }
+
+    /**
+     * Run test getCategoryId method
+     *
+     * @return int
+     */
+    public function testGetCategoryId()
+    {
+        $this->requestMock->expects($this->once())
+            ->method('getParam')
+            ->with('id')
+            ->will($this->returnValue(789));
+
+        $this->assertEquals(789, $this->form->getCategoryId());
+    }
 }

@@ -306,6 +306,16 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     }
 
     /**
+     * Get category id
+     *
+     * @return int
+     */
+    public function getCategoryId()
+    {
+        return (int)$this->templateContext->getRequest()->getParam('id');
+    }
+
+    /**
      * Add button block as a child block or to global Page Toolbar block if available
      *
      * @param string $buttonId

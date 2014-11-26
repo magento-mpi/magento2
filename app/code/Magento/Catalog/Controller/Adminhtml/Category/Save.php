@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -8,6 +7,9 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Category;
 
+/**
+ * Class Save
+ */
 class Save extends \Magento\Catalog\Controller\Adminhtml\Category
 {
     /**
@@ -26,6 +28,8 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Category
     protected $layoutFactory;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\View\Result\RedirectFactory $resultRedirectFactory
      * @param \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
