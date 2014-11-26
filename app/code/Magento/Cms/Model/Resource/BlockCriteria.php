@@ -17,7 +17,7 @@ class BlockCriteria extends CmsAbstractCriteria implements BlockCriteriaInterfac
     /**
      * @param string $mapper
      */
-    public function __construct($mapper = 'Magento\Cms\Model\Resource\BlockCriteriaMapper')
+    public function __construct($mapper = '')
     {
         $this->mapperInterfaceName = $mapper;
     }

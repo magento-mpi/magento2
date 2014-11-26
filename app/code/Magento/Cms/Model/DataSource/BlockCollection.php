@@ -27,8 +27,10 @@ class BlockCollection extends BlockCriteria implements CollectionDataSourceInter
      * @param BlockRepositoryInterface $repository
      * @param string $mapper
      */
-    public function __construct(BlockRepositoryInterface $repository, $mapper = '')
-    {
+    public function __construct(
+        BlockRepositoryInterface $repository,
+        $mapper = 'Magento\Cms\Model\Resource\BlockCriteriaMapper'
+    ) {
         $this->repository = $repository;
         $this->setFirstStoreFlag(true);
         parent::__construct($mapper);

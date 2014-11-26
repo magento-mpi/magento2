@@ -18,7 +18,7 @@ class PageCriteria extends CmsAbstractCriteria implements PageCriteriaInterface
     /**
      * @param string $mapper
      */
-    public function __construct($mapper = 'Magento\Cms\Model\Resource\PageCriteriaMapper')
+    public function __construct($mapper = '')
     {
         $this->mapperInterfaceName = $mapper;
     }
