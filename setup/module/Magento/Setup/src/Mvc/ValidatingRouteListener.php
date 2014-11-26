@@ -115,26 +115,6 @@ class ValidatingRouteListener extends \Zend\Mvc\RouteListener
         array_shift($content);
 
         $validationMessages = '';
-        /*if (isset($routes[$userAction]['validators'])) {
-            $validatorChain = $routes[$userAction]['validators'];
-            $pass = true;
-            foreach ($validatorChain as $validatorClassName) {
-                if (class_exists($validatorClassName)) {
-                    $validator = new $validatorClassName();
-                    $validatorInterface = 'Magento\\Setup\\Model\\ValidatorInterface';
-                    if ($validator instanceof $validatorInterface) {
-                        if (!$validator->validate($content)) {
-                            $validationMessages .= $validator->getValidationMessages();
-                            $pass = false;
-                        }
-                    }
-                }
-            }
-            if (!$pass) {
-                // set error to stop propagation
-                $e->setError('Validation_error');
-            }
-        }*/
 
         if (isset($routes[$userAction])) {
             $validator = new Validator();

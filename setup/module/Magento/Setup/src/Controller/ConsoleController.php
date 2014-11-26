@@ -229,7 +229,7 @@ class ConsoleController extends AbstractActionController
                 'usage_desc' => 'Set maintenance mode, optionally for specified addresses',
             ],
             self::CMD_HELP => [
-                'route' => self::CMD_HELP . ' (' . implode('|', self::$helpOptions) . '):type',
+                'route' => self::CMD_HELP . ' (' . implode('|', self::$helpOptions) . '):topic',
                 'usage' => '<' . implode('|', self::$helpOptions) . '>',
                 'usage_short' => self::CMD_HELP . ' <topic>',
                 'usage_desc' => 'Help about particular command or topic:',

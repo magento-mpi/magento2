@@ -80,10 +80,8 @@ class Validator
                 return $this->validateUserConfig($data);
             case ConsoleController::CMD_INSTALL_CONFIG:
                 return $this->validateDeploymentConfig($data);
-            case ConsoleController::CMD_HELP:
-                return true;
             default:
-                $this->validationMessages['Error'] = 'Unexpected error occurred.';
+                return true;
         }
         return false;
     }
