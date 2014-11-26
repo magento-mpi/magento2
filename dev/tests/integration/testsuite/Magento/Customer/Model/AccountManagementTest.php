@@ -12,7 +12,6 @@ use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\AddressInterface;
-use Magento\Customer\Service\V1;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\State\ExpiredException;
@@ -41,7 +40,7 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\ObjectManagerInterface */
     private $objectManager;
 
-    /** @var \Magento\Customer\Service\V1\Data\Address[] */
+    /** @var AddressInterface[] */
     private $_expectedAddresses;
 
     /** @var \Magento\Customer\Api\Data\AddressDataBuilder */

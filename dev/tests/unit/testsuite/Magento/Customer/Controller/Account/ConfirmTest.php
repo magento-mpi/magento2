@@ -57,12 +57,17 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Customer\Api\AccountManagementInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerAccountManagement;
+    protected $customerAccountManagementMock;
+
+    /**
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $customerRepositoryMock;
 
     /**
      * @var \Magento\Customer\Api\Data\CustomerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerInterfaceMock;
+    protected $customerDataMock;
 
     /**
      * @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -94,11 +99,6 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
      */
     protected $contextMock;
 
-    /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $customerRepository;
-
     protected function setUp()
     {
         $this->customerSessionMock = $this->getMock('\Magento\Customer\Model\Session', [], [], '', false);
@@ -115,18 +115,19 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->urlMock));
 
-        $this->customerAccountManagement =
+        $this->customerAccountManagementMock =
             $this->getMockForAbstractClass('Magento\Customer\Api\AccountManagementInterface');
-        $this->customerInterfaceMock = $this->getMock(
+        $this->customerDataMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerInterface', [], [], '', false
         );
+
+        $this->customerRepositoryMock =
+            $this->getMockForAbstractClass('Magento\Customer\Api\CustomerRepositoryInterface');
 
         $this->messageManagerMock = $this->getMock('Magento\Framework\Message\Manager', [], [], '', false);
         $this->addressHelperMock = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
         $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
         $this->storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
-
-        $this->customerRepository = $this->getMockForAbstractClass('Magento\Customer\Api\CustomerRepositoryInterface');
 
         $this->scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->contextMock = $this->getMock('Magento\Framework\App\Action\Context', [], [], '', false);
@@ -151,8 +152,8 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
             $this->customerSessionMock,
             $this->scopeConfigMock,
             $this->storeManagerMock,
-            $this->customerAccountManagement,
-            $this->customerRepository,
+            $this->customerAccountManagementMock,
+            $this->customerRepositoryMock,
             $this->addressHelperMock,
             $this->urlFactoryMock
         );
@@ -247,25 +248,24 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
                 ['key', false, $key],
             ]);
 
-        $customerEmail = 'test@test.com';
-
-        $this->customerRepository->expects($this->once())
+        $this->customerRepositoryMock->expects($this->any())
             ->method('getById')
             ->with($customerId)
-            ->willReturn($this->customerInterfaceMock);
+            ->will($this->returnValue($this->customerDataMock));
 
-        $this->customerInterfaceMock->expects($this->once())
+        $email = 'test@example.com';
+        $this->customerDataMock->expects($this->once())
             ->method('getEmail')
-            ->willReturn($customerEmail);
+            ->will($this->returnValue($email));
 
-        $this->customerAccountManagement->expects($this->once())
+        $this->customerAccountManagementMock->expects($this->once())
             ->method('activate')
-            ->with($this->equalTo($customerEmail), $this->equalTo($key))
-            ->will($this->returnValue($this->customerInterfaceMock));
+            ->with($this->equalTo($email), $this->equalTo($key))
+            ->will($this->returnValue($this->customerDataMock));
 
         $this->customerSessionMock->expects($this->any())
             ->method('setCustomerDataAsLoggedIn')
-            ->with($this->equalTo($this->customerInterfaceMock))
+            ->with($this->equalTo($this->customerDataMock))
             ->will($this->returnSelf());
 
         $this->messageManagerMock->expects($this->any())
@@ -334,25 +334,24 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
                 ['back_url', false, $backUrl],
             ]);
 
-        $this->customerRepository->expects($this->once())
+        $this->customerRepositoryMock->expects($this->any())
             ->method('getById')
             ->with($customerId)
-            ->willReturn($this->customerInterfaceMock);
+            ->will($this->returnValue($this->customerDataMock));
 
-        $customerEmail = 'test@test.com';
-
-        $this->customerInterfaceMock->expects($this->once())
+        $email = 'test@example.com';
+        $this->customerDataMock->expects($this->once())
             ->method('getEmail')
-            ->willReturn($customerEmail);
+            ->will($this->returnValue($email));
 
-        $this->customerAccountManagement->expects($this->once())
+        $this->customerAccountManagementMock->expects($this->once())
             ->method('activate')
-            ->with($this->equalTo($customerEmail), $this->equalTo($key))
-            ->will($this->returnValue($this->customerInterfaceMock));
+            ->with($this->equalTo($email), $this->equalTo($key))
+            ->will($this->returnValue($this->customerDataMock));
 
         $this->customerSessionMock->expects($this->any())
             ->method('setCustomerDataAsLoggedIn')
-            ->with($this->equalTo($this->customerInterfaceMock))
+            ->with($this->equalTo($this->customerDataMock))
             ->will($this->returnSelf());
 
         $this->messageManagerMock->expects($this->any())

@@ -43,7 +43,7 @@ class Account extends AbstractForm
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param ExtensibleDataObjectConverter $extensibleDataObjectConverter
@@ -55,7 +55,7 @@ class Account extends AbstractForm
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
@@ -70,7 +70,7 @@ class Account extends AbstractForm
             $orderCreate,
             $priceCurrency,
             $formFactory,
-            $simpleDataObjectConverter,
+            $dataObjectProcessor,
             $data
         );
     }

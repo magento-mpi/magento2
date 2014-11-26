@@ -203,16 +203,9 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
 
     public function testSetNewPriceWithGlobalPriceScope()
     {
-        $groupBuilder = $this->getMock(
-            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $groupBuilder->expects($this->any())->method('getData')->will($this->returnValue(array('id' => 1)));
-        $group = new \Magento\Customer\Service\V1\Data\CustomerGroup($groupBuilder);
-        $this->groupServiceMock->expects($this->once())->method('getGroup')->will($this->returnValue($group));
+        $group = $this->getMock('\Magento\Customer\Model\Data\Group', [], [], '', false);
+        $group->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $this->groupServiceMock->expects($this->once())->method('getById')->will($this->returnValue($group));
         $this->productMock
             ->expects($this->once())
             ->method('getData')
@@ -258,16 +251,8 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $groupBuilder = $this->getMock(
-            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $groupBuilder->expects($this->any())->method('getData')->will($this->returnValue(array('id' => 1)));
-        $group = new \Magento\Customer\Service\V1\Data\CustomerGroup($groupBuilder);
-        $this->groupServiceMock->expects($this->once())->method('getGroup')->will($this->returnValue($group));
+        $group = $this->getMock('\Magento\Customer\Model\Data\Group', [], [], '', false);
+        $this->groupServiceMock->expects($this->once())->method('getById')->will($this->returnValue($group));
         $this->productMock
             ->expects($this->once())
             ->method('getData')
@@ -295,15 +280,8 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetThrowsExceptionIfDoesntValidate()
     {
-        $groupBuilder = $this->getMock(
-            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $groupBuilder->expects($this->any())->method('getData')->will($this->returnValue(array('id' => 1)));
-        $group = new \Magento\Customer\Service\V1\Data\CustomerGroup($groupBuilder);
+        $group = $this->getMock('\Magento\Customer\Model\Data\Group', [], [], '', false);
+        $group->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->productMock
             ->expects($this->once())
             ->method('getData')
@@ -325,22 +303,15 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetThrowsExceptionIfCantSave()
     {
-        $groupBuilder = $this->getMock(
-            '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $groupBuilder->expects($this->any())->method('getData')->will($this->returnValue(array('id' => 1)));
-        $group = new \Magento\Customer\Service\V1\Data\CustomerGroup($groupBuilder);
+        $group = $this->getMock('\Magento\Customer\Model\Data\Group', [], [], '', false);
+        $group->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->productMock
             ->expects($this->once())
             ->method('getData')
             ->with('group_price')
             ->will($this->returnValue(array()));
 
-        $this->groupServiceMock->expects($this->once())->method('getGroup')->will($this->returnValue($group));
+        $this->groupServiceMock->expects($this->once())->method('getById')->will($this->returnValue($group));
         $this->productRepositoryMock->expects($this->once())
             ->method('save')
             ->will($this->throwException(new \Exception()));

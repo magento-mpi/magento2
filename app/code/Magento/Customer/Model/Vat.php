@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Logger;
 use Magento\Store\Model\ScopeInterface;
@@ -76,21 +75,18 @@ class Vat
     protected $logger;
 
     /**
-     * @var CustomerGroupServiceInterface
+     * @var GroupManagementInterface
      */
-    protected $groupService;
+    protected $groupManagement;
 
     /**
-     * @param CustomerGroupServiceInterface $groupService
      * @param ScopeConfigInterface $scopeConfig
      * @param Logger $logger
      */
     public function __construct(
-        CustomerGroupServiceInterface $groupService,
         ScopeConfigInterface $scopeConfig,
         Logger $logger
     ) {
-        $this->groupService = $groupService;
         $this->scopeConfig = $scopeConfig;
         $this->logger = $logger;
     }
@@ -306,16 +302,5 @@ class Vat
             )
         );
         return in_array($countryCode, $euCountries);
-    }
-
-    /**
-     * Get default customer group id
-     *
-     * @param \Magento\Store\Model\Store|string|int $store
-     * @return int
-     */
-    public function getDefaultCustomerGroupId($store = null)
-    {
-        return $this->groupService->getDefaultGroup($store)->getId();
     }
 }

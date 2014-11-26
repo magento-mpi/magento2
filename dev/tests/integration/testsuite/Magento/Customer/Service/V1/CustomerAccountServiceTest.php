@@ -112,7 +112,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
-        $customerRegistry = $this->_objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        $customerRegistry = Bootstrap::getObjectManager()->get('Magento\Customer\Model\CustomerRegistry');
         //Cleanup customer from registry
         $customerRegistry->remove(1);
     }

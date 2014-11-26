@@ -182,22 +182,25 @@ class PersonalInfo extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getBillingAddressHtml()
     {
-        $result = __('The customer does not have default billing address.');
         try {
             $address = $this->accountManagement->getDefaultBillingAddress($this->getCustomer()->getId());
-            if ($address !== null) {
-                $result = $this->addressHelper->getFormatTypeRenderer('html')
-                    ->renderArray($this->addressMapper->toFlatArray($address));
-            }
         } catch (NoSuchEntityException $e) {
-            //
+            return __('The customer does not have default billing address.');
         }
 
-        return $result;
+        if ($address === null) {
+            return __('The customer does not have default billing address.');
+        }
+
+        return $this->addressHelper->getFormatTypeRenderer(
+            'html'
+        )->renderArray(
+            $this->addressMapper->toFlatArray($address)
+        );
     }
 
     /**

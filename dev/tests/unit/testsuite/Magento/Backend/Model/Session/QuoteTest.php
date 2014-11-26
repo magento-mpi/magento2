@@ -68,9 +68,9 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     protected $customerRepositoryMock;
 
     /**
-     * @var \Magento\Customer\Api\GroupManagementInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $groupManagementMock;
+    protected $scopeConfigMock;
 
     /**
      * @var \Magento\Sales\Model\QuoteFactory|\PHPUnit_Framework_MockObject_MockObject
@@ -81,6 +81,11 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Backend\Model\Session\Quote|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $quote;
+
+    /**
+     * @var \Magento\Customer\Api\GroupManagementInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $groupManagementMock;
 
     /**
      * Set up
@@ -96,7 +101,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             false,
             true,
             true,
-            ['getById']
+            ['getCustomer']
         );
         $this->groupManagementMock = $this->getMockForAbstractClass(
             'Magento\Customer\Api\GroupManagementInterface',
@@ -106,6 +111,16 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             true,
             true,
             ['getDefaultGroup']
+        );
+
+        $this->scopeConfigMock = $this->getMockForAbstractClass(
+            'Magento\Framework\App\Config\ScopeConfigInterface',
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['getValue']
         );
         $this->quoteRepositoryMock = $this->getMock(
             'Magento\Sales\Model\QuoteRepository',
@@ -186,11 +201,11 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
                 'storage' => $this->storageMock,
                 'cookieManager' => $this->cookieManagerMock,
                 'cookieMetadataFactory' => $this->cookieMetadataFactoryMock,
-                'customerRepository' => $this->customerRepositoryMock,
                 'quoteRepository' => $this->quoteRepositoryMock,
+                'customerRepository' => $this->customerRepositoryMock,
                 'orderFactory' => $this->orderFactoryMock,
                 'storeManager' => $this->storeManagerMock,
-                'groupManagement' => $this->groupManagementMock,
+                'groupManagement' => $this->groupManagementMock
             ],
             '',
             true
@@ -226,6 +241,15 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $defaultGroup = $this->getMockBuilder('Magento\Customer\Api\Data\GroupInterface')
+            ->getMock();
+        $defaultGroup->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue($customerGroupId));
+        $this->groupManagementMock->expects($this->any())
+            ->method('getDefaultGroup')
+            ->will($this->returnValue($defaultGroup));
+
         $this->quoteRepositoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($quoteMock));
@@ -238,13 +262,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->quote->expects($this->any())
             ->method('getQuoteId')
             ->will($this->returnValue(null));
-        $groupMock = $this->getMock('Magento\Customer\Api\Data\GroupInterface', [], [], '', false);
-        $groupMock->expects($this->once())
-            ->method('getId')
-            ->willReturn($customerGroupId);
-        $this->groupManagementMock->expects($this->once())
-            ->method('getDefaultGroup')
-            ->will($this->returnValue($groupMock));
         $quoteMock->expects($this->once())
             ->method('setCustomerGroupId')
             ->with($customerGroupId)
@@ -265,14 +282,13 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->quote->expects($this->any())
             ->method('getCustomerId')
             ->will($this->returnValue($customerId));
-        $customerMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         $this->customerRepositoryMock->expects($this->once())
             ->method('getById')
             ->with($customerId)
-            ->will($this->returnValue($customerMock));
+            ->will($this->returnValue('customer-result'));
         $quoteMock->expects($this->once())
             ->method('assignCustomer')
-            ->with($customerMock);
+            ->with('customer-result');
         $quoteMock->expects($this->once())
             ->method('setIgnoreOldQty')
             ->with(true);
@@ -333,14 +349,13 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->quote->expects($this->any())
             ->method('getCustomerId')
             ->will($this->returnValue($customerId));
-        $customerMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         $this->customerRepositoryMock->expects($this->once())
             ->method('getById')
             ->with($customerId)
-            ->will($this->returnValue($customerMock));
+            ->will($this->returnValue('customer-result'));
         $quoteMock->expects($this->once())
             ->method('assignCustomer')
-            ->with($customerMock);
+            ->with('customer-result');
         $quoteMock->expects($this->once())
             ->method('setIgnoreOldQty')
             ->with(true);

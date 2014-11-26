@@ -523,7 +523,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testValidateCustomerData()
     {
-        $this->markTestSkipped('Will be refactored as part of MAGETWO-29282');
+        $this->markTestSkipped('Will be removed as part of MAGETWO-30671');
 
         $customerData = $this->customerHelper->createSampleCustomerDataObject();
         $customerData = $this->customerBuilder->populate($customerData)

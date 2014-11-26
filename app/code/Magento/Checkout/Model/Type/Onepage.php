@@ -163,6 +163,11 @@ class Onepage
     protected $customerRepository;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Helper\Data $helper
      * @param \Magento\Customer\Model\Url $customerUrl
@@ -187,8 +192,8 @@ class Onepage
      * @param AccountManagementInterface $accountManagement
      * @param OrderSender $orderSender
      * @param CustomerRepositoryInterface $customerRepository
-     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
@@ -215,8 +220,8 @@ class Onepage
         AccountManagementInterface $accountManagement,
         OrderSender $orderSender,
         CustomerRepositoryInterface $customerRepository,
-        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
-        \Magento\Sales\Model\QuoteRepository $quoteRepository
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerUrl = $customerUrl;
@@ -242,8 +247,8 @@ class Onepage
         $this->accountManagement = $accountManagement;
         $this->orderSender = $orderSender;
         $this->customerRepository = $customerRepository;
-        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
         $this->quoteRepository = $quoteRepository;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
     }
 
     /**
@@ -878,7 +883,7 @@ class Onepage
         $customer = $this->getQuote()->getCustomer();
         $confirmationStatus = $this->accountManagement->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === \Magento\Customer\Model\AccountManagement::ACCOUNT_CONFIRMATION_REQUIRED) {
-            $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
+            $url = $this->_customerUrl->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
                 // @codingStandardsIgnoreStart
                 __(
