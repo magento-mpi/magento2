@@ -22,13 +22,6 @@ class Compiled extends AbstractEnvironment implements EnvironmentInterface
      */
     const RELATIVE_FILE_PATH = '/var/di/';
 
-    /**
-     * Unserialized config data
-     *
-     * @var array
-     */
-    private $compiledConfig = [];
-
     /**#@+
      * Mode name
      */
@@ -47,9 +40,8 @@ class Compiled extends AbstractEnvironment implements EnvironmentInterface
     public function getDiConfig()
     {
         if (!$this->config) {
-            $this->compiledConfig = $this->getConfigData();
             $this->config = new \Magento\Framework\Interception\ObjectManager\Config(
-                new \Magento\Framework\ObjectManager\Config\Compiled($this->compiledConfig)
+                new \Magento\Framework\ObjectManager\Config\Compiled($this->getConfigData())
             );
         }
 
