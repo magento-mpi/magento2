@@ -27,12 +27,13 @@ class Decimal extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Apply attribute filter to product collection
      *
-     * @param \Magento\Catalog\Model\Layer\Filter\Decimal $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\FilterInterface $filter
      * @param float $range
      * @param int $index
+     * @throws \Magento\Framework\Model\Exception
      * @return $this
      */
-    public function applyFilterToCollection($filter, $range, $index)
+    public function applyFilterToCollection(\Magento\Catalog\Model\Layer\Filter\FilterInterface $filter, $range, $index)
     {
         $collection = $filter->getLayer()->getProductCollection();
         $attribute = $filter->getAttributeModel();
@@ -64,10 +65,10 @@ class Decimal extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Retrieve array of minimal and maximal values
      *
-     * @param \Magento\Catalog\Model\Layer\Filter\Decimal $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\FilterInterface $filter
      * @return array
      */
-    public function getMinMax($filter)
+    public function getMinMax(\Magento\Catalog\Model\Layer\Filter\FilterInterface $filter)
     {
         $select = $this->_getSelect($filter);
         $adapter = $this->_getReadAdapter();
@@ -88,7 +89,8 @@ class Decimal extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Retrieve clean select with joined index table
      * Joined table has index
      *
-     * @param \Magento\Catalog\Model\Layer\Filter\Decimal $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\FilterInterface $filter
+     * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Framework\DB\Select
      */
     protected function _getSelect($filter)
@@ -124,11 +126,11 @@ class Decimal extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Retrieve array with products counts per range
      *
-     * @param \Magento\Catalog\Model\Layer\Filter\Decimal $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\FilterInterface $filter
      * @param int $range
      * @return array
      */
-    public function getCount($filter, $range)
+    public function getCount(\Magento\Catalog\Model\Layer\Filter\FilterInterface $filter, $range)
     {
         $select = $this->_getSelect($filter);
         $adapter = $this->_getReadAdapter();

@@ -625,6 +625,16 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $fpt = [
+        'attribute_code' => 'fpt',
+        'backend_type' => 'decimal',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Fpt'
+    ];
+
     public function getCategoryIds()
     {
         return $this->getData('category_ids');
@@ -953,5 +963,10 @@ class CatalogProductSimple extends InjectableFixture
     public function getAttributes()
     {
         return $this->getData('attributes');
+    }
+
+    public function getFptData()
+    {
+        return $this->getData('fpt');
     }
 }
