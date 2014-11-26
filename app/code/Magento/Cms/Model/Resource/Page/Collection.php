@@ -9,13 +9,11 @@ namespace Magento\Cms\Model\Resource\Page;
 
 use Magento\Cms\Api\Data\PageCollectionInterface;
 use Magento\Cms\Model\Resource\AbstractCollection;
-use Magento\Cms\Api\Data\PageInterface;
 
 /**
  * CMS page collection
  *
  * Class Collection
- * @package Magento\Cms\Model\Resource\Page
  */
 class Collection extends AbstractCollection implements PageCollectionInterface
 {

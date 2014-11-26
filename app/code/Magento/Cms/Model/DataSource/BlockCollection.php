@@ -15,7 +15,6 @@ use Magento\Cms\Api\BlockRepositoryInterface;
  * CMS block collection data source
  *
  * Class BlockCollection
- * @package Magento\Cms\Model\DataSource
  */
 class BlockCollection extends BlockCriteria implements CollectionDataSourceInterface
 {
@@ -28,10 +27,8 @@ class BlockCollection extends BlockCriteria implements CollectionDataSourceInter
      * @param BlockRepositoryInterface $repository
      * @param string $mapper
      */
-    public function __construct(
-        BlockRepositoryInterface $repository,
-        $mapper = ''
-    ) {
+    public function __construct(BlockRepositoryInterface $repository, $mapper = '')
+    {
         $this->repository = $repository;
         $this->setFirstStoreFlag(true);
         parent::__construct($mapper);

@@ -11,7 +11,6 @@ use Magento\Framework\Data\AbstractCriteria;
 
 /**
  * Class CmsAbstractCriteria
- * @package Magento\Cms\Model\Resource
  */
 class CmsAbstractCriteria extends AbstractCriteria
 {

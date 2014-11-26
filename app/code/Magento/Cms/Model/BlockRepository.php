@@ -92,7 +92,7 @@ class BlockRepository implements BlockRepositoryInterface
     {
         $block = $this->blockFactory->create();
         $this->resource->load($block, $blockId);
-        if (!$block->getBlockId()) {
+        if (!$block->getId()) {
             throw new NoSuchEntityException(sprintf('CMS Block with id "%s" does not exist.', $blockId));
         }
         return $block;

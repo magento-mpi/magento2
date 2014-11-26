@@ -15,7 +15,6 @@ use Magento\Framework\Data\SearchResultInterface;
 
 /**
  * Interface BlockCollectionInterface
- * @package Magento\Cms\Api\Data
  */
 interface BlockCollectionInterface extends SearchResultInterface
 {

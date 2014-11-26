@@ -9,7 +9,6 @@ namespace Magento\Cms\Api\Data;
 
 /**
  * Interface BlockInterface
- * @package Magento\Cms\Api\Data
  */
 interface BlockInterface
 {

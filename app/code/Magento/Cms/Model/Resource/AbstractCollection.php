@@ -122,7 +122,8 @@ class AbstractCollection extends AbstractSearchResult
             if (count($items)) {
                 $select = $connection->select()->from(['cps' => $resource->getTable($this->storeTableName)])
                     ->where("cps.{$this->linkFieldName} IN (?)", $items);
-                if ($result = $connection->fetchPairs($select)) {
+                $result = $connection->fetchPairs($select);
+                if ($result) {
                     foreach ($this->getItems() as $item) {
                         /** @var BlockInterface $item */
                         if (!isset($result[$item->getId()])) {

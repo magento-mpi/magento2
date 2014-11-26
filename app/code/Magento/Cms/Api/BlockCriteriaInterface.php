@@ -9,7 +9,6 @@ namespace Magento\Cms\Api;
 
 /**
  * Interface BlockCriteriaInterface
- * @package Magento\Cms\Api
  */
 interface BlockCriteriaInterface extends \Magento\Framework\Api\CriteriaInterface
 {

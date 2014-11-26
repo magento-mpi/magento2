@@ -11,7 +11,6 @@ use Magento\Cms\Api\BlockCriteriaInterface;
 
 /**
  * Class BlockCriteria
- * @package Magento\Cms\Model\Resource
  */
 class BlockCriteria extends CmsAbstractCriteria implements BlockCriteriaInterface
 {

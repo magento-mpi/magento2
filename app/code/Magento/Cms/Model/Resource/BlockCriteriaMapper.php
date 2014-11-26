@@ -9,7 +9,6 @@ namespace Magento\Cms\Model\Resource;
 
 /**
  * Class BlockCriteriaMapper
- * @package Magento\Cms\Model\Resource
  */
 class BlockCriteriaMapper extends CmsCriteriaMapper
 {
