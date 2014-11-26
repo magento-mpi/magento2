@@ -45,6 +45,7 @@ class Title extends \Magento\Framework\Model\AbstractExtensibleModel implements
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * {@inheritdoc}
      */
     public function getStoreId()
@@ -59,4 +60,5 @@ class Title extends \Magento\Framework\Model\AbstractExtensibleModel implements
     {
         return $this->getData(self::KEY_VALUE_ID);
     }
+    // @codeCoverageIgnoreEnd
 }

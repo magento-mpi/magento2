@@ -176,6 +176,7 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * {@inheritdoc}
      */
     public function getCode()
@@ -198,6 +199,15 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
     {
         return (bool) $this->getData('calculate_subtotal');
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPriority()
+    {
+        return $this->getData('priority');
+    }
+    //@codeCoverageIgnoreEnd
 
     /**
      * {@inheritdoc}
@@ -236,14 +246,6 @@ class Rule extends \Magento\Framework\Model\AbstractExtensibleModel implements T
             $this->setData('tax_rate_ids', $ids);
         }
         return $ids;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriority()
-    {
-        return $this->getData('priority');
     }
 
     /**

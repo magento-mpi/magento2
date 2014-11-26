@@ -10,6 +10,9 @@ namespace Magento\Tax\Model\TaxClass;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
 
+/**
+ * @@codeCoverageIgnore
+ */
 class Key extends AbstractExtensibleModel implements TaxClassKeyInterface
 {
     /**

@@ -10,6 +10,9 @@ namespace Magento\Tax\Model\TaxDetails;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Tax\Api\Data\AppliedTaxInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class AppliedTax extends AbstractExtensibleModel implements AppliedTaxInterface
 {
     /**

@@ -109,6 +109,7 @@ class ClassModel extends \Magento\Framework\Model\AbstractExtensibleModel implem
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * {@inheritdoc}
      */
     public function getClassId()
@@ -131,4 +132,5 @@ class ClassModel extends \Magento\Framework\Model\AbstractExtensibleModel implem
     {
         return $this->getData('class_type');
     }
+    //@codeCoverageIgnoreEnd
 }

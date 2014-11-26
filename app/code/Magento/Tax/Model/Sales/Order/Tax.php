@@ -27,6 +27,7 @@ namespace Magento\Tax\Model\Sales\Order;
  * @method \Magento\Tax\Model\Sales\Order\Tax setBaseRealAmount(float $value)
  * @method int getHidden()
  * @method \Magento\Tax\Model\Sales\Order\Tax setHidden(int $value)
+ * @codeCoverageIgnore
  */
 class Tax extends \Magento\Framework\Model\AbstractExtensibleModel implements
     \Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxInterface

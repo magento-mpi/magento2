@@ -285,6 +285,19 @@ class Rate extends \Magento\Framework\Model\AbstractExtensibleModel implements \
     /**
      * {@inheritdoc}
      */
+    public function getRegionName()
+    {
+        if (!$this->getData(self::KEY_REGION_NAME)) {
+            $regionName = $this->directoryRegion->load($this->getTaxRegionId())->getCode();
+            $this->setData(self::KEY_REGION_NAME, $regionName);
+        }
+        return $this->getData(self::KEY_REGION_NAME);
+    }
+
+    /**
+     * @codeCoverageIgnoreStart
+     * {@inheritdoc}
+     */
     public function getTaxCalculationRateId()
     {
         return $this->getData(self::KEY_ID);
@@ -304,18 +317,6 @@ class Rate extends \Magento\Framework\Model\AbstractExtensibleModel implements \
     public function getTaxRegionId()
     {
         return $this->getData(self::KEY_REGION_ID);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRegionName()
-    {
-        if (!$this->getData(self::KEY_REGION_NAME)) {
-            $regionName = $this->directoryRegion->load($this->getTaxRegionId())->getCode();
-            $this->setData(self::KEY_REGION_NAME, $regionName);
-        }
-        return $this->getData(self::KEY_REGION_NAME);
     }
 
     /**
@@ -365,4 +366,5 @@ class Rate extends \Magento\Framework\Model\AbstractExtensibleModel implements \
     {
         return $this->getData('zip_is_range');
     }
+    // @codeCoverageIgnoreEnd
 }

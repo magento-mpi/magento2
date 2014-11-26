@@ -10,6 +10,7 @@ namespace Magento\Tax\Api\Data;
 
 /**
  * DataBuilder class for \Magento\Tax\Api\Data\TaxClassInterface
+ * @codeCoverageIgnore
  */
 class TaxClassDataBuilder extends \Magento\Framework\Api\Builder
 {

@@ -10,6 +10,9 @@ namespace Magento\Tax\Model\Sales\Quote;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ItemDetails extends AbstractExtensibleModel implements QuoteDetailsItemInterface
 {
 
