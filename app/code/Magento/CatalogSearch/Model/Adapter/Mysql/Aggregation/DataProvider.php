@@ -16,8 +16,6 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Request\BucketInterface;
-use Magento\Catalog\Model\Layer\Filter\Price\Range;
-use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\Store;
 use Magento\Framework\App\ScopeResolverInterface;
 
@@ -48,7 +46,6 @@ class DataProvider implements DataProviderInterface
      * @param Resource $resource
      * @param ScopeResolverInterface $scopeResolver
      * @param Session $customerSession
-     * @internal param Range $range
      */
     public function __construct(
         Config $eavConfig,
