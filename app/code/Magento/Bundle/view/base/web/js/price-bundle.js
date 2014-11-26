@@ -45,6 +45,9 @@ define([
 
         bundleOptions.on('change', onBundleOptionChanged.bind(this));
         qtyFields.on('change', onQtyFieldChanged.bind(this));
+
+        console.log('options:', bundleOptions);
+        console.log('***********************************');
 //        this.element.trigger('updateProductSummary', {
 //            config: this.options.bundleConfig
 //        });
@@ -85,19 +88,24 @@ define([
         switch (optionType) {
             case 'radio':
             case 'select-one':
+                var qtyField = element.data('qtyField');
                 optionHash = 'bundle-option-' + optionName;
                 if (optionValue && optionConfig[optionValue]) {
                     optionQty = element.data('qty') || optionConfig[optionValue].qty || 0;
                     if(optionType === 'radio' && element.is(':checked') || optionType === 'select-one') {
                         var canQtyCustomize = optionConfig[optionValue].customQty === '1';
-                        var qtyField = element.data('qtyField');
+                        qtyField.data('option', element);
 
-                        toggleQtyField(qtyField, optionQty, canQtyCustomize);
+                        toggleQtyField(qtyField, optionId,optionValue, canQtyCustomize);
                     }
 
                     tempChanges = utils.deepClone(optionConfig[optionValue].prices);
                     tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig[optionValue].tierPrice);
                     tempChanges = applyQty(tempChanges, optionQty);
+                }
+                if(!optionValue && optionType === 'select-one') {
+                    qtyField.data('option', {});
+                    toggleQtyField(qtyField, '', false);
                 }
                 changes[optionHash] = tempChanges || {};
                 break;
@@ -126,7 +134,11 @@ define([
     }
 
     function onQtyFieldChanged(event) {
+        var field = $(event.target);
+        var option = field.data('option');
+        option.data('qty', +field.val());
 
+        console.log('QTY:  ', field.val(), this, field, option);
     }
 
     function toggleQtyField(element, value, canEdit) {
