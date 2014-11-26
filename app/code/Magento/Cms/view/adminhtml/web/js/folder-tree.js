@@ -4,7 +4,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-define(["jquery","jquery/ui","jquery/jstree/jquery.jstree"], function($){
+define([
+    "jquery",
+    "jquery/ui",
+    "jquery/jstree/jquery.jstree"
+], function($){
     'use strict';
 
     $.widget("mage.folderTree", {
@@ -80,4 +84,6 @@ define(["jquery","jquery/ui","jquery/jstree/jquery.jstree"], function($){
             });
         }
     });
+    
+    return $.mage.folderTree;
 });

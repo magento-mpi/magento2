@@ -23,6 +23,7 @@
             <module name="Magento_Pci"/>
             <module name="Magento_Sales"/>
             <module name="Magento_Centinel"/>
+            <module name="Magento_Ui"/>
         </depends>
     </module>
 </config>
