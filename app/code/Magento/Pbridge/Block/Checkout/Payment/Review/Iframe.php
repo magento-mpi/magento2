@@ -25,6 +25,8 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+     * @param \Magento\Customer\Model\Address\Mapper $addressConverter
      * @param array $data
      */
     public function __construct(
@@ -35,6 +37,8 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
+        \Magento\Customer\Model\Address\Mapper $addressConverter,
         array $data = array()
     ) {
         parent::__construct(
@@ -42,9 +46,10 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
             $customerSession,
             $checkoutSession,
             $pbridgeSession,
-            $regionFactory,
             $pbridgeData,
             $httpContext,
+            $addressRepository,
+            $addressConverter,
             $data
         );
     }

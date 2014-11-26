@@ -104,7 +104,6 @@ class Header extends AbstractCreate
      */
     protected function _getCustomerName($customerId)
     {
-        // TODO to change email on id
         $customerData = $this->customerRepository->getById($customerId);
         return $this->_customerViewHelper->getCustomerName($customerData);
     }

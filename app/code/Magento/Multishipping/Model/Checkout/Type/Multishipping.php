@@ -105,11 +105,6 @@ class Multishipping extends \Magento\Framework\Object
     protected $searchCriteriaBuilder;
 
     /**
-     * @var \Magento\Framework\Api\FilterBuilder
-     */
-    protected $filterBuilder;
-
-    /**
      * @var \Magento\Sales\Model\QuoteRepository
      */
     protected $quoteRepository;
@@ -130,7 +125,6 @@ class Multishipping extends \Magento\Framework\Object
      * @param OrderSender $orderSender
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param array $data
      */
@@ -150,7 +144,6 @@ class Multishipping extends \Magento\Framework\Object
         OrderSender $orderSender,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
-        \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         array $data = []
     ) {
@@ -169,7 +162,6 @@ class Multishipping extends \Magento\Framework\Object
         $this->orderSender = $orderSender;
         $this->priceCurrency = $priceCurrency;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->filterBuilder = $filterBuilder;
         $this->quoteRepository = $quoteRepository;
         parent::__construct($data);
         $this->_init();
@@ -801,13 +793,7 @@ class Multishipping extends \Magento\Framework\Object
             $addressId = $this->getCustomer()->getDefaultBilling();
             if (!$addressId) {
                 /** Default billing address is not available, try to find any customer address */
-                $filter =  $this->filterBuilder->setField('parent_id')
-                    ->setValue($this->getCustomer()->getId())
-                    ->setConditionType('eq')
-                    ->create();
-                $addresses = (array)($this->addressRepository->getList(
-                    $this->searchCriteriaBuilder->addFilter([$filter])->create()
-                )->getItems());
+                $addresses = $this->getCustomer()->getAddresses();
                 $address = reset($addresses);
                 if ($address) {
                     $addressId = $address->getId();
@@ -831,13 +817,7 @@ class Multishipping extends \Magento\Framework\Object
             $addressId = $this->getCustomer()->getDefaultShipping();
             if (!$addressId) {
                 /** Default shipping address is not available, try to find any customer address */
-                $filter =  $this->filterBuilder->setField('parent_id')
-                    ->setValue($this->getCustomer()->getId())
-                    ->setConditionType('eq')
-                    ->create();
-                $addresses = (array)($this->addressRepository->getList(
-                    $this->searchCriteriaBuilder->addFilter([$filter])->create()
-                )->getItems());
+                $addresses = $this->getCustomer()->getAddresses();
                 $address = reset($addresses);
                 if ($address) {
                     $addressId = $address->getId();
