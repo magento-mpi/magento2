@@ -19,7 +19,6 @@
             <param name="directory_path" value="${env.magento_dir}"/>
         </antcall>
         <antcall target="_remote-drop-database"/>
-        <antcall target="_remote-flush-memcache"/>
     </target>
 
     <target name="checkout" depends="_bootstrap" description="Checkout source code to the webnode">
@@ -37,8 +36,6 @@
 
         <scp file="${remote_host}:${env.magento_dir}/dev/build/core_dev/performance/benchmark/dev/tests/performance/config.php" todir="${basedir}" trust="yes"/>
 
-        <fail unless="env.memcache_host" message="Environment variable 'memcache_host' must be defined"/>
-        <fail unless="env.memcache_port" message="Environment variable 'memcache_port' must be defined"/>
         <replace file="config.php">
             <replacefilter token="{{web_access_host}}" value="${env.base_url}"/>
             <replacefilter token="{{web_access_path}}" value="${env.base_path}"/>
@@ -141,16 +138,6 @@
                  password="${env.webnode_password}"
                  trust="yes"
                  command="rm -rf ${directory_path}"/>
-    </target>
-
-    <target name="_remote-flush-memcache" description="Invalidate all memcache items">
-        <fail unless="env.memcache_host" message="Variable 'memcache_host' must be defined"/>
-        <fail unless="env.memcache_port" message="Variable 'memcache_port' must be defined"/>
-        <telnet server="${env.memcache_host}" port="${env.memcache_port}" timeout="20">
-            <read/>
-            <write>flush_all</write>
-            <read>OK</read>
-        </telnet>
     </target>
 
     <target name="_remote-drop-database" depends="_database-credentials-check" description="Drop specified MySQL database">
