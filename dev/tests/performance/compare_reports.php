@@ -17,7 +17,7 @@ $usageMessage =
 . '   -o   - output xml file' . PHP_EOL
 . '   -p   - percent of measurements, that will be skipped (default = 15)' . PHP_EOL;
 
-$args = getopt('m:b:o:p:');
+$args = getopt('m:b:o:p::');
 if (empty($args)) {
     echo $usageMessage;
     exit(0);
