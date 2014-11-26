@@ -95,7 +95,7 @@ class Page extends \Magento\Framework\Model\AbstractModel implements IdentityInt
      */
     public function getId()
     {
-        return (int) $this->_getData(PageInterface::PAGE_ID);
+        return $this->_getData(PageInterface::PAGE_ID);
     }
 
     /**

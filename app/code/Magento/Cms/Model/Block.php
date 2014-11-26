@@ -83,7 +83,7 @@ class Block extends \Magento\Framework\Model\AbstractModel implements IdentityIn
      */
     public function getId()
     {
-        return (int) $this->_getData(BlockInterface::ID);
+        return $this->_getData(BlockInterface::ID);
     }
 
     /**
