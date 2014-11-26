@@ -278,6 +278,19 @@ class ConsoleController extends AbstractActionController
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function onDispatch(\Zend\Mvc\MvcEvent $e)
+    {
+        try {
+            return parent::onDispatch($e);
+        } catch (\Magento\Setup\Exception $exception) {
+            $this->log->log($exception->getMessage());
+            return $this->getResponse();
+        }
+    }
+
+    /**
      * Controller for Install Command
      *
      * @return void
