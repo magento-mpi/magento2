@@ -7,10 +7,24 @@
  */
 namespace Magento\Framework\Search\Dynamic\Algorithm;
 
+use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Request\BucketInterface;
 
-class Manual extends AbstractAlgorithm
+class Manual implements AlgorithmInterface
 {
+    /**
+     * @var DataProviderInterface
+     */
+    private $dataProvider;
+
+    /**
+     * @param DataProviderInterface $dataProvider
+     */
+    public function __construct(DataProviderInterface $dataProvider)
+    {
+        $this->dataProvider = $dataProvider;
+    }
+
     /**
      * {@inheritdoc}
      */

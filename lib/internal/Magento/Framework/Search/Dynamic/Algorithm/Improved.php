@@ -12,7 +12,7 @@ use Magento\Framework\Search\Dynamic\Algorithm;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\IntervalFactory;
 use Magento\Framework\Search\Request\BucketInterface;
 
-class Improved extends AbstractAlgorithm
+class Improved implements AlgorithmInterface
 {
     /**
      * @var Algorithm
@@ -25,6 +25,11 @@ class Improved extends AbstractAlgorithm
     private $intervalFactory;
 
     /**
+     * @var DataProviderInterface
+     */
+    private $dataProvider;
+
+    /**
      * @param DataProviderInterface $dataProvider
      * @param Algorithm $algorithm
      * @param IntervalFactory $intervalFactory
@@ -34,9 +39,9 @@ class Improved extends AbstractAlgorithm
         Algorithm $algorithm,
         IntervalFactory $intervalFactory
     ) {
-        parent::__construct($dataProvider);
         $this->algorithm = $algorithm;
         $this->intervalFactory = $intervalFactory;
+        $this->dataProvider = $dataProvider;
     }
 
     /**
