@@ -11,7 +11,6 @@ use Magento\Framework\DB\GenericMapper;
 
 /**
  * Class CmsCriteriaMapper
- * @package Magento\Cms\Model\Resource
  */
 class CmsCriteriaMapper extends GenericMapper
 {
