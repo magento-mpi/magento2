@@ -116,8 +116,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $this->directory->expects($this->any())->method('isExist')->will($this->returnValue(true));
 
         // _loadModuleTranslation()
-        $modules = [['name' => 'module']];
-        $this->moduleList->expects($this->once())->method('getModules')->will($this->returnValue($modules));
+        $this->moduleList->expects($this->once())->method('getNames')->will($this->returnValue(['name']));
         $moduleData = [
             'module original' => 'module translated',
             'module theme' => 'module-theme original translated',
@@ -259,7 +258,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     {
         $forceReload = true;
         $this->expectsSetConfig(null, null);
-        $this->moduleList->expects($this->once())->method('getModules')->will($this->returnValue([]));
+        $this->moduleList->expects($this->once())->method('getNames')->will($this->returnValue([]));
         $this->appState->expects($this->once())->method('getAreaCode')->will($this->returnValue('frontend'));
         $this->packDictionary->expects($this->once())->method('getDictionary')->will($this->returnValue([]));
         $this->resource->expects($this->any())->method('getTranslationArray')->will($this->returnValue([]));

@@ -86,9 +86,7 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertEquals($addressId, $savedData['address_id']);
         $this->assertEquals(0, $savedData['same_as_billing']);
         //custom checks for street, region and address_type
-        foreach ($addressData['street'] as $streetLine) {
-            $this->assertContains($streetLine, $quote->getShippingAddress()->getStreet());
-        }
+        $this->assertEquals($addressData['street'], $quote->getShippingAddress()->getStreet());
         unset($addressData['street']);
         $this->assertEquals($addressData['region']['region_id'], $savedData['region_id']);
         $this->assertEquals($addressData['region']['region'], $savedData['region']);

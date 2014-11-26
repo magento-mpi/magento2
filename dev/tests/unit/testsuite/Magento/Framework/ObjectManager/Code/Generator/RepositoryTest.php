@@ -17,7 +17,7 @@ use Magento\TestFramework\Helper\ObjectManager;
 class RepositoryTest extends EntityChildTestAbstract
 {
     const SOURCE_CLASS_NAME = 'Magento\Framework\ObjectManager\Code\Generator\Sample';
-    const RESULT_CLASS_NAME = 'Magento\Framework\ObjectManager\Code\Generator\SampleRepository';
+    const RESULT_CLASS_NAME = 'Magento\Framework\ObjectManager\Code\Generator\Sample\Repository';
     const GENERATOR_CLASS_NAME = 'Magento\Framework\ObjectManager\Code\Generator\Repository';
     const OUTPUT_FILE_NAME = 'SampleConverter.php';
 
@@ -39,5 +39,13 @@ class RepositoryTest extends EntityChildTestAbstract
     protected function getOutputFileName()
     {
         return self::OUTPUT_FILE_NAME;
+    }
+
+    protected function mockDefinedClassesCall()
+    {
+        $this->definedClassesMock->expects($this->at(0))
+            ->method('classLoadable')
+            ->with($this->getSourceClassName() . 'Interface')
+            ->willReturn(true);
     }
 }
