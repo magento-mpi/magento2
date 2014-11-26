@@ -28,6 +28,7 @@
             <module name="Magento_GroupedProduct"/>
             <module name="Magento_ConfigurableProduct" type="soft"/>
             <module name="Magento_Downloadable" type="soft"/>
+            <module name="Magento_Ui"/>
         </depends>
     </module>
 </config>

@@ -9,7 +9,8 @@ define([
     "jquery",
     "jquery/ui"
 ], function($){
-
+    "use strict";
+    
     $.widget('mage.shoppingCart', {
         _create: function() {
             if ($(this.options.updateCartActionContainer).length > 0) { /* <!--[if lt IE 8]> Only */
@@ -25,4 +26,5 @@ define([
         }
     });
 
+    return $.mage.shoppingCart;
 });

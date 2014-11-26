@@ -12,7 +12,8 @@ define([
     "jquery/template",
     "mage/validation"
 ], function($){
-
+    "use strict";
+    
     $.widget('mage.regionUpdater', {
         options: {
             regionTemplate: '<option value="${value}" title="${title}" {{if isSelected}}selected="selected"{{/if}}>${title}</option>',
@@ -149,8 +150,8 @@ define([
             // If country is in optionalzip list, make postcode input not required
             if (this.options.isZipRequired) {
                 $.inArray(country, this.options.countriesWithOptionalZip) >= 0 ?
-                    postcode.removeClass('required-entry').parentsUntil('fieldset', 'div').removeClass('required') :
-                    postcode.addClass('required-entry').parentsUntil('fieldset', 'div').addClass('required');
+                    postcode.removeClass('required-entry').closest('.field').removeClass('required') :
+                    postcode.removeClass('required-entry').closest('.field').addClass('required');
             }
             // Add defaultvalue attribute to state/province select element
             regionList.attr('defaultvalue', this.options.defaultRegion);
@@ -172,5 +173,6 @@ define([
             });
         }
     });
-
+    
+    return $.mage.regionUpdater;
 });
