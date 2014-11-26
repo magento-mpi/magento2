@@ -9,7 +9,6 @@
 namespace Magento\Tax\Model\Calculation;
 
 use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxBuilder;
 
 class RowBaseAndTotalBaseCalculatorTestCase extends \PHPUnit_Framework_TestCase
 {
