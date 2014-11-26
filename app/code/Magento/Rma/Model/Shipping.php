@@ -243,8 +243,8 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
         $request->setShipperContactPhoneNumber($shipperAddress->getTelephone());
         $request->setShipperEmail($shipperAddress->getEmail());
         $request->setShipperAddressStreet($shipperAddress->getStreetFull());
-        $request->setShipperAddressStreet1($shipperAddress->getStreet1());
-        $request->setShipperAddressStreet2($shipperAddress->getStreet2());
+        $request->setShipperAddressStreet1($shipperAddress->getStreetLine(1));
+        $request->setShipperAddressStreet2($shipperAddress->getStreetLine(2));
         $request->setShipperAddressCity($shipperAddress->getCity());
         $request->setShipperAddressStateOrProvinceCode($shipperRegionCode);
         $request->setShipperAddressPostalCode($shipperAddress->getPostcode());
@@ -257,8 +257,8 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
         $request->setRecipientContactPhoneNumber($storeInfo->getPhone());
         $request->setRecipientEmail($recipientAddress->getEmail());
         $request->setRecipientAddressStreet($recipientAddress->getStreetFull());
-        $request->setRecipientAddressStreet1($recipientAddress->getStreet(1));
-        $request->setRecipientAddressStreet2($recipientAddress->getStreet(2));
+        $request->setRecipientAddressStreet1($recipientAddress->getStreetLine(1));
+        $request->setRecipientAddressStreet2($recipientAddress->getStreetLine(2));
         $request->setRecipientAddressCity($recipientAddress->getCity());
         $request->setRecipientAddressStateOrProvinceCode($recipientRegionCode);
         $request->setRecipientAddressRegionCode($recipientRegionCode);

@@ -1219,8 +1219,45 @@ class ConfigData extends AbstractRepository
                     'scope_id' => '1',
                     'value' => '0'
                 ],
+                [
+                    'path' => 'tax/weee/enable',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '0'
+                ],
+                [
+                    'path' => 'tax/weee/display_list',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '1'
+                ],
+                [
+                    'path' => 'tax/weee/display',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '1'
+                ],
+                [
+                    'path' => 'tax/weee/display_sales',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '1'
+                ],
+                [
+                    'path' => 'tax/weee/apply_vat',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '0'
+                ],
+                [
+                    'path' => 'tax/weee/include_in_subtotal',
+                    'scope' => 'tax',
+                    'scope_id' => '1',
+                    'value' => '0'
+                ],
             ]
         ];
+
         $this->_data['row_cat_incl_ship_excl_after_disc_on_excl'] =
             array_replace_recursive(
                 $taxCalculationConf,
@@ -1366,17 +1403,25 @@ class ConfigData extends AbstractRepository
                 $taxCalculationConf,
                 ['section' =>
                     [
-                        ['value' => 'TOTAL_BASE_CALCULATION'],
-                        ['value' => '0'],
-                        ['value' => '0'],
-                        ['value' => '0'],
-                        ['value' => '0'],
-                        ['value' => '1'],
-                        ['value' => '1'],
-                        ['value' => '1'],
-                        ['value' => '1'],
-                        ['value' => '1'],
-                        ['value' => '0']
+                        ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
+                        ['value' => '0'], //tax/calculation/price_includes_tax
+                        ['value' => '0'], //tax/calculation/shipping_includes_tax
+                        ['value' => '0'], //tax/calculation/apply_after_discount
+                        ['value' => '0'], //tax/calculation/discount_tax
+                        ['value' => '1'], //tax/display/type
+                        ['value' => '1'], //tax/display/shipping
+                        ['value' => '1'], //tax/cart_display/price
+                        ['value' => '1'], //tax/cart_display/subtotal
+                        ['value' => '1'], //tax/cart_display/shipping
+                        ['value' => '0'], //tax/cart_display/grandtotal
+                        ['value' => '0'], //tax/cart_display/full_summary
+                        ['value' => '0'], //tax/calculation/cross_border_trade_enabled
+                        ['value' => '0'], //tax/weee/enable
+                        ['value' => '1'], //tax/weee/display_list
+                        ['value' => '1'], //tax/weee/display
+                        ['value' => '1'], //tax/weee/display_sales
+                        ['value' => '0'], //tax/weee/apply_vat
+                        ['value' => '0'], //tax/weee/include_in_subtotal
                     ]
                 ]
             );
@@ -1421,6 +1466,230 @@ class ConfigData extends AbstractRepository
                         ['value' => '0'], //tax/cart_display/grandtotal
                         ['value' => '0'], //tax/cart_display/full_summary
                         ['value' => '1'], //tax/calculation/cross_border_trade_enabled
+                    ]
+                ]
+            );
+
+        $this->_data['tax_with_fpt_taxed_cat_excl_disp_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
+                        ['value' => '0'], //tax/calculation/price_includes_tax
+                        ['value' => '0'], //tax/calculation/shipping_includes_tax
+                        ['value' => '1'], //tax/calculation/apply_after_discount
+                        ['value' => '0'], //tax/calculation/discount_tax
+                        ['value' => '1'], //tax/display/type
+                        ['value' => '1'], //tax/display/shipping
+                        ['value' => '1'], //tax/cart_display/price
+                        ['value' => '1'], //tax/cart_display/subtotal
+                        ['value' => '1'], //tax/cart_display/shipping
+                        ['value' => '0'], //tax/cart_display/grandtotal
+                        ['value' => '0'], //tax/cart_display/full_summary
+                        ['value' => '0'], //tax/calculation/cross_border_trade_enabled
+                        ['value' => '1'], //tax/weee/enable
+                        ['value' => '2'], //tax/weee/display_list
+                        ['value' => '2'], //tax/weee/display
+                        ['value' => '2'], //tax/weee/display_sales
+                        ['value' => '1'], //tax/weee/apply_vat
+                        ['value' => '1'], //tax/weee/include_in_subtotal
+                    ]
+                ]
+            );
+
+        $this->_data['tax_with_fpt_taxed_cat_incl_disp_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
+                        ['value' => '1'], //tax/calculation/price_includes_tax
+                        ['value' => '1'], //tax/calculation/shipping_includes_tax
+                        ['value' => '1'], //tax/calculation/apply_after_discount
+                        ['value' => '0'], //tax/calculation/discount_tax
+                        ['value' => '1'], //tax/display/type
+                        ['value' => '1'], //tax/display/shipping
+                        ['value' => '1'], //tax/cart_display/price
+                        ['value' => '1'], //tax/cart_display/subtotal
+                        ['value' => '1'], //tax/cart_display/shipping
+                        ['value' => '0'], //tax/cart_display/grandtotal
+                        ['value' => '0'], //tax/cart_display/full_summary
+                        ['value' => '0'], //tax/calculation/cross_border_trade_enabled
+                        ['value' => '1'], //tax/weee/enable
+                        ['value' => '2'], //tax/weee/display_list
+                        ['value' => '2'], //tax/weee/display
+                        ['value' => '2'], //tax/weee/display_sales
+                        ['value' => '1'], //tax/weee/apply_vat
+                        ['value' => '1'], //tax/weee/include_in_subtotal
+                    ]
+                ]
+            );
+
+        $this->_data['tax_with_fpt_taxed_cat_incl_disp_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
+                        ['value' => '1'], //tax/calculation/price_includes_tax
+                        ['value' => '1'], //tax/calculation/shipping_includes_tax
+                        ['value' => '0'], //tax/calculation/apply_after_discount
+                        ['value' => '1'], //tax/calculation/discount_tax
+                        ['value' => '1'], //tax/display/type
+                        ['value' => '1'], //tax/display/shipping
+                        ['value' => '1'], //tax/cart_display/price
+                        ['value' => '1'], //tax/cart_display/subtotal
+                        ['value' => '1'], //tax/cart_display/shipping
+                        ['value' => '0'], //tax/cart_display/grandtotal
+                        ['value' => '0'], //tax/cart_display/full_summary
+                        ['value' => '0'], //tax/calculation/cross_border_trade_enabled
+                        ['value' => '1'], //tax/weee/enable
+                        ['value' => '1'], //tax/weee/display_list
+                        ['value' => '1'], //tax/weee/display
+                        ['value' => '1'], //tax/weee/display_sales
+                        ['value' => '1'], //tax/weee/apply_vat
+                        ['value' => '1'], //tax/weee/include_in_subtotal
+                    ]
+                ]
+            );
+
+        $this->_data['tax_with_fpt_taxed_cat_excl_disp_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
+                        ['value' => '0'], //tax/calculation/price_includes_tax
+                        ['value' => '0'], //tax/calculation/shipping_includes_tax
+                        ['value' => '0'], //tax/calculation/apply_after_discount
+                        ['value' => '1'], //tax/calculation/discount_tax
+                        ['value' => '1'], //tax/display/type
+                        ['value' => '1'], //tax/display/shipping
+                        ['value' => '1'], //tax/cart_display/price
+                        ['value' => '1'], //tax/cart_display/subtotal
+                        ['value' => '1'], //tax/cart_display/shipping
+                        ['value' => '0'], //tax/cart_display/grandtotal
+                        ['value' => '0'], //tax/cart_display/full_summary
+                        ['value' => '0'], //tax/calculation/cross_border_trade_enabled
+                        ['value' => '1'], //tax/weee/enable
+                        ['value' => '1'], //tax/weee/display_list
+                        ['value' => '1'], //tax/weee/display
+                        ['value' => '1'], //tax/weee/display_sales
+                        ['value' => '1'], //tax/weee/apply_vat
+                        ['value' => '1'], //tax/weee/include_in_subtotal
+                    ]
+                ]
+            );
+
+        $this->_data['tax_with_fpt_cat_excl_disp_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
+                        ['value' => '0'], //tax/calculation/price_includes_tax
+                        ['value' => '0'], //tax/calculation/shipping_includes_tax
+                        ['value' => '1'], //tax/calculation/apply_after_discount
+                        ['value' => '0'], //tax/calculation/discount_tax
+                        ['value' => '1'], //tax/display/type
+                        ['value' => '1'], //tax/display/shipping
+                        ['value' => '1'], //tax/cart_display/price
+                        ['value' => '1'], //tax/cart_display/subtotal
+                        ['value' => '1'], //tax/cart_display/shipping
+                        ['value' => '0'], //tax/cart_display/grandtotal
+                        ['value' => '0'], //tax/cart_display/full_summary
+                        ['value' => '0'], //tax/calculation/cross_border_trade_enabled
+                        ['value' => '1'], //tax/weee/enable
+                        ['value' => '2'], //tax/weee/display_list
+                        ['value' => '2'], //tax/weee/display
+                        ['value' => '2'], //tax/weee/display_sales
+                        ['value' => '0'], //tax/weee/apply_vat
+                        ['value' => '1'], //tax/weee/include_in_subtotal
+                    ]
+                ]
+            );
+
+        $this->_data['tax_with_fpt_cat_excl_disp_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
+                        ['value' => '0'], //tax/calculation/price_includes_tax
+                        ['value' => '0'], //tax/calculation/shipping_includes_tax
+                        ['value' => '0'], //tax/calculation/apply_after_discount
+                        ['value' => '1'], //tax/calculation/discount_tax
+                        ['value' => '1'], //tax/display/type
+                        ['value' => '1'], //tax/display/shipping
+                        ['value' => '1'], //tax/cart_display/price
+                        ['value' => '1'], //tax/cart_display/subtotal
+                        ['value' => '1'], //tax/cart_display/shipping
+                        ['value' => '0'], //tax/cart_display/grandtotal
+                        ['value' => '0'], //tax/cart_display/full_summary
+                        ['value' => '0'], //tax/calculation/cross_border_trade_enabled
+                        ['value' => '1'], //tax/weee/enable
+                        ['value' => '1'], //tax/weee/display_list
+                        ['value' => '1'], //tax/weee/display
+                        ['value' => '1'], //tax/weee/display_sales
+                        ['value' => '0'], //tax/weee/apply_vat
+                        ['value' => '1'], //tax/weee/include_in_subtotal
+                    ]
+                ]
+            );
+
+        $this->_data['tax_with_fpt_cat_incl_disp_excl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
+                        ['value' => '1'], //tax/calculation/price_includes_tax
+                        ['value' => '1'], //tax/calculation/shipping_includes_tax
+                        ['value' => '1'], //tax/calculation/apply_after_discount
+                        ['value' => '0'], //tax/calculation/discount_tax
+                        ['value' => '1'], //tax/display/type
+                        ['value' => '1'], //tax/display/shipping
+                        ['value' => '1'], //tax/cart_display/price
+                        ['value' => '1'], //tax/cart_display/subtotal
+                        ['value' => '1'], //tax/cart_display/shipping
+                        ['value' => '0'], //tax/cart_display/grandtotal
+                        ['value' => '0'], //tax/cart_display/full_summary
+                        ['value' => '0'], //tax/calculation/cross_border_trade_enabled
+                        ['value' => '1'], //tax/weee/enable
+                        ['value' => '2'], //tax/weee/display_list
+                        ['value' => '2'], //tax/weee/display
+                        ['value' => '2'], //tax/weee/display_sales
+                        ['value' => '0'], //tax/weee/apply_vat
+                        ['value' => '1'], //tax/weee/include_in_subtotal
+                    ]
+                ]
+            );
+
+        $this->_data['tax_with_fpt_cat_incl_disp_incl'] =
+            array_replace_recursive(
+                $taxCalculationConf,
+                ['section' =>
+                    [
+                        ['value' => 'TOTAL_BASE_CALCULATION'], //tax/calculation/algorithm
+                        ['value' => '1'], //tax/calculation/price_includes_tax
+                        ['value' => '1'], //tax/calculation/shipping_includes_tax
+                        ['value' => '0'], //tax/calculation/apply_after_discount
+                        ['value' => '1'], //tax/calculation/discount_tax
+                        ['value' => '1'], //tax/display/type
+                        ['value' => '1'], //tax/display/shipping
+                        ['value' => '1'], //tax/cart_display/price
+                        ['value' => '1'], //tax/cart_display/subtotal
+                        ['value' => '1'], //tax/cart_display/shipping
+                        ['value' => '0'], //tax/cart_display/grandtotal
+                        ['value' => '0'], //tax/cart_display/full_summary
+                        ['value' => '0'], //tax/calculation/cross_border_trade_enabled
+                        ['value' => '1'], //tax/weee/enable
+                        ['value' => '1'], //tax/weee/display_list
+                        ['value' => '1'], //tax/weee/display
+                        ['value' => '1'], //tax/weee/display_sales
+                        ['value' => '0'], //tax/weee/apply_vat
+                        ['value' => '1'], //tax/weee/include_in_subtotal
                     ]
                 ]
             );

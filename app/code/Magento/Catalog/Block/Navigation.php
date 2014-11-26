@@ -58,7 +58,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
     /**
      * Catalog layer
      *
-     * @var \Magento\Catalog\Model\Layer\Category
+     * @var \Magento\Catalog\Model\Layer
      */
     protected $_catalogLayer;
 
@@ -78,7 +78,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
+     * @param \Magento\Catalog\Model\Layer\Resolver $layerResolver
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Framework\Registry $registry
@@ -89,7 +89,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Catalog\Model\Layer\Category $catalogLayer,
+        \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Framework\Registry $registry,
@@ -97,14 +97,13 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
         array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
-        $this->_catalogLayer = $catalogLayer;
+        $this->_catalogLayer = $layerResolver->get();
         $this->httpContext = $httpContext;
         $this->_catalogCategory = $catalogCategory;
         $this->_registry = $registry;
         $this->flatState = $flatState;
         $this->_categoryInstance = $categoryFactory->create();
         parent::__construct($context, $data);
-        $this->_isScopePrivate = true;
     }
 
     /**

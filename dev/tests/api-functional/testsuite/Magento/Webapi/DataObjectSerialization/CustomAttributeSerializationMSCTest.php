@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+
 namespace Magento\Webapi\DataObjectSerialization;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -15,6 +16,7 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Webapi\Controller\Rest\Response\DataObjectConverter;
 
 /**
+ * api-functional/testsuite/Magento/Webapi/DataObjectSerialization/CustomAttributeSerializationMSCTest.php
  * Class to test if custom attributes are serialized correctly for the new Module Service Contract approach
  */
 class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseService
@@ -62,6 +64,7 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
      */
     protected function setUp()
     {
+        $this->markTestSkipped('This test become irrelevant according to new API Contract');
         $this->_version = 'V1';
         $this->_soapService = 'testModuleMSCAllSoapAndRestV1';
         $this->_restResourcePath = "/{$this->_version}/testmoduleMSC/";

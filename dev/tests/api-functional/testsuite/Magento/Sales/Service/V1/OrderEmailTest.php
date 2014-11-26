@@ -15,7 +15,7 @@ class OrderEmailTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesOrderWriteV1';
+    const SERVICE_NAME = 'salesOrderManagementV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php
@@ -33,7 +33,7 @@ class OrderEmailTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'email'
+                'operation' => self::SERVICE_NAME . 'notify'
             ]
         ];
         $requestData = ['id' => $order->getId()];

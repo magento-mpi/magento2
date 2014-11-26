@@ -39,7 +39,7 @@
 
 .form.giftregistry .fieldset {
     .cart-summary & {
-        margin: 15px 0 @indent-m-base;
+        margin: 15px 0 @indent-xs-base;
         text-align: left;
         .field {
             margin: 0 0 @indent-s-base;
@@ -65,39 +65,9 @@
         .css(margin-bottom, @indent-l-base);
         .css(margin-top, -@indent-m-base);
    }
-   .field.date {
-        .control {
-            position: relative;
-            &:extend(.abstract-add-box-sizing all);
-            .icon-font(
-                @_icon-font-content: @icon-calendar,
-                @_icon-font-color: @color-primary-lighter,
-                @_icon-font-size: 23px,
-                @_icon-font-line-height: 23px,
-                @_icon-font-display: block
-            );
-            &:before {
-                position: absolute;
-                top: 5px;
-                .css(left, @indent-s-base);
-                margin-left: 90%;
-                z-index: 0;
-            }
-        }
-
-        img {
-            opacity: 0;
-            cursor: pointer;
-            position: relative;
-            z-index: 1;
-            width: 20px;
-            vertical-align: middle;
-        }
-        input {
-            width: 90%;
-            .css(margin-right, @indent-s-base);
-        }
-   }
+    .field.date {
+        &:extend(.abstract-field-date all);
+    }
 }
 
 .form-giftregistry-search {
@@ -165,13 +135,10 @@
 //    Mobile
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-s) {
-    .table-wrapper.giftregistry {
-        &:extend(.abstract-account-table-border all);
-    }
     .account {
         .table-giftregistry {
             .col.actions {
-                &:extend(.abstract-account-col-actions all);
+                &:extend(.abstract-col-no-prefix all);
             }
             .col.message {
             }
@@ -194,12 +161,6 @@
             margin-bottom: @indent-base;
         }
     }
-    .block-giftregistry-results,
-    .block-giftregistry-shared-items {
-        .data.table {
-            &:extend(.abstract-table-vertical-mobile-s all);
-        }
-    }
 }
 
 //
@@ -209,7 +170,7 @@
     .form-giftregistry-share,
     .form-giftregistry-edit {
         &:extend(.abstract-add-fields-desktop all);
-        &:extend(.form-field-column-2 all);
+        &:extend(.abstract-form-field-column-2 all);
         .fieldset .field {
            width: 45%;
         }
@@ -243,7 +204,9 @@
             th {
                 border-bottom: 0;
             }
-            .table-bordered(@_type: horizontal);
+            .table-bordered(
+                @_table_type: horizontal
+            );
             > tbody > tr:nth-child(even) {
                 > td,
                 > th {
@@ -265,12 +228,6 @@
                     padding: 0;
                 }
             }
-        }
-    }
-
-    .block-giftregistry-results {
-        .data.table {
-            &:extend(.abstract-table-bordered-desktop all);
         }
     }
 
