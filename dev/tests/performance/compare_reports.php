@@ -44,7 +44,7 @@ try {
 
         $sample = $result->addChild('httpSample');
         $sample->addAttribute('s', $success ? 'true' : 'false');
-        $sample->addAttribute('t', round($deviation, 4));
+        $sample->addAttribute('t', round($deviation * 1000));
         $sample->addAttribute('lb', $sampleName . ' degradation');
     }
 
@@ -77,7 +77,11 @@ function readResponseTimeReport($filename) {
 }
 
 function getMeanValue(array $times) {
-    return array_sum($times) / count($times);
+    $skipLargestPercent = 15;
+    sort($times);
+    $slice = array_slice($times, 0, round(count($times) - count($times) * $skipLargestPercent / 100));
+
+    return array_sum($slice) / count($slice);
 }
 
 function getDeviation(array $mainlineResults, array $branchResults) {
