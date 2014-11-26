@@ -55,7 +55,7 @@ class TotalBaseCalculatorTest extends RowBaseAndTotalBaseCalculatorTestCase
             ->setConstructorArgs(
                 [
                     'taxClassService' => $taxClassService,
-                    'taxDetailsItemBuilder' => $this->mockTaxItemDetailsBuilder,
+                    'taxDetailsItemBuilder' => $this->taxItemDetailsBuilder,
                     'calculationTool' => $this->mockCalculationTool,
                     'config' => $this->mockConfig,
                     'storeId' => self::STORE_ID,
