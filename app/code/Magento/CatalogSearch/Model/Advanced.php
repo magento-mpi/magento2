@@ -176,9 +176,9 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
             if ($attribute->getAttributeCode() == 'price') {
                 $rate = 1;
                 $store = $this->_storeManager->getStore();
-                $curency = $store->getCurrentCurrencyCode();
-                if ($curency != $store->getBaseCurrencyCode()) {
-                    $rate = $store->getBaseCurrency()->getRate($curency);
+                $currency = $store->getCurrentCurrencyCode();
+                if ($currency != $store->getBaseCurrencyCode()) {
+                    $rate = $store->getBaseCurrency()->getRate($currency);
                 }
 
                 $value['from'] = isset($value['from']) ? (float)$value['from'] / $rate : '';
@@ -215,7 +215,7 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
     /**
      * Retrieve array of attributes used in advanced search
      *
-     * @return array
+     * @return array|\Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function getAttributes()
     {
