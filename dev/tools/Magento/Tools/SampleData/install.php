@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-use Magento\Framework\App\State;
+use \Magento\Framework\App\State;
 use \Magento\Framework\App\Bootstrap;
 use \Magento\Framework\Shell\ComplexParameter;
 
