@@ -412,7 +412,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractModel
      *
      * Deprecated, use this code instead:
      * $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-     * $addressMapper = // \Magento\Customer\Model\Address\Mapper type
+     * $addressMapper = \Magento\Customer\Model\Address\Mapper type
      * $addressData = $addressMapper->toFlatArray($address);
      * $formattedAddress = $renderer->renderArray($addressData);
      *

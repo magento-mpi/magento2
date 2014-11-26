@@ -7,9 +7,7 @@
  */
 namespace Magento\Customer\Helper\Session;
 
-use Magento\Customer\Helper\Session\CurrentCustomer;
 use Magento\Customer\Api\AccountManagementInterface;
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\AddressInterface;
 
 /**
@@ -28,33 +26,15 @@ class CurrentCustomerAddress
     protected $accountManagement;
 
     /**
-     * @var CustomerRepositoryInterface
-     */
-    protected $customerRepository;
-
-    /**
      * @param CurrentCustomer $currentCustomer
      * @param AccountManagementInterface $accountManagement
-     * @param CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         CurrentCustomer $currentCustomer,
-        AccountManagementInterface $accountManagement,
-        CustomerRepositoryInterface $customerRepository
+        AccountManagementInterface $accountManagement
     ) {
         $this->currentCustomer = $currentCustomer;
         $this->accountManagement = $accountManagement;
-        $this->customerRepository = $customerRepository;
-    }
-
-    /**
-     * Returns all addresses for current customer
-     *
-     * @return AddressInterface[]
-     */
-    public function getCustomerAddresses()
-    {
-        return $this->customerRepository->getById($this->currentCustomer->getCustomerId())->getAddresses();
     }
 
     /**
