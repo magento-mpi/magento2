@@ -48,7 +48,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->_address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Sales\Model\Quote\Address'
         );
-        $this->_address->load(1);
+        $this->_address->setId(1);
+        $this->_address->load($this->_address->getId());
         $this->_address->setQuote($this->_quote);
     }
 
@@ -190,7 +191,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->_quote->setCustomer($this->_customer);
         $this->_setCustomerAddressAndSave($unsetId);
         $sameAsBilling = $this->_quote->getShippingAddress()->getSameAsBilling();
-        $this->assertEquals(1, $sameAsBilling);
+        $this->assertEquals(0, $sameAsBilling);
     }
 
     /**

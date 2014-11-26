@@ -97,7 +97,7 @@ class Quote
     protected $customerRepository;
 
     /**
-     * @var
+     * @var \Magento\Customer\Api\Data\RegionDataBuilder
      */
     protected $regionBuilder;
 
@@ -112,6 +112,7 @@ class Quote
      * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param \Magento\Customer\Api\Data\RegionDataBuilder $regionDataBuilder
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
@@ -176,6 +177,7 @@ class Quote
 
     /**
      * @param \Magento\Sales\Model\Quote $quote
+     * @return void
      */
     protected function processQuoteAddresses(\Magento\Sales\Model\Quote $quote)
     {
@@ -183,11 +185,13 @@ class Quote
             $customerAddress = $this->addressRepository->save(
                 $this->addressBuilder->populateWithArray($address->getData())
                     ->setCustomerId($quote->getCustomer()->getId())
-                    ->setRegion($this->regionBuilder->setRegion($address->getRegion())
+                    ->setRegion(
+                        $this->regionBuilder->setRegion($address->getRegion())
                         ->setRegionCode($address->getRegionCode())
                         ->setRegionId($address->getRegionId())
-                        ->create())
-                    ->create());
+                        ->create()
+                    )->create()
+            );
             $address->setCustomerAddressId($customerAddress->getId());
             $address->setCustomerAddressData($customerAddress);
         }

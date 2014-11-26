@@ -63,7 +63,7 @@ class Observer
      * @param \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno
      * @param \Magento\CustomerSegment\Helper\Data $segmentHelper
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\Customer\Model\CustomerFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      */
     public function __construct(
