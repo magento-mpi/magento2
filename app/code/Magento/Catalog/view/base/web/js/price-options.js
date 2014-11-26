@@ -18,7 +18,7 @@ define([
         optionsSelector: '.product-custom-option',
         optionConfig: {},
         optionHandlers: {},
-        controlContainer: 'dd' // should be eliminated
+        controlContainer: 'dd'
     };
 
     $.widget('mage.priceOptions',{
@@ -34,8 +34,6 @@ define([
         var options = $(this.options.optionsSelector, form);
 
         options.on('change', onOptionChanged.bind(this));
-        form.on('changeOption', onFormChanged.bind(this));
-
     }
 
     function onOptionChanged(event) {
@@ -50,10 +48,6 @@ define([
             changes = defaultGetOptionValue(option, this.options.optionConfig);
         }
 
-        $(this.element).trigger('changeOption', changes);
-    }
-
-    function onFormChanged(event, changes) {
         $(this.options.priceHolderSelector).trigger('updatePrice', changes);
     }
 
@@ -70,7 +64,6 @@ define([
             case 'textarea':
                 optionHash = 'price-option-' + optionName;
                 changes[optionHash] = optionValue ? optionConfig.prices : {};
-
                 break;
             case 'radio':
             case 'select-one':
