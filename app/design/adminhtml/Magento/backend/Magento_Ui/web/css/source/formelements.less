@@ -134,7 +134,7 @@
        color: @field-error--color;
        font-size: 12px;
        font-weight: 500;
-       .box-sizing();
+       box-sizing: border-box;
        max-width: 380px;
     }
 }
@@ -318,7 +318,7 @@
         &-select {
             padding: 0;
             option {
-                .box-sizing();
+                box-sizing: border-box;
                 padding: 4px 10px;
               display: block;
             }
@@ -439,7 +439,7 @@
             line-height: 33px;
             display: inline-block;
             height: 33px;
-            .box-sizing();
+            box-sizing: border-box;
             padding: 0 3px;
         }
         .no-flexbox.no-flexboxlegacy &-before,
@@ -487,7 +487,7 @@
                     }
                 }
                 & + label:before {
-                    .box-sizing();
+                    box-sizing: border-box;
                     border-style: solid;
                     border-color: @field-control--border-color;
                     border-radius: 1px;
@@ -529,7 +529,7 @@
         display: table;
         width: 100%;
         table-layout: fixed;
-        .box-sizing();
+        box-sizing: border-box;
         & > .form__field {
             display: table-cell;
             width: 50%;
