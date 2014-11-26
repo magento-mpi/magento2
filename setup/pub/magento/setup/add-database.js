@@ -17,18 +17,25 @@ angular.module('add-database', ['ngStorage'])
             $scope.db = $localStorage.db;
         }
 
-    $scope.testConnection = function () {
-        $http.post('data/database', $scope.db)
-            .success(function (data) {
-                $scope.testConnection.result = data;
-            })
-            .then(function () {
-                $scope.testConnection.pressed = true;
-                $timeout(function () {
-                    $scope.testConnection.pressed = false;
-                }, 2500);
-            });
-    };
+        $scope.testConnection = function () {
+            $http.post('data/database', $scope.db)
+                .success(function (data) {
+                    $scope.testConnection.result = data;
+                })
+                .then(function () {
+                    $scope.testConnection.pressed = true;
+                    $timeout(function () {
+                        $scope.testConnection.pressed = false;
+                    }, 9999999999);
+                });
+        };
+
+        $scope.testConnectionNext = function () {
+            $http.post('data/database', $scope.db)
+                .success(function (data) {
+                    $scope.testConnectionNext.result = data;
+                });
+        };
 
         $scope.$on('nextState', function () {
             $localStorage.db = $scope.db;
@@ -41,6 +48,7 @@ angular.module('add-database', ['ngStorage'])
 
         // Dispatch 'validation-response' event to parent controller
         $scope.validate = function() {
+            $scope.testConnectionNext();
             if ($scope.database.$valid) {
                 $scope.$emit('validation-response', true);
             } else {
