@@ -172,7 +172,13 @@ class Proxy extends \Magento\Framework\Code\Generator\EntityAbstract
      */
     protected function _getDefaultConstructorDefinition()
     {
-        // public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $instanceName, $shared = false)
+        /*
+         * public function __construct(
+         *  \Magento\Framework\ObjectManagerInterface $objectManager,
+         *  $instanceName,
+         *  $shared = false
+         * )
+         */
         return array(
             'name' => '__construct',
             'parameters' => array(
