@@ -8,6 +8,7 @@
 namespace Magento\Pci\Model\Resource\Key;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\DeploymentConfig\EncryptConfig;
 
 /**
  * Encryption key changer resource model
@@ -39,21 +40,31 @@ class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_structure;
 
     /**
+     * Configuration writer
+     *
+     * @var \Magento\Framework\App\DeploymentConfig\Writer
+     */
+    protected $_writer;
+
+    /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Backend\Model\Config\Structure $structure
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Framework\App\DeploymentConfig\Writer $writer
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Backend\Model\Config\Structure $structure,
-        \Magento\Framework\Encryption\EncryptorInterface $encryptor
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
+        \Magento\Framework\App\DeploymentConfig\Writer $writer
     ) {
         $this->_encryptor = clone $encryptor;
         parent::__construct($resource);
         $this->_directory = $filesystem->getDirectoryWrite(DirectoryList::CONFIG);
         $this->_structure = $structure;
+        $this->_writer = $writer;
     }
 
     /**
@@ -104,31 +115,24 @@ class Change extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function changeEncryptionKey($key = null)
     {
-
-        // prepare new key, encryptor and new file contents
-        $file = 'local.xml';
-
-        if (!$this->_directory->isWritable($file)) {
-            throw new \Exception(__('File %1 is not writeable.', $file));
+        // prepare new key, encryptor and new configuration segment
+        if (!$this->_writer->checkIfWritable()) {
+            throw new \Exception(__('Deployment configuration file is not writable.'));
         }
 
-        $contents = $this->_directory->readFile($file);
         if (null === $key) {
             $key = md5(time());
         }
         $this->_encryptor->setNewKey($key);
-        $contents = preg_replace(
-            '/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s',
-            '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>',
-            $contents
-        );
 
-        // update database and local.xml
+        $encryptSegment = new EncryptConfig([EncryptConfig::KEY_ENCRYPTION_KEY => $this->_encryptor->exportKeys()]);
+
+        // update database and config.php
         $this->beginTransaction();
         try {
             $this->_reEncryptSystemConfigurationValues();
             $this->_reEncryptCreditCardNumbers();
-            $this->_directory->writeFile($file, $contents);
+            $this->_writer->update($encryptSegment);
             $this->commit();
             return $key;
         } catch (\Exception $e) {
