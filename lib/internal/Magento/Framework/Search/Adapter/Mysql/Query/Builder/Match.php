@@ -62,8 +62,8 @@ class Match implements QueryInterface
     }
 
     /**
-     * @param $queryValue
-     * @param $conditionType
+     * @param string $queryValue
+     * @param string $conditionType
      * @return string
      */
     protected function prepareQuery($queryValue, $conditionType)
