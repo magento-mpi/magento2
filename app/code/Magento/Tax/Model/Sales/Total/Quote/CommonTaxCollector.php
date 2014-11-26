@@ -157,11 +157,10 @@ class CommonTaxCollector extends AbstractTotal
     public function mapAddress(AddressBuilder $addressBuilder, Address $address)
     {
         $addressBuilder->setCountryId($address->getCountryId());
-        $addressBuilder->setRegion(
-            $addressBuilder->getRegionBuilder()
-                ->setRegionId($address->getRegionId())
-                ->create()
-        );
+        $regionBuilder = $addressBuilder->getRegionBuilder();
+        $regionBuilder->setRegionId($address->getRegionId());
+        $addressBuilder->setRegion($regionBuilder->create());
+
         $addressBuilder->setPostcode($address->getPostcode());
         $addressBuilder->setCity($address->getCity());
         $addressBuilder->setStreet($address->getStreet());
@@ -192,11 +191,9 @@ class CommonTaxCollector extends AbstractTotal
         }
         $itemBuilder->setCode($item->getTaxCalculationItemId());
         $itemBuilder->setQuantity($item->getQty());
-        $itemBuilder->setTaxClassKey(
-            $this->taxClassKeyBuilder->setType(TaxClassKeyInterface::TYPE_ID)
-                ->setValue($item->getProduct()->getTaxClassId())
-                ->create()
-        );
+        $this->taxClassKeyBuilder->setType(TaxClassKeyInterface::TYPE_ID);
+        $this->taxClassKeyBuilder->setValue($item->getProduct()->getTaxClassId());
+        $itemBuilder->setTaxClassKey($this->taxClassKeyBuilder->create());
 
         $itemBuilder->setTaxIncluded($priceIncludesTax);
         $itemBuilder->setType(self::ITEM_TYPE_PRODUCT);
@@ -382,11 +379,9 @@ class CommonTaxCollector extends AbstractTotal
                     $itemBuilder->setDiscountAmount($address->getShippingDiscountAmount());
                 }
             }
-            $itemBuilder->setTaxClassKey(
-                $this->taxClassKeyBuilder->setType(TaxClassKeyInterface::TYPE_ID)
-                    ->setValue($this->_config->getShippingTaxClass($address->getQuote()->getStore()))
-                    ->create()
-            );
+            $this->taxClassKeyBuilder->setType(TaxClassKeyInterface::TYPE_ID);
+            $this->taxClassKeyBuilder->setValue($this->_config->getShippingTaxClass($address->getQuote()->getStore()));
+            $itemBuilder->setTaxClassKey($this->taxClassKeyBuilder->create());
             $itemBuilder->setTaxIncluded($this->_config->shippingPriceIncludesTax($address->getQuote()->getStore()));
             return $itemBuilder->create();
         }
@@ -410,12 +405,10 @@ class CommonTaxCollector extends AbstractTotal
 
         $this->populateAddressData($this->quoteDetailsBuilder, $address);
 
+        $this->taxClassKeyBuilder->setType(TaxClassKeyInterface::TYPE_ID);
+        $this->taxClassKeyBuilder->setValue($address->getQuote()->getCustomerTaxClassId());
         //Set customer tax class
-        $this->quoteDetailsBuilder->setCustomerTaxClassKey(
-            $this->taxClassKeyBuilder->setType(TaxClassKeyInterface::TYPE_ID)
-                ->setValue($address->getQuote()->getCustomerTaxClassId())
-                ->create()
-        );
+        $this->quoteDetailsBuilder->setCustomerTaxClassKey($this->taxClassKeyBuilder->create());
         $this->quoteDetailsBuilder->setItems($itemDataObjects);
         $this->quoteDetailsBuilder->setCustomerId($address->getQuote()->getCustomerId());
 
