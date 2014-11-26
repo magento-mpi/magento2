@@ -22,8 +22,6 @@ class Index extends \Magento\Customer\Controller\Address
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
-     * @param \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder
-     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
      * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressDataBuilder
      * @param \Magento\Customer\Api\Data\RegionDataBuilder $regionDataBuilder
@@ -36,8 +34,6 @@ class Index extends \Magento\Customer\Controller\Address
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder,
-        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
         \Magento\Customer\Api\Data\AddressDataBuilder $addressDataBuilder,
         \Magento\Customer\Api\Data\RegionDataBuilder $regionDataBuilder,
@@ -50,8 +46,6 @@ class Index extends \Magento\Customer\Controller\Address
             $customerSession,
             $formKeyValidator,
             $formFactory,
-            $regionBuilder,
-            $addressBuilder,
             $addressRepository,
             $addressDataBuilder,
             $regionDataBuilder,

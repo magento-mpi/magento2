@@ -15,7 +15,9 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Helper\View as CustomerViewHelper;
 use Magento\Customer\Model\Config\Share as ConfigShare;
 use Magento\Customer\Model\Customer as CustomerModel;
+use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\Metadata\Validator;
+use Magento\Customer\Api\CustomerMetadataInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface as Encryptor;
 use Magento\Framework\Event\ManagerInterface;
@@ -144,6 +146,11 @@ class AccountManagement implements AccountManagementInterface
     private $addressRepository;
 
     /**
+     * @var CustomerMetadataInterface
+     */
+    private $customerMetadataService;
+
+    /**
      * @var UrlInterface
      */
     private $url;
@@ -212,14 +219,14 @@ class AccountManagement implements AccountManagementInterface
     protected $objectFactory;
 
     /**
-     * @var CustomerModel
-     */
-    protected $customerModel;
-
-    /**
      * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
      */
     protected $extensibleDataObjectConverter;
+
+    /**
+     * @var CustomerModel
+     */
+    protected $customerModel;
 
     /**
      * @param CustomerFactory $customerFactory
@@ -230,6 +237,7 @@ class AccountManagement implements AccountManagementInterface
      * @param Validator $validator
      * @param \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder
      * @param AddressRepositoryInterface $addressRepository
+     * @param CustomerMetadataInterface $customerMetadataService
      * @param CustomerRegistry $customerRegistry
      * @param UrlInterface $url
      * @param Logger $logger
@@ -259,6 +267,7 @@ class AccountManagement implements AccountManagementInterface
         Validator $validator,
         \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder,
         AddressRepositoryInterface $addressRepository,
+        CustomerMetadataInterface $customerMetadataService,
         CustomerRegistry $customerRegistry,
         UrlInterface $url,
         Logger $logger,
@@ -285,6 +294,7 @@ class AccountManagement implements AccountManagementInterface
         $this->validator = $validator;
         $this->validationResultsDataBuilder = $validationResultsDataBuilder;
         $this->addressRepository = $addressRepository;
+        $this->customerMetadataService = $customerMetadataService;
         $this->customerRegistry = $customerRegistry;
         $this->url = $url;
         $this->logger = $logger;

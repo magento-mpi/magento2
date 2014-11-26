@@ -8,7 +8,6 @@
 
 namespace Magento\Customer\Block\Address;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class BookTest extends \PHPUnit_Framework_TestCase

@@ -32,7 +32,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidateDataWithNoDataModel()
     {
         $attribute = $this->getMockBuilder(
-            '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata'
+            '\Magento\Customer\Api\Data\AttributeMetadataInterface'
         )->disableOriginalConstructor()->getMock();
         $this->attrDataFactoryMock->expects($this->never())->method('create');
         $this->assertTrue($this->validator->validateData(array(), array($attribute), 'ENTITY_TYPE'));

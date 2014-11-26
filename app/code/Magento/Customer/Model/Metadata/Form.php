@@ -89,7 +89,7 @@ class Form
     protected $_validator;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
+     * @var \Magento\Customer\Api\Data\AttributeMetadataInterface[]
      */
     protected $_attributes;
 
@@ -161,7 +161,7 @@ class Form
      * Return attribute instance by code or false
      *
      * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata|false
+     * @return \Magento\Customer\Api\Data\AttributeMetadataInterface|false
      */
     public function getAttribute($attributeCode)
     {
@@ -175,7 +175,7 @@ class Form
     /**
      * Retrieve user defined attributes
      *
-     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Api\Data\AttributeMetadataInterface[]
      */
     public function getUserAttributes()
     {
@@ -191,7 +191,7 @@ class Form
     /**
      * Retrieve system required attributes
      *
-     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Api\Data\AttributeMetadataInterface[]
      */
     public function getSystemAttributes()
     {
@@ -207,7 +207,7 @@ class Form
     /**
      * Retrieve filtered attributes
      *
-     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Api\Data\AttributeMetadataInterface[]
      */
     public function getAllowedAttributes()
     {
@@ -288,7 +288,7 @@ class Form
     /**
      * Return attribute data model by attribute
      *
-     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
+     * @param \Magento\Customer\Api\Data\AttributeMetadataInterface $attribute
      * @return \Magento\Eav\Model\Attribute\Data\AbstractData
      */
     protected function _getAttributeDataModel($attribute)

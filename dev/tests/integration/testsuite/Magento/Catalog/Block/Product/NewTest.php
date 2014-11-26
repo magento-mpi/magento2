@@ -32,7 +32,7 @@ class NewTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\App\Http\Context'
         )->setValue(
-            \Magento\Customer\Helper\Data::CONTEXT_GROUP,
+            \Magento\Customer\Model\Context::CONTEXT_GROUP,
             $notLoggedInId,
             $notLoggedInId
         );

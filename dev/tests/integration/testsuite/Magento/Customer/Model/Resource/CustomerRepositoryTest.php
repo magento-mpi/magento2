@@ -202,7 +202,7 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
      */
-    public function testUpdateCustomerDeleteAllAddresses()
+    public function testUpdateCustomerPreserveAllAddresses()
     {
         $customerId = 1;
         $customer = $this->customerRepository->getById($customerId);
@@ -216,6 +216,27 @@ class CustomerRepositoryTest extends \PHPUnit_Framework_TestCase
         $newCustomerDetails = $this->customerRepository->getById($customerId);
         //Verify that old addresses are still present
         $this->assertEquals(2, count($newCustomerDetails->getAddresses()));
+    }
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
+     */
+    public function testUpdateCustomerDeleteAllAddressesWithEmptyArray()
+    {
+        $customerId = 1;
+        $customer = $this->customerRepository->getById($customerId);
+        $customerDetails = $customer->__toArray();
+        $this->customerBuilder->populateWithArray($customerDetails)
+            ->setId($customer->getId())
+            ->setAddresses([]);
+        $newCustomerEntity = $this->customerBuilder->create();
+        $this->customerRepository->save($newCustomerEntity);
+
+        $newCustomerDetails = $this->customerRepository->getById($customerId);
+        //Verify that old addresses are removed
+        $this->assertEquals(0, count($newCustomerDetails->getAddresses()));
     }
 
     /**

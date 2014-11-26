@@ -9,6 +9,7 @@
 namespace Magento\Customer\Controller\Account;
 
 use Magento\Customer\Model\AccountManagement;
+use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Model\Url;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
@@ -53,17 +54,17 @@ class CreatePost extends \Magento\Customer\Controller\Account
     /** @var SubscriberFactory */
     protected $subscriberFactory;
 
-    /** @var RegionBuilder */
+    /** @var RegionDataBuilder */
     protected $regionBuilder;
 
-    /** @var AddressBuilder */
+    /** @var AddressDataBuilder */
     protected $addressBuilder;
-
-    /** @var CustomerDataBuilder */
-    protected $customerDataBuilder;
 
     /** @var Registration */
     protected $registration;
+
+    /** @var CustomerDataBuilder */
+    protected $customerDataBuilder;
 
     /** @var CustomerUrl */
     protected $customerUrl;
@@ -135,7 +136,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
     /**
      * Add address to customer during create account
      *
-     * @return \Magento\Customer\Service\V1\Data\Address|null
+     * @return AddressInterface|null
      */
     protected function extractAddress()
     {

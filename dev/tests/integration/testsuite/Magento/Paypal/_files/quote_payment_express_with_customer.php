@@ -30,12 +30,12 @@ $product->setTypeId('simple')
     ->setName('Simple Product')
     ->setSku('simple')
     ->setPrice(10)
-    ->setStockData(array(
+    ->setStockData([
     'use_config_manage_stock' => 1,
     'qty' => 100,
     'is_qty_decimal' => 0,
     'is_in_stock' => 100,
-))
+])
     ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
     ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
     ->save();
@@ -43,11 +43,10 @@ $product->load(1);
 
 $addressConverter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Customer\Model\Address\Converter');
-
 $customerBillingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Customer\Model\Address');
 $customerBillingAddress->load(1);
-$billingAddressDataObject = $addressConverter->createAddressFromModel($customerBillingAddress, false, false);
+$billingAddressDataObject = $customerBillingAddress->getDataModel();
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Sales\Model\Quote\Address');
 $billingAddress->importCustomerAddressData($billingAddressDataObject);
@@ -86,8 +85,8 @@ $quote->collectTotals()->save();
 
 /** @var $service \Magento\Sales\Model\Service\Quote */
 $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
-$service->setOrderData(array('increment_id' => '100000002'));
+    ->create('Magento\Sales\Model\Service\Quote', ['quote' => $quote]);
+$service->setOrderData(['increment_id' => '100000002']);
 $service->submitAllWithDataObject();
 
 $order = $service->getOrder();
