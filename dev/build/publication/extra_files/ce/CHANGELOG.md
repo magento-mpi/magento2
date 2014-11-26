@@ -1,3 +1,92 @@
+0.1.0-alpha104
+=============
+* Various improvements:
+    * Merge SQL and Data Upgrades for the Sales and SalesRule modules
+    * Add getDefaultBilling and getDefaultShipping to Customer Interface
+    * Stabilized the Bundle module
+    * Stabilized the CatalogSearch module
+    * Stabilized the Cms module
+    * Stabilized the SalesRule module
+* Performance improvements:
+    * Introduced CatalogRule indexers based on Mview
+    * Significantly decreased the amount of unused objects, mostly in category and product view scenarios:
+		* Got rid of non-shared indexer instances all over the code introducing Magento\Indexer\Model\IndexerRegistry
+		* Magento\Catalog\Pricing\Price\BasePrice being created on demand only, instead of unconditioned creation in constructor
+		* Created proxies for unused objects with big amount of dependencies
+		* Fixed \Magento\Review\Block\Product\Review block which injected backend block context by mistake
+		* A customer model in \Magento\Customer\Model\Layout\DepersonalizePlugin being created on demand only, instead of constructor
+    * Introduced caching for product attribute metadata loading procedure
+    * Improved SavePayment Checkout step to save only payment related data
+    * Speed up all Checkout steps of the One Page Checkout
+    * Updated the benchmark.jmx jmeter script in the performance toolkit
+* Fixed bugs:
+    * Fixed an issue where performance toolkit generator created Products/Categories without URL rewrites due to install area elimination
+    * Fixed an issue where the Custom Options fieldset on Product Information page was collapsible
+    * Fixed an issue where the Base URL was added to target path for Custom UrlRewrite
+    * Fixed an issue where an invalid Cross-sells amount was displayed in the Shopping Cart
+    * Fixed an issue where the Mage_Catalog_Model_Product_Type_AbstractTest::testBeforeSave integration test failed when Mage_Downloadable module was not available
+    * Fixed an issue where the custom URL rewrite redirected to sub-folder when Request Path contained slash
+    * Fixed an issue where it was impossible to place an order if registering during checkout
+    * Fixed an issue where there was no possibility to save default billing and shipping addresses for customer on the store front
+    * Fixed an issue where a widget of Catalog Category Link type was not displayed on the store front
+    * Fixed an issue where the Versions tab was absent on the CMS page with version control
+    * Fixed an issue where it was impossible to insert Widgets and Images to a CMS page
+* Added the following functional tests:
+    * Create widget
+    * Print order from guest on frontend
+* Framework Improvements:
+    * Removed duplicated logic from API Builders and Builder generators. Added support for populating builders from the objects, implementing data interface
+* Processed GitHub requests:
+    * [#674](https://github.com/magento/magento2/issues/674) -- Widgets in content pages
+
+0.1.0-alpha103
+=============
+* Fixed bugs:
+    * Fixed an issue where an error message was displayed after successful product mass actions
+    * Fixed an issue where it is impossible to create a tax rate for all states (“*” in the State field)
+    * Fixed an issue where FPT was not shown on the storefront if a customer state did not match the default state from configuration
+    * Fixed the benchmark scenario
+    * Fixed an issue where the expand arrow next to Advanced Settings tab label was not clickable
+    * Fixed an issue where the Category menu disappeared when resizing a browser window
+    * Fixed an issue where the order additional info was not available for a guest customer
+    * Fixed an issue where a fatal error was thrown when trying to get a coupon report with Shopping Cart Price Rule set to Specified
+    * Fixed an issue where the URL of an attribute set for attribute mapping changed after resetting filter for the grid on the Google Contents Attributes page
+    * Fixed the implementation of the wishlist RSS-feed
+    * Fixed the incorrect name escaping in wishlist RSS
+    * Fixed an issue where a RSS feed for shared wishlist was not accessible
+    * Fixed an issue caused by REST POST/PUT requests with empty body
+    * Fixed an issues where postal code was still mandatory for non-US addresses that do not use it, even if set to be optional
+    * Fixed an issue where it was impossible to find a wishlist by using Wishlist Search
+    * Fixed an issue where no password validation was requested during customer registration on the storefront
+* Updated setup tools:
+    * Added the install script in the CatalogInventory module
+    * Removed old installation: Web and CLI, the Magento_Install module, install theme, install configuration scope
+    * Added usage of the new setup installation in all tests
+    * Added the ability to insert custom directory paths in the setup tools
+    * Added the uninstall tool: php -f setup/index.php uninstall
+    * Removed dependency on intl PHP extension until translations are re-introduced in the setup tool
+    * Made notification about unnecessarily writable directories after installation more specific
+* UI improvements:
+    * Improved UI for the Order by SKU, Invitation and Recurring Payments pages
+    * Implemented usage of Microdata and Schema vocabulary for product content
+    * Implemented UI for Catalog New Products List, Recently Compared Products, Recently Viewed Products widgets
+    * Implemented a new focus indicator
+    * Implemented the &lt;label&gt; element for form inputs
+    * Put in order the usage of the &lt;fieldset&gt; and &lt;legend&gt; tags
+    * Implemented the ability to skip to main content
+* Added the following functional tests:
+    * Add products to order from recently viewed products section
+    * Update configurable product
+* Various improvements:
+    * Stabilize URL rewrite module
+    * Moved getAdditional request into the basic one in OnePageCheckout
+    * Created a cron job in the Customer module for cleaning the customer_visitor table
+* Framework improvements:
+    * Refactored data builders auto-generation
+    * Implemented the Customer module interfaces
+    * Ported existing integration tests from Customer services
+    * Removed quote saving on GET requests (checkout/cart, checkout/onepage)
+
 0.1.0-alpha102
 =============
 * Fixed bugs:

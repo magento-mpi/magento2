@@ -20,7 +20,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected $configMock;
 
     /**
-     * @var \Magento\Framework\Stdlib\CookieManager |\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\CookieManagerInterface |\PHPUnit_Framework_MockObject_MockObject
      */
     protected $cookieManagerMock;
 
@@ -33,9 +33,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->configMock = $this->getMock('Magento\Framework\Session\Config\ConfigInterface');
-        $this->cookieManagerMock = $this->getMockBuilder('Magento\Framework\Stdlib\CookieManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->cookieManagerMock = $this->getMock('Magento\Framework\Stdlib\CookieManagerInterface');
         $this->cookieMetadataFactoryMock = $this->getMockBuilder(
             'Magento\Framework\Stdlib\Cookie\CookieMetadataFactory'
         )->disableOriginalConstructor()
@@ -89,7 +87,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Persistent\Model\Session::_afterDeleteCommit
      * @covers \Magento\Persistent\Model\Session::removePersistentCookie
      */
     public function testAfterDeleteCommit()
@@ -114,7 +111,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             \Magento\Persistent\Model\Session::COOKIE_NAME,
             $cookieMetadataMock
         );
-        $this->session->delete();
+        $this->session->afterDeleteCommit();
     }
 
     public function testSetPersistentCookie()

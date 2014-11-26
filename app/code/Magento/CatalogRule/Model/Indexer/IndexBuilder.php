@@ -69,6 +69,11 @@ class IndexBuilder
     protected $loadedProducts;
 
     /**
+     * @var int
+     */
+    protected $batchCount;
+
+    /**
      * @param RuleCollectionFactory $ruleCollectionFactory
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\App\Resource $resource
@@ -78,6 +83,7 @@ class IndexBuilder
      * @param \Magento\Framework\Stdlib\DateTime $dateFormat
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param int $batchCount
      */
     public function __construct(
         RuleCollectionFactory $ruleCollectionFactory,
@@ -88,7 +94,8 @@ class IndexBuilder
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Stdlib\DateTime $dateFormat,
         \Magento\Framework\Stdlib\DateTime\DateTime $dateTime,
-        \Magento\Catalog\Model\ProductFactory $productFactory
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        $batchCount = 1000
     ) {
         $this->resource = $resource;
         $this->storeManager = $storeManager;
@@ -99,6 +106,7 @@ class IndexBuilder
         $this->dateFormat = $dateFormat;
         $this->dateTime = $dateTime;
         $this->productFactory = $productFactory;
+        $this->batchCount = $batchCount;
     }
 
     /**
@@ -172,7 +180,7 @@ class IndexBuilder
         foreach ($this->getAllRules() as $rule) {
             $this->updateRuleProductData($rule);
         }
-        $this->applyAllRules();
+        $this->deleteOldData()->applyAllRules();
     }
 
     /**
@@ -256,7 +264,7 @@ class IndexBuilder
                         'sub_discount_amount' => $subActionAmount
                     );
 
-                    if (count($rows) == 1000) {
+                    if (count($rows) == $this->batchCount) {
                         $write->insertMultiple($this->getTable('catalogrule_product'), $rows);
                         $rows = array();
                     }
@@ -376,7 +384,7 @@ class IndexBuilder
                         'sub_discount_amount' => $subActionAmount
                     );
 
-                    if (count($rows) == 1000) {
+                    if (count($rows) == $this->batchCount) {
                         $write->insertMultiple($this->getTable('catalogrule_product'), $rows);
                         $rows = array();
                     }
@@ -391,26 +399,25 @@ class IndexBuilder
     }
 
     /**
-     * @return $this
+     * @param Product|null $product
      * @throws \Exception
+     * @return $this
      */
-    protected function applyAllRules()
+    protected function applyAllRules(Product $product = null)
     {
         $write = $this->getWriteAdapter();
 
         $fromDate = mktime(0, 0, 0, date('m'), date('d') - 1);
         $toDate = mktime(0, 0, 0, date('m'), date('d') + 1);
 
-        $this->deleteOldData();
-
-        $dayPrices = array();
+        $productId = $product ? $product->getId() : null;
 
         /**
          * Update products rules prices per each website separately
          * because of max join limit in mysql
          */
         foreach ($this->storeManager->getWebsites(false) as $website) {
-            $productsStmt = $this->getRuleProductsStmt($website->getId());
+            $productsStmt = $this->getRuleProductsStmt($website->getId(), $productId);
 
             $dayPrices = array();
             $stopFlags = array();
@@ -426,6 +433,10 @@ class IndexBuilder
 
                 if ($prevKey && $prevKey != $productKey) {
                     $stopFlags = array();
+                    if (count($dayPrices) > $this->batchCount) {
+                        $this->saveRuleProductPrices($dayPrices);
+                        $dayPrices = array();
+                    }
                 }
 
                 /**
@@ -474,14 +485,9 @@ class IndexBuilder
                 }
 
                 $prevKey = $productKey;
-                if (count($dayPrices) > 1000) {
-                    $this->saveRuleProductPrices($dayPrices);
-                    $dayPrices = array();
-                }
             }
             $this->saveRuleProductPrices($dayPrices);
         }
-        $this->saveRuleProductPrices($dayPrices);
 
         $write->delete($this->getTable('catalogrule_group_website'), array());
 
@@ -547,10 +553,11 @@ class IndexBuilder
 
     /**
      * @param int $websiteId
+     * @param int|null $productId
      * @return \Zend\Db\Adapter\Driver\StatementInterface|\Zend_Db_Statement_Interface
      * @throws \Magento\Eav\Exception
      */
-    protected function getRuleProductsStmt($websiteId)
+    protected function getRuleProductsStmt($websiteId, $productId = null)
     {
         $read = $this->getReadAdapter();
         /**
@@ -568,6 +575,10 @@ class IndexBuilder
         )->order(
             array('rp.website_id', 'rp.customer_group_id', 'rp.product_id', 'rp.sort_order', 'rp.rule_id')
         );
+
+        if (!is_null($productId)) {
+            $select->where('rp.product_id=?', $productId);
+        }
 
         /**
          * Join default price and websites prices to result

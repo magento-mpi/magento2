@@ -45,22 +45,22 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param PriceModifierInterface $modifier
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         PriceModifierInterface $modifier,
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        PriceCurrencyInterface $priceCurrency
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->priceModifier = $modifier;
         $this->storeManager = $storeManager;
-        parent::__construct($saleableItem, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator, $priceCurrency);
     }
 
     /**
@@ -114,14 +114,17 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
             $optionValueModified = $this->getOptionValueModified($value);
             $optionValueAmount = $this->getOptionValueAmount($value);
 
-            $price = $this->convertPrice($optionValueAmount->getValue());
+            $oldPrice = $optionValueAmount->getValue();
+            $inclTaxPrice = $price = $optionValueModified->getValue();
+            $exclTaxPrice = $optionValueModified->getBaseAmount();
+
             $optionPrices[] = [
                 'id' => $value['value_index'],
                 'label' => $value['label'],
-                'price' => $this->convertDot($optionValueModified->getValue()),
-                'oldPrice' => $this->convertDot($price),
-                'inclTaxPrice' => $this->convertDot($optionValueModified->getValue()),
-                'exclTaxPrice' => $this->convertDot($optionValueModified->getBaseAmount()),
+                'price' => $this->convertDot($price),
+                'oldPrice' => $this->convertDot($oldPrice),
+                'inclTaxPrice' => $this->convertDot($inclTaxPrice),
+                'exclTaxPrice' => $this->convertDot($exclTaxPrice),
                 'products' => $this->getProductsIndex($attributeId, $options, $value)
             ];
         }
@@ -186,7 +189,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
         if ($value['is_percent'] && !empty($value['pricing_value'])) {
             return $this->preparePrice($value);
         } else {
-            return $value['pricing_value'];
+            return $this->priceCurrency->convertAndRound($value['pricing_value']);
         }
     }
 
@@ -243,27 +246,6 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
         return str_replace(',', '.', $price);
     }
 
-
-    /**
-     * Convert price from default currency to current currency
-     *
-     * @param float $price
-     * @param bool $round
-     * @return float
-     */
-    protected function convertPrice($price, $round = false)
-    {
-        if (empty($price)) {
-            return 0;
-        }
-
-        $price = $this->priceCurrency->convert($price);
-        if ($round) {
-            $price = $this->priceCurrency->round($price);
-        }
-
-        return $price;
-    }
 
     /**
      * Returns tax config for Configurable options

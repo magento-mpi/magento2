@@ -26,7 +26,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
+        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_resolverFactory = $this
             ->getMock('\Magento\Framework\App\Area\FrontNameResolverFactory', array(), array(), '', false);
     }
@@ -86,15 +86,17 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFrontNameWhenAreaCodeAndFrontNameArentSet()
     {
-        $this->_model = new \Magento\Framework\App\AreaList(
-            $this->objectManagerMock,
-            $this->_resolverFactory,
-            array(),
-            ''
-        );
-
-        $actual = $this->_model->getFrontName('testAreaCode');
-        $this->assertNull($actual);
+        $model = new \Magento\Framework\App\AreaList($this->objectManagerMock, $this->_resolverFactory);
+        $code = 'testAreaCode';
+        $this->assertNull($model->getCodeByFrontName($code));
+        $this->assertNull($model->getFrontName($code));
+        $this->assertSame([], $model->getCodes());
+        $this->assertNull($model->getDefaultRouter($code));
+        $this->objectManagerMock->expects($this->once())
+            ->method('create')
+            ->with('Magento\Framework\App\AreaInterface', ['areaCode' => $code])
+            ->willReturn('test');
+        $this->assertSame('test', $model->getArea($code));
     }
 
     public function testGetCodes()
@@ -122,7 +124,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetArea()
     {
-        /** @var \Magento\Framework\ObjectManager $objectManagerMock */
+        /** @var \Magento\Framework\ObjectManagerInterface $objectManagerMock */
         $objectManagerMock = $this->getObjectManagerMockGetArea();
         $areas = array('area1' => ['router' => 'value1'], 'area2' => 'value2');
         $this->_model = new AreaList(
@@ -137,7 +139,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
      */
     protected function getObjectManagerMockGetArea()
     {
-        $objectManagerMock = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
+        $objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $objectManagerMock
             ->expects($this->any())
             ->method('create')

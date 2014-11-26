@@ -11,7 +11,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
  * This class is use to return on hard line break only if it is not followed by specified elements.
  * Class HardConditionalLineBreak
  */
-class HardConditionalLineBreak extends HardLineBreak implements LineCondition
+class HardConditionalLineBreak extends HardLineBreak implements LineConditionInterface
 {
     /**
      * This member holds the condition string used for validating the hard return.

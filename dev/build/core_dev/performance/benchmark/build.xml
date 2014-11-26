@@ -35,15 +35,10 @@
     <target name="credential_substitution" depends="_bootstrap" description="Credentials substitution in configuration file from environment variables">
         <property name="remote_host" value="${env.webnode_login}:${env.webnode_password}@${env.webnode_initial}"/>
 
-        <scp file="${remote_host}:${env.magento_dir}/dev/build/core_dev/performance/benchmark/etc/local.xml.template" todir="${basedir}" trust="yes"/>
         <scp file="${remote_host}:${env.magento_dir}/dev/build/core_dev/performance/benchmark/dev/tests/performance/config.php" todir="${basedir}" trust="yes"/>
 
         <fail unless="env.memcache_host" message="Environment variable 'memcache_host' must be defined"/>
         <fail unless="env.memcache_port" message="Environment variable 'memcache_port' must be defined"/>
-        <replace file="local.xml.template">
-            <replacefilter token="{{memcache_host}}" value="${env.memcache_host}"/>
-            <replacefilter token="{{memcache_port}}" value="${env.memcache_port}"/>
-        </replace>
         <replace file="config.php">
             <replacefilter token="{{web_access_host}}" value="${env.base_url}"/>
             <replacefilter token="{{web_access_path}}" value="${env.base_path}"/>
@@ -53,10 +48,8 @@
             <replacefilter token="{{db_password}}" value="${env.mysql_password}"/>
         </replace>
 
-        <scp file="${basedir}/local.xml.template" todir="${remote_host}:${env.magento_dir}/app/etc/local.xml.template" trust="yes"/>
         <scp file="${basedir}/config.php" todir="${remote_host}:${env.magento_dir}/dev/tests/performance/config.php" trust="yes"/>
 
-        <delete file="${basedir}/local.xml.template"/>
         <delete file="${basedir}/config.php"/>
     </target>
 
@@ -73,7 +66,7 @@
                  command="cd ${product_root_dir}; composer install;"/>
     </target>
 
-    <target name="install-clean-magento" depends="_bootstrap,_prepare-magento,_prepare-magento-ee" description="Install Magento application on remote server">
+    <target name="install-clean-magento" depends="_bootstrap,_prepare-magento" description="Install Magento application on remote server">
         <sshexec host="${env.webnode_initial}"
              username="${env.webnode_login}"
              password="${env.webnode_password}"
@@ -81,7 +74,8 @@
              command="php -f ${env.magento_dir}/setup/index.php install --language='en_US' --timezone='America/Los_Angeles' --currency='USD' --db_host='${env.mysql_host}' --db_name='${env.mysql_database}' --db_user='${env.mysql_user}' --db_pass='${env.mysql_password}' --use_secure='0' --use_secure_admin='0' --use_rewrites='1' --admin_lastname='Admin' --admin_firstname='Admin' --admin_email='admin@example.com' --admin_use_security_key='0' --base_url='http://${env.base_url}' --base_url_secure='http://${env.secure_base_url}' --backend_frontname='backend' --admin_username='admin' --admin_password='123123q' 2>&amp;1"/>
     </target>
 
-    <target name="install-magento" depends="_bootstrap,_prepare-magento,_prepare-magento-ee,_remote-create-database" description="Install Magento Application on defined fixture configuration">
+    <target name="install-magento" depends="_bootstrap,_prepare-magento,_remote-create-database" description="Install/Repair Magento Application on defined fixture configuration">
+
         <condition property="env.size" value="small">
             <not><isset property="env.size"/></not>
         </condition>
@@ -115,14 +109,6 @@
         <antcall target="_remote-code-prepare">
             <param name="server_ip" value="${env.webnode_initial}"/>
         </antcall>
-    </target>
-
-    <target name="_prepare-magento-ee" description="Prepare Enterprise Edition Modules">
-        <sshexec host="${env.webnode_initial}"
-                 username="${env.webnode_login}"
-                 password="${env.webnode_password}"
-                 trust="yes"
-                 command="cp ${env.magento_dir}/app/etc/enterprise/module.xml.dist ${env.magento_dir}/app/etc/enterprise/module.xml"/>
     </target>
 
     <target name="_remote-code-prepare" description="Set permissions for magento directories and files on remote machine">

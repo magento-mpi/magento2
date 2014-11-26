@@ -20,13 +20,14 @@ class RegularFactoryTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Solr\Model\Adapter\HttpStream */
     protected $_adapterMock;
 
-    /** @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManager;
 
     /** Set Solr Clients mocks */
     public function setUp()
     {
-        $this->_objectManager = $this->getMockBuilder('Magento\Framework\ObjectManager')->getMock();
+        $this->markTestSkipped('Solr module disabled');
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_clientMock = $this->getMock('Magento\Solr\Model\Client\Solr', array(), array(), '', false, false);
         $this->_adapterMock = $this->getMock(
             'Magento\Solr\Model\Adapter\HttpStream',

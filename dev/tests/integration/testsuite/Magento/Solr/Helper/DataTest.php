@@ -24,7 +24,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * Object Manager
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     private $objectManager;
 
@@ -88,6 +88,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTaxInfluence($configs, $expected, $hasDefaultRules = false)
     {
+        $this->markTestSkipped('Solr module disabled');
         foreach ($configs as $config) {
             $this->scopeConfig->setValue($config['path'], $config['value'], ScopeInterface::SCOPE_STORE, 'default');
         }

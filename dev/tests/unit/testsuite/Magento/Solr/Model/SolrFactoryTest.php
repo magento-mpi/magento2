@@ -16,7 +16,7 @@ class SolrFactoryTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Solr\Model\SolrFactory|\PHPUnit_Framework_MockObject_MockObject*/
     protected $_factoryObject;
 
-    /** @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManager;
 
     /** @var \Magento\Solr\Model\SolrFactory|\PHPUnit_Framework_MockObject_MockObject */
@@ -33,7 +33,8 @@ class SolrFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_objectManager = $this->getMockBuilder('Magento\Framework\ObjectManager')->getMock();
+        $this->markTestSkipped('Solr module disabled');
+        $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_solrFactoryMock = $this->getMock(
             'Magento\Solr\Model\SolrFactory',
             array(),

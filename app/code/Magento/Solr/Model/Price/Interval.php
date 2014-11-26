@@ -7,7 +7,7 @@
  */
 namespace Magento\Solr\Model\Price;
 
-use Magento\Catalog\Model\Layer\Category;
+use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Catalog\Model\Resource\Layer\Filter\Price as PriceResource;
 use Magento\Framework\Search\Dynamic\IntervalInterface;
 use Magento\Framework\StoreManagerInterface;
@@ -20,18 +20,18 @@ class Interval implements IntervalInterface
     private $storeManager;
 
     /**
-     * @var Category
+     * @var \Magento\Catalog\Model\Layer
      */
     private $layer;
 
     /**
      * @param StoreManagerInterface $storeManager
-     * @param Category $layer
+     * @param \Magento\Catalog\Model\Layer $layerResolver
      */
-    public function __construct(StoreManagerInterface $storeManager, Category $layer)
+    public function __construct(StoreManagerInterface $storeManager, Resolver $layerResolver)
     {
         $this->storeManager = $storeManager;
-        $this->layer = $layer;
+        $this->layer = $layerResolver->get();
     }
     /**
      * {@inheritdoc}

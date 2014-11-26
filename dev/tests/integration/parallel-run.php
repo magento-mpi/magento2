@@ -40,6 +40,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 chdir(__DIR__);
 
+require_once realpath(__DIR__ . '/../../../') . '/app/bootstrap.php';
+require_once __DIR__ . '/framework/autoload.php';
+
 $maxInstances = isset($cliOptions['max-instances']) ? (int)$cliOptions['max-instances'] : 1;
 if (isset($cliOptions['max-execution-time'])) {
     $maxExecutionTime = (int)$cliOptions['max-execution-time'];
@@ -66,9 +69,6 @@ for ($i = 0; $i < $maxInstances; ++$i) {
     );
 }
 
-require realpath(__DIR__ . '/../../../') . '/app/bootstrap.php';
-$includePath = new \Magento\Framework\Autoload\IncludePath();
-spl_autoload_register([$includePath, 'load']);
 $parser = new \Magento\Framework\Xml\Parser();
 $parser->load('phpunit.xml.dist');
 $config = $parser->xmlToArray();
@@ -80,8 +80,6 @@ foreach ($config['phpunit']['_value']['testsuites'] as $testsuite) {
     }
 }
 
-$includePath->addIncludePath(__DIR__ . '/testsuite');
-$includePath->addIncludePath(__DIR__ . '/framework');
 
 $pathToTests = $argv[1];
 $testCases = array();
@@ -136,8 +134,9 @@ while ($testCasesLeft > 0) {
                 $cliArguments = " --stderr -c phpunit-{$index}.xml ";
                 $pipes = array();
                 $process = proc_open(
-                    'phpunit' . $cliArguments . $testCases[$currentTestCase],
-                    array(array('pipe', 'r'), array('pipe', 'w'), array('pipe', 'w')),
+                    realpath(__DIR__ . '/../../../') . '/' . $vendorDir . '/phpunit/phpunit/phpunit' . $cliArguments
+                    . $testCases[$currentTestCase],
+                    [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']],
                     $pipes
                 );
 

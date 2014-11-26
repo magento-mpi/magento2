@@ -12,7 +12,6 @@ use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Customer\Helper\Data as CustomerDataHelper;
 use Magento\Customer\Model\Config\Share as ConfigShare;
 use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Customer\Model\CustomerFactory;
@@ -205,11 +204,6 @@ class AccountManagement implements AccountManagementInterface
     protected $registry;
 
     /**
-     * @var CustomerDataHelper
-     */
-    protected $customerDataHelper;
-
-    /**
      * @var DateTime
      */
     protected $dateTime;
@@ -218,6 +212,11 @@ class AccountManagement implements AccountManagementInterface
      * @var \Magento\Framework\ObjectFactory
      */
     protected $objectFactory;
+
+    /**
+     * @var CustomerModel
+     */
+    protected $customerModel;
 
     /**
      * @param CustomerFactory $customerFactory
@@ -241,9 +240,9 @@ class AccountManagement implements AccountManagementInterface
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerDataBuilder
      * @param DataObjectProcessor $dataProcessor
      * @param \Magento\Framework\Registry $registry
-     * @param CustomerDataHelper $customerDataHelper
      * @param DateTime $dateTime
      * @param \Magento\Framework\ObjectFactory $objectFactory
+     * @param CustomerModel $customerModel
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -269,9 +268,9 @@ class AccountManagement implements AccountManagementInterface
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerDataBuilder,
         DataObjectProcessor $dataProcessor,
         \Magento\Framework\Registry $registry,
-        CustomerDataHelper $customerDataHelper,
         DateTime $dateTime,
-        \Magento\Framework\ObjectFactory $objectFactory
+        \Magento\Framework\ObjectFactory $objectFactory,
+        CustomerModel $customerModel
     ) {
         $this->customerFactory = $customerFactory;
         $this->eventManager = $eventManager;
@@ -294,9 +293,9 @@ class AccountManagement implements AccountManagementInterface
         $this->customerDataBuilder = $customerDataBuilder;
         $this->dataProcessor = $dataProcessor;
         $this->registry = $registry;
-        $this->customerDataHelper = $customerDataHelper;
         $this->dateTime = $dateTime;
         $this->objectFactory = $objectFactory;
+        $this->customerModel = $customerModel;
     }
 
     /**
@@ -983,7 +982,7 @@ class AccountManagement implements AccountManagementInterface
             return true;
         }
 
-        $expirationPeriod = $this->customerDataHelper->getResetPasswordLinkExpirationPeriod();
+        $expirationPeriod = $this->customerModel->getResetPasswordLinkExpirationPeriod();
 
         $currentTimestamp = $this->dateTime->toTimestamp($this->dateTime->now());
         $tokenTimestamp = $this->dateTime->toTimestamp($rpTokenCreatedAt);
