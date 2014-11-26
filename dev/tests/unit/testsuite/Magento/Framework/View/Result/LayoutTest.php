@@ -31,17 +31,6 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($layout, $resultLayout->getLayout());
     }
 
-    /**
-     * @covers \Magento\Framework\View\Result\Layout::initLayout()
-     */
-    public function testInitLayout()
-    {
-        /** @var \Magento\Framework\View\Result\Layout $resultLayout */
-        $resultLayout = (new \Magento\TestFramework\Helper\ObjectManager($this))
-            ->getObject('Magento\Framework\View\Result\Layout');
-        $this->assertSame($resultLayout, $resultLayout->initLayout());
-    }
-
     public function testGetDefaultLayoutHandle()
     {
         /** @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject $request */
@@ -120,8 +109,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
         $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
         $eventManager->expects($this->exactly(2))->method('dispatch')->withConsecutive(
-            ['controller_action_layout_render_before'],
-            ['controller_action_layout_render_before_Module_Controller_Action']
+            ['layout_render_before'],
+            ['layout_render_before_Module_Controller_Action']
         );
 
         /** @var \Magento\Framework\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject $request */

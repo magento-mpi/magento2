@@ -371,6 +371,8 @@ class Config
     }
 
     /**
+     * Add remote page asset
+     *
      * @param string $url
      * @param string $contentType
      * @param array $properties
