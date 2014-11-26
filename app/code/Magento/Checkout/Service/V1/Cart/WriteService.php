@@ -60,6 +60,11 @@ class WriteService implements WriteServiceInterface
     protected $quoteServiceFactory;
 
     /**
+     * @var \Magento\Customer\Helper\Data
+     */
+    protected $customerHelper;
+
+    /**
      * Constructs a cart write service object.
      *
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory Quote factory.
@@ -68,6 +73,7 @@ class WriteService implements WriteServiceInterface
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository Customer registry.
      * @param UserContextInterface $userContext User context.
      * @param \Magento\Sales\Model\Service\QuoteFactory $quoteServiceFactory Quote service factory.
+     * @param \Magento\Customer\Helper\Data $customerHelper
      */
     public function __construct(
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
@@ -75,7 +81,8 @@ class WriteService implements WriteServiceInterface
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         UserContextInterface $userContext,
-        \Magento\Sales\Model\Service\QuoteFactory $quoteServiceFactory
+        \Magento\Sales\Model\Service\QuoteFactory $quoteServiceFactory,
+        \Magento\Customer\Helper\Data $customerHelper
     ) {
         $this->quoteFactory = $quoteFactory;
         $this->quoteRepository = $quoteRepository;
@@ -83,6 +90,7 @@ class WriteService implements WriteServiceInterface
         $this->customerRepository = $customerRepository;
         $this->userContext = $userContext;
         $this->quoteServiceFactory = $quoteServiceFactory;
+        $this->customerHelper = $customerHelper;
     }
 
     /**
@@ -156,7 +164,8 @@ class WriteService implements WriteServiceInterface
         $storeId = $this->storeManager->getStore()->getId();
         $quote = $this->quoteRepository->get($cartId);
         $customer = $this->customerRepository->getById($customerId);
-        if (!in_array($storeId, $quote->getSharedStoreIds())) {
+
+        if (!in_array($storeId, $this->customerHelper->getSharedStoreIds($customer))) {
             throw new StateException('Cannot assign customer to the given cart. The cart belongs to different store.');
         }
         if ($quote->getCustomerId()) {

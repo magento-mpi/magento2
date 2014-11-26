@@ -31,17 +31,17 @@ class WriteServiceTest extends WebapiAbstract
 
     public function testCreate()
     {
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => RestConfig::HTTP_METHOD_POST,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'Create',
-            ),
-        );
+            ],
+        ];
 
         $quoteId = $this->_webApiCall($serviceInfo);
         $this->assertGreaterThan(0, $quoteId);
@@ -73,22 +73,22 @@ class WriteServiceTest extends WebapiAbstract
         $customer = $repository->getById(1);
         $customerId = $customer->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/carts/' . $cartId,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'checkoutCartWriteServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'checkoutCartWriteServiceV1AssignCustomer',
-            ),
-        );
+            ],
+        ];
 
-        $requestData = array(
+        $requestData = [
             'cartId' => $cartId,
             'customerId' => $customerId,
-        );
+        ];
         // Cart must be anonymous (see fixture)
         $this->assertEmpty($quote->getCustomerId());
 
@@ -112,21 +112,21 @@ class WriteServiceTest extends WebapiAbstract
         $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test01', 'reserved_order_id');
         $cartId = $quote->getId();
         $customerId = 9999;
-        $serviceInfo = array(
-            'soap' => array(
+        $serviceInfo = [
+            'soap' => [
                 'serviceVersion' => 'V1',
                 'service' => 'checkoutCartWriteServiceV1',
                 'operation' => 'checkoutCartWriteServiceV1AssignCustomer',
-            ),
-            'rest' => array(
+            ],
+            'rest' => [
                 'resourcePath' => '/V1/carts/' . $cartId,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-        );
-        $requestData = array(
+            ],
+        ];
+        $requestData = [
             'cartId' => $cartId,
             'customerId' => $customerId,
-        );
+        ];
 
         $this->_webApiCall($serviceInfo, $requestData);
     }
@@ -139,21 +139,21 @@ class WriteServiceTest extends WebapiAbstract
     {
         $cartId = 9999;
         $customerId = 1;
-        $serviceInfo = array(
-            'soap' => array(
+        $serviceInfo = [
+            'soap' => [
                 'service' => 'checkoutCartWriteServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'checkoutCartWriteServiceV1AssignCustomer',
-            ),
-            'rest' => array(
+            ],
+            'rest' => [
                 'resourcePath' => '/V1/carts/' . $cartId,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-        );
-        $requestData = array(
+            ],
+        ];
+        $requestData = [
             'cartId' => $cartId,
             'customerId' => $customerId,
-        );
+        ];
 
         $this->_webApiCall($serviceInfo, $requestData);
     }
@@ -172,22 +172,22 @@ class WriteServiceTest extends WebapiAbstract
         $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test01', 'reserved_order_id');
         $cartId = $quote->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
                 'resourcePath' => '/V1/carts/' . $cartId,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'checkoutCartWriteServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'checkoutCartWriteServiceV1AssignCustomer',
-            ),
-        );
+            ],
+        ];
 
-        $requestData = array(
+        $requestData = [
             'cartId' => $cartId,
             'customerId' => $customerId,
-        );
+        ];
         $this->_webApiCall($serviceInfo, $requestData);
     }
 
@@ -199,30 +199,31 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testAssignCustomerThrowsExceptionIfCartIsAssignedToDifferentStore()
     {
-        /** @var $customer \Magento\Customer\Model\Customer */
-        $customer = $this->objectManager->create('\Magento\Customer\Model\Customer')->load(1);
+        $repository = $this->objectManager->create('\Magento\Customer\Api\CustomerRepositoryInterface');
+        /** @var $customer \Magento\Customer\Api\Data\CustomerInterface */
+        $customer = $repository->getById(1);
         /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $this->objectManager->create('\Magento\Sales\Model\Quote')->load('test01', 'reserved_order_id');
 
         $customerId = $customer->getId();
         $cartId = $quote->getId();
 
-        $serviceInfo = array(
-            'soap' => array(
+        $serviceInfo = [
+            'soap' => [
                 'service' => 'checkoutCartWriteServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'checkoutCartWriteServiceV1AssignCustomer',
-            ),
-            'rest' => array(
+            ],
+            'rest' => [
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
                 'resourcePath' => '/V1/carts/' . $cartId,
-            ),
-        );
+            ],
+        ];
 
-        $requestData = array(
+        $requestData = [
             'cartId' => $cartId,
             'customerId' => $customerId,
-        );
+        ];
         $this->_webApiCall($serviceInfo, $requestData);
     }
 
@@ -247,22 +248,22 @@ class WriteServiceTest extends WebapiAbstract
         $cartId = $quote->getId();
         $customerId = $customer->getId();
 
-        $serviceInfo = array(
-            'soap' => array(
+        $serviceInfo = [
+            'soap' => [
                 'service' => 'checkoutCartWriteServiceV1',
                 'operation' => 'checkoutCartWriteServiceV1AssignCustomer',
                 'serviceVersion' => 'V1',
-            ),
-            'rest' => array(
+            ],
+            'rest' => [
                 'resourcePath' => '/V1/carts/' . $cartId,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-        );
+            ],
+        ];
 
-        $requestData = array(
+        $requestData = [
             'cartId' => $cartId,
             'customerId' => $customerId,
-        );
+        ];
         $this->_webApiCall($serviceInfo, $requestData);
     }
 
@@ -276,21 +277,21 @@ class WriteServiceTest extends WebapiAbstract
 
         $cartId = $quote->getId();
 
-        $serviceInfo = array(
-            'soap' => array(
+        $serviceInfo = [
+            'soap' => [
                 'service' => 'checkoutCartWriteServiceV1',
                 'operation' => 'checkoutCartWriteServiceV1Order',
                 'serviceVersion' => 'V1',
-            ),
-            'rest' => array(
+            ],
+            'rest' => [
                 'resourcePath' => '/V1/carts/' . $cartId . '/order',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-        );
+            ],
+        ];
 
-        $requestData = array(
+        $requestData = [
             'cartId' => $cartId,
-        );
+        ];
         $this->_webApiCall($serviceInfo, $requestData);
         /** @var \Magento\Sales\Model\Order $order */
         $order = $this->objectManager->create('\Magento\Sales\Model\Order')->load(1);

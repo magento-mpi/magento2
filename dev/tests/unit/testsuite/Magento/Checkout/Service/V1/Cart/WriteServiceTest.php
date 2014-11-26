@@ -49,11 +49,6 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerRegistryMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $quoteRepositoryMock;
 
     /**
@@ -70,6 +65,11 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerRepositoryMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $customerHelperMock;
 
     public function setUp()
     {
@@ -94,13 +94,18 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
                     'setCustomer',
                     'setCustomerIsGuest',
                     '__wakeup',
-                    'getSharedStoreIds',
                 ],
                 [], '', false);
 
-        $this->customerRegistryMock =
-            $this->getMock('\Magento\Customer\Model\CustomerRegistry', [], [], '', false);
         $this->customerRepositoryMock = $this->getMock('\Magento\Customer\Api\CustomerRepositoryInterface', [], [], '', false);
+
+        $this->customerHelperMock = $this->getMock(
+            '\Magento\Customer\Helper\Data',
+            [
+                'getSharedStoreIds',
+            ],
+            [], '', false
+        );
 
         $this->quoteServiceFactory = $this->getMock(
             'Magento\Sales\Model\Service\QuoteFactory',
@@ -117,7 +122,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
                 'customerRepository' => $this->customerRepositoryMock,
                 'quoteRepository' => $this->quoteRepositoryMock,
                 'userContext' => $this->userContextMock,
-                'quoteServiceFactory' => $this->quoteServiceFactory
+                'quoteServiceFactory' => $this->quoteServiceFactory,
+                'customerHelper' => $this->customerHelperMock
             ]
         );
     }
@@ -147,7 +153,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $storeId = 345;
         $userId = 50;
 
-        $customerMock = $this->getMock('\Magento\Customer\Model\Customer', [], [], '', false);
+        $customerMock = $this->getMockForAbstractClass(
+            'Magento\Customer\Api\Data\CustomerInterface',
+            [],
+            '',
+            false
+        );
         $this->customerRepositoryMock->expects($this->once())
             ->method('getById')->with($userId)->will($this->returnValue($customerMock));
 
@@ -260,10 +271,17 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
         $this->quoteRepositoryMock->expects($this->once())->method('get')->with($cartId)
             ->will($this->returnValue($this->quoteMock));
-        $customerMock = $this->getMock('\Magento\Customer\Model\Customer', [], [], '', false);
+        $customerMock = $this->getMockForAbstractClass(
+            'Magento\Customer\Api\Data\CustomerInterface',
+            [],
+            '',
+            false
+        );
         $this->customerRepositoryMock->expects($this->once())
             ->method('getById')->with($customerId)->will($this->returnValue($customerMock));
-        $this->quoteMock->expects($this->once())->method('getSharedStoreIds')->will($this->returnValue([11]));
+        $this->customerHelperMock->expects($this->once())->method('getSharedStoreIds')->with($customerMock)->will(
+            $this->returnValue([11])
+        );
 
         $this->service->assignCustomer($cartId, $customerId);
     }
@@ -282,10 +300,17 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->quoteMock));
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
-        $customerMock = $this->getMock('\Magento\Customer\Model\Customer', [], [], '', false);
+        $customerMock = $this->getMockForAbstractClass(
+            'Magento\Customer\Api\Data\CustomerInterface',
+            [],
+            '',
+            false
+        );
         $this->customerRepositoryMock->expects($this->once())
             ->method('getById')->with($customerId)->will($this->returnValue($customerMock));
-        $this->quoteMock->expects($this->once())->method('getSharedStoreIds')->will($this->returnValue([$storeId]));
+        $this->customerHelperMock->expects($this->once())->method('getSharedStoreIds')->with($customerMock)->will(
+            $this->returnValue([$storeId])
+        );
         $this->quoteMock->expects($this->once())->method('getCustomerId')->will($this->returnValue($customerId));
         $this->quoteMock->expects($this->never())->method('setCustomer');
 
@@ -306,11 +331,17 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
         $this->quoteRepositoryMock->expects($this->once())
             ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
-
-        $customerMock = $this->getMock('\Magento\Customer\Model\Customer', [], [], '', false);
+        $customerMock = $this->getMockForAbstractClass(
+            'Magento\Customer\Api\Data\CustomerInterface',
+            [],
+            '',
+            false
+        );
         $this->customerRepositoryMock->expects($this->once())
             ->method('getById')->with($customerId)->will($this->returnValue($customerMock));
-        $this->quoteMock->expects($this->once())->method('getSharedStoreIds')->will($this->returnValue([$storeId]));
+        $this->customerHelperMock->expects($this->once())->method('getSharedStoreIds')->with($customerMock)->will(
+            $this->returnValue([$storeId])
+        );
         $this->quoteMock->expects($this->once())->method('getCustomerId')->will($this->returnValue(null));
 
         $customerQuoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
@@ -340,8 +371,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             '',
             false,
             true,
-            true,
-            ['getSharedStoreIds']
+            true
         );
         $this->customerRepositoryMock->expects($this->once())
             ->method('getById')->with($customerId)->will($this->returnValue($customerMock));
@@ -351,7 +381,9 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->quoteFactoryMock->expects($this->once())->method('create')->will($this->returnValue($customerQuoteMock));
 
-        $this->quoteMock->expects($this->once())->method('getSharedStoreIds')->will($this->returnValue([$storeId]));
+        $this->customerHelperMock->expects($this->once())->method('getSharedStoreIds')->with($customerMock)->will(
+            $this->returnValue([$storeId])
+        );
         $this->quoteMock->expects($this->once())->method('getCustomerId')->will($this->returnValue(false));
         $this->quoteMock->expects($this->once())
             ->method('setCustomer')->with($customerMock)->will($this->returnValue($this->quoteMock));

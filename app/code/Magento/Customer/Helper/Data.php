@@ -143,6 +143,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $mathRandom;
 
     /**
+     * @var array|null
+     */
+    protected $sharedStoreIds = null;
+
+    /**
+     * @var \Magento\Framework\StoreManagerInterface
+     */
+    protected $storeManagerInterface;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
@@ -152,6 +162,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Math\Random $mathRandom
+     * @param \Magento\Framework\StoreManagerInterface $storeManagerInterface
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -164,7 +175,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         \Magento\Framework\Escaper $escaper,
-        \Magento\Framework\Math\Random $mathRandom
+        \Magento\Framework\Math\Random $mathRandom,
+        \Magento\Framework\StoreManagerInterface $storeManagerInterface
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_coreData = $coreData;
@@ -174,6 +186,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_formFactory = $formFactory;
         $this->_escaper = $escaper;
         $this->mathRandom = $mathRandom;
+        $this->storeManagerInterface = $storeManagerInterface;
         parent::__construct($context);
     }
 
@@ -258,7 +271,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getLoginUrlParams()
     {
-        $params = array();
+        $params = [];
 
         $referer = $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME);
 
@@ -267,12 +280,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) && !$this->_customerSession->getNoReferer()
         ) {
-            $referer = $this->_getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
+            $referer = $this->_getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
             $referer = $this->_coreData->urlEncode($referer);
         }
 
         if ($referer) {
-            $params = array(self::REFERER_QUERY_PARAM_NAME => $referer);
+            $params = [self::REFERER_QUERY_PARAM_NAME => $referer];
         }
 
         return $params;
@@ -285,11 +298,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getLoginPostUrl()
     {
-        $params = array();
+        $params = [];
         if ($this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME)) {
-            $params = array(
+            $params = [
                 self::REFERER_QUERY_PARAM_NAME => $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME)
-            );
+            ];
         }
         return $this->_getUrl('customer/account/loginPost', $params);
     }
@@ -382,7 +395,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getEmailConfirmationUrl($email = null)
     {
-        return $this->_getUrl('customer/account/confirmation', array('email' => $email));
+        return $this->_getUrl('customer/account/confirmation', ['email' => $email]);
     }
 
     /**
@@ -429,7 +442,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if (empty($options)) {
             return false;
         }
-        $result = array();
+        $result = [];
         $options = explode(';', $options);
         foreach ($options as $value) {
             $value = $this->_escaper->escapeHtml(trim($value));
@@ -495,12 +508,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $vatClass = $this->getCustomerVatClass($customerCountryCode, $vatValidationResult, $store);
 
-        $vatClassToGroupXmlPathMap = array(
+        $vatClassToGroupXmlPathMap = [
             self::VAT_CLASS_DOMESTIC => self::XML_PATH_CUSTOMER_VIV_DOMESTIC_GROUP,
             self::VAT_CLASS_INTRA_UNION => self::XML_PATH_CUSTOMER_VIV_INTRA_UNION_GROUP,
             self::VAT_CLASS_INVALID => self::XML_PATH_CUSTOMER_VIV_INVALID_GROUP,
             self::VAT_CLASS_ERROR => self::XML_PATH_CUSTOMER_VIV_ERROR_GROUP
-        );
+        ];
 
         if (isset($vatClassToGroupXmlPathMap[$vatClass])) {
             $groupId = (int)$this->_scopeConfig->getValue(
@@ -527,7 +540,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         // Default response
         $gatewayResponse = new \Magento\Framework\Object(
-            array('is_valid' => false, 'request_date' => '', 'request_identifier' => '', 'request_success' => false)
+            ['is_valid' => false, 'request_date' => '', 'request_identifier' => '', 'request_success' => false]
         );
 
         if (!extension_loaded('soap')) {
@@ -542,11 +555,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         try {
             $soapClient = $this->_createVatNumberValidationSoapClient();
 
-            $requestParams = array();
+            $requestParams = [];
             $requestParams['countryCode'] = $countryCode;
-            $requestParams['vatNumber'] = str_replace(array(' ', '-'), array('', ''), $vatNumber);
+            $requestParams['vatNumber'] = str_replace([' ', '-'], ['', ''], $vatNumber);
             $requestParams['requesterCountryCode'] = $requesterCountryCode;
-            $requestParams['requesterVatNumber'] = str_replace(array(' ', '-'), array('', ''), $requesterVatNumber);
+            $requestParams['requesterVatNumber'] = str_replace([' ', '-'], ['', ''], $requesterVatNumber);
 
             // Send request to service
             $result = $soapClient->checkVatApprox($requestParams);
@@ -643,7 +656,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function _createVatNumberValidationSoapClient($trace = false)
     {
-        return new \SoapClient(self::VAT_VALIDATION_WSDL_URL, array('trace' => $trace));
+        return new \SoapClient(self::VAT_VALIDATION_WSDL_URL, ['trace' => $trace]);
     }
 
     /**
@@ -661,7 +674,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\RequestInterface $request,
         $formCode,
         $entityType,
-        $additionalAttributes = array(),
+        $additionalAttributes = [],
         $scope = null,
         \Magento\Customer\Model\Metadata\Form $metadataForm = null
     ) {
@@ -669,7 +682,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $metadataForm = $this->_formFactory->create(
                 $entityType,
                 $formCode,
-                array(),
+                [],
                 false,
                 \Magento\Customer\Model\Metadata\Form::DONT_IGNORE_INVISIBLE
             );
@@ -691,5 +704,29 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return $filteredData;
+    }
+
+    /**
+     * Get shared store ids for customer depends of customer configuration
+     *
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
+     * @return array|null
+     */
+    public function getSharedStoreIds(\Magento\Customer\Api\Data\CustomerInterface $customer)
+    {
+        if ($this->sharedStoreIds === null) {
+            $this->sharedStoreIds = [];
+            if ((bool)$this->_customerSession->getCustomerConfigShare()->isWebsiteScope()) {
+                $this->sharedStoreIds = $this->storeManagerInterface->getWebsite(
+                    $customer->getWebsiteId()
+                )->getStoreIds();
+            } else {
+                foreach ($this->storeManagerInterface->getStores() as $store) {
+                    $this->sharedStoreIds[] = $store->getId();
+                }
+            }
+        }
+
+        return $this->sharedStoreIds;
     }
 }
