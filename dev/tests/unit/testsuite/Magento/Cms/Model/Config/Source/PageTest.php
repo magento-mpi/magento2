@@ -36,17 +36,15 @@ class PageTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->pageRepositoryMock = $this->getMockForAbstractClass(
-            'Magento\Cms\Api\PageRepositoryInterface',
+        $this->pageRepositoryMock = $this->getMock(
+            'Magento\Cms\Model\PageRepository',
+            [],
             [],
             '',
-            false,
-            true,
-            true,
-            ['getList']
+            false
         );
         $this->pageCriteriaFactoryMock = $this->getMock(
-            'Magento\Cms\Api\PageCriteriaInterfaceFactory',
+            'Magento\Cms\Model\Resource\PageCriteriaFactory',
             ['create'],
             [],
             '',
@@ -69,17 +67,16 @@ class PageTest extends \PHPUnit_Framework_TestCase
      */
     public function testToOptionArray()
     {
-        $pageCollectionMock = $this->getMockForAbstractClass(
-            'Magento\Cms\Api\Data\PageCollectionInterface',
+        $pageCollectionMock = $this->getMock(
+            'Magento\Cms\Model\Resource\Page\Collection',
+            [],
             [],
             '',
-            false,
-            true,
-            true,
-            ['toOptionIdArray']
+            false
         );
-        $pageCriteriaMock = $this->getMockForAbstractClass(
-            'Magento\Cms\Api\PageCriteriaInterface',
+        $pageCriteriaMock = $this->getMock(
+            'Magento\Cms\Model\Resource\PageCriteria',
+            [],
             [],
             '',
             false

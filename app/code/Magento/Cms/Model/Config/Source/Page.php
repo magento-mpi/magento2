@@ -29,11 +29,11 @@ class Page implements \Magento\Framework\Option\ArrayInterface
 
     /**
      * @param \Magento\Cms\Model\PageRepository $pageRepository
-     * @param \Magento\Cms\Model\Resource\PageCriteria $pageCriteriaFactory
+     * @param \Magento\Cms\Model\Resource\PageCriteriaFactory $pageCriteriaFactory
      */
     public function __construct(
         \Magento\Cms\Model\PageRepository $pageRepository,
-        \Magento\Cms\Model\Resource\PageCriteria $pageCriteriaFactory
+        \Magento\Cms\Model\Resource\PageCriteriaFactory $pageCriteriaFactory
     ) {
         $this->pageRepository = $pageRepository;
         $this->pageCriteriaFactory = $pageCriteriaFactory;

@@ -59,14 +59,14 @@ class PageRepositoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->pageFactoryMock = $this->getMock(
-            'Magento\Cms\Api\Data\PageInterfaceFactory',
+            'Magento\Cms\Model\PageFactory',
             ['create'],
             [],
             '',
             false
         );
         $this->pageCollectionFactoryMock = $this->getMock(
-            'Magento\Cms\Api\Data\PageCollectionInterfaceFactory',
+            'Magento\Cms\Model\Resource\Page\CollectionFactory',
             ['create'],
             [],
             '',
@@ -159,8 +159,9 @@ class PageRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetList()
     {
-        $criteriaMock = $this->getMockForAbstractClass(
-            'Magento\Cms\Api\PageCriteriaInterface',
+        $criteriaMock = $this->getMock(
+            'Magento\Cms\Model\Resource\PageCriteria',
+            [],
             [],
             '',
             false

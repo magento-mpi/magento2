@@ -36,17 +36,16 @@ class PageCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->criteriaMock = $this->getMockForAbstractClass(
-            'Magento\Cms\Api\PageCriteriaInterface',
+        $this->criteriaMock = $this->getMock(
+            'Magento\Cms\Model\Resource\PageCriteria',
+            [],
             [],
             '',
-            false,
-            true,
-            true,
-            ['addStoreFilter', 'addFilter', 'setFirstStoreFlag']
+            false
         );
-        $this->repositoryMock = $this->getMockForAbstractClass(
-            'Magento\Cms\Api\PageRepositoryInterface',
+        $this->repositoryMock = $this->getMock(
+            'Magento\Cms\Model\PageRepository',
+            [],
             [],
             '',
             false
