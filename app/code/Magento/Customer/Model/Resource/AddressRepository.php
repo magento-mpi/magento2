@@ -205,11 +205,12 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
      */
     public function delete(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        $address = $this->addressRegistry->retrieve($address->getId());
+        $addressId = $address->getId();
+        $address = $this->addressRegistry->retrieve($addressId);
         $customerModel = $this->customerRegistry->retrieve($address->getCustomerId());
         $customerModel->getAddressesCollection()->clear();
         $this->addressResource->delete($address);
-        $this->addressRegistry->remove($address->getId());
+        $this->addressRegistry->remove($addressId);
         return true;
     }
 
@@ -255,7 +256,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'lastname']);
         }
 
-        if (!\Zend_Validate::is($customerAddressModel->getStreet(1), 'NotEmpty')) {
+        if (!\Zend_Validate::is($customerAddressModel->getStreetLine(1), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'street']);
         }
 

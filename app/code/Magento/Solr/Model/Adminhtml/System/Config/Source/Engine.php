@@ -14,7 +14,7 @@ namespace Magento\Solr\Model\Adminhtml\System\Config\Source;
  */
 class Engine implements \Magento\Framework\Option\ArrayInterface
 {
-    const FULLTEXT = 'Magento\CatalogSearch\Model\Resource\Fulltext\Engine';
+    const FULLTEXT = 'Magento\CatalogSearch\Model\Resource\Engine';
 
     const SOLR = 'Magento\Solr\Model\Resource\Solr\Engine';
 

@@ -247,10 +247,10 @@ class Reward extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $this->loadByCustomer()->_preparePointsDelta()->_preparePointsBalance();
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -259,14 +259,14 @@ class Reward extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if ((int)$this->getPointsDelta() != 0 || $this->getCappedReward()) {
             $this->_prepareCurrencyAmount();
             $this->getHistory()->prepareFromReward()->save();
             $this->sendBalanceUpdateNotification();
         }
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**

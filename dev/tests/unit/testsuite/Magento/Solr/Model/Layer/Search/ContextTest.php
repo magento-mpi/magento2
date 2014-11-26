@@ -43,6 +43,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->searchProviderMock = $this->getMock(
             '\Magento\Solr\Model\Layer\Search\ItemCollectionProvider',
             array(),

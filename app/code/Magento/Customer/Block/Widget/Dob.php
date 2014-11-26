@@ -10,6 +10,11 @@ namespace Magento\Customer\Block\Widget;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\Api\ArrayObjectSearch;
 
+/**
+ * Class Dob
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Dob extends AbstractWidget
 {
     /**

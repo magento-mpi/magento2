@@ -162,13 +162,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $this->_moduleManager->expects($this->once())->method('isOutputEnabled')->will($this->returnValue(true));
 
-        $this->_moduleListMock->expects(
-            $this->once()
-        )->method(
-            'getModule'
-        )->will(
-            $this->returnValue(array('name' => 'Magento_Backend'))
-        );
+        $this->_moduleListMock->expects($this->once())->method('has')->will($this->returnValue(true));
 
         $this->assertTrue($this->_model->isDisabled());
     }
@@ -177,13 +171,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $this->_moduleManager->expects($this->once())->method('isOutputEnabled')->will($this->returnValue(true));
 
-        $this->_moduleListMock->expects(
-            $this->once()
-        )->method(
-            'getModule'
-        )->will(
-            $this->returnValue(array('name' => 'Magento_Backend'))
-        );
+        $this->_moduleListMock->expects($this->once())->method('has')->will($this->returnValue(true));
 
         $this->assertTrue($this->_model->isDisabled());
     }
@@ -192,13 +180,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $this->_moduleManager->expects($this->once())->method('isOutputEnabled')->will($this->returnValue(true));
 
-        $this->_moduleListMock->expects(
-            $this->once()
-        )->method(
-            'getModule'
-        )->will(
-            $this->returnValue(array('name' => 'Magento_Backend'))
-        );
+        $this->_moduleListMock->expects($this->once())->method('has')->will($this->returnValue(true));
 
         $this->_scopeConfigMock->expects($this->once())->method('isSetFlag')->will($this->returnValue(true));
 
@@ -245,17 +227,5 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->getChildren();
         $this->_model->getChildren();
-    }
-}
-namespace Magento\Test\Module;
-
-class Config
-{
-    /**
-     *
-     * @SuppressWarnings(PHPMD.ShortMethodName))
-     */
-    public function is()
-    {
     }
 }

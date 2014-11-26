@@ -21,3 +21,5 @@ dev/tests/functional/utils/generate/testcase.php
 
 app/code/Magento/Doc
 app/design/doc
+
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Solr

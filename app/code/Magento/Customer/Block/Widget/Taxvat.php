@@ -10,6 +10,7 @@ namespace Magento\Customer\Block\Widget;
 /**
  * Customer Value Added Tax Widget
  *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Taxvat extends AbstractWidget
 {

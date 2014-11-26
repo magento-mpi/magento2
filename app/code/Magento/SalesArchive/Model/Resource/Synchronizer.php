@@ -17,7 +17,7 @@ class Synchronizer
     /**
      * Connection Instance
      *
-     * @var \Magento\Framework\Module\Setup
+     * @var \Magento\Framework\Module\DataSetup
      */
     protected $_installer;
 
@@ -48,7 +48,7 @@ class Synchronizer
     /**
      * Default Constructor
      *
-     * @param \Magento\Framework\Module\Setup|\Magento\Setup\Module\Updater\SetupInterface $installer
+     * @param \Magento\Framework\Module\DataSetup|\Magento\Framework\Module\Updater\SetupInterface $installer
      */
     public function __construct($installer)
     {

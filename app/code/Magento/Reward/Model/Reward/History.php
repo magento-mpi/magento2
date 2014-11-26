@@ -137,7 +137,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if ($this->getWebsiteId()) {
             $this->setBaseCurrencyCode($this->_storeManager->getWebsite($this->getWebsiteId())->getBaseCurrencyCode());
@@ -163,7 +163,7 @@ class History extends \Magento\Framework\Model\AbstractModel
             $this->addData(array('expired_at_static' => $expires, 'expired_at_dynamic' => $expires));
         }
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
