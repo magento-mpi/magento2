@@ -18,12 +18,12 @@ class PageRepositoryTest extends \PHPUnit_Framework_TestCase
     protected $resourceMock;
 
     /**
-     * @var \Magento\Cms\Api\Data\PageInterfaceFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cms\Model\PageFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $pageFactoryMock;
 
     /**
-     * @var \Magento\Cms\Api\Data\PageCollectionInterfaceFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cms\Model\Resource\Page\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $pageCollectionFactoryMock;
 

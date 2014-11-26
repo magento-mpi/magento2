@@ -57,7 +57,7 @@ class Collection extends AbstractSearchResult
      */
     protected function init()
     {
-        $this->setDataInterfaceName('Magento\Cms\Api\Data\PageInterface');
+        $this->setDataInterfaceName('Magento\Cms\Model\Page');
         $this->query->addCountSqlSkipPart(\Zend_Db_Select::GROUP, true);
     }
 

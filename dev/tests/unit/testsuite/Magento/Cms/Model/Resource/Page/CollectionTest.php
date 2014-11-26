@@ -218,7 +218,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             );
         $this->entityFactoryMock->expects($this->any())
             ->method('create')
-            ->with('Magento\Cms\Api\Data\PageInterface', ['data' => ['test' => 'test']])
+            ->with('Magento\Cms\Model\Page', ['data' => ['test' => 'test']])
             ->will($this->returnValue($objectMock));
         $this->queryMock->expects($this->once())
             ->method('getCriteria')
