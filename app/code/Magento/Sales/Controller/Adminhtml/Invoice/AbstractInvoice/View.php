@@ -8,8 +8,26 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice;
 
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\Registry;
+
 abstract class View extends \Magento\Backend\App\Action
 {
+    /**
+     * @var Registry
+     */
+    protected $registry;
+
+    /**
+     * @param Context $context
+     * @param Registry $registry
+     */
+    public function __construct(Context $context, Registry $registry)
+    {
+        $this->registry = $registry;
+        parent::__construct($context, $registry);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -25,10 +43,28 @@ abstract class View extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
+        if ($this->getRequest()->getParam('invoice_id')) {
             $this->_forward('view', 'order_invoice', null, array('come_from' => 'invoice'));
         } else {
             $this->_forward('noroute');
         }
+    }
+
+    /**
+     * @return \Magento\Sales\Model\Order\Invoice
+     */
+    public function getInvoice()
+    {
+        $invoiceId = $this->getRequest()->getParam('invoice_id');
+        if (!$invoiceId) {
+            $this->_forward('noroute');
+        }
+        /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+        $invoice = $this->_objectManager->create('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
+        if (!$invoice) {
+            $this->_forward('noroute');
+        }
+        $this->registry->register('current_invoice', $invoice);
+        return $invoice;
     }
 }

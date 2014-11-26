@@ -2103,4 +2103,7 @@ return array(
     ['getModule', 'Magento\Framework\Module\ModuleList', 'getOne'],
     ['getModule', 'Magento\Framework\Module\ModuleListInterface', 'getOne'],
     ['_getNewConditionModelInstance', 'Magento\Rule\Model\Condition\Combine'],
+    ['getItemsRandomCollection', 'Magento\Sales\Model\Order'],
+    ['importOrderAddress', 'Magento\Sales\Model\Quote\Address', 'Magento\Sales\Model\Quote\Address::importCustomerAddressData'],
+    ['_getUsedAttributes', 'Magento\SalesRule\Model\Rule'],
 );

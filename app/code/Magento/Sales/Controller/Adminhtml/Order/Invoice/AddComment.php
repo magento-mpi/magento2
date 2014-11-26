@@ -12,14 +12,10 @@ use Magento\Backend\App\Action;
 use \Magento\Framework\Model\Exception;
 use \Magento\Sales\Model\Order\Email\Sender\InvoiceCommentSender;
 use \Magento\Sales\Model\Order\Invoice;
+use Magento\Framework\Registry;
 
-class AddComment extends \Magento\Backend\App\Action
+class AddComment extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice\View
 {
-    /**
-     * @var \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader
-     */
-    protected $invoiceLoader;
-
     /**
      * @var InvoiceCommentSender
      */
@@ -27,25 +23,16 @@ class AddComment extends \Magento\Backend\App\Action
 
     /**
      * @param Action\Context $context
-     * @param \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader $invoiceLoader
      * @param InvoiceCommentSender $invoiceCommentSender
+     * @param Registry $registry
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader $invoiceLoader,
-        InvoiceCommentSender $invoiceCommentSender
+        InvoiceCommentSender $invoiceCommentSender,
+        Registry $registry
     ) {
-        $this->invoiceLoader = $invoiceLoader;
         $this->invoiceCommentSender = $invoiceCommentSender;
-        parent::__construct($context);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Magento_Sales::sales_invoice');
+        parent::__construct($context, $registry);
     }
 
     /**
@@ -62,12 +49,7 @@ class AddComment extends \Magento\Backend\App\Action
                 throw new Exception(__('The Comment Text field cannot be empty.'));
             }
             $this->_title->add(__('Invoices'));
-            $orderId = $this->getRequest()->getParam('order_id');
-            $invoiceId = $this->getRequest()->getParam('invoice_id');
-            $invoiceData = $this->getRequest()->getParam('invoice', []);
-            $invoiceData = isset($invoiceData['items']) ? $invoiceData['items'] : [];
-            /** @var Invoice $invoice */
-            $invoice = $this->invoiceLoader->load($orderId, $invoiceId, $invoiceData);
+            $invoice = $this->getInvoice();
             $invoice->addComment(
                 $data['comment'],
                 isset($data['is_customer_notified']),
