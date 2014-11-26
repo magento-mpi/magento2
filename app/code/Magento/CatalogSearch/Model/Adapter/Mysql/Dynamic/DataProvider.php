@@ -11,7 +11,6 @@ use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface as 
 use Magento\Framework\Search\Dynamic\DataProviderInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Customer\Model\Session;
-use Magento\Eav\Model\Config;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Resource;
 use Magento\Framework\DB\Adapter\AdapterInterface;
@@ -21,7 +20,6 @@ use Magento\Framework\Search\Request\BucketInterface;
 use Magento\Catalog\Model\Layer\Filter\Price\Range;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\Store;
-use Magento\Framework\App\ScopeResolverInterface;
 
 class DataProvider implements DataProviderInterface
 {
@@ -60,7 +58,7 @@ class DataProvider implements DataProviderInterface
     private $intervalFactory;
 
     /**
-     * @param Resource|Resource $resource
+     * @param Resource $resource
      * @param ScopeConfigInterface $scopeConfig
      * @param Range $range
      * @param Session $customerSession
