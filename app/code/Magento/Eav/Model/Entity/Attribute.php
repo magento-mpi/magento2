@@ -8,6 +8,7 @@
 namespace Magento\Eav\Model\Entity;
 
 use Magento\Eav\Exception;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * EAV Entity attribute model
@@ -77,6 +78,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -95,6 +97,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -110,6 +113,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
             $resourceHelper,
             $universalFactory,
             $optionDataBuilder,
+            $customAttributeBuilder,
             $resource,
             $resourceCollection,
             $data

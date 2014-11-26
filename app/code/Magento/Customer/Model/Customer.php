@@ -15,6 +15,7 @@ use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Model\Data\Customer as CustomerData;
 use Magento\Framework\Reflection\DataObjectProcessor;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Customer model
@@ -217,6 +218,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param CustomerDataBuilder $customerDataBuilder
      * @param DataObjectProcessor $dataObjectProcessor
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -238,6 +240,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         \Magento\Framework\Stdlib\DateTime $dateTime,
         CustomerDataBuilder $customerDataBuilder,
         DataObjectProcessor $dataObjectProcessor,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -254,7 +257,15 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->dateTime = $dateTime;
         $this->customerDataBuilder = $customerDataBuilder;
         $this->dataObjectProcessor = $dataObjectProcessor;
-        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $customAttributeBuilder,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

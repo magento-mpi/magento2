@@ -12,6 +12,7 @@ use Magento\CatalogInventory\Api\Data\StockItemInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * CatalogInventory Stock Status
@@ -39,6 +40,7 @@ class Status extends AbstractExtensibleModel implements StockStatusInterface
      * @param \Magento\Framework\Registry $registry
      * @param MetadataServiceInterface $metadataService
      * @param StockRegistryInterface $stockRegistry
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -48,11 +50,20 @@ class Status extends AbstractExtensibleModel implements StockStatusInterface
         \Magento\Framework\Registry $registry,
         MetadataServiceInterface $metadataService,
         StockRegistryInterface $stockRegistry,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
     ) {
-        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $customAttributeBuilder,
+            $resource,
+            $resourceCollection,
+            $data
+        );
         $this->stockRegistry = $stockRegistry;
     }
 

@@ -14,6 +14,7 @@ use Magento\Catalog\Model\Product;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Catalog Inventory Stock Item Model
@@ -122,6 +123,7 @@ class Item extends AbstractExtensibleModel implements StockItemInterface
      * @param StockConfigurationInterface $stockConfiguration
      * @param StockRegistryInterface $stockRegistry
      * @param StockItemRepositoryInterface $stockItemRepository
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -135,11 +137,20 @@ class Item extends AbstractExtensibleModel implements StockItemInterface
         StockConfigurationInterface $stockConfiguration,
         StockRegistryInterface $stockRegistry,
         StockItemRepositoryInterface $stockItemRepository,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
     ) {
-        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $customAttributeBuilder,
+            $resource,
+            $resourceCollection,
+            $data
+        );
         $this->customerSession = $customerSession;
         $this->storeManager = $storeManager;
         $this->stockConfiguration = $stockConfiguration;

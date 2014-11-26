@@ -14,6 +14,7 @@ use Magento\Framework\Model\Exception;
 use Magento\Framework\Model\AbstractModel;
 use \Magento\Framework\Model\AbstractExtensibleModel;
 use \Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Catalog product option model
@@ -101,6 +102,7 @@ class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Dat
      * @param Option\Type\Factory $optionFactory
      * @param \Magento\Framework\Stdlib\String $string
      * @param Option\Validator\Pool $validatorPool
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -113,6 +115,7 @@ class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Dat
         \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory,
         \Magento\Framework\Stdlib\String $string,
         Option\Validator\Pool $validatorPool,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -121,7 +124,15 @@ class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Dat
         $this->_optionFactory = $optionFactory;
         $this->validatorPool = $validatorPool;
         $this->string = $string;
-        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $customAttributeBuilder,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

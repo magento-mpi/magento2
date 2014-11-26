@@ -10,6 +10,7 @@ namespace Magento\Catalog\Model\Product\Option;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Option;
 use \Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Catalog product option select type model
@@ -55,6 +56,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService
      * @param \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -64,12 +66,21 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService,
         \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_valueCollectionFactory = $valueCollectionFactory;
-        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $customAttributeBuilder,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

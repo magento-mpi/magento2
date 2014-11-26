@@ -8,6 +8,7 @@
 namespace Magento\Catalog\Model\Resource\Eav;
 
 use Magento\Catalog\Model\Attribute\LockValidatorInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Catalog attribute model
@@ -110,6 +111,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
      * @param \Magento\Catalog\Model\Indexer\Product\Eav\Processor $indexerEavProcessor
      * @param \Magento\Catalog\Helper\Product\Flat\Indexer $productFlatIndexerHelper
      * @param LockValidatorInterface $lockValidator
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -132,6 +134,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
         \Magento\Catalog\Model\Indexer\Product\Eav\Processor $indexerEavProcessor,
         \Magento\Catalog\Helper\Product\Flat\Indexer $productFlatIndexerHelper,
         LockValidatorInterface $lockValidator,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -154,6 +157,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
             $localeDate,
             $reservedAttributeList,
             $localeResolver,
+            $customAttributeBuilder,
             $resource,
             $resourceCollection,
             $data

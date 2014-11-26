@@ -12,6 +12,7 @@ use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\UrlFinderInterface;
 use Magento\Framework\Convert\ConvertArray;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Catalog category
@@ -187,6 +188,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param UrlFinderInterface $urlFinder
      * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -208,6 +210,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         UrlFinderInterface $urlFinder,
         \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -229,6 +232,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
             $registry,
             $metadataService,
             $storeManager,
+            $customAttributeBuilder,
             $resource,
             $resourceCollection,
             $data

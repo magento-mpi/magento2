@@ -12,6 +12,7 @@ use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Object\IdentityInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Framework\Convert\ConvertArray;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Catalog product model
@@ -274,6 +275,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param Indexer\Product\Price\Processor $productPriceIndexerProcessor
      * @param Indexer\Product\Eav\Processor $productEavIndexerProcessor
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -304,6 +306,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor,
+        AttributeDataBuilder $customAttributeBuilder,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -330,6 +333,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
             $registry,
             $metadataService,
             $storeManager,
+            $customAttributeBuilder,
             $resource,
             $resourceCollection,
             $data

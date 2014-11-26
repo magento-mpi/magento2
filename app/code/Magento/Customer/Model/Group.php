@@ -8,6 +8,7 @@
 namespace Magento\Customer\Model;
 
 use Magento\Customer\Api\Data\GroupDataBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Customer group model
@@ -75,6 +76,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param GroupDataBuilder $groupBuilder
      * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param \Magento\Tax\Model\ClassModelFactory $classModelFactory
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -87,6 +89,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
         GroupDataBuilder $groupBuilder,
         \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         \Magento\Tax\Model\ClassModelFactory $classModelFactory,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -95,7 +98,15 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->dataObjectProcessor = $dataObjectProcessor;
         $this->groupBuilder = $groupBuilder;
         $this->classModelFactory = $classModelFactory;
-        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $customAttributeBuilder,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

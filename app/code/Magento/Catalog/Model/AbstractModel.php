@@ -7,6 +7,8 @@
  */
 namespace Magento\Catalog\Model;
 
+use Magento\Framework\Api\AttributeDataBuilder;
+
 /**
  * Abstract model for catalog entities
  *
@@ -64,6 +66,7 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractExtensible
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -73,12 +76,21 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractExtensible
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Framework\StoreManagerInterface $storeManager,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $customAttributeBuilder,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

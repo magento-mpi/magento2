@@ -12,6 +12,7 @@ use Magento\CatalogInventory\Api\StockConfigurationInterface as StockConfigurati
 use Magento\CatalogInventory\Api\StockItemRepositoryInterface as StockItemRepositoryInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\Customer\Api\GroupManagementInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Catalog Inventory Stock Model for adminhtml area
@@ -32,7 +33,8 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
      * @param StockConfigurationInterface $stockConfiguration
      * @param StockRegistryInterface $stockRegistry
      * @param StockItemRepositoryInterface $stockItemRepository
-     * @param GroupManagementInterface $groupManagement,
+     * @param GroupManagementInterface $groupManagement
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -47,6 +49,7 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
         StockRegistryInterface $stockRegistry,
         StockItemRepositoryInterface $stockItemRepository,
         GroupManagementInterface $groupManagement,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
@@ -60,6 +63,7 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
             $stockConfiguration,
             $stockRegistry,
             $stockItemRepository,
+            $customAttributeBuilder,
             $resource,
             $resourceCollection,
             $data
