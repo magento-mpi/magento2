@@ -27,7 +27,11 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->block = $objectManager->getObject('Magento\Cms\Block\Page');
         $this->page = $objectManager->getObject('Magento\Cms\Model\Page');
-        $this->page->setPageId(1);
+        $reflection = new \ReflectionClass($this->page);
+        $reflectionProperty = $reflection->getProperty('_idFieldName');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($this->page, 'page_id');
+        $this->page->setId(1);
     }
 
     protected function tearDown()
