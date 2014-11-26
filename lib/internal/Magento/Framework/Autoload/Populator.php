@@ -48,5 +48,8 @@ class Populator
 
         /** Required for code generation to occur */
         FileResolver::addIncludePath($generationDir);
+
+        /** Required to autoload custom classes */
+        $autoloader->addPsr0('', [$modulesDir, $frameworkDir]);
     }
 }
