@@ -26,9 +26,6 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
     public function execute()
     {
         $customerId = $this->_initCustomer();
-        $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Customer::customer_manage');
-        $this->prepareDefaultCustomerTitle();
 
         $customerData = array();
         $customerData['account'] = array();
@@ -124,6 +121,8 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
         $this->_getSession()->setCustomerData($customerData);
 
         $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Customer::customer_manage');
+        $this->prepareDefaultCustomerTitle();
 
         $this->_setActiveMenu('Magento_Customer::customer');
         if ($isExistingCustomer) {
