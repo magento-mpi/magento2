@@ -9,9 +9,8 @@
 namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
 use \Magento\Framework\Model\Exception;
-use \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice\View;
 
-class Void extends View
+class Void extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice\View
 {
     /**
      * Void invoice action

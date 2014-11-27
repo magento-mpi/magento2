@@ -8,6 +8,7 @@
 namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
 use Magento\Backend\App\Action;
+use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * Class ViewTest
@@ -51,12 +52,19 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $invoiceLoaderMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $objectManagerMock;
+
+    /**
      * @var \Magento\Sales\Controller\Adminhtml\Order\Invoice\View
      */
     protected $controller;
 
     public function setUp()
     {
+        $objectManager = new ObjectManager($this);
+
         $this->requestMock = $this->getMockBuilder('Magento\Framework\App\Request\Http')
             ->disableOriginalConstructor()
             ->setMethods([])
@@ -81,6 +89,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getCommentText', 'setIsUrlNotice'])
             ->getMock();
+        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
 
         $contextMock = $this->getMockBuilder('Magento\Backend\App\Action\Context')
             ->disableOriginalConstructor()
@@ -104,36 +113,31 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $contextMock->expects($this->any())
             ->method('getSession')
             ->will($this->returnValue($this->sessionMock));
+        $contextMock->expects($this->any())
+            ->method('getObjectManager')
+            ->will($this->returnValue($this->objectManagerMock));
 
-        $this->invoiceLoaderMock = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader')
-            ->disableOriginalConstructor()
-            ->setMethods([])
-            ->getMock();
 
-        $this->controller = new \Magento\Sales\Controller\Adminhtml\Order\Invoice\View(
-            $contextMock,
-            $this->invoiceLoaderMock
+        $this->controller = $objectManager->getObject(
+            'Magento\Sales\Controller\Adminhtml\Order\Invoice\View',
+            [
+                'context' => $contextMock
+            ]
         );
     }
 
     public function testExecute()
     {
-        $orderId = 1;
         $invoiceId = 2;
-        $invoiceData = [];
 
         $this->requestMock->expects($this->at(0))
             ->method('getParam')
-            ->with('order_id')
-            ->will($this->returnValue($orderId));
-        $this->requestMock->expects($this->at(1))
-            ->method('getParam')
             ->with('invoice_id')
             ->will($this->returnValue($invoiceId));
-        $this->requestMock->expects($this->at(2))
+        $this->requestMock->expects($this->at(1))
             ->method('getParam')
-            ->with('invoice', [])
-            ->will($this->returnValue($invoiceData));
+            ->with('come_from')
+            ->willReturn('anything');
 
         $menuBlockMock = $this->getMockBuilder('Magento\Backend\Block\Menu')
             ->disableOriginalConstructor()
@@ -173,38 +177,38 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
-
-        $this->invoiceLoaderMock->expects($this->once())
+        $invoiceMock->expects($this->once())
             ->method('load')
-            ->with($orderId, $invoiceId, $invoiceData)
-            ->will($this->returnValue($invoiceMock));
+            ->willReturnSelf();
+
+        $this->objectManagerMock->expects($this->at(0))
+            ->method('create')
+            ->with('Magento\Sales\Model\Order\Invoice')
+            ->willReturn($invoiceMock);
 
         $this->assertNull($this->controller->execute());
     }
 
     public function testExecuteNoInvoice()
     {
-        $orderId = 1;
         $invoiceId = 2;
-        $invoiceData = [];
 
-        $this->requestMock->expects($this->at(0))
-            ->method('getParam')
-            ->with('order_id')
-            ->will($this->returnValue($orderId));
-        $this->requestMock->expects($this->at(1))
+        $this->requestMock->expects($this->once())
             ->method('getParam')
             ->with('invoice_id')
             ->will($this->returnValue($invoiceId));
-        $this->requestMock->expects($this->at(2))
-            ->method('getParam')
-            ->with('invoice', [])
-            ->will($this->returnValue($invoiceData));
-
-        $this->invoiceLoaderMock->expects($this->once())
+        $invoiceMock = $this->getMockBuilder('Magento\Sales\Model\Order\Invoice')
+            ->disableOriginalConstructor()
+            ->setMethods([])
+            ->getMock();
+        $invoiceMock->expects($this->once())
             ->method('load')
-            ->with($orderId, $invoiceId, $invoiceData)
-            ->will($this->returnValue(false));
+            ->willReturn(null);
+
+        $this->objectManagerMock->expects($this->at(0))
+            ->method('create')
+            ->with('Magento\Sales\Model\Order\Invoice')
+            ->willReturn($invoiceMock);
 
         $this->assertNull($this->controller->execute());
     }
