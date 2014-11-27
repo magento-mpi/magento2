@@ -222,6 +222,9 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(false)
         );
 
+        $groupMock = $this->getMockBuilder('Magento\Customer\Api\Data\GroupInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->customerMock->expects($this->once())->method('getId')->will($this->returnValue(null));
 
         /** Assertions */
