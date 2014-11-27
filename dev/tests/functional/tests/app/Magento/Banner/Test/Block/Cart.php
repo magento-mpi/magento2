@@ -9,6 +9,7 @@ namespace Magento\Banner\Test\Block;
 
 use Magento\Banner\Test\Fixture\BannerInjectable;
 use Mtf\Client\Element\Locator;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
  * Class Cart
@@ -24,13 +25,32 @@ class Cart extends \Magento\Checkout\Test\Block\Cart
     protected $widgetBanner = '//div[contains(@class, "widget banners")]/ul/li[text()="%s"]';
 
     /**
-     * Check Widget Banners
+     * Header welcome message selector.
+     *
+     * @var string
+     */
+    protected $welcome = '.welcome';
+
+    /**
+     * Check Widget Banners.
      *
      * @param BannerInjectable $banner
+     * @param CustomerInjectable|null $customer
      * @return bool
      */
-    public function checkWidgetBanners(BannerInjectable $banner)
+    public function checkWidgetBanners(BannerInjectable $banner, CustomerInjectable $customer = null)
     {
+        if ($customer !== null) {
+            $browser = $this->browser;
+            $welcome = $this->welcome;
+            $browser->waitUntil(
+                function () use ($browser, $welcome, $customer) {
+                    $text = $browser->find($welcome)->getText();
+                    return strpos($text, $customer->getFirstname()) ? true : null;
+                }
+            );
+        }
+
         return $this->_rootElement
             ->find(sprintf($this->widgetBanner, $banner->getStoreContents()['value_0']), Locator::SELECTOR_XPATH)
             ->isVisible();

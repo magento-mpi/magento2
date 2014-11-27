@@ -99,7 +99,7 @@ class UpdateCmsPageRevisionEntityTest extends Injectable
      */
     public function test(CmsPage $cms, Revision $revision, array $revisionData, array $results)
     {
-        $this->markTestIncomplete('MAGETWO-28602, MAGETWO-28876');
+        $this->markTestIncomplete('Bug: MAGETWO-28602, Bug: MAGETWO-28876, Bug: MAGETWO-30362');
         // Precondition:
         $cms->persist();
         $title = $cms->getTitle();
