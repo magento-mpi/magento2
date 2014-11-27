@@ -6,6 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Bundle\Model\Plugin;
 
 class BundleSaveOptions
@@ -18,9 +19,8 @@ class BundleSaveOptions
     /**
      * @param \Magento\Bundle\Api\ProductOptionRepositoryInterface $optionRepository
      */
-    public function __construct(
-        \Magento\Bundle\Api\ProductOptionRepositoryInterface $optionRepository
-    ) {
+    public function __construct(\Magento\Bundle\Api\ProductOptionRepositoryInterface $optionRepository)
+    {
         $this->optionRepository = $optionRepository;
     }
 
