@@ -58,4 +58,15 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
             $fixtures
         );
     }
+
+    /**
+     * @inheritdoc
+     */
+    protected function prepareProduct($product, $data)
+    {
+        if ($product->getGiftcardType() == \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL) {
+            $this->setVirtualStockData($product);
+        }
+        return $this;
+    }
 }
