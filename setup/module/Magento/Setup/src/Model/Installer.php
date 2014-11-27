@@ -325,8 +325,9 @@ class Installer
 
     /**
      * Creates encrypt deployment configuration segment
-     * No encryption key will be generated if there is an existing deployment config file.
+     * No new encryption key will be added if there is an existing deployment config file unless user provides one.
      * Old encryption keys will persist.
+     * A new encryption key will be generated if there is no existing deployment config file.
      *
      * @param \ArrayObject|array $data
      * @return \Magento\Framework\App\DeploymentConfig\SegmentInterface
