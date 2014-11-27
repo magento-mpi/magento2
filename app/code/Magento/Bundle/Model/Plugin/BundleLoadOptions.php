@@ -33,7 +33,7 @@ class BundleLoadOptions
     }
 
     /**
-     * @param \Magento\Catalog\Model\Product\Interceptor $subject
+     * @param \Magento\Catalog\Api\Data\ProductInterface $subject
      * @param callable $proceed
      * @param $modelId
      * @param null $field
@@ -41,7 +41,7 @@ class BundleLoadOptions
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundLoad(
-        \Magento\Catalog\Model\Product\Interceptor $subject,
+        \Magento\Catalog\Api\Data\ProductInterface $subject,
         \Closure $proceed,
         $modelId,
         $field = null
