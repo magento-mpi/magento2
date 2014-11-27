@@ -292,6 +292,164 @@ class OptionRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($optionId, $this->model->save($productMock, $optionMock));
     }
 
+    /**
+     * @expectedException \Magento\Framework\Exception\NoSuchEntityException
+     * @expectedExceptionMessage Requested option doesn't exist
+     */
+    public function testUpdateIfOptionDoesNotExist()
+    {
+        $productId = 1;
+        $storeId = 2;
+        $optionId = 5;
+
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', ['getId'], [], '', false);
+        $storeMock->expects($this->once())->method('getId')->willReturn($storeId);
+        $this->storeManagerMock->expects($this->once())->method('getStore')->willReturn($storeMock);
+
+        $productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
+        $productMock->expects($this->once())->method('getId')->willReturn($productId);
+
+        $optionMock = $this->getMock(
+            '\Magento\Bundle\Model\Option',
+            ['setStoreId', 'setParentId', 'getProductLinks', 'getOptionId'],
+            [],
+            '',
+            false
+        );
+
+        $optionMock->expects($this->once())->method('setStoreId')->with($storeId)->willReturnSelf();
+        $optionMock->expects($this->once())->method('setParentId')->with($productId)->willReturnSelf();
+        $optionMock->expects($this->any())->method('getOptionId')->willReturn($optionId);
+
+        $optCollectionMock = $this->getMock('\Magento\Bundle\Model\Resource\Option\Collection', [], [], '', false);
+        $this->typeMock->expects($this->once())
+            ->method('getOptionsCollection')
+            ->with($productMock)
+            ->willReturn($optCollectionMock);
+
+        $existingOptionMock = $this->getMock('\Magento\Bundle\Model\Option', ['getOptionId'], [], '', false);
+        $optCollectionMock->expects($this->once())->method('setIdFilter')->with($optionId)->willReturnSelf();
+        $optCollectionMock->expects($this->once())->method('getFirstItem')->willReturn($existingOptionMock);
+        $existingOptionMock->expects($this->once())->method('getOptionId')->willReturn(null);
+
+        $this->assertEquals($optionId, $this->model->save($productMock, $optionMock));
+    }
+
+    public function testUpdate()
+    {
+        $productId = 1;
+        $storeId = 2;
+        $optionId = 5;
+        $existingOptionId = 5;
+        $existingOptionTitle = 'option_title';
+
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', ['getId'], [], '', false);
+        $storeMock->expects($this->once())->method('getId')->willReturn($storeId);
+        $this->storeManagerMock->expects($this->once())->method('getStore')->willReturn($storeMock);
+
+        $productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
+        $productMock->expects($this->once())->method('getId')->willReturn($productId);
+        $optionMock = $this->getMock(
+            '\Magento\Bundle\Model\Option',
+            [
+                'setStoreId',
+                'setParentId',
+                'getProductLinks',
+                'getOptionId',
+                'setOptionId',
+                'setDefaultTitle',
+                'getTitle'
+            ],
+            [],
+            '',
+            false
+        );
+        $optionMock->expects($this->once())->method('setStoreId')->with($storeId)->willReturnSelf();
+        $optionMock->expects($this->once())->method('setParentId')->with($productId)->willReturnSelf();
+        $optionMock->expects($this->any())->method('getOptionId')->willReturn($optionId);
+
+        $optCollectionMock = $this->getMock('\Magento\Bundle\Model\Resource\Option\Collection', [], [], '', false);
+        $this->typeMock->expects($this->once())
+            ->method('getOptionsCollection')
+            ->with($productMock)
+            ->willReturn($optCollectionMock);
+        $existingOptionMock = $this->getMock(
+            '\Magento\Bundle\Model\Option',
+            ['getOptionId', 'getTitle', 'getProductLinks'],
+            [],
+            '',
+            false
+        );
+        $optCollectionMock->expects($this->once())->method('setIdFilter')->with($optionId)->willReturnSelf();
+        $optCollectionMock->expects($this->once())->method('getFirstItem')->willReturn($existingOptionMock);
+        $existingOptionMock->expects($this->any())->method('getOptionId')->willReturn($existingOptionId);
+        $existingOptionMock->expects($this->once())->method('getTitle')->willReturn($existingOptionTitle);
+        $existingOptionMock->expects($this->once())->method('getProductLinks')->willReturn(null);
+
+        $linkedProductMock = $this->getMock('\Magento\Bundle\Api\Data\LinkInterface');
+        $optionMock->expects($this->once())->method('setOptionId')->with($existingOptionId)->willReturnSelf();
+        $optionMock->expects($this->once())->method('setDefaultTitle')->with($existingOptionTitle)->willReturnSelf();
+        $optionMock->expects($this->once())->method('getTitle')->willReturn(null);
+        $optionMock->expects($this->exactly(2))->method('getProductLinks')->willReturn([$linkedProductMock]);
+
+        $this->optionResourceMock->expects($this->once())->method('save')->with($optionMock)->willReturnSelf();
+        $this->linkManagementMock->expects($this->once())
+            ->method('addChild')
+            ->with($productMock, $optionId, $linkedProductMock)
+            ->willReturn(1);
+        $this->assertEquals($optionId, $this->model->save($productMock, $optionMock));
+    }
+
+//    public function testGetList()
+//    {
+//        $productSku = 'sku';
+//        $optionId = 100;
+//        $optionData = ['title' => 'title'];
+//        $productMock = $this->getMock(
+//            '\Magento\Catalog\Model\Product',
+//            ['getTypeId', 'getTypeInstance', 'getStoreId', 'getPriceType', '__wakeup', 'getSku'],
+//            [],
+//            '',
+//            false
+//        );
+//        $productMock->expects($this->once())
+//            ->method('getTypeId')
+//            ->willReturn(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE);
+//        $this->productRepositoryMock->expects($this->once())
+//            ->method('get')
+//            ->with($productSku)
+//            ->willReturn($productMock);
+//
+//        $optionMock = $this->getMock(
+//            '\Magento\Bundle\Model\Option',
+//            ['getOptionId', 'getData'],
+//            [],
+//            '',
+//            false
+//        );
+//        $selectionCollMock = $this->objectManager->getCollectionMock(
+//            'Magento\Bundle\Model\Resource\Option\Collection',
+//            [$optionMock]
+//        );
+//        $this->typeMock->expects($this->once())
+//            ->method('getOptionsCollection')
+//            ->with($productMock)
+//            ->willReturn($selectionCollMock);
+//
+//        $optionMock->expects($this->exactly(2))->method('getOptionId')->willReturn($optionId);
+//        $optionMock->expects($this->once())->method('getData')->willReturn($optionData);
+//        $this->getMocksForProductLinks($productMock, $optionId);
+//
+//        $this->optionBuilderMock->expects($this->once())
+//            ->method('populateWithArray')
+//            ->with($optionData)
+//            ->willReturnSelf();
+//        $this->optionBuilderMock->expects($this->once())->method('setOptionId')->with($optionId)->willReturnSelf();
+//        $this->optionBuilderMock->expects($this->once())->method('setTitle')->with($optionId)->willReturnSelf();
+//
+//        $this->model->getList($productSku);
+//    }
+
     protected function getMocksForProductLinks(\PHPUnit_Framework_MockObject_MockObject $productMock, $optionId)
     {
         $storeId = 2;

@@ -9,10 +9,10 @@
 
 namespace Magento\Bundle\Model\Plugin;
 
-class BundleOptionsTest extends \PHPUnit_Framework_TestCase
+class BundleSaveOptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var BundleOptions
+     * @var BundleSaveOptions
      */
     protected $plugin;
 
@@ -78,7 +78,7 @@ class BundleOptionsTest extends \PHPUnit_Framework_TestCase
         $this->closureMock = function () {
             return $this->productMock;
         };
-        $this->plugin = new BundleOptions(
+        $this->plugin = new BundleSaveOptions(
             $this->writeServiceMock,
             $this->readServiceMock,
             $this->productBuilderMock,

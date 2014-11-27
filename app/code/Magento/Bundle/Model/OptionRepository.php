@@ -25,11 +25,6 @@ class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInt
     protected $type;
 
     /**
-     * @var \Magento\Bundle\Api\Data\LinkDataBuilder
-     */
-    protected $linkBuilder;
-
-    /**
      * @var \Magento\Bundle\Api\Data\OptionDataBuilder
      */
     protected $optionBuilder;
@@ -50,30 +45,43 @@ class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInt
     protected $linkManagement;
 
     /**
+     * @var Product\OptionList
+     */
+    protected $productOptionList;
+
+    /**
+     * @var Product\LinksList
+     */
+    protected $linkList;
+
+    /**
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param Product\Type $type
      * @param \Magento\Bundle\Api\Data\OptionDataBuilder $optionBuilder
-     * @param \Magento\Bundle\Api\Data\LinkDataBuilder $linkBuilder
      * @param Resource\Option $optionResource
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Bundle\Api\ProductLinkManagementInterface $linkManagement
+     * @param Product\OptionList $productOptionList
+     * @param Product\LinksList $linkList
      */
     public function __construct(
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Bundle\Model\Product\Type $type,
         \Magento\Bundle\Api\Data\OptionDataBuilder $optionBuilder,
-        \Magento\Bundle\Api\Data\LinkDataBuilder $linkBuilder,
         \Magento\Bundle\Model\Resource\Option $optionResource,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Bundle\Api\ProductLinkManagementInterface $linkManagement
+        \Magento\Bundle\Api\ProductLinkManagementInterface $linkManagement,
+        \Magento\Bundle\Model\Product\OptionList $productOptionList,
+        \Magento\Bundle\Model\Product\LinksList $linkList
     ) {
         $this->productRepository = $productRepository;
         $this->type = $type;
         $this->optionBuilder = $optionBuilder;
-        $this->linkBuilder = $linkBuilder;
         $this->optionResource = $optionResource;
         $this->storeManager = $storeManager;
         $this->linkManagement = $linkManagement;
+        $this->productOptionList = $productOptionList;
+        $this->linkList = $linkList;
     }
 
     /**
@@ -91,7 +99,7 @@ class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInt
             throw new NoSuchEntityException('Requested option doesn\'t exist');
         }
 
-        $productLinks = $this->getProductLinks($product, $optionId);
+        $productLinks = $this->linkList->getItems($product, $optionId);
 
         $this->optionBuilder->populateWithArray($option->getData())
             ->setOptionId($option->getId())
@@ -108,20 +116,7 @@ class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInt
     public function getList($productSku)
     {
         $product = $this->getProduct($productSku);
-        $optionCollection = $this->type->getOptionsCollection($product);
-
-        $optionList = [];
-        /** @var \Magento\Bundle\Model\Option $option */
-        foreach ($optionCollection as $option) {
-            $productLinks = $this->getProductLinks($product, $option->getId());
-            $this->optionBuilder->populateWithArray($option->getData())
-                ->setOptionId($option->getId())
-                ->setTitle(is_null($option->getTitle()) ? $option->getDefaultTitle() : $option->getTitle())
-                ->setSku($product->getSku())
-                ->setProductLinks($productLinks);
-            $optionList[] = $this->optionBuilder->create();
-        }
-        return $optionList;
+        return $this->productOptionList->getItems($product);
     }
 
     /**
@@ -176,7 +171,7 @@ class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInt
                 throw new NoSuchEntityException('Requested option doesn\'t exist');
             }
 
-            $option->setOptionId($existingOption->getId());
+            $option->setOptionId($existingOption->getOptionId());
             $option->setDefaultTitle(is_null($option->getTitle()) ? $existingOption->getTitle() : $option->getTitle());
 
             /** @var \Magento\Bundle\Api\Data\LinkInterface[] $existingLinks */
@@ -223,49 +218,16 @@ class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInt
     }
 
     /**
-     * @param \Magento\Catalog\Api\Data\ProductInterface $product
-     * @param int $optionId
-     * @return \Magento\Bundle\Api\Data\LinkInterface[]
-     */
-    private function getProductLinks(\Magento\Catalog\Api\Data\ProductInterface $product, $optionId)
-    {
-        /** @var \Magento\Bundle\Model\Product\Type $productTypeInstance */
-        $productTypeInstance = $product->getTypeInstance();
-        $productTypeInstance->setStoreFilter(
-            $product->getStoreId(),
-            $product
-        );
-        $selectionCollection = $productTypeInstance->getSelectionsCollection(
-            [ $optionId ],
-            $product
-        );
-
-        $productLinks = [];
-        /** @var \Magento\Catalog\Model\Product $selection */
-        foreach ($selectionCollection as $selection) {
-            $selectionPriceType = $product->getPriceType() ? $selection->getSelectionPriceType() : null;
-            $selectionPrice = $product->getPriceType() ? $selection->getSelectionPriceValue() : null;
-
-            $productLinks[] = $this->linkBuilder->populateWithArray($selection->getData())
-                ->setIsDefault($selection->getIsDefault())
-                ->setQty($selection->getSelectionQty())
-                ->setIsDefined($selection->getSelectionCanChangeQty())
-                ->setPrice($selectionPrice)
-                ->setPriceType($selectionPriceType)
-                ->create();
-        }
-        return $productLinks;
-    }
-
-    /**
      * Compare two links and determine if they are equal
      *
-     * @param Link $firstLink
-     * @param Link $secondLink
+     * @param \Magento\Bundle\Api\Data\LinkInterface $firstLink
+     * @param \Magento\Bundle\Api\Data\LinkInterface $secondLink
      * @return int
      */
-    private function compareLinks(Link $firstLink, Link $secondLink)
-    {
+    private function compareLinks(
+        \Magento\Bundle\Api\Data\LinkInterface $firstLink,
+        \Magento\Bundle\Api\Data\LinkInterface $secondLink
+    ) {
         if ($firstLink->getSku() == $secondLink->getSku()) {
             return 0;
         } else {
