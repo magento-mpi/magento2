@@ -35,7 +35,6 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     protected $_addressFactory;
 
     /**
-     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -47,10 +46,10 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
+     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
      * @param array $data
      */
     public function __construct(
-        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
@@ -62,6 +61,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
+        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         array $data = array()
     ) {
         $this->_addressFactory = $addressFactory;

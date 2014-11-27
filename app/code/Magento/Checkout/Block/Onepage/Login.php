@@ -54,10 +54,10 @@ class Login extends AbstractOnepage
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Customer\Model\Url $customerUrl
      * @param \Magento\Customer\Model\Registration $registration
+     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
      * @param array $data
      */
     public function __construct(
-        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
@@ -72,6 +72,7 @@ class Login extends AbstractOnepage
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Customer\Model\Url $customerUrl,
         \Magento\Customer\Model\Registration $registration,
+        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         array $data = array()
     ) {
         $this->registration = $registration;

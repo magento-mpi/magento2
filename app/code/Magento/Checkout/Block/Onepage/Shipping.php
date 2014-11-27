@@ -43,7 +43,6 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param array $data
      */
     public function __construct(
-        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
@@ -55,6 +54,7 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
+        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         array $data = array()
     ) {
         $this->_addressFactory = $addressFactory;

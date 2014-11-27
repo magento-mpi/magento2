@@ -11,14 +11,12 @@ use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Framework\Object\Copy as CopyObject;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Model\Session as CustomerSession;
 
 /**
  * Class Quote
  */
 class Quote
 {
-
     /**
      * @var AddressDataBuilder
      */
@@ -35,11 +33,6 @@ class Quote
     protected $customerRepository;
 
     /**
-     * @var CustomerSession
-     */
-    protected $customerSession;
-
-    /**
      * @var CopyObject
      */
     protected $copyObject;
@@ -49,33 +42,27 @@ class Quote
      * @param CustomerDataBuilder $customerBuilder
      * @param CustomerRepositoryInterface $customerRepository
      * @param CopyObject $copyObject
-     * @param CustomerSession $customerSession
      */
     public function __construct(
         AddressDataBuilder $addressBuilder,
         CustomerDataBuilder $customerBuilder,
         CustomerRepositoryInterface $customerRepository,
-        CopyObject $copyObject,
-        CustomerSession $customerSession
+        CopyObject $copyObject
     ) {
         $this->addressBuilder = $addressBuilder;
         $this->customerBuilder = $customerBuilder;
         $this->customerRepository = $customerRepository;
         $this->copyObject = $copyObject;
-        $this->_customerSession =
-            isset($params['session']) && $params['session'] instanceof \Magento\Customer\Model\Session ?
-                $params['session'] :
-                $customerSession;
     }
 
     /**
      * @param \Magento\Sales\Model\Quote $quote
-     * @return void
+     * @return \Magento\Sales\Model\Quote
      */
     public function prepareQuoteForNewCustomer(\Magento\Sales\Model\Quote $quote)
     {
-        $billing    = $quote->getBillingAddress();
-        $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
+        $billing = $quote->getBillingAddress();
+        $shipping = $quote->isVirtual() ? null : $quote->getShippingAddress();
         $billing->setDefaultBilling(true);
         if ($shipping && !$shipping->getSameAsBilling()) {
             $shipping->setDefaultShipping(true);
@@ -106,22 +93,25 @@ class Quote
         $this->customerBuilder->setMiddlename($quote->getCustomerMiddlename());
         $this->customerBuilder->setLastname($quote->getCustomerLastname());
         $this->customerBuilder->setSuffix($quote->getCustomerSuffix());
-        $quote->setCustomerData($this->customerBuilder->create());
+        $quote->setCustomer($this->customerBuilder->create());
         $quote->addCustomerAddressData($billing->getCustomerAddressData());
         if ($shipping->hasCustomerAddressData()) {
             $quote->addCustomerAddressData($shipping->getCustomerAddressData());
         }
+        return $quote;
     }
+
 
     /**
      * @param \Magento\Sales\Model\Quote $quote
-     * @return void
+     * @param $customerId
+     * @return \Magento\Sales\Model\Quote
      */
-    public function prepareRegisteredCustomerQuote(\Magento\Sales\Model\Quote $quote)
+    public function prepareRegisteredCustomerQuote(\Magento\Sales\Model\Quote $quote, $customerId)
     {
-        $billing    = $quote->getBillingAddress();
-        $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
-        $customer = $this->customerRepository->getById($this->customerSession->getCustomerId());
+        $billing = $quote->getBillingAddress();
+        $shipping = $quote->isVirtual() ? null : $quote->getShippingAddress();
+        $customer = $this->customerRepository->getById($customerId);
         if (!$billing->getCustomerId() || $billing->getSaveInAddressBook()) {
             $billing->setCustomerAddressData(
                 $this->addressBuilder->populateWithArray($billing->getData())->create()
@@ -148,6 +138,7 @@ class Quote
             $billing->setDefaultShipping($isBillingAddressDefaultShipping);
             $quote->addCustomerAddressData($this->addressBuilder->populateWithArray($billing->getData())->create());
         }
-        $quote->setCustomerData($customer);
+        $quote->setCustomer($customer);
+        return $quote;
     }
 }
