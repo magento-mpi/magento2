@@ -41,8 +41,6 @@ $product->setTypeId('simple')
     ->save();
 $product->load(1);
 
-$addressConverter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Customer\Model\Address\Converter');
 $customerBillingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Customer\Model\Address');
 $customerBillingAddress->load(1);
@@ -52,10 +50,11 @@ $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
 $billingAddress->importCustomerAddressData($billingAddressDataObject);
 $billingAddress->setAddressType('billing');
 
+/** @var \Magento\Customer\Model\Address $customerShippingAddress */
 $customerShippingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Customer\Model\Address');
 $customerShippingAddress->load(2);
-$shippingAddressDataObject = $addressConverter->createAddressFromModel($customerShippingAddress, false, false);
+$shippingAddressDataObject = $customerShippingAddress->getDataModel();
 $shippingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Sales\Model\Quote\Address');
 $shippingAddress->importCustomerAddressData($shippingAddressDataObject);

@@ -201,8 +201,8 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
                 'storage' => $this->storageMock,
                 'cookieManager' => $this->cookieManagerMock,
                 'cookieMetadataFactory' => $this->cookieMetadataFactoryMock,
-                'quoteRepository' => $this->quoteRepositoryMock,
                 'customerRepository' => $this->customerRepositoryMock,
+                'quoteRepository' => $this->quoteRepositoryMock,
                 'orderFactory' => $this->orderFactoryMock,
                 'storeManager' => $this->storeManagerMock,
                 'groupManagement' => $this->groupManagementMock
