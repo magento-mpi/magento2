@@ -83,7 +83,6 @@ class Validator
             default:
                 return true;
         }
-        return false;
     }
 
     /**
@@ -106,7 +105,7 @@ class Validator
      * @param array $data
      * @return bool
      */
-    public function validateDeploymentConfig(array $data)
+    private function validateDeploymentConfig(array $data)
     {
         $pass = true;
         if (isset($data[ConfigMapper::KEY_BACKEND_FRONTNAME]) &&
@@ -143,7 +142,7 @@ class Validator
      * @param array $data
      * @return bool
      */
-    public function validateUserConfig(array $data)
+    private function validateUserConfig(array $data)
     {
         $pass = true;
         // check URL
@@ -154,7 +153,7 @@ class Validator
                 "Please enter a valid base url. Current: {$data[UserConfigurationDataMapper::KEY_BASE_URL]}";
         }
         if (isset($data[UserConfigurationDataMapper::KEY_BASE_URL_SECURE]) &&
-            !$this->validateUrl($data[UserConfigurationDataMapper::KEY_BASE_URL_SECURE])) {
+            !$this->validateUrl($data[UserConfigurationDataMapper::KEY_BASE_URL_SECURE], true)) {
             $pass = false;
             $this->validationMessages[UserConfigurationDataMapper::KEY_BASE_URL_SECURE] =
                 'Please enter a valid secure base url. ' .
@@ -162,31 +161,22 @@ class Validator
         }
 
         // check 0/1 options
-        $wrongOptionMessage = 'Please enter a valid option (0/1). ';
-        if (isset($data[UserConfigurationDataMapper::KEY_USE_SEF_URL]) &&
-            !$this->validateOneZero($data[UserConfigurationDataMapper::KEY_USE_SEF_URL])) {
-            $pass = false;
-            $this->validationMessages[UserConfigurationDataMapper::KEY_USE_SEF_URL] =
-                $wrongOptionMessage . "Current: {$data[UserConfigurationDataMapper::KEY_USE_SEF_URL]}";
+        $flags = [];
+        if (isset($data[UserConfigurationDataMapper::KEY_USE_SEF_URL])) {
+            $flags[UserConfigurationDataMapper::KEY_USE_SEF_URL] = $data[UserConfigurationDataMapper::KEY_USE_SEF_URL];
         }
-        if (isset($data[UserConfigurationDataMapper::KEY_IS_SECURE]) &&
-            !$this->validateOneZero($data[UserConfigurationDataMapper::KEY_IS_SECURE])) {
-            $pass = false;
-            $this->validationMessages[UserConfigurationDataMapper::KEY_IS_SECURE] =
-                $wrongOptionMessage . "Current: {$data[UserConfigurationDataMapper::KEY_IS_SECURE]}";
+        if (isset($data[UserConfigurationDataMapper::KEY_IS_SECURE])) {
+            $flags[UserConfigurationDataMapper::KEY_IS_SECURE] = $data[UserConfigurationDataMapper::KEY_IS_SECURE];
         }
-        if (isset($data[UserConfigurationDataMapper::KEY_IS_SECURE_ADMIN]) &&
-            !$this->validateOneZero($data[UserConfigurationDataMapper::KEY_IS_SECURE_ADMIN])) {
-            $pass = false;
-            $this->validationMessages[UserConfigurationDataMapper::KEY_IS_SECURE_ADMIN] =
-                $wrongOptionMessage . "Current: {$data[UserConfigurationDataMapper::KEY_IS_SECURE_ADMIN]}";
+        if (isset($data[UserConfigurationDataMapper::KEY_IS_SECURE_ADMIN])) {
+            $flags[UserConfigurationDataMapper::KEY_IS_SECURE_ADMIN] =
+                $data[UserConfigurationDataMapper::KEY_IS_SECURE_ADMIN];
         }
-        if (isset($data[UserConfigurationDataMapper::KEY_ADMIN_USE_SECURITY_KEY]) &&
-            !$this->validateOneZero($data[UserConfigurationDataMapper::KEY_ADMIN_USE_SECURITY_KEY])) {
-            $pass = false;
-            $this->validationMessages[UserConfigurationDataMapper::KEY_ADMIN_USE_SECURITY_KEY] =
-                $wrongOptionMessage . "Current: {$data[UserConfigurationDataMapper::KEY_ADMIN_USE_SECURITY_KEY]}";
+        if (isset($data[UserConfigurationDataMapper::KEY_ADMIN_USE_SECURITY_KEY])) {
+            $flags[UserConfigurationDataMapper::KEY_ADMIN_USE_SECURITY_KEY] =
+                $data[UserConfigurationDataMapper::KEY_ADMIN_USE_SECURITY_KEY];
         }
+        $pass = $this->validateOneZero($flags);
 
         // check language, currency and timezone
         $options = new Lists(new \Zend_Locale());
@@ -226,7 +216,7 @@ class Validator
      * @param array $data
      * @return bool
      */
-    public function validateAdmin(array $data)
+    private function validateAdmin(array $data)
     {
         $pass = true;
         if (isset($data[AdminAccount::KEY_EMAIL]) &&
@@ -282,13 +272,21 @@ class Validator
     }
 
     /**
-     * Validate if it's one or zero flag
+     * Validate if all flags are of 0/1 option
      *
-     * @param $flag
+     * @param array $flags
      * @return bool
      */
-    private function validateOneZero($flag)
+    private function validateOneZero(array $flags = [])
     {
-        return $flag === '0' || $flag === '1';
+        $wrongOptionMessage = 'Please enter a valid option (0/1). ';
+        $pass = true;
+        foreach ($flags as $key => $flag) {
+            if ($flag !== '0' && $flag !== '1') {
+                $pass = false;
+                $this->validationMessages[$key] = "{$wrongOptionMessage} Current: {$flag}";
+            }
+        }
+        return $pass;
     }
 }
