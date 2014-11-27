@@ -264,4 +264,6 @@ define([
             });
         }
     });
+    
+    return $.mage.opcCheckoutMethod;
 });

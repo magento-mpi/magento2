@@ -2,7 +2,7 @@
     "name": "magento/project-mainline",
     "description": "Magento project mainline",
     "type": "project",
-    "version": "0.1.0-alpha104",
+    "version": "0.1.0-alpha105",
     "require": {
         "php": "~5.4.11|~5.5.0",
         "zendframework/zend-stdlib": "2.0.3"
@@ -10,7 +10,7 @@
     "require-dev": {
         "phpunit/phpunit": "4.1.0",
         "squizlabs/php_codesniffer": "1.5.3",
-        "phpmd/phpmd" : "@stable"
+        "phpmd/phpmd": "@stable"
     },
     "replace": {
         "magento/module-admin-gws": "self.version",
@@ -135,7 +135,6 @@
         "magento/theme-adminhtml-backend": "self.version",
         "magento/theme-frontend-blank": "self.version",
         "magento/theme-frontend-luma": "self.version",
-        "magento/theme-frontend-plushe": "self.version",
         "magento/language-de_de": "self.version",
         "magento/language-en_us": "self.version",
         "magento/language-es_es": "self.version",

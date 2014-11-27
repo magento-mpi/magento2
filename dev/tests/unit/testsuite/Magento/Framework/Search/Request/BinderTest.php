@@ -16,6 +16,9 @@ class BinderTest extends \PHPUnit_Framework_TestCase
      */
     private $binder;
 
+    /**
+     * SetUP method
+     */
     protected function setUp()
     {
         $helper = new ObjectManager($this);
@@ -23,12 +26,16 @@ class BinderTest extends \PHPUnit_Framework_TestCase
         $this->binder = $helper->getObject('Magento\Framework\Search\Request\Binder');
     }
 
+    /**
+     * Test for method "build"
+     */
     public function testBind()
     {
         $requestData = [
             'dimensions' => ['scope' => ['value' => '$sss$']],
             'queries' => ['query' => ['value' => '$query$']],
             'filters' => ['filter' => ['from' => '$from$', 'to' => '$to$', 'value' => '$filter$']],
+            'aggregations' => ['price' => ['method' => '$method$']],
             'from' => 0,
             'size' => 15
         ];
@@ -38,7 +45,8 @@ class BinderTest extends \PHPUnit_Framework_TestCase
                 '$query$' => 'match_query',
                 '$from$' => 'filter_from',
                 '$to$' => 'filter_to',
-                '$filter$' => 'filter_value'
+                '$filter$' => 'filter_value',
+                '$method$' => 'filter_method'
             ],
             'from' => 1,
             'size' => 10
@@ -47,6 +55,7 @@ class BinderTest extends \PHPUnit_Framework_TestCase
             'dimensions' => ['scope' => ['value' => 'default']],
             'queries' => ['query' => ['value' => 'match_query']],
             'filters' => ['filter' => ['from' => 'filter_from', 'to' => 'filter_to', 'value' => 'filter_value']],
+            'aggregations' => ['price' => ['method' => 'filter_method']],
             'from' => 1,
             'size' => 10
         ];

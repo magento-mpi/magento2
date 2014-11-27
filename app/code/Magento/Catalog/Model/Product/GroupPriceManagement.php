@@ -9,6 +9,7 @@
 
 namespace Magento\Catalog\Model\Product;
 
+use Magento\Customer\Api\GroupRepositoryInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
 
@@ -20,14 +21,14 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
     protected $productRepository;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var \Magento\Catalog\Api\Data\ProductGroupPriceDataBuilder
      */
     protected $groupPriceBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var GroupRepositoryInterface
      */
-    protected $customerGroupService;
+    protected $groupRepository;
 
     /**
      * @var \Magento\Catalog\Model\Product\PriceModifier
@@ -48,21 +49,21 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
      * @param \Magento\Catalog\Model\ProductRepository $productRepository
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Api\Data\ProductGroupPriceDataBuilder $groupPriceBuilder
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param GroupRepositoryInterface $groupRepository
      * @param PriceModifier $priceModifier
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
         \Magento\Catalog\Model\ProductRepository $productRepository,
         \Magento\Catalog\Api\Data\ProductGroupPriceDataBuilder $groupPriceBuilder,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
+        GroupRepositoryInterface $groupRepository,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->productRepository = $productRepository;
         $this->groupPriceBuilder = $groupPriceBuilder;
-        $this->customerGroupService = $customerGroupService;
+        $this->groupRepository = $groupRepository;
         $this->priceModifier = $priceModifier;
         $this->config = $config;
         $this->storeManager = $storeManager;
@@ -76,7 +77,7 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
         if (!\Zend_Validate::is($price, 'Float') || $price <= 0 || !\Zend_Validate::is($price, 'Float')) {
             throw new InputException('Please provide valid data');
         }
-        $customerGroup = $this->customerGroupService->getGroup($customerGroupId);
+        $customerGroup = $this->groupRepository->getById($customerGroupId);
         $product = $this->productRepository->get($productSku, true);
         $groupPrices = $product->getData('group_price');
         $websiteIdentifier = 0;
@@ -144,10 +145,12 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
 
         $prices = array();
         foreach ($product->getData('group_price') as $price) {
-            $this->groupPriceBuilder->populateWithArray(array(
-                'customer_group_id' => $price['all_groups'] ? 'all' : $price['cust_group'],
-                'value' => $price[$priceKey],
-            ));
+            $this->groupPriceBuilder->populateWithArray(
+                array(
+                    'customer_group_id' => $price['all_groups'] ? 'all' : $price['cust_group'],
+                    'value' => $price[$priceKey],
+                )
+            );
             $prices[] = $this->groupPriceBuilder->create();
         }
         return $prices;

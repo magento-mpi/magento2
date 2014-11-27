@@ -150,7 +150,7 @@ class Reader
     {
         $result = [];
 
-        $excludes = $this->getExcludePaths();
+        $excludes = array_merge($this->getExcludePaths(), $this->getSkipMappingPaths());
         $directory = new \RecursiveDirectoryIterator($this->rootDir, \RecursiveDirectoryIterator::SKIP_DOTS);
         $directory = new ExcludeFilter($directory, $excludes);
         $paths = new \RecursiveIteratorIterator($directory, \RecursiveIteratorIterator::SELF_FIRST);
@@ -166,6 +166,21 @@ class Reader
         }
 
         return $result;
+    }
+
+    /**
+     * Gets paths that should be skipped during creating mapping information
+     *
+     * @return array
+     */
+    private function getSkipMappingPaths()
+    {
+        $skips = [];
+        $skips[] = $this->rootDir . '/.gitignore';
+        $skips[] = $this->rootDir . '/README.md';
+        $skips[] = $this->rootDir . '/composer.json';
+
+        return $skips;
     }
 
     /**

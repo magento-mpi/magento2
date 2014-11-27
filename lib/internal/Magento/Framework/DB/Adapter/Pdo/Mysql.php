@@ -9,8 +9,8 @@
  */
 namespace Magento\Framework\DB\Adapter\Pdo;
 
+use Magento\Framework\DB\LoggerInterface;
 use Magento\Framework\Filesystem;
-use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Cache\FrontendInterface;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Ddl\Table;
@@ -18,16 +18,11 @@ use Magento\Framework\DB\ExpressionConverter;
 use Magento\Framework\DB\Profiler;
 use Magento\Framework\DB\Select;
 use Magento\Framework\DB\Statement\Parameter;
-use Magento\Framework\Debug;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Framework\Stdlib\String;
 
 class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
 {
-    const DEBUG_CONNECT         = 0;
-    const DEBUG_TRANSACTION     = 1;
-    const DEBUG_QUERY           = 2;
-
     const TIMESTAMP_FORMAT      = 'Y-m-d H:i:s';
     const DATETIME_FORMAT       = 'Y-m-d H:i:s';
     const DATE_FORMAT           = 'Y-m-d';
@@ -103,55 +98,6 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     protected $_bindIncrement       = 0;
 
     /**
-     * Write SQL debug data to file
-     *
-     * @var bool
-     */
-    protected $_debug               = false;
-
-    /**
-     * Minimum query duration time to be logged
-     *
-     * @var float
-     */
-    protected $_logQueryTime        = 0.05;
-
-    /**
-     * Log all queries (ignored minimum query duration time)
-     *
-     * @var bool
-     */
-    protected $_logAllQueries       = false;
-
-    /**
-     * Add to log call stack data (backtrace)
-     *
-     * @var bool
-     */
-    protected $_logCallStack        = false;
-
-    /**
-     * Path to SQL debug data log
-     *
-     * @var string
-     */
-    protected $_debugFile           = 'var/debug/pdo_mysql.log';
-
-    /**
-     * Filesystem class
-     *
-     * @var Filesystem
-     */
-    protected $_filesystem;
-
-    /**
-     * Debug timer start value
-     *
-     * @var float
-     */
-    protected $_debugTimer          = 0;
-
-    /**
      * Cache frontend adapter instance
      *
      * @var FrontendInterface
@@ -223,22 +169,27 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * @var DateTime
      */
     protected $dateTime;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
-     * @param Filesystem $filesystem
      * @param \Magento\Framework\Stdlib\String|String $string
      * @param DateTime $dateTime
+     * @param LoggerInterface $logger
      * @param array $config
+     * @throws \Zend_Db_Adapter_Exception
      */
     public function __construct(
-        Filesystem $filesystem,
         String $string,
         DateTime $dateTime,
+        LoggerInterface $logger,
         array $config = array()
     ) {
-        $this->_filesystem = $filesystem;
         $this->string = $string;
         $this->dateTime = $dateTime;
+        $this->logger = $logger;
         parent::__construct($config);
     }
 
@@ -254,9 +205,9 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
             throw new \Exception(AdapterInterface::ERROR_ROLLBACK_INCOMPLETE_MESSAGE);
         }
         if ($this->_transactionLevel === 0) {
-            $this->_debugTimer();
+            $this->logger->startTimer();
             parent::beginTransaction();
-            $this->_debugStat(self::DEBUG_TRANSACTION, 'BEGIN');
+            $this->logger->logStats(LoggerInterface::TYPE_TRANSACTION, 'BEGIN');
         }
         ++$this->_transactionLevel;
         return $this;
@@ -271,9 +222,9 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     public function commit()
     {
         if ($this->_transactionLevel === 1 && !$this->_isRolledBack) {
-            $this->_debugTimer();
+            $this->logger->startTimer();
             parent::commit();
-            $this->_debugStat(self::DEBUG_TRANSACTION, 'COMMIT');
+            $this->logger->logStats(LoggerInterface::TYPE_TRANSACTION, 'COMMIT');
         } elseif ($this->_transactionLevel === 0) {
             throw new \Exception(AdapterInterface::ERROR_ASYMMETRIC_COMMIT_MESSAGE);
         } elseif ($this->_isRolledBack) {
@@ -292,10 +243,10 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     public function rollBack()
     {
         if ($this->_transactionLevel === 1) {
-            $this->_debugTimer();
+            $this->logger->startTimer();
             parent::rollBack();
             $this->_isRolledBack = false;
-            $this->_debugStat(self::DEBUG_TRANSACTION, 'ROLLBACK');
+            $this->logger->logStats(LoggerInterface::TYPE_TRANSACTION, 'ROLLBACK');
         } elseif ($this->_transactionLevel === 0) {
             throw new \Exception(AdapterInterface::ERROR_ASYMMETRIC_ROLLBACK_MESSAGE);
         } else {
@@ -364,9 +315,9 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
             list($this->_config['host'], $this->_config['port']) = explode(':', $this->_config['host']);
         }
 
-        $this->_debugTimer();
+        $this->logger->startTimer();
         parent::_connect();
-        $this->_debugStat(self::DEBUG_CONNECT, '');
+        $this->logger->logStats(LoggerInterface::TYPE_CONNECT, '');
 
         /** @link http://bugs.mysql.com/bug.php?id=18551 */
         $this->_connection->query("SET SQL_MODE=''");
@@ -462,12 +413,12 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         $triesCount = 0;
         do {
             $retry = false;
-            $this->_debugTimer();
+            $this->logger->startTimer();
             try {
                 $this->_checkDdlTransaction($sql);
                 $this->_prepareQuery($sql, $bind);
                 $result = parent::query($sql, $bind);
-                $this->_debugStat(self::DEBUG_QUERY, $sql, $bind, $result);
+                $this->logger->logStats(LoggerInterface::TYPE_QUERY, $sql, $bind, $result);
                 return $result;
             } catch (\Exception $e) {
                 // Finalize broken query
@@ -496,8 +447,9 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
                 }
 
                 if (!$retry) {
-                    $this->_debugStat(self::DEBUG_QUERY, $sql, $bind);
-                    $this->_debugException($e);
+                    $this->logger->logStats(LoggerInterface::TYPE_QUERY, $sql, $bind);
+                    $this->logger->logException($e);
+                    throw $e;
                 }
             }
         } while ($retry);
@@ -1354,110 +1306,6 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     public function select()
     {
         return new Select($this);
-    }
-
-    /**
-     * Start debug timer
-     *
-     * @return $this
-     */
-    protected function _debugTimer()
-    {
-        if ($this->_debug) {
-            $this->_debugTimer = microtime(true);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Logging debug information
-     *
-     * @param int $type
-     * @param string $sql
-     * @param array $bind
-     * @param \Zend_Db_Statement_Pdo $result
-     * @return $this
-     */
-    protected function _debugStat($type, $sql, $bind = array(), $result = null)
-    {
-        if (!$this->_debug) {
-            return $this;
-        }
-
-        $code = '## ' . getmypid() . ' ## ';
-        $nl   = "\n";
-        $time = sprintf('%.4f', microtime(true) - $this->_debugTimer);
-
-        if (!$this->_logAllQueries && $time < $this->_logQueryTime) {
-            return $this;
-        }
-        switch ($type) {
-            case self::DEBUG_CONNECT:
-                $code .= 'CONNECT' . $nl;
-                break;
-            case self::DEBUG_TRANSACTION:
-                $code .= 'TRANSACTION ' . $sql . $nl;
-                break;
-            case self::DEBUG_QUERY:
-                $code .= 'QUERY' . $nl;
-                $code .= 'SQL: ' . $sql . $nl;
-                if ($bind) {
-                    $code .= 'BIND: ' . var_export($bind, true) . $nl;
-                }
-                if ($result instanceof \Zend_Db_Statement_Pdo) {
-                    $code .= 'AFF: ' . $result->rowCount() . $nl;
-                }
-                break;
-        }
-        $code .= 'TIME: ' . $time . $nl;
-
-        if ($this->_logCallStack) {
-            $code .= 'TRACE: ' . Debug::backtrace(true, false) . $nl;
-        }
-
-        $code .= $nl;
-
-        $this->_debugWriteToFile($code);
-
-        return $this;
-    }
-
-    /**
-     * Write exception and thow
-     *
-     * @param \Exception $e
-     * @return void
-     * @throws \Exception
-     */
-    protected function _debugException(\Exception $e)
-    {
-        if (!$this->_debug) {
-            throw $e;
-        }
-
-        $nl   = "\n";
-        $code = 'EXCEPTION ' . $nl . $e . $nl . $nl;
-        $this->_debugWriteToFile($code);
-
-        throw $e;
-    }
-
-    /**
-     * Debug write to file process
-     *
-     * @param string $str
-     * @return void
-     */
-    protected function _debugWriteToFile($str)
-    {
-        $str = '## ' . date('Y-m-d H:i:s') . "\r\n" . $str;
-
-        $stream = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT)->openFile($this->_debugFile, 'a');
-        $stream->lock();
-        $stream->write($str);
-        $stream->unlock();
-        $stream->close();
     }
 
     /**
