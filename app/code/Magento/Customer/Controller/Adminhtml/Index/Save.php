@@ -113,8 +113,8 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
     protected function saveDefaultFlags(array $addressIdList, array & $extractedCustomerData)
     {
         $result = [];
-        $extractedCustomerData[Customer::DEFAULT_BILLING] = null;
-        $extractedCustomerData[Customer::DEFAULT_SHIPPING] = null;
+        $extractedCustomerData[CustomerInterface::DEFAULT_BILLING] = null;
+        $extractedCustomerData[CustomerInterface::DEFAULT_SHIPPING] = null;
         foreach ($addressIdList as $addressId) {
             $scope = sprintf('account/customer_address/%s', $addressId);
             $addressData = $this->_extractData(
@@ -130,13 +130,13 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index
             }
             // Set default billing and shipping flags to customer
             if (!empty($addressData['default_billing']) && $addressData['default_billing'] === 'true') {
-                $extractedCustomerData[Customer::DEFAULT_BILLING] = $addressId;
+                $extractedCustomerData[CustomerInterface::DEFAULT_BILLING] = $addressId;
                 $addressData['default_billing'] = true;
             } else {
                 $addressData['default_billing'] = false;
             }
             if (!empty($addressData['default_shipping']) && $addressData['default_shipping'] === 'true') {
-                $extractedCustomerData[Customer::DEFAULT_SHIPPING] = $addressId;
+                $extractedCustomerData[CustomerInterface::DEFAULT_SHIPPING] = $addressId;
                 $addressData['default_shipping'] = true;
             } else {
                 $addressData['default_shipping'] = false;
