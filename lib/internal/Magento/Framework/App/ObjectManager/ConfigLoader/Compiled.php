@@ -18,9 +18,9 @@ class Compiled extends \Magento\Framework\App\ObjectManager\ConfigLoader
     private $globalConfig = [];
 
     /**
-     * @param array $globalConfig
+     * Compiled construct
      */
-    public function __construct($globalConfig)
+    public function __construct(array $globalConfig = [])
     {
         $this->globalConfig = $globalConfig;
     }
