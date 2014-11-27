@@ -211,6 +211,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 }
                 // break the reference with the last element
 
+
                 $bundleOptionPriceAmount = $currentProduct->getPriceInfo()->getPrice('bundle_option')
                     ->getOptionSelectionAmount($selectionItem);
                 $finalPrice = $bundleOptionPriceAmount->getValue();
@@ -291,10 +292,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 ]
             ],
             'priceType' => $currentProduct->getPriceType(),
-            'specialPrice' => $currentProduct
-                ->getPriceInfo()
-                ->getPrice(\Magento\Catalog\Pricing\Price\SpecialPrice::PRICE_CODE)
-                ->getValue(),
             'includeTax' => $this->_taxData->priceIncludesTax() ? 'true' : 'false',
             'isFixedPrice' => $isFixedPrice,
         );

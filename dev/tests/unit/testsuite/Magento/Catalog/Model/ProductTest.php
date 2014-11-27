@@ -550,7 +550,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testFromArray()
     {
         $data = [
-            'stock_item' => 'stock-item-data'
+            'stock_item' => ['stock-item-data']
         ];
 
         $stockItemMock = $this->getMockForAbstractClass(

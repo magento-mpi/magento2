@@ -74,8 +74,8 @@ class TypeTest extends \PHPUnit_Framework_TestCase
                 'productFactory' => $this->getMockBuilder('Magento\Catalog\Model\ProductFactory')
                     ->disableOriginalConstructor()
                     ->getMock(),
-                'bundleModelSelection' => $this->getMock('Magento\Bundle\Model\SelectionFactory'),
-                'bundleFactory' => $this->getMock('Magento\Bundle\Model\Resource\BundleFactory'),
+                'bundleModelSelection' => $this->getMock('Magento\Bundle\Model\SelectionFactory', [], [], '', false),
+                'bundleFactory' => $this->getMock('Magento\Bundle\Model\Resource\BundleFactory', [], [], '', false),
                 'bundleCollection' => $this->bundleCollection,
                 'bundleOption' => $this->bundleOptionFactory,
                 'catalogData' => $this->catalogData,
