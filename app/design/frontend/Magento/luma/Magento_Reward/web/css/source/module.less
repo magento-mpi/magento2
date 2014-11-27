@@ -9,17 +9,19 @@
 .block-reward-info {
     .reward-balance {
         .font-size(18);
-        .css(margin-bottom, @indent-m-base);
+        margin-bottom: @indent-m-base;
     }
-    .reward-rates {
-        line-height: 2;
-        > span {
-            display: block;  
+    .reward-rates,
+    .reward-limit,
+    .reward-expiring {
+        &:not(:last-child) {
+            margin-bottom: @indent-m-base;
+        }
+        .title {
+            display: inline-block;
+            margin-bottom: @indent-s-base;
         }
     }
-}
-
-.form.reward-settings {
 }
 
 //
