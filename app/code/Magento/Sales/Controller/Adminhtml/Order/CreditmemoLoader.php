@@ -66,9 +66,9 @@ class CreditmemoLoader extends Object
     protected $registry;
 
     /**
-     * @var \Magento\CatalogInventory\Helper\Data
+     * @var \Magento\CatalogInventory\Api\StockConfigurationInterface
      */
-    protected $inventoryHelper;
+    protected $stockConfiguration;
 
     /**
      * @param \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory
@@ -79,7 +79,7 @@ class CreditmemoLoader extends Object
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\CatalogInventory\Helper\Data $inventoryHelper
+     * @param \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration
      * @param array $data
      */
     public function __construct(
@@ -91,7 +91,7 @@ class CreditmemoLoader extends Object
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Registry $registry,
-        \Magento\CatalogInventory\Helper\Data $inventoryHelper,
+        \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration,
         array $data = []
     ) {
         $this->creditmemoFactory = $creditmemoFactory;
@@ -102,7 +102,7 @@ class CreditmemoLoader extends Object
         $this->backendSession = $backendSession;
         $this->messageManager = $messageManager;
         $this->registry = $registry;
-        $this->inventoryHelper = $inventoryHelper;
+        $this->stockConfiguration = $stockConfiguration;
         parent::__construct($data);
     }
 
@@ -225,7 +225,7 @@ class CreditmemoLoader extends Object
                     $creditmemoItem->setBackToStock(true);
                 } elseif (empty($savedData)) {
                     $creditmemoItem->setBackToStock(
-                        $this->inventoryHelper->isAutoReturnEnabled()
+                        $this->stockConfiguration->isAutoReturnEnabled()
                     );
                 } else {
                     $creditmemoItem->setBackToStock(false);

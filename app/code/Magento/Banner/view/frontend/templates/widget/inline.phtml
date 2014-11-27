@@ -6,11 +6,16 @@
  * @license     {license_link}
  */
 ?>
-<div class="widget banners inline">
+<div class="widget block block-banners-inline">
     <?php $bannersContent =  $this->getBannersContent() ?>
-    <ul class="inner">
+    <?php $iterator = 1; ?>
+    <ul class="banner-items">
         <?php foreach ($bannersContent as $bannerId => $content): ?>
-            <li class="banner"><?php echo $content?></li>
+            <?php echo ($iterator++==1) ? '<li class="banner-item">' : '</li><li class="banner-item">' ?>
+            <div class="banner-item-content">
+                <?php echo $content?>
+            </div>
+            <?php echo ($iterator==count($bannersContent)+1) ? '</li>' : '' ?>
         <?php endforeach; ?>
     </ul>
 </div>

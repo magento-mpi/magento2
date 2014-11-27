@@ -7,12 +7,15 @@
  */
 namespace Magento\Sales\Model\Resource\Order\Invoice;
 
+use Magento\Sales\Model\Resource\Entity;
+use Magento\Sales\Model\Spi\InvoiceCommentResourceInterface;
+
 /**
  * Flat sales order invoice comment resource
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Comment extends \Magento\Sales\Model\Resource\Entity
+class Comment extends Entity implements InvoiceCommentResourceInterface
 {
     /**
      * Event prefix
@@ -46,9 +49,6 @@ class Comment extends \Magento\Sales\Model\Resource\Entity
         parent::__construct($resource, $attribute, $salesIncrement, $gridAggregator);
     }
 
-
-
-
     /**
      * Model initialization
      *
@@ -68,6 +68,11 @@ class Comment extends \Magento\Sales\Model\Resource\Entity
      */
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
+        /** @var \Magento\Sales\Model\Order\Invoice\Comment $object */
+        if (!$object->getParentId() && $object->getInvoice()) {
+            $object->setParentId($object->getInvoice()->getId());
+        }
+
         parent::_beforeSave($object);
         $errors = $this->validator->validate($object);
         if (!empty($errors)) {

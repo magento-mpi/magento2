@@ -9,16 +9,16 @@ namespace Magento\Pbridge\Model\Payment\Method;
 
 class PbridgeTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Pbridge\Helper\Data|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Pbridge\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $pbridgeData;
 
-    /** @var \Magento\Sales\Model\Order|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject */
     protected $order;
 
-    /** @var \Magento\Pbridge\Model\Payment\Method\Pbridge\Api|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Pbridge\Model\Payment\Method\Pbridge\Api|\PHPUnit_Framework_MockObject_MockObject */
     protected $api;
 
-    /** @var \Magento\Pbridge\Model\Payment\Method\Pbridge|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Pbridge\Model\Payment\Method\Pbridge|\PHPUnit_Framework_MockObject_MockObject */
     protected $model;
 
     protected function setUp()
@@ -86,7 +86,13 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $apiFactory = $this->getMock('Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory', array('create'));
+        $apiFactory = $this->getMock(
+            'Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
         $apiFactory->expects($this->any())->method('create')->will($this->returnValue($this->api));
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $helper->getObject(

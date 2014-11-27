@@ -7,6 +7,7 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
+use Magento\Customer\Model\Context;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
 use Magento\Customer\Model\Address\Config as AddressConfig;
@@ -26,7 +27,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     protected $_configCacheType;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\Customer
+     * @var \Magento\Customer\Api\Data\CustomerInterface
      */
     protected $_customer;
 
@@ -146,7 +147,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     /**
      * Get logged in customer
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     protected function _getCustomerData()
     {
@@ -184,7 +185,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
      */
     public function isCustomerLoggedIn()
     {
-        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
+        return $this->httpContext->getValue(Context::CONTEXT_AUTH);
     }
 
     /**

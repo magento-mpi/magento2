@@ -7,7 +7,7 @@
  */
 namespace Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid;
 
-use Magento\CatalogInventory\Service\V1\StockStatusServiceInterface as StockStatus;
+use Magento\CatalogInventory\Api\StockRegistryInterface;
 
 /**
  * SKU failed grid collection
@@ -30,28 +30,28 @@ class Collection extends \Magento\Framework\Data\Collection
     protected $_coreHelper;
 
     /**
-     * @var StockStatus
+     * @var StockRegistryInterface
      */
-    protected $stockStatus;
+    protected $stockRegistry;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\Catalog\Model\Product $productModel
      * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\CatalogInventory\Service\V1\StockStatusServiceInterface $stockStatusService
+     * @param StockRegistryInterface $stockRegistry
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\Catalog\Model\Product $productModel,
         \Magento\Core\Helper\Data $coreHelper,
-        StockStatus $stockStatusService
+        StockRegistryInterface $stockRegistry
     ) {
         $this->_cart = $cart;
         $this->_productModel = $productModel;
         $this->_coreHelper = $coreHelper;
-        $this->stockStatus = $stockStatusService;
+        $this->stockRegistry = $stockRegistry;
         parent::__construct($entityFactory);
     }
 
@@ -83,9 +83,9 @@ class Collection extends \Magento\Framework\Data\Collection
                     $productId = $affectedItem['item']['id'];
                     $item->setProductId($productId);
                     $product->load($productId);
-                    $status = $this->stockStatus->getProductStockStatus($productId, $this->getWebsiteId());
-                    if ($status !== null) {
-                        $product->setIsSalable($status);
+                    $stockStatus = $this->stockRegistry->getStockStatus($productId, $this->getWebsiteId());
+                    if ($stockStatus !== null) {
+                        $product->setIsSalable($stockStatus->getStockStatus());
                     }
                     $item->setPrice($this->_coreHelper->formatPrice($product->getPrice()));
                 }

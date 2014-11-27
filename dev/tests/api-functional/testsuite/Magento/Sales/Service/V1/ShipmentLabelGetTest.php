@@ -7,17 +7,20 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 
+/**
+ * Class ShipmentLabelGetTest
+ */
 class ShipmentLabelGetTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/shipment';
-    const SERVICE_READ_NAME = 'salesShipmentReadV1';
+    const SERVICE_READ_NAME = 'salesShipmentManagementV1';
     const SERVICE_VERSION = 'V1';
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 

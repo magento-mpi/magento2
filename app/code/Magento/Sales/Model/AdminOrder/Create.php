@@ -10,9 +10,9 @@ namespace Magento\Sales\Model\AdminOrder;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\Data\AddressBuilder as CustomerAddressBuilder;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
 use Magento\Customer\Model\Metadata\Form as CustomerForm;
 use Magento\Customer\Service\V1\Data\Address as CustomerAddressDataObject;
 use Magento\Sales\Model\Quote\Item;
@@ -112,7 +112,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $_salesConfig;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -152,14 +152,9 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $_metadataFormFactory;
 
     /**
-     * @var CustomerBuilder
+     * @var CustomerDataBuilder
      */
     protected $_customerBuilder;
-
-    /**
-     * @var \Magento\Customer\Helper\Data
-     */
-    protected $_customerHelper;
 
     /**
      * @var CustomerGroupServiceInterface
@@ -172,9 +167,9 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     /**
      * @var \Magento\Sales\Model\AdminOrder\EmailSender
@@ -192,7 +187,17 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected $objectFactory;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
+     * @var \Magento\Sales\Model\QuoteRepository
+     */
+    protected $quoteRepository;
+
+    /**
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Sales\Model\Config $salesConfig
@@ -205,18 +210,19 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerAddressBuilder $customerAddressBuilder
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
-     * @param CustomerBuilder $customerBuilder
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param CustomerDataBuilder $customerBuilder
      * @param CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param EmailSender $emailSender
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param Item\Updater $quoteItemUpdater
      * @param \Magento\Framework\Object\Factory $objectFactory
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Sales\Model\Config $salesConfig,
@@ -229,14 +235,15 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAddressBuilder $customerAddressBuilder,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
-        CustomerBuilder $customerBuilder,
-        \Magento\Customer\Helper\Data $customerHelper,
+        CustomerDataBuilder $customerBuilder,
         CustomerGroupServiceInterface $customerGroupService,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\AdminOrder\EmailSender $emailSender,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Sales\Model\Quote\Item\Updater $quoteItemUpdater,
         \Magento\Framework\Object\Factory $objectFactory,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         array $data = array()
     ) {
         $this->_objectManager = $objectManager;
@@ -253,13 +260,14 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->_customerAddressBuilder = $customerAddressBuilder;
         $this->_metadataFormFactory = $metadataFormFactory;
         $this->_customerBuilder = $customerBuilder;
-        $this->_customerHelper = $customerHelper;
         $this->_customerGroupService = $customerGroupService;
         $this->_scopeConfig = $scopeConfig;
         $this->emailSender = $emailSender;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
         $this->quoteItemUpdater = $quoteItemUpdater;
         $this->objectFactory = $objectFactory;
+        $this->quoteRepository = $quoteRepository;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
         parent::__construct($data);
     }
 
@@ -342,7 +350,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     public function recollectCart()
     {
         if ($this->_needCollectCart === true) {
-            $this->getCustomerCart()->collectTotals()->save();
+            $this->getCustomerCart()->collectTotals();
+            $this->quoteRepository->save($this->getCustomerCart());
         }
         $this->setRecollect(true);
         return $this;
@@ -363,7 +372,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $this->getQuote()->collectTotals();
         }
 
-        $this->getQuote()->save();
+        $this->quoteRepository->save($this->getQuote());
         return $this;
     }
 
@@ -492,7 +501,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $this->collectRates();
         }
 
-        $quote->save();
+        $this->quoteRepository->save($quote);
 
         return $this;
     }
@@ -629,15 +638,17 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             return $this->_cart;
         }
 
-        $this->_cart = $this->_objectManager->create('Magento\Sales\Model\Quote');
+        $this->_cart = $this->quoteRepository->create();
 
         $customerId = (int)$this->getSession()->getCustomerId();
         if ($customerId) {
-            $this->_cart->setStore($this->getSession()->getStore())->loadByCustomer($customerId);
-            if (!$this->_cart->getId()) {
+            try {
+                $this->_cart = $this->quoteRepository->getForCustomer($customerId);
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                $this->_cart->setStore($this->getSession()->getStore());
                 $customerData = $this->_customerAccountService->getCustomer($customerId);
                 $this->_cart->assignCustomer($customerData);
-                $this->_cart->save();
+                $this->quoteRepository->save($this->_cart);
             }
         }
 
@@ -855,7 +866,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             }
         }
         if (isset($data['empty_customer_cart']) && (int)$data['empty_customer_cart'] == 1) {
-            $this->getCustomerCart()->removeAllItems()->collectTotals()->save();
+            $this->getCustomerCart()->removeAllItems()->collectTotals();
+            $this->quoteRepository->save($this->getCustomerCart());
         }
         return $this;
     }
@@ -877,7 +889,8 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                 $cart = $this->getCustomerCart();
                 if ($cart) {
                     $cart->removeItem($itemId);
-                    $cart->collectTotals()->save();
+                    $cart->collectTotals();
+                    $this->quoteRepository->save($cart);
                 }
                 break;
             case 'wishlist':
@@ -1201,9 +1214,9 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     protected function _createCustomerForm(CustomerDataObject $customerDataObject)
     {
         $customerForm = $this->_metadataFormFactory->create(
-            \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
+            \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
             'adminhtml_checkout',
-            \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerDataObject),
+            $this->extensibleDataObjectConverter->toFlatArray($customerDataObject),
             false,
             CustomerForm::DONT_IGNORE_INVISIBLE
         );
@@ -1482,7 +1495,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         $this->getQuote()->updateCustomerData($customer);
         $data = array();
 
-        $customerData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer);
+        $customerData = $this->extensibleDataObjectConverter->toFlatArray($customer);
         foreach ($form->getAttributes() as $attribute) {
             $code = sprintf('customer_%s', $attribute->getAttributeCode());
             $data[$code] = isset(
@@ -1655,7 +1668,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         }
         $this->getQuote()->updateCustomerData($customerDataObject);
 
-        $customerData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerDataObject);
+        $customerData = $this->extensibleDataObjectConverter->toFlatArray($customerDataObject);
         foreach ($this->_createCustomerForm($customerDataObject)->getUserAttributes() as $attribute) {
             if (isset($customerData[$attribute->getAttributeCode()])) {
                 $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());

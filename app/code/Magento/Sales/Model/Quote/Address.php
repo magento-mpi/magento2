@@ -242,6 +242,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Address\Config $addressConfig
@@ -268,6 +269,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Address\Config $addressConfig,
@@ -308,6 +310,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         parent::__construct(
             $context,
             $registry,
+            $metadataService,
             $directoryData,
             $eavConfig,
             $addressConfig,
@@ -334,9 +337,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         $this->_populateBeforeSaveData();
         return $this;
     }
@@ -424,9 +427,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
         if (null !== $this->_items) {
             $this->getItemsCollection()->save();
         }

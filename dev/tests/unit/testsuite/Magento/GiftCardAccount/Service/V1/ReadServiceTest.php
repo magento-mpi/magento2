@@ -82,7 +82,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->quoteRepositoryMock
             ->expects($this->once())
-            ->method('get')
+            ->method('getActive')
             ->with($cartId)
             ->will($this->returnValue($this->quoteMock));
         $this->giftCardHelperMock

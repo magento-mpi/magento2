@@ -25,4 +25,20 @@ class Item extends AbstractDb
     {
         $this->_init('sales_quote_item', 'item_id');
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function save(\Magento\Framework\Model\AbstractModel $object)
+    {
+        $hasDataChanges = $object->hasDataChanges();
+        $object->setIsOptionsSaved(false);
+
+        $result = parent::save($object);
+
+        if ($hasDataChanges && !$object->isOptionsSaved()) {
+            $object->saveItemOptions();
+        }
+        return $result;
+    }
 }

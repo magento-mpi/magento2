@@ -13,7 +13,7 @@
  */
 namespace Magento\Framework\HTTP\Client;
 
-class Socket implements \Magento\Framework\HTTP\IClient
+class Socket implements \Magento\Framework\HTTP\ClientInterface
 {
     /**
      * Hostname

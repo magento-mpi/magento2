@@ -27,11 +27,6 @@ class Address extends \Magento\Framework\App\Action\Action
     protected $_formKeyValidator;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
-     */
-    protected $_addressService;
-
-    /**
      * @var \Magento\Customer\Api\AddressRepositoryInterface
      */
     protected $_addressRepository;
@@ -40,16 +35,6 @@ class Address extends \Magento\Framework\App\Action\Action
      * @var \Magento\Customer\Model\Metadata\FormFactory
      */
     protected $_formFactory;
-
-    /**
-     * @var \Magento\Customer\Service\V1\Data\RegionBuilder
-     */
-    protected $_regionBuilder;
-
-    /**
-     * @var \Magento\Customer\Service\V1\Data\AddressBuilder
-     */
-    protected $_addressBuilder;
 
     /**
      * @var \Magento\Customer\Model\Data\AddressDataBuilder
@@ -70,27 +55,18 @@ class Address extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
-     * @param \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder
-     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
      * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressDataBuilder
      * @param \Magento\Customer\Api\Data\RegionDataBuilder $regionDataBuilder
      * @param \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor
-     * @internal param \Magento\Customer\Helper\Data $customerData
-     * @internal param \Magento\Customer\Model\AddressFactory $addressFactory
-     * @internal param \Magento\Customer\Model\Address\FormFactory $addressFormFactory
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        \Magento\Customer\Service\V1\Data\RegionBuilder $regionBuilder,
-        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
         \Magento\Customer\Api\Data\AddressDataBuilder $addressDataBuilder,
         \Magento\Customer\Api\Data\RegionDataBuilder $regionDataBuilder,
@@ -98,10 +74,7 @@ class Address extends \Magento\Framework\App\Action\Action
     ) {
         $this->_customerSession = $customerSession;
         $this->_formKeyValidator = $formKeyValidator;
-        $this->_addressService = $addressService;
         $this->_formFactory = $formFactory;
-        $this->_regionBuilder = $regionBuilder;
-        $this->_addressBuilder = $addressBuilder;
         $this->_addressRepository = $addressRepository;
         $this->_addressDataBuilder = $addressDataBuilder;
         $this->_regionDataBuilder = $regionDataBuilder;

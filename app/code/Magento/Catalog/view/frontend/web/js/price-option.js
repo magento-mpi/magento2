@@ -209,7 +209,9 @@ define([
                         } else {
                             price = this.options.priceConfig.showIncludeTax ?
                                 updatedPrice.inclTaxPrice : updatedPrice.exclTaxPrice;
-                            price = price + getOptionPrices[0];
+                            optionPrice = this.options.priceConfig.showIncludeTax ?
+                                getOptionPrices[2] : getOptionPrices[3];
+                            price = price + optionPrice;
                         }
 
                         var priceHtml = $.tmpl(
@@ -227,4 +229,6 @@ define([
             }
         }
     });
+    
+    return $.mage.priceOption;
 });

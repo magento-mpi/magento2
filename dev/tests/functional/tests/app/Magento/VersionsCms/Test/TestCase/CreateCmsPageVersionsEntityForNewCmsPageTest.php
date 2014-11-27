@@ -68,7 +68,6 @@ class CreateCmsPageVersionsEntityForNewCmsPageTest extends Injectable
      */
     public function test(CmsPage $cms, array $results)
     {
-        $this->markTestIncomplete("Bug: MAGETWO-28876");
         // Steps
         $this->cmsIndex->open();
         $this->cmsIndex->getPageActionsBlock()->addNew();

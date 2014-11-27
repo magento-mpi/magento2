@@ -7,10 +7,13 @@
  */
 namespace Magento\Sales\Model\Resource\Order;
 
+use Magento\Sales\Model\Spi\OrderAddressResourceInterface;
+use \Magento\Sales\Model\Resource\Entity as SalesResource;
+
 /**
  * Flat sales order address resource
  */
-class Address extends \Magento\Sales\Model\Resource\Entity
+class Address extends SalesResource implements OrderAddressResourceInterface
 {
     /**
      * Event prefix
@@ -68,7 +71,7 @@ class Address extends \Magento\Sales\Model\Resource\Entity
      */
     public function getAllAttributes()
     {
-        $attributes = array(
+        $attributes = [
             'city' => __('City'),
             'company' => __('Company'),
             'country_id' => __('Country'),
@@ -79,7 +82,7 @@ class Address extends \Magento\Sales\Model\Resource\Entity
             'street' => __('Street Address'),
             'telephone' => __('Phone Number'),
             'postcode' => __('Zip/Postal Code')
-        );
+        ];
         asort($attributes);
         return $attributes;
     }
@@ -94,6 +97,14 @@ class Address extends \Magento\Sales\Model\Resource\Entity
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_beforeSave($object);
+        if (!$object->getParentId() && $object->getOrder()) {
+            $object->setParentId($object->getOrder()->getId());
+        }
+        // Init customer address id if customer address is assigned
+        $customerData = $object->getCustomerAddressData();
+        if ($customerData) {
+            $object->setCustomerAddressId($customerData->getId());
+        }
         $warnings = $this->_validator->validate($object);
         if (!empty($warnings)) {
             throw new \Magento\Framework\Model\Exception(
