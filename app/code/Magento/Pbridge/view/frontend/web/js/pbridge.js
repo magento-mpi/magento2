@@ -190,5 +190,6 @@ define([
          }
          */
     });
-
+    
+    return $.mage.pbridge;
 });

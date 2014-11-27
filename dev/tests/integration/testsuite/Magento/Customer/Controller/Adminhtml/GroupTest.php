@@ -7,11 +7,8 @@
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
-use Magento\Customer\Controller\RegistryConstants;
 use Magento\Framework\Message\MessageInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * @magentoAppArea adminhtml
@@ -19,6 +16,7 @@ use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 class GroupTest extends \Magento\Backend\Utility\Controller
 {
     const TAX_CLASS_ID = 3;
+    const TAX_CLASS_NAME = 'Retail Customer';
     const CUSTOMER_GROUP_CODE = 'custom_group';
     const BASE_CONTROLLER_URL = 'http://localhost/index.php/backend/customer/group/';
     const CUSTOMER_GROUP_ID = 2;
@@ -26,10 +24,15 @@ class GroupTest extends \Magento\Backend\Utility\Controller
     /** @var  \Magento\Framework\Session\SessionManagerInterface */
     private $session;
 
+    /** @var  \Magento\Customer\Api\GroupRepositoryInterface */
+    private $groupRepository;
+
     public function setUp()
     {
         parent::setUp();
-        $this->session = Bootstrap::getObjectManager()->get('Magento\Framework\Session\SessionManagerInterface');
+        $objectManager = Bootstrap::getObjectManager();
+        $this->session = $objectManager->get('Magento\Framework\Session\SessionManagerInterface');
+        $this->groupRepository = $objectManager->get('Magento\Customer\Api\GroupRepositoryInterface');
     }
 
     public function tearDown()
@@ -50,12 +53,18 @@ class GroupTest extends \Magento\Backend\Utility\Controller
 
     public function testNewActionWithCustomerGroupDataInSession()
     {
-        $customerGroupBuilder = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
-        $customerGroupBuilder->setCode(self::CUSTOMER_GROUP_CODE);
-        $customerGroupBuilder->setTaxClassId(self::TAX_CLASS_ID);
-        $customerGroup = $customerGroupBuilder->create();
-        $customerGroupData = $customerGroup->__toArray();
+        /** @var \Magento\Customer\Api\Data\GroupDataBuilder $customerGroupBuilder */
+        $customerGroupBuilder = $this->_objectManager
+            ->get('Magento\Customer\Api\Data\GroupDataBuilder');
+        /** @var \Magento\Customer\Api\Data\GroupInterface $customerGroup */
+        $customerGroup = $customerGroupBuilder
+            ->setCode(self::CUSTOMER_GROUP_CODE)
+            ->setTaxClassId(self::TAX_CLASS_ID)
+            ->create();
+        /** @var \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor */
+        $dataObjectProcessor = $this->_objectManager->get('Magento\Framework\Reflection\DataObjectProcessor');
+        $customerGroupData = $dataObjectProcessor
+            ->buildOutputDataArray($customerGroup, 'Magento\Customer\Api\Data\GroupInterface');
         if (array_key_exists('code', $customerGroupData)) {
             $customerGroupData['customer_group_code'] = $customerGroupData['code'];
             unset($customerGroupData['code']);
@@ -135,11 +144,11 @@ class GroupTest extends \Magento\Backend\Utility\Controller
             MessageInterface::TYPE_SUCCESS
         );
 
-        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
-        $groupService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-        $customerGroupData = \Magento\Framework\Api\SimpleDataObjectConverter::toFlatArray(
-            $groupService->getGroup($groupId)
+        /** @var \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter */
+        $simpleDataObjectConverter = Bootstrap::getObjectManager()
+            ->get('Magento\Framework\Api\SimpleDataObjectConverter');
+        $customerGroupData = $simpleDataObjectConverter->toFlatArray(
+            $this->groupRepository->getById($groupId)
         );
         ksort($customerGroupData);
 
@@ -147,7 +156,8 @@ class GroupTest extends \Magento\Backend\Utility\Controller
             [
                 'code' => self::CUSTOMER_GROUP_CODE,
                 'id' => $groupId,
-                'tax_class_id' => self::TAX_CLASS_ID
+                'tax_class_id' => self::TAX_CLASS_ID,
+                'tax_class_name' => self::TAX_CLASS_NAME
             ],
             $customerGroupData
         );
@@ -158,11 +168,8 @@ class GroupTest extends \Magento\Backend\Utility\Controller
      */
     public function testSaveActionExistingGroupWithEmptyGroupCode()
     {
-        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
-        $groupService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
         $groupId = $this->findGroupIdWithCode(self::CUSTOMER_GROUP_CODE);
-        $originalCode = $groupService->getGroup($groupId)->getCode();
+        $originalCode = $this->groupRepository->getById($groupId)->getCode();
 
         $this->getRequest()->setParam('tax_class', self::TAX_CLASS_ID);
         $this->getRequest()->setParam('id', $groupId);
@@ -171,11 +178,11 @@ class GroupTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/customer/group/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(['Invalid value of "" provided for the code field.']),
+            $this->equalTo(['code is a required field.']),
             MessageInterface::TYPE_ERROR
         );
         $this->assertSessionMessages($this->isEmpty(), MessageInterface::TYPE_SUCCESS);
-        $this->assertEquals($originalCode, $groupService->getGroup($groupId)->getCode());
+        $this->assertEquals($originalCode, $this->groupRepository->getById($groupId)->getCode());
     }
 
     public function testSaveActionForwardNewCreateNewGroup()
@@ -220,12 +227,8 @@ class GroupTest extends \Magento\Backend\Utility\Controller
      */
     public function testSaveActionNewGroupWithExistingGroupCode()
     {
-        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
-        $groupService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-
         $groupId = $this->findGroupIdWithCode(self::CUSTOMER_GROUP_CODE);
-        $originalCode = $groupService->getGroup($groupId)->getCode();
+        $originalCode = $this->groupRepository->getById($groupId)->getCode();
 
         $this->getRequest()->setParam('tax_class', self::TAX_CLASS_ID);
         $this->getRequest()->setParam('code', self::CUSTOMER_GROUP_CODE);
@@ -234,7 +237,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
 
         $this->assertSessionMessages($this->equalTo(['Customer Group already exists.']), MessageInterface::TYPE_ERROR);
         $this->assertSessionMessages($this->isEmpty(), MessageInterface::TYPE_SUCCESS);
-        $this->assertEquals($originalCode, $groupService->getGroup($groupId)->getCode());
+        $this->assertEquals($originalCode, $this->groupRepository->getById($groupId)->getCode());
         $this->assertRedirect($this->stringStartsWith(self::BASE_CONTROLLER_URL . 'edit/'));
         $this->assertEquals(self::CUSTOMER_GROUP_CODE, $this->session->getCustomerGroupData()['customer_group_code']);
         $this->assertEquals(self::TAX_CLASS_ID, $this->session->getCustomerGroupData()['tax_class_id']);
@@ -245,22 +248,19 @@ class GroupTest extends \Magento\Backend\Utility\Controller
      */
     public function testSaveActionNewGroupWithoutGroupCode()
     {
-        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
-        $groupService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
         $groupId = $this->findGroupIdWithCode(self::CUSTOMER_GROUP_CODE);
-        $originalCode = $groupService->getGroup($groupId)->getCode();
+        $originalCode = $this->groupRepository->getById($groupId)->getCode();
 
         $this->getRequest()->setParam('tax_class', self::TAX_CLASS_ID);
 
         $this->dispatch('backend/customer/group/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(['Invalid value of "" provided for the code field.']),
+            $this->equalTo(['code is a required field.']),
             MessageInterface::TYPE_ERROR
         );
         $this->assertSessionMessages($this->isEmpty(), MessageInterface::TYPE_SUCCESS);
-        $this->assertEquals($originalCode, $groupService->getGroup($groupId)->getCode());
+        $this->assertEquals($originalCode, $this->groupRepository->getById($groupId)->getCode());
         $this->assertRedirect($this->stringStartsWith(self::BASE_CONTROLLER_URL . 'edit/'));
         $this->assertEquals('', $this->session->getCustomerGroupData()['customer_group_code']);
         $this->assertEquals(self::TAX_CLASS_ID, $this->session->getCustomerGroupData()['tax_class_id']);
@@ -274,9 +274,9 @@ class GroupTest extends \Magento\Backend\Utility\Controller
      */
     protected function findGroupIdWithCode($code)
     {
-        $groupService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\CustomerGroupService');
-        foreach ($groupService->getGroups() as $group) {
+        /** @var \Magento\Framework\Api\SearchCriteriaBuilder $searchBuilder */
+        $searchBuilder = $this->_objectManager->create('Magento\Framework\Api\SearchCriteriaBuilder');
+        foreach ($this->groupRepository->getList($searchBuilder->create())->getItems() as $group) {
             if ($group->getCode() === $code) {
                 return $group->getId();
             }

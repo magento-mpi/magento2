@@ -18,19 +18,20 @@
         .font-size(16);
         font-weight: @font-weight-semibold;
         display: inline-block;
-        margin: 0 0 10px;
+        margin: 0 0 @indent-s-base;
     }
     .nested {
         &:extend(.abstract-add-clearfix all);
-        margin: 20px 0;
+        margin: @indent-base 0;
         img {
             max-width: 100px;
             max-height: 100px;
             float: left;
-            margin-right: 20px;
+            margin-right: @indent-base;
         }
         .price-box {
             display: block;
+            margin-left: 0;
         }
     }
 }

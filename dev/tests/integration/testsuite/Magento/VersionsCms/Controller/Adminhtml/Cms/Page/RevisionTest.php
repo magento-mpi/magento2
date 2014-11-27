@@ -53,7 +53,7 @@ class RevisionTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setPost('page_id', $page->getId());
 
         $this->dispatch('backend/admin/cms_page_revision/drop/');
-        $this->assertContains('static/frontend/Magento/plushe', $this->getResponse()->getBody());
+        $this->assertContains('static/frontend/Magento/luma', $this->getResponse()->getBody());
         $this->assertContains($page->getContent(), $this->getResponse()->getBody());
     }
 }

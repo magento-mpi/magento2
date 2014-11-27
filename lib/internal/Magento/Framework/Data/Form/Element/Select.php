@@ -145,6 +145,16 @@ class Select extends AbstractElement
      */
     public function getHtmlAttributes()
     {
-        return array('title', 'class', 'style', 'onclick', 'onchange', 'disabled', 'readonly', 'tabindex');
+        return array(
+            'title',
+            'class',
+            'style',
+            'onclick',
+            'onchange',
+            'disabled',
+            'readonly',
+            'tabindex',
+            'data-form-part'
+        );
     }
 }
