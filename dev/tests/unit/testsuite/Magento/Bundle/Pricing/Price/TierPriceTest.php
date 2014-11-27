@@ -34,14 +34,14 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $groupManagement;
-
-    /**
      * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceCurrencyMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $groupManagement;
 
     /**
      * Initialize base dependencies
@@ -67,11 +67,11 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject('Magento\Bundle\Pricing\Price\TierPrice', [
-                'saleableItem' => $this->product,
-                'calculator' => $this->calculator,
-                'groupManagement' => $this->groupManagement,
-                'priceCurrency' => $this->priceCurrencyMock
-        ]);
+            'saleableItem' => $this->product,
+            'calculator' => $this->calculator,
+            'priceCurrency' => $this->priceCurrencyMock,
+            'groupManagement' => $this->groupManagement
+            ]);
     }
 
     /**

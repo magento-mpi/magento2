@@ -186,7 +186,7 @@ class TypeProcessor
             || (strpos($methodReflection->getName(), 'is') === 0)
             || (strpos($methodReflection->getName(), 'has') === 0);
         /** Field will not be added to WSDL if getter has params */
-        if ($isGetter && !$methodReflection->getNumberOfParameters()) {
+        if ($isGetter && !$methodReflection->getNumberOfRequiredParameters()) {
             $returnMetadata = $this->getGetterReturnType($methodReflection);
             $fieldName = $this->dataObjectGetterNameToFieldName($methodReflection->getName());
             $this->_types[$typeName]['parameters'][$fieldName] = array(
@@ -282,7 +282,7 @@ class TypeProcessor
             'type' => $returnType,
             'isRequired' => $isRequired,
             'description' => $returnAnnotation->getDescription(),
-            'parameterCount' => $methodReflection->getNumberOfParameters()
+            'parameterCount' => $methodReflection->getNumberOfRequiredParameters()
         ];
     }
 
