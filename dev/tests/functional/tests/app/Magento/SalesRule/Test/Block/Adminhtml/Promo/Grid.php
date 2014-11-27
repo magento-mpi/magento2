@@ -30,6 +30,13 @@ class Grid extends AbstractGrid
      * @var string
      */
     protected $promoQuoteFormSelector = 'div#promo_catalog_edit_tabs';
+
+    /**
+     * First row selector
+     *
+     * @var string
+     */
+    protected $firstRowSelector = '//tr[1]/td[@data-column="name"]';
     
     /**
      * Filters array mapping.
@@ -37,6 +44,9 @@ class Grid extends AbstractGrid
      * @var array
      */
     protected $filters = [
+        'rule_id' => [
+            'selector' => '#promo_quote_grid_filter_rule_id'
+        ],
         'name' => [
             'selector' => 'input[name="name"]',
         ]

@@ -142,7 +142,7 @@ class Setup implements SetupInterface
     protected function addHeadInclude()
     {
         $styleContent = '';
-        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
+        foreach (array_keys($this->moduleList->getNames()) as $moduleName) {
             $fileName = substr($moduleName, strpos($moduleName, "_") + 1) . '/styles.css';
             $fileName = $this->fixtureHelper->getPath($fileName);
             if (!$fileName) {

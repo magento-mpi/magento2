@@ -1912,7 +1912,7 @@ class Config extends AbstractRepository
                                 'fields' => [
                                     'engine' => [
                                         //MySql Fulltext
-                                        'value' => 'Magento\CatalogSearch\Model\Resource\Fulltext\Engine'
+                                        'value' => 'Magento\CatalogSearch\Model\Resource\Engine'
                                     ]
                                 ]
                             ]

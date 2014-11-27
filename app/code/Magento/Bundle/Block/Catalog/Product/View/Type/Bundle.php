@@ -162,6 +162,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             $defaultValues = array();
         }
 
+        $isFixedPrice = $this->getProduct()->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED;
 
         $position = 0;
         foreach ($optionsArray as $optionItem) {
@@ -200,11 +201,10 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     $priceBaseAmount = $bundleProductPrice->getLowestPrice($currentProduct, $priceBaseAmount);
                     $priceValue = $bundleProductPrice->getLowestPrice($currentProduct, $priceValue);
 
-                    $tierPriceInfo['price'] = $this->priceCurrency->convert(
-                        $this->_taxData->displayPriceIncludingTax() ? $priceValue : $priceBaseAmount
-                    );
-                    $tierPriceInfo['exclTaxPrice'] = $this->priceCurrency->convert($priceBaseAmount);
-                    $tierPriceInfo['inclTaxPrice'] = $this->priceCurrency->convert($priceValue);
+                    $tierPriceInfo['price'] = $this->_taxData->displayPriceIncludingTax()
+                        ? $priceValue : $priceBaseAmount;
+                    $tierPriceInfo['exclTaxPrice'] = $priceBaseAmount;
+                    $tierPriceInfo['inclTaxPrice'] = $priceValue;
                 }
                 // break the reference with the last element
 
@@ -216,8 +216,8 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 $selection = array(
                     'qty' => $qty,
                     'customQty' => $selectionItem->getSelectionCanChangeQty(),
-                    'inclTaxPrice' => $this->priceCurrency->convert($priceInclTax),
-                    'exclTaxPrice' => $this->priceCurrency->convert($priceExclTax),
+                    'inclTaxPrice' => $priceInclTax,
+                    'exclTaxPrice' => $priceExclTax,
                     'priceType' => $selectionItem->getSelectionPriceType(),
                     'tierPrice' => $tierPrices,
                     'name' => $selectionItem->getName(),
@@ -256,12 +256,11 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 }
             }
         }
-        $isFixedPrice = $this->getProduct()->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED;
 
         $productAmount = $currentProduct
             ->getPriceInfo()
             ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
-            ->getAmount();
+            ->getPriceWithoutOption();
 
         $baseProductAmount = $currentProduct
             ->getPriceInfo()
@@ -273,12 +272,12 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'selected' => $selected,
             'bundleId' => $currentProduct->getId(),
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
-            'basePrice' => $this->priceCurrency->convert($baseProductAmount->getValue()),
+            'basePrice' => $baseProductAmount->getValue(),
             'finalBasePriceInclTax' => $isFixedPrice
-                ? $this->priceCurrency->convert($productAmount->getValue())
+                ? $productAmount->getValue()
                 : 0,
             'finalBasePriceExclTax' => $isFixedPrice
-                ? $this->priceCurrency->convert($productAmount->getBaseAmount())
+                ? $productAmount->getBaseAmount()
                 : 0,
             'priceType' => $currentProduct->getPriceType(),
             'specialPrice' => $currentProduct

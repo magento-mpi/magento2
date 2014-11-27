@@ -9,6 +9,8 @@ namespace Magento\RecurringPayment\Block\Payment\View;
 
 /**
  * Recurring payment view fees
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Fees extends \Magento\RecurringPayment\Block\Payment\View
 {

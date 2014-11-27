@@ -14,10 +14,15 @@ namespace Magento\Framework\Api;
 interface ExtensibleDataInterface
 {
     /**
+     * Array key for custom attributes
+     */
+    const CUSTOM_ATTRIBUTES = 'custom_attributes';
+
+    /**
      * Get an attribute value.
      *
      * @param string $attributeCode
-     * @return \Magento\Framework\Api\AttributeInterface|null null if the attribute has not been set
+     * @return \Magento\Framework\Api\AttributeInterface|null
      */
     public function getCustomAttribute($attributeCode);
 

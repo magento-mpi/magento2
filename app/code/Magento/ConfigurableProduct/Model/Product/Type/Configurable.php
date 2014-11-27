@@ -142,6 +142,11 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_typeConfigurableFactory;
 
     /**
+     * @var \Magento\CatalogInventory\Api\StockConfigurationInterface
+     */
+    protected $stockConfiguration;
+
+    /**
      * @codingStandardsIgnoreStart/End
      *
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -187,6 +192,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable $catalogProductTypeConfigurable,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration,
         array $data = array()
     ) {
         $this->_typeConfigurableFactory = $typeConfigurableFactory;
@@ -198,6 +204,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
         $this->_attributeCollectionFactory = $attributeCollectionFactory;
         $this->_catalogProductTypeConfigurable = $catalogProductTypeConfigurable;
         $this->_scopeConfig = $scopeConfig;
+        $this->stockConfiguration = $stockConfiguration;
         parent::__construct(
             $productFactory,
             $catalogProductOption,
@@ -597,6 +604,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
             if (!is_null($product)) {
                 $this->setStoreFilter($product->getStoreId(), $product);
             }
+            /** @var \Magento\Catalog\Model\Product $child */
             foreach ($this->getUsedProducts($product) as $child) {
                 if ($child->isSalable()) {
                     $salable = true;
@@ -1148,10 +1156,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
             $stockStatus = $parentProduct->getQuantityAndStockStatus();
             $postData['stock_data']['is_in_stock'] = $stockStatus['is_in_stock'];
         }
-        $configDefaultValue = $this->_scopeConfig->getValue(
-            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
+        $configDefaultValue = $this->stockConfiguration->getManageStock($product->getStoreId());
         $postData['stock_data']['use_config_manage_stock'] = $postData['stock_data']['manage_stock'] ==
             $configDefaultValue ? 1 : 0;
         if (!empty($postData['image'])) {

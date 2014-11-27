@@ -7,9 +7,6 @@
  */
 namespace Magento\Customer\Block\Address;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\Data\Address;
-use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
@@ -20,7 +17,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 class Edit extends \Magento\Directory\Block\Data
 {
     /**
-     * @var Address|null
+     * @var \Magento\Customer\Api\Data\AddressInterface|null
      */
     protected $_address = null;
 
@@ -30,12 +27,12 @@ class Edit extends \Magento\Directory\Block\Data
     protected $_customerSession;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     * @var \Magento\Customer\Api\AddressRepositoryInterface
      */
-    protected $_addressService;
+    protected $_addressRepository;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\AddressBuilder
+     * @var \Magento\Customer\Api\Data\AddressDataBuilder
      */
     protected $_addressBuilder;
 
@@ -54,8 +51,8 @@ class Edit extends \Magento\Directory\Block\Data
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
-     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+     * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
      * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param array $data
      *
@@ -69,13 +66,13 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
-        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
+        \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
+        \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
-        $this->_addressService = $addressService;
+        $this->_addressRepository = $addressRepository;
         $this->_addressBuilder = $addressBuilder;
         $this->currentCustomer = $currentCustomer;
         parent::__construct(
@@ -102,7 +99,7 @@ class Edit extends \Magento\Directory\Block\Data
         // Init address object
         if ($addressId = $this->getRequest()->getParam('id')) {
             try {
-                $this->_address = $this->_addressService->getAddress($addressId);
+                $this->_address = $this->_addressRepository->getById($addressId);
             } catch (NoSuchEntityException $e) {
             }
         }
@@ -130,7 +127,7 @@ class Edit extends \Magento\Directory\Block\Data
                     'region' => $postedData['region']
                 );
             }
-            $this->_address = $this->_addressBuilder->mergeDataObjectWithArray($this->_address, $postedData);
+            $this->_address = $this->_addressBuilder->mergeDataObjectWithArray($this->_address, $postedData)->create();
         }
 
         return $this;
@@ -143,11 +140,9 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function getNameBlockHtml()
     {
-        $nameBlock = $this->getLayout()->createBlock(
-            'Magento\Customer\Block\Widget\Name'
-        )->setObject(
-            $this->getAddress()
-        );
+        $nameBlock = $this->getLayout()
+            ->createBlock('Magento\Customer\Block\Widget\Name')
+            ->setObject($this->getAddress());
 
         return $nameBlock->toHtml();
     }
@@ -204,7 +199,7 @@ class Edit extends \Magento\Directory\Block\Data
     /**
      * Return the associated address.
      *
-     * @return Address
+     * @return \Magento\Customer\Api\Data\AddressInterface
      */
     public function getAddress()
     {
@@ -265,7 +260,7 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function getCustomerAddressCount()
     {
-        return count($this->_addressService->getAddresses($this->_customerSession->getCustomerId()));
+        return count($this->getCustomer()->getAddresses());
     }
 
     /**
@@ -317,7 +312,7 @@ class Edit extends \Magento\Directory\Block\Data
     /**
      * Retrieve the Customer Data using the customer Id from the customer session.
      *
-     * @return Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     public function getCustomer()
     {

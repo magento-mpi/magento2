@@ -79,6 +79,7 @@ class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
      */
     public function test(MultipleWishlist $multipleWishlist, CustomerInjectable $customer)
     {
+        $this->markTestIncomplete("Bug: MAGETWO-30155");
         //Steps
         $this->openWishlistPage($customer);
         $this->wishlistIndex->getManagementBlock()->clickCreateNewWishlist();
@@ -94,11 +95,7 @@ class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
     public static function tearDownAfterClass()
     {
         parent::tearDownAfterClass();
-        self::$browser->open(
-            $_ENV['app_backend_url'] . 'admin/widget_instance/edit/instance_id/'
-            . self::$wishlistId . '/code/wishlist_search/'
-        );
-        self::$widgetInstanceEdit->getPageActionsBlock()->delete();
+        ObjectManager::getInstance()->create('Magento\Widget\Test\TestStep\DeleteAllWidgetsStep')->run();
         self::$cachePage->open()->getActionsBlock()->flushMagentoCache();
     }
 }

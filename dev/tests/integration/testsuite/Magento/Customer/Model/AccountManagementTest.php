@@ -9,11 +9,13 @@
 namespace Magento\Customer\Model;
 
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Service\V1;
+use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\State\ExpiredException;
+use Magento\Framework\Reflection\DataObjectProcessor;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -32,13 +34,13 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /** @var CustomerRepositoryInterface */
     private $customerRepository;
 
-    /** @var CustomerAddressServiceInterface needed to setup tests */
-    private $_customerAddressService;
+    /** @var AddressRepositoryInterface needed to setup tests */
+    private $addressRepository;
 
-    /** @var \Magento\Framework\ObjectManager */
+    /** @var \Magento\Framework\ObjectManagerInterface */
     private $objectManager;
 
-    /** @var \Magento\Customer\Service\V1\Data\Address[] */
+    /** @var AddressInterface[] */
     private $_expectedAddresses;
 
     /** @var \Magento\Customer\Api\Data\AddressDataBuilder */
@@ -47,6 +49,12 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Api\Data\CustomerDataBuilder */
     private $customerBuilder;
 
+    /** @var DataObjectProcessor */
+    private $dataProcessor;
+
+    /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter */
+    private $extensibleDataObjectConverter;
+
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
@@ -54,34 +62,38 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Customer\Api\AccountManagementInterface');
         $this->customerRepository = $this->objectManager
             ->create('Magento\Customer\Api\CustomerRepositoryInterface');
-        $this->_customerAddressService =
-            $this->objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
+        $this->addressRepository =
+            $this->objectManager->create('Magento\Customer\Api\AddressRepositoryInterface');
 
         $this->addressBuilder = $this->objectManager->create('Magento\Customer\Api\Data\AddressDataBuilder');
         $this->customerBuilder = $this->objectManager->create('Magento\Customer\Api\Data\CustomerDataBuilder');
 
         $regionBuilder = $this->objectManager->create('Magento\Customer\Api\Data\RegionDataBuilder');
-        $this->addressBuilder->setId(1)
+        $this->addressBuilder->setId('1')
             ->setCountryId('US')
-            ->setCustomerId(1)
+            ->setCustomerId('1')
             ->setPostcode('75477')
             ->setRegion(
                 $regionBuilder->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
             )
+            ->setCompany('CompanyName')
             ->setStreet(['Green str, 67'])
             ->setTelephone('3468676')
             ->setCity('CityM')
             ->setFirstname('John')
-            ->setLastname('Smith');
+            ->setLastname('Smith')
+            ->setDefaultShipping(true)
+            ->setDefaultBilling(true);
         $address = $this->addressBuilder->create();
 
-        $this->addressBuilder->setId(2)
+        $this->addressBuilder->setId('2')
             ->setCountryId('US')
-            ->setCustomerId(1)
+            ->setCustomerId('1')
             ->setPostcode('47676')
             ->setRegion(
                 $regionBuilder->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create()
             )
+            ->setCompany('Company')
             ->setStreet(['Black str, 48'])
             ->setCity('CityX')
             ->setTelephone('3234676')
@@ -90,6 +102,12 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
         $address2 = $this->addressBuilder->create();
 
         $this->_expectedAddresses = [$address, $address2];
+
+        $this->dataProcessor = $this->objectManager
+            ->create('Magento\Framework\Reflection\DataObjectProcessor');
+
+        $this->extensibleDataObjectConverter = $this->objectManager
+            ->create('Magento\Framework\Api\ExtensibleDataObjectConverter');
     }
 
     /**
@@ -99,8 +117,12 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
         $customerRegistry = $this->objectManager->get('Magento\Customer\Model\CustomerRegistry');
+        /** @var \Magento\Customer\Model\CustomerRegistry $addressRegistry */
+        $addressRegistry = $this->objectManager->get('Magento\Customer\Model\AddressRegistry');
         //Cleanup customer from registry
         $customerRegistry->remove(1);
+        $addressRegistry->remove(1);
+        $addressRegistry->remove(2);
     }
 
     /**
@@ -157,16 +179,16 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
      */
     public function testChangePasswordWrongPassword()
     {
-        $this->accountManagement->changePassword(1, 'wrongPassword', 'new_password');
+        $this->accountManagement->changePassword('customer@example.com', 'wrongPassword', 'new_password');
     }
 
     /**
      * @expectedException \Magento\Framework\Exception\InvalidEmailOrPasswordException
-     * @expectedExceptionMessage Password doesn't match for this account
+     * @expectedExceptionMessage Invalid login or password.
      */
     public function testChangePasswordWrongUser()
     {
-        $this->accountManagement->changePassword(4200, 'password', 'new_password');
+        $this->accountManagement->changePassword('wrong.email@example.com', 'password', 'new_password');
     }
 
     /**
@@ -582,8 +604,8 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             'aPassword',
             true
         );
-        $attributesBefore = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($existingCustomer);
-        $attributesAfter = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerAfter);
+        $attributesBefore = $this->extensibleDataObjectConverter->toFlatArray($existingCustomer);
+        $attributesAfter = $this->extensibleDataObjectConverter->toFlatArray($customerAfter);
         // ignore 'updated_at'
         unset($attributesBefore['updated_at']);
         unset($attributesAfter['updated_at']);
@@ -605,7 +627,6 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
             'firstname',
             'id',
             'lastname',
-            'confirmation'
         ];
         sort($expectedInAfter);
         $actualInAfterOnly = array_keys($inAfterOnly);
@@ -649,7 +670,12 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
         $customerData = $this->accountManagement->createAccount($newCustomerEntity, $password);
         $this->assertNotNull($customerData->getId());
         $savedCustomer = $this->customerRepository->getById($customerData->getId());
-        $dataInService = \Magento\Framework\Api\SimpleDataObjectConverter::toFlatArray($savedCustomer);
+
+        /** @var \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter */
+        $simpleDataObjectConverter = Bootstrap::getObjectManager()
+            ->get('Magento\Framework\Api\SimpleDataObjectConverter');
+
+        $dataInService = $simpleDataObjectConverter->toFlatArray($savedCustomer);
         $expectedDifferences = [
             'created_at',
             'updated_at',
@@ -809,6 +835,100 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
     public function testIsEmailAvailableNonExistentEmail()
     {
         $this->assertTrue($this->accountManagement->isEmailAvailable('nonexistent@example.com', 1));
+    }
+
+    /**
+     * @magentoDataFixture  Magento/Customer/_files/customer.php
+     * @magentoDataFixture  Magento/Customer/_files/customer_address.php
+     * @magentoDataFixture  Magento/Customer/_files/customer_two_addresses.php
+     */
+    public function testGetDefaultBillingAddress()
+    {
+        $customerId = 1;
+        $address = $this->accountManagement->getDefaultBillingAddress($customerId);
+
+        $expected = $this->dataProcessor->buildOutputDataArray(
+            $this->_expectedAddresses[0],
+            'Magento\Customer\Api\Data\AddressInterface'
+        );
+        $result = $this->dataProcessor->buildOutputDataArray($address, 'Magento\Customer\Api\Data\AddressInterface');
+        /*
+         * TODO : Data builder / populateWithArray currently does not detect
+         * array type and returns street as string instead of array. Need to fix this.
+         */
+        unset($expected[AddressInterface::STREET]);
+        unset($result[AddressInterface::STREET]);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @magentoDataFixture  Magento/Customer/_files/customer.php
+     */
+    public function testSaveNewAddressDefaults()
+    {
+        $customerId = 1;
+
+        /** @var $addressShippingBuilder \Magento\Customer\Api\Data\AddressDataBuilder */
+        $addressShippingBuilder = $this->addressBuilder->populate($this->_expectedAddresses[0])->setId(null);
+        $addressShippingBuilder->setDefaultShipping(true)->setDefaultBilling(false)->setCustomerId($customerId);
+        //TODO : Will be fixed as part of fixing populate. For now Region is set as Data Object instead of array
+        $addressShippingBuilder->setRegion($this->_expectedAddresses[0]->getRegion());
+        $addressShipping = $addressShippingBuilder->create();
+
+        /** @var $addressBillingBuilder \Magento\Customer\Api\Data\AddressDataBuilder */
+        $addressBillingBuilder = $this->addressBuilder->populate($this->_expectedAddresses[1])->setId(null);
+        $addressBillingBuilder->setDefaultBilling(true)->setDefaultShipping(false)->setCustomerId($customerId);
+        //TODO : Will be fixed as part of fixing populate
+        $addressBillingBuilder->setRegion($this->_expectedAddresses[1]->getRegion());
+        $addressBilling = $addressBillingBuilder->create();
+
+        $addressShippingExpected = $this->addressRepository->save($addressShipping);
+        $addressBillingExpected = $this->addressRepository->save($addressBilling);
+
+        // Call api under test
+        $shippingResponse = $this->accountManagement->getDefaultShippingAddress($customerId);
+        $billingResponse = $this->accountManagement->getDefaultBillingAddress($customerId);
+
+
+        // Verify if the new Shipping address created is same as returned by the api under test :
+        // \Magento\Customer\Api\AccountManagementInterface::getDefaultShippingAddress
+        $addressShippingExpected = $this->dataProcessor->buildOutputDataArray(
+            $addressShippingExpected,
+            'Magento\Customer\Api\Data\AddressInterface'
+        );
+        $shippingResponse = $this->dataProcessor->buildOutputDataArray(
+            $shippingResponse,
+            'Magento\Customer\Api\Data\AddressInterface'
+        );
+
+        // Response should have this set since we save as default shipping
+        $addressShippingExpected[AddressInterface::DEFAULT_SHIPPING] = true;
+        $this->assertEquals($addressShippingExpected, $shippingResponse);
+
+        // Verify if the new Billing address created is same as returned by the api under test :
+        // \Magento\Customer\Api\AccountManagementInterface::getDefaultShippingAddress
+        $addressBillingExpected = $this->dataProcessor->buildOutputDataArray(
+            $addressBillingExpected,
+            'Magento\Customer\Api\Data\AddressInterface'
+        );
+        $billingResponse = $this->dataProcessor->buildOutputDataArray(
+            $billingResponse,
+            'Magento\Customer\Api\Data\AddressInterface'
+        );
+
+        // Response should have this set since we save as default billing
+        $addressBillingExpected[AddressInterface::DEFAULT_BILLING] = true;
+        $this->assertEquals($addressBillingExpected, $billingResponse);
+    }
+
+    /**
+     * @magentoDataFixture  Magento/Customer/_files/customer.php
+     */
+    public function testGetDefaultAddressesForNonExistentAddress()
+    {
+        $customerId = 1;
+        $this->assertNull($this->accountManagement->getDefaultBillingAddress($customerId));
+        $this->assertNull($this->accountManagement->getDefaultShippingAddress($customerId));
     }
 
     /**

@@ -40,7 +40,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_roleMock = $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false);
-        $this->_objectFactory = $this->getMock('Magento\Framework\ObjectManager');
+        $this->_objectFactory = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $response = $this->getMock('Magento\Framework\App\ResponseInterface', array(), array(), '', false);
 

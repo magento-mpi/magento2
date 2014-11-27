@@ -81,7 +81,7 @@ class Amount extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function getConditionsSql($customer, $website)
     {
-        $table = $this->getResource()->getTable('sales_flat_quote');
+        $table = $this->getResource()->getTable('sales_quote');
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();

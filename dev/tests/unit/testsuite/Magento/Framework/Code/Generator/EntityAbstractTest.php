@@ -65,8 +65,8 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             $this->_model
         );
         $this->assertAttributeInstanceOf(
-            'Magento\Framework\Code\Generator\FileResolver',
-            'fileResolver',
+            'Magento\Framework\Code\Generator\DefinedClasses',
+            'definedClasses',
             $this->_model
         );
 
@@ -87,16 +87,14 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $fileResolver = $this->getMock('Magento\Framework\Code\Generator\FileResolver', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Framework\Code\Generator\EntityAbstract',
-            array(self::SOURCE_CLASS, self::RESULT_CLASS, $ioObject, $codeGenerator, $fileResolver)
+            array(self::SOURCE_CLASS, self::RESULT_CLASS, $ioObject, $codeGenerator)
         );
         $this->assertAttributeEquals(self::RESULT_CLASS, '_resultClassName', $this->_model);
         $this->assertAttributeEquals($ioObject, '_ioObject', $this->_model);
         $this->assertAttributeEquals($codeGenerator, '_classGenerator', $this->_model);
-        $this->assertAttributeEquals($fileResolver, 'fileResolver', $this->_model);
     }
 
     /**
@@ -220,7 +218,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             $this->assertFalse($result);
             $this->assertEquals($errors, $this->_model->getErrors());
         } else {
-            $this->assertTrue($result);
+            $this->assertEquals('MyResult/MyResult.php', $result);
             $this->assertEmpty($this->_model->getErrors());
         }
     }
@@ -245,7 +243,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     ) {
         $ioObject = $this->getMock(
             'Magento\Framework\Code\Generator\Io',
-            array(
+            [
                 'getResultFileName',
                 'makeGenerationDirectory',
                 'makeResultFileDirectory',
@@ -253,13 +251,12 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
                 'getGenerationDirectory',
                 'getResultFileDirectory',
                 'writeResultFile'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
-        $fileresolver = $this->getMock('Magento\Framework\Code\Generator\FileResolver', ['getFile'], [], '', false);
-
+        $definedClassesMock = $this->getMock('Magento\Framework\Code\Generator\DefinedClasses');
         $ioObject->expects(
             $this->any()
         )->method(
@@ -284,32 +281,26 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(self::RESULT_DIRECTORY)
         );
 
-        $fileresolver->expects(
+        $definedClassesMock->expects(
             $this->at(0)
         )->method(
-            'getFile'
+            'classLoadable'
         )->with(
             self::SOURCE_CLASS
         )->will(
             $this->returnValue($classExistsFirst)
         );
-        if ($classExistsFirst) {
-            $fileresolver->expects(
+        if ($classExistsSecond) {
+            $definedClassesMock->expects(
                 $this->at(1)
             )->method(
-                'getFile'
+                'classLoadable'
             )->with(
                 self::RESULT_CLASS
             )->will(
                 $this->returnValue($classExistsSecond)
             );
         }
-
-        $expectedInvocations = 1;
-        if ($classExistsFirst) {
-            $expectedInvocations = 2;
-        }
-        $fileresolver->expects($this->exactly($expectedInvocations))->method('getFile');
 
         $expectedInvocations = 1;
         if (!$classExistsFirst || $classExistsSecond) {
@@ -332,13 +323,13 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             $fileExists
         );
 
-        return array(
+        return [
             'source_class' => self::SOURCE_CLASS,
             'result_class' => self::RESULT_CLASS,
             'io_object' => $ioObject,
             'code_generator' => null,
-            'autoloader' => $fileresolver
-        );
+            'definedClasses' => $definedClassesMock,
+        ];
     }
 
     /**
@@ -431,7 +422,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             'result_class' => $mocks['result_class'],
             'io_object' => $ioObject,
             'code_generator' => $codeGenerator,
-            'autoloader' => $mocks['autoloader']
+            'definedClasses' => $mocks['definedClasses'],
         );
     }
 }

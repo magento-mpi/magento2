@@ -110,7 +110,7 @@ class Attribute implements SetupInterface
         $this->logger->log('Installing catalog attributes' . PHP_EOL);
         $attributeCount = 0;
 
-        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
+        foreach (array_keys($this->moduleList->getNames()) as $moduleName) {
             $fileName = substr($moduleName, strpos($moduleName, "_") + 1) . '/attributes.csv';
             $fileName = $this->fixtureHelper->getPath($fileName);
             if (!$fileName) {

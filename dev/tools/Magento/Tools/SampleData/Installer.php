@@ -10,7 +10,7 @@ namespace Magento\Tools\SampleData;
 use Magento\Framework\App\State;
 use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Event;
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\App\ObjectManager\ConfigLoader;
 use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Console;
@@ -36,7 +36,7 @@ class Installer implements \Magento\Framework\AppInterface
     protected $moduleList;
 
     /**
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -69,7 +69,7 @@ class Installer implements \Magento\Framework\AppInterface
      * @param State $appState
      * @param SetupFactory $setupFactory
      * @param ModuleListInterface $moduleList
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param ConfigLoader $configLoader
      * @param Console\Response $response
      * @param Helper\PostInstaller $postInstaller
@@ -82,7 +82,7 @@ class Installer implements \Magento\Framework\AppInterface
         State $appState,
         SetupFactory $setupFactory,
         ModuleListInterface $moduleList,
-        ObjectManager $objectManager,
+        ObjectManagerInterface $objectManager,
         ConfigLoader $configLoader,
         Console\Response $response,
         Helper\PostInstaller $postInstaller,
@@ -119,7 +119,7 @@ class Installer implements \Magento\Framework\AppInterface
         $this->deploy->run();
 
         $resources = $this->initResources();
-        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
+        foreach (array_keys($this->moduleList->getNames()) as $moduleName) {
             if (isset($resources[$moduleName])) {
                 $resourceType = $resources[$moduleName];
                 $this->setupFactory->create($resourceType)->run();

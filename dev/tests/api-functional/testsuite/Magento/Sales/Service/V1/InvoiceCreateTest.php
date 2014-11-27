@@ -7,23 +7,22 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
  * Class InvoiceCreateTest
- * @package Magento\Sales\Service\V1
  */
 class InvoiceCreateTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/invoice';
 
-    const SERVICE_READ_NAME = 'salesInvoiceWriteV1';
+    const SERVICE_READ_NAME = 'salesInvoiceRepositoryV1';
 
     const SERVICE_VERSION = 'V1';
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -47,7 +46,7 @@ class InvoiceCreateTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'create'
+                'operation' => self::SERVICE_READ_NAME . 'save'
             ]
         ];
         $orderItems = $order->getAllItems();
@@ -125,7 +124,7 @@ class InvoiceCreateTest extends WebapiAbstract
                 ]
             ],
         ];
-        $result = $this->_webApiCall($serviceInfo, ['invoiceDataObject' => $data]);
-        $this->assertTrue($result);
+        $result = $this->_webApiCall($serviceInfo, ['entity' => $data]);
+        $this->assertNotEmpty($result);
     }
 }

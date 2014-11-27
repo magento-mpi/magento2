@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Model;
 
+use Magento\Customer\Api\CustomerMetadataInterface;
+use Magento\Customer\Api\GroupRepositoryInterface;
 use Magento\Customer\Model\Config\Share;
 use Magento\Customer\Model\Resource\Address\CollectionFactory;
 use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
@@ -74,6 +76,11 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     const ENTITY = 'customer';
 
     /**
+     * Configuration path to expiration period of reset password link
+     */
+    const XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD = 'customer/password/reset_link_expiration_period';
+
+    /**
      * Model event prefix
      *
      * @var string
@@ -133,13 +140,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     protected $_config;
 
     /**
-     * Customer data
-     *
-     * @var \Magento\Customer\Helper\Data
-     */
-    protected $_customerData = null;
-
-    /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
@@ -170,9 +170,9 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     protected $_attributeFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var GroupRepositoryInterface
      */
-    protected $_groupService;
+    protected $_groupRepository;
 
     /**
      * @var \Magento\Framework\Encryption\EncryptorInterface
@@ -192,7 +192,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     /**
      * @var CustomerDataBuilder
      */
-    protected $_customerDataBuilder;
+    protected $customerDataBuilder;
 
     /**
      * @var DataObjectProcessor
@@ -203,7 +203,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
-     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -212,7 +211,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param AddressFactory $addressFactory
      * @param Resource\Address\CollectionFactory $addressesFactory
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
+     * @param GroupRepositoryInterface $groupRepository
      * @param AttributeFactory $attributeFactory
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
@@ -225,7 +224,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
-        \Magento\Customer\Helper\Data $customerData,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -234,7 +232,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
+        GroupRepositoryInterface $groupRepository,
         AttributeFactory $attributeFactory,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Stdlib\DateTime $dateTime,
@@ -243,7 +241,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_customerData = $customerData;
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
@@ -251,11 +248,11 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->_addressFactory = $addressFactory;
         $this->_addressesFactory = $addressesFactory;
         $this->_transportBuilder = $transportBuilder;
-        $this->_groupService = $groupService;
+        $this->_groupRepository = $groupRepository;
         $this->_attributeFactory = $attributeFactory;
         $this->_encryptor = $encryptor;
         $this->dateTime = $dateTime;
-        $this->_customerDataBuilder = $customerDataBuilder;
+        $this->customerDataBuilder = $customerDataBuilder;
         $this->dataObjectProcessor = $dataObjectProcessor;
         parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
     }
@@ -283,7 +280,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         foreach ($this->getAddresses() as $address) {
             $addressesData[] = $address->getDataModel();
         }
-        return $this->_customerDataBuilder
+        return $this->customerDataBuilder
             ->populateWithArray($customerData)
             ->setAddresses($addressesData)
             ->setId($this->getId())
@@ -318,7 +315,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         // Need to use attribute set or future updates can cause data loss
         if (!$this->getAttributeSetId()) {
             $this->setAttributeSetId(
-                \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER
+                CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER
             );
         }
 
@@ -342,7 +339,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param  string $password
      * @return bool
      * @throws \Magento\Framework\Model\Exception
-     * @deprecated Use \Magento\Customer\Model\Api\AccountManagement::authenticate
+     * @deprecated Use \Magento\Customer\Api\AccountManagementInterface::authenticate
      */
     public function authenticate($login, $password)
     {
@@ -384,9 +381,9 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
 
         $storeId = $this->getStoreId();
         if ($storeId === null) {
@@ -400,19 +397,19 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     /**
      * {@inheritdoc}
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $customerData = (array)$this->getData();
         $customerData[CustomerData::ID] = $this->getId();
-        $dataObject = $this->_customerDataBuilder->populateWithArray($customerData)->create();
+        $dataObject = $this->customerDataBuilder->populateWithArray($customerData)->create();
         $customerOrigData = (array)$this->getOrigData();
         $customerOrigData[CustomerData::ID] = $this->getId();
-        $origDataObject = $this->_customerDataBuilder->populateWithArray($customerOrigData)->create();
+        $origDataObject = $this->customerDataBuilder->populateWithArray($customerOrigData)->create();
         $this->_eventManager->dispatch(
             'customer_save_after_data_object',
             array('customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject)
         );
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -777,7 +774,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Check if accounts confirmation is required in config
      *
      * @return bool
-     * @deprecated Maybe this needs to be moved to helper
+     * @deprecated
      */
     public function isConfirmationRequired()
     {
@@ -875,7 +872,8 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Send email to when password is resetting
      *
      * @return $this
-     * @deprecated
+     * @deprecated Moved to \Magento\Customer\Model\AccountManagement::sendPasswordResetNotificationEmail. Will be
+     * deleted once the Customer/Services/V1 are removed.
      */
     public function sendPasswordResetNotificationEmail()
     {
@@ -920,7 +918,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         if (!$this->hasData('group_id')) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : $this->_storeManager->getStore()->getId();
             $groupId = $this->_scopeConfig->getValue(
-                \Magento\Customer\Service\V1\CustomerGroupServiceInterface::XML_PATH_DEFAULT_ID,
+                GroupManagement::XML_PATH_DEFAULT_ID,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $storeId
             );
@@ -937,7 +935,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     public function getTaxClassId()
     {
         if (!$this->getData('tax_class_id')) {
-            $groupTaxClassId = $this->_groupService->getGroup($this->getGroupId())->getTaxClassId();
+            $groupTaxClassId = $this->_groupRepository->getById($this->getGroupId())->getTaxClassId();
             $this->setData('tax_class_id', $groupTaxClassId);
         }
         return $this->getData('tax_class_id');
@@ -957,7 +955,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Retrieve shared store ids
      *
      * @return array
-     * @deprecated Use \Magento\Customer\Helper\Data::getSharedStoreIds
      */
     public function getSharedStoreIds()
     {
@@ -1118,10 +1115,10 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      *
      * @return $this
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         //TODO : Revisit and figure handling permissions in MAGETWO-11084 Implementation: Service Context Provider
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**
@@ -1312,7 +1309,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
             return true;
         }
 
-        $expirationPeriod = $this->_customerData->getResetPasswordLinkExpirationPeriod();
+        $expirationPeriod = $this->getResetPasswordLinkExpirationPeriod();
 
         $currentTimestamp = $this->dateTime->toTimestamp($this->dateTime->now());
         $tokenTimestamp = $this->dateTime->toTimestamp($linkTokenCreatedAt);
@@ -1326,6 +1323,19 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         }
 
         return false;
+    }
+
+    /**
+     * Retrieve customer reset password link expiration period in days
+     *
+     * @return int
+     */
+    public function getResetPasswordLinkExpirationPeriod()
+    {
+        return (int)$this->_scopeConfig->getValue(
+            self::XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
+            \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
+        );
     }
 
     /**
@@ -1363,8 +1373,8 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
          * 'confirmation' email with confirmation link
          */
         $types = array(
-            'registered'   => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,
-            'confirmed'    => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE,
+            'registered' => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,
+            'confirmed' => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE,
             'confirmation' => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE,
         );
         return $types;

@@ -132,7 +132,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($baseAmount));
 
         $this->priceCurrencyMock->expects($this->any())
-            ->method('convertAndFormat')
+            ->method('format')
             ->will($this->returnValue($expectedPrice));
 
         $this->model->render($amountRender);
@@ -172,7 +172,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($baseAmount));
 
         $this->priceCurrencyMock->expects($this->any())
-            ->method('convertAndFormat')
+            ->method('format')
             ->with($this->anything(), $this->equalTo($includeContainer))
             ->will($this->returnValue($expectedPrice));
 

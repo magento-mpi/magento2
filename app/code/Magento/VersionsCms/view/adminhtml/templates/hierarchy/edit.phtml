@@ -45,6 +45,7 @@
     <script type="text/javascript">
 require([
     "jquery",
+    "validation",
     "mage/mage",
     "prototype"
 ], function(jQuery){
@@ -69,7 +70,6 @@ require([
         removedNodes: $A(),
 
         initialize: function(){
-            jQuery.mage.load('validation');
             this.increment = 0;
             this.pageIdentifiers = $H({});
             this.tree = new Ext.tree.TreePanel('tree-container', {

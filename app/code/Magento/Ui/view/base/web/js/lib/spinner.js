@@ -9,7 +9,8 @@ define([
 ], function ($) {
     'use strict';
 
-    var spinner = $('[data-role="spinner"]');
+    var selector    = '[data-role="spinner"]',
+        spinner     = $(selector);
 
     return {
         show: function () {
@@ -18,6 +19,10 @@ define([
 
         hide: function () {
             spinner.hide();
+        },
+
+        get: function (id) {
+            return $(selector + '[data-component="' + id + '"]');
         }
     }
 });

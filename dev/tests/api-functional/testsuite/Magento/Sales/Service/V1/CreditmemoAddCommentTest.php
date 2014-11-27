@@ -8,8 +8,8 @@
 namespace Magento\Sales\Service\V1;
 
 use Magento\Webapi\Model\Rest\Config;
-use Magento\Sales\Service\V1\Data\Comment;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use \Magento\Sales\Api\Data\CreditmemoCommentInterface as Comment;
 
 /**
  * Class CreditmemoAddCommentTest
@@ -19,7 +19,7 @@ class CreditmemoAddCommentTest extends WebapiAbstract
     /**
      * Service read name
      */
-    const SERVICE_READ_NAME = 'salesCreditmemoWriteV1';
+    const SERVICE_READ_NAME = 'salesCreditmemoCommentRepositoryV1';
 
     /**
      * Service version
@@ -32,10 +32,15 @@ class CreditmemoAddCommentTest extends WebapiAbstract
     const CREDITMEMO_INCREMENT_ID = '100000001';
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
+    /**
+     * Set up
+     *
+     * @return void
+     */
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -61,7 +66,7 @@ class CreditmemoAddCommentTest extends WebapiAbstract
             Comment::IS_CUSTOMER_NOTIFIED => true
         ];
 
-        $requestData = ['comment' => $commentData];
+        $requestData = ['entity' => $commentData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/creditmemo/comment',
@@ -70,10 +75,11 @@ class CreditmemoAddCommentTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'addComment'
+                'operation' => self::SERVICE_READ_NAME . 'save'
             ]
         ];
 
-        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+        $result = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertNotEmpty($result);
     }
 }

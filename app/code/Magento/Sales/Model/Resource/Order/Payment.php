@@ -39,6 +39,22 @@ class Payment extends SalesResource
      */
     protected function _construct()
     {
-        $this->_init('sales_flat_order_payment', 'entity_id');
+        $this->_init('sales_order_payment', 'entity_id');
+    }
+
+    /**
+     * Perform actions before object save
+     *
+     * @param \Magento\Framework\Model\AbstractModel|\Magento\Framework\Object $object
+     * @return $this
+     */
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
+    {
+        /**@var $object \Magento\Sales\Model\Order\Payment */
+        parent::_beforeSave($object);
+        if (!$object->getParentId() && $object->getOrder()) {
+            $object->setParentId($object->getOrder()->getId());
+        }
+        return $this;
     }
 }

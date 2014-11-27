@@ -10,7 +10,6 @@ namespace Magento\Rma\Model\Rma;
 
 use Magento\Authorization\Model\UserContextInterface;
 use Magento\Rma\Model\Rma;
-use Magento\Sales\Model\OrderRepository;
 use Magento\Rma\Helper\Data;
 use Magento\Framework\Exception\StateException;
 
@@ -22,27 +21,19 @@ class PermissionChecker
     private $userContext;
 
     /**
-     * @var OrderRepository
-     */
-    private $orderRepository;
-
-    /**
      * @var Data
      */
     private $rmaHelper;
 
     /**
      * @param UserContextInterface $userContext
-     * @param OrderRepository $orderRepository
      * @param Data $rmaHelper
      */
     public function __construct(
         UserContextInterface $userContext,
-        OrderRepository $orderRepository,
         Data $rmaHelper
     ) {
         $this->userContext = $userContext;
-        $this->orderRepository = $orderRepository;
         $this->rmaHelper = $rmaHelper;
     }
 

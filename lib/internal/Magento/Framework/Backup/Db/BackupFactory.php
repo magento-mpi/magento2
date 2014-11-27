@@ -12,7 +12,7 @@ class BackupFactory
     /**
      * Object manager
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     private $_objectManager;
 
@@ -27,11 +27,11 @@ class BackupFactory
     private $_backupDbInstanceName;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param string $backupInstanceName
      * @param string $backupDbInstanceName
      */
-    public function __construct(\Magento\Framework\ObjectManager $objectManager, $backupInstanceName, $backupDbInstanceName)
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $backupInstanceName, $backupDbInstanceName)
     {
         $this->_objectManager = $objectManager;
         $this->_backupInstanceName = $backupInstanceName;

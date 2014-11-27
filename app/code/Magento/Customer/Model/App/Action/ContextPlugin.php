@@ -8,6 +8,9 @@
 
 namespace Magento\Customer\Model\App\Action;
 
+use Magento\Customer\Model\GroupManagement;
+use Magento\Customer\Model\Context;
+
 /**
  * Class ContextPlugin
  */
@@ -47,12 +50,12 @@ class ContextPlugin
         \Magento\Framework\App\RequestInterface $request
     ) {
         $this->httpContext->setValue(
-            \Magento\Customer\Helper\Data::CONTEXT_GROUP,
+            Context::CONTEXT_GROUP,
             $this->customerSession->getCustomerGroupId(),
-            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID
+            GroupManagement::NOT_LOGGED_IN_ID
         );
         $this->httpContext->setValue(
-            \Magento\Customer\Helper\Data::CONTEXT_AUTH,
+            Context::CONTEXT_AUTH,
             $this->customerSession->isLoggedIn(),
             false
         );

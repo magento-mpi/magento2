@@ -78,7 +78,7 @@ $skuFormId = 'skuForm' . $uniqueSuffix;
                                class="qty"
                                maxlength="13"
                                data-validate='{
-                                    "required-if-specified": "[data-id=${rowIndex}${uniqueSuffix}sku]",
+                                    "required-number-if-specified": "[data-id=${rowIndex}${uniqueSuffix}sku]",
                                     "validate-number": true,
                                     "validate-greater-than-zero": true,
                                     "validate-number-range": "0.0001-99999999.9999"

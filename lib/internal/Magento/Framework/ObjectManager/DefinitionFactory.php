@@ -12,10 +12,9 @@ namespace Magento\Framework\ObjectManager;
 
 use Magento\Framework\Filesystem\DriverInterface;
 use Magento\Framework\ObjectManager\Definition\Runtime;
-use Magento\Framework\ObjectManager\Relations;
+use Magento\Framework\ObjectManager\RelationsInterface;
 use Magento\Framework\ObjectManager\Code\Generator;
 use Magento\Framework\Interception\Code\Generator as InterceptionGenerator;
-use Magento\Framework\Api\Code\Generator\Builder as BuilderGenerator;
 use Magento\Framework\Api\Code\Generator\DataBuilder as DataBuilderGenerator;
 use Magento\Framework\Api\Code\Generator\Mapper as MapperGenerator;
 use Magento\Framework\ObjectManager\Code\Generator\Converter as ConverterGenerator;
@@ -102,14 +101,11 @@ class DefinitionFactory
             $definitionModel = $this->_definitionClasses[$this->_definitionFormat];
             $result = new $definitionModel($definitions);
         } else {
-            $fileResolver = new \Magento\Framework\Code\Generator\FileResolver();
             $generatorIo = new \Magento\Framework\Code\Generator\Io(
                 $this->_filesystemDriver,
-                $fileResolver,
                 $this->_generationDir
             );
             $generator = new \Magento\Framework\Code\Generator(
-                $fileResolver,
                 $generatorIo,
                 array(
                     SearchResultsBuilder::ENTITY_TYPE
@@ -120,12 +116,13 @@ class DefinitionFactory
                         => '\Magento\Framework\ObjectManager\Code\Generator\Proxy',
                     Generator\Repository::ENTITY_TYPE
                         => '\Magento\Framework\ObjectManager\Code\Generator\Repository',
+                    Generator\Persistor::ENTITY_TYPE
+                    => '\Magento\Framework\ObjectManager\Code\Generator\Persistor',
                     InterceptionGenerator\Interceptor::ENTITY_TYPE
                         => '\Magento\Framework\Interception\Code\Generator\Interceptor',
                     DataBuilderGenerator::ENTITY_TYPE
                         => '\Magento\Framework\Api\Code\Generator\DataBuilder',
-                    BuilderGenerator::ENTITY_TYPE
-                        => '\Magento\Framework\Api\Code\Generator\Builder',
+                    DataBuilderGenerator::ENTITY_TYPE_BUILDER  => 'Magento\Framework\Api\Code\Generator\DataBuilder',
                     MapperGenerator::ENTITY_TYPE
                         => '\Magento\Framework\Api\Code\Generator\Mapper',
                     SearchResults::ENTITY_TYPE
@@ -136,7 +133,7 @@ class DefinitionFactory
                         => '\Magento\Framework\ObjectManager\Profiler\Code\Generator\Logger'
                 )
             );
-            $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator, $fileResolver);
+            $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
             spl_autoload_register(array($autoloader, 'load'));
 
             $result = new Runtime();
@@ -147,7 +144,7 @@ class DefinitionFactory
     /**
      * Create plugin definitions
      *
-     * @return \Magento\Framework\Interception\Definition
+     * @return \Magento\Framework\Interception\DefinitionInterface
      */
     public function createPluginDefinition()
     {
@@ -164,7 +161,7 @@ class DefinitionFactory
     /**
      * Create relations
      *
-     * @return Relations
+     * @return RelationsInterface
      */
     public function createRelations()
     {
