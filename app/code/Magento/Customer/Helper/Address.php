@@ -8,8 +8,10 @@
 namespace Magento\Customer\Helper;
 
 use Magento\Directory\Model\Country\Format;
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
+use Magento\Customer\Api\Data\AttributeMetadataInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Customer\Api\AddressMetadataInterface;
+use Magento\Customer\Api\CustomerMetadataInterface;
 
 /**
  * Customer address helper
@@ -41,7 +43,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Array of Customer Address Attributes
      *
-     * @var AttributeMetadata[]
+     * @var AttributeMetadataInterface[]
      */
     protected $_attributes;
 
@@ -73,10 +75,10 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
     protected $_scopeConfig;
 
-    /** @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface */
+    /** @var CustomerMetadataInterface */
     protected $_customerMetadataService;
 
-    /** @var \Magento\Customer\Service\V1\AddressMetadataServiceInterface */
+    /** @var AddressMetadataInterface */
     protected $_addressMetadataService;
 
     /** @var \Magento\Customer\Model\Address\Config*/
@@ -87,8 +89,8 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\View\Element\BlockFactory $blockFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
-     * @param \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService
+     * @param CustomerMetadataInterface $customerMetadataService
+     * @param AddressMetadataInterface $addressMetadataService
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      */
     public function __construct(
@@ -96,8 +98,8 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\View\Element\BlockFactory $blockFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
-        \Magento\Customer\Service\V1\AddressMetadataServiceInterface $addressMetadataService,
+        CustomerMetadataInterface $customerMetadataService,
+        AddressMetadataInterface $addressMetadataService,
         \Magento\Customer\Model\Address\Config $addressConfig
     ) {
         $this->_blockFactory = $blockFactory;
@@ -244,7 +246,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
         $class = '';
 
         try {
-            /** @var $attribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
+            /** @var $attribute AttributeMetadataInterface */
             $attribute = isset($this->_attributes[$attributeCode])
                 ? $this->_attributes[$attributeCode]
                 : $this->_addressMetadataService->getAttributeMetadata($attributeCode);
@@ -255,7 +257,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
                     $class = '';
                 }
 
-                /** @var $customerAttribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
+                /** @var $customerAttribute AttributeMetadataInterface */
                 $customerAttribute = $this->_customerMetadataService->getAttributeMetadata($attributeCode);
                 $class .= $customerAttribute &&
                     $customerAttribute->isVisible() ? $customerAttribute->getFrontendClass() : '';

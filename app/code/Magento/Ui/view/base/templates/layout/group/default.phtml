@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var \Magento\Ui\Component\Layout\Group $this
+ */
+
+?>
+<div class="field form__field <?php echo $this->getIsRequired()?>" data-bind="css: {'required': required}">
+    <label class="label" data-bind="attr: { for: <?php echo $this->getData('index')?> }" for="R1WKK">
+        <span data-bind="text: element.label"><?php echo $this->getData('label')?></span>
+    </label>
+    <div class="control">
+        <?php if ($this->getChildren()): ?>
+            <?php foreach ($this->getChildren() as $child): ?>
+            <?php echo $this->renderElement($child['dataType'], ['field_config' => $child]); ?>
+            <?php endforeach; ?>
+        <?php endif;?>
+    </div>
+</div>

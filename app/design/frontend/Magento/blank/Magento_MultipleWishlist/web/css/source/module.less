@@ -182,6 +182,14 @@
     }
 }
 
+.page-multiple-wishlist {
+    .page-title {
+        .title {
+            &:extend(.abstract-visually-hidden all);
+        }
+    }
+}
+
 //
 //    Mobile
 //--------------------------------------
@@ -289,12 +297,6 @@
         }
         .wishlist-dropdown {
             display: none;
-        }
-    }
-
-    .block-wishlist-search-results {
-        .data.table {
-            &:extend(.abstract-table-vertical-mobile all);
         }
     }
 

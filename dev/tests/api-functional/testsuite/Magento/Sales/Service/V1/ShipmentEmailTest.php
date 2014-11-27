@@ -8,14 +8,17 @@
 
 namespace Magento\Sales\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract,
-    Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
+/**
+ * Class ShipmentEmailTest
+ */
 class ShipmentEmailTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesShipmentWriteV1';
+    const SERVICE_NAME = 'salesShipmentManagementV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/shipment.php
@@ -33,10 +36,11 @@ class ShipmentEmailTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'email'
+                'operation' => self::SERVICE_NAME . 'notify'
             ]
         ];
         $requestData = ['id' => $shipment->getId()];
-        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+        $result = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue($result);
     }
 }

@@ -7,7 +7,9 @@
  */
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Tab;
 
-class Giftregistry extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
+use \Magento\Ui\Component\Layout\Tabs\TabWrapper;
+
+class Giftregistry extends TabWrapper
 {
     /**
      * Gift registry data
@@ -24,6 +26,16 @@ class Giftregistry extends \Magento\Backend\Block\Template implements \Magento\B
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Framework\AuthorizationInterface
+     */
+    protected $_authorization;
+
+    /**
+     * @var bool
+     */
+    protected $isAjaxLoaded = true;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Framework\Registry $registry
@@ -35,6 +47,7 @@ class Giftregistry extends \Magento\Backend\Block\Template implements \Magento\B
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
+        $this->_authorization = $context->getAuthorization();
         $this->_coreRegistry = $registry;
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct($context, $data);
@@ -49,27 +62,15 @@ class Giftregistry extends \Magento\Backend\Block\Template implements \Magento\B
     {
         parent::_construct();
         $this->setId('gifregustry');
-        $this->setTitle(__('Gift Registry'));
+        $this->setTabLabel(__('Gift Registry'));
     }
 
     /**
-     * Tab label getter
-     *
-     * @return string
+     * @inheritdoc
      */
-    public function getTabLabel()
+    public function isAjaxLoaded()
     {
-        return $this->getTitle();
-    }
-
-    /**
-     * Tab title getter
-     *
-     * @return string
-     */
-    public function getTabTitle()
-    {
-        return $this->getTitle();
+        return true;
     }
 
     /**
@@ -83,16 +84,6 @@ class Giftregistry extends \Magento\Backend\Block\Template implements \Magento\B
         return $customer->getId() && $this->_giftRegistryData->isEnabled() && $this->_authorization->isAllowed(
             'Magento_GiftRegistry::customer_magento_giftregistry'
         );
-    }
-
-    /**
-     * Check whether tab should be hidden
-     *
-     * @return bool
-     */
-    public function isHidden()
-    {
-        return false;
     }
 
     /**
