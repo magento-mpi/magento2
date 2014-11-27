@@ -94,18 +94,30 @@
         <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
         <delete dir="${dir.build_directory}"/>
 
+        <loadfile srcFile="${basedir}/dev/tests/functional/composer.json" property="composer_json"/>
         <copy file="${basedir}/${env.build_customization_dir}/composer.json" failonerror="true" overwrite="true"
               tofile="${basedir}/dev/tests/functional/composer.json"/>
 
         <condition property="env.bamboo_mtf_repository" value="git://github.scm.corp.ebay.com/mtf/mtf.git">
             <not><isset property="env.bamboo_mtf_repository"/></not>
         </condition>
-        <condition property="env.bamboo_mtf_branch" value="develop">
-            <not><isset property="env.bamboo_mtf_branch"/></not>
-        </condition>
+        <script language="javascript"><![CDATA[
+             if (project.getProperty('env.bamboo_mtf_version') == null
+                 || project.getProperty('env.bamboo_mtf_version') == ''
+             ) {
+                 var composer_json = project.getProperty("composer_json");
+                 var reg = /magento.mtf.*?(\d.*?).,/;
+                 var result = reg.exec(composer_json);
+                 if (result[1] != null){
+                     project.setProperty('env.bamboo_mtf_version', result[1]);
+                 } else {
+                     project.setProperty('env.bamboo_mtf_version', 'dev-develop');
+                 }
+             }
+        ]]></script>
         <replace file="${basedir}/dev/tests/functional/composer.json">
             <replacefilter token="{{mtf_repository}}" value="${env.bamboo_mtf_repository}"/>
-            <replacefilter token="{{mtf_branch}}" value="${env.bamboo_mtf_branch}"/>
+            <replacefilter token="{{mtf_version}}" value="${env.bamboo_mtf_version}"/>
         </replace>
 
         <antcall target="_composer_install">
