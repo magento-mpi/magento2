@@ -146,6 +146,7 @@ class ObjectManagerFactory
         $diConfig->setCache(
             $objectManager->get('Magento\Framework\App\ObjectManager\ConfigCache')
         );
+
         $objectManager->configure(
             $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global')
         );
@@ -153,6 +154,7 @@ class ObjectManagerFactory
             ->setCurrentScope('global');
         $objectManager->get('Magento\Framework\App\Resource')
             ->setCache($objectManager->get('Magento\Framework\App\CacheInterface'));
+
         $diConfig->setInterceptionConfig(
             $objectManager->get('Magento\Framework\Interception\Config\Config')
         );

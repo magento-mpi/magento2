@@ -106,6 +106,14 @@ abstract class AbstractFactory implements \Magento\Framework\ObjectManager\Facto
                 return new $type($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6]);
             case 8:
                 return new $type($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7]);
+            case 9:
+                return new $type($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8]);
+            case 10:
+                return new $type($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9]);
+            case 11:
+                return new $type($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9], $args[10]);
+            case 12:
+                return new $type($args[0], $args[1], $args[2], $args[3], $args[4], $args[5], $args[6], $args[7], $args[8], $args[9], $args[10], $args[11]);
             default:
                 $reflection = new \ReflectionClass($type);
                 return $reflection->newInstanceArgs($args);

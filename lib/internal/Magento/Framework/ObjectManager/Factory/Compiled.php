@@ -27,29 +27,6 @@ class Compiled extends AbstractFactory
             return new $type();
         }
 
-        $this->configureArgs($args, $arguments);
-
-        $args = array_values($args);
-        if (substr($type, -12) == '\Interceptor') {
-            $args = array_merge([
-                $this->objectManager, $this->objectManager->get('Magento\Framework\Interception\PluginListInterface'),
-                $this->objectManager->get('Magento\Framework\Interception\ChainInterface')
-            ], $args);
-        }
-
-        return $this->createObject($type, $args);
-    }
-
-    /**
-     * Configure args
-     *
-     * @param array $args
-     * @param array $arguments
-     *
-     * @return void
-     */
-    private function configureArgs(&$args, $arguments)
-    {
         foreach ($args as $key => &$argument) {
             if (isset($arguments[$key])) {
                 $argument = $arguments[$key];
@@ -72,5 +49,15 @@ class Compiled extends AbstractFactory
                 }
             }
         }
+
+        $args = array_values($args);
+        if (substr($type, -12) == '\Interceptor') {
+            $args = array_merge([
+                $this->objectManager, $this->objectManager->get('Magento\Framework\Interception\PluginListInterface'),
+                $this->objectManager->get('Magento\Framework\Interception\ChainInterface')
+            ], $args);
+        }
+
+        return $this->createObject($type, $args);
     }
 }
