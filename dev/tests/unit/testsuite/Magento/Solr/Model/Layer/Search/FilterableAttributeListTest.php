@@ -37,6 +37,7 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->collectionFactoryMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory',
             array('create'),

@@ -7,8 +7,10 @@
  */
 namespace Magento\Framework\Module;
 
+use \Magento\Framework\DB\Adapter\AdapterInterface;
+
 /**
- * Resource Resource Model
+ * Resource Model
  */
 class Resource extends \Magento\Framework\Model\Resource\Db\AbstractDb implements \Magento\Framework\Module\ResourceInterface
 {
@@ -46,7 +48,7 @@ class Resource extends \Magento\Framework\Model\Resource\Db\AbstractDb implement
      * @param string $needType Can be 'db' or 'data'
      * @return $this
      */
-    protected function _loadVersionData($needType)
+    protected function _loadVersion($needType)
     {
         if ($needType == 'db' && is_null(self::$_versions) || $needType == 'data' && is_null(self::$_dataVersions)) {
             self::$_versions = array();
@@ -80,7 +82,7 @@ class Resource extends \Magento\Framework\Model\Resource\Db\AbstractDb implement
         if (!$this->_getReadAdapter()) {
             return false;
         }
-        $this->_loadVersionData('db');
+        $this->_loadVersion('db');
         return isset(self::$_versions[$resName]) ? self::$_versions[$resName] : false;
     }
 
@@ -112,9 +114,7 @@ class Resource extends \Magento\Framework\Model\Resource\Db\AbstractDb implement
         if (!$this->_getReadAdapter()) {
             return false;
         }
-
-        $this->_loadVersionData('data');
-
+        $this->_loadVersion('data');
         return isset(self::$_dataVersions[$resName]) ? self::$_dataVersions[$resName] : false;
     }
 

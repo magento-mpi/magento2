@@ -79,7 +79,6 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
             ->getMockForAbstractClass();
 
         $this->resource = $this->getMockBuilder('Magento\Framework\App\Resource')
-            ->setMethods(['getConnection'])
             ->disableOriginalConstructor()
             ->getMock();
         $this->select = $this->getMockBuilder('Magento\Framework\DB\Select')

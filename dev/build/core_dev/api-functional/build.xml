@@ -46,7 +46,7 @@
     </target>
 
     <target name="_configure_tests">
-        <!--Prepare local.xml-->
+        <!--Prepare config.php-->
         <condition property="db_vendor_name" value="mysql">
             <not>
                 <isset property="db_vendor_name"/>

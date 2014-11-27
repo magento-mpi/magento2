@@ -9,8 +9,7 @@ namespace Magento\Sales\Service\V1;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
-use Magento\Sales\Service\V1\Data\OrderStatusHistory;
-use Magento\Sales\Service\V1\Data\OrderStatusHistoryBuilder;
+use Magento\Sales\Api\Data\OrderStatusHistoryInterface;
 
 /**
  * Class OrderCommentAddTest
@@ -18,7 +17,7 @@ use Magento\Sales\Service\V1\Data\OrderStatusHistoryBuilder;
  */
 class OrderStatusHistoryAddTest extends WebapiAbstract
 {
-    const SERVICE_READ_NAME = 'salesOrderWriteV1';
+    const SERVICE_READ_NAME = 'salesOrderManagementV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -44,14 +43,14 @@ class OrderStatusHistoryAddTest extends WebapiAbstract
         $order->loadByIncrementId(self::ORDER_INCREMENT_ID);
 
         $commentData = [
-            OrderStatusHistory::COMMENT => 'Hello',
-            OrderStatusHistory::ENTITY_ID => null,
-            OrderStatusHistory::IS_CUSTOMER_NOTIFIED => true,
-            OrderStatusHistory::CREATED_AT => null,
-            OrderStatusHistory::PARENT_ID => $order->getId(),
-            OrderStatusHistory::ENTITY_NAME => null,
-            OrderStatusHistory::STATUS => null,
-            OrderStatusHistory::IS_VISIBLE_ON_FRONT => true,
+            OrderStatusHistoryInterface::COMMENT => 'Hello',
+            OrderStatusHistoryInterface::ENTITY_ID => null,
+            OrderStatusHistoryInterface::IS_CUSTOMER_NOTIFIED => true,
+            OrderStatusHistoryInterface::CREATED_AT => null,
+            OrderStatusHistoryInterface::PARENT_ID => $order->getId(),
+            OrderStatusHistoryInterface::ENTITY_NAME => null,
+            OrderStatusHistoryInterface::STATUS => null,
+            OrderStatusHistoryInterface::IS_VISIBLE_ON_FRONT => true,
         ];
 
 
@@ -64,23 +63,24 @@ class OrderStatusHistoryAddTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'statusHistoryAdd'
+                'operation' => self::SERVICE_READ_NAME . 'addComment'
             ]
         ];
 
         $this->_webApiCall($serviceInfo, $requestData);
 
         //Verification
-        $statusHistoryComment = $order->load($order->getId())->getAllStatusHistory()[0];
+        $comments = $order->load($order->getId())->getAllStatusHistory();
 
+        $commentData = reset($comments);
         foreach ($commentData as $key => $value) {
-            $this->assertEquals($commentData[OrderStatusHistory::COMMENT], $statusHistoryComment->getComment());
-            $this->assertEquals($commentData[OrderStatusHistory::PARENT_ID], $statusHistoryComment->getParentId());
+            $this->assertEquals($commentData[OrderStatusHistoryInterface::COMMENT], $statusHistoryComment->getComment());
+            $this->assertEquals($commentData[OrderStatusHistoryInterface::PARENT_ID], $statusHistoryComment->getParentId());
             $this->assertEquals(
-                $commentData[OrderStatusHistory::IS_CUSTOMER_NOTIFIED], $statusHistoryComment->getIsCustomerNotified()
+                $commentData[OrderStatusHistoryInterface::IS_CUSTOMER_NOTIFIED], $statusHistoryComment->getIsCustomerNotified()
             );
             $this->assertEquals(
-                $commentData[OrderStatusHistory::IS_VISIBLE_ON_FRONT], $statusHistoryComment->getIsVisibleOnFront()
+                $commentData[OrderStatusHistoryInterface::IS_VISIBLE_ON_FRONT], $statusHistoryComment->getIsVisibleOnFront()
             );
         }
     }

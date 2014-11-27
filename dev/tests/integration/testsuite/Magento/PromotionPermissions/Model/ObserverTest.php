@@ -24,9 +24,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_moduleListMock = $this->getMock('Magento\Framework\Module\ModuleListInterface');
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->addSharedInstance($this->_moduleListMock, 'Magento\Framework\Module\ModuleList');
         $objectManager->get(
             'Magento\Framework\Config\ScopeInterface'
         )->setCurrentScope(
@@ -52,15 +50,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertSame($gridBlock, $this->_layout->getChildBlock($childBlock, 'banners_grid_serializer'));
-        $this->_moduleListMock->expects(
-            $this->any()
-        )->method(
-            'getModule'
-        )->with(
-            'Magento_Banner'
-        )->will(
-            $this->returnValue(true)
-        );
         $event = new \Magento\Framework\Event\Observer();
         $event->setBlock($block);
         $observer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

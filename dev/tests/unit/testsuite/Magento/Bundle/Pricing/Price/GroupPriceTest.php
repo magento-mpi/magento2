@@ -60,6 +60,11 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
     protected $regularPrice;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceCurrencyMock;
+
+    /**
      * Set up test case
      */
     public function setUp()
@@ -131,10 +136,13 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
 
+        $this->priceCurrencyMock = $this->getMock('\Magento\Framework\Pricing\PriceCurrencyInterface');
+
         $this->groupPrice = new \Magento\Bundle\Pricing\Price\GroupPrice(
             $this->productMock,
             1,
             $this->calculatorMock,
+            $this->priceCurrencyMock,
             $this->customerSessionMock
         );
     }
@@ -168,6 +176,8 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
             ->method('afterLoad')
             ->with($this->equalTo($this->productMock))
             ->will($this->returnValue($this->backendMock));
+        $this->priceCurrencyMock->expects($this->never())
+            ->method('convertAndRound');
         $this->productMock->expects($this->once())
             ->method('getData')
             ->with(
