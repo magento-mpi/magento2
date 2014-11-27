@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-define(["jquery","jquery/ui"], function($){
-
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
+    "use strict";
+    
     $.widget('mage.ticker', {
         options: {
             secondsInDay: 86400,
@@ -62,5 +66,5 @@ define(["jquery","jquery/ui"], function($){
         }
     });
 
-
+    return $.mage.ticker;
 });

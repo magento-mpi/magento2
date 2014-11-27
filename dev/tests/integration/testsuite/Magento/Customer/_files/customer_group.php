@@ -5,15 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\Customer\Service\V1\CustomerGroupService $customerGroupService */
-$customerGroupService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-    'Magento\Customer\Service\V1\CustomerGroupService'
+/** @var \Magento\Customer\Api\GroupRepositoryInterface $groupRepository */
+$groupRepository = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Customer\Api\GroupRepositoryInterface'
 );
 
+/** @var \Magento\Customer\Api\Data\GroupDataBuilder $builder */
 $builder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-    '\Magento\Customer\Service\V1\Data\CustomerGroupBuilder'
+    '\Magento\Customer\Api\Data\GroupDataBuilder'
 );
 $customerGroupBuilder = $builder->setCode('custom_group')->setTaxClassId(3);
 
-$customerGroup = new Magento\Customer\Service\V1\Data\CustomerGroup($customerGroupBuilder);
-$customerGroupService->createGroup($customerGroup);
+/** @var \Magento\Customer\Api\Data\GroupInterface $customerGroup */
+$customerGroup = new \Magento\Customer\Model\Data\Group($customerGroupBuilder);
+$groupRepository->save($customerGroup);

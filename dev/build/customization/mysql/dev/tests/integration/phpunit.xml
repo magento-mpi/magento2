@@ -24,7 +24,6 @@
         <ini name="date.timezone" value="America/Los_Angeles"/>
         <const name="TESTS_INSTALL_CONFIG_FILE" value="etc/install-config-mysql.php"/>
         <const name="TESTS_GLOBAL_CONFIG_DIR" value="../../../app/etc"/>
-        <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/*/modules.xml;etc/test/modules.xml"/>
         <const name="TESTS_CLEANUP_ACTION" value="uninstall"/>
         <!--<const name="TESTS_MAGENTO_MODE" value="default"/>-->
     </php>

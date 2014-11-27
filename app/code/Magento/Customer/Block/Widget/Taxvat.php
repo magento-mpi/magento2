@@ -5,29 +5,33 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Block\Widget;
+
+use Magento\Customer\Api\CustomerMetadataInterface;
 
 /**
  * Customer Value Added Tax Widget
  *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Taxvat extends AbstractWidget
 {
     /**
      * Constructor.
      *
-     * @param \Magento\Framework\View\Element\Template\Context                        $context
-     * @param \Magento\Customer\Helper\Address                              $addressHelper
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
-     * @param array                                                         $data
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param CustomerMetadataInterface $customerMetadata
+     * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
+        CustomerMetadataInterface $customerMetadata,
         array $data = array()
     ) {
-        parent::__construct($context, $addressHelper, $customerMetadataService, $data);
+        parent::__construct($context, $addressHelper, $customerMetadata, $data);
         $this->_isScopePrivate = true;
     }
 

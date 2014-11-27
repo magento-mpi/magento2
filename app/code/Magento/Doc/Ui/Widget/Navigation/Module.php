@@ -38,6 +38,6 @@ class Module extends Template
      */
     public function getModules()
     {
-        return $this->moduleList->getModules();
+        return $this->moduleList->getAll();
     }
 }

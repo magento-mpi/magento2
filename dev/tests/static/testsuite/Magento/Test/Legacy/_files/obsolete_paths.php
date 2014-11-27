@@ -233,4 +233,5 @@ return [
     ['/dev/shell/install.php'],
     ['/dev/shell/uninstall.php'],
     ['/app/design/install'],
+    ['/app/etc/local.xml', '/app/etc/config.php'],
 ];

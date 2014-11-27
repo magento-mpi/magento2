@@ -7,8 +7,8 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
  * Class ShipmentListTest
@@ -17,7 +17,7 @@ class ShipmentListTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/shipments';
 
-    const SERVICE_READ_NAME = 'salesShipmentReadV1';
+    const SERVICE_READ_NAME = 'salesShipmentRepositoryV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -49,7 +49,7 @@ class ShipmentListTest extends WebapiAbstract
         $searchCriteriaBuilder->addFilter([$filterBuilder->setField('shipment_status')->setValue(1)->create()]);
         $searchData = $searchCriteriaBuilder->create()->__toArray();
 
-        $requestData = ['searchCriteria' => $searchData];
+        $requestData = ['criteria' => $searchData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
@@ -58,11 +58,12 @@ class ShipmentListTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'search'
+                'operation' => self::SERVICE_READ_NAME . 'getList'
             ]
         ];
 
         $result = $this->_webApiCall($serviceInfo, $requestData);
+        // TODO Test fails, due to the inability of the framework API to handle data collection
         $this->assertArrayHasKey('items', $result);
         $this->assertCount(1, $result['items']);
     }
