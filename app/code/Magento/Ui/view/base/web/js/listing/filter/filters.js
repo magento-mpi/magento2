@@ -6,11 +6,10 @@
  */
 /** Assembles available filter controls and returns it's mapping. */
 define([
-    './item/input',
-    './item/select',
-    './item/range',
-    './item/store'
-], function (InputControl, SelectControl, RangeControl, StoreControl) {
+    './input',
+    './select',
+    './range'
+], function (InputControl, SelectControl, RangeControl) {
     'use strict';
 
     return {
@@ -18,6 +17,6 @@ define([
         select:     SelectControl,
         date:       RangeControl,
         range:      RangeControl,
-        store:      StoreControl
+        store:      SelectControl
     }
 });

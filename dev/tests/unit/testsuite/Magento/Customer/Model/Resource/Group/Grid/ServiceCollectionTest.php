@@ -27,11 +27,11 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Api\SortOrderBuilder */
     protected $sortOrderBuilder;
 
-    /** @var \Magento\Customer\Service\V1\Data\SearchResults */
+    /** @var \Magento\Customer\Api\Data\GroupSearchResultsInterface */
     protected $searchResults;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Service\V1\CustomerGroupServiceInterface */
-    protected $groupServiceMock;
+    /** @var \PHPUnit_Framework_MockObject_MockObject| */
+    protected $groupRepositoryMock;
 
     /** @var ServiceCollection */
     protected $serviceCollection;
@@ -50,10 +50,21 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
         $this->sortOrderBuilder = $this->objectManager->getObject(
             '\Magento\Framework\Api\SortOrderBuilder'
         );
-        $this->groupServiceMock = $this->getMockBuilder('\Magento\Customer\Service\V1\CustomerGroupServiceInterface')
+        $this->groupRepositoryMock = $this->getMockBuilder('\Magento\Customer\Api\GroupRepositoryInterface')
             ->getMock();
-        $this->searchResults = $this->objectManager->getObject('Magento\Customer\Service\V1\Data\SearchResultsBuilder')
-            ->create();
+
+        $this->searchResults = $this->getMockForAbstractClass(
+            'Magento\Framework\Api\SearchResultsInterface',
+            ['getTotalCount', 'getItems']
+        );
+
+        $this->searchResults
+            ->expects($this->any())
+            ->method('getTotalCount');
+        $this->searchResults
+            ->expects($this->any())
+            ->method('getItems')
+            ->willReturn($this->returnValue([]));
 
         $this->serviceCollection = $this->objectManager
             ->getObject(
@@ -61,7 +72,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
                 [
                     'filterBuilder' => $this->filterBuilder,
                     'searchCriteriaBuilder' => $this->searchCriteriaBuilder,
-                    'groupService' => $this->groupServiceMock,
+                    'groupRepository' => $this->groupRepositoryMock,
                 ]
             );
     }
@@ -82,10 +93,10 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             )->create();
 
         // Verifies that the search criteria Data Object created by the serviceCollection matches expected
-        $this->groupServiceMock->expects($this->once())
-            ->method('searchGroups')
-            ->with($expectedSearchCriteria)
-            ->willReturn($this->searchResults);
+        $this->groupRepositoryMock->expects($this->once())
+            ->method('getList')
+            ->with($this->equalTo($expectedSearchCriteria))
+            ->will($this->returnValue($this->searchResults));
 
         // Now call service collection to load the data.  This causes it to create the search criteria Data Object
         $this->serviceCollection->addFieldToFilter('name', 'Magento');
@@ -112,8 +123,8 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             ->create();
 
         // Verifies that the search criteria Data Object created by the serviceCollection matches expected
-        $this->groupServiceMock->expects($this->once())
-            ->method('searchGroups')
+        $this->groupRepositoryMock->expects($this->once())
+            ->method('getList')
             ->with($this->equalTo($expectedSearchCriteria))
             ->will($this->returnValue($this->searchResults));
 
@@ -148,8 +159,8 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             ->create();
 
         // Verifies that the search criteria Data Object created by the serviceCollection matches expected
-        $this->groupServiceMock->expects($this->once())
-            ->method('searchGroups')
+        $this->groupRepositoryMock->expects($this->once())
+            ->method('getList')
             ->with($this->equalTo($expectedSearchCriteria))
             ->will($this->returnValue($this->searchResults));
 
@@ -190,8 +201,8 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             ->create();
 
         // Verifies that the search criteria Data Object created by the serviceCollection matches expected
-        $this->groupServiceMock->expects($this->once())
-            ->method('searchGroups')
+        $this->groupRepositoryMock->expects($this->once())
+            ->method('getList')
             ->with($this->equalTo($expectedSearchCriteria))
             ->will($this->returnValue($this->searchResults));
 
