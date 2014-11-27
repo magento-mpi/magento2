@@ -121,7 +121,7 @@ class UpdateQtyTest extends \PHPUnit_Framework_TestCase
 
         $this->pageConfigMock->expects($this->any())->method('getTitle')->will($this->returnValue($this->titleMock));
 
-        $this->objectManagerMock = $this->getMockBuilder('Magento\Framework\ObjectManager')
+        $this->objectManagerMock = $this->getMockBuilder('Magento\Framework\ObjectManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
