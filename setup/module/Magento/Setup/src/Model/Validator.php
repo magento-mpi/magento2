@@ -123,7 +123,6 @@ class Validator
             $pass = false;
             $this->validationMessages[ConfigMapper::KEY_SESSION_SAVE] =
                 "Please use 'files' or 'db'. Current: {$data[ConfigMapper::KEY_SESSION_SAVE]}";
-            ;
         }
         if (isset($data[ConfigMapper::KEY_ENCRYPTION_KEY]) &&
             !$data[ConfigMapper::KEY_ENCRYPTION_KEY]
@@ -176,7 +175,9 @@ class Validator
             $flags[UserConfigurationDataMapper::KEY_ADMIN_USE_SECURITY_KEY] =
                 $data[UserConfigurationDataMapper::KEY_ADMIN_USE_SECURITY_KEY];
         }
-        $pass = $this->validateOneZero($flags);
+        if (!$this->validateOneZero($flags)) {
+            $pass = false;
+        }
 
         // check language, currency and timezone
         $options = new Lists(new \Zend_Locale());
