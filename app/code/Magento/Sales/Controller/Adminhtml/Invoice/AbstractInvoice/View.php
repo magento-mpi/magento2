@@ -8,7 +8,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice;
 
-use Magento\Framework\App\Action\Context;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\Registry;
 
 abstract class View extends \Magento\Backend\App\Action
