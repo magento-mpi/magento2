@@ -329,7 +329,8 @@
     .page-products.layout-1 .products-grid .product-item { width: 100%/5 }
     .page-products.layout-3 .products-grid .product-item { width: 100%/4 }
 }
-.responsive(@break) when (@break = @screen-xl) {
+
+.responsive-min-l(@break) when (@break = @screen-xl) {
     .page-products .products-grid .product-item {
         width: 24.7%;
         margin-left: calc(~"(100% - 4 * 24.7%) / 3");
