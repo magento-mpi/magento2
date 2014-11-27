@@ -40,6 +40,7 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Engine
      * @dataProvider pricesSegmentationDataProvider
+     * @covers \Magento\Framework\Search\Dynamic\Algorithm::calculateSeparators
      */
     public function testPricesSegmentation($categoryId, array $entityIds, array $intervalItems)
     {
@@ -78,7 +79,7 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
             $collection->getMinPrice(),
             $collection->getMaxPrice(),
             $collection->getPriceStandardDeviation(),
-            $collection->getSize()
+            $collection->getPricesCount()
         );
 
         $items = $model->calculateSeparators($interval);
@@ -101,7 +102,6 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
     public function pricesSegmentationDataProvider()
     {
         $testCases = include __DIR__ . '/_files/_algorithm_base_data.php';
-        $testCases = [$testCases[0], $testCases[1], $testCases[2], $testCases[3]];
         $result = [];
         foreach ($testCases as $index => $testCase) {
             $result[] = [

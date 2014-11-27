@@ -98,7 +98,7 @@ $testCases = [
     // test many equal values
     [
         array_merge([10.57], array_fill(0, 20, 10.58), [10.59]),
-        range(63, 64, 1),
+        range(63, 84, 1),
         [
             ['from' => 10.57, 'to' => 10.57, 'count' => 1],
             ['from' => 10.58, 'to' => 10.58, 'count' => 20],
@@ -163,7 +163,7 @@ $testCases = [
             2699.99,
             4999.95
         ],
-        range(55, 118, 1),
+        range(85, 148, 1),
         [
             ['from' => 0, 'to' => 0.05, 'count' => 10],
             // this is important, that not 0.06 is used to prevent low count in interval
@@ -174,12 +174,6 @@ $testCases = [
             ['from' => 100, 'to' => 500, 'count' => 8],
             ['from' => 500, 'to' => '', 'count' => 8]
         ]
-    ],
-    // large numbers test
-    [
-        [100000, 400000, 600000, 900000],
-        range(119, 122, 1),
-        [['from' => 0, 'to' => 500000, 'count' => 2], ['from' => 500000, 'to' => '', 'count' => 2]]
     ]
 ];
 

@@ -62,7 +62,7 @@ class RcomparedTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     protected function setUp()
     {
@@ -102,9 +102,9 @@ class RcomparedTest extends \PHPUnit_Framework_TestCase
         $this->productListFactory->expects($this->any())->method('create')
             ->will($this->returnValue($this->productCollection));
 
-        $this->stockItemService = $this->getMockBuilder('Magento\CatalogInventory\Service\V1\StockItemService')
+        $this->stockRegistry = $this->getMockBuilder('Magento\CatalogInventory\Model\StockRegistry')
             ->disableOriginalConstructor()
-            ->setMethods([])
+            ->setMethods(['getStockItem', '__wakeup'])
             ->getMock();
     }
 
@@ -147,7 +147,20 @@ class RcomparedTest extends \PHPUnit_Framework_TestCase
 
         $this->productCollection->expects($this->once())->method('removeItemByKey')->with(3);
 
-        $this->stockItemService->expects($this->any())->method('getIsInStock')->will($this->returnValue(true));
+        $stockItem = $this->getMock(
+            'Magento\CatalogInventory\Model\Stock\Item',
+            ['getIsInStock', '__wakeup'],
+            [],
+            '',
+            false
+        );
+        $stockItem->expects($this->any())
+            ->method('getIsInStock')
+            ->will($this->returnValue(true));
+
+        $this->stockRegistry->expects($this->any())
+            ->method('getStockItem')
+            ->will($this->returnValue($stockItem));
 
         return [$firstProduct, $secondProduct];
     }
@@ -191,7 +204,7 @@ class RcomparedTest extends \PHPUnit_Framework_TestCase
                 'catalogConfig'      => $catalogConfig,
                 'productListFactory' => $this->productListFactory,
                 'adminhtmlSales'     => $adminhtmlSales,
-                'stockItemService'   => $this->stockItemService
+                'stockRegistry'      => $this->stockRegistry
             ]
         );
         $this->assertSame($this->productCollection, $this->model->getData('items_collection'));

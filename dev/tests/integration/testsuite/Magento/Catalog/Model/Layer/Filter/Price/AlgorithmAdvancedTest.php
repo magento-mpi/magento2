@@ -21,6 +21,7 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Engine
+     * @covers \Magento\Framework\Search\Dynamic\Algorithm::calculateSeparators
      */
     public function testWithoutLimits()
     {
@@ -83,7 +84,7 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
             $collection->getMinPrice(),
             $collection->getMaxPrice(),
             $collection->getPriceStandardDeviation(),
-            $collection->getSize()
+            $collection->getPricesCount()
         );
         return $model;
     }
@@ -92,6 +93,7 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store catalog/search/engine Magento\CatalogSearch\Model\Resource\Engine
+     * @covers \Magento\Framework\Search\Dynamic\Algorithm::calculateSeparators
      */
     public function testWithLimits()
     {

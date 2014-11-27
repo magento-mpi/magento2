@@ -192,11 +192,16 @@
             </argument>
         </arguments>
     </type>
-    <type name="\Magento\Framework\Search\Adapter\Mysql\Mapper">
+    <type name="Magento\Framework\Search\Adapter\Mysql\Mapper">
         <arguments>
             <argument name="indexProviders" xsi:type="array">
-                <item name="catalogsearch_fulltext" xsi:type="object">\Magento\CatalogSearch\Model\Search\IndexBuilder</item>
+                <item name="catalogsearch_fulltext" xsi:type="object">Magento\CatalogSearch\Model\Search\IndexBuilder</item>
             </argument>
+        </arguments>
+    </type>
+    <type name="Magento\CatalogSearch\Model\Adapter\Mysql\Filter\Preprocessor">
+        <arguments>
+            <argument name="attributePrefix" xsi:type="const">Magento\CatalogSearch\Model\Resource\Engine::ATTRIBUTE_PREFIX</argument>
         </arguments>
     </type>
 </config>

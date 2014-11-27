@@ -255,38 +255,6 @@ $table = $installer->getConnection()
         $installer->getIdxName('catalogrule_product', ['product_id']),
         ['product_id']
     )
-    ->addForeignKey(
-        $installer->getFkName('catalogrule_product', 'product_id', 'catalog_product_entity', 'entity_id'),
-        'product_id',
-        $installer->getTable('catalog_product_entity'),
-        'entity_id',
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-    )
-    ->addForeignKey(
-        $installer->getFkName('catalogrule_product', 'customer_group_id', 'customer_group', 'customer_group_id'),
-        'customer_group_id',
-        $installer->getTable('customer_group'),
-        'customer_group_id',
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-    )
-    ->addForeignKey(
-        $installer->getFkName('catalogrule_product', 'rule_id', 'catalogrule', 'rule_id'),
-        'rule_id',
-        $installer->getTable('catalogrule'),
-        'rule_id',
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-    )
-    ->addForeignKey(
-        $installer->getFkName('catalogrule_product', 'website_id', 'store_website', 'website_id'),
-        'website_id',
-        $installer->getTable('store_website'),
-        'website_id',
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-    )
     ->setComment('CatalogRule Product');
 
 $installer->getConnection()->createTable($table);
@@ -372,30 +340,6 @@ $table = $installer->getConnection()
     ->addIndex(
         $installer->getIdxName('catalogrule_product_price', ['product_id']),
         ['product_id']
-    )
-    ->addForeignKey(
-        $installer->getFkName('catalogrule_product_price', 'product_id', 'catalog_product_entity', 'entity_id'),
-        'product_id',
-        $installer->getTable('catalog_product_entity'),
-        'entity_id',
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-    )
-    ->addForeignKey(
-        $installer->getFkName('catalogrule_product_price', 'customer_group_id', 'customer_group', 'customer_group_id'),
-        'customer_group_id',
-        $installer->getTable('customer_group'),
-        'customer_group_id',
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-    )
-    ->addForeignKey(
-        $installer->getFkName('catalogrule_product_price', 'website_id', 'store_website', 'website_id'),
-        'website_id',
-        $installer->getTable('store_website'),
-        'website_id',
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
     )
     ->setComment('CatalogRule Product Price');
 

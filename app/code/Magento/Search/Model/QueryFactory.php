@@ -72,12 +72,11 @@ class QueryFactory implements QueryFactoryInterface
             $maxQueryLength = $this->getMaxQueryLength();
             $rawQueryText = $this->getRawQueryText();
             $preparedQueryText = $this->getPreparedQueryText($rawQueryText, $maxQueryLength);
-            /** @var \Magento\Search\Model\Query $query */
             $query = $this->create()->loadByQuery($preparedQueryText);
             if (!$query->getId()) {
                 $query->setQueryText($preparedQueryText);
             }
-            $query->setIsQueryTextExceeded($this->isQueryTooLong($preparedQueryText, $maxQueryLength));
+            $query->setIsQueryTextExceeded($this->isQueryTooLong($rawQueryText, $maxQueryLength));
             $this->query = $query;
         }
         return $this->query;
