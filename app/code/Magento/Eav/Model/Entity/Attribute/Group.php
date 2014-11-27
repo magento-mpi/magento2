@@ -73,6 +73,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel implements
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * {@inheritdoc}
      */
     public function getAttributeGroupId()
@@ -95,4 +96,5 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel implements
     {
         return $this->getData(self::ATTRIBUTE_SET_ID);
     }
+    //@codeCoverageIgnoreEnd
 }

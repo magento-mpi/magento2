@@ -400,11 +400,13 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * Get product name
      *
      * @return string
+     * @codeCoverageIgnoreStart
      */
     public function getName()
     {
         return $this->_getData('name');
     }
+    //@codeCoverageIgnoreEnd
 
     /**
      * Get product price through type instance
@@ -421,6 +423,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * Get visibility status
      * @see \Magento\Catalog\Model\Product\Visibility
      *
@@ -481,6 +484,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     {
         return $this->_getData('type_id');
     }
+    //@codeCoverageIgnoreEnd
 
     /**
      * Get product status
@@ -2058,6 +2062,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * Return Data Object data in array format.
      *
      * @return array
+     * @todo refactor with converter for AbstractExtensibleModel
      */
     public function __toArray()
     {
