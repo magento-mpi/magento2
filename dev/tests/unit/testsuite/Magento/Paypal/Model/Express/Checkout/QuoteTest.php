@@ -126,9 +126,15 @@ class QuoteTest  extends \PHPUnit_Framework_TestCase
         $this->addressBuilderMock->expects($this->exactly(2))
             ->method('populateWithArray')
             ->willReturnSelf();
+        $customerDataMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->customerBuilderMock->expects($this->once())
             ->method('populateWithArray')
             ->willReturnSelf();
-        $this->assertEmpty($this->quote->prepareQuoteForNewCustomer($this->quoteMock));
+        $this->customerBuilderMock->expects($this->once())
+            ->method('create')
+            ->willReturn($customerDataMock);
+        $this->assertInstanceOf('Magento\Sales\Model\Quote', $this->quote->prepareQuoteForNewCustomer($this->quoteMock));
     }
 }
