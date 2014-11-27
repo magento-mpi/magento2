@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
+namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
 
 /**
  * Test Media Resource
