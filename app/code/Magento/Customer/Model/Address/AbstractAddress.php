@@ -393,7 +393,8 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractExtensibleModel
      *
      * Deprecated, use this code instead:
      * $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-     * $addressData = \Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address);
+     * $addressMapper = \Magento\Customer\Model\Address\Mapper type
+     * $addressData = $addressMapper->toFlatArray($address);
      * $formattedAddress = $renderer->renderArray($addressData);
      *
      * @param string $type

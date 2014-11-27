@@ -39,14 +39,14 @@ class DobTest extends \PHPUnit_Framework_TestCase
     const YEAR_HTML =
         '<div><label for="year"><span>yy</span></label><input type="text" id="year" name="Year" value="14"></div>';
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
-    private $_attribute;
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Api\Data\AttributeMetadataInterface */
+    private $attribute;
 
     /** @var Dob */
     private $_block;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerMetadataServiceInterface */
-    private $_metadataService;
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Api\CustomerMetadataInterface */
+    private $customerMetadata;
 
     public function setUp()
     {
@@ -78,33 +78,20 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $context = $this->getMock('Magento\Framework\View\Element\Template\Context', array(), array(), '', false);
         $context->expects($this->any())->method('getLocaleDate')->will($this->returnValue($timezone));
 
-        $this->_attribute = $this->getMock(
-            'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $this->_metadataService = $this->getMockForAbstractClass(
-            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface',
-            array(),
-            '',
-            false
-        );
-        $this->_metadataService->expects(
-            $this->any()
-        )->method(
-                'getAttributeMetadata'
-            )->will(
-                $this->returnValue($this->_attribute)
-            );
+        $this->attribute = $this->getMockBuilder('\Magento\Customer\Api\Data\AttributeMetadataInterface')
+            ->getMockForAbstractClass();
+        $this->customerMetadata = $this->getMockBuilder('\Magento\Customer\Api\CustomerMetadataInterface')
+            ->getMockForAbstractClass();
+        $this->customerMetadata->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->returnValue($this->attribute));
 
         date_default_timezone_set('America/Los_Angeles');
 
         $this->_block = new Dob(
             $context,
             $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false),
-            $this->_metadataService,
+            $this->customerMetadata,
             $this->getMock('Magento\Framework\View\Element\Html\Date', array(), array(), '', false)
         );
     }
@@ -117,7 +104,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEnabled($isVisible, $expectedValue)
     {
-        $this->_attribute->expects($this->once())->method('isVisible')->will($this->returnValue($isVisible));
+        $this->attribute->expects($this->once())->method('isVisible')->will($this->returnValue($isVisible));
         $this->assertSame($expectedValue, $this->_block->isEnabled());
     }
 
@@ -131,7 +118,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
 
     public function testIsEnabledWithException()
     {
-        $this->_metadataService->expects(
+        $this->customerMetadata->expects(
             $this->any()
         )->method(
                 'getAttributeMetadata'
@@ -153,13 +140,13 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsRequired($isRequired, $expectedValue)
     {
-        $this->_attribute->expects($this->once())->method('isRequired')->will($this->returnValue($isRequired));
+        $this->attribute->expects($this->once())->method('isRequired')->will($this->returnValue($isRequired));
         $this->assertSame($expectedValue, $this->_block->isRequired());
     }
 
     public function testIsRequiredWithException()
     {
-        $this->_metadataService->expects(
+        $this->customerMetadata->expects(
             $this->any()
         )->method(
                 'getAttributeMetadata'
@@ -310,7 +297,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMinDateRange($validationRules, $expectedValue)
     {
-        $this->_attribute->expects(
+        $this->attribute->expects(
             $this->once()
         )->method(
                 'getValidationRules'
@@ -359,7 +346,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMinDateRangeWithException()
     {
-        $this->_metadataService->expects(
+        $this->customerMetadata->expects(
             $this->any()
         )->method(
                 'getAttributeMetadata'
@@ -381,7 +368,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMaxDateRange($validationRules, $expectedValue)
     {
-        $this->_attribute->expects(
+        $this->attribute->expects(
             $this->once()
         )->method(
                 'getValidationRules'
@@ -429,7 +416,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMaxDateRangeWithException()
     {
-        $this->_metadataService->expects(
+        $this->customerMetadata->expects(
             $this->any()
         )->method(
                 'getAttributeMetadata'

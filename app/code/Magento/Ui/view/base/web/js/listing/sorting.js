@@ -45,10 +45,7 @@ define([
          * @returns {Sorting} Chainable.
          */
         initObservable: function(){
-            this.observe({
-                field:      this.field,
-                direction:  this.direction
-            });
+            this.observe('field direction');
 
             return this;
         },
@@ -58,8 +55,8 @@ define([
          * @returns {Sorting} Chainable.
          */
         attachTemplateExtender: function () {
-            var provider    = this.provider.dump,
-                extenders   = provider.get('extenders');
+            var dump        = this.provider.dump,
+                extenders   = dump.get('extenders');
                 
             extenders.push({
                 path: this.templateExtender,
@@ -67,7 +64,7 @@ define([
                 as:   'sorting'
             });
 
-            provider.trigger('update:extenders', extenders);
+            dump.resolve('update:extenders', extenders);
 
             return this;
         },

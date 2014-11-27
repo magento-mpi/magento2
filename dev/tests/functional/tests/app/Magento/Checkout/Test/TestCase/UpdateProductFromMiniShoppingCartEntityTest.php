@@ -87,10 +87,9 @@ class UpdateProductFromMiniShoppingCartEntityTest extends Injectable
         $this->addToCart($product);
 
         // Steps:
-        $newProduct = $this->createProduct(
-            explode('::', $originalProduct)[0],
-            [array_replace_recursive($product->getData(), ['checkout_data' => $checkoutData])]
-        );
+        $productData = $product->getData();
+        $productData['checkout_data'] = $checkoutData;
+        $newProduct = $this->createProduct(explode('::', $originalProduct)[0], [$productData]);
         $miniShoppingCart = $this->cmsIndex->getCartSidebarBlock();
         $miniShoppingCart->openMiniCart();
         $miniShoppingCart->getCartItem($newProduct)->clickEditItem();
