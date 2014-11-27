@@ -16,7 +16,7 @@ class LinkManagement implements \Magento\Bundle\Api\ProductLinkManagementInterfa
     /**
      * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
-    protected  $productRepository;
+    protected $productRepository;
 
     /**
      * @var \Magento\Bundle\Api\Data\LinkDataBuilder
@@ -218,7 +218,7 @@ class LinkManagement implements \Magento\Bundle\Api\ProductLinkManagementInterfa
      * @param \Magento\Catalog\Model\Product $product
      * @return \Magento\Bundle\Api\Data\LinkInterface
      */
-    private function buildLink(\Magento\Catalog\Model\Product $selection,  \Magento\Catalog\Model\Product$product)
+    private function buildLink(\Magento\Catalog\Model\Product $selection, \Magento\Catalog\Model\Product $product)
     {
         $selectionPriceType = $selectionPrice = null;
 

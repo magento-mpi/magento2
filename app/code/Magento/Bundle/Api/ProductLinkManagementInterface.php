@@ -37,7 +37,7 @@ interface ProductLinkManagementInterface
 
     /**
      * @param \Magento\Catalog\Api\Data\ProductInterface $product
-     * @param $optionId
+     * @param int $optionId
      * @param Data\LinkInterface $linkedProduct
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException

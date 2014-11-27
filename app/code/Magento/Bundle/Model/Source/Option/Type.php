@@ -7,10 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Bundle\Model\Source\Option;
 
-class Type extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Framework\Option\ArrayInterface, \Magento\Bundle\Api\Data\OptionTypeInterface
+class Type extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Framework\Option\ArrayInterface, \Magento\Bundle\Api\Data\OptionTypeInterface
 {
     /**
      * @var array
@@ -34,8 +35,7 @@ class Type extends \Magento\Framework\Model\AbstractExtensibleModel
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
-    )
-    {
+    ) {
         $this->options = $options;
         parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
     }

@@ -19,8 +19,8 @@ use Magento\Framework\Model\SimpleModelInterface;
  * @method Option setRequired(int $value)
  * @method Option setType(string $value)
  */
-class Option extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Bundle\Api\Data\OptionInterface, SimpleModelInterface
+class Option extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Bundle\Api\Data\OptionInterface, SimpleModelInterface
 {
     /**
      * Default selection object

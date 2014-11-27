@@ -279,7 +279,7 @@ class OptionRepositoryTest extends \PHPUnit_Framework_TestCase
         $optionMock->expects($this->once())->method('setParentId')->with($productId)->willReturnSelf();
 
         $optionIdsMap = [null, $optionId, $optionId];
-        $optionMock->expects($this->any())->method('getOptionId')->willReturnCallback(function() use (&$optionIdsMap) {
+        $optionMock->expects($this->any())->method('getOptionId')->willReturnCallback(function () use (&$optionIdsMap) {
             return array_shift($optionIdsMap);
         });
         $optionMock->expects($this->exactly(2))->method('getProductLinks')->willReturn([$linkedProductMock]);
