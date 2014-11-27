@@ -23,14 +23,6 @@ use Magento\Framework\App\Response\HttpInterface;
  */
 class Http implements \Magento\Framework\AppInterface
 {
-    /**#@+
-     * Parameters for redirecting if the application is not installed
-     */
-    const NOT_INSTALLED_URL_PATH_PARAM = 'MAGE_NOT_INSTALLED_URL_PATH';
-    const NOT_INSTALLED_URL_PARAM = 'MAGE_NOT_INSTALLED_URL';
-    const NOT_INSTALLED_URL_PATH = 'setup/';
-    /**#@-*/
-
     /**
      * @var \Magento\Framework\ObjectManagerInterface
      */
@@ -135,7 +127,7 @@ class Http implements \Magento\Framework\AppInterface
     public function catchException(Bootstrap $bootstrap, \Exception $exception)
     {
         $result = $this->handleDeveloperMode($bootstrap, $exception)
-            || $this->handleBootstrapErrors($bootstrap)
+            || $this->handleBootstrapErrors($bootstrap, $exception)
             || $this->handleSessionException($bootstrap, $exception)
             || $this->handleInitException($exception)
             || $this->handleGenericReport($bootstrap, $exception);
@@ -153,8 +145,12 @@ class Http implements \Magento\Framework\AppInterface
     {
         if ($bootstrap->isDeveloperMode()) {
             if (Bootstrap::ERR_IS_INSTALLED == $bootstrap->getErrorCode()) {
-                $this->redirectToSetup($bootstrap);
-                return true;
+                try {
+                    $this->redirectToSetup($bootstrap, $exception);
+                    return true;
+                } catch (\Exception $e) {
+                    $exception = $e;
+                }
             }
             $this->_response->setHttpResponseCode(500);
             $this->_response->setHeader('Content-Type', 'text/plain');
@@ -166,25 +162,36 @@ class Http implements \Magento\Framework\AppInterface
     }
 
     /**
-     * If not installed, redirect to setup
+     * If not installed, try to redirect to installation wizard
      *
      * @param Bootstrap $bootstrap
+     * @param \Exception $exception
      * @return void
+     * @throws \Exception
      */
-    private function redirectToSetup(Bootstrap $bootstrap)
+    private function redirectToSetup(Bootstrap $bootstrap, \Exception $exception)
     {
-        $path = $this->getInstallerRedirectPath($bootstrap->getParams());
-        $this->_response->setRedirect($path);
-        $this->_response->sendHeaders();
+        $setupInfo = new SetupInfo($bootstrap->getParams());
+        $projectRoot = $this->_filesystem->getDirectoryRead(DirectoryList::ROOT)->getAbsolutePath();
+        if ($setupInfo->isAvailable($projectRoot)) {
+            $this->_response->setRedirect($setupInfo->getUrl());
+            $this->_response->sendHeaders();
+        } else {
+            $newMessage = $exception->getMessage() . "\nNOTE: web setup wizard is not accessible.\n"
+                . 'In order to install, use Magento Setup CLI or configure web access to the following directory: '
+                . $setupInfo->getDir($projectRoot);
+            throw new \Exception($newMessage, 0, $exception);
+        }
     }
 
     /**
      * Handler for bootstrap errors
      *
      * @param Bootstrap $bootstrap
+     * @param \Exception &$exception
      * @return bool
      */
-    private function handleBootstrapErrors(Bootstrap $bootstrap)
+    private function handleBootstrapErrors(Bootstrap $bootstrap, \Exception &$exception)
     {
         $bootstrapCode = $bootstrap->getErrorCode();
         if (Bootstrap::ERR_MAINTENANCE == $bootstrapCode) {
@@ -192,8 +199,12 @@ class Http implements \Magento\Framework\AppInterface
             return true;
         }
         if (Bootstrap::ERR_IS_INSTALLED == $bootstrapCode) {
-            $this->redirectToSetup($bootstrap);
-            return true;
+            try {
+                $this->redirectToSetup($bootstrap, $exception);
+                return true;
+            } catch (\Exception $e) {
+                $exception = $e;
+            }
         }
         return false;
     }
@@ -208,8 +219,7 @@ class Http implements \Magento\Framework\AppInterface
     private function handleSessionException(Bootstrap $bootstrap, \Exception $exception)
     {
         if ($exception instanceof \Magento\Framework\Session\Exception) {
-            $path = $this->getBaseUrlPath($bootstrap->getParams());
-            $this->_response->setRedirect($path);
+            $this->_response->setRedirect($this->_request->getDistroBaseUrl());
             $this->_response->sendHeaders();
             return true;
         }
@@ -250,45 +260,5 @@ class Http implements \Magento\Framework\AppInterface
         }
         require $this->_filesystem->getDirectoryRead(DirectoryList::PUB)->getAbsolutePath('errors/report.php');
         return true;
-    }
-
-    /**
-     * Determines redirect URL when application is not installed
-     *
-     * @param array $server
-     * @return string
-     */
-    public function getInstallerRedirectPath($server)
-    {
-        if (isset($server[self::NOT_INSTALLED_URL_PARAM])) {
-            return $server[self::NOT_INSTALLED_URL_PARAM];
-        }
-        if (isset($server[self::NOT_INSTALLED_URL_PATH_PARAM])) {
-            $urlPath = $server[self::NOT_INSTALLED_URL_PATH_PARAM];
-        } else {
-            $urlPath = self::NOT_INSTALLED_URL_PATH;
-        }
-        return $this->getBaseUrlPath($server) . $urlPath;
-    }
-
-    /**
-     * Determines a base URL path from the environment
-     *
-     * @param string $server
-     * @return string
-     */
-    private function getBaseUrlPath($server)
-    {
-        $result = '';
-        if (isset($server['SCRIPT_NAME'])) {
-            $envPath = str_replace('\\', '/', dirname($server['SCRIPT_NAME']));
-            if ($envPath != '.' && $envPath != '/') {
-                $result = $envPath;
-            }
-        }
-        if (!preg_match('/\/$/', $result)) {
-            $result .= '/';
-        }
-        return $result;
     }
 }

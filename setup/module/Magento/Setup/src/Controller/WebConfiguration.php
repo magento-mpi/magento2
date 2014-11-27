@@ -10,6 +10,7 @@ namespace Magento\Setup\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\SetupInfo;
 
 class WebConfiguration extends AbstractActionController
 {
@@ -37,9 +38,10 @@ class WebConfiguration extends AbstractActionController
      */
     public function indexAction()
     {
+        $setupInfo = new SetupInfo($_SERVER);
         $projectRoot = $this->dirList->getRoot();
         $docRoot = str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']);
-        if (false === strpos($projectRoot . '/', $docRoot . '/')) { // if project root is outside of current doc root
+        if ($setupInfo->isAvailable($this->dirList->getRoot())) {
             $urlPath = '';
         } else {
             $urlPath = substr($docRoot, strlen($projectRoot));
