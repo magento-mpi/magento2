@@ -31,7 +31,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([1=>'Value'], $this->converter->createTitleArrayFromServiceObject($taxRateMock));
     }
 
-    public function testCreateTitlesFromServiceObjectWhenTitlesAreNotExist()
+    public function testCreateTitlesFromServiceObjectWhenTitlesAreNotProvided()
     {
         $taxRateMock = $this->getMock('Magento\Tax\Api\Data\TaxRateInterface');
 

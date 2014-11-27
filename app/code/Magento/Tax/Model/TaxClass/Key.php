@@ -11,7 +11,7 @@ use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
 
 /**
- * @@codeCoverageIgnore
+ * @codeCoverageIgnore
  */
 class Key extends AbstractExtensibleModel implements TaxClassKeyInterface
 {

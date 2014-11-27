@@ -8,7 +8,6 @@
  */
 namespace Magento\Tax\Model;
 
-use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class TaxCalculationTest extends \PHPUnit_Framework_TestCase
