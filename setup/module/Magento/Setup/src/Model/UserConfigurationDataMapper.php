@@ -69,6 +69,9 @@ class UserConfigurationDataMapper
                     && (!isset($data[self::KEY_BASE_URL_SECURE]))) {
                     continue;
                 }
+                if (($key === self::KEY_BASE_URL) || ($key === self::KEY_BASE_URL_SECURE)) {
+                    $data[$key] = rtrim($data[$key], '/') . '/';
+                }
                 $configData[$path] = $data[$key];
             }
         }

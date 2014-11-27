@@ -56,6 +56,20 @@ angular.module('web-configuration', ['ngStorage'])
             return ($scope.config.https.front || $scope.config.https.admin);
         }
 
+        $scope.addSlash = function() {
+            if (angular.isUndefined($scope.config.address.web)) {
+                return;
+            }
+
+            var p = $scope.config.address.web;
+            if (p.length > 1) {
+                var lastChar = p.substr(-1);
+                if (lastChar != '/') {
+                    $scope.config.address.web = p + '/';
+                }
+            }
+        };
+
         // Listens on form validate event, dispatched by parent controller
         $scope.$on('validate-' + $state.current.id, function() {
             $scope.validate();
@@ -77,4 +91,32 @@ angular.module('web-configuration', ['ngStorage'])
                 $scope.webconfig.submitted = false;
             }
         });
-    }]);
+    }])
+    .directive('validateHttpurl', function() {
+        return{
+            require: "ngModel",
+            link: function(scope, elm, attrs, ctrl){
+                var validator = function(value){
+                    var isValid  = value.match(/^(http):\/\/(([a-zA-Z0-9$\-_.+!*'(),;:&=]|%[0-9a-fA-F]{2})+@)?(((25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])){3})|localhost|([a-zA-Z0-9\-\u00C0-\u017F]+\.)+([a-zA-Z]{2,}))(:[0-9]+)?(\/(([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*(\/([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*)*)?(\?([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?(\#([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?)?$/);
+                    ctrl.$setValidity('validateHttpurl', isValid);
+                    return value;
+                };
+                ctrl.$parsers.unshift(validator);
+                ctrl.$formatters.unshift(validator);
+            }
+        };
+    })
+    .directive('validateHttpsurl', function() {
+        return{
+            require: "ngModel",
+            link: function(scope, elm, attrs, ctrl){
+                var validator = function(value){
+                    var isValid  = value.match(/^(https):\/\/(([a-zA-Z0-9$\-_.+!*'(),;:&=]|%[0-9a-fA-F]{2})+@)?(((25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])){3})|localhost|([a-zA-Z0-9\-\u00C0-\u017F]+\.)+([a-zA-Z]{2,}))(:[0-9]+)?(\/(([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*(\/([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*)*)?(\?([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?(\#([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?)?$/);
+                    ctrl.$setValidity('validateHttpsurl', isValid);
+                    return value;
+                };
+                ctrl.$parsers.unshift(validator);
+                ctrl.$formatters.unshift(validator);
+            }
+        };
+    });

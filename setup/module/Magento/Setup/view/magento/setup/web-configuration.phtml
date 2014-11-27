@@ -34,20 +34,21 @@ $hints = [
     <div class="form-group" ng-class="{'has-error': webconfig.web.$invalid && webconfig.submitted}">
         <label class="col-md-3 control-label">Your Store Address&nbsp;<span class="required">*</span></label>
         <div class="col-md-4">
-            <input type="text"
+            <input ng-blur="addSlash()"
+                   type="text"
                    name="web"
                    ng-model="config.address.web"
                    class="form-control"
-                   ng-focus=""
                    tooltip-placement="right"
                    tooltip-html-unsafe="<?php echo $hints['address_web']; ?>"
                    tooltip-trigger="focus"
                    tooltip-append-to-body="true"
-                   required />
+                   required
+                   validate-httpurl />
         </div>
         <div class="col-md-offset-3 col-md-4" ng-show="webconfig.web.$invalid && webconfig.submitted">
             <div class="error-container">
-                <span ng-show="webconfig.web.$error.required">Please enter a valid base URL Admin URL path. (ex: http://www.example.com/)</span>
+                <span ng-show="webconfig.web.$error.required || webconfig.web.$error.validateHttpurl">Please enter a valid base URL path. (ex: http://www.example.com/)</span>
             </div>
         </div>
     </div>
@@ -91,7 +92,7 @@ $hints = [
             </div>
         </div>
 
-        <div class="form-group" ng-if="showHttpsField()">
+        <div class="form-group" ng-show="showHttpsField()">
             <label ng-show="config.https.front || config.https.admin" class="col-md-4 col-md-offset-3">Your HTTPS Store address:</label>
             <div class="col-md-4 col-md-offset-3">
                 <input type="text"
@@ -100,11 +101,12 @@ $hints = [
                        ng-show="config.https.front || config.https.admin"
                        class="form-control"
                        ng-focus=""
-                       required />
+                       required
+                       validate-httpsurl />
             </div>
-            <div class="col-md-offset-3 col-md-4" ng-show="webconfig.submitted">
+            <div class="col-md-offset-3 col-md-4" ng-show="webconfig.https.$invalid && webconfig.submitted">
                 <div class="error-container">
-                    <span>You must enter HTTPS URL.</span>
+                    <span ng-show="webconfig.https.$error.required || webconfig.https.$error.validateHttpsurl">Please enter a valid HTTPS base URL path. (ex: https://www.example.com/)</span>
                 </div>
             </div>
         </div>
