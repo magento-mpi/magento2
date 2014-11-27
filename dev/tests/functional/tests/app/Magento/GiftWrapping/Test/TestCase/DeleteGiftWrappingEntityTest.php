@@ -67,6 +67,7 @@ class DeleteGiftWrappingEntityTest extends Injectable
      */
     public function test(GiftWrapping $giftWrapping)
     {
+        $this->markTestIncomplete('Bug: MAGETWO-30995');
         // Precondition
         $giftWrapping->persist();
 
