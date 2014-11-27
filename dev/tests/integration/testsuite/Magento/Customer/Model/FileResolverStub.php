@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Service\V1;
+namespace Magento\Customer\Model;
 
 class FileResolverStub implements \Magento\Framework\Config\FileResolverInterface
 {
@@ -20,7 +20,7 @@ class FileResolverStub implements \Magento\Framework\Config\FileResolverInterfac
             'Magento\Framework\Filesystem\Directory\Read',
             [
                 'driver' => $objectManager->create('Magento\Framework\Filesystem\Driver\File'),
-                'path' => realpath(__DIR__ . '/../../_files/etc'),
+                'path' => realpath(__DIR__ . '/../_files/etc'),
             ]
         );
         $paths = ['data_object.xml'];

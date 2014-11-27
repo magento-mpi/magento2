@@ -7,7 +7,7 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
-class CustomerGroupV1
+class GroupRepository
 {
     /** @var \Magento\Indexer\Model\IndexerRegistry */
     protected $indexerRegistry;
@@ -30,19 +30,18 @@ class CustomerGroupV1
     }
 
     /**
-     * Invalidate indexer on customer group create
+     * Invalidate indexer on customer group save
      *
-     * @param \Magento\Customer\Service\V1\CustomerGroupService $subject
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $subject
      * @param \Closure $proceed
-     * @param \Magento\Customer\Service\V1\Data\CustomerGroup $customerGroup
-     *
+     * @param \Magento\Customer\Api\Data\GroupInterface $customerGroup
      * @return int
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundCreateGroup(
-        \Magento\Customer\Service\V1\CustomerGroupService $subject,
+    public function aroundSave(
+        \Magento\Customer\Api\GroupRepositoryInterface $subject,
         \Closure $proceed,
-        \Magento\Customer\Service\V1\Data\CustomerGroup $customerGroup
+        \Magento\Customer\Api\Data\GroupInterface $customerGroup
     ) {
         $needInvalidating = !$customerGroup->getId();
 
@@ -58,12 +57,33 @@ class CustomerGroupV1
     /**
      * Invalidate indexer on customer group delete
      *
-     * @param \Magento\Customer\Service\V1\CustomerGroupService $subject
-     *
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $subject
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDeleteGroup(\Magento\Customer\Service\V1\CustomerGroupService $subject)
+    public function afterDelete(\Magento\Customer\Api\GroupRepositoryInterface $subject)
+    {
+        return $this->invalidateIndexer();
+    }
+
+    /**
+     * Invalidate indexer on customer group delete
+     *
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $subject
+     * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function afterDeleteById(\Magento\Customer\Api\GroupRepositoryInterface $subject)
+    {
+        return $this->invalidateIndexer();
+    }
+
+    /**
+     * Invalidate indexer
+     *
+     * @return bool
+     */
+    protected function invalidateIndexer()
     {
         if ($this->appConfig->isEnabled()) {
             $this->indexerRegistry->get(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)->invalidate();

@@ -6,17 +6,24 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Service\V1;
+namespace Magento\Customer\Model;
 
+use Magento\Customer\Api\CustomerMetadataInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
-class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
+class CustomerMetadataTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var CustomerAccountServiceInterface */
-    private $_customerAccountService;
+    /** @var CustomerRepositoryInterface */
+    private $customerRepository;
 
-    /** @var CustomerMetadataServiceInterface */
+    /** @var CustomerMetadataInterface */
     private $_service;
+
+    /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    private $_extensibleDataObjectConverter;
 
     protected function setUp()
     {
@@ -25,15 +32,18 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'Magento\Framework\Api\Config\Reader' => [
                     'arguments' => [
-                        'fileResolver' => ['instance' => 'Magento\Customer\Service\V1\FileResolverStub']
+                        'fileResolver' => ['instance' => 'Magento\Customer\Model\FileResolverStub']
                     ]
                 ]
             ]
         );
-        $this->_customerAccountService = $objectManager->create(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        $this->customerRepository = $objectManager->create(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
-        $this->_service = $objectManager->create('Magento\Customer\Service\V1\CustomerMetadataServiceInterface');
+        $this->_service = $objectManager->create('Magento\Customer\Api\CustomerMetadataInterface');
+        $this->_extensibleDataObjectConverter = $objectManager->get(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter'
+        );
     }
 
     public function testGetCustomAttributesMetadata()
@@ -109,9 +119,9 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         // Expect these attributes to exist and check the value - values come from _files/customer.php
         $expectAttrsWithVals = array(
-            'id' => '1',
-            'website_id' => '1',
-            'store_id' => '1',
+            'id' => 1,
+            'website_id' => 1,
+            'store_id' => 1,
             'group_id' => '1',
             'firstname' => 'Firstname',
             'lastname' => 'Lastname',
@@ -121,10 +131,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             'disable_auto_group_change' => '0'
         );
 
-        $customer = $this->_customerAccountService->getCustomer(1);
+        $customer = $this->customerRepository->getById(1);
         $this->assertNotNull($customer);
 
-        $attributes = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer);
+        $attributes = $this->_extensibleDataObjectConverter->toFlatArray($customer);
         $this->assertNotEmpty($attributes);
 
         foreach ($attributes as $attributeCode => $attributeValue) {
@@ -166,7 +176,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         /** Check some fields of one attribute metadata */
         $attributeMetadata = $formAttributesMetadata['firstname'];
-        $this->assertInstanceOf('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata', $attributeMetadata);
+        $this->assertInstanceOf('Magento\Customer\Model\Data\AttributeMetadata', $attributeMetadata);
         $this->assertEquals('firstname', $attributeMetadata->getAttributeCode(), 'Attribute code is invalid');
         $this->assertNotEmpty($attributeMetadata->getValidationRules(), 'Validation rules are not set');
         $this->assertEquals('1', $attributeMetadata->isSystem(), '"Is system" field value is invalid');

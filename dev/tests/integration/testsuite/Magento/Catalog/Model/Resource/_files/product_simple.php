@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Customer\Model\Group;
 
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -25,13 +25,13 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
         array(
             array(
                 'website_id' => 0,
-                'cust_group' => CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+                'cust_group' => Group::NOT_LOGGED_IN_ID,
                 'price_qty'  => 2,
                 'price'      => 8,
             ),
             array(
                 'website_id' => 0,
-                'cust_group' => CustomerGroupServiceInterface::CUST_GROUP_ALL,
+                'cust_group' => Group::CUST_GROUP_ALL,
                 'price_qty'  => 21,
                 'price'      => 81,
             )
