@@ -23,13 +23,13 @@ class AddComment extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInv
 
     /**
      * @param Action\Context $context
-     * @param InvoiceCommentSender $invoiceCommentSender
      * @param Registry $registry
+     * @param InvoiceCommentSender $invoiceCommentSender
      */
     public function __construct(
         Action\Context $context,
-        InvoiceCommentSender $invoiceCommentSender,
-        Registry $registry
+        Registry $registry,
+        InvoiceCommentSender $invoiceCommentSender
     ) {
         $this->invoiceCommentSender = $invoiceCommentSender;
         parent::__construct($context, $registry);
@@ -66,9 +66,9 @@ class AddComment extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInv
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('invoice_comments')->toHtml();
         } catch (Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('Cannot add new comment.'));
+            $response = ['error' => true, 'message' => __('Cannot add new comment.')];
         }
         if (is_array($response)) {
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
