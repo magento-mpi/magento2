@@ -233,10 +233,6 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
             $this->calculator,
             $this->priceCurrencyMock,
             $this->session,
-            $this->product,
-            $this->quantity,
-            $this->calculator,
-            $this->session,
             $this->groupManagement
         );
         $group = $this->getMock(
