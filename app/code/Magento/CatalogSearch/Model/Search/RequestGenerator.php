@@ -181,7 +181,7 @@ class RequestGenerator
                         $request['queries'][$queryName] = [
                             'name' => $queryName,
                             'type' => 'matchQuery',
-                            'value' => '$' . $attribute->getAttributeCode() . '$*',
+                            'value' => '$' . $attribute->getAttributeCode() . '$',
                             'match' => [
                                 [
                                     'field' => $attribute->getAttributeCode(),
