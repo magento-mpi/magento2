@@ -34,7 +34,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
@@ -54,7 +54,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
@@ -75,7 +75,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
             $orderCreate,
             $priceCurrency,
             $formFactory,
-            $simpleDataObjectConverter,
+            $dataObjectProcessor,
             $coreData,
             $jsonEncoder,
             $customerFormFactory,

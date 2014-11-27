@@ -42,8 +42,11 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
+     * @dataProvider customerFunctionDataProvider
+     *
+     * @param bool isCustomerIdUsed
      */
-    public function testSend()
+    public function testSend($isCustomerIdUsed)
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
@@ -58,7 +61,12 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
         $customerRepository = $this->_objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
         $customer = $customerRepository->getById(1);
-        $this->_emailModel->setCustomerData($customer);
+
+        if ($isCustomerIdUsed) {
+            $this->_emailModel->setCustomerId(1);
+        } else {
+            $this->_emailModel->setCustomerData($customer);
+        }
 
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->_objectManager->create('Magento\Catalog\Model\Product');
@@ -74,5 +82,13 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             '%AHello ' . $this->_customerViewHelper->getCustomerName($customer) . '%A',
             $transportBuilder->getSentMessage()->getBodyHtml()->getContent()
         );
+    }
+
+    public function customerFunctionDataProvider()
+    {
+        return [
+            [true],
+            [false]
+        ];
     }
 }

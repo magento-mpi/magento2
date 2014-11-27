@@ -11,6 +11,11 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\Api\ArrayObjectSearch;
 use Magento\Customer\Api\CustomerMetadataInterface;
 
+/**
+ * Class Dob
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Dob extends AbstractWidget
 {
     /**

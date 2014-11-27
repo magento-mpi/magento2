@@ -155,7 +155,7 @@
     </type>
     <type name="Magento\Customer\Model\Resource\Group" shared="false">
         <arguments>
-            <argument name="customerData" xsi:type="object">Magento\Customer\Helper\Data\Proxy</argument>
+            <argument name="groupManagement" xsi:type="object">Magento\Customer\Api\GroupManagementInterface\Proxy</argument>
         </arguments>
     </type>
 </config>

@@ -67,6 +67,8 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+     * @param \Magento\Customer\Model\Address\Mapper $addressConverter
      * @param \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Customer\Model\Converter $customerConverter
@@ -81,6 +83,8 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
+        \Magento\Customer\Model\Address\Mapper $addressConverter,
         \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote,
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Customer\Model\Converter $customerConverter,
@@ -96,9 +100,10 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
             $customerSession,
             $checkoutSession,
             $pbridgeSession,
-            $regionFactory,
             $pbridgeData,
             $httpContext,
+            $addressRepository,
+            $addressConverter,
             $data
         );
     }

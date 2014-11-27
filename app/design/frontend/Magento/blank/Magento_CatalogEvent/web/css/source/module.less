@@ -15,15 +15,15 @@
 .block-category-event {
     background: @catalog-event-bg;
     color: @catalog-event-color;
-    &.block:last-child {
-        margin-bottom: @indent-l-base;
-    }
-    margin-bottom: @indent-l-base;
-    padding: @indent-s-base 0 @indent-l-base;
     text-align: center;
+    padding: @indent-s-base 0 15px;
+    &.block:last-child {
+        margin-bottom: @indent-s-base;
+    }
     .block-title {
+        margin: 0 0 @indent-s-base;
         strong {
-            .font-size(24);
+            .font-size(15);
             font-weight: @font-weight-light;
         }
     }
@@ -31,14 +31,16 @@
         .list-reset-styles();
         li {
             display: none;
-            margin: 0 50px;
+            margin: 0 15px;
         }
         .value {
-            .font-size(60);
+            .font-size(18);
             font-weight: @font-weight-light;
         }
         .label {
             display: block;
+            text-transform: lowercase;
+            .font-size(10);
         }
     }
     .dates {
@@ -63,10 +65,39 @@
 }
 
 //
+//    Mobile @screen-s
+//--------------------------------------
+.responsive-smaller(@break) when (@break = @screen-s) {
+}
+
+//
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .block-category-event {
+        &.block:last-child {
+            margin-bottom: @indent-l-base;
+            padding: @indent-s-base 0 @indent-l-base;
+        }
+        .block-title {
+            margin: 0;
+            strong {
+                .font-size(24);
+            }
+        }
+        .ticker {
+            li {
+                display: none;
+                margin: 0 50px;
+            }
+            .value {
+                .font-size(60);
+            }
+            .label {
+                .font-size(14);
+                text-transform: none;
+            }
+        }
         .dates {
             .start,
             .end {

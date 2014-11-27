@@ -30,21 +30,33 @@ class CollectTotals
     protected $customerBuilder;
 
     /**
+     * Group Management
+     *
+     * @var \Magento\Customer\Api\GroupManagementInterface
+     */
+    protected $groupManagement;
+
+    /**
+     * Initialize dependencies.
+     *
      * @param \Magento\Customer\Helper\Address $customerAddressHelper
      * @param \Magento\Customer\Model\Vat $customerVat
      * @param VatValidator $vatValidator
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddressHelper,
         \Magento\Customer\Model\Vat $customerVat,
         VatValidator $vatValidator,
-        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement
     ) {
         $this->customerVat = $customerVat;
         $this->customerAddressHelper = $customerAddressHelper;
         $this->vatValidator = $vatValidator;
         $this->customerBuilder = $customerBuilder;
+        $this->groupManagement = $groupManagement;
     }
 
     /**
@@ -74,9 +86,9 @@ class CollectTotals
         $customerVatNumber = $quoteAddress->getVatId();
         $groupId = null;
         if (empty($customerVatNumber) || false == $this->customerVat->isCountryInEU($customerCountryCode)) {
-            $groupId = $customer->getId() ? $this->customerVat->getDefaultCustomerGroupId(
+            $groupId = $customer->getId() ? $this->groupManagement->getDefaultGroup(
                 $storeId
-            ) : \Magento\Customer\Api\Data\GroupInterface::NOT_LOGGED_IN_ID;
+            )->getId() : $this->groupManagement->getNotLoggedInGroup()->getId();
         } else {
             // Magento always has to emulate group even if customer uses default billing/shipping address
             $groupId = $this->customerVat->getCustomerGroupIdBasedOnVatNumber(

@@ -9,7 +9,6 @@
 namespace Magento\Customer\Block\Account\Dashboard;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
@@ -114,7 +113,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer_no_address.php
      * @dataProvider getPrimaryBillingAddressHtmlDataProvider
      */
-    public function testGetPrimaryBillingingAddressHtml($customerId, $expected)
+    public function testGetPrimaryBillingAddressHtml($customerId, $expected)
     {
         if (!empty($customerId)) {
             $this->_customerSession->setCustomerId($customerId);

@@ -48,7 +48,7 @@ class DashboardTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $this->customerSession->unsCustomerId();
+        $this->customerSession->setCustomerId(null);
 
         /** @var \Magento\Customer\Model\CustomerRegistry $customerRegistry */
         $customerRegistry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

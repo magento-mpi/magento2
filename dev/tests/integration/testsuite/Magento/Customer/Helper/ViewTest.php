@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Helper;
 
+use Magento\Customer\Api\CustomerMetadataInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class ViewTest extends \PHPUnit_Framework_TestCase
@@ -14,14 +15,12 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Helper\View */
     protected $_helper;
 
-    /** @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var CustomerMetadataInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_customerMetadataService;
 
     protected function setUp()
     {
-        $this->_customerMetadataService = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface'
-        );
+        $this->_customerMetadataService = $this->getMock('Magento\Customer\Api\CustomerMetadataInterface');
         $this->_helper = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Helper\View',
             array('customerMetadataService' => $this->_customerMetadataService)
@@ -45,22 +44,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $isSuffixAllowed = false
     ) {
 
-        $visibleAttribute = $this->getMock(
-            'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $visibleAttribute = $this->getMock('Magento\Customer\Api\Data\AttributeMetadataInterface');
         $visibleAttribute->expects($this->any())->method('isVisible')->will($this->returnValue(true));
 
-        $invisibleAttribute = $this->getMock(
-            'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $invisibleAttribute = $this->getMock('Magento\Customer\Api\Data\AttributeMetadataInterface');
         $invisibleAttribute->expects($this->any())->method('isVisible')->will($this->returnValue(false));
 
         $this->_customerMetadataService->expects(

@@ -7,6 +7,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
+use Magento\Framework\Convert\ConvertArray;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
@@ -31,9 +32,9 @@ abstract class AbstractForm extends \Magento\Sales\Block\Adminhtml\Order\Create\
     protected $_form;
 
     /**
-     * @var \Magento\Framework\Api\SimpleDataObjectConverter
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
      */
-    protected $_simpleDataObjectConverter;
+    protected $dataObjectProcessor;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -41,7 +42,7 @@ abstract class AbstractForm extends \Magento\Sales\Block\Adminhtml\Order\Create\
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
      * @param array $data
      */
     public function __construct(
@@ -50,11 +51,11 @@ abstract class AbstractForm extends \Magento\Sales\Block\Adminhtml\Order\Create\
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Framework\Api\SimpleDataObjectConverter $simpleDataObjectConverter,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
-        $this->_simpleDataObjectConverter = $simpleDataObjectConverter;
+        $this->dataObjectProcessor = $dataObjectProcessor;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $data);
     }
 
@@ -191,7 +192,12 @@ abstract class AbstractForm extends \Magento\Sales\Block\Adminhtml\Order\Create\
                 if ($inputType == 'select' || $inputType == 'multiselect') {
                     $options = [];
                     foreach ($attribute->getOptions() as $optionData) {
-                        $options[] = $this->_simpleDataObjectConverter->toFlatArray($optionData);
+                        $options[] = ConvertArray::toFlatArray(
+                            $this->dataObjectProcessor->buildOutputDataArray(
+                                $optionData,
+                                '\Magento\Customer\Api\Data\OptionInterface'
+                            )
+                        );
                     }
                     $element->setValues($options);
                 } elseif ($inputType == 'date') {

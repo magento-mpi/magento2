@@ -50,13 +50,6 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     protected $_pbridgeData = null;
 
     /**
-     * Region factory
-     *
-     * @var \Magento\Directory\Model\RegionFactory
-     */
-    protected $_regionFactory;
-
-    /**
      * Pbridge session
      *
      * @var \Magento\Pbridge\Model\Session
@@ -81,13 +74,24 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     protected $httpContext;
 
     /**
+     * @var \Magento\Customer\Api\AddressRepositoryInterface
+     */
+    protected $addressRepository;
+
+    /**
+     * @var \Magento\Customer\Model\Address\Mapper
+     */
+    protected $addressConverter;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
-     * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+     * @param \Magento\Customer\Model\Address\Mapper $addressConverter
      * @param array $data
      */
     public function __construct(
@@ -95,16 +99,18 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
-        \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
+        \Magento\Customer\Model\Address\Mapper $addressConverter,
         array $data = []
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_pbridgeSession = $pbridgeSession;
-        $this->_regionFactory = $regionFactory;
+        $this->addressRepository = $addressRepository;
+        $this->addressConverter = $addressConverter;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
         $this->httpContext = $httpContext;
@@ -155,7 +161,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     protected function _getAddressInfo()
     {
-        $address = $this->_getCurrentCustomer()->getDefaultBilling();
+        $address = $this->addressRepository->getById($this->_getCurrentCustomer()->getDefaultBilling());
 
         $addressFileds = [
             'prefix',
@@ -173,9 +179,10 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
 
         $result = [];
         if ($address) {
+            $addressArray = $this->addressConverter->toFlatArray($address);
             foreach ($addressFileds as $addressField) {
-                if ($address->hasData($addressField)) {
-                    $result[$addressField] = $address->getData($addressField);
+                if (isset($addressArray[$addressField])) {
+                    $result[$addressField] = $addressArray[$addressField];
                 }
             }
             //Streets must be transfered separately
@@ -186,9 +193,9 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
                 $result['street2'] = $street2;
             }
             //Region code lookup
-            $region = $this->_regionFactory->create()->load($address->getData('region_id'));
-            if ($region && $region->getId()) {
-                $result['region'] = $region->getCode();
+            $region = $address->getRegion();
+            if ($region && $region->getRegionId()) {
+                $result['region'] = $region->getRegionCode();
             }
         }
         return $result;

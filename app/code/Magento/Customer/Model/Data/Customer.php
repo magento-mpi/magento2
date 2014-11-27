@@ -193,7 +193,7 @@ class Customer extends \Magento\Framework\Api\AbstractExtensibleObject implement
     /**
      * Get addresses
      *
-     * @return \Magento\Customer\Service\V1\Data\Address[]
+     * @return \Magento\Customer\Api\Data\AddressInterface[]|null
      */
     public function getAddresses()
     {

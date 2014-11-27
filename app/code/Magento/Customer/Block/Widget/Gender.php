@@ -14,6 +14,8 @@ use Magento\Customer\Api\Data\OptionInterface;
 
 /**
  * Block to render customer's gender attribute
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Gender extends AbstractWidget
 {

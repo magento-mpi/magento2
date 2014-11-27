@@ -23,13 +23,23 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @var \Magento\Tax\Helper\Data
      */
     protected $_taxHelper;
+    
+    /**
+     * @var \Magento\Customer\Api\GroupRepositoryInterface
+     */
+    protected $_groupRepository;
+
+    /**
+     * @var \Magento\Customer\Api\Data\GroupDataBuilder
+     */
+    protected $_groupBuilder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Tax\Model\TaxClass\Source\Customer $taxCustomer
-     * @param \Magento\Tax\Helper\Data\TaxHelper $taxHelper
+     * @param \Magento\Tax\Helper\Data $taxHelper
      * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
      * @param \Magento\Customer\Api\Data\GroupDataBuilder $groupBuilder
      * @param array $data
@@ -50,16 +60,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_groupBuilder = $groupBuilder;
         parent::__construct($context, $registry, $formFactory, $data);
     }
-
-    /**
-     * @var \Magento\Customer\Api\GroupRepositoryInterface
-     */
-    protected $_groupRepository;
-
-    /**
-     * @var \Magento\Customer\Api\Data\GroupDataBuilder
-     */
-    protected $_groupBuilder;
 
     /**
      * Prepare form for render

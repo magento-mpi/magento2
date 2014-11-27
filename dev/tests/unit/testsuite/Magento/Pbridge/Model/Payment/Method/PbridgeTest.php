@@ -9,16 +9,16 @@ namespace Magento\Pbridge\Model\Payment\Method;
 
 class PbridgeTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Pbridge\Helper\Data|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Pbridge\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $pbridgeData;
 
-    /** @var \Magento\Sales\Model\Order|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Sales\Model\Order|\PHPUnit_Framework_MockObject_MockObject */
     protected $order;
 
-    /** @var \Magento\Pbridge\Model\Payment\Method\Pbridge\Api|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Pbridge\Model\Payment\Method\Pbridge\Api|\PHPUnit_Framework_MockObject_MockObject */
     protected $api;
 
-    /** @var \Magento\Pbridge\Model\Payment\Method\Pbridge|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Pbridge\Model\Payment\Method\Pbridge|\PHPUnit_Framework_MockObject_MockObject */
     protected $model;
 
     protected function setUp()

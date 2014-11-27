@@ -77,7 +77,6 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $addressHelper = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
 
         $this->_options = $this->getMock('Magento\Customer\Model\Options', [], [], '', false);
-        $this->_customerHelper = $this->getMock('Magento\Customer\Helper\Data', [], [], '', false);
 
         $this->attribute = $this->getMockBuilder('\Magento\Customer\Api\Data\AttributeMetadataInterface')
             ->getMockForAbstractClass();
@@ -102,9 +101,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
             $addressHelper,
             $this->customerMetadata,
             $this->addressMetadata,
-            $this->_options,
-            $this->customerMetadataService,
-            $this->addressMetadataService
+            $this->_options
         );
     }
 

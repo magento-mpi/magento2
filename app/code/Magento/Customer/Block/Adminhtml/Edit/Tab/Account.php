@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
+use Magento\Customer\Api\Data\AttributeMetadataInterface;
 use Magento\Customer\Model\AccountManagement;
 
 /**
@@ -77,14 +78,14 @@ class Account extends GenericMetadata
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
+     * @param \Magento\Customer\Model\Options $options
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Store\Model\System\Store $systemStore
+     * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Customer\Api\AccountManagementInterface $accountManagement
      * @param \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
-     * @param \Magento\Customer\Model\Options $options
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -255,7 +256,7 @@ class Account extends GenericMetadata
     /**
      * Initialize attribute set.
      *
-     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[]
+     * @return AttributeMetadataInterface[]
      */
     protected function _initCustomerAttributes()
     {
@@ -290,7 +291,7 @@ class Account extends GenericMetadata
      *
      * @param \Magento\Framework\Data\Form $form
      * @param int $customerId
-     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes
+     * @param AttributeMetadataInterface[] $attributes
      * @return void
      */
     protected function _handleReadOnlyCustomer($form, $customerId, $attributes)

@@ -36,6 +36,7 @@
             <module name="Magento_Email"/>
             <module name="Magento_Shipping"/>
             <module name="Magento_Authorization"/>
+            <module name="Magento_Ui"/>
         </depends>
     </module>
 </config>

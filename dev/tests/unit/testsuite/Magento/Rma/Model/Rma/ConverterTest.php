@@ -41,7 +41,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $this->rmaFactoryMock = $this->getMock('Magento\Rma\Model\RmaFactory', ['create'], [], '', false);
         $this->rmaRepositoryMock = $this->getMock('Magento\Rma\Model\RmaRepository', ['get'], [], '', false);
-        $this->orderRepositoryMock = $this->getMock('Magento\Sales\Model\OrderRepository', ['get'], [], '', false);
+        $this->orderRepositoryMock = $this->getMock(
+            'Magento\Sales\Api\OrderRepositoryInterface', [], [], '', false);
         $this->statusFactoryMock = $this->getMock(
             'Magento\Rma\Model\Rma\Source\StatusFactory',
             ['create'],

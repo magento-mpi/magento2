@@ -126,6 +126,15 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
             )
             );
         $this->product->setData(TierPrice::PRICE_CODE, $tierPrices);
+        $group = $this->getMock(
+            '\Magento\Customer\Model\Data\Group',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $group->expects($this->any())->method('getId')->willReturn(GroupManagement::CUST_GROUP_ALL);
+        $this->groupManagement->expects($this->any())->method('getAllCustomersGroup')->will($this->returnValue($group));
         $this->assertEquals($convertedExpectedValue, $this->model->getValue());
     }
 
@@ -224,10 +233,6 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
             $this->calculator,
             $this->priceCurrencyMock,
             $this->session,
-            $this->product,
-            $this->quantity,
-            $this->calculator,
-            $this->session,
             $this->groupManagement
         );
         $group = $this->getMock(
@@ -240,6 +245,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
         $group->expects($this->once())->method('getId')->willReturn(GroupManagement::CUST_GROUP_ALL);
         $this->groupManagement->expects($this->once())->method('getAllCustomersGroup')
             ->will($this->returnValue($group));
+
         $this->assertFalse($tierPrice->getValue());
     }
 
