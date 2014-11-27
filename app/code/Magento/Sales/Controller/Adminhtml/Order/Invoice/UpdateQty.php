@@ -22,12 +22,27 @@ class UpdateQty extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvo
     {
         try {
             $this->_title->add(__('Invoices'));
+            $orderId = $this->getRequest()->getParam('order_id');
             $invoiceData = $this->getRequest()->getParam('invoice', []);
-            $invoice = $this->getInvoice();
-            if (!$invoice) {
-                $this->_forward('noroute');
-                return;
+            $invoiceItems = isset($invoiceData['items']) ? $invoiceData['items'] : [];
+            /** @var \Magento\Sales\Model\Order $order */
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
+            if (!$order->getId()) {
+                throw new \Magento\Framework\Exception(__('The order no longer exists.'));
             }
+
+            if (!$order->canInvoice()) {
+                throw new \Magento\Framework\Exception(__('The order does not allow an invoice to be created.'));
+            }
+
+            /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+            $invoice = $this->_objectManager->create('Magento\Sales\Model\Service\Order', ['order' => $order])
+                ->prepareInvoice($invoiceItems);
+
+            if (!$invoice->getTotalQty()) {
+                throw new \Magento\Framework\Exception(__('Cannot create an invoice without products.'));
+            }
+            $this->registry->register('current_invoice', $invoice);
             // Save invoice comment text in current invoice object in order to display it in corresponding view
             $invoiceRawCommentText = $invoiceData['comment_text'];
             $invoice->setCommentText($invoiceRawCommentText);
