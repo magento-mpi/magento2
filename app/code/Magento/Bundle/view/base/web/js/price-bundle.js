@@ -14,7 +14,7 @@ define([
 
     var globalOptions = {
         productBundleSelector: '.product.bundle.option',
-        qtyFieldSelector: '.qty',
+        qtyFieldSelector: 'input.qty',
         priceBoxSelector: '.price-box',
         optionHandlers: {},
         controlContainer: 'dd' // should be eliminated
@@ -46,8 +46,6 @@ define([
         bundleOptions.on('change', onBundleOptionChanged.bind(this));
         qtyFields.on('change', onQtyFieldChanged.bind(this));
 
-        console.log('options:', bundleOptions);
-        console.log('***********************************');
 //        this.element.trigger('updateProductSummary', {
 //            config: this.options.bundleConfig
 //        });
@@ -89,24 +87,23 @@ define([
             case 'radio':
             case 'select-one':
                 var qtyField = element.data('qtyField');
-                optionHash = 'bundle-option-' + optionName;
-                if (optionValue && optionConfig[optionValue]) {
-                    optionQty = element.data('qty') || optionConfig[optionValue].qty || 0;
+                qtyField.data('option', element);
+
+                if (optionValue) {
+                    optionQty = optionConfig[optionValue].qty || 0;
                     if(optionType === 'radio' && element.is(':checked') || optionType === 'select-one') {
                         var canQtyCustomize = optionConfig[optionValue].customQty === '1';
-                        qtyField.data('option', element);
 
-                        toggleQtyField(qtyField, optionId,optionValue, canQtyCustomize);
+                        toggleQtyField(qtyField, optionQty, optionId, optionValue, canQtyCustomize);
                     }
 
                     tempChanges = utils.deepClone(optionConfig[optionValue].prices);
                     tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig[optionValue].tierPrice);
                     tempChanges = applyQty(tempChanges, optionQty);
+                } else {
+                    toggleQtyField(qtyField, '', optionId, optionValue, false);
                 }
-                if(!optionValue && optionType === 'select-one') {
-                    qtyField.data('option', {});
-                    toggleQtyField(qtyField, '', false);
-                }
+                optionHash = 'bundle-option-' + optionName;
                 changes[optionHash] = tempChanges || {};
                 break;
             case 'select-multiple':
@@ -129,21 +126,23 @@ define([
                 break;
         }
 
-        console.log(changes);
         return changes;
     }
 
     function onQtyFieldChanged(event) {
         var field = $(event.target);
-        var option = field.data('option');
-        option.data('qty', +field.val());
+        var optionInstance = field.data('option');
+        var optionConfig = this.options.optionConfig.options[field.data('optionId')].selections[field.data('optionValueId')];
+        optionConfig.qty = field.val();
 
-        console.log('QTY:  ', field.val(), this, field, option);
+        optionInstance.trigger('change');
     }
 
-    function toggleQtyField(element, value, canEdit) {
+    function toggleQtyField(element, value, optionId, optionValueId, canEdit) {
         element
             .val(value)
+            .data('optionId',optionId)
+            .data('optionValueId',optionValueId)
             .attr('disabled', !canEdit);
         if (canEdit) {
             element.removeClass('qty-disabled');
