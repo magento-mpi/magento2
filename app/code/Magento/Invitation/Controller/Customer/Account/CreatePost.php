@@ -12,14 +12,14 @@ use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\StoreManagerInterface;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Helper\Address;
 use Magento\Framework\UrlFactory;
 use Magento\Customer\Model\Metadata\FormFactory;
 use Magento\Newsletter\Model\SubscriberFactory;
-use Magento\Customer\Service\V1\Data\RegionBuilder;
-use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
+use Magento\Customer\Api\Data\RegionDataBuilder;
+use Magento\Customer\Api\Data\AddressDataBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Model\Url as CustomerUrl;
 use Magento\Customer\Model\Registration;
 use Magento\Framework\Escaper;
@@ -46,14 +46,14 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
      * @param Session $customerSession
      * @param ScopeConfigInterface $scopeConfig
      * @param StoreManagerInterface $storeManager
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param AccountManagementInterface $accountManagement
      * @param Address $addressHelper
      * @param UrlFactory $urlFactory
      * @param FormFactory $formFactory
      * @param SubscriberFactory $subscriberFactory
-     * @param RegionBuilder $regionBuilder
-     * @param AddressBuilder $addressBuilder
-     * @param CustomerDetailsBuilder $customerDetailsBuilder
+     * @param RegionDataBuilder $regionBuilder
+     * @param AddressDataBuilder $addressBuilder
+     * @param CustomerDataBuilder $customerDetailsBuilder
      * @param CustomerUrl $customerUrl
      * @param Escaper $escaper
      * @param CustomerExtractor $customerExtractor
@@ -67,14 +67,14 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
         Session $customerSession,
         ScopeConfigInterface $scopeConfig,
         StoreManagerInterface $storeManager,
-        CustomerAccountServiceInterface $customerAccountService,
+        AccountManagementInterface $accountManagement,
         Address $addressHelper,
         UrlFactory $urlFactory,
         FormFactory $formFactory,
         SubscriberFactory $subscriberFactory,
-        RegionBuilder $regionBuilder,
-        AddressBuilder $addressBuilder,
-        CustomerDetailsBuilder $customerDetailsBuilder,
+        RegionDataBuilder $regionBuilder,
+        AddressDataBuilder $addressBuilder,
+        CustomerDataBuilder $customerDetailsBuilder,
         CustomerUrl $customerUrl,
         Registration $registration,
         Escaper $escaper,
@@ -87,7 +87,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
             $customerSession,
             $scopeConfig,
             $storeManager,
-            $customerAccountService,
+            $accountManagement,
             $addressHelper,
             $urlFactory,
             $formFactory,

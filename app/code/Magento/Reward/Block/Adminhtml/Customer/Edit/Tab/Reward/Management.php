@@ -37,7 +37,13 @@ class Management extends \Magento\Backend\Block\Template
         $this->setChild('balance', $total);
 
         $update = $this->getLayout()->createBlock(
-            'Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Update'
+            'Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Update',
+            '',
+            [
+                'data' => [
+                    'target_form' => $this->getData('target_form')
+                ]
+            ]
         );
 
         $this->setChild('update', $update);

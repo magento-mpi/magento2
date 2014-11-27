@@ -83,5 +83,5 @@ define([
         "validate-greater-than-zero": ""
     });
 
-
+    return $.mage.orderBySkuFailure;
 });
