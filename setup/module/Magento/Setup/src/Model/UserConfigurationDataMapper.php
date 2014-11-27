@@ -63,6 +63,9 @@ class UserConfigurationDataMapper
     public function getConfigData($data)
     {
         $configData = [];
+        if ($data[self::KEY_BASE_URL_SECURE] === '') {
+            unset($data[self::KEY_BASE_URL_SECURE] );
+        }
         foreach (self::$pathDataMap as $path => $key) {
             if (isset($data[$key])) {
                 if ((($key === self::KEY_IS_SECURE) || ($key === self::KEY_IS_SECURE_ADMIN))
