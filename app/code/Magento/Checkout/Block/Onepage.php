@@ -44,7 +44,6 @@ class Onepage extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         array $data = array()
     ) {
         parent::__construct(
-            $dataObjectConverter,
             $context,
             $coreData,
             $configCacheType,
@@ -55,6 +54,7 @@ class Onepage extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $customerRepository,
             $addressConfig,
             $httpContext,
+            $dataObjectConverter,
             $data
         );
         $this->_isScopePrivate = true;
