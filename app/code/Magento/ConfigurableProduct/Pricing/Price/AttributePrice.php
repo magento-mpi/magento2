@@ -130,7 +130,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
                     ],
                     'finalPrice' => [
                         'amount' => $this->convertDot($finalPrice),
-                        'label' => 'Incl. Tax'
+                        //'label' => 'Incl. Tax'
                     ],
                 ],
                 'products' => $this->getProductsIndex($attributeId, $options, $value)
@@ -254,41 +254,6 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     protected function convertDot($price)
     {
         return str_replace(',', '.', $price);
-    }
-
-
-    /**
-     * Returns tax config for Configurable options
-     *
-     * @param int|null $customerId
-     * @return array
-     */
-    public function getTaxConfig($customerId)
-    {
-        $config = $this->prepareAdjustmentConfig($customerId);
-        unset($config['product']);
-        return $config;
-    }
-
-    /**
-     * Default values for configurable options
-     *
-     * @param int|null $customerId
-     * @return array
-     */
-    public function prepareAdjustmentConfig($customerId)
-    {
-        //pass customer
-        return [
-            'includeTax' => false,
-            'showIncludeTax' => false,
-            'showBothPrices' => false,
-            'defaultTax' => 0,
-            'currentTax' => 0,
-            'inclTaxTitle' => __('Incl. Tax'),
-            'product' => $this->product,
-            'customerId' => $customerId
-        ];
     }
 
     /**

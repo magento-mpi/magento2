@@ -51,7 +51,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $this->closureMock = function () {
             return 'Expected';
         };
-        $this->productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', array('create'));
+        $this->productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', array('create'), array(), '', false);
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $this->subjectMock = $this->getMock('Magento\Sales\Model\Order\Admin\Item', array(), array(), '', false);
         $this->configurable = new \Magento\ConfigurableProduct\Model\Order\Admin\Item\Plugin\Configurable(

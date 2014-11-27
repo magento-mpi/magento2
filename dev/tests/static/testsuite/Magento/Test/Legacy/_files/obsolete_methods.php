@@ -2103,4 +2103,6 @@ return array(
     ['getModule', 'Magento\Framework\Module\ModuleList', 'getOne'],
     ['getModule', 'Magento\Framework\Module\ModuleListInterface', 'getOne'],
     ['_getNewConditionModelInstance', 'Magento\Rule\Model\Condition\Combine'],
+    ['getTaxConfig', 'Magento\ConfigurableProduct\Pricing\Price\AttributePrice'],
+    ['prepareAdjustmentConfig', 'Magento\ConfigurableProduct\Pricing\Price\AttributePrice'],
 );

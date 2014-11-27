@@ -84,7 +84,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->managerInterfaceMock = $this->getMock('Magento\Framework\Event\ManagerInterface');
         $this->configMock = $this->getMock('Magento\Eav\Model\Config', [], [], '', false);
         $this->resourceMock = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
-        $this->entityFactoryMock2 = $this->getMock('Magento\Eav\Model\EntityFactory');
+        $this->entityFactoryMock2 = $this->getMock('Magento\Eav\Model\EntityFactory', [], [], '', false);
         $this->helperMock = $this->getMock('Magento\Catalog\Model\Resource\Helper', [], [], '', false);
         $entity = $this->getMock('Magento\Eav\Model\Entity\AbstractEntity', [], [], '', false);
         $adapter = $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', [], '', false);

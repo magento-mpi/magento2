@@ -61,7 +61,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', array('create'));
+        $this->productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', array('create'), array(), '', false);
         $this->configurableTypeMock = $this->getMock(
             'Magento\ConfigurableProduct\Model\Product\Type\Configurable',
             array(),
