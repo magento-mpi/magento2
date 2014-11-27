@@ -201,6 +201,9 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     $priceValue = $bundleProductPrice->getLowestPrice($currentProduct, $priceValue);
 
                     $tierPriceInfo['prices'] = [
+                        'oldPrice' => [
+                            'amount' => $this->priceCurrency->convert($priceBaseAmount)
+                        ],
                         'basePrice' => [
                             'amount' => $this->priceCurrency->convert($priceBaseAmount)
                         ],

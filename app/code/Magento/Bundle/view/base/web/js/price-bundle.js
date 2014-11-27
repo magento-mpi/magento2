@@ -9,7 +9,6 @@ define([
     'underscore',
     'Magento_Catalog/js/price-utils'
 ], function ($,_, utils) {
-
     "use strict";
 
     var globalOptions = {
@@ -92,7 +91,7 @@ define([
                         canQtyCustomize = optionConfig[optionValue].customQty === '1';
                         toggleQtyField(qtyField, optionQty, optionId, optionValue, canQtyCustomize);
                         tempChanges = utils.deepClone(optionConfig[optionValue].prices);
-                        tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig[optionValue].tierPrice);
+                        tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig[optionValue]);
                         tempChanges = applyQty(tempChanges, optionQty);
                     }
                 } else {
@@ -168,8 +167,18 @@ define([
         return prices;
     }
 
-    function applyTierPrice( prices, qty, tiers ) {
-        return prices;
+    function applyTierPrice( oneItemPrice, qty, optionConfig ) {
+        var tiers = optionConfig.tierPrice;
+        var magicKey = _.keys(oneItemPrice)[0];
+        _.each(tiers, function(tier) {
+            if(tier.price_qty > qty) {
+                return;
+            }
+            if(tier.prices[magicKey].amount < oneItemPrice[magicKey].amount) {
+                oneItemPrice = tier.prices;
+            }
+        });
+        return oneItemPrice;
     }
 
     function updateProductSummary() {
