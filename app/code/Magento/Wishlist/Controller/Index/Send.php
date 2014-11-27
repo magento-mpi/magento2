@@ -217,6 +217,8 @@ class Send extends Action\Action implements IndexInterface
      *
      * Add 'wishlist_email_rss' layout handle.
      * Add 'wishlist_email_items' layout handle.
+     *
+     * @return void
      */
     protected function addLayoutHandles()
     {
