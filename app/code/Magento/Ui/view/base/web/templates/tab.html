@@ -1,0 +1,20 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<div class="block tab-nav">
+    <div class="block-title" data-bind="css: { 'ui-accordion-header': collapsible, 'ui-accordion-header-active': opened() && collapsible }, click: toggle, click: onClick, keyboard: { 13: onClick }">
+        <strong tabindex="1" data-bind="text: label, keyboard: { 13: toggle }"></strong>
+    </div>
+    <ul class="tab-nav-items items" data-bind="visible: opened">
+        <!-- ko foreach: elems -->
+            <li class="tab-nav-item" tabindex="2" data-bind="css: { 'ui-state-active': active, 'ui-tabs-loading': loading }, click: activate, keyboard: { 13: activate }">
+                <a class="tab-nav-item-link" href="#" data-bind="text: label, css: { changed: changed }, attr: { id: 'tab_' + index }"></a>
+            </li>
+        <!-- /ko -->
+    </ul>
+</div>
