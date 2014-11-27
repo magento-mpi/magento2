@@ -6,13 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Bundle\Api\Data;
 
-/**
- * Interface LinkInterface
- * @package Magento\Bundle\Api\Data
- * @see \Magento\Bundle\Service\V1\Data\Product\Link
- */
 interface LinkInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**

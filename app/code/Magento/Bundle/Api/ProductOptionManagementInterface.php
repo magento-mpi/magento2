@@ -17,8 +17,6 @@ interface ProductOptionManagementInterface
      * @return int
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \Magento\Webapi\Exception
-     * @see \Magento\Bundle\Service\V1\Product\Option\WriteServiceInterface::add
-     * @see \Magento\Bundle\Service\V1\Product\Option\WriteServiceInterface::update
      */
     public function save(\Magento\Bundle\Api\Data\OptionInterface $option);
 }

@@ -8,12 +8,6 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
-    <preference for="Magento\Bundle\Service\V1\Product\Link\ReadServiceInterface" type="Magento\Bundle\Service\V1\Product\Link\ReadService" />
-    <preference for="Magento\Bundle\Service\V1\Product\Link\WriteServiceInterface" type="Magento\Bundle\Service\V1\Product\Link\WriteService" />
-    <preference for="Magento\Bundle\Service\V1\Product\Option\ReadServiceInterface" type="Magento\Bundle\Service\V1\Product\Option\ReadService" />
-    <preference for="Magento\Bundle\Service\V1\Product\Option\WriteServiceInterface" type="Magento\Bundle\Service\V1\Product\Option\WriteService" />
-    <preference for="Magento\Bundle\Service\V1\Product\Option\Type\ReadServiceInterface" type="Magento\Bundle\Service\V1\Product\Option\Type\ReadService" />
-
     <preference for="Magento\Bundle\Api\ProductOptionTypeListInterface" type="Magento\Bundle\Model\OptionTypeList" />
     <preference for="Magento\Bundle\Api\Data\OptionTypeInterface" type="Magento\Bundle\Model\Source\Option\Type" />
     <preference for="Magento\Bundle\Api\ProductLinkManagementInterface" type="Magento\Bundle\Model\LinkManagement" />
@@ -86,26 +80,6 @@
     <type name="Magento\Bundle\Pricing\Price\FinalPrice">
         <arguments>
             <argument name="calculator" xsi:type="object">Magento\Bundle\Pricing\Adjustment\BundleCalculatorInterface</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Catalog\Service\V1\Product\ProductLoadProcessorComposite">
-        <arguments>
-            <argument name="loadProcessors" xsi:type="array">
-                <item name="bundleProductLoadProcessor" xsi:type="array">
-                    <item name="type" xsi:type="object">Magento\Bundle\Service\V1\Product\BundleProductLoadProcessor</item>
-                    <item name="sortOrder" xsi:type="string">50</item>
-                </item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Magento\Catalog\Service\V1\Product\ProductSaveProcessorComposite">
-        <arguments>
-            <argument name="saveProcessors" xsi:type="array">
-                <item name="bundleProductSaveProcessor" xsi:type="array">
-                    <item name="type" xsi:type="object">Magento\Bundle\Service\V1\Product\BundleProductSaveProcessor</item>
-                    <item name="sortOrder" xsi:type="string">50</item>
-                </item>
-            </argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\Product\Attribute\Backend\Price">

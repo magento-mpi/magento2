@@ -6,13 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Bundle\Api\Data;
 
-/**
- * Interface OptionInterface
- * @package Magento\Bundle\Api\Data
- * @see \Magento\Bundle\Service\V1\Data\Product\Option
- */
 interface OptionInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**
