@@ -33,7 +33,13 @@ class OptionListTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->typeMock = $this->getMock('\Magento\Bundle\Model\Product\Type', [], [], '', false);
-        $this->optionBuilderMock = $this->getMock('\Magento\Bundle\Api\Data\OptionDataBuilder', [], [], '', false);
+        $this->optionBuilderMock = $this->getMock(
+            '\Magento\Bundle\Api\Data\OptionDataBuilder',
+            ['populateWithArray', 'setOptionId', 'setTitle', 'setProductLinks', 'create', 'setSku'],
+            [],
+            '',
+            false
+        );
         $this->linkListMock = $this->getMock('\Magento\Bundle\Model\Product\LinksList', [], [], '', false);
         $this->model = new \Magento\Bundle\Model\Product\OptionList(
             $this->typeMock,
