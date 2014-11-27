@@ -248,7 +248,7 @@ class Encryptor implements EncryptorInterface
             }
             $crypt = $this->getCrypt($this->keys[$keyVersion], $cryptVersion, $initVector);
             if (null === $crypt) {
-                return $data;
+                return '';
             }
             return trim($crypt->decrypt(base64_decode((string)$data)));
         }
@@ -312,10 +312,12 @@ class Encryptor implements EncryptorInterface
 
         if (null === $key) {
             $key = $this->keys[$this->keyVersion];
-            if (!$key) {
-                return null;
-            }
         }
+
+        if (!$key) {
+            return null;
+        }
+
         if (null === $cipherVersion) {
             $cipherVersion = $this->cipher;
         }

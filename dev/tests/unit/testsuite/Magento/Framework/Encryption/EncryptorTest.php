@@ -117,6 +117,28 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
         return array(array(null), array(0), array(''), array('0'));
     }
 
+    /**
+     * @param mixed $key
+     *
+     * @dataProvider decryptWithEmptyKeyDataProvider
+     */
+    public function testDecryptWithEmptyKey($key)
+    {
+        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', array(), array(), '', false);
+        $deploymentConfigMock->expects($this->any())
+            ->method('get')
+            ->with(Encryptor::PARAM_CRYPT_KEY)
+            ->will($this->returnValue($key));
+        $model = new Encryptor($this->_randomGenerator, $deploymentConfigMock);
+        $value = 'arbitrary_string';
+        $this->assertEquals('', $model->decrypt($value));
+    }
+
+    public function decryptWithEmptyKeyDataProvider()
+    {
+        return array(array(null), array(0), array(''), array('0'));
+    }
+
     public function testEncrypt()
     {
         // sample data to encrypt
@@ -127,7 +149,6 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
         // Extract the initialization vector and encrypted data
         $parts = explode(':', $actual, 4);
         list(, , $iv, $encryptedData) = $parts;
-        echo $actual;
 
         // Decrypt returned data with RIJNDAEL_256 cipher, cbc mode
         $crypt = new Crypt('cryptKey', MCRYPT_RIJNDAEL_256, MCRYPT_MODE_CBC, $iv);
