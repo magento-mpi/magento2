@@ -795,6 +795,13 @@ class Multishipping extends \Magento\Framework\Object
         return $this->getDefaultAddressByDataKey('customer_default_shipping_address', $defaultAddressId);
     }
 
+    /**
+     * Retrieve customer default address by data key
+     *
+     * @param $key
+     * @param $defaultAddressIdFromCustomer
+     * @return int|null
+     */
     private function getDefaultAddressByDataKey($key, $defaultAddressIdFromCustomer)
     {
         $addressId = $this->getData($key);
