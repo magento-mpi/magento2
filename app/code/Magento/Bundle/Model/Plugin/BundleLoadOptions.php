@@ -6,9 +6,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Bundle\Model\Plugin;
 
-class BundleLoadOptions 
+class BundleLoadOptions
 {
     /**
      * @var \Magento\Bundle\Model\Product\OptionList
@@ -35,7 +36,7 @@ class BundleLoadOptions
     /**
      * @param \Magento\Catalog\Api\Data\ProductInterface $subject
      * @param callable $proceed
-     * @param $modelId
+     * @param int $modelId
      * @param null $field
      * @return \Magento\Catalog\Api\Data\ProductInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)

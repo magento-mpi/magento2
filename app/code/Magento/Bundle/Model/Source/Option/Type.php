@@ -11,7 +11,8 @@
 namespace Magento\Bundle\Model\Source\Option;
 
 class Type extends \Magento\Framework\Model\AbstractExtensibleModel implements
-    \Magento\Framework\Option\ArrayInterface, \Magento\Bundle\Api\Data\OptionTypeInterface
+    \Magento\Framework\Option\ArrayInterface,
+    \Magento\Bundle\Api\Data\OptionTypeInterface
 {
     /**
      * @var array

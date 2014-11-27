@@ -10,8 +10,9 @@ namespace Magento\Bundle\Model;
 
 use \Magento\Framework\Model\SimpleModelInterface;
 
-class Link extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Bundle\Api\Data\LinkInterface, SimpleModelInterface
+class Link extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Bundle\Api\Data\LinkInterface,
+    SimpleModelInterface
 {
     /**
      * {@inheritdoc}
@@ -86,9 +87,7 @@ class Link extends \Magento\Framework\Model\AbstractExtensibleModel
     }
 
     /**
-     * Convert simple model to array
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function modelToArray()
     {
