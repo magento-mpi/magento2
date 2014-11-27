@@ -111,7 +111,8 @@ define([
                 config  = controls && controls[type];
                 control = config.constr;
 
-                field.type = type;
+                field.type     = type;
+                field.module   = config.module || 'ui';
 
                 return new control(field, config);
             }, this);
@@ -231,15 +232,6 @@ define([
          */
         close: function () {
             this.isVisible(false);
-        },
-
-        /**
-         * Returns path to filter's template splited by dots.
-         * @param {Object} - instance of one of controls classes
-         * @returns {String} - path to template based on type of filter
-         */
-        getTemplateFor: function (filter) {
-            return 'ui/filter/' + filter.type;
         },
 
         /**

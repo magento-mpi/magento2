@@ -103,4 +103,6 @@ define([
             });
         }
     });
+
+    return $.mage.productSummary;
 });

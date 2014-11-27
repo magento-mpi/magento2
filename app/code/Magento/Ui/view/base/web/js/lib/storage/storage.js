@@ -51,6 +51,12 @@ define([
 
             return this;
         },
+
+        remove: function (path) {
+            utils.nestedRemove(this.data, path);
+
+            return this;
+        },
         
         /**
          * Assignes props to this.data based on incoming params
