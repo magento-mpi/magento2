@@ -143,27 +143,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(get_class($this->object), $this->object->addRuleFilter([]));
     }
 
-    /**
-     * @dataProvider addRuleFilterProviderNegative
-     * @expectedException \PHPUnit_Framework_Error
-     */
-    public function testAddRuleFilterNegative($ruleFilter)
-    {
-        $this->object->addRuleFilter($ruleFilter);
-    }
-
-    public function addRuleFilterProviderNegative()
-    {
-        return [
-            [''],
-            [1],
-            [true],
-            ['false'],
-            [false],
-            [new \stdClass()]
-        ];
-    }
-
     public function testApplyAggregatedTableNegativeIsTotals()
     {
         $this->selectMock->expects($this->once())
