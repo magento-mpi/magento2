@@ -168,7 +168,7 @@ class GroupManagementTest extends WebapiAbstract
 
         $failureMessage = $isDeleteable
             ? 'The group should be deleteable.' : 'The group should not be deleteable.';
-        $this->assertEquals($isDeleteable, $isReadonly, $failureMessage);
+        $this->assertEquals($isDeleteable, !$isReadonly, $failureMessage);
     }
 
     /**

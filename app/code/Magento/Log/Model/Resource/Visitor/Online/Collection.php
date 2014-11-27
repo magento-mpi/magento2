@@ -7,8 +7,6 @@
  */
 namespace Magento\Log\Model\Resource\Visitor\Online;
 
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-
 /**
  * Log Online visitors collection
  *
@@ -77,7 +75,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         foreach ($attributes as $alias => $attributeCode) {
 
             $attribute = $this->_eavHelper->getAttributeMetadata(
-                CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
+                \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
                 $attributeCode
             );
 

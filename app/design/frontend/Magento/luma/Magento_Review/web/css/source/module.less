@@ -188,6 +188,14 @@
         margin-bottom: @indent-base;
     }
 }
+.page-main {
+    .column {
+        .review-add {
+            margin-bottom: 0;
+        }
+    }
+}
+
 
 //
 //    Desktop
@@ -334,13 +342,10 @@
 //    Mobile
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-s) {
-    .table-wrapper.reviews {
-        &:extend(.abstract-account-table-border all);
-    }
     .account {
         .table-reviews {
             .col.actions {
-                &:extend(.abstract-account-col-actions all);
+                &:extend(.abstract-col-no-prefix all);
             }
         }
     }

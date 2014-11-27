@@ -70,7 +70,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Metadata\FormFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerFormFactoryMock;
 
-    /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Customer\Api\Data\CustomerDataBuilder|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerBuilderMock;
 
     /** @var \Magento\Customer\Service\V1\Data\AddressBuilder|\PHPUnit_Framework_MockObject_MockObject */
@@ -90,6 +90,9 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
     /** @var \Magento\Sales\Model\QuoteRepository|\PHPUnit_Framework_MockObject_MockObject */
     protected $quoteRepositoryMock;
+
+    /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter|\PHPUnit_Framework_MockObject_MockObject */
+    protected $extensibleDataObjectConverterMock;
 
     protected function setUp()
     {
@@ -122,7 +125,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->customerBuilderMock = $this->getMock(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder',
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
             [],
             [],
             '',
@@ -156,6 +159,14 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $this->extensibleDataObjectConverterMock = $this->getMockBuilder(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter'
+        )->setMethods(['toFlatArray'])->disableOriginalConstructor()->getMock();
+
+        $this->extensibleDataObjectConverterMock
+            ->expects($this->any())
+            ->method('toFlatArray')
+            ->will($this->returnValue(array()));
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->onepage = $this->objectManagerHelper->getObject(
             'Magento\Checkout\Model\Type\Onepage',
@@ -183,6 +194,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
                 'customerAddressService' => $this->customerAddressServiceMock,
                 'accountService' => $this->customerAccountServiceMock,
                 'quoteRepository' => $this->quoteRepositoryMock,
+                'extensibleDataObjectConverter' => $this->extensibleDataObjectConverterMock
             ]
         );
     }
@@ -416,7 +428,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             );
         $formMock->expects($this->any())->method('prepareRequest')->will($this->returnValue($this->requestMock));
         $this->customerFormFactoryMock->expects($this->any())->method('create')->will($this->returnValue($formMock));
-        $customerDataMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
+        $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         $customerDataMock->expects($this->any())->method('__toArray')->will($this->returnValue([]));
         $this->customerBuilderMock
             ->expects($this->any())

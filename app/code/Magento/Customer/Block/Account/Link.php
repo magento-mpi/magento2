@@ -7,6 +7,11 @@
  */
 namespace Magento\Customer\Block\Account;
 
+/**
+ * Class Link
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class Link extends \Magento\Framework\View\Element\Html\Link
 {
     /**

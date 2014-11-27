@@ -97,26 +97,6 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
     }
 
     /**
-     * Overwrite data in the object.
-     *
-     * The $key parameter can be string or array.
-     * If $key is string, the attribute value will be overwritten by $value
-     *
-     * If $key is an array, it will overwrite all the data in the object.
-     *
-     * @param string|array  $key
-     * @param mixed         $value
-     * @return $this
-     */
-    public function setData($key, $value = null)
-    {
-        if ($key === self::CUSTOM_ATTRIBUTES) {
-            throw new \LogicException("Custom attributes must be set only using setCustomAttribute() method.");
-        }
-        return parent::setData($key, $value);
-    }
-
-    /**
      * Object data getter
      *
      * If $key is not defined will return all the data as an array.
