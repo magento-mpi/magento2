@@ -59,7 +59,6 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     ) {
         $this->_addressFactory = $addressFactory;
         parent::__construct(
-            $dataObjectConverter,
             $context,
             $coreData,
             $configCacheType,
@@ -70,6 +69,7 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $customerRepository,
             $addressConfig,
             $httpContext,
+            $dataObjectConverter,
             $data
         );
         $this->_isScopePrivate = true;

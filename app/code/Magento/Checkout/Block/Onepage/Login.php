@@ -79,7 +79,6 @@ class Login extends AbstractOnepage
         $this->_checkoutData = $checkoutData;
         $this->messageManager = $messageManager;
         parent::__construct(
-            $dataObjectConverter,
             $context,
             $coreData,
             $configCacheType,
@@ -90,6 +89,7 @@ class Login extends AbstractOnepage
             $customerRepository,
             $addressConfig,
             $httpContext,
+            $dataObjectConverter,
             $data
         );
         $this->_isScopePrivate = true;
