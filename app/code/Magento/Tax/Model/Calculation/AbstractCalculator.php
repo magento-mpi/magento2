@@ -8,13 +8,11 @@
 namespace Magento\Tax\Model\Calculation;
 
 use Magento\Tax\Model\Calculation;
-use Magento\Customer\Service\V1\Data\Address;
+use Magento\Customer\Api\Data\AddressInterface as CustomerAddress;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
 use Magento\Tax\Service\V1\Data\TaxDetails\ItemBuilder as TaxDetailsItemBuilder;
 use Magento\Tax\Service\V1\Data\TaxDetails\Item as TaxDetailsItem;
-use Magento\Tax\Service\V1\Data\TaxClassKey;
-use \Magento\Tax\Service\V1\Data\TaxClass;
 use Magento\Tax\Service\V1\TaxClassService;
 
 abstract class AbstractCalculator
@@ -67,14 +65,14 @@ abstract class AbstractCalculator
     /**
      * Shipping Address
      *
-     * @var Address
+     * @var CustomerAddress
      */
     protected $shippingAddress;
 
     /**
      * Billing Address
      *
-     * @var Address
+     * @var CustomerAddress
      */
     protected $billingAddress;
 
@@ -148,10 +146,10 @@ abstract class AbstractCalculator
     /**
      * Set billing address
      *
-     * @param Address $billingAddress
+     * @param CustomerAddress $billingAddress
      * @return void
      */
-    public function setBillingAddress(Address $billingAddress)
+    public function setBillingAddress(CustomerAddress $billingAddress)
     {
         $this->billingAddress = $billingAddress;
     }
@@ -159,10 +157,10 @@ abstract class AbstractCalculator
     /**
      * Set shipping address
      *
-     * @param Address $shippingAddress
+     * @param CustomerAddress $shippingAddress
      * @return void
      */
-    public function setShippingAddress(Address $shippingAddress)
+    public function setShippingAddress(CustomerAddress $shippingAddress)
     {
         $this->shippingAddress = $shippingAddress;
     }

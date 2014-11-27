@@ -9,6 +9,8 @@ namespace Magento\Tax\Service\V1\Data;
 
 use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Customer\Api\Data\AddressInterface as CustomerAddress;
+use Magento\Customer\Api\Data\AddressDataBuilder as CustomerAddressBuilder;
 
 /**
  * QuoteDetailsBuilder
@@ -27,9 +29,9 @@ class QuoteDetailsBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
     /**
      * Address builder
      *
-     * @var \Magento\Customer\Service\V1\Data\AddressBuilder
+     * @var CustomerAddressBuilder
      */
-    protected $addressBuilder;
+    protected $customerAddressBuilder;
 
     /**
      * TaxClassKey builder
@@ -46,7 +48,7 @@ class QuoteDetailsBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
      * @param MetadataServiceInterface $metadataService
      * @param \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $itemBuilder
      * @param \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder
-     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
+     * @param CustomerAddressBuilder $customerAddressBuilder
      */
     public function __construct(
         \Magento\Framework\Api\ObjectFactory $objectFactory,
@@ -54,12 +56,12 @@ class QuoteDetailsBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
         MetadataServiceInterface $metadataService,
         \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $itemBuilder,
         \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder,
-        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
+        CustomerAddressBuilder $customerAddressBuilder
     ) {
         parent::__construct($objectFactory, $valueBuilder, $metadataService);
         $this->itemBuilder = $itemBuilder;
         $this->taxClassKeyBuilder = $taxClassKeyBuilder;
-        $this->addressBuilder = $addressBuilder;
+        $this->customerAddressBuilder = $customerAddressBuilder;
     }
 
     /**
@@ -70,16 +72,6 @@ class QuoteDetailsBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
     public function getItemBuilder()
     {
         return $this->itemBuilder;
-    }
-
-    /**
-     * Convenience method to return address builder
-     *
-     * @return \Magento\Customer\Service\V1\Data\AddressBuilder
-     */
-    public function getAddressBuilder()
-    {
-        return $this->addressBuilder;
     }
 
     /**
@@ -95,7 +87,7 @@ class QuoteDetailsBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
     /**
      * Set customer billing address
      *
-     * @param \Magento\Customer\Service\V1\Data\Address $address
+     * @param CustomerAddress $address
      * @return $this
      */
     public function setBillingAddress($address)
@@ -106,7 +98,7 @@ class QuoteDetailsBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
     /**
      * Set customer shipping address
      *
-     * @param \Magento\Customer\Service\V1\Data\Address $address
+     * @param CustomerAddress $address
      * @return $this
      */
     public function setShippingAddress($address)
@@ -164,12 +156,12 @@ class QuoteDetailsBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
     protected function _setDataValues(array $data)
     {
         if (array_key_exists(QuoteDetails::KEY_BILLING_ADDRESS, $data)) {
-            $data[QuoteDetails::KEY_BILLING_ADDRESS] = $this->addressBuilder->populateWithArray(
+            $data[QuoteDetails::KEY_BILLING_ADDRESS] = $this->customerAddressBuilder->populateWithArray(
                 $data[QuoteDetails::KEY_BILLING_ADDRESS]
             )->create();
         }
         if (array_key_exists(QuoteDetails::KEY_SHIPPING_ADDRESS, $data)) {
-            $data[QuoteDetails::KEY_SHIPPING_ADDRESS] = $this->addressBuilder->populateWithArray(
+            $data[QuoteDetails::KEY_SHIPPING_ADDRESS] = $this->customerAddressBuilder->populateWithArray(
                 $data[QuoteDetails::KEY_SHIPPING_ADDRESS]
             )->create();
         }

@@ -73,6 +73,7 @@ class TaxCalculationServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testCalculateTax($quoteDetailsData, $taxDetailsData, $calculateCallback = 'createTaxDetailsItem')
     {
+        $this->markTestIncomplete('MAGETWO-29499');
         $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
         $this->storeManager->expects($this->any())
             ->method('getStore')

@@ -7,17 +7,15 @@
  */
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
-use Magento\Store\Model\Store;
 use Magento\Sales\Model\Quote\Address;
-use Magento\Sales\Model\Quote\Address\Total\AbstractTotal;
+use Magento\Store\Model\Store;
 use Magento\Tax\Model\Calculation;
-use Magento\Sales\Model\Quote\Item\AbstractItem;
-use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
-use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as ItemDataObject;
+use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder;
 use Magento\Tax\Service\V1\Data\TaxClassKey;
 use Magento\Tax\Service\V1\Data\TaxDetails;
+use Magento\Customer\Api\Data\AddressDataBuilder as CustomerAddressBuilder;
+use Magento\Customer\Api\Data\RegionDataBuilder as CustomerAddressRegionBuilder;
 
 /**
  * Tax totals calculation model
@@ -59,16 +57,26 @@ class Tax extends CommonTaxCollector
      * @param \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService
      * @param \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param CustomerAddressBuilder $customerAddressBuilder
+     * @param CustomerAddressRegionBuilder $customerAddressRegionBuilder
      */
     public function __construct(
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService,
         \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder,
-        \Magento\Tax\Helper\Data $taxData
+        \Magento\Tax\Helper\Data $taxData,
+        CustomerAddressBuilder $customerAddressBuilder,
+        CustomerAddressRegionBuilder $customerAddressRegionBuilder
     ) {
         $this->setCode('tax');
         $this->_taxData = $taxData;
-        parent::__construct($taxConfig, $taxCalculationService, $quoteDetailsBuilder);
+        parent::__construct(
+            $taxConfig,
+            $taxCalculationService,
+            $quoteDetailsBuilder,
+            $customerAddressBuilder,
+            $customerAddressRegionBuilder
+        );
     }
 
     /**

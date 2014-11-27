@@ -8,6 +8,8 @@
 
 namespace Magento\Tax\Service\V1\Data;
 
+use Magento\Customer\Api\Data\AddressInterface as CustomerAddress;
+
 class QuoteDetails extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**#@+
@@ -29,7 +31,7 @@ class QuoteDetails extends \Magento\Framework\Api\AbstractExtensibleObject
     /**
      * Get customer billing address
      *
-     * @return \Magento\Customer\Service\V1\Data\Address|null
+     * @return CustomerAddress|null
      */
     public function getBillingAddress()
     {
@@ -39,7 +41,7 @@ class QuoteDetails extends \Magento\Framework\Api\AbstractExtensibleObject
     /**
      * Get customer shipping address
      *
-     * @return \Magento\Customer\Service\V1\Data\Address|null
+     * @return CustomerAddress|null
      */
     public function getShippingAddress()
     {

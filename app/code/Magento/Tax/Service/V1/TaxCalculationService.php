@@ -8,14 +8,11 @@
 
 namespace Magento\Tax\Service\V1;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Tax\Model\Calculation;
 use Magento\Tax\Model\Resource\Sales\Order\Tax;
 use Magento\Tax\Service\V1\Data\QuoteDetails;
 use Magento\Tax\Service\V1\Data\QuoteDetails\Item as QuoteDetailsItem;
-use Magento\Tax\Service\V1\Data\TaxClass;
-use Magento\Tax\Service\V1\Data\TaxClassKey;
 use Magento\Tax\Service\V1\Data\TaxDetails;
 use Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax;
 use Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxRate;
@@ -85,11 +82,6 @@ class TaxCalculationService implements TaxCalculationServiceInterface
     private $parentToChildren;
 
     /**
-     * @var CustomerAccountServiceInterface
-     */
-    protected $customerAccountService;
-
-    /**
      * Tax Class Service
      *
      * @var TaxClassService
@@ -112,7 +104,6 @@ class TaxCalculationService implements TaxCalculationServiceInterface
      * @param TaxDetailsBuilder $taxDetailsBuilder
      * @param TaxDetailsItemBuilder $taxDetailsItemBuilder
      * @param StoreManagerInterface $storeManager
-     * @param CustomerAccountServiceInterface $customerAccountService
      * @param TaxClassService $taxClassService
      */
     public function __construct(
@@ -122,7 +113,6 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         TaxDetailsBuilder $taxDetailsBuilder,
         TaxDetailsItemBuilder $taxDetailsItemBuilder,
         StoreManagerInterface $storeManager,
-        CustomerAccountServiceInterface $customerAccountService,
         TaxClassService $taxClassService
     ) {
         $this->calculationTool = $calculation;
@@ -131,7 +121,6 @@ class TaxCalculationService implements TaxCalculationServiceInterface
         $this->taxDetailsBuilder = $taxDetailsBuilder;
         $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
         $this->storeManager = $storeManager;
-        $this->customerAccountService = $customerAccountService;
         $this->taxClassService = $taxClassService;
     }
 
