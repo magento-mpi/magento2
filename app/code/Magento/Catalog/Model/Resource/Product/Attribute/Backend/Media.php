@@ -52,7 +52,8 @@ class Media extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 'value_id',
                 'file' => 'value'
             ]
-        )->joinLeft(['value' => $this->getTable(self::GALLERY_VALUE_TABLE)],
+        )->joinLeft(
+            ['value' => $this->getTable(self::GALLERY_VALUE_TABLE)],
             $adapter->quoteInto('main.value_id = value.value_id AND value.store_id = ?', (int)$product->getStoreId()),
             [
                 'label',
@@ -60,7 +61,7 @@ class Media extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 'disabled'
             ]
         )->joinLeft(
-        // Joining default values
+            // Joining default values
             ['default_value' => $this->getTable(self::GALLERY_VALUE_TABLE)],
             'main.value_id = default_value.value_id AND default_value.store_id = 0',
             ['label_default' => 'label', 'position_default' => 'position', 'disabled_default' => 'disabled']
