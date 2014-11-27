@@ -780,21 +780,8 @@ class Multishipping extends \Magento\Framework\Object
      */
     public function getCustomerDefaultBillingAddress()
     {
-        $addressId = $this->getData('customer_default_billing_address');
-        if (is_null($addressId)) {
-            $addressId = $this->getCustomer()->getDefaultBilling();
-            if (!$addressId) {
-                /** Default billing address is not available, try to find any customer address */
-                $addresses = $this->getCustomer()->getAddresses();
-                $address = reset($addresses);
-                if ($address) {
-                    $addressId = $address->getId();
-                }
-            }
-            $this->setData('customer_default_billing_address', $addressId);
-        }
-
-        return $addressId;
+        $defaultAddressId = $this->getCustomer()->getDefaultShipping();
+        return $this->getDefaultAddressByDataKey('customer_default_billing_address', $defaultAddressId);
     }
 
     /**
@@ -804,18 +791,24 @@ class Multishipping extends \Magento\Framework\Object
      */
     public function getCustomerDefaultShippingAddress()
     {
-        $addressId = $this->getData('customer_default_shipping_address');
+        $defaultAddressId = $this->getCustomer()->getDefaultBilling();
+        return $this->getDefaultAddressByDataKey('customer_default_shipping_address', $defaultAddressId);
+    }
+
+    private function getDefaultAddressByDataKey($key, $defaultAddressIdFromCustomer)
+    {
+        $addressId = $this->getData($key);
         if (is_null($addressId)) {
-            $addressId = $this->getCustomer()->getDefaultShipping();
+            $addressId = $defaultAddressIdFromCustomer;
             if (!$addressId) {
                 /** Default shipping address is not available, try to find any customer address */
                 $addresses = $this->getCustomer()->getAddresses();
-                $address = reset($addresses);
-                if ($address) {
+                if ($addresses) {
+                    $address = reset($addresses);
                     $addressId = $address->getId();
                 }
             }
-            $this->setData('customer_default_shipping_address', $addressId);
+            $this->setData($key, $addressId);
         }
 
         return $addressId;
