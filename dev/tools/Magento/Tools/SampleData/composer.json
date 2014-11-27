@@ -1,12 +1,11 @@
 {
     "name": "magento/sample-data-scripts",
     "description": "Sample Data scripts",
-    "version": "0.1.0-alpha102",
+    "version": "0.1.0-alpha107",
     "require": {
-        "magento/framework": "0.1.0-alpha102",
+        "magento/framework": "0.1.0-alpha107",
         "magento/magento-composer-installer": "*",
-        "magento/sample-data-media": "dev-master",
-        "magento/sample-data-styles": "dev-master"
+        "magento/sample-data-media": "*"
     },
     "type": "magento2-component",
     "extra": {

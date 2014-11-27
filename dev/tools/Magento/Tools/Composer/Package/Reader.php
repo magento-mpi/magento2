@@ -64,7 +64,7 @@ class Reader
     {
         $result = [];
         foreach ($this->patterns as $pattern) {
-            foreach (glob("{$this->rootDir}/{$pattern}/*", GLOB_ONLYDIR) as $dir) {
+            foreach (glob("{$this->rootDir}/{$pattern}", GLOB_ONLYDIR) as $dir) {
                 $package = $this->readFile($dir . '/composer.json');
                 if (false === $package) {
                     throw new \LogicException("Missing composer.json file in the directory: {$dir}");
