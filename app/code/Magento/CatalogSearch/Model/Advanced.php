@@ -181,8 +181,12 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
                     $rate = $store->getBaseCurrency()->getRate($currency);
                 }
 
-                $value['from'] = isset($value['from']) ? (float)$value['from'] / $rate : '';
-                $value['to'] = isset($value['to']) ? (float)$value['to'] / $rate : '';
+                $value['from'] = (isset($value['from']) && is_numeric($value['from']))
+                    ? (float)$value['from'] / $rate
+                    : '';
+                $value['to'] = (isset($value['to']) && is_numeric($value['to']))
+                    ? (float)$value['to'] / $rate
+                    : '';
             }
             $condition = $this->_getResource()->prepareCondition(
                 $attribute,
