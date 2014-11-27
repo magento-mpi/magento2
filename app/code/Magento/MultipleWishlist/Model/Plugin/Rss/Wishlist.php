@@ -81,7 +81,7 @@ class Wishlist
         $customer = $this->wishlistHelper->getCustomer();
         $wishlist = $this->wishlistHelper->getWishlist();
         if ($wishlist->getCustomerId() !== $customer->getId()) {
-            /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+            /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
             $customer = $this->customerAccountService->getCustomer($wishlist->getCustomerId());
         }
         $customerName = $this->customerViewHelper->getCustomerName($customer);

@@ -10,15 +10,6 @@
 @form-field-vertical-indent-desktop: 29px;
 
 .fieldset {
-    .legend + .fieldset,
-    .legend + div {
-        clear: both;
-    }
-    .legend {
-        span {
-            margin-right: @indent-xs-base;
-        }
-    }
     .form-fieldset();
     &:last-child {
         margin-bottom: 0;
@@ -50,18 +41,26 @@
             }
         }
     }
-    fieldset.field {
-        border: 0;
-        padding: 0;
+}
+.legend + .fieldset,
+.legend + div {
+    clear: both;
+}
+.legend {
+    span {
+        margin-right: @indent-xs-base;
     }
-    .field.date {
-        .time-picker {
-            white-space: nowrap;
-            margin-top: @indent-s-base;
-            display: inline-block;
-        }
+}
+fieldset.field {
+    border: 0;
+    padding: 0;
+}
+.field.date {
+    .time-picker {
+        white-space: nowrap;
+        margin-top: @indent-s-base;
+        display: inline-block;
     }
-
 }
 
 .select-styling() {
@@ -140,11 +139,7 @@ select:focus ~ .tooltip .tooltip-content {
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
-    .fieldset {
-        .legend {
-            .css(border-bottom, @legend-border-bottom);
-        }
-        > .field {
-        }
+    .legend {
+        .css(border-bottom, @legend-border-bottom);
     }
 }
