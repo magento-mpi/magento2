@@ -24,6 +24,7 @@ define([
         options: globalOptions,
         _init: initPriceBundle,
         _create: createPriceBundle,
+        updateProductSummary: updateProductSummary,
         _setOptions: setOptions
     });
 
@@ -45,10 +46,6 @@ define([
 
         bundleOptions.on('change', onBundleOptionChanged.bind(this));
         qtyFields.on('change', onQtyFieldChanged.bind(this));
-
-//        this.element.trigger('updateProductSummary', {
-//            config: this.options.bundleConfig
-//        });
     }
 
     function onBundleOptionChanged(event) {
@@ -67,14 +64,12 @@ define([
         }
 
         priceBox.trigger('updatePrice', changes);
-//        this.element.trigger('updateProductSummary', {
-//            config: this.options.bundleConfig
-//        });
+        this.updateProductSummary();
     }
 
     function defaultGetOptionValue(element, config) {
         var changes = {};
-        var optionValue = element.val();
+        var optionValue = element.val() || null;
         var optionId = utils.findOptionId(element[0]);
         var optionName = element.prop('name');
         var optionType = element.prop('type');
@@ -82,6 +77,8 @@ define([
         var optionHash;
         var optionQty  = 0;
         var tempChanges;
+        var canQtyCustomize =false;
+        var selectedIds = config.selected;
 
         switch (optionType) {
             case 'radio':
@@ -92,21 +89,22 @@ define([
                 if (optionValue) {
                     optionQty = optionConfig[optionValue].qty || 0;
                     if(optionType === 'radio' && element.is(':checked') || optionType === 'select-one') {
-                        var canQtyCustomize = optionConfig[optionValue].customQty === '1';
-
+                        canQtyCustomize = optionConfig[optionValue].customQty === '1';
                         toggleQtyField(qtyField, optionQty, optionId, optionValue, canQtyCustomize);
+                        tempChanges = utils.deepClone(optionConfig[optionValue].prices);
+                        tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig[optionValue].tierPrice);
+                        tempChanges = applyQty(tempChanges, optionQty);
                     }
-
-                    tempChanges = utils.deepClone(optionConfig[optionValue].prices);
-                    tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig[optionValue].tierPrice);
-                    tempChanges = applyQty(tempChanges, optionQty);
                 } else {
                     toggleQtyField(qtyField, '', optionId, optionValue, false);
                 }
                 optionHash = 'bundle-option-' + optionName;
                 changes[optionHash] = tempChanges || {};
+
+                selectedIds[optionId] = [optionValue];
                 break;
             case 'select-multiple':
+                optionValue = _.compact(optionValue);
                 _.each(optionConfig, function(row, optionValueCode) {
                     optionHash = 'bundle-option-' + optionName + '##' + optionValueCode;
                     optionQty = row.qty || 0;
@@ -115,6 +113,8 @@ define([
                     tempChanges = applyQty(tempChanges, optionQty);
                     changes[optionHash] = _.contains(optionValue, optionValueCode) ? tempChanges : {};
                 });
+
+                selectedIds[optionId] = optionValue || [];
                 break;
             case 'checkbox':
                 optionHash = 'bundle-option-' + optionName + '##' + optionValue;
@@ -123,6 +123,13 @@ define([
                 tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig);
                 tempChanges = applyQty(tempChanges, optionQty);
                 changes[optionHash] = element.is(':checked') ? tempChanges : {};
+
+                selectedIds[optionId] = selectedIds[optionId] || [];
+                if(!_.contains(selectedIds[optionId], optionValue) && element.is(':checked')) {
+                    selectedIds[optionId].push(optionValue);
+                } else if(!element.is(':checked')) {
+                    selectedIds[optionId] = _.without(selectedIds[optionId], optionValue);
+                }
                 break;
         }
 
@@ -163,6 +170,12 @@ define([
 
     function applyTierPrice( prices, qty, tiers ) {
         return prices;
+    }
+
+    function updateProductSummary() {
+        this.element.trigger('updateProductSummary', {
+            config: this.options.optionConfig
+        });
     }
 
     /**
