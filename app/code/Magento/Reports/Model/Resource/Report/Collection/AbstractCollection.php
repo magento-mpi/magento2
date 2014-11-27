@@ -210,6 +210,7 @@ class AbstractCollection extends \Magento\Framework\Model\Resource\Db\Collection
     }
 
     /**
+     * TODO fix me ASAP
      * Getter/Setter for isSubTotals
      *
      * @param null|bool $flag

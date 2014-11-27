@@ -118,7 +118,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     /**
      * Add selected data
      *
-     * @return $this
+     * @return Collection
      */
     protected function _applyAggregatedTable()
     {
@@ -141,9 +141,9 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
      * Add filtering by rules ids
      *
      * @param array $rulesList
-     * @return $this
+     * @return Collection
      */
-    public function addRuleFilter($rulesList)
+    public function addRuleFilter(array $rulesList)
     {
         $this->_rulesIdsFilter = $rulesList;
         return $this;
