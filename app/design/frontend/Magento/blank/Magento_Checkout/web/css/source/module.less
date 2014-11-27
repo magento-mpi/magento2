@@ -52,10 +52,10 @@
         }
         &-content {
             display: none;
-            padding: 20px 10px;
+            padding: @indent-base @indent-s-base;
             position: relative;
             .addresses .control {
-                margin: 20px 0;
+                margin: @indent-base 0;
             }
             .fieldset {
                 margin-bottom: 0;
@@ -88,13 +88,16 @@
                             &:extend(.abstract-no-display all);
                         }
                         > .field {
-                            margin: 20px 0 0;
+                            margin: @indent-base 0 0;
                             &:before {
                                 display: none;
                             }
                             .control {
                                 display: inline-block;
                             }
+                        }
+                        br + .field {
+                            margin: 0;
                         }
                     }
                 }
@@ -108,7 +111,7 @@
                     margin-top: @form-field-vertical-indent;
                 }
                 .field:not(:first-child) {
-                    margin: 20px 0 0;
+                    margin: @indent-base 0 0;
                 }
                 > .field.choice {
                     margin: @form-field-vertical-indent 0 0;
@@ -121,7 +124,7 @@
                 }
             }
             .actions {
-                margin-top: 20px;
+                margin-top: @indent-base;
             }
         }
     }
@@ -137,9 +140,9 @@
     }
 
     .opc-payment-additional {
-        margin: 0 0 5px;
+        margin: 0 0 @indent-xs-base;
         + .opc-payment {
-            margin: 20px 0 0;
+            margin: @indent-base 0 0;
         }
     }
 
@@ -155,7 +158,7 @@
         }
         .item-options {
             font-size: @font-size-s;
-            margin: 10px 0 0;
+            margin: @indent-s-base 0 0;
             &:extend(.abstract-add-clearfix all);
         }
         .cart-price {
@@ -164,7 +167,7 @@
     }
 
     .action.primary.checkout {
-        margin: 0 0 20px;
+        margin: 0 0 @indent-base;
     }
 
     .hidden {
@@ -178,16 +181,16 @@
                 &:extend(.abstract-login-block-title all);
             }
             .fieldset.guest {
-                margin-top: 20px;
+                margin-top: @indent-base;
             }
             .field.choice {
-                margin-bottom: 10px;
+                margin-bottom: @indent-s-base;
             }
         }
     }
 
     .actions-toolbar {
-        margin: 40px 0 0;
+        margin: @indent-xl-base 0 0;
     }
 }
 
@@ -197,9 +200,9 @@
         &:extend(.abstract-methods-shipping-title all);
     }
     .item-content {
-        margin: 0 0 20px;
+        margin: 0 0 @indent-xl-base;
         .field.choice {
-            margin: 0 0 10px;
+            margin: 0 0 @indent-s-base;
         }
         .price {
             font-weight: @font-weight-bold;
@@ -209,7 +212,7 @@
     .price-box {
         margin-top: @indent-s-base;
         margin-bottom: @indent-xs-base;
-        margin-left: 20px;
+        margin-left: @indent-xl-base;
         .label + .price {
             font-weight: @font-weight-bold;
         }
@@ -218,7 +221,7 @@
         vertical-align: middle;
     }
     .field.month {
-        padding-right: 10px;
+        padding-right: @indent-s-base;
     }
 }
 
@@ -253,7 +256,7 @@
         vertical-align: middle;
     }
     .field.month {
-        padding-right: 10px;
+        padding-right: @indent-s-base;
     }
 }
 
@@ -271,14 +274,14 @@
         background: @sidebar-background;
         .heading(h3);
         margin: 0;
-        padding: 15px 15px 20px;
+        padding: 15px 15px @indent-base;
         strong {
             font-weight: @font-weight-base;
         }
     }
     > .content {
         background: @sidebar-background;
-        padding: 0 15px 5px;
+        padding: 0 15px @indent-xs-base;
         .item-content.complete {
             margin: 0 0 15px;
             overflow: hidden;
@@ -296,7 +299,7 @@
             font-weight: @font-weight-light;
         }
         > .content {
-            margin: 0 0 10px;
+            margin: 0 0 @indent-s-base;
             &:last-child {
                 margin-bottom: 0;
             }
@@ -367,7 +370,7 @@
         .layout-column(2, 2, @layout-column-checkout-main-width);
         &:extend(.abstract-add-box-sizing-desktop-s all);
         .step-content {
-            padding: 20px 18px 40px;
+            padding: @indent-base 18px @indent-xl-base;
             .addresses .control {
                 margin-bottom: @desktop-form-field-vertical-indent;
             }
