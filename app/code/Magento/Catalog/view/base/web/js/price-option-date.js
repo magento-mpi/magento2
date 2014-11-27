@@ -55,7 +55,7 @@ define([
         return function(element, optionConfig, form) {
             var changes = {};
             var optionId = utils.findOptionId(event.target);
-            var overhead = optionConfig[optionId];
+            var overhead = optionConfig[optionId].prices;
             var isNeedToUpdate = true;
             var optionHash = 'price-option-calendar-' + optionId;
 
@@ -64,8 +64,8 @@ define([
                 isNeedToUpdate = isNeedToUpdate && !!$(el).val();
             });
 
-            overhead = isNeedToUpdate ? overhead : null;
-            changes[optionHash] = utils.setOptionConfig(overhead);
+            overhead = isNeedToUpdate ? overhead : {};
+            changes[optionHash] = overhead;
 
             return changes;
         }
