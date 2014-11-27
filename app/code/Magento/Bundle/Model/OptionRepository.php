@@ -92,6 +92,8 @@ class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInt
         $product = $this->getProduct($productSku);
         $optionCollection = $this->type->getOptionsCollection($product);
         $optionCollection->setIdFilter($optionId);
+        $optionCollection->removeAllItems();
+        $optionCollection->loadWithFilter();
 
         /** @var \Magento\Bundle\Model\Option $option */
         $option = $optionCollection->getFirstItem();
