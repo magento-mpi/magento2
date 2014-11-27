@@ -38,7 +38,10 @@ class BackendAuthentication extends \Magento\Backend\App\Action\Plugin\Authentic
      * @var array
      */
     protected $aclResources = array(
-        'feed' => 'Magento_Rss::rss'
+        'feed' => 'Magento_Rss::rss',
+        'notifystock' => 'Magento_Catalog::catalog_inventory',
+        'new_order' => 'Magento_Sales::actions_view',
+        'review' => 'Magento_Reports::review_product'
     );
 
     /**
@@ -84,7 +87,10 @@ class BackendAuthentication extends \Magento\Backend\App\Action\Plugin\Authentic
                 : $this->aclResources[$request->getControllerName()]
             : null;
 
-        if (!$resource) {
+        $type = $request->getParam('type');
+        $resourceType = isset($this->aclResources[$type]) ? $this->aclResources[$type] : null;
+
+        if (!$resource || !$resourceType) {
             return parent::aroundDispatch($subject, $proceed, $request);
         }
 
@@ -101,7 +107,8 @@ class BackendAuthentication extends \Magento\Backend\App\Action\Plugin\Authentic
         }
 
         // Verify if logged in and authorized
-        if (!$session->isLoggedIn() || !$this->authorization->isAllowed($resource)) {
+        if (!$session->isLoggedIn() || !$this->authorization->isAllowed($resource)
+            || !$this->authorization->isAllowed($resourceType)) {
             $this->httpAuthentication->setAuthenticationFailed('RSS Feeds');
             return $this->_response;
         }
