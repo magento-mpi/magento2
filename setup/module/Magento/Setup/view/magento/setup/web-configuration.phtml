@@ -98,7 +98,7 @@ $hints = [
                 <input type="text"
                        name="https"
                        ng-model="config.https.text"
-                       ng-show="config.https.front || config.https.admin"
+                       ng-if="config.https.front || config.https.admin"
                        class="form-control"
                        ng-focus=""
                        required
