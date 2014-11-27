@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Test\Integrity\Layout;
 
 class FilesLocationTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Verifying that in page_layout directory contains only page layout xml files
      *
