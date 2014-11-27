@@ -1,0 +1,35 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Stock Item collection interface
+ */
+namespace Magento\CatalogInventory\Api\Data;
+
+use Magento\Framework\Api\SearchResultsInterface;
+
+/**
+ * Interface StockItemCollectionInterface
+ * @package Magento\CatalogInventory\Api\Data
+ */
+interface StockItemCollectionInterface extends SearchResultsInterface
+{
+    /**
+     * Get items
+     *
+     * @return \Magento\CatalogInventory\Api\Data\StockItemInterface[]
+     */
+    public function getItems();
+
+    /**
+     * Get search criteria.
+     *
+     * @return \Magento\CatalogInventory\Api\StockItemCriteriaInterface
+     */
+    public function getSearchCriteria();
+}

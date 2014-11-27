@@ -5,7 +5,12 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
-define(["jquery","jquery/ui"], function($){
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
+    "use strict";
+
     $.widget('mage.slide', {
         options: {
             slideSpeed: 1500,
@@ -70,6 +75,7 @@ define(["jquery","jquery/ui"], function($){
             $('html, body').animate({
                 scrollTop: $(this.options.bundleOptionsContainer).offset().top
             }, 600);
+            $('#product-options-wrapper > fieldset').focus();
         },
         _hide: function() {
             $('html, body').animate({
@@ -78,4 +84,6 @@ define(["jquery","jquery/ui"], function($){
             $(this.options.bundleOptionsContainer).slideUp(800);
         }
     });
+    
+    return $.mage.slide;
 });

@@ -29,8 +29,6 @@
     text-align: center;
     &:extend(.abstract-add-clearfix all);
     &-amount {
-        display: block;
-        float: left;
         line-height: @toolbar-mode-icon-font-size+2;
         padding: 7px 0;
         margin: 0;
@@ -105,7 +103,7 @@
 
 .responsive-smaller(@break) when (@break = @screen-s) {
     .toolbar-products {
-        margin-bottom: -20px;
+        margin-bottom: 0;
     }
 }
 
@@ -116,6 +114,10 @@
         padding-top: 0;
     }
     .toolbar {
+        &-amount {
+            display: block;
+            float: left;
+        }
         .products.wrapper ~ & .pages {
             float: left;
             margin-bottom: 0;

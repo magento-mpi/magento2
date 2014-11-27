@@ -698,7 +698,6 @@ return array(
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array('Magento\CatalogSearch\Model\Layer', 'Magento\Catalog\Model\Layer'),
-    array('Magento\CatalogSearch\Model\Layer\Filter\Attribute'),
     array('Magento\Solr\Block\Catalog\Layer\View', 'Magento\LayeredNavigation\Block\Navigation'),
     array(
         'Magento\Solr\Block\Catalog\Layer\Filter\Attribute',
@@ -1736,7 +1735,7 @@ return array(
     array('Magento\Adminhtml\Block\Report\Sales\Shipping', 'Magento\Reports\Block\Adminhtml\Sales\Shipping'),
     array('Magento\Adminhtml\Block\Report\Sales\Tax\Grid', 'Magento\Reports\Block\Adminhtml\Sales\Tax\Grid'),
     array('Magento\Adminhtml\Block\Report\Sales\Tax', 'Magento\Reports\Block\Adminhtml\Sales\Tax'),
-    array('Magento\Adminhtml\Block\Report\Search', 'Magento\Reports\Block\Adminhtml\Search'),
+    array('Magento\Adminhtml\Block\Report\Search', 'Magento\Search\Block\Adminhtml\Reports\Search'),
     array(
         'Magento\Adminhtml\Block\Report\Shopcart\Abandoned\Grid',
         'Magento\Reports\Block\Adminhtml\Shopcart\Abandoned\Grid'
@@ -2843,4 +2842,17 @@ return array(
     ['Magento\Framework\ObjectManager\Definition', 'Magento\Framework\ObjectManager\DefinitionInterface'],
     ['Magento\Framework\ObjectManager', 'Magento\Framework\ObjectManagerInterface'],
     ['Magento\Framework\HTTP\IClient', 'Magento\Framework\HTTP\ClientInterface'],
+    ['Magento\Tools\I18n\Code', 'Magento\Tools\I18n'],
+    ['Magento\TestFramework\Utility\AggregateInvoker', 'Magento\Framework\Test\Utility\AggregateInvoker'],
+    ['Magento\TestFramework\Utility\Classes', 'Magento\Framework\Test\Utility\Classes'],
+    ['Magento\TestFramework\Utility\Files', 'Magento\Framework\Test\Utility\Files'],
+    ['Magento\Framework\Module\Declaration\Reader\Filesystem', 'Magento\Framework\Module\ModuleList\Loader'],
+    ['Magento\Framework\Module\Declaration\FileIterator'],
+    ['Magento\Framework\Module\Declaration\FileIteratorFactory'],
+    ['Magento\Framework\Module\Declaration\FileResolver', 'Magento\Framework\Module\ModuleList\Loader'],
+    ['Magento\Framework\Module\Declaration\SchemaLocator'],
+    ['Magento\Framework\Module\DependencyManager'],
+    ['Magento\Framework\Module\DependencyManagerInterface'],
+    ['Magento\Framework\App\Arguments\Loader'],
+    ['Magento\Framework\App\Arguments', 'Magento\Framework\App\DeploymentConfig'],
 );

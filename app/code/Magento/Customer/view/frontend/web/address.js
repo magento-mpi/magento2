@@ -27,8 +27,17 @@ define([
          * @private
          */
         _create: function() {
-            $(document).on('click', this.options.addAddress, $.proxy(this._addAddress, this));
-            $(document).on('click', this.options.deleteAddress, $.proxy(this._deleteAddress, this));
+            var options         = this.options,
+                addAddress      = options.addAddress,
+                deleteAddress   = options.deleteAddress;
+
+            if( addAddress ){
+                $(document).on('click', addAddress, this._addAddress.bind(this));
+            }
+            
+            if( deleteAddress ){
+                $(document).on('click', deleteAddress, this._deleteAddress.bind(this));
+            }
         },
 
         /**
@@ -57,4 +66,6 @@ define([
             return false;
         }
     });
+    
+    return $.mage.address;
 });

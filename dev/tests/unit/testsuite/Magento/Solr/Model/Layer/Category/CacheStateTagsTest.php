@@ -16,6 +16,7 @@ class CacheStateTagsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->model = new CacheStateTags();
     }
 

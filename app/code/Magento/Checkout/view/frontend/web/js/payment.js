@@ -119,4 +119,6 @@ define([
             }
         }
     });
+    
+    return $.mage.payment;
 });

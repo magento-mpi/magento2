@@ -11,7 +11,7 @@
  */
 namespace Magento\Checkout\Model\Type;
 
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
@@ -59,11 +59,11 @@ class Onepage
     protected $_logger;
 
     /**
-     * Customer data
+     * Customer url
      *
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Url
      */
-    protected $_customerData = null;
+    protected $_customerUrl;
 
     /**
      * Core event manager proxy
@@ -120,7 +120,7 @@ class Onepage
     /** @var \Magento\Customer\Model\Metadata\FormFactory */
     protected $_formFactory;
 
-    /** @var CustomerBuilder */
+    /** @var CustomerDataBuilder */
     protected $_customerBuilder;
 
     /** @var AddressBuilder */
@@ -141,9 +141,19 @@ class Onepage
     protected $orderSender;
 
     /**
+     * @var \Magento\Sales\Model\QuoteRepository
+     */
+    protected $quoteRepository;
+
+    /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Helper\Data $helper
-     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Customer\Model\Url $customerUrl
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
@@ -156,19 +166,21 @@ class Onepage
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
-     * @param CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
-     * @param CustomerBuilder $customerBuilder
+     * @param CustomerDataBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param CustomerAddressServiceInterface $customerAddressService
+     * @param CustomerAccountServiceInterface $accountService
      * @param OrderSender $orderSender
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Checkout\Helper\Data $helper,
-        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Customer\Model\Url $customerUrl,
         \Magento\Framework\Logger $logger,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
@@ -182,16 +194,18 @@ class Onepage
         \Magento\Framework\Object\Copy $objectCopyService,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
-        CustomerBuilder $customerBuilder,
+        CustomerDataBuilder $customerBuilder,
         AddressBuilder $addressBuilder,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAccountServiceInterface $accountService,
-        OrderSender $orderSender
+        OrderSender $orderSender,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->_eventManager = $eventManager;
-        $this->_customerData = $customerData;
+        $this->_customerUrl = $customerUrl;
         $this->_helper = $helper;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
@@ -213,6 +227,8 @@ class Onepage
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAccountService = $accountService;
         $this->orderSender = $orderSender;
+        $this->quoteRepository = $quoteRepository;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
     }
 
     /**
@@ -280,7 +296,7 @@ class Onepage
         $quote = $this->getQuote();
         if ($quote->isMultipleShippingAddresses()) {
             $quote->removeAllAddresses();
-            $quote->save();
+            $this->quoteRepository->save($quote);
         }
 
         /*
@@ -326,7 +342,7 @@ class Onepage
             return array('error' => -1, 'message' => __('Invalid data'));
         }
 
-        $this->getQuote()->setCheckoutMethod($method)->save();
+        $this->quoteRepository->save($this->getQuote()->setCheckoutMethod($method));
         $this->getCheckout()->setStepData('billing', 'allow', true);
         return array();
     }
@@ -464,7 +480,7 @@ class Onepage
             }
         }
 
-        $this->getQuote()->save();
+        $this->quoteRepository->save($this->getQuote());
 
         $this->getCheckout()->setStepData(
             'billing',
@@ -496,11 +512,11 @@ class Onepage
         $quote = $this->getQuote();
         $isCustomerNew = !$quote->getCustomerId();
         $customer = $quote->getCustomerData();
-        $customerData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer);
+        $customerData = $this->extensibleDataObjectConverter->toFlatArray($customer);
 
         /** @var Form $customerForm */
         $customerForm = $this->_formFactory->create(
-            CustomerMetadata::ENTITY_TYPE_CUSTOMER,
+            \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
             'checkout_register',
             $customerData,
             $this->_request->isAjax(),
@@ -561,7 +577,7 @@ class Onepage
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_account',
             'to_quote',
-            \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customer),
+            $this->extensibleDataObjectConverter->toFlatArray($customer),
             $quote
         );
 
@@ -695,7 +711,7 @@ class Onepage
         $payment = $quote->getPayment();
         $payment->importData($data);
 
-        $quote->save();
+        $this->quoteRepository->save($quote);
 
         $this->getCheckout()->setStepData('payment', 'complete', true)->setStepData('review', 'allow', true);
 
@@ -855,7 +871,7 @@ class Onepage
         $customer = $this->getQuote()->getCustomerData();
         $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
-            $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
+            $url = $this->_customerUrl->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
                 // @codingStandardsIgnoreStart
                 __(

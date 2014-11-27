@@ -51,7 +51,7 @@ class ReadService implements ReadServiceInterface
     public function getList($cartId)
     {
         /** @var  \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
         $giftCards = $this->giftCardHelper->getCards($quote);
         $cards = [];
         foreach ($giftCards as $giftCard) {

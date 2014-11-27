@@ -61,13 +61,13 @@ class WriteService implements WriteServiceInterface
             throw InputException::invalidFieldValue('qty', $qty);
         }
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
 
         $product = $this->productRepository->get($data->getSku());
 
         try {
             $quote->addProduct($product, $qty);
-            $quote->collectTotals()->save();
+            $this->quoteRepository->save($quote->collectTotals());
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not add item to quote');
         }
@@ -92,7 +92,7 @@ class WriteService implements WriteServiceInterface
             throw InputException::invalidFieldValue('qty', $qty);
         }
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
         $quoteItem = $quote->getItemById($itemId);
         if (!$quoteItem) {
             throw new NoSuchEntityException("Cart $cartId doesn't contain item  $itemId");
@@ -100,7 +100,7 @@ class WriteService implements WriteServiceInterface
         $quoteItem->setData('qty', $qty);
 
         try {
-            $quote->collectTotals()->save();
+            $this->quoteRepository->save($quote->collectTotals());
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not update quote item');
         }
@@ -123,14 +123,14 @@ class WriteService implements WriteServiceInterface
          *
          * @var \Magento\Sales\Model\Quote $quote
          */
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
         $quoteItem = $quote->getItemById($itemId);
         if (!$quoteItem) {
             throw new NoSuchEntityException("Cart $cartId doesn't contain item  $itemId");
         }
         try {
             $quote->removeItem($itemId);
-            $quote->collectTotals()->save();
+            $this->quoteRepository->save($quote->collectTotals());
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not remove item from quote');
         }

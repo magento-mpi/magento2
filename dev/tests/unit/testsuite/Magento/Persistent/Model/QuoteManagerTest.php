@@ -46,6 +46,11 @@ class QuoteManagerTest extends \PHPUnit_Framework_TestCase
      */
     protected $abstractCollectionMock;
     
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $quoteRepositoryMock;
+
     protected function setUp()
     {
         $this->persistentSessionMock = $this->getMock('Magento\Persistent\Helper\Session', [], [], '', false);
@@ -69,6 +74,9 @@ class QuoteManagerTest extends \PHPUnit_Framework_TestCase
         $this->abstractCollectionMock =
             $this->getMock('Magento\Eav\Model\Entity\Collection\AbstractCollection', [], [], '', false);
 
+        $this->quoteRepositoryMock =
+            $this->getMock('Magento\Sales\Model\QuoteRepository', [], [], '', false);
+
         $this->quoteMock = $this->getMock('Magento\Sales\Model\Quote',
             [
                 'getId',
@@ -86,7 +94,6 @@ class QuoteManagerTest extends \PHPUnit_Framework_TestCase
                 'getBillingAddress',
                 'collectTotals',
                 'removeAllAddresses',
-                'save',
                 'getIsActive',
                 'getCustomerId',
                 '__wakeup'
@@ -95,8 +102,12 @@ class QuoteManagerTest extends \PHPUnit_Framework_TestCase
             '',
             false);
 
-        $this->model =
-            new QuoteManager($this->persistentSessionMock, $this->persistentDataMock, $this->checkoutSessionMock);
+        $this->model = new QuoteManager(
+            $this->persistentSessionMock,
+            $this->persistentDataMock,
+            $this->checkoutSessionMock,
+            $this->quoteRepositoryMock
+        );
     }
 
     public function testSetGuestWithEmptyQuote()
@@ -178,7 +189,7 @@ class QuoteManagerTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())
             ->method('getBillingAddress')->will($this->returnValue($quoteAddressMock));
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('save');
+        $this->quoteRepositoryMock->expects($this->once())->method('save')->with($this->quoteMock);
         $this->persistentSessionMock->expects($this->once())
             ->method('getSession')->will($this->returnValue($this->sessionMock));
         $this->sessionMock->expects($this->once())

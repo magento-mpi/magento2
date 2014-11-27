@@ -207,9 +207,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     /**
      * Stock item factory
      *
-     * @var \Magento\CatalogInventory\Model\Stock\ItemFactory
+     * @var \Magento\CatalogInventory\Api\Data\StockItemDataBuilder
      */
-    protected $_stockItemFactory;
+    protected $_stockItemBuilder;
 
     /**
      * Item option factory
@@ -256,7 +256,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * @param Product\Url $url
      * @param Product\Link $productLink
      * @param Product\Configuration\Item\OptionFactory $itemOptionFactory
-     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param \Magento\CatalogInventory\Api\Data\StockItemDataBuilder $stockItemBuilder
      * @param CategoryFactory $categoryFactory
      * @param Product\Option $catalogProductOption
      * @param Product\Visibility $catalogProductVisibility
@@ -286,7 +286,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         Product\Url $url,
         Product\Link $productLink,
         \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
-        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
+        \Magento\CatalogInventory\Api\Data\StockItemDataBuilder $stockItemBuilder,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
@@ -307,7 +307,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
-        $this->_stockItemFactory = $stockItemFactory;
+        $this->_stockItemBuilder = $stockItemBuilder;
         $this->_categoryFactory = $categoryFactory;
         $this->_optionInstance = $catalogProductOption;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -475,7 +475,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     /**
      * Get product type identifier
      *
-     * @return string
+     * @return array|string
      */
     public function getTypeId()
     {
@@ -1431,8 +1431,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         if (method_exists($productType, 'getIsSalable')) {
             return $productType->getIsSalable($this);
         }
-        if ($this->hasData('is_salable')) {
-            return $this->getData('is_salable');
+        if ($this->hasData('is_saleable')) {
+            return $this->getData('is_saleable');
         }
 
         return $this->isSalable();
@@ -1573,11 +1573,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * @param array $data Array to form the object from
      * @return \Magento\Catalog\Model\Product
      */
-    public function fromArray($data)
+    public function fromArray(array $data)
     {
         if (isset($data['stock_item'])) {
             if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-                $stockItem = $this->_stockItemFactory->create()->setData($data['stock_item'])->setProduct($this);
+                $stockItem = $this->_stockItemBuilder->populateWithArray($data['stock_item'])->create();
+                $stockItem->setProduct($this);
                 $this->setStockItem($stockItem);
             }
             unset($data['stock_item']);
