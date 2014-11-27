@@ -7,6 +7,8 @@
  */
 namespace Magento\Bundle\Model;
 
+use Magento\Framework\Model\SimpleModelInterface;
+
 /**
  * Bundle Option Model
  *
@@ -18,7 +20,7 @@ namespace Magento\Bundle\Model;
  * @method Option setType(string $value)
  */
 class Option extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\Bundle\Api\Data\OptionInterface
+    implements \Magento\Bundle\Api\Data\OptionInterface, SimpleModelInterface
 {
     /**
      * Default selection object
@@ -183,5 +185,33 @@ class Option extends \Magento\Framework\Model\AbstractExtensibleModel
     public function getProductLinks()
     {
         return $this->getData('product_links');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function modelToArray()
+    {
+        $productLinks = null;
+        $data = $this->getProductLinks();
+        if (!is_null($data)) {
+            foreach ($data as $item) {
+                if ($item instanceof SimpleModelInterface) {
+                    $productLinks[] = $item->modelToArray();
+                } else {
+                    // Cannot cast to a type because the type is unknown
+                    $productLinks[] = $item;
+                }
+            }
+        }
+        return [
+            'option_id' => $this->getOptionId(),
+            'title' => $this->getTitle(),
+            'required' => $this->getRequired(),
+            'type' => $this->getType(),
+            'position' => $this->getPosition(),
+            'sku' => $this->getSku(),
+            'product_links' => $productLinks,
+        ];
     }
 }

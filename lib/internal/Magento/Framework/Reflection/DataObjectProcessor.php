@@ -13,7 +13,7 @@ use Zend\Code\Reflection\MethodReflection;
 use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Api\ExtensibleDataInterface;
-use Magento\Framework\ObjectManagerInterface;
+use Magento\Framework\Model\SimpleModelInterface;
 
 /**
  * Data object processor for de-serialization using class reflection
@@ -200,13 +200,18 @@ class DataObjectProcessor
         $data[AttributeValue::ATTRIBUTE_CODE] = $customAttribute->getAttributeCode();
         $value = $customAttribute->getValue();
         if (is_object($value)) {
-            $value = $this->buildOutputDataArray($value, get_class($value));
+            //TODO: Temporary solution. Instead of SimpleModelInterface need to ready data_object.xml configuration
+            //TODO: and extract object values according to configured interface (instead of get_class($value))
+            $value = ($value instanceof SimpleModelInterface)
+                ? $value->modelToArray()
+                : $this->buildOutputDataArray($value, get_class($value));
         } else if (is_array($value)) {
             $valueResult = array();
             foreach ($value as $singleValue) {
                 if (is_object($singleValue)) {
-                    $elementType = get_class($singleValue);
-                    $singleValue = $this->buildOutputDataArray($singleValue, $elementType);
+                    $singleValue = ($singleValue instanceof SimpleModelInterface)
+                        ? $singleValue->modelToArray()
+                        : $this->buildOutputDataArray($singleValue, get_class($singleValue));
                 }
                 // Cannot cast to a type because the type is unknown
                 $valueResult[] = $singleValue;

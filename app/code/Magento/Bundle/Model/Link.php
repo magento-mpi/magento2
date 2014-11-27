@@ -8,7 +8,10 @@
  */
 namespace Magento\Bundle\Model;
 
-class Link extends \Magento\Framework\Model\AbstractExtensibleModel implements \Magento\Bundle\Api\Data\LinkInterface
+use \Magento\Framework\Model\SimpleModelInterface;
+
+class Link extends \Magento\Framework\Model\AbstractExtensibleModel
+    implements \Magento\Bundle\Api\Data\LinkInterface, SimpleModelInterface
 {
     /**
      * {@inheritdoc}
@@ -80,5 +83,15 @@ class Link extends \Magento\Framework\Model\AbstractExtensibleModel implements \
     public function getCanChangeQuantity()
     {
         return $this->getData('can_change_quantity');
+    }
+
+    /**
+     * Convert simple model to array
+     *
+     * @return array
+     */
+    public function modelToArray()
+    {
+        return $this->toArray();
     }
 }
