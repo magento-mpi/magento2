@@ -13,7 +13,6 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
@@ -36,7 +35,6 @@ class AssertBannerOnCategoryPage extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param BannerInjectable $banner
      * @param CatalogCategoryView $catalogCategoryView
-     * @param CustomerAccountLogin $customerAccountLogin
      * @param CustomerInjectable $customer[optional]
      * @return void
      */
@@ -45,18 +43,19 @@ class AssertBannerOnCategoryPage extends AbstractConstraint
         CmsIndex $cmsIndex,
         BannerInjectable $banner,
         CatalogCategoryView $catalogCategoryView,
-        CustomerAccountLogin $customerAccountLogin,
         CustomerInjectable $customer = null
     ) {
-        $categoryName = $product->getCategoryIds()[0];
-        $cmsIndex->open();
-        if (!$cmsIndex->getLinksBlock()->isLinkVisible('Log Out') && $customer !== null) {
-            $cmsIndex->getLinksBlock()->openLink("Log In");
-            $customerAccountLogin->getLoginBlock()->login($customer);
+        if ($customer !== null) {
+            $this->objectManager->create(
+                'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+                ['customer' => $customer]
+            )->run();
+        } else {
+            $cmsIndex->open();
         }
-        $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
+        $cmsIndex->getTopmenu()->selectCategoryByName($product->getCategoryIds()[0]);
         \PHPUnit_Framework_Assert::assertTrue(
-            $catalogCategoryView->getBannerViewBlock()->checkWidgetBanners($banner),
+            $catalogCategoryView->getBannerViewBlock()->checkWidgetBanners($banner, $customer),
             'Banner is absent on Category page.'
         );
     }

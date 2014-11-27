@@ -437,4 +437,6 @@ define([
                 .trigger('updatePrice', prices);
         }
     });
+    
+    return $.mage.configurable;
 });

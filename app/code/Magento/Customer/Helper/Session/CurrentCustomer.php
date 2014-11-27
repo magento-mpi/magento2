@@ -9,8 +9,8 @@ namespace Magento\Customer\Helper\Session;
 
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\View\LayoutInterface;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Module\Manager as ModuleManager;
 use Magento\Framework\App\ViewInterface;
@@ -31,14 +31,14 @@ class CurrentCustomer
     protected $layout;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     protected $customerBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var CustomerRepositoryInterface
      */
-    protected $customerAccountService;
+    protected $customerRepository;
 
     /**
      * @var \Magento\Framework\App\RequestInterface
@@ -58,8 +58,8 @@ class CurrentCustomer
     /**
      * @param CustomerSession $customerSession
      * @param LayoutInterface $layout
-     * @param CustomerBuilder $customerBuilder
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param CustomerDataBuilder $customerBuilder
+     * @param CustomerRepositoryInterface $customerRepository
      * @param RequestInterface $request
      * @param ModuleManager $moduleManager
      * @param ViewInterface $view
@@ -67,8 +67,8 @@ class CurrentCustomer
     public function __construct(
         CustomerSession $customerSession,
         LayoutInterface $layout,
-        CustomerBuilder $customerBuilder,
-        CustomerAccountServiceInterface $customerAccountService,
+        CustomerDataBuilder $customerBuilder,
+        CustomerRepositoryInterface $customerRepository,
         RequestInterface $request,
         ModuleManager $moduleManager,
         ViewInterface $view
@@ -76,7 +76,7 @@ class CurrentCustomer
         $this->customerSession = $customerSession;
         $this->layout = $layout;
         $this->customerBuilder = $customerBuilder;
-        $this->customerAccountService = $customerAccountService;
+        $this->customerRepository = $customerRepository;
         $this->request = $request;
         $this->moduleManager = $moduleManager;
         $this->view = $view;
@@ -85,7 +85,7 @@ class CurrentCustomer
     /**
      * Returns customer Data with customer group only
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     protected function getDepersonalizedCustomer()
     {
@@ -95,17 +95,17 @@ class CurrentCustomer
     /**
      * Returns customer Data from service
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     protected function getCustomerFromService()
     {
-        return $this->customerAccountService->getCustomer($this->customerSession->getId());
+        return $this->customerRepository->getById($this->customerSession->getId());
     }
 
     /**
      * Returns current customer according to session and context
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     public function getCustomer()
     {
