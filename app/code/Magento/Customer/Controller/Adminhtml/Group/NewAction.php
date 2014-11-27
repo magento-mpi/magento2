@@ -46,7 +46,7 @@ class NewAction extends \Magento\Customer\Controller\Adminhtml\Group
         } else {
             $this->_addBreadcrumb(__('Edit Group'), __('Edit Customer Groups'));
             $this->_view->getPage()->getConfig()->getTitle()->prepend(
-                $this->_groupService->getGroup($groupId)->getCode()
+                $this->groupRepository->getById($groupId)->getCode()
             );
         }
 
