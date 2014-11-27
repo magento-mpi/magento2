@@ -119,7 +119,7 @@ class Installer implements \Magento\Framework\AppInterface
         $this->deploy->run();
 
         $resources = $this->initResources();
-        foreach (array_keys($this->moduleList->getNames()) as $moduleName) {
+        foreach ($this->moduleList->getNames() as $moduleName) {
             if (isset($resources[$moduleName])) {
                 $resourceType = $resources[$moduleName];
                 $this->setupFactory->create($resourceType)->run();

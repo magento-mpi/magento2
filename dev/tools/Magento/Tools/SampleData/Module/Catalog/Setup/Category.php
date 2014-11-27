@@ -106,7 +106,7 @@ class Category implements SetupInterface
     {
         $this->logger->log('Installing categories' . PHP_EOL);
 
-        foreach (array_keys($this->moduleList->getNames()) as $moduleName) {
+        foreach ($this->moduleList->getNames() as $moduleName) {
             $fileName = substr($moduleName, strpos($moduleName, "_") + 1) . '/categories.csv';
             $fileName = $this->fixtureHelper->getPath($fileName);
             if (!$fileName) {
