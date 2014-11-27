@@ -2103,4 +2103,9 @@ return array(
     ['getModule', 'Magento\Framework\Module\ModuleListInterface', 'getOne'],
     ['_getNewConditionModelInstance', 'Magento\Rule\Model\Condition\Combine'],
     ['getDefaultCustomerGroupId', 'Magento\Customer\Model\Vat', 'Magento\Customer\Api\GroupManagementInterface::getDefaultGroup'],
+    [
+        'getRatesByCustomerAndProductTaxClassId',
+        'Magento\Tax\Service\V1\TaxRuleServiceInterface',
+        'Magento\Tax\Api\TaxRateManagementInterface::getRatesByCustomerAndProductTaxClassId'
+    ]
 );
