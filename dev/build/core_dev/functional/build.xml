@@ -224,7 +224,7 @@
             var currentInstance = project.getProperty('instanceIndex');
             if (currentInstance > 0) {
                 self.project.executeTarget('_import_mysql_dump');
-                self.project.executeTarget('_copy_local_xml');
+                self.project.executeTarget('_copy_config_php');
                 self.project.executeTarget('_update_db');
             }
         ]]></script>
