@@ -161,9 +161,24 @@
     </target>
 
     <target name="check-mainline-head-presense" description="Check is mainline HEAD revision present in team branch">
-        <exec executable="sh" failonerror="true">
-            <arg value="-c"/>
-            <arg value="cd ${env.bamboo_build_working_directory}/mainline; last_commit=$(git rev-parse HEAD); cd ${env.bamboo_build_working_directory}/team;  git branch --contains=$last_commit | grep '*';" />
-        </exec>
+        <echo message="----------------------------------------------------------------------------------"/>
+        <echo message="The build will permanently fail unless mainline HEAD revision is not in team fork."/>
+        <echo message="Required to minimize build time regarding mainline contribution requirements."/>
+        <echo message="If for some reasons mainline cannot be merged to team fork this check can be skipped"/>
+        <echo message="by running build customized and setting 'skip_mainline_check' variable to '1'."/>
+        <echo message="Current skip_mainline_check value is: '${env.skip_mainline_check}'."/>
+        <echo message="----------------------------------------------------------------------------------"/>
+        <ac:if>
+            <equals arg1="${env.skip_mainline_check}" arg2="1" />
+            <then>
+                <echo message="Skipped mainline HEAD revision check" />
+            </then>
+            <else>
+                <exec executable="sh" failonerror="true">
+                    <arg value="-c"/>
+                    <arg value="cd ${env.bamboo_build_working_directory}/mainline; last_commit=$(git rev-parse HEAD); cd ${env.bamboo_build_working_directory}/team; git branch --contains=$last_commit 2>/dev/null | grep '*';" />
+                </exec>
+            </else>
+        </ac:if>
     </target>
 </project>
