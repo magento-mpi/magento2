@@ -86,9 +86,9 @@ class CollectTotals
         $customerVatNumber = $quoteAddress->getVatId();
         $groupId = null;
         if (empty($customerVatNumber) || false == $this->customerVat->isCountryInEU($customerCountryCode)) {
-            $groupId = $customer->getId() ? $this->customerVat->getDefaultCustomerGroupId(
+            $groupId = $customer->getId() ? $this->groupManagement->getDefaultGroup(
                 $storeId
-            ) : $this->groupManagement->getNotLoggedInGroup()->getId();
+            )->getId() : $this->groupManagement->getNotLoggedInGroup()->getId();
         } else {
             // Magento always has to emulate group even if customer uses default billing/shipping address
             $groupId = $this->customerVat->getCustomerGroupIdBasedOnVatNumber(
