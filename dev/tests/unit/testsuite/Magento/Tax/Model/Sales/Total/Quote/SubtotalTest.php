@@ -77,9 +77,13 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
                 'setBillingAddress', 'setShippingAddress', 'setCustomerTaxClassKey',
                 'setItems', 'setCustomerId'
             ])->getMock();
-        $this->keyBuilderMock = $this->getMockBuilder('\Magento\Tax\Api\Data\TaxClassKeyDataBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->keyBuilderMock = $this->getMock(
+            'Magento\Tax\Api\Data\TaxClassKeyDataBuilder',
+            ['setType', 'setValue', 'create'],
+            [],
+            '',
+            false
+        );
 
         $this->model = $this->objectManager->getObject(
             '\Magento\Tax\Model\Sales\Total\Quote\Subtotal',
