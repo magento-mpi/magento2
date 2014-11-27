@@ -29,7 +29,6 @@ class Login extends AbstractOnepage
     protected $messageManager;
 
     /**
-     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
      * @var \Magento\Customer\Model\Url
      */
     protected $customerUrl;
