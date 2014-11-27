@@ -8,13 +8,13 @@
 
 namespace Magento\SalesArchive\Service\V1;
 
-use Magento\Sales\Model\OrderRepository;
+use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\SalesArchive\Service\V1\Data\ArchiveMapper;
 
 class ReadService implements ReadServiceInterface
 {
     /**
-     * @var OrderRepository
+     * @var OrderRepositoryInterface
      */
     protected $orderRepository;
 
@@ -24,11 +24,11 @@ class ReadService implements ReadServiceInterface
     protected $archiveMapper;
 
     /**
-     * @param OrderRepository $orderRepository
+     * @param OrderRepositoryInterface $orderRepository
      * @param ArchiveMapper $archiveMapper
      */
     public function __construct(
-        OrderRepository $orderRepository,
+        OrderRepositoryInterface $orderRepository,
         ArchiveMapper $archiveMapper
     ) {
         $this->orderRepository = $orderRepository;

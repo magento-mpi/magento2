@@ -29,7 +29,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $this->_messageManager = Bootstrap::getObjectManager()->get('Magento\Framework\Message\ManagerInterface');
         $this->_model = Bootstrap::getObjectManager()->create(
             'Magento\Sales\Model\AdminOrder\Create',
-            array('messageManager' => $this->_messageManager)
+            ['messageManager' => $this->_messageManager]
         );
     }
 
@@ -199,12 +199,12 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 
         $expectedAddressData = array_merge(
             $addressData,
-            array(
+            [
                 'address_type' => 'billing',
                 'quote_id' => $this->_model->getQuote()->getId(),
                 'street' => "Line1\nLine2",
                 'save_in_address_book' => 0
-            )
+            ]
         );
         $this->assertEquals(
             $expectedAddressData,
@@ -224,7 +224,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Backend\Model\Session\Quote $session */
         $session = Bootstrap::getObjectManager()->create('Magento\Backend\Model\Session\Quote');
         $session->setCustomerId($customerIdFromFixture);
-        $invalidAddressData = array_merge($this->_getValidAddressData(), array('firstname' => '', 'lastname' => ''));
+        $invalidAddressData = array_merge($this->_getValidAddressData(), ['firstname' => '', 'lastname' => '']);
         /**
          * Note that validation errors are collected during setBillingAddress() call in the internal class variable,
          * but they are not set to message manager at this step.
@@ -237,7 +237,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         } catch (\Magento\Framework\Model\Exception $e) {
             /** createOrder is expected to throw exception with empty message when validation error occurs */
         }
-        $errorMessages = array();
+        $errorMessages = [];
         /** @var $validationError \Magento\Framework\Message\Error */
         foreach ($this->_messageManager->getMessages()->getItems() as $validationError) {
             $errorMessages[] = $validationError->getText();
@@ -265,19 +265,19 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $shippingAddressAsBilling = 0;
         $customerEmail = 'new_customer@example.com';
         $firstNameForShippingAddress = 'FirstNameForShipping';
-        $orderData = array(
+        $orderData = [
             'currency' => 'USD',
-            'account' => array('group_id' => '1', 'email' => $customerEmail),
-            'billing_address' => array_merge($this->_getValidAddressData(), array('save_in_address_book' => '1')),
+            'account' => ['group_id' => '1', 'email' => $customerEmail],
+            'billing_address' => array_merge($this->_getValidAddressData(), ['save_in_address_book' => '1']),
             'shipping_address' => array_merge(
                 $this->_getValidAddressData(),
-                array('save_in_address_book' => '1', 'firstname' => $firstNameForShippingAddress)
+                ['save_in_address_book' => '1', 'firstname' => $firstNameForShippingAddress]
             ),
             'shipping_method' => $shippingMethod,
-            'comment' => array('customer_note' => ''),
+            'comment' => ['customer_note' => ''],
             'send_confirmation' => true
-        );
-        $paymentData = array('method' => $paymentMethod);
+        ];
+        $paymentData = ['method' => $paymentMethod];
 
         $this->_preparePreconditionsForCreateOrder(
             $productIdFromFixture,
@@ -312,15 +312,15 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $paymentMethod = 'checkmo';
         $shippingAddressAsBilling = 1;
         $customerEmail = 'new_customer@example.com';
-        $orderData = array(
+        $orderData = [
             'currency' => 'USD',
-            'account' => array('group_id' => '1', 'email' => $customerEmail),
-            'billing_address' => array_merge($this->_getValidAddressData(), array('save_in_address_book' => '1')),
+            'account' => ['group_id' => '1', 'email' => $customerEmail],
+            'billing_address' => array_merge($this->_getValidAddressData(), ['save_in_address_book' => '1']),
             'shipping_method' => $shippingMethod,
-            'comment' => array('customer_note' => ''),
+            'comment' => ['customer_note' => ''],
             'send_confirmation' => false
-        );
-        $paymentData = array('method' => $paymentMethod);
+        ];
+        $paymentData = ['method' => $paymentMethod];
 
         $this->_preparePreconditionsForCreateOrder(
             $productIdFromFixture,
@@ -350,18 +350,18 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $paymentMethod = 'checkmo';
         $shippingAddressAsBilling = 0;
         $firstNameForShippingAddress = 'FirstNameForShipping';
-        $orderData = array(
+        $orderData = [
             'currency' => 'USD',
-            'billing_address' => array_merge($this->_getValidAddressData(), array('save_in_address_book' => '1')),
+            'billing_address' => array_merge($this->_getValidAddressData(), ['save_in_address_book' => '1']),
             'shipping_address' => array_merge(
                 $this->_getValidAddressData(),
-                array('save_in_address_book' => '1', 'firstname' => $firstNameForShippingAddress)
+                ['save_in_address_book' => '1', 'firstname' => $firstNameForShippingAddress]
             ),
             'shipping_method' => $shippingMethod,
-            'comment' => array('customer_note' => ''),
+            'comment' => ['customer_note' => ''],
             'send_confirmation' => false
-        );
-        $paymentData = array('method' => $paymentMethod);
+        ];
+        $paymentData = ['method' => $paymentMethod];
 
         $this->_preparePreconditionsForCreateOrder(
             $productIdFromFixture,
@@ -375,12 +375,11 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         );
         $order = $this->_model->createOrder();
         $this->_verifyCreatedOrder($order, $shippingMethod);
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
-        $customer->load($order->getCustomerId());
+        $customer = $this->getCustomerById($order->getCustomerId());
+        $address = $this->getAddressById($customer->getDefaultShipping());
         $this->assertEquals(
             $firstNameForShippingAddress,
-            $customer->getDefaultShippingAddress()->getFirstname(),
+            $address->getFirstname(),
             'Shipping address is saved incorrectly.'
         );
     }
@@ -399,14 +398,14 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $shippingMethod = 'freeshipping_freeshipping';
         $paymentMethod = 'checkmo';
         $shippingAddressAsBilling = 1;
-        $orderData = array(
+        $orderData = [
             'currency' => 'USD',
-            'billing_address' => array_merge($this->_getValidAddressData(), array('save_in_address_book' => '1')),
+            'billing_address' => array_merge($this->_getValidAddressData(), ['save_in_address_book' => '1']),
             'shipping_method' => $shippingMethod,
-            'comment' => array('customer_note' => ''),
+            'comment' => ['customer_note' => ''],
             'send_confirmation' => false
-        );
-        $paymentData = array('method' => $paymentMethod);
+        ];
+        $paymentData = ['method' => $paymentMethod];
 
         $this->_preparePreconditionsForCreateOrder(
             $productIdFromFixture,
@@ -526,7 +525,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $this->_model->getQuote()->getShippingAddress()->addShippingRate($rate);
 
         $this->_model->setShippingAsBilling($shippingAddressAsBilling);
-        $this->_model->addProduct($productIdFromFixture, array('qty' => 1));
+        $this->_model->addProduct($productIdFromFixture, ['qty' => 1]);
         $this->_model->setPaymentData($paymentData);
         $this->_model->setIsValidate(true)->importPostData($orderData);
 
@@ -598,14 +597,14 @@ class CreateTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getValidAddressData()
     {
-        return array(
+        return [
             'prefix' => 'prefix',
             'firstname' => 'FirstName',
             'middlename' => 'MiddleName',
             'lastname' => 'LastName',
             'suffix' => 'suffix',
             'company' => 'Company Name',
-            'street' => array(0 => 'Line1', 1 => 'Line2'),
+            'street' => [0 => 'Line1', 1 => 'Line2'],
             'city' => 'City',
             'country_id' => 'US',
             'region' => '',
@@ -614,6 +613,41 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             'telephone' => '+8709273498729384',
             'fax' => '',
             'vat_id' => ''
-        );
+        ];
+    }
+
+    /**
+     * @param int $id
+     * @return \Magento\Customer\Api\AddressRepositoryInterface
+     */
+    private function getCustomerById($id)
+    {
+        return $this->getCustomerRepository()->getById($id);
+    }
+
+    /**
+     * @return \Magento\Customer\Api\CustomerRepositoryInterface
+     */
+    private function getCustomerRepository()
+    {
+        return Bootstrap::getObjectManager()->create('Magento\Customer\Api\CustomerRepositoryInterface');
+    }
+
+    /**
+     * @param int $id
+     * @return \Magento\Customer\Api\Data\AddressInterface
+     */
+    private function getAddressById($id)
+    {
+        return $this->getAddressRepository()->getById($id);
+    }
+
+    /**
+     * @return \Magento\Customer\Api\AddressRepositoryInterface
+     */
+    private function getAddressRepository()
+    {
+        /** @var \Magento\Customer\Api\AddressRepositoryInterface $addressRepository */
+        return Bootstrap::getObjectManager()->create('Magento\Customer\Api\AddressRepositoryInterface');
     }
 }

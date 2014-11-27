@@ -199,6 +199,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $msrpData;
 
     /**
+     * @var \Magento\Customer\Api\GroupManagementInterface
+     */
+    protected $groupManagement;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products
@@ -217,6 +222,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Msrp\Helper\Data $msrpData
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -236,7 +242,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        \Magento\Msrp\Helper\Data $msrpData
+        \Magento\Msrp\Helper\Data $msrpData,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_cart = $cart;
@@ -256,6 +263,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_quoteItemFactory = $quoteItemFactory;
         $this->messageManager = $messageManager;
         $this->msrpData = $msrpData;
+        $this->groupManagement = $groupManagement;
     }
 
     /**
@@ -369,7 +377,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
                 if ($this->_customerSession) {
                     $groupId = $this->_customerSession->getCustomerGroupId();
-                    $result = $groupId === \Magento\Customer\Api\Data\GroupInterface::NOT_LOGGED_IN_ID
+                    $result = $groupId === $this->groupManagement->getNotLoggedInGroup()->getId()
                         || in_array($groupId, $this->getSkuCustomerGroups());
                 }
                 break;

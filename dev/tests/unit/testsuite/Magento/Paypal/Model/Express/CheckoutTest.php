@@ -114,15 +114,15 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
             'Magento\Paypal\Model\Express\Checkout',
             [
                 'params'                 => [
-                    'quote'   => $this->quoteMock,
-                    'config'  => $paypalConfigMock,
+                    'quote' => $this->quoteMock,
+                    'config' => $paypalConfigMock,
                     'session' => $this->customerSessionMock
                 ],
-                'accountManagement'     => $this->customerAccountServiceMock,
-                'serviceQuoteFactory'   => $this->quoteFactoryMock,
+                'accountManagement' => $this->customerAccountServiceMock,
+                'serviceQuoteFactory' => $this->quoteFactoryMock,
                 'addressBuilderFactory' => $this->addressBuilderFactoryMock,
-                'objectCopyService'     => $this->objectCopyServiceMock,
-                'customerBuilder'       => $this->customerBuilderMock
+                'objectCopyService' => $this->objectCopyServiceMock,
+                'customerBuilder' => $this->customerBuilderMock
             ]
         );
         parent::setUp();

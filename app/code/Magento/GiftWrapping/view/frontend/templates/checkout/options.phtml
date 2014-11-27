@@ -78,7 +78,8 @@ require(['jquery', 'mage/mage'], function(jQuery){
         allowGiftReceipt: <?php echo (int)$this->getAllowGiftReceipt() ?>,
         allowPrintedCard: <?php echo (int)$this->getAllowPrintedCard() ?>,
         orderLevelType: "<?php echo $this->getCheckoutTypeVariable('order_level') ?>",
-        orderItemType: "<?php echo $this->getCheckoutTypeVariable('item_level') ?>"
+        orderItemType: "<?php echo $this->getCheckoutTypeVariable('item_level') ?>",
+        imgBoxSrc: "<?php echo $this->getViewFileUrl('images/spacer.gif')?>"
     });
 
 });

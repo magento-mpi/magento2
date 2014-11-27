@@ -75,11 +75,6 @@ class Vat
     protected $logger;
 
     /**
-     * @var GroupManagementInterface
-     */
-    protected $groupManagement;
-
-    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param Logger $logger
      */

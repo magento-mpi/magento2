@@ -7,7 +7,7 @@
  */
 namespace Magento\Reward\Model\Observer;
 
-use Magento\Customer\Model\Converter;
+use Magento\Customer\Model\CustomerRegistry;
 
 /**
  * Class SaveRewardPoints
@@ -17,9 +17,9 @@ class SaveRewardPoints
     /**
      * Customer converter
      *
-     * @var Converter
+     * @var CustomerRegistry
      */
-    protected $_customerConverter;
+    protected $customerRegistry;
 
     /**
      * Reward factory
@@ -46,18 +46,18 @@ class SaveRewardPoints
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
-     * @param Converter $customerConverter
+     * @param CustomerRegistry $customerRegistry
      */
     public function __construct(
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
-        Converter $customerConverter
+        CustomerRegistry $customerRegistry
     ) {
         $this->_rewardData = $rewardData;
         $this->_storeManager = $storeManager;
         $this->_rewardFactory = $rewardFactory;
-        $this->_customerConverter = $customerConverter;
+        $this->customerRegistry = $customerRegistry;
     }
 
     /**
@@ -85,7 +85,7 @@ class SaveRewardPoints
                     $data['store_id'] = $customer->getStoreId();
                 }
             }
-            $customerModel = $this->_customerConverter->getCustomerModel($customer->getId());
+            $customerModel = $this->customerRegistry->retrieve($customer->getId());
             /** @var $reward \Magento\Reward\Model\Reward */
             $reward = $this->_rewardFactory->create();
             $reward->setCustomer($customerModel)

@@ -86,11 +86,11 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
         /** @var SearchCriteria $expectedSearchCriteria */
         $expectedSearchCriteria = $this->searchCriteriaBuilder
             ->setCurrentPage(1)
-            ->setPageSize(0)
+            ->setPageSize(false)
             ->addSortOrder($sortOrder)
-            ->addFilter([$this->filterBuilder->setField('name')->setConditionType('eq')
-                    ->setValue('Magento')->create()])
-            ->create();
+            ->addFilter(
+                [$this->filterBuilder->setField('name')->setConditionType('eq')->setValue('Magento')->create()]
+            )->create();
 
         // Verifies that the search criteria Data Object created by the serviceCollection matches expected
         $this->groupRepositoryMock->expects($this->once())

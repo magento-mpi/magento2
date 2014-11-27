@@ -27,7 +27,6 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     protected $_address;
 
     /**
-     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -38,10 +37,10 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
      * @param array $data
      */
     public function __construct(
-        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
@@ -52,6 +51,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         array $data = array()
     ) {
         parent::__construct(

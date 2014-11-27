@@ -72,6 +72,11 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
      */
     protected $groupManagementMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $groupInterfaceMock;
+
     protected function setUp()
     {
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -86,13 +91,7 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             ['getStoreId', 'getCustomAttribute', 'getId', '__wakeup']
         );
         $this->customerAddressMock = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
-        $this->customerVatMock = $this->getMock(
-            'Magento\Customer\Model\Vat',
-            array('getDefaultCustomerGroupId', 'isCountryInEU', 'getCustomerGroupIdBasedOnVatNumber'),
-            array(),
-            '',
-            false
-        );
+        $this->customerVatMock = $this->getMock('Magento\Customer\Model\Vat', array(), array(), '', false);
         $this->customerBuilderMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerDataBuilder',
             ['mergeDataObjectWithArray', 'create'],
@@ -131,6 +130,30 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+
+        $this->groupManagementMock = $this->getMockForAbstractClass(
+            'Magento\Customer\Api\GroupManagementInterface',
+            [],
+            '',
+            false,
+            true,
+            true,
+            [
+                'getDefaultGroup',
+                'getNotLoggedInGroup'
+            ]
+        );
+
+        $this->groupInterfaceMock = $this->getMockForAbstractClass(
+            'Magento\Customer\Api\Data\GroupInterface',
+            [],
+            '',
+            false,
+            true,
+            true,
+            ['getId']
+        );
+
         $this->observerMock->expects($this->any())
             ->method('getQuoteAddress')
             ->will($this->returnValue($this->quoteAddressMock));
@@ -143,9 +166,6 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
         $this->customerMock->expects($this->any())->method('getStoreId')->will($this->returnValue($this->storeId));
 
-        $this->groupManagementMock = $this->getMockBuilder('Magento\Customer\Api\GroupManagementInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->model = $this->objectManager->getObject(
             'Magento\Sales\Model\Observer\Frontend\Quote\Address\CollectTotals',
             [
@@ -176,7 +196,11 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithCustomerCountryNotInEUAndNotLoggedCustomerInGroup()
     {
-
+        $this->groupManagementMock->expects($this->once())
+            ->method('getNotLoggedInGroup')
+            ->will($this->returnValue($this->groupInterfaceMock));
+        $this->groupInterfaceMock->expects($this->once())
+            ->method('getId')->will($this->returnValue(0));
         $this->setAttributeCodeValue(false);
         $this->vatValidatorMock->expects($this->once())
             ->method('isEnabled')
@@ -201,12 +225,6 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
         $groupMock = $this->getMockBuilder('Magento\Customer\Api\Data\GroupInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->groupManagementMock->expects($this->once())
-            ->method('getNotLoggedInGroup')
-            ->willReturn($groupMock);
-        $groupMock->expects($this->once())
-            ->method('getId')
-            ->willReturn(null);
         $this->customerMock->expects($this->once())->method('getId')->will($this->returnValue(null));
 
         /** Assertions */
@@ -220,7 +238,6 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchWithDefaultCustomerGroupId()
     {
-        $storeId = 1;
         $this->setAttributeCodeValue(false);
         $this->vatValidatorMock->expects($this->once())
             ->method('isEnabled')
@@ -236,16 +253,12 @@ class CollectTotalsTest extends \PHPUnit_Framework_TestCase
             ->method('getCustomerGroupId')
             ->will($this->returnValue('customerGroupId')
         );
-
         $this->customerMock->expects($this->once())->method('getId')->will($this->returnValue('1'));
-        $this->customerMock->expects($this->any())->method('geStoreId')->willReturn($storeId);
-        $this->customerVatMock->expects($this->once())
-            ->method('getDefaultCustomerGroupId')
-            ->with($storeId)
-            ->will($this->returnValue('defaultCustomerGroupId'));
-
-        $this->customerMock->expects($this->once())->method('getId')->will($this->returnValue(null));
-
+        $this->groupManagementMock->expects($this->once())
+            ->method('getDefaultGroup')
+            ->will($this->returnValue($this->groupInterfaceMock));
+        $this->groupInterfaceMock->expects($this->once())
+            ->method('getId')->will($this->returnValue('defaultCustomerGroupId'));
         /** Assertions */
         $this->quoteAddressMock->expects($this->once())
             ->method('setPrevQuoteCustomerGroupId')

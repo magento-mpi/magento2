@@ -14,7 +14,7 @@ class OrderGetTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/order';
 
-    const SERVICE_READ_NAME = 'salesOrderReadV1';
+    const SERVICE_READ_NAME = 'salesOrderRepositoryV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -77,15 +77,15 @@ class OrderGetTest extends WebapiAbstract
 
         $this->assertArrayHasKey('payments', $result);
         foreach ($expectedPayments as $field => $value) {
-            $this->assertArrayHasKey($field, $result['payments'][0]);
-            $this->assertEquals($value, $result['payments'][0][$field]);
+            $paymentsKey = key($result['payments']);
+            $this->assertArrayHasKey($field, $result['payments'][$paymentsKey]);
+            $this->assertEquals($value, $result['payments'][$paymentsKey][$field]);
         }
 
         $this->assertArrayHasKey('billing_address', $result);
         $this->assertArrayHasKey('shipping_address', $result);
         foreach ($expectedBillingAddressNotEmpty as $field) {
             $this->assertArrayHasKey($field, $result['billing_address']);
-
             $this->assertArrayHasKey($field, $result['shipping_address']);
         }
     }

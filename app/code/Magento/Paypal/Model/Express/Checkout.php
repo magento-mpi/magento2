@@ -1151,7 +1151,7 @@ class Checkout
      */
     protected function _prepareCustomerQuote()
     {
-        $this->paypalQuote->prepareRegisteredCustomerQuote($this->_quote);
+        $this->paypalQuote->prepareRegisteredCustomerQuote($this->_quote, $this->_customerSession->getCustomerId());
     }
 
     /**
