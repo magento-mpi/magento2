@@ -188,7 +188,7 @@ class Listing extends AbstractView
     public function getCollectionItems()
     {
         $items = [];
-        $collection = $this->getResultCollection();
+        $collection = $this->getDataCollection()->getResultCollection();
         foreach ($collection->getItems() as $item) {
             $actualFields = [];
             $itemsData = $this->getDataFromDataProvider($item->getData());
@@ -202,9 +202,9 @@ class Listing extends AbstractView
     }
 
     /**
-     * @return \Magento\Framework\Data\Collection
+     * @return \Magento\Framework\Api\CriteriaInterface|\Magento\Framework\Data\CollectionDataSourceInterface
      */
-    protected function getResultCollection()
+    protected function getDataCollection()
     {
         return $this->renderContext->getStorage()->getDataCollection($this->getName());
     }
@@ -230,8 +230,8 @@ class Listing extends AbstractView
         );
         $this->renderContext->getStorage()->addGlobalData('dump', ['extenders' => []]);
 
-        $collection = $this->getResultCollection();
-        $totalCount = $collection->getSize();
+        $collection = $this->getDataCollection()->getResultCollection();
+        $totalCount = $collection->getTotalCount();
         $this->renderContext->getStorage()->addDataSource(
             $this->getName(),
             [
