@@ -90,14 +90,10 @@ class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInt
     public function get($productSku, $optionId)
     {
         $product = $this->getProduct($productSku);
-        $optionCollection = $this->type->getOptionsCollection($product);
-        $optionCollection->setIdFilter($optionId);
-        $optionCollection->removeAllItems();
-        $optionCollection->loadWithFilter();
 
         /** @var \Magento\Bundle\Model\Option $option */
-        $option = $optionCollection->getFirstItem();
-        if (!$option->getId()) {
+        $option = $this->type->getOptionsCollection($product)->getItemById($optionId);
+        if (!$option || !$option->getId()) {
             throw new NoSuchEntityException('Requested option doesn\'t exist');
         }
 

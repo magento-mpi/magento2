@@ -34,20 +34,20 @@ class BundleLoadOptions
     }
 
     /**
-     * @param \Magento\Catalog\Api\Data\ProductInterface $subject
+     * @param \Magento\Catalog\Model\Product $subject
      * @param callable $proceed
      * @param int $modelId
      * @param null $field
-     * @return \Magento\Catalog\Api\Data\ProductInterface
+     * @return \Magento\Catalog\Model\Product
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundLoad(
-        \Magento\Catalog\Api\Data\ProductInterface $subject,
+        \Magento\Catalog\Model\Product $subject,
         \Closure $proceed,
         $modelId,
         $field = null
     ) {
-        /** @var \Magento\Catalog\Api\Data\ProductInterface $product */
+        /** @var \Magento\Catalog\Model\Product $product */
         $product = $proceed($modelId, $field);
         if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             return $product;
