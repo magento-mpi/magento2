@@ -19,7 +19,7 @@ $priceLabel = ($this->getPriceLabel() !== null)
     <?php echo $this->renderAmount($configuredPrice->getAmount(), [
         'display_label'     => $priceLabel,
         'price_id'          => $this->getPriceId('product-price-'),
-        'price_type'        => 'basePrice',
+        'price_type'        => 'finalPrice',
         'include_container' => true,
         'schema' => $schema
     ]); ?>
