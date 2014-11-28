@@ -37,12 +37,7 @@ class BackendAuthentication extends \Magento\Backend\App\Action\Plugin\Authentic
     /**
      * @var array
      */
-    protected $aclResources = array(
-        'feed' => 'Magento_Rss::rss',
-        'notifystock' => 'Magento_Catalog::catalog_inventory',
-        'new_order' => 'Magento_Sales::actions_view',
-        'review' => 'Magento_Reports::review_product'
-    );
+    protected $aclResources;
 
     /**
      * @param \Magento\Backend\Model\Auth $auth
@@ -53,6 +48,7 @@ class BackendAuthentication extends \Magento\Backend\App\Action\Plugin\Authentic
      * @param \Magento\Framework\HTTP\Authentication $httpAuthentication
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\AuthorizationInterface $authorization
+     * @param array $aclResources
      */
     public function __construct(
         \Magento\Backend\Model\Auth $auth,
@@ -62,11 +58,13 @@ class BackendAuthentication extends \Magento\Backend\App\Action\Plugin\Authentic
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\HTTP\Authentication $httpAuthentication,
         \Magento\Framework\Logger $logger,
-        \Magento\Framework\AuthorizationInterface $authorization
+        \Magento\Framework\AuthorizationInterface $authorization,
+        array $aclResources
     ) {
         $this->httpAuthentication = $httpAuthentication;
         $this->logger = $logger;
         $this->authorization = $authorization;
+        $this->aclResources = $aclResources;
         parent::__construct($auth, $url, $response, $actionFlag, $messageManager);
     }
 

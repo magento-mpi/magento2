@@ -40,12 +40,22 @@ class BackendAuthenticationTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Framework\HTTP\Authentication|\PHPUnit_Framework_MockObject_MockObject $httpAuthentication */
         $httpAuthentication = $this->getMock('Magento\Framework\HTTP\Authentication', [], [], '', false);
-        $httpAuthentication->expects($this->once())->method('getCredentials')->will($this->returnValue([$username, $password]));
+        $httpAuthentication->expects($this->once())->method('getCredentials')
+            ->will($this->returnValue([$username, $password]));
         $httpAuthentication->expects($this->once())->method('setAuthenticationFailed')->with('RSS Feeds');
 
         $authorization = $this->getMock('Magento\Framework\AuthorizationInterface', [], [], '', false);
-        $authorization->expects($this->at(0))->method('isAllowed')->with('Magento_Rss::rss')->will($this->returnValue(true));
-        $authorization->expects($this->at(1))->method('isAllowed')->with('Magento_Catalog::catalog_inventory')->will($this->returnValue(false));
+        $authorization->expects($this->at(0))->method('isAllowed')->with('Magento_Rss::rss')
+            ->will($this->returnValue(true));
+        $authorization->expects($this->at(1))->method('isAllowed')->with('Magento_Catalog::catalog_inventory')
+            ->will($this->returnValue(false));
+
+        $aclResources = [
+            'feed' => 'Magento_Rss::rss',
+            'notifystock' => 'Magento_Catalog::catalog_inventory',
+            'new_order' => 'Magento_Sales::actions_view',
+            'review' => 'Magento_Reports::review_product'
+        ];
 
         /** @var \Magento\Rss\App\Action\Plugin\BackendAuthentication $plugin */
         $plugin = (new \Magento\TestFramework\Helper\ObjectManager($this))
@@ -55,7 +65,8 @@ class BackendAuthenticationTest extends \PHPUnit_Framework_TestCase
                     'auth' => $auth,
                     'httpAuthentication' => $httpAuthentication,
                     'response' => $response,
-                    'authorization' => $authorization
+                    'authorization' => $authorization,
+                    'aclResources' => $aclResources
                 ]
             );
         $this->assertSame(
