@@ -1517,11 +1517,19 @@ table.items-to-invoice tbody tr:hover td {
     border: 1px dashed #d6340e;
 }
 
-.packaging-window .packaging-content {
-    overflow: auto;
-    overflow-x: hidden;
-    height: auto !important;
-    max-height: 400px;
+.packaging-window {
+    .packaging-content {
+        overflow: auto;
+        overflow-x: hidden;
+        height: auto !important;
+        max-height: 400px;
+        .measures {
+            width: 50px;
+        }
+        .options-weight {
+            vertical-align: top;
+        }
+    }
 }
 
 .packaging-window .package-options {
