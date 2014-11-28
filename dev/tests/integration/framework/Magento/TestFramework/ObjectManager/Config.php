@@ -14,12 +14,7 @@ class Config extends \Magento\Framework\Interception\ObjectManager\Config
      */
     public function clean()
     {
-        $this->_preferences = array();
-        $this->_virtualTypes = array();
-        $this->_arguments = array();
-        $this->_nonShared = array();
-        $this->_plugins = array();
-        $this->_mergedPlugins = array();
-        $this->_mergedArguments = array();
+        $reflection = new \ReflectionClass(get_class($this->subjectConfig));
+        $this->subjectConfig = $reflection->newInstanceArgs();
     }
 }
