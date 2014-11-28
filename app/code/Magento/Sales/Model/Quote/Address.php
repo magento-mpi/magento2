@@ -514,35 +514,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     }
 
     /**
-     * Import address data from order address
-     *
-     * @param   \Magento\Sales\Model\Order\Address $address
-     * @return $this
-     * @deprecated Use \Magento\Sales\Model\Quote\Address::importCustomerAddressData() instead
-     */
-    public function importOrderAddress(\Magento\Sales\Model\Order\Address $address)
-    {
-        $this->setAddressType(
-            $address->getAddressType()
-        )->setCustomerId(
-            $address->getCustomerId()
-        )->setCustomerAddressId(
-            $address->getCustomerAddressId()
-        )->setEmail(
-            $address->getEmail()
-        );
-
-        $this->_objectCopyService->copyFieldsetToTarget(
-            'sales_convert_order_address',
-            'to_quote_address',
-            $address,
-            $this
-        );
-
-        return $this;
-    }
-
-    /**
      * Convert object to array
      *
      * @param   array $arrAttributes
@@ -580,7 +551,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Get all available address items
      *
-     * @return array
+     * @return \Magento\Sales\Model\Quote\Address\Item[]
      */
     public function getAllItems()
     {

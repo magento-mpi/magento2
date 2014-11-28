@@ -37,7 +37,7 @@ class TaxTest extends \Magento\Backend\Utility\Controller
         $this->assertArrayHasKey('class_id', $result);
 
         $classId = $result['class_id'];
-        /** @var $rate \Magento\Tax\Model\ClassModel */
+        /** @var $class \Magento\Tax\Model\ClassModel */
         $class = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Tax\Model\ClassModel')
             ->load($classId, 'class_id');
         $this->assertEquals($expectedData['class_name'], $class->getClassName());
@@ -51,21 +51,22 @@ class TaxTest extends \Magento\Backend\Utility\Controller
      */
     public function testAjaxDeleteAction($taxClassData)
     {
+        /** @var \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassService */
         $taxClassService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Tax\Service\V1\TaxClassServiceInterface'
+            'Magento\Tax\Api\TaxClassRepositoryInterface'
         );
 
         $taxClassBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Tax\Service\V1\Data\TaxClassBuilder'
+            'Magento\Tax\Api\Data\TaxClassDataBuilder'
         );
 
         $taxClass = $taxClassBuilder->setClassName($taxClassData['class_name'])
             ->setClassType($taxClassData['class_type'])
             ->create();
 
-        $taxClassId = $taxClassService->createTaxClass($taxClass);
+        $taxClassId = $taxClassService->save($taxClass);
 
-        /** @var $rate \Magento\Tax\Model\ClassModel */
+        /** @var $class \Magento\Tax\Model\ClassModel */
         $class = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Tax\Model\ClassModel')
             ->load($taxClassId, 'class_id');
         $this->assertEquals($taxClassData['class_name'], $class->getClassName());
@@ -77,7 +78,7 @@ class TaxTest extends \Magento\Backend\Utility\Controller
 
         $isFound = true;
         try {
-            $taxClassId = $taxClassService->getTaxClass($taxClassId);
+            $taxClassId = $taxClassService->get($taxClassId);
         } catch (NoSuchEntityException $e) {
             $isFound = false;
         }

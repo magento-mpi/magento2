@@ -8,8 +8,8 @@
 
 namespace Magento\Tax\Model\TaxClass\Source;
 
-use Magento\Tax\Model\Resource\TaxClass\CollectionFactory;
-use Magento\Tax\Service\V1\Data\TaxClass;
+use Magento\Tax\Api\Data\TaxClassInterface as TaxClass;
+use Magento\Tax\Api\TaxClassManagementInterface;
 
 /**
  * Customer tax class source model.
@@ -17,9 +17,9 @@ use Magento\Tax\Service\V1\Data\TaxClass;
 class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
-     * @var \Magento\Tax\Service\V1\TaxClassServiceInterface
+     * @var \Magento\Tax\Api\TaxClassRepositoryInterface
      */
-    protected $taxClassService;
+    protected $taxClassRepository;
 
     /**
      * @var \Magento\Framework\Api\SearchCriteriaBuilder
@@ -34,16 +34,16 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     /**
      * Initialize dependencies.
      *
-     * @param \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService
+     * @param \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      */
     public function __construct(
-        \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService,
+        \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassRepository,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder
     ) {
-        $this->taxClassService = $taxClassService;
+        $this->taxClassRepository = $taxClassRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->filterBuilder = $filterBuilder;
     }
@@ -59,10 +59,10 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         if (!$this->_options) {
             $filter = $this->filterBuilder
                 ->setField(TaxClass::KEY_TYPE)
-                ->setValue(\Magento\Tax\Service\V1\TaxClassServiceInterface::TYPE_CUSTOMER)
+                ->setValue(TaxClassManagementInterface::TYPE_CUSTOMER)
                 ->create();
             $searchCriteria = $this->searchCriteriaBuilder->addFilter([$filter])->create();
-            $searchResults = $this->taxClassService->searchTaxClass($searchCriteria);
+            $searchResults = $this->taxClassRepository->getList($searchCriteria);
             foreach ($searchResults->getItems() as $taxClass) {
                 $this->_options[] = array(
                     'value' => $taxClass->getClassId(),
