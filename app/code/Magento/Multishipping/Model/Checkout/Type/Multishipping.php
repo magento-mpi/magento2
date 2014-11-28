@@ -780,7 +780,7 @@ class Multishipping extends \Magento\Framework\Object
      */
     public function getCustomerDefaultBillingAddress()
     {
-        $defaultAddressId = $this->getCustomer()->getDefaultShipping();
+        $defaultAddressId = $this->getCustomer()->getDefaultBilling();
         return $this->getDefaultAddressByDataKey('customer_default_billing_address', $defaultAddressId);
     }
 
@@ -791,15 +791,15 @@ class Multishipping extends \Magento\Framework\Object
      */
     public function getCustomerDefaultShippingAddress()
     {
-        $defaultAddressId = $this->getCustomer()->getDefaultBilling();
+        $defaultAddressId = $this->getCustomer()->getDefaultShipping();
         return $this->getDefaultAddressByDataKey('customer_default_shipping_address', $defaultAddressId);
     }
 
     /**
      * Retrieve customer default address by data key
      *
-     * @param $key
-     * @param $defaultAddressIdFromCustomer
+     * @param string $key
+     * @param string|null $defaultAddressIdFromCustomer
      * @return int|null
      */
     private function getDefaultAddressByDataKey($key, $defaultAddressIdFromCustomer)

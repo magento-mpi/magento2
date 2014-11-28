@@ -618,7 +618,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param int $id
-     * @return \Magento\Customer\Api\AddressRepositoryInterface
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     private function getCustomerById($id)
     {
