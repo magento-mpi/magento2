@@ -51,5 +51,6 @@ define([
             });
         }
     });
-
+    
+    return $.mage.opcBillingInfo;
 });

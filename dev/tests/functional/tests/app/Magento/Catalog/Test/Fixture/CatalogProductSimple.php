@@ -620,6 +620,11 @@ class CatalogProductSimple extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
+    protected $attributes = [
+        'attribute_code' => 'attributes',
+        'backend_type' => 'virtual',
+    ];
+
     protected $fpt = [
         'attribute_code' => 'fpt',
         'backend_type' => 'decimal',
@@ -953,6 +958,11 @@ class CatalogProductSimple extends InjectableFixture
     public function getIsVirtual()
     {
         return $this->getData('is_virtual');
+    }
+
+    public function getAttributes()
+    {
+        return $this->getData('attributes');
     }
 
     public function getFptData()

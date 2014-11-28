@@ -435,4 +435,5 @@ define([
         }
     });
 
+    return $.mage.multipleWishlist;
 });

@@ -36,4 +36,5 @@ define([
         }
     });
 
+    return $.mage.creditCardType;
 });
