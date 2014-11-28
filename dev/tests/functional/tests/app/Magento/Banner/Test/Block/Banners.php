@@ -12,15 +12,19 @@ namespace Magento\Banner\Test\Block;
 use Mtf\Block\Block;
 
 /**
- * Banners block
- * Banner block in Banner widget on frontend
+ * Banner block in Banner widget on frontend.
  */
 class Banners extends Block
 {
-    protected $bannerText = '.inner .banner';
+    /**
+     * Banner text css selector.
+     *
+     * @var string
+     */
+    protected $bannerText = '.banner-item';
 
     /**
-     * Return Banner content
+     * Return Banner content.
      *
      * @return array
      */

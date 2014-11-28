@@ -79,7 +79,7 @@ class ListCompare extends Block
      *
      * @var string
      */
-    protected $isEmpty = 'p.empty';
+    protected $isEmpty = 'div.empty:last-child';
 
     /**
      * Selector for message block.
