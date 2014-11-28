@@ -28,12 +28,14 @@
 <script type="text/javascript">
 require(["prototype", "mage/captcha"], function(){
 
-    var captcha = new Captcha('<?php echo $this->getRefreshUrl() ?>', '<?php echo $this->getFormId() ?>');
+//<![CDATA[
+        var captcha = new Captcha('<?php echo $this->getRefreshUrl() ?>', '<?php echo $this->getFormId() ?>');
 
-    $('captcha-reload').observe('click', function () {
-        captcha.refresh(this);
-    });
+        $('captcha-reload').observe('click', function () {
+            captcha.refresh(this);
+        });
 
+//]]>
 
 });
 </script>

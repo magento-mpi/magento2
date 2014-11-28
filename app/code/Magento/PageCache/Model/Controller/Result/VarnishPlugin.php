@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\PageCache\Model\App\FrontController;
+namespace Magento\PageCache\Model\Controller\Result;
+
+use Magento\Framework\App\Response\Http as ResponseHttp;
 
 /**
- * Varnish for processing builtin cache
+ * Plugin for processing varnish cache
  */
 class VarnishPlugin
 {
@@ -23,45 +25,64 @@ class VarnishPlugin
     protected $version;
 
     /**
+     * @var \Magento\Framework\App\PageCache\Kernel
+     */
+    protected $kernel;
+
+    /**
      * @var \Magento\Framework\App\State
      */
     protected $state;
 
     /**
+     * @var \Magento\Framework\Registry
+     */
+    protected $registry;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\Framework\App\PageCache\Version $version
+     * @param \Magento\Framework\App\PageCache\Kernel $kernel
      * @param \Magento\Framework\App\State $state
+     * @param \Magento\Framework\Registry $registry
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
         \Magento\Framework\App\PageCache\Version $version,
-        \Magento\Framework\App\State $state
+        \Magento\Framework\App\PageCache\Kernel $kernel,
+        \Magento\Framework\App\State $state,
+        \Magento\Framework\Registry $registry
     ) {
         $this->config = $config;
         $this->version = $version;
+        $this->kernel = $kernel;
         $this->state = $state;
+        $this->registry = $registry;
     }
 
     /**
-     * @param \Magento\Framework\App\FrontControllerInterface $subject
+     * @param \Magento\Framework\Controller\ResultInterface $subject
      * @param callable $proceed
-     * @param \Magento\Framework\App\RequestInterface $request
-     * @return false|\Magento\Framework\App\Response\Http|\Magento\Framework\Controller\ResultInterface
+     * @param ResponseHttp $response
+     * @return \Magento\Framework\Controller\ResultInterface
      */
-    public function aroundDispatch(
-        \Magento\Framework\App\FrontControllerInterface $subject,
+    public function aroundRenderResult(
+        \Magento\Framework\Controller\ResultInterface $subject,
         \Closure $proceed,
-        \Magento\Framework\App\RequestInterface $request
+        ResponseHttp $response
     ) {
-        $response = $proceed($request);
+        $proceed($response);
+        $usePlugin = $this->registry->registry('use_page_cache_plugin');
         if ($this->config->getType() == \Magento\PageCache\Model\Config::VARNISH && $this->config->isEnabled()
-            && $response instanceof \Magento\Framework\App\Response\Http) {
-
+            && $usePlugin) {
             $this->version->process();
             if ($this->state->getMode() == \Magento\Framework\App\State::MODE_DEVELOPER) {
                 $response->setHeader('X-Magento-Debug', 1);
             }
         }
-        return $response;
+
+        return $subject;
     }
 }
