@@ -143,10 +143,8 @@ class OptionRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('getOptionsCollection')
             ->with($productMock)
             ->willReturn($optCollectionMock);
-        $optCollectionMock->expects($this->once())->method('setIdFilter')->with($optionId)->willReturnSelf();
-
         $optionMock = $this->getMock('\Magento\Bundle\Model\Option', [], [], '', false);
-        $optCollectionMock->expects($this->once())->method('getFirstItem')->willReturn($optionMock);
+        $optCollectionMock->expects($this->once())->method('getItemById')->with($optionId)->willReturn($optionMock);
         $optionMock->expects($this->once())->method('getId')->willReturn(null);
 
         $this->model->get($productSku, $optionId);
@@ -180,10 +178,9 @@ class OptionRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('getOptionsCollection')
             ->with($productMock)
             ->willReturn($optCollectionMock);
-        $optCollectionMock->expects($this->once())->method('setIdFilter')->with($optionId)->willReturnSelf();
-
         $optionMock = $this->getMock('\Magento\Bundle\Model\Option', [], [], '', false);
-        $optCollectionMock->expects($this->once())->method('getFirstItem')->willReturn($optionMock);
+        $optCollectionMock->expects($this->once())->method('getItemById')->with($optionId)->willReturn($optionMock);
+
         $optionMock->expects($this->exactly(2))->method('getId')->willReturn(1);
         $optionMock->expects($this->exactly(2))->method('getTitle')->willReturn($optionData['title']);
         $optionMock->expects($this->once())->method('getData')->willReturn($optionData);

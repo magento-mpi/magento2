@@ -37,7 +37,7 @@ class BundleLoadOptionsTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundLoadIfProductTypeNotBundle()
     {
-        $productMock = $this->getMock('\Magento\Catalog\Api\Data\ProductInterface');
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', ['getTypeId'], [], '', false);
         $closure = function () use ($productMock) {
             return $productMock;
         };
