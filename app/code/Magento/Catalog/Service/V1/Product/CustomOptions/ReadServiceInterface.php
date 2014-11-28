@@ -21,7 +21,7 @@ interface ReadServiceInterface
      * @return \Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionType[]
      *
      * @deprecated
-     * @see \Magento\Catalog\Api\ProductCustomOptionOptionTypeListInterface::getItems
+     * @see \Magento\Catalog\Api\ProductCustomOptionTypeListInterface::getItems
      */
     public function getTypes();
 
