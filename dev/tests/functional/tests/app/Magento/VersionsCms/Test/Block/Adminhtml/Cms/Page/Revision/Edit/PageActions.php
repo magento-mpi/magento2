@@ -30,7 +30,8 @@ class PageActions extends FormPageActions
      */
     protected $publishButton = '#publish_button';
 
-    /*** Click 'Publish' button
+    /**
+     * Click 'Publish' button
      *
      * @return void
      */
