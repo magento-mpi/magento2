@@ -54,7 +54,11 @@ class Compiled extends AbstractEnvironment implements EnvironmentInterface
      */
     private function getConfigData()
     {
-        return \unserialize(\file_get_contents(self::getFilePath()));
+        if (empty($this->globalConfig)) {
+            $this->globalConfig = \unserialize(\file_get_contents(self::getFilePath()));
+        }
+
+        return $this->globalConfig;
     }
 
     /**
@@ -70,6 +74,6 @@ class Compiled extends AbstractEnvironment implements EnvironmentInterface
      */
     public function getObjectManagerConfigLoader()
     {
-        return new \Magento\Framework\App\ObjectManager\ConfigLoader\Compiled();
+        return new \Magento\Framework\App\ObjectManager\ConfigLoader\Compiled($this->getConfigData());
     }
 }

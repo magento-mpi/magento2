@@ -53,9 +53,7 @@ abstract class AbstractEnvironment implements EnvironmentInterface
      */
     public function getObjectManagerFactory()
     {
-        $factoryClass = $this->getDiConfig()->getPreference($this->configPreference);
-
-        $this->factory = new $factoryClass(
+        $this->factory = new $this->configPreference(
             $this->getDiConfig(),
             null,
             $this->envFactory->getDefinitions(),
