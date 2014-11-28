@@ -39,47 +39,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             ->get('\Magento\Customer\Api\GroupManagementInterface');
     }
 
-    /**
-     * @magentoConfigFixture current_store catalog/layered_navigation/price_range_calculation auto
-     */
-    public function testGetPriceRangeAuto()
-    {
-        $this->assertEquals(10, $this->_model->getPriceRange());
-    }
-
-    /**
-     * @magentoConfigFixture current_store catalog/layered_navigation/price_range_calculation manual
-     * @magentoConfigFixture current_store catalog/layered_navigation/price_range_step 1.5
-     */
-    public function testGetPriceRangeManual()
-    {
-        // what you set is what you get
-        $this->assertEquals(1.5, $this->_model->getPriceRange());
-    }
-
-    public function testGetMaxPriceInt()
-    {
-        $this->assertEquals(45.00, $this->_model->getMaxPriceInt());
-    }
-
-    public function getRangeItemCountsDataProvider()
-    {
-        return array(
-            array(1, array(11 => 1, 46 => 1)),
-            array(10, array(2 => 1, 5 => 1)),
-            array(20, array(1 => 1, 3 => 1)),
-            array(50, array(1 => 2))
-        );
-    }
-
-    /**
-     * @dataProvider getRangeItemCountsDataProvider
-     */
-    public function testGetRangeItemCounts($inputRange, $expectedItemCounts)
-    {
-        $this->assertEquals($expectedItemCounts, $this->_model->getRangeItemCounts($inputRange));
-    }
-
     public function testApplyNothing()
     {
         $this->assertEmpty($this->_model->getData('price_range'));
@@ -137,8 +96,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
                 'Magento\Framework\View\Element\Text'
             )
         );
-
-        $this->assertEquals(array(10, 20), $this->_model->getData('interval'));
     }
 
     public function testGetSetCustomerGroupId()
@@ -161,6 +118,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $currencyRate = 42;
         $this->_model->setCurrencyRate($currencyRate);
 
-        $this->assertEquals($currencyRate, $this->_model->getCurrencyRate());
+        $this->assertEquals($currencyRate, $this->_model->getData('currency_rate'));
     }
 }

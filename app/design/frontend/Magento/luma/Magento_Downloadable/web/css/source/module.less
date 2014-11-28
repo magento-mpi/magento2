@@ -75,7 +75,7 @@
         .font-size(14);
     }
     .field.choice {
-        .box-sizing();
+        box-sizing: border-box;
         border-bottom: 1px solid #ebebeb;
         padding-bottom: @indent-s-base;
         margin-bottom: @indent-s-base;
@@ -106,15 +106,17 @@
             opacity: 0;
         }
     }
+    &.downloads-no-separately {
+        .field.choice {
+            padding-left: 0;
+        }
+    }
 }
 
 //
 //    Mobile
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-s) {
-    .table-wrapper.downloadable-products {
-        &:extend(.abstract-account-table-border all);
-    }
     .page-product-downloadable .product-options-wrapper {
         margin-bottom: @indent-m-base;
     }

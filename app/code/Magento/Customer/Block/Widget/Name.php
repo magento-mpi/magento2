@@ -19,6 +19,8 @@ use Magento\Customer\Model\Options;
  *
  * @method CustomerInterface getObject()
  * @method Name setObject(CustomerInterface $customer)
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Name extends AbstractWidget
 {

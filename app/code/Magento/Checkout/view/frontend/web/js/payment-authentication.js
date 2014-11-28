@@ -33,4 +33,5 @@ define([
         }
     });
 
+    return $.mage.paymentAuthentication;
 });

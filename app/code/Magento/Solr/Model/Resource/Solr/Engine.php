@@ -341,6 +341,15 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     }
 
     /**
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
+     * @param mixed $value
+     * @return mixed
+     */
+    public function processAttributeValue($attribute, $value) {
+        return $value;
+    }
+
+    /**
      * Retrieve allowed visibility values for current engine
      *
      * @return array

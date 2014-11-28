@@ -101,16 +101,8 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         $finalPrice = $priceInfo->getPrice(FinalPrice::PRICE_CODE);
         $regularPrice = $priceInfo->getPrice(RegularPrice::PRICE_CODE);
         $config = [
-            'price' => $this->coreData->currency(
-                $finalPrice->getAmount()->getValue(),
-                false,
-                false
-            ),
-            'oldPrice' => $this->coreData->currency(
-                $regularPrice->getValue(),
-                false,
-                false
-            )
+            'price' => $finalPrice->getAmount()->getValue(),
+            'oldPrice' => $regularPrice->getValue(),
         ];
         $config['links'] = $this->getLinksConfig();
 
@@ -132,16 +124,8 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             $linksConfig[$link->getId()] = [
                 'price' => $price,
                 'oldPrice' => $price,
-                'inclTaxPrice' => $this->coreData->currency(
-                    $amount->getValue(),
-                    false,
-                    false
-                ),
-                'exclTaxPrice' => $this->coreData->currency(
-                    $amount->getBaseAmount(),
-                    false,
-                    false
-                )
+                'inclTaxPrice' => $amount->getValue(),
+                'exclTaxPrice' => $amount->getBaseAmount()
             ];
         }
         return $linksConfig;

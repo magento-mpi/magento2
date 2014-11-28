@@ -8,10 +8,10 @@
 ?>
 <?php foreach ($this->getValues() as $label => $value):?>
 <tr class="totals giftwrapping">
-    <td class="mark" colspan="<?php echo $this->getColspan(); ?>">
+    <th class="mark" colspan="<?php echo $this->getColspan(); ?>" scope="row">
         <span><?php echo $label; ?></span>
-    </td>
-    <td class="amount">
+    </th>
+    <td class="amount" data-th="<?php echo $this->escapeHtml($label); ?>">
         <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($value) ?>
     </td>
 </tr>

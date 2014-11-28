@@ -15,6 +15,7 @@ use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Model\Address\Mapper;
 use Magento\Framework\Message\Error;
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Framework\ObjectFactory;
 
 /**
  * Class Index
@@ -69,6 +70,9 @@ class Index extends \Magento\Backend\App\Action
 
     /** @var \Magento\Framework\Math\Random */
     protected $_random;
+
+    /** @var \Magento\Framework\ObjectFactory */
+    protected $_objectFactory;
 
     /**
      * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
@@ -129,6 +133,7 @@ class Index extends \Magento\Backend\App\Action
      * @param AddressDataBuilder $addressDataBuilder
      * @param \Magento\Customer\Model\Customer\Mapper $customerMapper
      * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
+     * @param ObjectFactory $objectFactory
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -150,7 +155,8 @@ class Index extends \Magento\Backend\App\Action
         CustomerDataBuilder $customerDataBuilder,
         AddressDataBuilder $addressDataBuilder,
         \Magento\Customer\Model\Customer\Mapper $customerMapper,
-        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
+        \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
+        ObjectFactory $objectFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
@@ -169,6 +175,7 @@ class Index extends \Magento\Backend\App\Action
         $this->addressDataBuilder = $addressDataBuilder;
         $this->customerMapper = $customerMapper;
         $this->dataObjectProcessor = $dataObjectProcessor;
+        $this->_objectFactory = $objectFactory;
         parent::__construct($context);
     }
 
