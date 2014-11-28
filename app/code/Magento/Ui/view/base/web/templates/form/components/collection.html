@@ -1,0 +1,47 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<div class="ui-tabs">
+    <ul class="address-list ui-tabs-nav">
+
+        <!-- ko foreach: { data: element.elems, as: 'element' } -->
+            <li class="address-list-item" data-bind="css: { 'ui-state-active': element.active }, click: activate">
+                <div class="address-list-item-actions">
+                    <button class="action-delete" type="button" data-bind="attr: { title: $parent.removeLabel }, click: $parent.removeChild(element)">
+                        <span data-bind="text: element.removeLabel"></span>
+                    </button>
+                </div>
+                <!-- ko template: previewTpl --><!-- /ko -->
+                <div data-bind="foreach: { data: element.head, as: 'element' }, stopPropagation: true">
+                    <!-- ko template: element.getTemplate() --><!-- /ko -->
+                </div>
+            </li>
+        <!-- /ko -->
+
+        <li class="address-list-actions last">
+            <button data-bind="attr: { title: element.addLabel }, click: element.addChild" type="button" class="scalable add">
+                <span data-bind="text: element.addLabel"></span>
+            </button>
+        </li>
+    </ul>
+    <!-- ko foreach: { data: element.elems, as: 'element' } -->
+    <div class="address-item-edit" data-bind="visible: element.active">
+        <div class="address-item-edit-content">
+            <fieldset class="fieldset">
+                <legend style="display: none;" class="legend">
+                    <span data-bind="text: $parent.label"></span>
+                </legend>
+                <br>
+                <!-- ko foreach: { data: element.body, as: 'element' } -->
+                    <!-- ko template: element.getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+            </fieldset>
+        </div>
+    </div>
+    <!-- /ko -->
+</div>

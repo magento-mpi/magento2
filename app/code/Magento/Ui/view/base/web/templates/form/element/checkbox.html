@@ -1,0 +1,24 @@
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<div class="form__field choice">
+    <input type="checkbox" class="control-checkbox" data-bind="checked: value, attr: { id: uid, disabled: disabled, name: inputName }, hasFocus: focused">
+    
+    <label class="label" data-bind="checked: value, attr: { for: uid }">
+        <!-- ko if: $parent.isSingle() -->
+            <span data-bind="text: description"></span>
+        <!-- /ko -->
+        <!-- ko if: !$parent.isSingle() -->
+            <span data-bind="text: description || label"></span>
+        <!-- /ko -->
+    </label>
+    
+    <!-- ko if: notice -->
+    <div class="note" data-bind="attr: {id: 'notice-' + uid}"><span data-bind="text: notice"></span></div>
+    <!-- /ko -->
+</div>
