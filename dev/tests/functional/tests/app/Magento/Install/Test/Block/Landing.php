@@ -21,14 +21,14 @@ class Landing extends Block
      *
      * @var string
      */
-    protected $agreeAndSetup = '//*[@class="btn-lg btn-primary"]';
+    protected $agreeAndSetup = '.btn-lg.btn-primary';
 
     /**
      * 'Terms & Agreement' link.
      *
      * @var string
      */
-    protected $termsAndAgreement = "//*[text()[contains(.,'Terms & Agreement')]]";
+    protected $termsAndAgreement = "[ng-click*='previous']";
 
     /**
      * Click on 'Agree and Set up Magento' button.
@@ -37,7 +37,7 @@ class Landing extends Block
      */
     public function clickAgreeAndSetup()
     {
-        $this->_rootElement->find($this->agreeAndSetup, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->agreeAndSetup, Locator::SELECTOR_CSS)->click();
     }
 
     /**
@@ -47,6 +47,6 @@ class Landing extends Block
      */
     public function clickTermsAndAgreement()
     {
-        $this->_rootElement->find($this->termsAndAgreement, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->termsAndAgreement, Locator::SELECTOR_CSS)->click();
     }
 }

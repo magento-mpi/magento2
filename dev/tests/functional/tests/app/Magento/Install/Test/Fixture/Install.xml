@@ -32,26 +32,6 @@
             <attribute_code>web</attribute_code>
             <backend_type>virtual</backend_type>
         </web>
-        <admin>
-            <attribute_code>admin</attribute_code>
-            <backend_type>virtual</backend_type>
-        </admin>
-        <adminUsername>
-            <attribute_code>adminUsername</attribute_code>
-            <backend_type>virtual</backend_type>
-        </adminUsername>
-        <adminEmail>
-            <attribute_code>adminEmail</attribute_code>
-            <backend_type>virtual</backend_type>
-        </adminEmail>
-        <adminPassword>
-            <attribute_code>adminPassword</attribute_code>
-            <backend_type>virtual</backend_type>
-        </adminPassword>
-        <adminConfirm>
-            <attribute_code>adminConfirm</attribute_code>
-            <backend_type>virtual</backend_type>
-        </adminConfirm>
     </fields>
     <repository_class>Magento\Install\Test\Repository\Install</repository_class>
     <handler_interface>Magento\Install\Test\Handler\Install\InstallInterface</handler_interface>

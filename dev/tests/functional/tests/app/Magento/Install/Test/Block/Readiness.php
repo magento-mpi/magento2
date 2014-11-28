@@ -21,42 +21,42 @@ class Readiness extends Block
      *
      * @var string
      */
-    protected $readinessCheck = "//*[.='Start Readiness Check']";
+    protected $readinessCheck = "[ng-click*='state.go']";
 
     /**
      * 'Next' button.
      *
      * @var string
      */
-    protected $next = "//*[.='Next']";
+    protected $next = "[ng-click*='next']";
 
     /**
      * 'Completed!' message.
-     *
+     * [ng-switch-when="true"]
      * @var string
      */
-    protected $completedMessage = "//*[.='Completed!']";
+    protected $completedMessage = '[ng-switch-when="true"]';
 
     /**
      * PHP Version successful check.
      *
      * @var string
      */
-    protected $phpVersionCheck = "//*[@id='php-version'][contains(.,'Your PHP version is correct')]";
+    protected $phpVersionCheck = '#php-version';
 
     /**
      * PHP Extensions successful check.
      *
      * @var string
      */
-    protected $phpExtensionCheck = "//*[@id='php-extensions'][contains(.,'You meet 2 out of 2 PHP extensions requirements.')]";
+    protected $phpExtensionCheck = '#php-extensions';
 
     /**
      * File Permission check.
      *
      * @var string
      */
-    protected $filePermissionCheck = "//*[@id='php-permissions']";
+    protected $filePermissionCheck = '#php-permissions';
 
     /**
      * Click on 'Start Readiness Check' button.
@@ -65,7 +65,8 @@ class Readiness extends Block
      */
     public function clickReadinessCheck()
     {
-        $this->_rootElement->find($this->readinessCheck, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->readinessCheck, Locator::SELECTOR_CSS)->click();
+        $this->waitForElementVisible($this->completedMessage, Locator::SELECTOR_CSS);
     }
 
     /**
@@ -75,17 +76,7 @@ class Readiness extends Block
      */
     public function clickNext()
     {
-        $this->_rootElement->find($this->next, Locator::SELECTOR_XPATH)->click();
-    }
-
-    /**
-     * Get 'Completed!' message.
-     *
-     * @return string
-     */
-    public function getCompletedMessage()
-    {
-        return $this->_rootElement->find($this->completedMessage, Locator::SELECTOR_XPATH)->getText();
+        $this->_rootElement->find($this->next, Locator::SELECTOR_CSS)->click();
     }
 
     /**
@@ -95,7 +86,7 @@ class Readiness extends Block
      */
     public function getFilePermissionCheck()
     {
-        return $this->_rootElement->find($this->filePermissionCheck, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find($this->filePermissionCheck, Locator::SELECTOR_CSS)->getText();
     }
 
     /**
@@ -105,7 +96,7 @@ class Readiness extends Block
      */
     public function getPhpVersionCheck()
     {
-        return $this->_rootElement->find($this->phpVersionCheck, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find($this->phpVersionCheck, Locator::SELECTOR_CSS)->getText();
     }
 
     /**
@@ -115,6 +106,6 @@ class Readiness extends Block
      */
     public function getPhpExtensionsCheck()
     {
-        return $this->_rootElement->find($this->phpExtensionCheck, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find($this->phpExtensionCheck, Locator::SELECTOR_CSS)->getText();
     }
 }

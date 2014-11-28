@@ -12,13 +12,17 @@ use Magento\Install\Test\Page\Install;
 use Mtf\Constraint\AbstractConstraint;
 
 /**
- * Class AssertSuccessfulDbConnection
- * Check that system can successfully connect to DB
+ * Check that system can successfully connect to DB.
  */
-class AssertSuccessfulDbConnection extends AbstractConstraint
+class AssertSuccessDbConnection extends AbstractConstraint
 {
     /**
-     * Constraint severeness
+     * Successful connection message.
+     */
+    const SUCCESSFUL_CONNECTION = 'Test connection successful.';
+
+    /**
+     * Constraint severeness.
      *
      * @var string
      */
@@ -32,9 +36,11 @@ class AssertSuccessfulDbConnection extends AbstractConstraint
      */
     public function processAssert(Install $installPage)
     {
+        $installPage->getDatabaseBlock()->clickTestConnection();
         \PHPUnit_Framework_Assert::assertContains(
-            'Test connection successful.',
-            $installPage->getDatabaseBlock()->getSuccessConnectionMessage()
+            self::SUCCESSFUL_CONNECTION,
+            $installPage->getDatabaseBlock()->getSuccessConnectionMessage(),
+            'Unable to connect to database.'
         );
     }
 
@@ -45,6 +51,6 @@ class AssertSuccessfulDbConnection extends AbstractConstraint
      */
     public function toString()
     {
-        return "System successfully connected to DB";
+        return "System successfully connected to DB.";
     }
 }

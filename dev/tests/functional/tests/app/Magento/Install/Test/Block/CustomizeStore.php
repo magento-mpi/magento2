@@ -21,7 +21,7 @@ class CustomizeStore extends Form
      *
      * @var string
      */
-    protected $next = "//*[.='Next']";
+    protected $next = "[ng-click*='next']";
 
     /**
      * Click on 'Next' button.
@@ -30,6 +30,6 @@ class CustomizeStore extends Form
      */
     public function clickNext()
     {
-        $this->_rootElement->find($this->next, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->next, Locator::SELECTOR_CSS)->click();
     }
 }

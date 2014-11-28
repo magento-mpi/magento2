@@ -21,14 +21,14 @@ class License extends Block
      *
      * @var string
      */
-    protected $back = "//*[.=' Go Back']";
+    protected $back = '.btn.btn-primary';
 
     /**
      * License text.
      *
      * @var string
      */
-    protected $license = '//*[@class="col-xs-9"]';
+    protected $license = '.container.ng-scope';
 
     /**
      * Click on 'Back' button.
@@ -37,7 +37,7 @@ class License extends Block
      */
     public function clickBack()
     {
-        $this->_rootElement->find($this->back, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->back, Locator::SELECTOR_CSS)->click();
     }
 
     /**
@@ -47,6 +47,6 @@ class License extends Block
      */
     public function getLicense()
     {
-        return $this->_rootElement->find($this->license, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find($this->license, Locator::SELECTOR_CSS)->getText();
     }
 }

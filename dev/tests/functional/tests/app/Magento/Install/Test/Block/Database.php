@@ -21,21 +21,21 @@ class Database extends Form
      *
      * @var string
      */
-    protected $testConnection = '//*[@class="btn btn-default"]';
+    protected $testConnection = '.btn-default';
 
     /**
      * 'Test connection successful.' message.
      *
      * @var string
      */
-    protected $successConnectionMessage = "//*[@class='animate-show text-success']";
+    protected $successConnectionMessage = ".text-success";
 
     /**
      * 'Next' button.
      *
      * @var string
      */
-    protected $next = "//*[.='Next']";
+    protected $next = "[ng-click*='next']";
 
     /**
      * Click on 'Test Connection and Authentication' button.
@@ -44,7 +44,7 @@ class Database extends Form
      */
     public function clickTestConnection()
     {
-        $this->_rootElement->find($this->testConnection, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->testConnection, Locator::SELECTOR_CSS)->click();
     }
 
     /**
@@ -54,7 +54,7 @@ class Database extends Form
      */
     public function getSuccessConnectionMessage()
     {
-        return $this->_rootElement->find($this->successConnectionMessage, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find($this->successConnectionMessage, Locator::SELECTOR_CSS)->getText();
     }
 
     /**
@@ -64,6 +64,6 @@ class Database extends Form
      */
     public function clickNext()
     {
-        $this->_rootElement->find($this->next, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->next, Locator::SELECTOR_CSS)->click();
     }
 }

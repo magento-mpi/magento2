@@ -220,7 +220,7 @@
             <replacefilter token="{{tests_configuration}}" value="${env.bamboo_tests_configuration}" />
         </replace>
 
-        <replace file="${dir.build_directory}/instance-${instanceIndex}/build/core_dev/functional/config/install_data.xml">
+        <replace file="${dir.build_directory}/instance-${instanceIndex}/build/core_dev/functional/config/install_data.yml">
             <replacefilter token="{{db_host}}" value="${env.db_host}"/>
             <replacefilter token="{{db_user}}" value="${env.db_user}"/>
             <replacefilter token="{{db_password}}" value="${env.db_password}"/>

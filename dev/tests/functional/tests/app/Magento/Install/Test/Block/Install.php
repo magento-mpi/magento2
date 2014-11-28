@@ -21,7 +21,7 @@ class Install extends Block
      *
      * @var string
      */
-    protected $installNow = "//*[.='Install Now']";
+    protected $installNow = "//*[@ng-show='!isStarted']/button";
 
     /**
      * Admin info block.
@@ -42,7 +42,7 @@ class Install extends Block
      *
      * @var string
      */
-    protected $launchAdmin = "//*[.='Launch Magento Admin']";
+    protected $launchAdmin = "//*[@type='button']";
 
     /**
      * Click on 'Install Now' button.
@@ -62,7 +62,15 @@ class Install extends Block
      */
     public function getAdminInfo()
     {
-        return $this->_rootElement->find($this->adminInfo, Locator::SELECTOR_XPATH)->getText();
+        $adminData = [];
+        $rows = $this->_rootElement->find('#admin-info .row')->getElements();
+        foreach ($rows as $row) {
+            $dataRow = $row->find('div')->getElements();
+            $key = strtolower(str_replace(' ', '_', str_replace(':', '', $dataRow[0]->getText())));
+            $adminData[$key] = $dataRow[1]->getText();
+        }
+
+        return $adminData;
     }
 
     /**
@@ -72,7 +80,15 @@ class Install extends Block
      */
     public function getDbInfo()
     {
-        return $this->_rootElement->find($this->dbInfo, Locator::SELECTOR_XPATH)->getText();
+        $dbData = [];
+        $rows = $this->_rootElement->find('#db-info .row')->getElements();
+        foreach ($rows as $row) {
+            $dataRow = $row->find('div')->getElements();
+            $key = strtolower(str_replace(' ', '_', str_replace(':', '', $dataRow[0]->getText())));
+            $dbData[$key] = $dataRow[1]->getText();
+        }
+
+        return $dbData;
     }
 
     /**
