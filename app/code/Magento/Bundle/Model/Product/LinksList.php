@@ -16,12 +16,20 @@ class LinksList
     protected $linkBuilder;
 
     /**
+     * @var Type
+     */
+    protected $type;
+
+    /**
      * @param \Magento\Bundle\Api\Data\LinkDataBuilder $linkBuilder
+     * @param Type $type
      */
     public function __construct(
-        \Magento\Bundle\Api\Data\LinkDataBuilder $linkBuilder
+        \Magento\Bundle\Api\Data\LinkDataBuilder $linkBuilder,
+        \Magento\Bundle\Model\Product\Type $type
     ) {
         $this->linkBuilder = $linkBuilder;
+        $this->type = $type;
     }
 
     /**
@@ -31,16 +39,7 @@ class LinksList
      */
     public function getItems(\Magento\Catalog\Api\Data\ProductInterface $product, $optionId)
     {
-        /** @var \Magento\Bundle\Model\Product\Type $productTypeInstance */
-        $productTypeInstance = $product->getTypeInstance();
-        $productTypeInstance->setStoreFilter(
-            $product->getStoreId(),
-            $product
-        );
-        $selectionCollection = $productTypeInstance->getSelectionsCollection(
-            [ $optionId ],
-            $product
-        );
+        $selectionCollection = $this->type->getSelectionsCollection([$optionId], $product);
 
         $productLinks = [];
         /** @var \Magento\Catalog\Model\Product $selection */
