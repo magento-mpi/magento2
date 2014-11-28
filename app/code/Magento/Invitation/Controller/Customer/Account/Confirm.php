@@ -24,7 +24,7 @@ class Confirm extends \Magento\Customer\Controller\Account\Confirm implements Ac
     {
         try {
             /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
-            return $this->customerAccountService->getCustomer($customerId);
+            return $this->customerRepository->getById($customerId);
         } catch (NoSuchEntityException $e) {
             throw new \Exception(__('Wrong customer account specified.'));
         }
@@ -42,7 +42,7 @@ class Confirm extends \Magento\Customer\Controller\Account\Confirm implements Ac
             if ($customer->getConfirmation() !== $key) {
                 throw new \Exception(__('Wrong confirmation key.'));
             }
-            $this->customerAccountService->activateCustomer($customer->getId(), $key);
+            $this->customerAccountManagement->activate($customer->getEmail(), $key);
 
             // log in and send greeting email, then die happy
             $this->_getSession()->setCustomerAsLoggedIn($customer);
