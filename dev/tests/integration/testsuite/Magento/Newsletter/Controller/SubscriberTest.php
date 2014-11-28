@@ -4,7 +4,7 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- */ 
+ */
 namespace Magento\Newsletter\Controller;
 
 use Magento\Framework\Message\MessageInterface;
@@ -16,6 +16,12 @@ use Magento\TestFramework\TestCase\AbstractController;
  */
 class SubscriberTest extends AbstractController
 {
+    protected function setUp()
+    {
+        $this->markTestIncomplete('MAGETWO-29488');
+        parent::setUp();
+    }
+
     public function testNewAction()
     {
         $this->getRequest()->setMethod('POST');

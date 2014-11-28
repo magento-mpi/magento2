@@ -23,6 +23,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-29488');
         $this->accountService = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
     }
