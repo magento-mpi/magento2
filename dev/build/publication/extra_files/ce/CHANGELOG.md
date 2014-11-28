@@ -1,89 +1,89 @@
 0.1.0-alpha106
 =============
 * Various improvements:
-    * Refactored Service Layer of Magento_Tax Module (MAGETWO-29432)
-    * Stabilized functional tests for the Backend module (MTA-598)
-    * Stabilized functional tests for the CatalogRule module (MTA-603)
-    * Stabilized functional tests for the Checkout module (MTA-606)
-    * Stabilized functional tests for the CurrencySymbol module (MTA-611)
-    * Stabilized functional tests for the Shipping module (MTA-640)
-    * Stabilized functional tests for the Tax module (MTA-644)
-    * Stabilized functional tests for the User module (MTA-646)
-* Added Readme.md files to the following modules: (MAGETWO-29201)
+    * Refactored Service Layer of the Magento_Tax Module
+    * Stabilized functional tests for the Backend module
+    * Stabilized functional tests for the CatalogRule module
+    * Stabilized functional tests for the Checkout module
+    * Stabilized functional tests for the CurrencySymbol module
+    * Stabilized functional tests for the Shipping module
+    * Stabilized functional tests for the Tax module
+    * Stabilized functional tests for the User module
+* Added Readme.md files to the following modules:
     * Magento\RequireJs
     * Magento\Ui
 * Fixed bugs:
-    * Product Image isn't depend on store view (MAGETWO-30705)
-    * Fixed Shipping address area not to blink while filling fields in billing address if order is created with virtual product (MAGETWO-28633)
-    * Fixed "filter_store.html" file absence (MAGETWO-28758)
-    * Fixed Login menu to be expandable after visiting category page (MAGETWO-28883)
-    * Fixed CMS block from grid (MAGETWO-28916)
-    * Fixed "Create Product" backend page not to be totally freezed after closing "New Attribute" popup (MAGETWO-23953)
-    * Fixed Stock Status not to be disabled for Bundle and Grouped products (MAGETWO-26969)
-    * Fixed 'Is Require' field for bundle selection block not to be always set "Yes" after product save (MAGETWO-26980)
-    * Fixed unworkable "per page" selectors on Customer's account pages (MAGETWO-27013)
-    * Fixed invalid behaviour of JS loaders on frontend pages (MAGETWO-27153)
-    * Fixed Shopping cart price rule form validation to work correctly on frontend (MAGETWO-27866)
-    * Fixed an equal (=) sign in the hash of the product page to to break the tabs functionality (MAGETWO-28057)
-    * Fixed 'Please wait' spinner to disappear in case of creation customer custom attribute with already exist code (MAGETWO-28194)
-    * Fixed Multishipping checkout not to change the Billing address (MAGETWO-28206)
-    * Fixed Subcategories to be displayed on first hover for category menu item in Chrome (MAGETWO-28614)
-    * Fixed 'Please wait' spinner to disappear in case of creation customer with invalid email (MAGETWO-28875)
-    * Fixed Username field auto-focus on admin login page not to reveal merchant password in case of fast typing (MAGETWO-29437)
-    * Bundle Product old Price ins't displayed in case of discount [MAGETWO-24183]
-    * Wrong discount calculation for bundle options [MAGETWO-25170]
-    * Wrong discount and total amounts in create order page when reordering an order with bundle product in backend [MAGETWO-29365]
-    * Admin tax notifications do not appear/disappear unless cache is flushed or disabled [MAGETWO-25120]
-    * Catalog price and Shopping Cart price do not match when display currency is different from base currency [MAGETWO-18341]
-    * Tax classes should always allow 'None' as a valid 'product tax class' [MAGETWO-27807]
-    * Token-based authentication doesn't work if compilation enabled (MAGETWO-30439)
-    * Corrected example code in index.php for set up multi websites (MAGETWO-28407)
-    * Fixed commands in Setup CLI to match ones displayed in help (MAGETWO-29441)
-    * Partial search doesn't work on Advanced Search (MAGETWO-30318)
-    * 404 page is displayed after Search Term mass delete (MAGETWO-30320)
-    * Popular Search Terms does not show on frontend (MAGETWO-30521)
-    * Unable to add Gift Message during one page checkout (MAGETWO-30593)
-    * Optional Postal code option does not work correctly (MAGETWO-18305)
-    * Product price details missing in summary block on cart page when back to shopping cart link is clicked on multishipping page (MAGETWO-30241)
-    * Fixed issue with incorrect link to indexing page, removed message and link due to new indexers flow (MAGETWO-30037)
-    * Fixed Out Of Stock status validation for bundle products with options configured disabling user-defined quantity for bundled items (MAGETWO-2536)
-    * Fixed issue with Newsletters Report page in admin panel (MAGETWO-30497)
-    * CLONE - Catalog price rule not applying correct rates on specific products. (MAGETWO-19494)
-    * Fatal error after open link on downloadable product (MAGETWO-30346)
-    * Warning page for Grouped product with enabled MAP(Warning: min(): Array must contain at least one element) (MAGETWO-30066)
-    * Configurable product is not displayed on catalog product grid after update with "Add configurable attributes to the new set based on current" (MAGETWO-29997)
-    * Integration tests for Indexer functionality: inconsistent behaviour (MAGETWO-25641)
-    * "Whatxs this?" information tip link is not presented on product page for Minimum Advertised Price (MAP) (MAGETWO-30064)
+    * Fixed an issue where product image assignment to a store view was not considered when displaying a product
+    * Fixed shipping address area blinking when billing address is filled during checkout with a virtual product
+    * Fixed an issue where filter_store.html was not found
+    * Fixed an issue where the customer account access menu did not expand on the storefront
+    * Fixed an issue where CMS blocks did not open when clicking from a grid
+    * Fixed an issue where the Create Product page was completely blocked after closing the New Attribute pop-up
+    * Fixed an issue where Stock Status was disabled for Bundle and Grouped products
+    * Fixed an issue where a product could not be saved without filling a not required bundle option
+    * Fixed broken "per page" selectors on the Customer's account pages
+    * Fixed the wrong behavior of JS loaders on the storefront pages
+    * Fixed Shopping cart price rule form validation
+    * Fixed an issue where the 'Please wait' spinner persisted when creating a customer custom attribute with existing code
+    * Fixed a google chrome specific issue where subcategories were not displayed correctly on the first hover for category item
+    * Fixed an issue where the 'Please wait' spinner did not disappear when creating customer with invalid email
+    * Fixed an issue where the Username field auto-focus on admin login page revealed password in case of fast typing
+    * Fixed an issue where Bundle Product originsl Price was not displayed in case of discount
+    * Fixed wrong discount calculation for bundle options
+    * Fixed an issue where wrong discount and total amounts were displayed on the order creation page when reordering an order with a bundle product in the Admin panel
+    * Fixed an issue where admin tax notifications did not appear/disappear unless cache was flushed or disabled
+    * Fixed an issue where catalog price and shopping cart price did not match when display currency was different from the base currency
+    * Fixed an issue where Tax classes did not allow 'None' as a valid 'product tax class'
+    * Fixed an issue where token-based authentication did not work if compilation was enabled
+    * Fixed the sample code in index.php illustrating multi websites set up
+    * Fixed commands in Setup CLI to match the ones displayed in help
+    * Fixed an issue where searching by a part of a product name in Advanced Search did not give correct results
+    * Fixed an issue where 404 page is displayed after Search Term mass deletion
+    * Fixed an issue where Popular Search Terms were not displayed on the storefront
+    * Fixed an issue where it was impossible to add Gift Message during one page checkout
+    * Fixed an issue where the optional Postal code setting did not work correctly
+    * Fixed an issue where product price details were missing in summary block in the shopping cart when the Back to shopping cart link was clicked on multishipping page
+    * Fixed an issue where the 404 error page was displayed instead of the Index Management page after saving mass update
+    * Fixed an issue where the "Out of Stock" message was not displayed for a bundle product when there was not enough of one of the associated products in stock
+    * Fixed an issue with the Newsletters Report page in the Admin panel
+    * Fixed an issue where Catalog price rule was not applying correct rates on specific products
+    * Fixed an issue where a fatal error was thrown after clicking a link to a downloadable product
+    * Fixed an issue a warning page for Grouped product with enabled MAP
+    * Fixed an issue where a configurable product was not displayed in catalog product grid after updating with "Add configurable attributes to the new set based on current"
+    * Fixed the inconsistent behavior in the integration tests for the Indexer functionality
+    * Fixed an issue where the What's this? information tip link was not presented on product page with configured Minimum Advertised Price (MAP)
 * Processed GitHub requests:
-    * [#742](https://github.com/magento/magento2/issues/742) -- admin notifications count overflow #742 (MAGETWO-30764)
-    * [#720](https://github.com/magento/magento2/issues/720) -- https filedriver is not working (MAGETWO-30192)
-    * [#686](https://github.com/magento/magento2/issues/686) -- Product save validation errors in the admin don't hide the overlay (MAGETWO-30474)
-    * [#702](https://github.com/magento/magento2/issues/702) -- Base table or view not found (MAGETWO-30488)
+    * [#742](https://github.com/magento/magento2/issues/742) -- Admin notifications count overflow
+    * [#720](https://github.com/magento/magento2/issues/720) -- https filedriver is not working
+    * [#686](https://github.com/magento/magento2/issues/686) -- Product save validation errors in the admin don't hide the overlay
+    * [#702](https://github.com/magento/magento2/issues/702) -- Base table or view not found
+    * [#652](https://github.com/magento/magento2/issues/652) -- Multishipping checkout not to change the Billing address js issue
+    * [#648](https://github.com/magento/magento2/issues/648) -- An equal (=) sign in the hash of the product page to to break the tabs functionality
 * Service Contracts:
-    * Usage of new API of the Customer module (MAGETWO-29502, MAGETWO-29503, MAGETWO-30297)
-    * Implemented Service Contracts for Sales Module (MAGETWO-29244)
-    * Refactored catalog module service layer [MAGETWO-29391]
-    * Refactored grouped module service layer [MAGETWO-29421]
+    * Usage of new API of the Customer module
+    * Implemented Service Contracts for the Sales module
+    * Refactored the Catalog module service layer
+    * Refactored the Grouped module service layer
 * UI Improvements:
-    * Implemented Form Component in Magento UI Library (MAGETWO-25944)
-    * Removed extra JS loaders while saving the category (MAGETWO-8652)
-    * Improved behaviour of Categories management in backend (MAGETWO-8875, MAGETWO-28806, MAGETWO-28809, MAGETWO-28810)
-    * Keyboard navigation through html elements (MAGETWO-18221)
-    * Widgets - Part3 (MAGETWO-29626)
-    * UI Library documentation (MAGETWO-30149)
-    * Blank & Luma Themes UI bugs (Part 1) (MAGETWO-29923)
-    * Footer alignment (MAGETWO-30145)
-    * Publish Luma Theme and remove Plushe Theme (MAGETWO-30139)
+    * Implemented the Form component in Magento UI Library
+    * Removed extra JS loaders for category saving
+    * Improved the behavior of Categories management in the Admin panel
+    * Implemented the keyboard navigation through html elements
+    * Improved the HTML structure and UI of the Catalog Category Link, Catalog Product Link and CMS Static Block widgets
+    * Added UI Library documentation
+    * Fixed Blank & Luma themes UI bugs
+    * Fixed footer alignment
+    * Published the Luma theme and removed the Plushe theme
 * Framework Improvements:
-    * Manage list of loaded Modules before Installation (MAGETWO-28547)
-    * Merged SQL and Data Upgrades (MAGETWO-30041)
-    * [TD] Move \Magento\TestFramework\Utility\Files to Magento Framework (MAGETWO-21298)
-* Setup tool:
-    * No longer has duplication with Framework. (MAGETWO-28582)
-    * Deployment configuration has been refactored from xml format in local.xml to associated array in config.php (MAGETWO-28582)
-    * Has improved performance (MAGETWO-27307)
+    * Added the ability to configure the list of loaded modules before installation
+    * Merged SQL and Data Upgrades
+    * Moved \Magento\TestFramework\Utility\Files to Magento Framework
+* Setup tool improvements:
+    * No duplication with Framework
+    * Deployment configuration has been refactored from XML format in local.xml to associated array in config.php
+    * Iimproved performance
 * Search improvements:
-    * Integrated Full Text Search library into Layered Navigation functionality (MAGETWO-28305)
+    * Integrated the Full Text Search library into the Layered Navigation functionality
 
 0.1.0-alpha105
 =============
@@ -1978,7 +1978,7 @@
   * LESS styles library added in pub/lib/css/
   * A new Blank theme set as default
 * GitHub requests:
-  * [#491](https://github.com/magento/magento2/pull/491) -- Fixed bug, incorrect auto-generation Category URL for some groups of symbols (idish, cirrilic, é, ä, and other).
+  * [#491](https://github.com/magento/magento2/pull/491) -- Fixed bug, incorrect auto-generation Category URL for some groups of symbols (idish, cirrilic, e, a, and other).
   * [#480](https://github.com/magento/magento2/pull/480) -- Fixing a bug for loading config from local.xml
   * [#472](https://github.com/magento/magento2/issues/472) -- Params passed in pub/index.php being overwritten
   * [#461](https://github.com/magento/magento2/pull/461) -- Use translates for Quote\Address\Total\Shipping
