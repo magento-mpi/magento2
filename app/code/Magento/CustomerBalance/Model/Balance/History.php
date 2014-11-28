@@ -128,7 +128,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      * @return $this
      * @throws Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $balance = $this->getBalanceModel();
         if (!$balance || !$balance->getId()) {
@@ -179,7 +179,7 @@ class History extends \Magento\Framework\Model\AbstractModel
         }
         $this->setAction((int)$balance->getHistoryAction());
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -187,9 +187,9 @@ class History extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
 
         // attempt to send email
         $this->setIsCustomerNotified(false);

@@ -21,9 +21,9 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\AccountManagementInterface
      */
-    protected $_customerAccountService;
+    protected $customerAccountManagement;
 
     /**
      * @var \Magento\Customer\Helper\View
@@ -33,8 +33,8 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_customerAccountService = $this->_objectManager->create(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        $this->customerAccountManagement = $this->_objectManager->create(
+            'Magento\Customer\Api\AccountManagementInterface'
         );
         $this->_customerViewHelper = $this->_objectManager->create('Magento\Customer\Helper\View');
     }
@@ -42,23 +42,12 @@ class EmailTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
+     * @dataProvider customerFunctionDataProvider
+     *
+     * @param bool isCustomerIdUsed
      */
-    public function testSend()
+    public function testSend($isCustomerIdUsed)
     {
-        $this->_objectManager->configure(
-            [
-                'Magento\ProductAlert\Model\Email' => [
-                    'arguments' => [
-                        'transportBuilder' => [
-                            'instance' => 'Magento\TestFramework\Mail\Template\TransportBuilderMock'
-                        ]
-                    ]
-                ],
-                'preferences' => [
-                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock'
-                ]
-            ]
-        );
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
 
@@ -70,8 +59,14 @@ class EmailTest extends \PHPUnit_Framework_TestCase
         $this->_emailModel->setWebsite($website);
 
         /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
-        $customer = $this->_customerAccountService->getCustomer(1);
-        $this->_emailModel->setCustomerData($customer);
+        $customerRepository = $this->_objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
+        $customer = $customerRepository->getById(1);
+
+        if ($isCustomerIdUsed) {
+            $this->_emailModel->setCustomerId(1);
+        } else {
+            $this->_emailModel->setCustomerData($customer);
+        }
 
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->_objectManager->create('Magento\Catalog\Model\Product');
@@ -87,5 +82,13 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             '%AHello ' . $this->_customerViewHelper->getCustomerName($customer) . '%A',
             $transportBuilder->getSentMessage()->getBodyHtml()->getContent()
         );
+    }
+
+    public function customerFunctionDataProvider()
+    {
+        return [
+            [true],
+            [false]
+        ];
     }
 }

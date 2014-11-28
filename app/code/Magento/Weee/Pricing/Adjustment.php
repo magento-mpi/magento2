@@ -13,6 +13,7 @@ use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Weee\Helper\Data as WeeeHelper;
 use Magento\Tax\Pricing\Adjustment as TaxAdjustment;
 use Magento\Catalog\Pricing\Price\CustomOptionPriceInterface;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * Weee pricing adjustment
@@ -39,14 +40,20 @@ class Adjustment implements AdjustmentInterface
     protected $sortOrder;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+    /**
      * Constructor
      *
      * @param WeeeHelper $weeeHelper
+     * @param PriceCurrencyInterface $priceCurrency
      * @param int $sortOrder
      */
-    public function __construct(WeeeHelper $weeeHelper, $sortOrder = null)
+    public function __construct(WeeeHelper $weeeHelper, PriceCurrencyInterface $priceCurrency, $sortOrder = null)
     {
         $this->weeeHelper = $weeeHelper;
+        $this->priceCurrency = $priceCurrency;
         $this->sortOrder = $sortOrder;
     }
 
@@ -138,7 +145,9 @@ class Adjustment implements AdjustmentInterface
      */
     protected function getAmount(SaleableInterface $saleableItem)
     {
-        return $this->weeeHelper->getAmount($saleableItem);
+        $weeeAmount = $this->weeeHelper->getAmount($saleableItem);
+        $weeeAmount = $this->priceCurrency->convertAndRound($weeeAmount);
+        return $weeeAmount;
     }
 
     /**

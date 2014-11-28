@@ -45,9 +45,10 @@ class Engine extends \Magento\Framework\App\Config\Value
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
+
         if ($this->isValueChanged()) {
             $this->indexerRegistry->get(\Magento\CatalogSearch\Model\Indexer\Fulltext::INDEXER_ID)->invalidate();
         }

@@ -34,11 +34,15 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Rma\Model\Rma\RmaDataMapper|\PHPUnit_Framework_MockObject_MockObject */
     protected $rmaDataMapperMock;
 
+    /** @var \Magento\Framework\Api\ExtensibleDataObjectConverter|\PHPUnit_Framework_MockObject_MockObject */
+    protected $extensibleDataObjectConverterMock;
+
     protected function setUp()
     {
         $this->rmaFactoryMock = $this->getMock('Magento\Rma\Model\RmaFactory', ['create'], [], '', false);
         $this->rmaRepositoryMock = $this->getMock('Magento\Rma\Model\RmaRepository', ['get'], [], '', false);
-        $this->orderRepositoryMock = $this->getMock('Magento\Sales\Model\OrderRepository', ['get'], [], '', false);
+        $this->orderRepositoryMock = $this->getMock(
+            'Magento\Sales\Api\OrderRepositoryInterface', [], [], '', false);
         $this->statusFactoryMock = $this->getMock(
             'Magento\Rma\Model\Rma\Source\StatusFactory',
             ['create'],
@@ -49,6 +53,12 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->rmaDataMapperMock = $this->getMock('Magento\Rma\Model\Rma\RmaDataMapper', [], [], '', false);
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
+
+        $this->extensibleDataObjectConverterMock = $this->getMockBuilder(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter'
+        )->setMethods(['toFlatArray'])->disableOriginalConstructor()->getMock();
+
+
         $this->converter = $this->objectManagerHelper->getObject(
             'Magento\Rma\Model\Rma\Converter',
             [
@@ -56,7 +66,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'rmaRepository' => $this->rmaRepositoryMock,
                 'orderRepository' => $this->orderRepositoryMock,
                 'statusFactory' => $this->statusFactoryMock,
-                'rmaDataMapper' => $this->rmaDataMapperMock
+                'rmaDataMapper' => $this->rmaDataMapperMock,
+                'extensibleDataObjectConverter' => $this->extensibleDataObjectConverterMock
             ]
         );
     }
@@ -115,7 +126,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $rmaDto->expects($this->once())->method('__toArray')->will($this->returnValue($rmaData));
         $rmaDto->expects($this->once())->method('getItems')->will($this->returnValue([$itemDto]));
         $itemDto->expects($this->once())->method('getId')->will($this->returnValue($itemId));
-        $itemDto->expects($this->once())->method('__toArray')->will($this->returnValue($itemData));
+        $this->extensibleDataObjectConverterMock->expects($this->once())->method('toFlatArray')
+            ->will($this->returnValue($itemData));
         $this->rmaDataMapperMock->expects($this->once())->method('filterRmaSaveRequest')
             ->with($filteredData)
             ->will($this->returnValue($rmaData));

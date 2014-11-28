@@ -210,7 +210,8 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
                 $file = str_replace('/', '\\', $file);
                 $filePath = preg_replace($patterns, $replacements, $file);
                 $className = substr($filePath, 0, -4);
-                if (class_exists($className)) {
+                $phpClassFile = !preg_match('/\\\\[A-Za-z0-9_]*\\\\[A-Za-z0-9_]*\\\\(data|sql)\\\\.*/', $className);
+                if ($phpClassFile && class_exists($className)) {
                     $file = str_replace('\\', DIRECTORY_SEPARATOR, $file);
                     $classes[$file] = $className;
                 }

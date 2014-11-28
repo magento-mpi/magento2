@@ -19,13 +19,6 @@ class FulltextIndexRebuild
     protected $_searchHelper;
 
     /**
-     * Layer filter price
-     *
-     * @var \Magento\Solr\Model\Layer\Category\Filter\Price
-     */
-    protected $_layerFilterPrice;
-
-    /**
      * Cache
      *
      * @var \Magento\Framework\App\CacheInterface
@@ -42,18 +35,15 @@ class FulltextIndexRebuild
     /**
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Solr\Helper\Data $searchHelper
-     * @param \Magento\Solr\Model\Layer\Category\Filter\Price $layerFilterPrice
      * @param \Magento\Framework\App\CacheInterface $cache
      */
     public function __construct(
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Solr\Helper\Data $searchHelper,
-        \Magento\Solr\Model\Layer\Category\Filter\Price $layerFilterPrice,
         \Magento\Framework\App\CacheInterface $cache
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_searchHelper = $searchHelper;
-        $this->_layerFilterPrice = $layerFilterPrice;
         $this->_cache = $cache;
     }
 
@@ -99,8 +89,7 @@ class FulltextIndexRebuild
                 /**
                  * Cleaning MAXPRICE cache
                  */
-                $cacheTag = $this->_layerFilterPrice->getCacheTag();
-                $this->_cache->clean(array($cacheTag));
+                $this->_cache->clean(array(\Magento\Solr\Model\Layer\Category\Filter\Price::CACHE_TAG));
             }
         }
     }

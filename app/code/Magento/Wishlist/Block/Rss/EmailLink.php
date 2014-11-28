@@ -6,12 +6,16 @@
  * @license     {license_link}
  */
 
-
 /**
  * Wishlist RSS URL to Email Block
  */
 namespace Magento\Wishlist\Block\Rss;
 
+/**
+ * Class EmailLink
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
+ */
 class EmailLink extends Link
 {
     /**

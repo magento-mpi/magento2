@@ -28,7 +28,7 @@
 
 @addto-color: #999;
 @addto-hover-color: @color-primary;
-@minicart-icons-color: #8f8f8f;
+@minicart-icons-color: @color-gray56;
 
 @price-color: #575757;
 @price-size: 22px;
@@ -41,6 +41,14 @@
 
 body {
     .css(background-color, @page-bg-color);
+}
+
+// ToDo: move it directly to .page-wrapper (now it doesn't appear in mediaquery cuz of size of css)
+.page-wrapper {
+    .ie9 & {
+        min-height: none;
+        background-color: @color-background-page;
+    }
 }
 
 //
@@ -105,7 +113,7 @@ body {
     }
 }
 
-.page.main {
+.page-main {
     > .page-title {
         .title + .action {
             margin-top: @indent-l-base;
@@ -169,7 +177,7 @@ body {
             &:extend(.abstract-reset-list all);
         }
         .links {
-            li {
+            > li {
                 border-top: 1px solid @footer-links-separator-border-color;
                 font-size: 16px;
                 background: @footer-bg-color;
@@ -204,7 +212,7 @@ body {
 .copyright {
     display: block;
     padding: @indent-s-base;
-    background: #8f8f8f;
+    background-color: @color-background-copyright;
     text-align: center;
     color: #fff;
 }
@@ -335,6 +343,18 @@ body {
 //    Desktop
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
+
+    html,
+    body {
+        height: 100%; // stretch screen area for sticky footer
+    }
+
+    body {
+        .ie9 & {
+            background-color: @color-background-copyright;
+        }
+    }
+
     .navigation ul {
         padding: 0 8px;
     }
@@ -354,11 +374,11 @@ body {
             float: right;
             margin-left: 15px;
             margin-right: -6px;
-            order: 1;
+            .vendor-prefix-order(1);
         }
     }
 
-    .page.main {
+    .page-main {
         > .page-title {
             .title {
                 display: inline-block;
@@ -462,16 +482,27 @@ body {
     }
 
     .page-wrapper {
+        .vendor-prefix-display(flex);
+        .vendor-prefix-flex-direction(column);
+        transition: margin .3s ease-out 0;
         position: relative;
-        width: 100%;
-        float: right;
         margin: 0;
-        .transition(margin .3s ease-out 0);
+        min-height: 100%; // stretch content area for sticky footer
+        > .breadcrumbs,
+        > .top-container {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .ie10 &,
+        .ie11 & {
+            height: 100%;
+        }
     }
 
     .page-footer {
-        background: @footer-bg-color;
+        margin-top: auto;
         padding-bottom: 25px;
+        background: @footer-bg-color;
     }
 
     .footer {
@@ -490,6 +521,7 @@ body {
             .links {
                 display: inline-block;
                 vertical-align: top;
+                padding-right: 50px;
                 li {
                     border: none;
                     background: transparent;
