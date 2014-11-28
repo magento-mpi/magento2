@@ -25,10 +25,10 @@
     * Fixed the wrong behavior of JS loaders on the storefront pages
     * Fixed Shopping cart price rule form validation
     * Fixed an issue where the 'Please wait' spinner persisted when creating a customer custom attribute with existing code
-    * Fixed a google chrome specific issue where subcategories were not displayed correctly on the first hover for category item
+    * Fixed a Google Chrome specific issue where subcategories were not displayed correctly on the first hover for category item
     * Fixed an issue where the 'Please wait' spinner did not disappear when creating customer with invalid email
     * Fixed an issue where the Username field auto-focus on admin login page revealed password in case of fast typing
-    * Fixed an issue where Bundle Product originsl Price was not displayed in case of discount
+    * Fixed an issue where Bundle Product original Price was not displayed in case of discount
     * Fixed wrong discount calculation for bundle options
     * Fixed an issue where wrong discount and total amounts were displayed on the order creation page when reordering an order with a bundle product in the Admin panel
     * Fixed an issue where admin tax notifications did not appear/disappear unless cache was flushed or disabled
@@ -60,15 +60,15 @@
     * [#652](https://github.com/magento/magento2/issues/652) -- Multishipping checkout not to change the Billing address js issue
     * [#648](https://github.com/magento/magento2/issues/648) -- An equal (=) sign in the hash of the product page to to break the tabs functionality
 * Service Contracts:
-    * Usage of new API of the Customer module
+    * Refactored usage of new API of the Customer module
     * Implemented Service Contracts for the Sales module
-    * Refactored the Catalog module service layer
-    * Refactored the Grouped module service layer
+    * Refactored Service Contracts for the Catalog module
+    * Refactored Service Contracts for the Grouped module
 * UI Improvements:
     * Implemented the Form component in Magento UI Library
     * Removed extra JS loaders for category saving
     * Improved the behavior of Categories management in the Admin panel
-    * Implemented the keyboard navigation through html elements
+    * Implemented the keyboard navigation through HTML elements
     * Improved the HTML structure and UI of the Catalog Category Link, Catalog Product Link and CMS Static Block widgets
     * Added UI Library documentation
     * Fixed Blank & Luma themes UI bugs
@@ -79,9 +79,9 @@
     * Merged SQL and Data Upgrades
     * Moved \Magento\TestFramework\Utility\Files to Magento Framework
 * Setup tool improvements:
-    * No duplication with Framework
-    * Deployment configuration has been refactored from XML format in local.xml to associated array in config.php
-    * Iimproved performance
+    * Removed duplication with Framework
+    * Deployment configuration is refactored from XML format in local.xml to associated array in config.php
+    * Improved performance
 * Search improvements:
     * Integrated the Full Text Search library into the Layered Navigation functionality
 
