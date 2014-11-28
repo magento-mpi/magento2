@@ -76,6 +76,7 @@ class OverviewPost extends \Magento\Multishipping\Controller\Checkout
             $this->_getState()->setCompleteStep(State::STEP_OVERVIEW);
             $this->_getCheckout()->getCheckoutSession()->clearQuote();
             $this->_getCheckout()->getCheckoutSession()->setDisplaySuccess(true);
+            $this->_getCheckout()->sendOrders();
             $this->_redirect('*/*/success');
         } catch (\Magento\Payment\Model\Info\Exception $e) {
             $message = $e->getMessage();
