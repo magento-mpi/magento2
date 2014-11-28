@@ -7,8 +7,6 @@
  */
 namespace Magento\CatalogEvent\Model\Resource\Event;
 
-use \Magento\CatalogEvent\Model\Resource\Event\Collection;
-
 /**
  * @magentoDataFixture Magento/CatalogEvent/_files/events.php
  */

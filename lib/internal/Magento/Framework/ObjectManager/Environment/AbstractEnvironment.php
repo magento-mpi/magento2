@@ -49,18 +49,21 @@ abstract class AbstractEnvironment implements EnvironmentInterface
     }
 
     /**
+     * Returns object manager factory
+     *
+     * @param array $arguments
      * @return FactoryDecorator | FactoryCompiled
      */
-    public function getObjectManagerFactory()
+    public function getObjectManagerFactory($arguments)
     {
         $this->factory = new $this->configPreference(
             $this->getDiConfig(),
             null,
             $this->envFactory->getDefinitions(),
-            $this->envFactory->getAppArguments()->get()
+            $arguments
         );
 
-        if ($this->envFactory->getAppArguments()->get('MAGE_PROFILER') == 2) {
+        if (isset($arguments['MAGE_PROFILER']) && $arguments['MAGE_PROFILER'] == 2) {
             $this->factory = new FactoryDecorator(
                 $this->factory,
                 \Magento\Framework\ObjectManager\Profiler\Log::getInstance()

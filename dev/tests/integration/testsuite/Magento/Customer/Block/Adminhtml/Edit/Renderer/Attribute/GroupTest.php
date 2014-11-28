@@ -30,7 +30,6 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         $accountBlock->initForm();
         $this->groupElement = $accountBlock->getForm()->getElement('group_id');
 
-
         $this->groupRenderer = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute\Group'
         );
@@ -38,9 +37,9 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     public function testRender()
     {
-        /** @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService */
+        /** @var \Magento\Customer\Api\CustomerMetadataInterface $metadataService */
         $metadataService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerMetadataServiceInterface'
+            'Magento\Customer\Api\CustomerMetadataInterface'
         );
         $autoGroupAttribute = $metadataService->getAttributeMetadata('disable_auto_group_change');
         $this->groupRenderer->setDisableAutoGroupChangeAttribute($autoGroupAttribute);

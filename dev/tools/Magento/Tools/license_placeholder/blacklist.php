@@ -11,7 +11,7 @@
 return array(
     'app/code/*/*/etc/{wsi,wsdl,wsdl2}.xml',
     'app/code/Zend',
-    'app/etc/local.xml',
+    'app/etc/config.php',
     'dev/build/publication/license',
     'dev/tests/integration/testsuite/Magento/Framework/Css/PreProcessor/_files',
     'dev/tests/integration/testsuite/Magento/Framework/Less/_files/design/frontend/test_pre_process',

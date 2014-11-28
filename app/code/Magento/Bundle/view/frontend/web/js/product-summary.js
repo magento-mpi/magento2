@@ -101,4 +101,6 @@ define([
             });
         }
     });
+
+    return $.mage.productSummary;
 });

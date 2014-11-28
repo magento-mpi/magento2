@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-/** @var $this \Magento\Framework\Module\Setup */
+/** @var $this \Magento\Framework\Module\DataSetup */
 $installer = $this->createMigrationSetup();
 $installer->startSetup();
 

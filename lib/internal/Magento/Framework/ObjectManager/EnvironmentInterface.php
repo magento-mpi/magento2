@@ -35,9 +35,10 @@ interface EnvironmentInterface
     /**
      * Return factory object
      *
+     *
      * @return \Magento\Framework\ObjectManager\FactoryInterface
      */
-    public function getObjectManagerFactory();
+    public function getObjectManagerFactory($arguments);
 
     /**
      * Return ConfigLoader object

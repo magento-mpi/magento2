@@ -14,6 +14,7 @@ use Magento\Framework\ObjectManager\Environment;
 use Magento\Framework\ObjectManager\EnvironmentFactory;
 use Magento\Framework\ObjectManager\EnvironmentInterface;
 use Magento\Framework\Profiler;
+use Magento\Framework\Code\Generator\FileResolver;
 use Magento\Framework\Filesystem\DriverPool;
 
 /**
@@ -22,6 +23,16 @@ use Magento\Framework\Filesystem\DriverPool;
  */
 class ObjectManagerFactory
 {
+    /**
+     * Initialization parameter for a custom deployment configuration file
+     */
+    const INIT_PARAM_DEPLOYMENT_CONFIG_FILE = 'MAGE_CONFIG_FILE';
+
+    /**
+     * Initialization parameter for custom deployment configuration data
+     */
+    const INIT_PARAM_DEPLOYMENT_CONFIG = 'MAGE_CONFIG';
+
     /**
      * Locator class name
      *
@@ -87,27 +98,27 @@ class ObjectManagerFactory
      */
     public function create(array $arguments, $useCompiled = true)
     {
-        $appArguments = $this->createAppArguments($this->directoryList, $arguments);
+        $deploymentConfig = $this->createDeploymentConfig($this->directoryList, $arguments);
 
         $definitionFactory = new \Magento\Framework\ObjectManager\DefinitionFactory(
             $this->driverPool->getDriver(DriverPool::FILE),
             $this->directoryList->getPath(DirectoryList::DI),
             $this->directoryList->getPath(DirectoryList::GENERATION),
-            $appArguments->get('definition.format', 'serialized')
+            $deploymentConfig->get('definition/format', 'serialized')
         );
 
-        $definitions = $definitionFactory->createClassDefinition($appArguments->get('definitions'), $useCompiled);
+        $definitions = $definitionFactory->createClassDefinition($deploymentConfig->get('definitions'), $useCompiled);
         $relations = $definitionFactory->createRelations();
 
         /** @var \Magento\Framework\ObjectManager\EnvironmentFactory $enFactory */
-        $enFactory = new $this->envFactoryClassName($relations, $definitions, $appArguments);
+        $enFactory = new $this->envFactoryClassName($relations, $definitions);
         /** @var EnvironmentInterface $env */
         $env =  $enFactory->createEnvironment();
 
         /** @var \Magento\Framework\Interception\ObjectManager\Config $diConfig */
         $diConfig = $env->getDiConfig();
 
-        $appMode = $appArguments->get(State::PARAM_MODE, State::MODE_DEFAULT);
+        $appMode = isset($arguments[State::PARAM_MODE]) ? $arguments[State::PARAM_MODE] : State::MODE_DEFAULT;;
         $booleanUtils = new \Magento\Framework\Stdlib\BooleanUtils();
         $argInterpreter = $this->createArgumentInterpreter($booleanUtils);
         $argumentMapper = new \Magento\Framework\ObjectManager\Config\Mapper\Dom($argInterpreter);
@@ -119,10 +130,10 @@ class ObjectManagerFactory
             }
         }
 
-        $this->factory = $env->getObjectManagerFactory();
+        $this->factory = $env->getObjectManagerFactory($arguments);
 
         $sharedInstances = [
-            'Magento\Framework\App\Arguments' => $appArguments,
+            'Magento\Framework\App\DeploymentConfig' => $deploymentConfig,
             'Magento\Framework\App\Filesystem\DirectoryList' => $this->directoryList,
             'Magento\Framework\Filesystem\DirectoryList' => $this->directoryList,
             'Magento\Framework\Filesystem\DriverPool' => $this->driverPool,
@@ -152,34 +163,29 @@ class ObjectManagerFactory
         );
         $objectManager->get('Magento\Framework\Config\ScopeInterface')
             ->setCurrentScope('global');
-        $objectManager->get('Magento\Framework\App\Resource')
-            ->setCache($objectManager->get('Magento\Framework\App\CacheInterface'));
-
         $diConfig->setInterceptionConfig(
             $objectManager->get('Magento\Framework\Interception\Config\Config')
         );
-
         return $objectManager;
     }
 
     /**
-     * Create instance of application arguments
+     * Creates deployment configuration object
      *
      * @param DirectoryList $directoryList
      * @param array $arguments
-     * @return Arguments
+     * @return DeploymentConfig
      */
-    protected function createAppArguments(DirectoryList $directoryList, array $arguments)
+    protected function createDeploymentConfig(DirectoryList $directoryList, array $arguments)
     {
-        return new Arguments(
-            $arguments,
-            new \Magento\Framework\App\Arguments\Loader(
-                $directoryList,
-                isset(
-                    $arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE]
-                ) ? $arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE] : null
-            )
-        );
+        $customFile = isset($arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE])
+            ? $arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE]
+            : null;
+        $customData = isset($arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG])
+            ? $arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG]
+            : [];
+        $reader = new DeploymentConfig\Reader($directoryList, $customFile);
+        return new DeploymentConfig($reader, $customData);
     }
 
     /**

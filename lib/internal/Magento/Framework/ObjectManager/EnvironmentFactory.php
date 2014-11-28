@@ -24,23 +24,15 @@ class EnvironmentFactory
     private $definitions;
 
     /**
-     * @var Arguments
-     */
-    private $appArguments;
-
-    /**
      * @param RelationsInterface $relations
      * @param DefinitionInterface $definitions
-     * @param Arguments $appArguments
      */
     public function __construct(
         RelationsInterface $relations,
-        DefinitionInterface $definitions,
-        Arguments $appArguments
+        DefinitionInterface $definitions
     ) {
         $this->relations = $relations;
         $this->definitions = $definitions;
-        $this->appArguments = $appArguments;
     }
 
     /**
@@ -71,14 +63,6 @@ class EnvironmentFactory
         }
 
         return Developer::MODE;
-    }
-
-    /**
-     * @return Arguments
-     */
-    public function getAppArguments()
-    {
-        return $this->appArguments;
     }
 
     /**

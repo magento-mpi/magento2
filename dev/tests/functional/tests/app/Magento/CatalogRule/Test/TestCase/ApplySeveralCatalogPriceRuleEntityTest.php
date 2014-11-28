@@ -8,7 +8,6 @@
 
 namespace Magento\CatalogRule\Test\TestCase;
 
-use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
@@ -16,55 +15,33 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  *
  * Test Flow:
  * Preconditions:
- *  1. Create simple product.
- *  2. Execute before each variation:
+ *  1. Execute before each variation:
  *   - Delete all active catalog price rules
  *   - Create catalog price rule from dataSet using Curl
  * Steps:
  *  1. Apply all created rules
- *  2. Perform all assertions
+ *  2. Create simple product
+ *  3. Perform all assertions
  *
  * @group Catalog_Price_Rules_(MX)
  * @ZephyrId MAGETWO-24780
  */
-class ApplySeveralCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
+class ApplySeveralCatalogPriceRuleEntityTest extends AbstractCatalogRuleEntityTest
 {
-    /**
-     * Create simple product
-     *
-     * @param FixtureFactory $fixtureFactory
-     * @return array
-     */
-    public function __prepare(
-        FixtureFactory $fixtureFactory
-    ) {
-        $productSimple = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'simple_for_salesrule_1']);
-        $productSimple->persist();
-
-        return ['product' => $productSimple];
-    }
-
     /**
      * Apply several catalog price rules
      *
-     * @param FixtureFactory $fixtureFactory,
      * @param array $catalogRulesOriginal
-     * @param array $price
-     * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return array
      */
-    public function testApplySeveralCatalogPriceRules(
-        FixtureFactory $fixtureFactory,
-        array $catalogRulesOriginal,
-        array $price
-    ) {
+    public function testApplySeveralCatalogPriceRules(array $catalogRulesOriginal)
+    {
         $this->catalogRuleIndex->open();
         foreach ($catalogRulesOriginal as $key => $catalogPriceRule) {
             if ($catalogPriceRule == '-') {
                 continue;
             }
-            $this->catalogRules[$key] = $fixtureFactory->createByCode(
+            $this->catalogRules[$key] = $this->fixtureFactory->createByCode(
                 'catalogRule',
                 ['dataSet' => $catalogPriceRule]
             );
@@ -77,5 +54,13 @@ class ApplySeveralCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
             $this->catalogRuleIndex->getCatalogRuleGrid()->searchAndOpen($filter);
             $this->catalogRuleNew->getFormPageActions()->saveAndApply();
         }
+        // Create product
+        $productSimple = $this->fixtureFactory->createByCode(
+            'catalogProductSimple',
+            ['dataSet' => 'simple_for_salesrule_1']
+        );
+        $productSimple->persist();
+
+        return ['product' => $productSimple];
     }
 }
