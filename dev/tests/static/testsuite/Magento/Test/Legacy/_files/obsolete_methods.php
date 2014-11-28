@@ -2104,5 +2104,10 @@ return array(
     ['_getNewConditionModelInstance', 'Magento\Rule\Model\Condition\Combine'],
     ['getTaxConfig', 'Magento\ConfigurableProduct\Pricing\Price\AttributePrice'],
     ['prepareAdjustmentConfig', 'Magento\ConfigurableProduct\Pricing\Price\AttributePrice'],
-    ['getDefaultCustomerGroupId', 'Magento\Customer\Model\Vat', 'Magento\Customer\Api\GroupManagementInterface::getDefaultGroup']
+    ['getDefaultCustomerGroupId', 'Magento\Customer\Model\Vat', 'Magento\Customer\Api\GroupManagementInterface::getDefaultGroup'],
+    [
+        'getRatesByCustomerAndProductTaxClassId',
+        'Magento\Tax\Service\V1\TaxRuleServiceInterface',
+        'Magento\Tax\Api\TaxRateManagementInterface::getRatesByCustomerAndProductTaxClassId'
+    ]
 );
