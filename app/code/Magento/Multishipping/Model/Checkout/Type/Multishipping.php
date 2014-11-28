@@ -105,6 +105,16 @@ class Multishipping extends \Magento\Framework\Object
     protected $quoteRepository;
 
     /**
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     */
+    protected $searchCriteriaBuilder;
+
+    /**
+     * @var \Magento\Framework\Api\FilterBuilder
+     */
+    protected $filterBuilder;
+
+    /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -120,6 +130,8 @@ class Multishipping extends \Magento\Framework\Object
      * @param OrderSender $orderSender
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder,
      * @param array $data
      */
     public function __construct(
@@ -138,6 +150,8 @@ class Multishipping extends \Magento\Framework\Object
         OrderSender $orderSender,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder,
         array $data = []
     ) {
         $this->_eventManager = $eventManager;
@@ -155,6 +169,8 @@ class Multishipping extends \Magento\Framework\Object
         $this->orderSender = $orderSender;
         $this->priceCurrency = $priceCurrency;
         $this->quoteRepository = $quoteRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
         parent::__construct($data);
         $this->_init();
     }
@@ -808,8 +824,14 @@ class Multishipping extends \Magento\Framework\Object
         if (is_null($addressId)) {
             $addressId = $defaultAddressIdFromCustomer;
             if (!$addressId) {
-                /** Default shipping address is not available, try to find any customer address */
-                $addresses = $this->getCustomer()->getAddresses();
+                /** Default address is not available, try to find any customer address */
+                $filter =  $this->filterBuilder->setField('parent_id')
+                    ->setValue($this->getCustomer()->getId())
+                    ->setConditionType('eq')
+                    ->create();
+                $addresses = (array)($this->addressRepository->getList(
+                    $this->searchCriteriaBuilder->addFilter([$filter])->create()
+                )->getItems());
                 if ($addresses) {
                     $address = reset($addresses);
                     $addressId = $address->getId();
