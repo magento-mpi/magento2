@@ -2106,4 +2106,9 @@ return array(
     ['importOrderAddress', 'Magento\Sales\Model\Quote\Address', 'Magento\Sales\Model\Quote\Address::importCustomerAddressData'],
     ['_getUsedAttributes', 'Magento\SalesRule\Model\Rule'],
     ['getDefaultCustomerGroupId', 'Magento\Customer\Model\Vat', 'Magento\Customer\Api\GroupManagementInterface::getDefaultGroup'],
+    [
+        'getRatesByCustomerAndProductTaxClassId',
+        'Magento\Tax\Service\V1\TaxRuleServiceInterface',
+        'Magento\Tax\Api\TaxRateManagementInterface::getRatesByCustomerAndProductTaxClassId'
+    ]
 );

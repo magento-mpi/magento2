@@ -23,7 +23,8 @@
  */
 namespace Magento\Tax\Model\Calculation\Rate;
 
-class Title extends \Magento\Framework\Model\AbstractModel
+class Title extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Tax\Api\Data\TaxRateTitleInterface
 {
     /**
      * @return void
@@ -42,4 +43,22 @@ class Title extends \Magento\Framework\Model\AbstractModel
         $this->getResource()->deleteByRateId($rateId);
         return $this;
     }
+
+    /**
+     * @codeCoverageIgnoreStart
+     * {@inheritdoc}
+     */
+    public function getStoreId()
+    {
+        return $this->getData(self::KEY_STORE_ID);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getValue()
+    {
+        return $this->getData(self::KEY_VALUE_ID);
+    }
+    // @codeCoverageIgnoreEnd
 }

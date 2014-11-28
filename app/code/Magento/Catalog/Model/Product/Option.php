@@ -24,7 +24,7 @@ use \Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface
+class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data\ProductCustomOptionInterface
 {
     const OPTION_GROUP_TEXT = 'text';
 
