@@ -39,7 +39,6 @@ var config = {
     },
     deps: [
         'jquery',
-        'jquery/jquery-migrate',
         'jquery/jquery.mobile.custom',
         'js/responsive',
         'mage/common',
