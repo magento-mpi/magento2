@@ -108,9 +108,9 @@ class AbstractExtensibleModelTest extends \PHPUnit_Framework_TestCase
                 $this->contextMock,
                 $this->registryMock,
                 $this->metadataServiceMock,
+                $this->attributeDataBuilderMock,
                 $this->resourceMock,
-                $this->resourceCollectionMock,
-                $this->attributeDataBuilderMock
+                $this->resourceCollectionMock
             )
         );
     }
