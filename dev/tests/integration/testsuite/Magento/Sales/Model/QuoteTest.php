@@ -272,14 +272,14 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     protected function _prepareQuoteForTestAssignCustomerWithAddressChange($quote)
     {
         $objectManager = Bootstrap::getObjectManager();
-        /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService */
-        $customerService = $objectManager->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = $objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
         $fixtureCustomerId = 1;
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $objectManager->create('Magento\Customer\Model\Customer');
         $fixtureSecondAddressId = 2;
         $customer->load($fixtureCustomerId)->setDefaultShipping($fixtureSecondAddressId)->save();
-        $customerData = $customerService->getCustomer($fixtureCustomerId);
+        $customerData = $customerRepository->getById($fixtureCustomerId);
         $this->assertEmpty(
             $quote->getBillingAddress()->getId(),
             "Precondition failed: billing address should be empty."
@@ -333,8 +333,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             \Magento\Customer\Model\Data\Customer::STORE_ID => 1,
             \Magento\Customer\Model\Data\Customer::SUFFIX => 'Jr.',
             \Magento\Customer\Model\Data\Customer::TAXVAT => 1,
-            \Magento\Customer\Model\Data\Customer::WEBSITE_ID => 1,
-            \Magento\Customer\Model\Data\Customer::KEY_ADDRESSES => null
+            \Magento\Customer\Model\Data\Customer::WEBSITE_ID => 1
         ];
     }
 }
