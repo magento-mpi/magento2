@@ -68,4 +68,5 @@ return [
     ['Magento\Connect'],
     ['Magento\Framework\Connect'],
     ['Magento\Bundle\Service'],
+    ['Magento\Tax\Service'],
 ];

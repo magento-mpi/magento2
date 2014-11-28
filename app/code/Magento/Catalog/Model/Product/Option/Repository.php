@@ -68,7 +68,7 @@ class Repository implements \Magento\Catalog\Api\ProductCustomOptionRepositoryIn
     /**
      * {@inheritdoc}
      */
-    public function delete(\Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface $entity)
+    public function delete(\Magento\Catalog\Api\Data\ProductCustomOptionInterface $entity)
     {
         $this->optionResource->delete($entity);
         return true;
@@ -77,7 +77,7 @@ class Repository implements \Magento\Catalog\Api\ProductCustomOptionRepositoryIn
     /**
      * {@inheritdoc}
      */
-    public function save(\Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface $option)
+    public function save(\Magento\Catalog\Api\Data\ProductCustomOptionInterface $option)
     {
         $productSku = $option->getProductSku();
         $product = $this->productRepository->get($productSku, true);

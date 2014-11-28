@@ -8,31 +8,30 @@
 
 namespace Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount;
 
-use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 use Mtf\Client\Element\Locator;
 use Mtf\Client\Element;
 
 /**
- * Class Grid
- * Gift card account grid block
+ * Gift card account grid block.
  */
-class Grid extends AbstractGrid
+class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {
     /**
-     * Locator for edit link
+     * Locator for edit link.
      *
      * @var string
      */
     protected $editLink = '.col-code';
 
     /**
-     *  Name for 'Sort' link
+     *  Name for 'Sort' link.
      *
      * @var string
      */
-    protected $sortLinkName = 'entity_id';
+    protected $sortLinkName = 'giftcardaccount_id';
+
     /**
-     * Initialize block elements
+     * Initialize block elements.
      *
      * @var array
      */
@@ -55,11 +54,12 @@ class Grid extends AbstractGrid
     ];
 
     /**
-     * Obtain specific row in grid
+     * Obtain specific row in grid.
      *
      * @param array $filter
-     * @param bool $isSearchable
-     * @param bool $isStrict
+     * @param bool $isSearchable [optional]
+     * @param bool $isStrict [optional]
+     * @throws \Exception
      * @return Element
      */
     protected function getRow(array $filter, $isSearchable = true, $isStrict = true)
@@ -68,25 +68,23 @@ class Grid extends AbstractGrid
         if ($isSearchable) {
             $this->search($filter);
         }
-        $location = '//div[@class="grid"]//tbody/tr[1][';
-        $rows = array();
+        $rows = [];
         foreach ($filter as $value) {
             $rows[] = 'td[contains(.,"' . $value . '")]';
         }
-        $location = $location . implode(' and ', $rows) . ']';
+        $location = '//div[@class="grid"]//tbody/tr[1][' . implode(' and ', $rows) . ']';
         return $this->_rootElement->find($location, Locator::SELECTOR_XPATH);
     }
 
     /**
-     * Search for item and select it
+     * Search for item and select it.
      *
      * @param array $filter
-     * @param bool $isSearchable
+     * @param bool $isSearchable [optional]
      * @throws \Exception
      */
     public function searchAndOpen(array $filter, $isSearchable = false)
     {
-        $this->sortGridByField($this->sortLinkName);
         $selectItem = $this->getRow($filter, $isSearchable);
         if ($selectItem->isVisible()) {
             $selectItem->find($this->editLink)->click();
@@ -96,16 +94,15 @@ class Grid extends AbstractGrid
     }
 
     /**
-     * Search for item and select it
+     * Search for item and select it.
      *
      * @param array $filter
-     * @param bool $isSearchable
-     * @return array|string
+     * @param bool $isSearchable [optional]
+     * @return string
      * @throws \Exception
      */
     public function getCode(array $filter, $isSearchable = false)
     {
-        $this->sortGridByField($this->sortLinkName);
         $selectItem = $this->getRow($filter, $isSearchable);
         if ($selectItem->isVisible()) {
             return $selectItem->find($this->editLink)->getText();
