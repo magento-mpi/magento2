@@ -474,6 +474,10 @@
             <attribute_code>is_virtual</attribute_code>
             <backend_type>virtual</backend_type>
         </is_virtual>
+        <attributes>
+            <attribute_code>attributes</attribute_code>
+            <backend_type>virtual</backend_type>
+        </attributes>
         <fpt>
             <attribute_code>fpt</attribute_code>
             <backend_type>decimal</backend_type>

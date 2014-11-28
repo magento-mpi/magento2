@@ -48,7 +48,7 @@ class WebsiteId implements FixtureInterface
      * @param array $params
      * @param array $data
      */
-    public function __construct(FixtureFactory $fixtureFactory, array $params, array $data = [])
+    public function __construct(FixtureFactory $fixtureFactory, array $params, $data = [])
     {
         $this->params = $params;
         if (isset($data['dataSet'])) {

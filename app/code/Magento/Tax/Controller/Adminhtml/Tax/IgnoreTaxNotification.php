@@ -17,14 +17,14 @@ class IgnoreTaxNotification extends \Magento\Tax\Controller\Adminhtml\Tax
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService
-     * @param \Magento\Tax\Service\V1\Data\TaxClassBuilder $taxClassBuilder
+     * @param \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassService
+     * @param \Magento\Tax\Api\Data\TaxClassDataBuilder $taxClassBuilder
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService,
-        \Magento\Tax\Service\V1\Data\TaxClassBuilder $taxClassBuilder,
+        \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassService,
+        \Magento\Tax\Api\Data\TaxClassDataBuilder $taxClassBuilder,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
     ) {
         $this->_cacheTypeList = $cacheTypeList;
