@@ -19,7 +19,6 @@
     &:extend(.abstract-add-clearfix all);
     &-amount {
         display: block;
-        float: left;
         line-height: @toolbar-mode-icon-font-size+2;
         padding: 8px 0 0;
         margin: 0;
@@ -49,7 +48,6 @@
 }
 
 .sorter {
-    float: right;
     padding: 4px 0 0;
     .products.wrapper ~ .toolbar & {
         display: none;
@@ -98,6 +96,12 @@
         .products.wrapper ~ & .pages {
             float: left;
         }
+        &-amount {
+            float: left;
+        }
+    }
+    .sorter {
+        float: right;
     }
     .modes {
         float: left;
