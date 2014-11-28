@@ -8,6 +8,7 @@
 namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
 use Magento\Backend\App\Action;
+use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * Class CaptureTest
@@ -15,11 +16,6 @@ use Magento\Backend\App\Action;
  */
 class CaptureTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $invoiceLoaderMock;
-
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -62,6 +58,8 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $objectManager = new ObjectManager($this);
+
         $this->requestMock = $this->getMockBuilder('Magento\Framework\App\Request\Http')
             ->disableOriginalConstructor()
             ->setMethods([])
@@ -119,34 +117,20 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
             ->method('getHelper')
             ->will($this->returnValue($this->helperMock));
 
-        $this->invoiceLoaderMock = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader')
-            ->disableOriginalConstructor()
-            ->setMethods([])
-            ->getMock();
-        $this->controller = new \Magento\Sales\Controller\Adminhtml\Order\Invoice\Capture(
-            $contextMock,
-            $this->invoiceLoaderMock
+        $this->controller = $objectManager->getObject(
+            'Magento\Sales\Controller\Adminhtml\Order\Invoice\Capture',
+            ['context' => $contextMock]
         );
     }
 
     public function testExecute()
     {
-        $orderId = 1;
         $invoiceId = 2;
-        $invoiceData = [];
 
-        $this->requestMock->expects($this->at(0))
-            ->method('getParam')
-            ->with('order_id')
-            ->will($this->returnValue($orderId));
-        $this->requestMock->expects($this->at(1))
+        $this->requestMock->expects($this->once())
             ->method('getParam')
             ->with('invoice_id')
             ->will($this->returnValue($invoiceId));
-        $this->requestMock->expects($this->at(2))
-            ->method('getParam')
-            ->with('invoice')
-            ->will($this->returnValue($invoiceData));
 
         $orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
@@ -182,67 +166,58 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
             ->method('addSuccess')
             ->with('The invoice has been captured.');
 
-        $this->objectManagerMock->expects($this->once())
+        $invoiceMock->expects($this->once())
+            ->method('load')
+            ->willReturnSelf();
+
+        $this->objectManagerMock->expects($this->at(0))
+            ->method('create')
+            ->with('Magento\Sales\Model\Order\Invoice')
+            ->willReturn($invoiceMock);
+
+        $this->objectManagerMock->expects($this->at(1))
             ->method('create')
             ->with('Magento\Framework\DB\Transaction')
             ->will($this->returnValue($transactionMock));
-
-        $this->invoiceLoaderMock->expects($this->once())
-            ->method('load')
-            ->with($orderId, $invoiceId, $invoiceData)
-            ->will($this->returnValue($invoiceMock));
 
         $this->assertNull($this->controller->execute());
     }
 
     public function testExecuteNoInvoice()
     {
-        $orderId = 1;
         $invoiceId = 2;
-        $invoiceData = [];
 
-        $this->requestMock->expects($this->at(0))
-            ->method('getParam')
-            ->with('order_id')
-            ->will($this->returnValue($orderId));
-        $this->requestMock->expects($this->at(1))
+        $this->requestMock->expects($this->once())
             ->method('getParam')
             ->with('invoice_id')
             ->will($this->returnValue($invoiceId));
-        $this->requestMock->expects($this->at(2))
-            ->method('getParam')
-            ->with('invoice')
-            ->will($this->returnValue($invoiceData));
 
-        $this->invoiceLoaderMock->expects($this->once())
+        $invoiceMock = $this->getMockBuilder('Magento\Sales\Model\Order\Invoice')
+            ->disableOriginalConstructor()
+            ->setMethods([])
+            ->getMock();
+        $invoiceMock->expects($this->once())
             ->method('load')
-            ->with($orderId, $invoiceId, $invoiceData)
-            ->will($this->returnValue(false));
+            ->willReturn(null);
+        $this->objectManagerMock->expects($this->once())
+            ->method('create')
+            ->with('Magento\Sales\Model\Order\Invoice')
+            ->willReturn($invoiceMock);
 
         $this->assertNull($this->controller->execute());
     }
 
     public function testExecuteModelException()
     {
-        $orderId = 1;
         $invoiceId = 2;
-        $invoiceData = [];
 
         $message = 'model exception';
         $e = new \Magento\Framework\Model\Exception($message);
 
-        $this->requestMock->expects($this->at(0))
-            ->method('getParam')
-            ->with('order_id')
-            ->will($this->returnValue($orderId));
-        $this->requestMock->expects($this->at(1))
+        $this->requestMock->expects($this->once())
             ->method('getParam')
             ->with('invoice_id')
             ->will($this->returnValue($invoiceId));
-        $this->requestMock->expects($this->at(2))
-            ->method('getParam')
-            ->with('invoice')
-            ->will($this->returnValue($invoiceData));
 
         $invoiceMock = $this->getMockBuilder('Magento\Sales\Model\Order\Invoice')
             ->disableOriginalConstructor()
@@ -256,35 +231,28 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
             ->method('addError')
             ->with($message);
 
-        $this->invoiceLoaderMock->expects($this->once())
+        $invoiceMock->expects($this->once())
             ->method('load')
-            ->with($orderId, $invoiceId, $invoiceData)
-            ->will($this->returnValue($invoiceMock));
+            ->willReturnSelf();
+        $this->objectManagerMock->expects($this->once())
+            ->method('create')
+            ->with('Magento\Sales\Model\Order\Invoice')
+            ->willReturn($invoiceMock);
 
         $this->assertNull($this->controller->execute());
     }
 
     public function testExecuteException()
     {
-        $orderId = 1;
         $invoiceId = 2;
-        $invoiceData = [];
 
         $message = 'Invoice capturing error';
         $e = new \Exception($message);
 
-        $this->requestMock->expects($this->at(0))
-            ->method('getParam')
-            ->with('order_id')
-            ->will($this->returnValue($orderId));
-        $this->requestMock->expects($this->at(1))
+        $this->requestMock->expects($this->once())
             ->method('getParam')
             ->with('invoice_id')
             ->will($this->returnValue($invoiceId));
-        $this->requestMock->expects($this->at(2))
-            ->method('getParam')
-            ->with('invoice')
-            ->will($this->returnValue($invoiceData));
 
         $invoiceMock = $this->getMockBuilder('Magento\Sales\Model\Order\Invoice')
             ->disableOriginalConstructor()
@@ -298,10 +266,13 @@ class CaptureTest extends \PHPUnit_Framework_TestCase
             ->method('addError')
             ->with($message);
 
-        $this->invoiceLoaderMock->expects($this->once())
+        $invoiceMock->expects($this->once())
             ->method('load')
-            ->with($orderId, $invoiceId, $invoiceData)
-            ->will($this->returnValue($invoiceMock));
+            ->willReturnSelf();
+        $this->objectManagerMock->expects($this->once())
+            ->method('create')
+            ->with('Magento\Sales\Model\Order\Invoice')
+            ->willReturn($invoiceMock);
 
         $this->assertNull($this->controller->execute());
     }

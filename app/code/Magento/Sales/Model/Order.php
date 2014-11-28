@@ -1365,18 +1365,6 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
     }
 
     /**
-     * Get random items collection with related children
-     *
-     * @deprecated
-     * @param int $limit
-     * @return ImportCollection
-     */
-    public function getItemsRandomCollection($limit = 1)
-    {
-        return $this->_getItemsRandomCollection($limit);
-    }
-
-    /**
      * Get random items collection without related children
      *
      * @param int $limit
