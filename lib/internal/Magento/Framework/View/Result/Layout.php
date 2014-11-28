@@ -62,6 +62,7 @@ class Layout extends AbstractResult
      * @param View\Layout\ReaderPool $layoutReaderPool
      * @param Framework\Translate\InlineInterface $translateInline
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
+     * @param View\Layout\GeneratorPool $generatorPool
      * @param bool $isIsolated
      */
     public function __construct(
@@ -70,6 +71,7 @@ class Layout extends AbstractResult
         View\Layout\ReaderPool $layoutReaderPool,
         Framework\Translate\InlineInterface $translateInline,
         View\Layout\BuilderFactory $layoutBuilderFactory,
+        View\Layout\GeneratorPool $generatorPool,
         $isIsolated = false
     ) {
         $this->layoutFactory = $layoutFactory;
@@ -80,8 +82,9 @@ class Layout extends AbstractResult
         $this->translateInline = $translateInline;
         // TODO Shared layout object will be deleted in MAGETWO-28359
         $this->layout = $isIsolated
-            ? $this->layoutFactory->create(['reader' => $this->layoutReaderPool])
+            ? $this->layoutFactory->create(['reader' => $this->layoutReaderPool, 'generatorPool' => $generatorPool])
             : $context->getLayout();
+        $this->layout->setGeneratorPool($generatorPool);
         $this->initLayoutBuilder();
     }
 
