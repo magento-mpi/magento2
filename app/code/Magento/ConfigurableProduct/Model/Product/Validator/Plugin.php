@@ -105,6 +105,7 @@ class Plugin
                 $product->setStoreId($storeId);
             }
             $product->setAttributeSetId($parentProduct->getAttributeSetId());
+            $product->addData($this->getRequiredDataFromProduct($parentProduct));
             $product->addData($productData);
             $product->setCollectExceptionMessages(true);
             $configurableAttribute = $this->coreHelper->jsonDecode($productData['configurable_attribute']);
@@ -121,5 +122,20 @@ class Plugin
             }
         }
         return $validationResult;
+    }
+
+    /**
+     * @param Product $product
+     * @return array
+     */
+    protected function getRequiredDataFromProduct(Product $product)
+    {
+        $parentProductData = [];
+        foreach ($product->getAttributes() as $attribute) {
+            if ($attribute->getIsUserDefined() && $attribute->getIsRequired()) {
+                $parentProductData[$attribute->getName()] = $product->getData($attribute->getName());
+            }
+        }
+        return $parentProductData;
     }
 }
