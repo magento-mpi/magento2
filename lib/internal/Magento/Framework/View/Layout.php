@@ -183,6 +183,16 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     }
 
     /**
+     * @param Layout\GeneratorPool $generatorPool
+     * @return $this
+     */
+    public function setGeneratorPool(Layout\GeneratorPool $generatorPool)
+    {
+        $this->generatorPool = $generatorPool;
+        return $this;
+    }
+
+    /**
      * @param Layout\BuilderInterface $layoutBuilder
      * @return $this
      */
