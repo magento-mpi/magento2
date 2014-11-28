@@ -56,17 +56,17 @@ class Tax extends CommonTaxCollector
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService
      * @param \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder
-     * @param \Magento\Tax\Helper\Data $taxData
      * @param CustomerAddressBuilder $customerAddressBuilder
      * @param CustomerAddressRegionBuilder $customerAddressRegionBuilder
+     * @param \Magento\Tax\Helper\Data $taxData
      */
     public function __construct(
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService,
         \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder,
-        \Magento\Tax\Helper\Data $taxData,
         CustomerAddressBuilder $customerAddressBuilder,
-        CustomerAddressRegionBuilder $customerAddressRegionBuilder
+        CustomerAddressRegionBuilder $customerAddressRegionBuilder,
+        \Magento\Tax\Helper\Data $taxData
     ) {
         $this->setCode('tax');
         $this->_taxData = $taxData;

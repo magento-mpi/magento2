@@ -417,9 +417,9 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             $taxConfig,
             $taxCalculationService,
             $quoteDetailsBuilder,
-            $taxData,
             $customerAddressBuilder,
-            $addressRegionBuilder
+            $addressRegionBuilder,
+            $taxData
         );
         $array = $taxTotalsCalcModel->processConfigArray([], null);
         $this->assertArrayHasKey($keyExpected, $array, 'Did not find the expected array key: ' . $keyExpected);
@@ -462,9 +462,9 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             $taxConfig,
             $taxCalculationService,
             $quoteDetailsBuilder,
-            $taxData,
             $customerAddressBuilder,
-            $addressRegionBuilder
+            $addressRegionBuilder,
+            $taxData
         );
         $taxClassKeyBuilder = $this->getMockBuilder('\Magento\Tax\Service\V1\Data\TaxClassKeyBuilder')
             ->disableOriginalConstructor()
@@ -636,9 +636,9 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             $taxConfig,
             $taxCalculationService,
             $quoteDetailsBuilder,
-            $taxData,
             $customerAddressBuilder,
-            $addressRegionBuilder
+            $addressRegionBuilder,
+            $taxData
         );
 
         $appliedTaxes = unserialize($appliedTaxesData);
@@ -733,9 +733,9 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             $taxConfig,
             $taxCalculationService,
             $quoteDetailsBuilder,
-            $taxData,
             $customerAddressBuilder,
-            $addressRegionBuilder
+            $addressRegionBuilder,
+            $taxData
         );
         $this->assertSame($taxTotalsCalcModel->getLabel(), __('Tax'));
     }
