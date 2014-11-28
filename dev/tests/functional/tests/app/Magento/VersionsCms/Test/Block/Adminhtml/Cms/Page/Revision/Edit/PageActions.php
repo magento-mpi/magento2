@@ -24,6 +24,22 @@ class PageActions extends FormPageActions
     protected $previewButton = '[data-ui-id="revision-info-preview-button"]';
 
     /**
+     * "Publish" button
+     *
+     * @var string
+     */
+    protected $publishButton = '#publish_button';
+
+    /*** Click 'Publish' button
+     *
+     * @return void
+     */
+    public function publish()
+    {
+        $this->_rootElement->find($this->publishButton)->click();
+    }
+
+    /**
      * "Save in a new version" button
      *
      * @var string
