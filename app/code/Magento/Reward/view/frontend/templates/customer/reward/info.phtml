@@ -24,41 +24,42 @@ $expireIn = $this->getExpireIn();
     </div>
     <div class="block-content">
         <p class="reward-balance"><?php echo __('Your balance is %1.', $helper->formatReward($this->getPointsBalance(), $this->getCurrencyBalance()))?></p>
-
-        <p class="reward-rates">
-            <?php echo __('Current exchange rates:')?>
-        <?php if ($this->getPtsToAmountRateAmount() || $this->getAmountToPtsRatePts()): ?>
-            <?php if ($this->getPtsToAmountRateAmount()): ?>
-            <span><?php echo __('Each %1 can be redeemed for %2.', $helper->formatReward($this->getPtsToAmountRatePts(), null, null, '<strong>%s</strong>'), '<strong>' . $helper->formatAmount($this->getPtsToAmountRateAmount()) . '</strong>')?></span>
+        <div class="reward-rates">
+            <strong class="title"><?php echo __('Current exchange rates:')?></strong>
+            <?php if ($this->getPtsToAmountRateAmount() || $this->getAmountToPtsRatePts()): ?>
+                <?php if ($this->getPtsToAmountRateAmount()): ?>
+                    <p><?php echo __('%1 = %2', $helper->formatReward($this->getPtsToAmountRatePts(), null, null, '<strong>%s</strong>'), '<strong>' . $helper->formatAmount($this->getPtsToAmountRateAmount()) . '</strong>')?></p>
+                <?php endif;?>
+                <?php if ($this->getAmountToPtsRatePts()): ?>
+                    <p><?php echo __('%1 spent = %2 earned', '<strong>' . $helper->formatAmount($this->getAmountToPtsRateAmount()) . '</strong>', $helper->formatReward($this->getAmountToPtsRatePts(), null, null, '<strong>%s</strong>'))?></p>
+                <?php endif;?>
+            <?php else:?>
+                <?php echo __('None')?>
             <?php endif;?>
-            <?php if ($this->getAmountToPtsRatePts()): ?>
-            <span><?php echo __('Each %1 spent will earn %2.', '<strong>' . $helper->formatAmount($this->getAmountToPtsRateAmount()) . '</strong>', $helper->formatReward($this->getAmountToPtsRatePts(), null, null, '<strong>%s</strong>'))?></span>
-            <?php endif;?>
-        <?php else:?>
-            <span><?php echo __('None.')?></span>
-        <?php endif;?>
-        </p>
+        </div>
         <?php if ($maxBalance || $minBalance):?>
-            <p class="reward limit">
-                <strong><?php echo __('Balance limitations:')?></strong>
+            <div class="reward-limit">
             <?php if ($maxBalance):?>
-                <span><?php echo __('The balance is capped at %1.', $helper->formatReward($maxBalance))?></span>
+                <p><?php echo __('Balance limit is %1.', $helper->formatReward($maxBalance))?></p>
                 <?php if ($this->getIsMaxBalanceReached()):?>
-                    <span class="warning"><?php echo __('Maximum balance is reached')?></span>
+                    <div class="message info empty"><span><?php echo __('Maximum balance is reached')?></span></div>
                 <?php endif;?>
             <?php endif;?>
             <?php if ($minBalance):?>
-                <span><?php echo __('Balance Redemption Threshold: %1.', $helper->formatReward($minBalance))?></span>
+                <p><?php echo __('Minimum Balance in order to redeem: %1.', $helper->formatReward($minBalance))?></p>
                 <?php if (!$this->getIsMinBalanceReached()):?>
-                    <span class="warning"><?php echo __('You do not have the minimum balance you need to redeem your rewards points.')?></span>
+                    <div class="message info empty"><span><?php echo __('You do not have the minimum balance you need to redeem your rewards points.')?></span></div>
                 <?php endif;?>
             <?php endif;?>
+            </div>
         <?php endif;?>
         <?php if ($expireIn):?>
-            <p><?php echo __('Each earned reward points record expires in %1 days.', '<span>' . $expireIn . '</span>')?></p>
-            <?php if ($this->getIsHistoryPublished()):?>
-                <p><?php echo __('Refer to reward points history to see if and when a specific record expires.')?></p>
-            <?php endif;?>
+            <div class="reward-expiring">
+                <strong class="title"><?php echo __('Each earned reward points record expires in %1 days.', $expireIn)?></strong>
+                <?php if ($this->getIsHistoryPublished()):?>
+                    <p><?php echo __('Refer to reward points history to see if and when a specific record expires.')?></p>
+                <?php endif;?>
+            </div>
         <?php endif;?>
     </div>
 </div>
