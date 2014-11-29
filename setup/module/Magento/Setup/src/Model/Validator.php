@@ -62,6 +62,45 @@ class Validator
     }
 
     /**
+     * Checks for parameters that are missing values
+     *
+     * @param $expectedParams
+     * @param $actualParams
+     * @return array
+     */
+    public static function checkMissingValue($expectedParams, $actualParams)
+    {
+        $missingValues = [];
+        foreach ($actualParams as $param => $value) {
+            if (isset($expectedParams[$param])) {
+                if ($value === '' && $expectedParams[$param]['hasValue']) {
+                    $missingValues[] = $param;
+                }
+            }
+        }
+        return $missingValues;
+    }
+
+    /**
+     * Checks for parameters that do not need values
+     *
+     * @param $expectedParams
+     * @param $actualParams
+     * @return array
+     */
+    public static function checkExtraValue($expectedParams, $actualParams)
+    {
+        $extraValues = [];
+        foreach ($actualParams as $param => $value) {
+            if (isset($expectedParams[$param])) {
+                if ($value !== '' && !$expectedParams[$param]['hasValue']) {
+                    $extraValues[] = $param;
+                }
+            }
+        }
+        return $extraValues;
+    }
+    /**
      * Validate parameters according to action
      *
      * @param string $action
@@ -91,7 +130,7 @@ class Validator
      * @param array $data
      * @return bool
      */
-    public function validateInstall(array $data)
+    private function validateInstall(array $data)
     {
         $deploymentValid = $this->validateDeploymentConfig($data);
         $adminValid = $this->validateAdmin($data);

@@ -19,6 +19,7 @@ use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
 use Magento\Setup\Model\AdminAccount;
 use Magento\Framework\App\MaintenanceMode;
 use Magento\Setup\Module\Setup\ConfigMapper;
+use Magento\Setup\Model\Validator;
 
 /**
  * Controller that handles all setup commands via command line interface.
@@ -100,6 +101,13 @@ class ConsoleController extends AbstractActionController
      * @var Installer
      */
     private $installer;
+
+    /**
+     * Parameter value validator
+     *
+     * @var Validator
+     */
+    private $validator;
 
     /**
      * Gets router configuration to be used in module definition
@@ -229,7 +237,7 @@ class ConsoleController extends AbstractActionController
                 'usage_desc' => 'Set maintenance mode, optionally for specified addresses',
             ],
             self::CMD_HELP => [
-                'route' => self::CMD_HELP . ' (' . implode('|', self::$helpOptions) . '):topic',
+                'route' => self::CMD_HELP . ' (' . implode('|', self::$helpOptions) . '):type',
                 'usage' => '<' . implode('|', self::$helpOptions) . '>',
                 'usage_short' => self::CMD_HELP . ' <topic>',
                 'usage_desc' => 'Help about particular command or topic:',
@@ -255,6 +263,7 @@ class ConsoleController extends AbstractActionController
         $this->options = $options;
         $this->installer = $installerFactory->create($consoleLogger);
         $this->maintenanceMode = $maintenanceMode;
+        $this->validator = new Validator();
     }
 
     /**
@@ -287,7 +296,11 @@ class ConsoleController extends AbstractActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        $this->installer->install($request->getParams());
+        if ($this->validator->validate(self::CMD_INSTALL, $request->getParams()->toArray())) {
+            $this->installer->install($request->getParams());
+        } else {
+            $this->log->log($this->validator->getValidationMessages());
+        }
     }
 
     /**
@@ -300,8 +313,12 @@ class ConsoleController extends AbstractActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        $this->installer->checkInstallationFilePermissions();
-        $this->installer->installDeploymentConfig($request->getParams());
+        if ($this->validator->validate(self::CMD_INSTALL_CONFIG, $request->getParams()->toArray())) {
+            $this->installer->checkInstallationFilePermissions();
+            $this->installer->installDeploymentConfig($request->getParams());
+        } else {
+            $this->log->log($this->validator->getValidationMessages());
+        }
     }
 
     /**
@@ -349,7 +366,11 @@ class ConsoleController extends AbstractActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        $this->installer->installUserConfig($request->getParams());
+        if ($this->validator->validate(self::CMD_INSTALL_USER_CONFIG, $request->getParams()->toArray())) {
+            $this->installer->installUserConfig($request->getParams());
+        } else {
+            $this->log->log($this->validator->getValidationMessages());
+        }
     }
 
     /**
@@ -361,7 +382,11 @@ class ConsoleController extends AbstractActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        $this->installer->installAdminUser($request->getParams());
+        if ($this->validator->validate(self::CMD_INSTALL_ADMIN_USER, $request->getParams()->toArray())) {
+            $this->installer->installAdminUser($request->getParams());
+        } else {
+            $this->log->log($this->validator->getValidationMessages());
+        }
     }
 
     /**
@@ -424,14 +449,11 @@ class ConsoleController extends AbstractActionController
             case UserConfig::KEY_TIMEZONE:
                 return $this->arrayToString($this->options->getTimezoneList());
             default:
-                if (isset($details[$type])) {
-                    if ($details[$type]['usage']) {
-                        $formatted = $this->formatCliUsage($details[$type]['usage']);
-                        return "\nAvailable parameters:\n{$formatted}\n";
-                    }
-                    return "\nThis command has no parameters.\n";
+                if ($details[$type]['usage']) {
+                    $formatted = $this->formatCliUsage($details[$type]['usage']);
+                    return "\nAvailable parameters:\n{$formatted}\n";
                 }
-                throw new \InvalidArgumentException("Unknown type: {$type}");
+                return "\nThis command has no parameters.\n";
         }
     }
 

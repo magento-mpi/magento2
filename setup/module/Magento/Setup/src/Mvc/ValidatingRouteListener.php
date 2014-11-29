@@ -9,9 +9,10 @@
 namespace Magento\Setup\Mvc;
 
 use Magento\Setup\Model\Validator;
-use Magento\Setup\Mvc\View\Console\ValidationErrorStrategy;
+use Zend\View\Model\ConsoleModel;
 use Zend\Mvc\Router\RouteMatch;
 use Zend\Mvc\MvcEvent;
+use Zend\Console\ColorInterface;
 
 class ValidatingRouteListener extends \Zend\Mvc\RouteListener
 {
@@ -33,11 +34,10 @@ class ValidatingRouteListener extends \Zend\Mvc\RouteListener
         // CLI routing miss, checks for missing/extra parameters
         if (!$match instanceof RouteMatch) {
             $validationMessages .= $this->checkForMissingAndExtraParams($e);
+            $this->displayMessage($e, $validationMessages);
+            // set error to stop propagation
+            $e->setError('default_error');
         }
-
-        // Check parameter values
-        $validationMessages .= $this->checkParameters($e);
-        $this->displayMessage($e, $validationMessages);
         return null;
     }
 
@@ -70,60 +70,41 @@ class ValidatingRouteListener extends \Zend\Mvc\RouteListener
             // parse user parameters
             $userParams = $this->parseUserParams($content);
 
-            $missing = Validator::checkMissingParameter($expectedParams, $userParams);
-            $extra = Validator::checkExtraParameter($expectedParams, $userParams);
-            if (!empty($missing)) {
-                $validationMessages .= 'Missing parameters:' . PHP_EOL;
-                foreach ($missing as $missingParam) {
+            $missingParams = Validator::checkMissingParameter($expectedParams, $userParams);
+            $extraParams = Validator::checkExtraParameter($expectedParams, $userParams);
+            $missingValues = Validator::checkMissingValue($expectedParams, $userParams);
+            $extraValues = Validator::checkExtraValue($expectedParams, $userParams);
+
+            if (!empty($missingParams)) {
+                $validationMessages .= PHP_EOL . 'Missing parameters:' . PHP_EOL;
+                foreach ($missingParams as $missingParam) {
                     $validationMessages .= $missingParam . PHP_EOL;
                 }
             }
-            if (!empty($extra)) {
-                $validationMessages .= 'Unidentified parameters:' . PHP_EOL;
-                foreach ($extra as $extraParam) {
+            if (!empty($extraParams)) {
+                $validationMessages .= PHP_EOL . 'Unidentified parameters:' . PHP_EOL;
+                foreach ($extraParams as $extraParam) {
                     $validationMessages .= $extraParam . PHP_EOL;
                 }
             }
-            if (empty($missing) && empty($extra)) {
-                $validationMessages .= 'Please make sure parameters starts with --.' . PHP_EOL .
-                    'Note that some parameters require a value while some do not.' . PHP_EOL;
+            if (!empty($missingValues)) {
+                $validationMessages .= PHP_EOL . 'Parameters missing value:' . PHP_EOL;
+                foreach ($missingValues as $missingValue) {
+                    $validationMessages .= $missingValue . PHP_EOL;
+                }
+            }
+            if (!empty($extraValues)) {
+                $validationMessages .= PHP_EOL . 'Parameters that don\'t need value:' . PHP_EOL;
+                foreach ($extraValues as $extraValue) {
+                    $validationMessages .= $extraValue . PHP_EOL;
+                }
+            }
+            if (empty($missingParams) && empty($extraParams) && empty($missingValues) && empty($extraValue)) {
+                $validationMessages .= 'Please make sure parameters starts with --.' . PHP_EOL;
             }
 
         } else if (!is_null($userAction)) {
             $validationMessages .= "Unknown action name '{$userAction}'." . PHP_EOL;
-        }
-
-        // set error to stop propagation
-        $e->setError('default_error');
-        return $validationMessages;
-    }
-
-    /**
-     * Check parameter values
-     *
-     * @param MvcEvent $e
-     * @return string
-     */
-    private function checkParameters(MvcEvent $e)
-    {
-        $request = $e->getRequest();
-        $content = $request->getContent();
-        $serviceManager = $e->getApplication()->getServiceManager();
-        $routes = $serviceManager->get('Config')['console']['router']['routes'];
-
-        $userAction = $content[0];
-        array_shift($content);
-
-        $validationMessages = '';
-
-        if (isset($routes[$userAction])) {
-            $validator = new Validator();
-            $userParam = $this->parseUserParams($content);
-            if (!$validator->validate($userAction, $userParam)) {
-                $validationMessages .= 'Invalid parameter values:' . PHP_EOL . $validator->getValidationMessages();
-                // set error to stop propagation
-                $e->setError('Validation_error');
-            }
         }
 
         return $validationMessages;
@@ -131,9 +112,13 @@ class ValidatingRouteListener extends \Zend\Mvc\RouteListener
 
     private function displayMessage(MvcEvent $e, $validationMessages)
     {
-        $validationErrorStrategy = new ValidationErrorStrategy();
-        $validationErrorStrategy->setErrorMessage($validationMessages);
-        $validationErrorStrategy->handleNotFoundError($e);
+        $serviceManager = $e->getApplication()->getServiceManager();
+        $console = $serviceManager->get('console');
+        $validationMessages = $console->colorize($validationMessages, ColorInterface::RED);
+        $model = new ConsoleModel();
+        $model->setErrorLevel(1);
+        $model->setResult($validationMessages);
+        $e->setResult($model);
     }
 
     /**
