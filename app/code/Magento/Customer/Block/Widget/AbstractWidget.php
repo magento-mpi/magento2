@@ -5,14 +5,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Block\Widget;
+
+use Magento\Customer\Api\CustomerMetadataInterface;
 
 class AbstractWidget extends \Magento\Framework\View\Element\Template
 {
     /**
-     * @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
+     * @var CustomerMetadataInterface
      */
-    protected $customerMetadataService;
+    protected $customerMetadata;
 
     /**
      * @var \Magento\Customer\Helper\Address
@@ -22,17 +25,17 @@ class AbstractWidget extends \Magento\Framework\View\Element\Template
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
+     * @param CustomerMetadataInterface $customerMetadata
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
+        CustomerMetadataInterface $customerMetadata,
         array $data = array()
     ) {
         $this->_addressHelper = $addressHelper;
-        $this->customerMetadataService = $customerMetadataService;
+        $this->customerMetadata = $customerMetadata;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -90,12 +93,12 @@ class AbstractWidget extends \Magento\Framework\View\Element\Template
      * Retrieve customer attribute instance
      *
      * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata|null
+     * @return \Magento\Customer\Api\Data\AttributeMetadataInterface|null
      */
     protected function _getAttribute($attributeCode)
     {
         try {
-            return $this->customerMetadataService->getAttributeMetadata($attributeCode);
+            return $this->customerMetadata->getAttributeMetadata($attributeCode);
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             return null;
         }

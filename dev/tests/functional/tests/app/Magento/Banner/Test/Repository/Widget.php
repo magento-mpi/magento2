@@ -30,7 +30,7 @@ class Widget extends ParentWidget
             'store_ids' => ['dataSet' => 'All Store Views'],
             'widget_instance' => [
                 '0' => [
-                    'page_group' => 'notanchor_categories',
+                    'page_group' => 'Non-Anchor Categories',
                     'notanchor_categories' => [
                         'block' => 'Main Content Area',
                         'template' => 'Banner Block Template'
@@ -46,15 +46,14 @@ class Widget extends ParentWidget
         $this->_data['banner_rotator_shoping_cart'] = [
             'code' => 'Banner Rotator',
             'title' => 'Banner Rotator %isolation%',
-            'store_ids' => [
-                '0' => 'All Store Views'
-            ],
+            'store_ids' => ['dataSet' => 'All Store Views'],
             'widget_instance' => [
                 '0' => [
-                    'page_group' => 'pages',
+                    'page_group' => 'Specified Page',
                     'pages' => [
                         'block' => 'Main Content Area',
-                        'template' => 'Banner Block Template'
+                        'template' => 'Banner Block Template',
+                        'layout_handle' => 'Shopping Cart'
                     ]
                 ]
             ],

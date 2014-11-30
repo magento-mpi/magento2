@@ -10,8 +10,8 @@ namespace Magento\Tax\Model;
 
 use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Model\ClassModelFactory as TaxClassFactory;
-use Magento\Tax\Service\V1\Data\TaxClass;
-use Magento\Tax\Service\V1\Data\TaxClassBuilder;
+use Magento\Tax\Api\Data\TaxClassInterface as TaxClass;
+use Magento\Tax\Api\Data\TaxClassDataBuilder;
 
 /**
  * Tax class converter. Allows conversion between tax class model and tax class service data object.
@@ -19,7 +19,7 @@ use Magento\Tax\Service\V1\Data\TaxClassBuilder;
 class Converter
 {
     /**
-     * @var TaxClassBuilder
+     * @var TaxClassDataBuilder
      */
     protected $taxClassBuilder;
 
@@ -31,10 +31,10 @@ class Converter
     /**
      * Initialize dependencies.
      *
-     * @param TaxClassBuilder $taxClassBuilder
+     * @param TaxClassDataBuilder $taxClassBuilder
      * @param TaxClassFactory $taxClassFactory
      */
-    public function __construct(TaxClassBuilder $taxClassBuilder, TaxClassFactory $taxClassFactory)
+    public function __construct(TaxClassDataBuilder $taxClassBuilder, TaxClassFactory $taxClassFactory)
     {
         $this->taxClassBuilder = $taxClassBuilder;
         $this->taxClassFactory = $taxClassFactory;

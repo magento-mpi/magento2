@@ -2062,7 +2062,6 @@ return array(
     ['canCheckVatNumber', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::canCheckVatNumber'],
     ['getCustomerVatClass', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::getCustomerVatClass'],
     ['isCountryInEU', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::isCountryInEU'],
-    ['getDefaultCustomerGroupId', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Vat::getDefaultCustomerGroupId'],
     ['generateResetPasswordLinkToken', 'Magento\Customer\Helper\Data'],
     ['isLoggedIn', 'Magento\Customer\Helper\Data'],
     ['getResetPasswordLinkExpirationPeriod', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Customer::getResetPasswordLinkExpirationPeriod'],
@@ -2103,4 +2102,13 @@ return array(
     ['getModule', 'Magento\Framework\Module\ModuleList', 'getOne'],
     ['getModule', 'Magento\Framework\Module\ModuleListInterface', 'getOne'],
     ['_getNewConditionModelInstance', 'Magento\Rule\Model\Condition\Combine'],
+    ['getItemsRandomCollection', 'Magento\Sales\Model\Order'],
+    ['importOrderAddress', 'Magento\Sales\Model\Quote\Address', 'Magento\Sales\Model\Quote\Address::importCustomerAddressData'],
+    ['_getUsedAttributes', 'Magento\SalesRule\Model\Rule'],
+    ['getDefaultCustomerGroupId', 'Magento\Customer\Model\Vat', 'Magento\Customer\Api\GroupManagementInterface::getDefaultGroup'],
+    [
+        'getRatesByCustomerAndProductTaxClassId',
+        'Magento\Tax\Service\V1\TaxRuleServiceInterface',
+        'Magento\Tax\Api\TaxRateManagementInterface::getRatesByCustomerAndProductTaxClassId'
+    ]
 );

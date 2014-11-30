@@ -8,8 +8,9 @@
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Newsletter\Model\Subscriber;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -25,21 +26,27 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     protected $_baseControllerUrl;
 
-    /** @var CustomerAccountServiceInterface */
-    protected $customerAccountService;
+    /** @var CustomerRepositoryInterface */
+    protected $customerRepository;
 
-    /** @var CustomerAddressServiceInterface */
-    protected $customerAddressService;
+    /** @var AddressRepositoryInterface */
+    protected $addressRepository;
+
+    /** @var AccountManagementInterface */
+    protected $accountManagement;
 
     protected function setUp()
     {
         parent::setUp();
         $this->_baseControllerUrl = 'http://localhost/index.php/backend/customer/index/';
-        $this->customerAccountService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        $this->customerRepository = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
-        $this->customerAddressService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
+        $this->addressRepository = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\AddressRepositoryInterface'
+        );
+        $this->accountManagement = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\AccountManagementInterface'
         );
     }
 
@@ -189,12 +196,12 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          */
         $registry = $objectManager->get('Magento\Framework\Registry');
         $customerId = $registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        $customer = $this->customerAccountService->getCustomer($customerId);
+        $customer = $this->customerRepository->getById($customerId);
         $this->assertEquals('test firstname', $customer->getFirstname());
-        $addresses = $this->customerAddressService->getAddresses($customerId);
+        $addresses = $customer->getAddresses();
         $this->assertEquals(1, count($addresses));
-        $this->assertNotEquals(0, $customer->getDefaultBilling());
-        $this->assertNull($customer->getDefaultShipping());
+        $this->assertNotEquals(0, $this->accountManagement->getDefaultBillingAddress($customerId));
+        $this->assertNull($this->accountManagement->getDefaultShippingAddress($customerId));
 
         $this->assertRedirect(
             $this->stringStartsWith($this->_baseControllerUrl . 'edit/id/' . $customerId . '/back/1')
@@ -281,7 +288,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          */
         $registry = $objectManager->get('Magento\Framework\Registry');
         $customerId = $registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        $customer = $this->customerAccountService->getCustomer($customerId);
+        $customer = $this->customerRepository->getById($customerId);
         $this->assertEquals('test firstname', $customer->getFirstname());
 
         /**
@@ -291,11 +298,11 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          * addressThree - removed
          * _item1 - new address
          */
-        $addresses = $this->customerAddressService->getAddresses($customerId);
+        $addresses = $customer->getAddresses();
         $this->assertEquals(2, count($addresses));
-        $updatedAddress = $this->customerAddressService->getAddress(1);
+        $updatedAddress = $this->addressRepository->getById(1);
         $this->assertEquals('update firstname', $updatedAddress->getFirstname());
-        $newAddress = $this->customerAddressService->getDefaultShippingAddress($customerId);
+        $newAddress = $this->accountManagement->getDefaultShippingAddress($customerId);
         $this->assertEquals('new firstname', $newAddress->getFirstname());
 
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
@@ -345,8 +352,6 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             $this->equalTo(array('You saved the customer.')),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
-
-
 
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'index/key/'));
     }
@@ -715,7 +720,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     public function testMassAssignGroupAction()
     {
-        $customer = $this->customerAccountService->getCustomer(1);
+        $customer = $this->customerRepository->getById(1);
         $this->assertEquals(1, $customer->getGroupId());
 
         $this->getRequest()->setParam('group', 0)->setPost('customer', array(1));
@@ -726,7 +731,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
         $this->assertRedirect($this->stringContains('customer/index'));
 
-        $customer = $this->customerAccountService->getCustomer(1);
+        $customer = $this->customerRepository->getById(1);
         $this->assertEquals(0, $customer->getGroupId());
     }
 
@@ -763,8 +768,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     public function testMassAssignGroupActionPartialUpdate()
     {
-        $this->assertEquals(1, $this->customerAccountService->getCustomer(1)->getGroupId());
-        $this->assertEquals(1, $this->customerAccountService->getCustomer(2)->getGroupId());
+        $this->assertEquals(1, $this->customerRepository->getById(1)->getGroupId());
+        $this->assertEquals(1, $this->customerRepository->getById(2)->getGroupId());
 
         $this->getRequest()->setParam('group', 0)->setPost('customer', array(1, 4200, 2));
         $this->dispatch('backend/customer/index/massAssignGroup');
@@ -777,8 +782,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
 
-        $this->assertEquals(0, $this->customerAccountService->getCustomer(1)->getGroupId());
-        $this->assertEquals(0, $this->customerAccountService->getCustomer(2)->getGroupId());
+        $this->assertEquals(0, $this->customerRepository->getById(1)->getGroupId());
+        $this->assertEquals(0, $this->customerRepository->getById(2)->getGroupId());
     }
 
     /**

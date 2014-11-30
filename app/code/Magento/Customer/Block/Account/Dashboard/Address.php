@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer dashboard addresses section
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,10 +7,14 @@
  */
 namespace Magento\Customer\Block\Account\Dashboard;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\Data\AddressInterface;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Data\AddressConverter;
+use Magento\Customer\Model\Address\Mapper;
 
+/**
+ * Class to manage customer dashboard addresses section
+ */
 class Address extends \Magento\Framework\View\Element\Template
 {
     /**
@@ -31,10 +33,16 @@ class Address extends \Magento\Framework\View\Element\Template
     protected $currentCustomerAddress;
 
     /**
+     * @var Mapper
+     */
+    protected $addressMapper;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
      * @param \Magento\Customer\Helper\Session\CurrentCustomerAddress $currentCustomerAddress
      * @param \Magento\Customer\Model\Address\Config $addressConfig
+     * @param Mapper $addressMapper
      * @param array $data
      */
     public function __construct(
@@ -42,6 +50,7 @@ class Address extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         \Magento\Customer\Helper\Session\CurrentCustomerAddress $currentCustomerAddress,
         \Magento\Customer\Model\Address\Config $addressConfig,
+        Mapper $addressMapper,
         array $data = array()
     ) {
         $this->currentCustomer = $currentCustomer;
@@ -49,12 +58,13 @@ class Address extends \Magento\Framework\View\Element\Template
         $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->addressMapper = $addressMapper;
     }
 
     /**
      * Get the logged in customer
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer|null
+     * @return CustomerInterface|null
      */
     public function getCustomer()
     {
@@ -110,12 +120,14 @@ class Address extends \Magento\Framework\View\Element\Template
      */
     public function getPrimaryShippingAddressEditUrl()
     {
-        if (is_null($this->getCustomer())) {
+        if (!$this->getCustomer()) {
             return '';
         } else {
+            $address = $this->currentCustomerAddress->getDefaultShippingAddress();
+            $addressId = $address ? $address->getId() : null;
             return $this->_urlBuilder->getUrl(
                 'customer/address/edit',
-                array('id' => $this->getCustomer()->getDefaultShipping())
+                array('id' => $addressId)
             );
         }
     }
@@ -125,12 +137,14 @@ class Address extends \Magento\Framework\View\Element\Template
      */
     public function getPrimaryBillingAddressEditUrl()
     {
-        if (is_null($this->getCustomer())) {
+        if (!$this->getCustomer()) {
             return '';
         } else {
+            $address = $this->currentCustomerAddress->getDefaultBillingAddress();
+            $addressId = $address ? $address->getId() : null;
             return $this->_urlBuilder->getUrl(
                 'customer/address/edit',
-                array('id' => $this->getCustomer()->getDefaultBilling())
+                array('id' => $addressId)
             );
         }
     }
@@ -146,13 +160,13 @@ class Address extends \Magento\Framework\View\Element\Template
     /**
      * Render an address as HTML and return the result
      *
-     * @param \Magento\Customer\Service\V1\Data\Address $address
+     * @param AddressInterface $address
      * @return string
      */
     protected function _getAddressHtml($address)
     {
         /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
         $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-        return $renderer->renderArray(AddressConverter::toFlatArray($address));
+        return $renderer->renderArray($this->addressMapper->toFlatArray($address));
     }
 }

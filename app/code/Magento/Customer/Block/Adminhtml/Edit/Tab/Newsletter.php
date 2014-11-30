@@ -8,7 +8,7 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Ui\Component\Layout\Tabs\TabInterface;
 
 /**
@@ -27,9 +27,9 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements T
     protected $_subscriberFactory;
 
     /**
-     * @var CustomerAccountServiceInterface
+     * @var AccountManagementInterface
      */
-    protected $_customerAccountService;
+    protected $customerAccountManagement;
 
     /**
      * Core registry
@@ -45,7 +45,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements T
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param AccountManagementInterface $customerAccountManagement
      * @param array $data
      */
     public function __construct(
@@ -53,11 +53,11 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements T
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        CustomerAccountServiceInterface $customerAccountService,
+        AccountManagementInterface $customerAccountManagement,
         array $data = array()
     ) {
         $this->_subscriberFactory = $subscriberFactory;
-        $this->_customerAccountService = $customerAccountService;
+        $this->customerAccountManagement = $customerAccountManagement;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -160,7 +160,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements T
             )
         );
 
-        if (!$this->_customerAccountService->canModify($customerId)) {
+        if ($this->customerAccountManagement->isReadOnly($customerId)) {
             $form->getElement('subscription')->setReadonly(true, true);
         }
 
