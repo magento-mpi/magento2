@@ -50,4 +50,24 @@ angular.module('add-database', ['ngStorage'])
                 $scope.database.submitted = false;
             }
         });
-    }]);
+    }])
+    .directive('testHostname', function() {
+        return{
+            require: "ngModel",
+            link: function(scope, elm, attrs, ctrl){
+                var validator = function(value){
+                    scope.testConnection();
+                    var isValid;
+                    if (scope.testConnection.result.success === undefined) {
+                        isValid = false;
+                    } else {
+                        isValid = true;
+                    }
+                    ctrl.$setValidity('testHostname', isValid);
+                    return value;
+                };
+                ctrl.$parsers.unshift(validator);
+                ctrl.$formatters.unshift(validator);
+            }
+        };
+    });
