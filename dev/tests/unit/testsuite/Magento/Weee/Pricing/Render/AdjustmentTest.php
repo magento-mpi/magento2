@@ -8,6 +8,8 @@
 
 namespace Magento\Weee\Pricing\Render;
 
+use Magento\TestFramework\Helper\ObjectManager;
+
 /**
  * Class AdjustmentTest for testing Adjustment class
  *
@@ -94,6 +96,59 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFinalAmount()
     {
+        $objectManager = new ObjectManager($this);
+        $this->contextMock = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
+        $store = $objectManager->getObject('Magento\Store\Model\Store', []);
+        $currency = $this->getMockBuilder('Magento\Framework\Model\AbstractModel\Currency')
+            ->disableOriginalConstructor()
+            ->setMethods(['formatPrecision'])
+            ->getMock();
+        $currency->expects($this->any())
+            ->method('formatPrecision')
+            ->will($this->returnValue(10));
+        $store->setData('current_currency', $currency);
+        $storeManager = $this->getMockBuilder('\Magento\Store\Model\StoreManager')
+            ->disableOriginalConstructor()
+            ->setMethods(['getStore'])
+            ->getMock();
+        $storeManager->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($store));
+
+        $this->priceCurrencyMock = $objectManager->getObject(
+            'Magento\Directory\Model\PriceCurrency',
+            [
+                'storeManager' => $storeManager
+            ]
+        );
+
+        $this->weeeHelperMock = $this->getMock('\Magento\Weee\Helper\Data', [], [], '', false);
+        $eventManagerMock = $this->getMockBuilder('Magento\Framework\Event\ManagerInterface')
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+
+        $storeConfigMock = $this->getMockBuilder('Magento\Store\Model\Store\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $scopeConfigMock = $this->getMockForAbstractClass('Magento\Framework\App\Config\ScopeConfigInterface');
+
+        $this->contextMock->expects($this->any())
+            ->method('getEventManager')
+            ->will($this->returnValue($eventManagerMock));
+        $this->contextMock->expects($this->any())
+            ->method('getStoreConfig')
+            ->will($this->returnValue($storeConfigMock));
+        $this->contextMock->expects($this->any())
+            ->method('getScopeConfig')
+            ->will($this->returnValue($scopeConfigMock));
+
+        $this->model = new Adjustment(
+            $this->contextMock,
+            $this->priceCurrencyMock,
+            $this->weeeHelperMock
+        );
+
         $expectedValue = 10;
         $typeOfDisplay = 1; //Just to set it to not false
         /** @var \Magento\Framework\Pricing\Render\Amount $amountRender */

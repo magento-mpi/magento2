@@ -78,7 +78,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function getFinalAmount()
     {
-        return $this->convertAndFormatCurrency($this->finalAmount);
+        return $this->formatCurrency($this->finalAmount);
     }
 
     /**
