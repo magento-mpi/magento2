@@ -22,6 +22,11 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     protected $_customerAddressHelper;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $addressMapper;
+
+    /**
      * Initialize dependencies.
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -33,9 +38,11 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         CustomerAddressHelper $customerAddressHelper,
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
         array $data = []
     ) {
         $this->_customerAddressHelper = $customerAddressHelper;
+        $this->addressMapper = $addressMapper;
         parent::__construct($context, $multishipping, $data);
     }
 
@@ -83,7 +90,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         $formatTypeRenderer = $this->_customerAddressHelper->getFormatTypeRenderer('html');
         $result = '';
         if ($formatTypeRenderer) {
-            $arrayData = \Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($address);
+            $arrayData = $this->addressMapper->toFlatArray($address);
             $result = $formatTypeRenderer->renderArray($arrayData);
         }
         return $result;
