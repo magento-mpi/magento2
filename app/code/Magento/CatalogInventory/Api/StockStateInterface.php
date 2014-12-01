@@ -14,14 +14,14 @@ interface StockStateInterface
 {
     /**
      * @param int $productId
-     * @param int|null $websiteId
+     * @param int $websiteId
      * @return bool
      */
     public function verifyStock($productId, $websiteId = null);
 
     /**
      * @param int $productId
-     * @param int|null $websiteId
+     * @param int $websiteId
      * @return bool
      */
     public function verifyNotification($productId, $websiteId = null);
@@ -31,7 +31,7 @@ interface StockStateInterface
      * @param float $itemQty
      * @param float $qtyToCheck
      * @param float $origQty
-     * @param int|null $websiteId
+     * @param int $websiteId
      * @return int
      */
     public function checkQuoteItemQty($productId, $itemQty, $qtyToCheck, $origQty, $websiteId = null);
@@ -53,7 +53,7 @@ interface StockStateInterface
      *
      * @param int $productId
      * @param float $qty
-     * @param int|null $websiteId
+     * @param int $websiteId
      * @return float
      */
     public function suggestQty($productId, $qty, $websiteId = null);
@@ -62,7 +62,7 @@ interface StockStateInterface
      * Retrieve stock qty whether product is composite or no
      *
      * @param int $productId
-     * @param int|null $websiteId
+     * @param int $websiteId
      * @return float
      */
     public function getStockQty($productId, $websiteId = null);

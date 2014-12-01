@@ -20,7 +20,7 @@ interface StockConfigurationInterface
     public function getDefaultWebsiteId();
 
     /**
-     * @param int|null $filter
+     * @param int $filter
      * @return int[]
      */
     public function getIsQtyTypeIds($filter = null);
@@ -36,32 +36,32 @@ interface StockConfigurationInterface
     /**
      * Check if is possible subtract value from item qty
      *
-     * @param int|null $storeId
+     * @param int $storeId
      * @return bool
      */
     public function canSubtractQty($storeId = null);
 
     /**
-     * @param int|null $storeId
+     * @param int $storeId
      * @return float
      */
     public function getMinQty($storeId = null);
 
     /**
-     * @param int|null $storeId
-     * @param int|null $customerGroupId
+     * @param int $storeId
+     * @param int $customerGroupId
      * @return float
      */
     public function getMinSaleQty($storeId = null, $customerGroupId = null);
 
     /**
-     * @param int|null $storeId
+     * @param int $storeId
      * @return float
      */
     public function getMaxSaleQty($storeId = null);
 
     /**
-     * @param int|null $storeId
+     * @param int $storeId
      * @return float
      */
     public function getNotifyStockQty($storeId = null);
@@ -69,13 +69,13 @@ interface StockConfigurationInterface
     /**
      * Retrieve whether Quantity Increments is enabled
      *
-     * @param int|null $storeId
+     * @param int $storeId
      * @return bool
      */
     public function getEnableQtyIncrements($storeId = null);
 
     /**
-     * @param int|null $storeId
+     * @param int $storeId
      * @return int
      */
     public function getQtyIncrements($store = null);
@@ -83,7 +83,7 @@ interface StockConfigurationInterface
     /**
      * Retrieve backorders status
      *
-     * @param int|null $storeId
+     * @param int $storeId
      * @return int
      */
     public function getBackorders($storeId = null);
@@ -91,7 +91,7 @@ interface StockConfigurationInterface
     /**
      * Retrieve Manage Stock data wrapper
      *
-     * @param int|null $storeId
+     * @param int $storeId
      * @return int
      */
     public function getManageStock($storeId = null);
@@ -99,7 +99,7 @@ interface StockConfigurationInterface
     /**
      * Retrieve can Back in stock
      *
-     * @param int|null $storeId
+     * @param int $storeId
      * @return bool
      */
     public function getCanBackInStock($storeId = null);
@@ -107,7 +107,7 @@ interface StockConfigurationInterface
     /**
      * Display out of stock products option
      *
-     * @param int|null $storeId
+     * @param int $storeId
      * @return bool
      */
     public function isShowOutOfStock($storeId = null);
@@ -115,7 +115,7 @@ interface StockConfigurationInterface
     /**
      * Check if credit memo items auto return option is enabled
      *
-     * @param int|null $storeId
+     * @param int $storeId
      * @return bool
      */
     public function isAutoReturnEnabled($storeId = null);
@@ -124,14 +124,14 @@ interface StockConfigurationInterface
      * Get 'Display product stock status' option value
      * Shows if it is necessary to show product stock status ('in stock'/'out of stock')
      *
-     * @param int|null $storeId
+     * @param int $storeId
      * @return bool
      */
     public function isDisplayProductStockStatus($storeId = null);
 
     /**
      * @param string $field
-     * @param int|null $storeId
+     * @param int $storeId
      * @return string
      */
     public function getDefaultConfigValue($field, $storeId = null);

@@ -23,7 +23,7 @@ interface StockItemCriteriaInterface extends \Magento\Framework\Api\CriteriaInte
     /**
      * Join Stock Status to collection
      *
-     * @param int|null $storeId
+     * @param int $storeId
      * @return bool
      */
     public function setStockStatus($storeId = null);

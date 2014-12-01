@@ -57,7 +57,7 @@ interface StockItemInterface extends ExtensibleDataInterface
     const CUSTOMER_GROUP_ID = 'customer_group_id';
 
     /**
-     * @return int|null
+     * @return int
      */
     public function getItemId();
 

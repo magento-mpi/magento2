@@ -17,7 +17,7 @@ interface StockManagementInterface
      *
      * @param int $productId
      * @param float $qty
-     * @param int|null $websiteId
+     * @param int $websiteId
      * @return bool
      */
     public function backItemQty($productId, $qty, $websiteId = null);
