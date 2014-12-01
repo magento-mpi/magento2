@@ -67,6 +67,7 @@ class ExcludeFilterTest extends \PHPUnit_Framework_TestCase
             realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule'),
             realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule'),
             realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule'),
+            realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule/composer.json'),
             realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule/etc'),
             realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule/etc'),
             realpath(__DIR__ . '/../_files/app/code/Magento/SampleModule/etc/module.xml'),
