@@ -261,7 +261,7 @@ define([
         options: {
             shipping: {
                 form: '#co-shipping-form',
-                addressDropdownSelector: '#shipping-address-select',
+                addressDropdownSelector: '#shipping\\:address-select',
                 newAddressFormSelector: '#shipping-new-address-form',
                 copyBillingSelector: '#shipping\\:same_as_billing',
                 countrySelector: '#shipping\\:country_id',
