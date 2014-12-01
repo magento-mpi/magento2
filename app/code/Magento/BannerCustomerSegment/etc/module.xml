@@ -13,9 +13,5 @@
             <module name="Magento_Banner"/>
             <module name="Magento_CustomerSegment"/>
         </sequence>
-        <depends>
-            <module name="Magento_Banner"/>
-            <module name="Magento_CustomerSegment"/>
-        </depends>
     </module>
 </config>
