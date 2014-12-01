@@ -206,13 +206,17 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      */
     public function getJsonConfig()
     {
-        $config = array();
-        if (!$this->hasOptions()) {
-            return $this->_jsonEncoder->encode($config);
-        }
-
         /* @var $product \Magento\Catalog\Model\Product */
         $product = $this->getProduct();
+
+        $config = array();
+        if (!$this->hasOptions()) {
+            $config = [
+                'productId' => $product->getId(),
+                'priceFormat' => $this->_localeFormat->getPriceFormat()
+                ];
+            return $this->_jsonEncoder->encode($config);
+        }
 
         $tierPrices = [];
         $tierPricesList = $product->getPriceInfo()->getPrice('tier_price')->getTierPriceList();

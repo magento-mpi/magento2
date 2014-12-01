@@ -47,7 +47,6 @@ define([
         var box = this.element;
         box.trigger('updatePrice');
         this.cache.displayPrices = utils.deepClone(this.options.prices);
-        $.mage.priceBox.currencyFormat = this.options.priceConfig && this.options.priceConfig.priceFormat || {};
     }
 
     /**
@@ -118,7 +117,6 @@ define([
                 _.each(priceValue.adjustments, function (adValue, adCode) {
                     additionalPrice[priceCode].adjustments[adCode] = 0 + (additionalPrice[priceCode].adjustments[adCode] || 0) + adValue;
                 });
-                console.log(priceCode, ': ', '+', priceValue.amount, ' = ', additionalPrice[priceCode].amount);
             });
         });
 
@@ -137,8 +135,6 @@ define([
                 _.each(option.adjustments, function (pa, paCode) {
                     final.adjustments[paCode] = 0 + (origin.adjustments[paCode] || 0) + pa;
                 });
-
-                console.log(priceCode, ': ', origin.amount,'+', option.amount, ' = ', final.amount);
             }, this);
         }
 
@@ -152,7 +148,7 @@ define([
         /*jshint validthis: true */
         var box = this.element;
         var prices = this.cache.displayPrices;
-        var priceFormat = $.mage.priceBox.currencyFormat;
+        var priceFormat = this.options.priceConfig && this.options.priceConfig.priceFormat || {};
         var priceTemplate = hbs(this.options.priceTemplate);
 
         _.each(prices, function (price, priceCode) {

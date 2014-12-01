@@ -35,9 +35,7 @@ define([
         var form = this.element;
         var bundleOptions = $(this.options.productBundleSelector, form);
 
-        if(this.options.optionConfig) {
-            bundleOptions.trigger('change');
-        }
+        bundleOptions.trigger('change');
     }
 
     function createPriceBundle() {
@@ -54,7 +52,7 @@ define([
         /*jshint validthis: true */
         var changes;
         var bundleOption = $(event.target);
-        var priceBox = $(this.options.priceBoxSelector);
+        var priceBox = $(this.options.priceBoxSelector, this.element);
         var handler = this.options.optionHandlers[bundleOption.data('role')];
 
         bundleOption.data('optionContainer', bundleOption.closest(this.options.controlContainer));
