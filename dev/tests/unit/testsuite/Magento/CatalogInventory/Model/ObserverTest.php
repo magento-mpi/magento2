@@ -130,15 +130,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->stockRegistry->expects($this->any())->method('getStockItem')->willReturn($this->stockItem);
-        $this->stockManagement = $this->getMockForAbstractClass(
-            '\Magento\CatalogInventory\Api\StockManagementInterface',
-            [
-                'updateProductStockStatus',
-                'registerProductsSale',
-                'revertProductsSale',
-                'backItemQty',
-                'updateProductStockStatus'
-            ],
+        $this->stockManagement = $this->getMock(
+            'Magento\CatalogInventory\Model\StockManagement',
+            [],
+            [],
             '',
             false
         );

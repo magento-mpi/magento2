@@ -21,7 +21,7 @@ interface StockConfigurationInterface
 
     /**
      * @param int $filter
-     * @return array
+     * @return int[]
      */
     public function getIsQtyTypeIds($filter = null);
 

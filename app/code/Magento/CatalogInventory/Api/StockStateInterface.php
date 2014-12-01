@@ -48,16 +48,6 @@ interface StockStateInterface
     public function checkQty($productId, $qty, $websiteId = null);
 
     /**
-     * @attention! this method doesn't work with webApi because of output argument
-     *
-     * @param int $productId
-     * @param float $qty
-     * @param int $websiteId
-     * @return \Magento\Framework\Object
-     */
-    public function checkQtyIncrements($productId, $qty, $websiteId = null);
-
-    /**
      * Returns suggested qty that satisfies qty increments and minQty/maxQty/minSaleQty/maxSaleQty conditions
      * or original qty if such value does not exist
      *

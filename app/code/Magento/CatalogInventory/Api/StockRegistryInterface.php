@@ -50,6 +50,7 @@ interface StockRegistryInterface
 
     /**
      * Retrieve Product stock status
+     *
      * @param int $productId
      * @param int $websiteId
      * @return int
