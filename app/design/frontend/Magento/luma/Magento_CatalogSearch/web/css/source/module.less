@@ -12,6 +12,12 @@
 @autocomplete-item-hover: #e8e8e8;
 @autocomplete-item-amount-color: #999;
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .block-search {
     margin-bottom: 0;
     .block {
@@ -154,6 +160,8 @@
    }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
@@ -166,7 +174,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .block-search {
         position: relative;
         float: right;

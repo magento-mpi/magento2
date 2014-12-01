@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .panel.header {
     .links,
     .switcher {
@@ -34,11 +40,13 @@
     cursor: pointer;
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
 @active-nav-indent: 54px;
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .navigation {
         padding: 0;
         .parent .level-top {
@@ -222,7 +230,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .nav-toggle {
         display: none;
     }

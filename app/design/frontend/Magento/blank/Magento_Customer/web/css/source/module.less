@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .login-container {
     .block {
         &-new-customer {
@@ -158,10 +164,12 @@
     }
 }
 
+}
+
 //
 //    Mobile @screen-s
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .account {
         .column.main,
         .sidebar-additional {
@@ -173,7 +181,7 @@
 //
 //    Mobile @screen-m
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .login-container {
         .fieldset {
             &:after {
@@ -205,7 +213,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .login-container {
         &:extend(.abs-add-clearfix-desktop all);
         .block {

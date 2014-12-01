@@ -6,6 +6,13 @@
 //  * @license     {license_link}
 //  */
 
+
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .downloadable.samples {
     margin-bottom: @indent-base;
     dd {
@@ -64,10 +71,12 @@
     }
 }
 
+}
+
 //
 // Product view Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .page-product-downloadable {
         .product-add-form {
             &:extend(.clearer all);

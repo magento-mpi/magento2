@@ -9,6 +9,12 @@
 @legend-border-bottom: 1px solid #c5c5c5;
 @form-field-vertical-indent-desktop: 29px;
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .fieldset {
     .form-fieldset();
     &:last-child {
@@ -131,10 +137,12 @@ select:focus ~ .tooltip .tooltip-content {
     }
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .legend {
         .css(border-bottom, @legend-border-bottom);
     }

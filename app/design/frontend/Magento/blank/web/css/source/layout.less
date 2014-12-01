@@ -9,6 +9,12 @@
 @layout-column-main-sidebar-offset: 2%;
 @layout-column-additional-sidebar-offset: @layout-column-main-sidebar-offset;
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .columns {
     #layout-columns();
     .column.main {
@@ -32,10 +38,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .navigation,
     .breadcrumbs,
     .page-header .header.panel,
@@ -61,7 +69,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .navigation,
     .breadcrumbs,
     .page-header .header.panel,

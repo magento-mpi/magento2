@@ -12,6 +12,12 @@
 @desktop-form-field-vertical-indent: 29px;
 
 //
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+//
 //    One Page Checkout
 //--------------------------------------
 .opc-wrapper {
@@ -347,10 +353,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .opc-wrapper {
         table.data.table {
             &:extend(.abs-checkout-order-review all);
@@ -361,7 +369,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .checkout-onepage-index .column.main {
         &:extend(.abs-add-clearfix-desktop-s all);
     }

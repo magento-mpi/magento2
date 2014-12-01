@@ -11,6 +11,12 @@
 @cart-item-cell-padding-top: 20px;
 
 //
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+//
 //    Shopping cart
 //--------------------------------------
 .checkout-cart-index {
@@ -423,10 +429,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .cart {
         &-totals {
              .table.totals {
@@ -461,7 +469,7 @@
     }
 }
 
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .cart {
         // Cart container
         &-container {
@@ -533,6 +541,13 @@
     }
 }
 
+
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 //
 //    Cross sell
 //--------------------------------------
@@ -544,10 +559,12 @@
     }
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .checkout-cart-index {
         .page-main {
             padding-left: @layout-width-xs-indent;

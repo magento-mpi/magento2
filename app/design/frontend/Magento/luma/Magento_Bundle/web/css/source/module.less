@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .bundle-actions {
     margin: 0 0 @indent-l-base;
     .action.primary.customize {
@@ -168,10 +174,12 @@
     }
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .bundle-actions {
         .action.primary.customize {
             width: auto;

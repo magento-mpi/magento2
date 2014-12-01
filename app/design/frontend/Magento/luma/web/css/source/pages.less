@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .pages {
     .pager();
     .action {
@@ -22,10 +28,12 @@
     }
 }
 
+}
+
 //
 //    Small Screen
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .pages {
         & &-items {
             display: block;

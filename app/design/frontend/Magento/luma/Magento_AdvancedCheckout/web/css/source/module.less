@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .column {
     .block-addbysku {
         .fieldset {
@@ -91,10 +97,12 @@
     }
 }
 
+}
+
 //
 //    Mobile @screen-s
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .column {
         .block-addbysku {
             .sku {
@@ -116,10 +124,7 @@
     }
 }
 
-//
-//    Desktop
-//--------------------------------------
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .column {
         .block-addbysku {
             .action {
@@ -136,7 +141,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .block-cart-failed {
         &:extend(.abs-shopping-cart-items-desktop all);
         .actions.secondary {

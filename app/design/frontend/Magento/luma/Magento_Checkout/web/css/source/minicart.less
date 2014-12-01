@@ -7,6 +7,12 @@
 //  */
 
 //
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+//
 //    Minicart
 //--------------------------------------
 .block-minicart {
@@ -233,10 +239,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-xs) {
+.responsive-max-m(@break) when (@break = @screen-xs) {
     .minicart-wrapper .block-minicart {
         width: 290px;
     }
@@ -251,7 +259,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .minicart-wrapper {
         margin-left: 13px;
         .block-minicart {

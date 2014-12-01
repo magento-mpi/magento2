@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .form-giftregistry-share,
 .form-giftregistry-edit {
     &:extend(.abs-add-fields all);
@@ -121,10 +127,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .table-giftregistry-items {
         .col.product {
             &:before {
@@ -151,7 +159,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .form-giftregistry-share,
     .form-giftregistry-edit {
         &:extend(.abs-add-fields-desktop all);

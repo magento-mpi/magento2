@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .order-links {
     .item {
         line-height: @tab-control-height;
@@ -312,10 +318,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .table-wrapper {
         &.orders-recent {
             &:extend(.abs-account-table-margin-mobile all);
@@ -409,7 +417,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .order-details-items {
         .order-title {
             .action {
@@ -425,7 +433,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .table-wrapper.orders-recent {
         &:extend(.abs-account-table-margin-desktop all);
     }

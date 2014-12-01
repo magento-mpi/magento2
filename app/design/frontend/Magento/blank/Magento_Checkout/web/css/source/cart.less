@@ -6,6 +6,14 @@
 //  * @license     {license_link}
 //  */
 
+
+
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 //
 //    Shopping cart
 //--------------------------------------
@@ -314,10 +322,12 @@
     margin-top: 70px;
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .cart {
         &.table-wrapper {
             thead {
@@ -357,7 +367,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .cart {
         &-container {
             &:extend(.abs-add-clearfix-desktop all);

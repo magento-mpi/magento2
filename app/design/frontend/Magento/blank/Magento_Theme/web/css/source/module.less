@@ -33,6 +33,14 @@
 
 @h1-margin-bottom-desktop: @indent-xl-base;
 
+
+
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 body {
     .css(background-color, @page-bg-color);
 }
@@ -210,10 +218,12 @@ body {
     }
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
 
     html,
     body {
@@ -311,6 +321,13 @@ body {
     }
 }
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+
 .no-display {
     &:extend(.abs-no-display all);
 }
@@ -318,4 +335,6 @@ body {
 // Calendar
 .ui-datepicker td {
     padding: 0;
+}
+
 }

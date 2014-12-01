@@ -7,6 +7,12 @@
 //  */
 
 //
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+//
 //    Product
 //--------------------------------------
 .payment-schedule {
@@ -64,10 +70,12 @@
     &:extend(.abs-field-date all);
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-xs) {
+.responsive-max-m(@break) when (@break = @screen-xs) {
     .table-recurring-payments {
         td {
             &:first-child {
@@ -79,7 +87,7 @@
     }
 }
 
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .order-recurring-details {
         .order-recurring-details-item {
             .table.data {
@@ -101,7 +109,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .items-info-tabs {
         &:extend(.abs-add-clearfix-desktop all);
         .item {

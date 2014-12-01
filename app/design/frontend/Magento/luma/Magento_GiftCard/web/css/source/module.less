@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .page-product-giftcard {
     .giftcard-amount {
         text-align: left;
@@ -77,10 +83,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .cart-discount {
         .giftcard .content {
             padding-bottom: 35px;
@@ -99,7 +107,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .page-product-giftcard {
         .product-info-main {
             .price-box {

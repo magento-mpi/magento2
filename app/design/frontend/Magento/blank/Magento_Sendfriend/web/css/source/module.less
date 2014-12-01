@@ -6,6 +6,11 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
 
 .form.send.friend {
     &:extend(.abs-add-fields all);
@@ -26,10 +31,12 @@
     }
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .form.send.friend {
         &:extend(.abs-add-fields-desktop all);
     }

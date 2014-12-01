@@ -5,6 +5,13 @@
 //  * @copyright   {copyright}
 //  * @license     {license_link}
 //  */
+
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .block-reward-info {
     .reward-rates,
     .reward-limit,
@@ -18,10 +25,13 @@
         }
     }
 }
+
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .reward-settings {
         + .actions-toolbar {
             margin-top: 10px;
@@ -32,7 +42,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .reward-settings {
         + .actions-toolbar {
             margin-top: -32px;

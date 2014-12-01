@@ -13,6 +13,12 @@
 @pager-action-background-hover: darken(@toolbar-element-background, 7%);
 @pager-font-weight: @font-weight-bold;
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .page-products .columns {
     position: relative;
     z-index: 1;
@@ -111,13 +117,19 @@
     }
 }
 
-.responsive-smaller(@break) when (@break = @screen-s) {
+}
+
+//
+//    Mobile
+//--------------------------------------
+
+.responsive-max-m(@break) when (@break = @screen-s) {
     .toolbar-products {
         margin-bottom: 0;
     }
 }
 
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .page-products .columns {
         position: relative;
         z-index: 1;

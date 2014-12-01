@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 // Popup working with dropdown dialog
 .ui-dialog.popup {
   width: 420px;
@@ -45,7 +51,13 @@
     }
 }
 
-.responsive(@break) when (@break = @screen-m) {
+}
+
+//
+//    Mobile
+//--------------------------------------
+
+.responsive-min-l(@break) when (@break = @screen-m) {
     .popup .popup-content {
         .fieldset .actions-toolbar {
             .secondary {

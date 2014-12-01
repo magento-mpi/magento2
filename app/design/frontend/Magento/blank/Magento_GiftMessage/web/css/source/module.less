@@ -6,6 +6,13 @@
 //  * @license     {license_link}
 //  */
 
+
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .gift-message {
     margin: 0;
     .fieldset& {
@@ -147,10 +154,12 @@
     padding-top: @indent-s-base;
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .gift-message {
         .item {
             border-bottom: @border-width-base solid @border-color-base;

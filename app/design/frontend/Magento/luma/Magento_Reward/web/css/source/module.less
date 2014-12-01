@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .block-reward-info {
     .reward-balance {
         .font-size(18);
@@ -24,10 +30,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .table-wrapper.reward-history {
         &:extend(.abs-account-table-margin-mobile all);
     }
@@ -36,7 +44,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .table-wrapper.reward-history {
         &:extend(.abs-account-table-margin-desktop all);
     }

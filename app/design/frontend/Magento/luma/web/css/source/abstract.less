@@ -108,7 +108,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-product-options-list-desktop {
         @abs-product-options-list();
     }
@@ -121,7 +121,7 @@
     .button-responsive();
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-button-desktop {
         width: auto;
     }
@@ -144,13 +144,13 @@
     }
 };
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-blocks-2columns {
         @abs-blocks-2columns();
     }
 }
 
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .abs-blocks-2columns-s {
         @abs-blocks-2columns();
     }
@@ -226,7 +226,7 @@
     margin-bottom: @indent-xl-base;
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-margin-for-blocks-and-widgets-desktop {
         margin-bottom: @indent-xl-base + @indent-s-base;
     }
@@ -278,13 +278,13 @@
     @abs-reset-left-margin();
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-reset-left-margin-desktop {
         @abs-reset-left-margin();
     }
 }
 
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .abs-reset-left-margin-desktop-s {
         @abs-reset-left-margin();
     }
@@ -306,7 +306,7 @@
 //
 //    Action with icon remove with text for desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-action-remove-desktop {
         margin-left: 90%;
     }
@@ -351,7 +351,7 @@
 //
 //    Add Recipient for desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-add-fields-desktop {
         .fieldset {
             .field {
@@ -371,7 +371,7 @@
 //
 //    Margin for forms
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-margin-for-forms-desktop {
         margin-left: @form-field-type-inline-label-width;
     }
@@ -399,25 +399,25 @@
     @abs-visually-hidden();
 }
 
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .abs-visually-hidden-mobile {
         @abs-visually-hidden();
     }
 }
 
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .abs-visually-hidden-mobile-m {
         @abs-visually-hidden();
     }
 }
 
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .abs-visually-hidden-desktop-s {
         @abs-visually-hidden();
     }
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-visually-hidden-desktop {
         @abs-visually-hidden();
     }
@@ -434,25 +434,25 @@
     @abs-add-clearfix();
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-add-clearfix-desktop {
         @abs-add-clearfix();
     }
 }
 
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .abs-add-clearfix-desktop-s {
         @abs-add-clearfix();
     }
 }
 
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .abs-add-clearfix-mobile {
         @abs-add-clearfix();
     }
 }
 
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .abs-add-clearfix-mobile-m {
         @abs-add-clearfix();
     }
@@ -469,13 +469,13 @@
     @abs-add-box-sizing();
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-add-box-sizing-desktop {
         @abs-add-box-sizing();
     }
 }
 
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .abs-add-box-sizing-desktop-s {
         @abs-add-box-sizing();
     }
@@ -484,7 +484,7 @@
 //
 //    Revert field type
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-revert-field-type-desktop {
         .fieldset {
             > .field,
@@ -546,13 +546,13 @@
     }
 };
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-form-field-column-2 {
         @abs-form-field-column-2();
     }
 }
 
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .abs-form-field-column-2-s {
         @abs-form-field-column-2();
     }
@@ -565,13 +565,13 @@
     .form-field-column-number(@_column-number: 1);
 };
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-form-field-revert-column-1 {
         @abs-form-field-revert-column-1();
     }
 }
 
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .abs-form-field-revert-column-1-s {
         @abs-form-field-revert-column-1();
     }
@@ -660,7 +660,7 @@
 //
 //    General pages forms
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-forms-general-desktop {
         max-width: 500px;
         .legend {
@@ -675,7 +675,7 @@
 //
 //    Revert side paddings
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-revert-side-paddings {
         padding-left: 0;
         padding-right: 0;
@@ -711,7 +711,7 @@
     );
 }
 
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .abs-toggling-title-mobile {
         @abs-toggling-title();
         border-bottom: @border-width-base solid @border-color-base;
@@ -790,7 +790,7 @@
 //
 //    Mobile checkout order product name
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .abs-product-items-summary {
         tbody {
             .col {
@@ -844,7 +844,7 @@
 //
 //    Account pages: block font size
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-account-block-font-size {
         .font-size(16);
     }
@@ -860,12 +860,12 @@
 //
 //    Account pages: margin for table
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .abs-account-table-margin-mobile {
         .css(margin-top, -@indent-base);
     }
 }
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-account-table-margin-desktop {
         .css(margin-top, -@indent-m-base);
     }
@@ -874,7 +874,7 @@
 //
 //    Account pages: table col actions
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .abs-col-no-prefix {
         &:before {
             .visually-hidden();
@@ -907,13 +907,13 @@
     }
 };
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-action-print {
         @abs-action-print();
     }
 }
 
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .abs-action-print-s {
         @abs-action-print();
     }
@@ -1074,7 +1074,7 @@
     );
 }
 
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .abs-icon-add-mobile {
         .icon-font(
             @_icon-font-content: @icon-expand,
@@ -1116,13 +1116,13 @@
     @abs-no-display();
 }
 
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .abs-no-display-s {
         @abs-no-display();
     }
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-no-display-desktop {
         @abs-no-display();
     }
@@ -1141,7 +1141,7 @@
     vertical-align: top;
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-status-desktop {
         margin-top: 6px;
         padding: 5px 10px;
@@ -1168,7 +1168,7 @@
     }
 }
 
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .abs-title-orders-mobile {
         .page-main {
             .page-title {
@@ -1184,7 +1184,7 @@
     }
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-title-orders-desktop {
         .page-main {
             .page-title {
@@ -1209,7 +1209,7 @@
     );
 }
 
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .abs-table-striped-mobile {
         > tbody > tr > td:last-child {
             border: 0;
@@ -1220,7 +1220,7 @@
 //
 //    Table bordered desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-table-bordered-desktop {
         .table-bordered(
             @_table_type: light,
@@ -1232,7 +1232,7 @@
 //
 //    Pager toolbar for non-catalog pages desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-pager-toolbar {
         position: relative;
         .toolbar-amount,
@@ -1285,7 +1285,7 @@
     }
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .abs-shopping-cart-items-desktop {
         .layout-column(2, 1, @layout-column-checkout-main-width);
         &:extend(.abs-add-box-sizing-desktop all);
@@ -1297,7 +1297,7 @@
 //
 //    Remove top border
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .abs-no-border-top {
         border-top: 0;
     }
@@ -1306,7 +1306,7 @@
 //
 //    Remove bottom border
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .abs-no-border-bottom {
         border-bottom: 0;
     }

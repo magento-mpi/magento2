@@ -7,6 +7,12 @@
 //  */
 
 //
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+//
 //    PayPal checkout button
 //--------------------------------------
 .paypal {
@@ -101,10 +107,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .table-paypal-review-items {
         .product-item-name {
             display: inline-block;
@@ -115,7 +123,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .paypal-review {
         .block-content {
             &:extend(.abs-add-clearfix-desktop all);

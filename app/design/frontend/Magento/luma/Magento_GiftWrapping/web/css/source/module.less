@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .opc-wrapper {
     .fieldset.gift-message .field.gift-wrapping {
         padding: 0;
@@ -56,7 +62,13 @@
     }
 }
 
-.responsive(@break) when (@break = @screen-m) {
+}
+
+//
+//    Mobile
+//--------------------------------------
+
+.responsive-min-l(@break) when (@break = @screen-m) {
     .data.table {
         .gift-wrapping {
             .nested,

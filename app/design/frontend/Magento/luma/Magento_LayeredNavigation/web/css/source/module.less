@@ -6,6 +6,11 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
 
 .filter {
     &.block {
@@ -161,7 +166,13 @@
     }
 }
 
-.responsive-smaller(@break) when (@break = @screen-s) {
+}
+
+//
+//    Mobile
+//--------------------------------------
+
+.responsive-max-m(@break) when (@break = @screen-s) {
     body.filter-active {
         .page-wrapper {
             visibility: hidden;
@@ -306,7 +317,7 @@
     }
 }
 
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
 
     .filter {
         &.block {

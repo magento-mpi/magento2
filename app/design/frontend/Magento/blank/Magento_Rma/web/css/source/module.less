@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .form-create-return {
     &:extend(.abs-add-fields all);
     .field {
@@ -80,10 +86,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .form-create-return {
         .fieldset {
             > .actions-toolbar {
@@ -111,7 +119,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .form-create-return {
         &:extend(.abs-add-fields-desktop all);
         .additional {

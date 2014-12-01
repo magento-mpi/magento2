@@ -13,6 +13,12 @@
 @product-h1-margin-bottom-desktop: @indent-s-base + @indent-xs-base;
 
 //
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+//
 //    Category view
 //--------------------------------------
 .old-price,
@@ -443,10 +449,13 @@
         }
     }
 }
+
+}
+
 //
 //    Mobile @screen-m
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .catalog-product-view {
         .column.main {
             .vendor-prefix-display(flex);
@@ -461,7 +470,7 @@
 //
 //    Mobile @screen-s
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .product-social-links {
         .action.tocompare {
             display: none;
@@ -494,7 +503,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .product-info-main {
         .page-title {
             h1 {
@@ -599,7 +608,7 @@
 //
 //    Desktop large
 //--------------------------------------
-.responsive(@break) when (@break = @screen-xl) {
+.responsive-min-l(@break) when (@break = @screen-xl) {
     .sidebar {
         .product-items {
             .product-item {
@@ -619,6 +628,13 @@
         }
     }
 }
+
+
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
 
 //
 //    Minimum Advertising Price
@@ -841,11 +857,12 @@ body.catalog-product-compare-index {
     display: none;
 }
 
+}
 
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .table-wrapper.comparison {
         .table-comparison > tbody > tr{
             > th,
@@ -860,7 +877,7 @@ body.catalog-product-compare-index {
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .compare.wrapper {
         display: block;
         float: right;
@@ -893,6 +910,12 @@ body.catalog-product-compare-index {
     }
 }
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .block.related {
     .action.select {
         &:extend(.abs-action-button-as-link all);
@@ -915,10 +938,12 @@ body.catalog-product-compare-index {
     }
 }
 
+}
+
 //
 //    Desktop large
 //--------------------------------------
-.responsive(@break) when (@break = @screen-l) {
+.responsive-min-l(@break) when (@break = @screen-l) {
     .box-tocart {
         .paypal:first-of-type {
             margin-top: 13px;

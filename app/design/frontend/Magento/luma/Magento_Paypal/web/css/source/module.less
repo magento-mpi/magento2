@@ -7,6 +7,12 @@
 //  */
 
 //
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+//
 //    PayPal checkout button
 //--------------------------------------
 
@@ -104,10 +110,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .account {
         .table-billing-agreements,
         .table-billing-agreements-related {
@@ -134,7 +142,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .paypal-review {
         .paypal-review-title {
             border-bottom: @border-width-base solid @border-color-base;

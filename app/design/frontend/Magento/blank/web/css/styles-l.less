@@ -1,0 +1,38 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+@import 'styles.less';
+
+//
+//    Magento Import instructions
+//--------------------------------------
+
+//@magento_import "source/module.less"; // import theme styles
+//@magento_import "source/widgets.less"; // import widgets' styles
+//@magento_import "source/extend.less"; // for minor customisation
+
+//
+//    Laptop styles collector
+//--------------------------------------
+
+.responsive-min-l() {}
+
+@media all and (min-width: @screen-m),
+print {
+    .responsive-min-l(@screen-m);
+}
+
+@media all and (min-width: @screen-l),
+print {
+    .responsive-min-l(@screen-l);
+}
+
+@media all and (min-width: @screen-xl),
+print {
+    .responsive-min-l(@screen-xl);
+}

@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .gift-wrapping {
     margin-bottom: @indent-s-base;
     > .label {
@@ -49,7 +55,13 @@
     }
 }
 
-.responsive(@break) when (@break = @screen-m) {
+}
+
+//
+//    Desktop
+//--------------------------------------
+
+.responsive-min-l(@break) when (@break = @screen-m) {
     .gift-wrapping {
         .nested {
             &:extend(.abs-add-clearfix-desktop all);

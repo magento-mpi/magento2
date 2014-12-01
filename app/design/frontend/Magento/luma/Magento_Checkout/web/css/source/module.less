@@ -12,6 +12,12 @@
 @opc-margin-left: 10%;
 
 //
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+//
 //    One Page Checkout
 //--------------------------------------
 .opc-wrapper {
@@ -448,10 +454,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .table-wrapper.order-review-wrapper {
         &:extend(.abs-no-border-top all);
         .table.table-order-review {
@@ -475,7 +483,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .checkout-onepage-index .column.main {
         &:extend(.abs-add-clearfix-desktop-s all);
     }

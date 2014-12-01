@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .table-downloadable-products {
     .product-name {
         font-weight: @font-weight-base;
@@ -115,10 +121,12 @@
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .page-product-downloadable .product-options-wrapper {
         margin-bottom: @indent-m-base;
     }
@@ -147,7 +155,7 @@
 //
 // Product view Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
 .page-product-downloadable {
         .product-add-form {
             &:extend(.clearer all);

@@ -42,11 +42,33 @@
 
 @h1-margin-bottom-desktop: @indent-xl-base;
 
+// Footer
+
+@footer-bg-color: #f4f4f4;
+@footer-links-separator-border-color: #cecece;
+@footer-links-color: #575757;
+@footer-links-color-hover: #333;
+@footer-links-color-current: @color-primary-light;
+
+
+// Layered navigation
+
+@filter-title-bg: #f0f0f0;
+@filter-link: #494949;
+@filter-link-hover: darken(@filter-link, 30%);
+@filter-quantity: #858585;
+
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 body {
     .css(background-color, @page-bg-color);
 }
 
-// ToDo: move it directly to .page-wrapper (now it doesn't appear in mediaquery cuz of size of css)
+// ToDo UI: move it directly to .page-wrapper (now it doesn't appear in mediaquery cuz of size of css)
 .page-wrapper {
     .ie9 & {
         min-height: none;
@@ -263,10 +285,12 @@ body {
     }
 }
 
+}
+
 //
 //    Navigation
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .customer.name,
     .customer-welcome + .authorization-link {
         display: none;
@@ -316,7 +340,7 @@ body {
     }
 }
 
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .logo {
         margin-top: 4px;
         margin-bottom: 13px;
@@ -324,13 +348,14 @@ body {
 }
 
 //
-//    Layered navigation
+//    Common
 //--------------------------------------
 
-@filter-title-bg: #f0f0f0;
-@filter-link: #494949;
-@filter-link-hover: darken(@filter-link, 30%);
-@filter-quantity: #858585;
+.responsive-common() {
+
+//
+//    Layered navigation
+//--------------------------------------
 
 //
 //    Widgets
@@ -352,10 +377,12 @@ body {
     }
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
 
     html,
     body {
@@ -551,6 +578,12 @@ body {
     }
 }
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .no-display {
     &:extend(.abs-no-display all);
 }
@@ -564,4 +597,6 @@ body {
     border: @tooltip-border-width solid @tooltip-border-color;
     background: @tooltip-background;
     padding: 10px;
+}
+
 }
