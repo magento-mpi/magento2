@@ -98,9 +98,28 @@
     .block-title {
         &:extend(.abstract-account-title all);
     }
-    
-    .data.table {
-        &:extend(.abstract-table-striped all);
+    .product-image-wrapper {
+        &:extend(.abstract-reset-image-wrapper all);
+    }
+    .item {
+        .col {
+            border: 0;
+        }
+    }
+    th {
+        border-bottom: @border-width-base solid @border-color-base;
+    }
+    .col {
+        padding: @cart-item-cell-padding-top 11px 10px;
+        .price-box {
+            display: inline-block;
+        }
+        .price-wrapper {
+            display: block;
+            .font-size(18);
+            white-space: nowrap;
+            font-weight: @font-weight-bold;
+        }
     }
 
     .qty {
@@ -114,19 +133,14 @@
             &:extend(.abstract-product-options-list all);
         }
         &-item-photo {
-            display: table-cell;
-            padding-right: @indent-base;
-            vertical-align: top;
-            width: 1%;
-        }
-        &-item-details {
-            display: table-cell;
-            vertical-align: top;
-            word-break: normal;
-            width: 99%;
+            display: block;
+            max-width: 65px;
+            padding: @indent-s-base 0;
         }
         &-item-name {
-            margin-top: 0;
+            display: block;
+            .font-size(18);
+            margin: 0 0 @indent-xs-base;
         }
     }
 }
@@ -161,7 +175,16 @@
             margin-bottom: @indent-base;
         }
     }
+    .block-giftregistry-shared-items {
+        .block-title {
+            margin-bottom: @indent-s-base;
+        }
+        .table-wrapper {
+            border-top: 0;
+        }
+    }
 }
+
 
 //
 //    Desktop
@@ -246,6 +269,41 @@
         .column.main & {
             .actions-toolbar {
                 &:extend(.abstract-reset-left-margin-desktop all);
+            }
+        }
+        .item {
+            border-top: 0;
+            border-bottom: @border-width-base solid @border-color-base;
+        }
+        .product {
+            &-item-photo {
+                max-width: 100%;
+                display: table-cell;
+                padding: 0 @indent-base 0 0;
+                vertical-align: top;
+                width: 1%;
+            }
+            &-item-details {
+                display: table-cell;
+                vertical-align: top;
+                word-break: normal;
+                width: 99%;
+            }
+        }
+        .col {
+            &.product {
+                width: 48%;
+            }
+            &:not(.product) {
+                text-align: center;
+            }
+            &.price {
+                padding-top: 17px;
+            }
+        }
+        .input-text {
+            &.qty {
+                margin-top: -4px;
             }
         }
     }

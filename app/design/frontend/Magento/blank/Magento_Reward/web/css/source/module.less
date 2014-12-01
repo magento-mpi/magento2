@@ -5,7 +5,19 @@
 //  * @copyright   {copyright}
 //  * @license     {license_link}
 //  */
-
+.block-reward-info {
+    .reward-rates,
+    .reward-limit,
+    .reward-expiring {
+        &:not(:last-child) {
+            margin-bottom: @indent-m-base;
+        }
+        .title {
+            display: inline-block;
+            margin-bottom: @indent-s-base;
+        }
+    }
+}
 //
 //    Mobile
 //--------------------------------------
