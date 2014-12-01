@@ -120,6 +120,15 @@ class QuoteTest  extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())
             ->method('getShippingAddress')
             ->willReturn($this->addressMock);
+        $customerAddressMock = $this->getMockBuilder('Magento\Customer\Api\Data\AddressInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->addressMock->expects($this->once())
+            ->method('exportCustomerAddress')
+            ->willReturn($customerAddressMock);
+        $this->quoteMock->expects($this->once())
+            ->method('getShippingAddress')
+            ->willReturn($this->addressMock);
         $this->addressMock->expects($this->exactly(2))
             ->method('getData')
             ->willReturn([]);

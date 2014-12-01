@@ -1678,18 +1678,20 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                 ->create();
             $customer = $this->_validateCustomerData($customer);
         }
+        $this->getQuote()->setCustomer($customer);
+
         if ($this->getBillingAddress()->getSaveInAddressBook()) {
-            $this->_prepareCustomerAddress($customer, $this->getBillingAddress());
+            $this->_prepareCustomerAddress($this->getQuote()->getCustomer(), $this->getBillingAddress());
         }
         if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
-            $this->_prepareCustomerAddress($customer, $this->getShippingAddress());
+            $this->_prepareCustomerAddress($this->getQuote()->getCustomer(), $this->getShippingAddress());
         }
-        $this->getQuote()->updateCustomerData($customer);
+        $this->getQuote()->updateCustomerData($this->getQuote()->getCustomer());
 
         $customerData = $this->extensibleDataObjectConverter->toFlatArray(
-            $this->customerBuilder->populate($customer)->setAddresses([])->create()
+            $this->customerBuilder->populate($this->getQuote()->getCustomer())->setAddresses([])->create()
         );
-        foreach ($this->_createCustomerForm($customer)->getUserAttributes() as $attribute) {
+        foreach ($this->_createCustomerForm($this->getQuote()->getCustomer())->getUserAttributes() as $attribute) {
             if (isset($customerData[$attribute->getAttributeCode()])) {
                 $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
                 $this->getQuote()->setData($quoteCode, $customerData[$attribute->getAttributeCode()]);
