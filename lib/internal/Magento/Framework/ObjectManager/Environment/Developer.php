@@ -27,7 +27,7 @@ class Developer extends AbstractEnvironment implements EnvironmentInterface
     /**
      * @var string
      */
-    protected $configPreference = '\Magento\Framework\ObjectManager\Factory\Dynamic\Developer';
+    protected $configPreference = 'Magento\Framework\ObjectManager\Factory\Dynamic\Developer';
 
     /**
      * @return \Magento\Framework\Interception\ObjectManager\Config

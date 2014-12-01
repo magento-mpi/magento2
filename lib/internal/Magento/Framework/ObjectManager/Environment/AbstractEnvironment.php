@@ -28,7 +28,7 @@ abstract class AbstractEnvironment implements EnvironmentInterface
     /**
      * @var string
      */
-    protected $configPreference = '\Magento\Framework\ObjectManager\Factory\Dynamic\Developer';
+    protected $configPreference = 'Magento\Framework\ObjectManager\Factory\Dynamic\Developer';
 
     /**
      * @var \Magento\Framework\ObjectManager\FactoryInterface
@@ -56,7 +56,8 @@ abstract class AbstractEnvironment implements EnvironmentInterface
      */
     public function getObjectManagerFactory($arguments)
     {
-        $this->factory = new $this->configPreference(
+        $factoryClass = $this->getDiConfig()->getPreference($this->configPreference);
+        $this->factory = new $factoryClass(
             $this->getDiConfig(),
             null,
             $this->envFactory->getDefinitions(),

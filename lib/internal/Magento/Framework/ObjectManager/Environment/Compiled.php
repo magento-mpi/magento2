@@ -39,7 +39,7 @@ class Compiled extends AbstractEnvironment implements EnvironmentInterface
     /**
      * @var string
      */
-    protected $configPreference = '\Magento\Framework\ObjectManager\Factory\Compiled';
+    protected $configPreference = 'Magento\Framework\ObjectManager\Factory\Compiled';
 
     /**
      * @return \Magento\Framework\Interception\ObjectManager\Config

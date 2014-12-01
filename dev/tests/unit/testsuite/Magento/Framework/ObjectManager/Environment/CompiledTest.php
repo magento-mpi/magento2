@@ -29,12 +29,4 @@ class CompiledTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('compiled', $this->_compiled->getMode());
     }
-
-    public function testGetObjectManagerConfigLoader()
-    {
-        $this->assertInstanceOf(
-            'Magento\Framework\App\ObjectManager\ConfigLoader\Compiled',
-            $this->_compiled->getObjectManagerConfigLoader()
-        );
-    }
 }
