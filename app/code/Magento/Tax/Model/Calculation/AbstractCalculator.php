@@ -414,7 +414,8 @@ abstract class AbstractCalculator
                 $this->roundingDeltas[$type][$rate] :
                 0.000001;
             $price += $delta;
-            $roundPrice = $this->calculationTool->round($price);
+            //$roundPrice = $this->calculationTool->round($price);
+            $roundPrice = $price;
             $this->roundingDeltas[$type][$rate] = $price - $roundPrice;
             $price = $roundPrice;
         }
