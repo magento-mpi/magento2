@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Framework\Model;
+namespace Magento\Framework\Api;
 
 interface AttributeTypeResolverInterface
 {

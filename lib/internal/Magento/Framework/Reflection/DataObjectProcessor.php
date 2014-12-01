@@ -13,7 +13,6 @@ use Zend\Code\Reflection\MethodReflection;
 use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Api\ExtensibleDataInterface;
-use Magento\Framework\Model\SimpleModelInterface;
 
 /**
  * Data object processor for de-serialization using class reflection
@@ -47,19 +46,19 @@ class DataObjectProcessor
     protected $serviceInterfaceMethodsMap = [];
 
     /**
-     * @var \Magento\Framework\Model\AttributeTypeResolverInterface
+     * @var \Magento\Framework\Api\AttributeTypeResolverInterface
      */
     protected $attributeTypeResolver;
 
     /**
      * @param \Magento\Framework\Cache\FrontendInterface $cache
      * @param TypeProcessor $typeProcessor
-     * @param \Magento\Framework\Model\AttributeTypeResolverInterface $typeResolver
+     * @param \Magento\Framework\Api\AttributeTypeResolverInterface $typeResolver
      */
     public function __construct(
         \Magento\Framework\Cache\FrontendInterface $cache,
         TypeProcessor $typeProcessor,
-        \Magento\Framework\Model\AttributeTypeResolverInterface $typeResolver
+        \Magento\Framework\Api\AttributeTypeResolverInterface $typeResolver
     ) {
         $this->cache = $cache;
         $this->typeProcessor = $typeProcessor;
