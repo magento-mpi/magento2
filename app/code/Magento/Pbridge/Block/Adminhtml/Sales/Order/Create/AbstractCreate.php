@@ -64,7 +64,6 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
-     * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
@@ -80,7 +79,6 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
-        \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
