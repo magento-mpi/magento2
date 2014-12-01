@@ -2895,4 +2895,5 @@ return array(
     ['Magento\Framework\App\Arguments\Loader'],
     ['Magento\Framework\App\Arguments', 'Magento\Framework\App\DeploymentConfig'],
     ['Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader'],
+    ['Magento\Sales\Model\Resource\AbstractResource'],
 );
