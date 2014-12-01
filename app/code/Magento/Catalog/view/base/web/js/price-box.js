@@ -118,7 +118,6 @@ define([
                 _.each(priceValue.adjustments, function (adValue, adCode) {
                     additionalPrice[priceCode].adjustments[adCode] = 0 + (additionalPrice[priceCode].adjustments[adCode] || 0) + adValue;
                 });
-                console.log(priceCode, ': ', '+', priceValue.amount, ' = ', additionalPrice[priceCode].amount);
             });
         });
 
@@ -137,8 +136,6 @@ define([
                 _.each(option.adjustments, function (pa, paCode) {
                     final.adjustments[paCode] = 0 + (origin.adjustments[paCode] || 0) + pa;
                 });
-
-                console.log(priceCode, ': ', origin.amount,'+', option.amount, ' = ', final.amount);
             }, this);
         }
 
