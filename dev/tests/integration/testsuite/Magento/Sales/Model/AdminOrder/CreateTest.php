@@ -203,7 +203,9 @@ class CreateTest extends \PHPUnit_Framework_TestCase
                 'address_type' => 'billing',
                 'quote_id' => $this->_model->getQuote()->getId(),
                 'street' => "Line1\nLine2",
-                'save_in_address_book' => 0
+                'save_in_address_book' => 0,
+                'region' => '',
+                'region_id' => 1,
             ]
         );
         $this->assertEquals(

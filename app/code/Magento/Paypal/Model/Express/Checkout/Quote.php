@@ -94,9 +94,9 @@ class Quote
         $this->customerBuilder->setLastname($quote->getCustomerLastname());
         $this->customerBuilder->setSuffix($quote->getCustomerSuffix());
         $quote->setCustomer($this->customerBuilder->create());
-        $quote->addCustomerAddressData($billing->getCustomerAddressData());
-        if ($shipping->hasCustomerAddressData()) {
-            $quote->addCustomerAddressData($shipping->getCustomerAddressData());
+        $quote->addCustomerAddress($billing->exportCustomerAddress());
+        if ($shipping->hasCustomerAddress()) {
+            $quote->addCustomerAddress($shipping->exportCustomerAddress());
         }
         return $quote;
     }
@@ -129,14 +129,14 @@ class Quote
         if ($shipping && !$customer->getDefaultShipping()) {
             $shipping->setDefaultBilling(false);
             $shipping->setDefaultShipping(true);
-            $quote->addCustomerAddressData($this->addressBuilder->populateWithArray($shipping->getData())->create());
+            $quote->addCustomerAddress($this->addressBuilder->populateWithArray($shipping->getData())->create());
         } else if (!$customer->getDefaultShipping()) {
             $isBillingAddressDefaultShipping = true;
         }
         if ($billing) {
             $billing->setDefaultBilling($isBillingAddressDefaultBilling);
             $billing->setDefaultShipping($isBillingAddressDefaultShipping);
-            $quote->addCustomerAddressData($this->addressBuilder->populateWithArray($billing->getData())->create());
+            $quote->addCustomerAddress($this->addressBuilder->populateWithArray($billing->getData())->create());
         }
         $quote->setCustomer($customer);
         return $quote;

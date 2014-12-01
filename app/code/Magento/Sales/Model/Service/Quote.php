@@ -179,34 +179,6 @@ class Quote
      * @param \Magento\Sales\Model\Quote $quote
      * @return void
      */
-    protected function processQuoteAddresses(\Magento\Sales\Model\Quote $quote)
-    {
-        $customerAddresses = [];
-        foreach ($quote->getAllAddresses() as $address) {
-            $customerAddress = $this->addressRepository->save(
-                $this->addressBuilder->populateWithArray($address->getData())
-                    ->setCustomerId($quote->getCustomer()->getId())
-                    ->setRegion(
-                        $this->regionBuilder->setRegion($address->getRegion())
-                        ->setRegionCode($address->getRegionCode())
-                        ->setRegionId($address->getRegionId())
-                        ->create()
-                    )->create()
-            );
-            $address->setCustomerAddressId($customerAddress->getId());
-            $address->setCustomerAddressData($customerAddress);
-            $customerAddresses[] = $customerAddress;
-        }
-        $customer = $this->customerBuilder->populate($this->getQuote()->getCustomer())
-            ->setAddresses($customerAddresses)
-            ->create();
-        $this->getQuote()->setCustomer($customer);
-    }
-
-    /**
-     * @param \Magento\Sales\Model\Quote $quote
-     * @return void
-     */
     protected function prepareCustomerData(\Magento\Sales\Model\Quote $quote)
     {
         $customer = $quote->getCustomer();
@@ -224,14 +196,16 @@ class Quote
             $quote->getBillingAddress()->importCustomerAddressData(
                 $this->addressRepository->getById($customer->getDefaultBilling())
             );
+            $quote->getShippingAddress()->setCustomerAddressId($customer->getDefaultBilling());
         }
         if (!$quote->getShippingAddress()->getSameAsBilling()
             && !$quote->getBillingAddress()->getId()
             && $customer->getDefaultShipping()
         ) {
             $quote->getShippingAddress()->importCustomerAddressData(
-                $this->addressRepository->getById($customer->getDefaultBilling())
+                $this->addressRepository->getById($customer->getDefaultShipping())
             );
+            $quote->getShippingAddress()->setCustomerAddressId($customer->getDefaultShipping());
         }
         $quote->setCustomer($customer);
     }
@@ -252,7 +226,6 @@ class Quote
         $transaction = $this->_transactionFactory->create();
         if (!$quote->getCustomerIsGuest()) {
             $this->prepareCustomerData($quote);
-            $this->processQuoteAddresses($quote);
         }
         $transaction->addObject($quote);
 
