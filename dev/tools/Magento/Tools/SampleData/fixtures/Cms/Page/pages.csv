@@ -1,4 +1,4 @@
-title,page_layout,meta_keywords,meta_description,identifier,content_heading,content,creation_time,update_time,is_active,sort_order,layout_update_xml,custom_theme,custom_root_template,custom_layout_update_xml,custom_theme_from,custom_theme_to
+title,page_layout,meta_keywords,meta_description,identifier,content_heading,content,is_active,sort_order,layout_update_xml,custom_theme,custom_root_template,custom_layout_update_xml,custom_theme_from,custom_theme_to
 "About us",1column,,,about-us,"About us","<div class=""about-info cms-content"">
       <p class=""cms-content-important"">With more than 230 stores spanning 43 states and growing, Luma is a nationally recognized active wear manufacturer and retailer. We’re passionate about active lifestyles – and it goes way beyond apparel.</p>
 
@@ -13,7 +13,7 @@ title,page_layout,meta_keywords,meta_description,identifier,content_heading,cont
           <li><a href=""{{store url=""""}}"">Shop Luma</a></li>
       </ul>
   </div>
-",,,1,,,,,,,
+",1,,,,,,,
 "Privacy Policy",1column,,,privacy-policy,"Privacy Policy","<div class=""privacy-policy cms-content"">
     <div class=""privacy-policy-content"">
         <p>This website (""website"") is operated by Luma Inc., which includes Luma stores, and Luma Private Sales. This privacy policy only covers information collected at this website, and does not cover any information collected offline by Luma. All Luma websites are currently covered by this privacy policy. </p>
@@ -126,7 +126,7 @@ title,page_layout,meta_keywords,meta_description,identifier,content_heading,cont
         </div>
     </div>
 </div>
-",,,1,,,,,,,
+",1,,,,,,,
 "Customer Service",1column,,,customer-service,"Customer Service","<div class=""customer-service cms-content"">
   <div class=""cms-content-important"">
       <h2>Luma Delivery and Returns</h2>
@@ -196,5 +196,5 @@ title,page_layout,meta_keywords,meta_description,identifier,content_heading,cont
   <p>Enclose the return section of the packing slip with your item(s). Please use one  of the return labels provided on the front of your packing slip to ensure proper  return address and credit information. Restricted items must be returned using  ground transportation.</p>
   <p>Please allow 10 to 14 days for Luma to process your return.</p>
 </div>
-",,,1,,,,,,,
-"Home Page",1column,,,home,"Home Page","",,,1,,,,,,,
+",1,,,,,,,
+"Home Page",1column,,,home,"Home Page","",1,,,,,,,
