@@ -167,11 +167,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * same_as_billing must be equal 0 if customer has default shipping address that differs from default billing
      *
-     * @param bool $unsetId
-     * @dataProvider unsetAddressIdDataProvider
      * @magentoDbIsolation enabled
      */
-    public function testSameAsBillingWhenCustomerHasDefaultShippingAddress($unsetId)
+    public function testSameAsBillingWhenCustomerHasDefaultShippingAddress()
     {
         /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerDataBuilder*/
         $customerDataBuilder = Bootstrap::getObjectManager()
@@ -181,15 +179,12 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Customer\Api\AddressRepositoryInterface');
         $this->_customer = $customerDataBuilder->populate($this->_customer)
             ->setDefaultShipping(2)
-            ->setAddresses(
-                [
-                    $addressRepository->getById($this->_address->getId())
-                ]
-            )->create();
+            ->setAddresses([$addressRepository->getById($this->_address->getId())])
+            ->create();
         $this->_customer = $this->customerRepository->save($this->_customer);
         // we should save the customer data in order to be able to use it
         $this->_quote->setCustomer($this->_customer);
-        $this->_setCustomerAddressAndSave($unsetId);
+
         $sameAsBilling = $this->_quote->getShippingAddress()->getSameAsBilling();
         $this->assertEquals(1, $sameAsBilling);
     }
