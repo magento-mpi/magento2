@@ -13,20 +13,20 @@
 ?>
 <div class="message info reward <?php echo $this->getWrapperClass()?>">
     <?php if ($this->hasRewardMessage()):?>
-        <p><?php echo __($this->getRewardMessage(), $this->helper('Magento\Reward\Helper\Data')->formatReward($this->getRewardPoints(), $this->getRewardAmount(), null, '<strong>%s</strong>'))?></p>
+        <span><?php echo __($this->getRewardMessage(), $this->helper('Magento\Reward\Helper\Data')->formatReward($this->getRewardPoints(), $this->getRewardAmount(), null, '<strong>%s</strong>'))?></span>
     <?php endif;?>
     <?php if ($this->hasPointsBalance() && !$this->hasHideBalance()):?>
-    <p class="reward balance">
+    <span class="reward-balance">
         <?php echo __('Your current balance is %1.', $this->helper('Magento\Reward\Helper\Data')->formatReward($this->getPointsBalance(), null, null, '<strong>%s</strong>'))?>
-    </p>
+    </span>
     <?php endif;?>
     <?php if (!$this->hasHideLink()):?>
-        <p><?php echo $this->renderLearnMoreLink()?></p>
+        <span><?php echo $this->renderLearnMoreLink()?></span>
     <?php endif;?>
     <?php if ($this->hasQtyLimit() && $this->hasRewardQtyLimitationMessage()):?>
-        <p class="reward limit"><?php echo __($this->getRewardQtyLimitationMessage(), "<strong>{$this->getQtyLimit()}</strong>")?></p>
+        <span class="reward-limit"><?php echo __($this->getRewardQtyLimitationMessage(), "<strong>{$this->getQtyLimit()}</strong>")?></span>
     <?php endif;?>
     <?php if ($this->hasGuestNote()):?>
-        <p class="reward limit"><?php echo __($this->getGuestNote())?></p>
+        <span class="reward-limit"><?php echo __($this->getGuestNote())?></span>
     <?php endif;?>
 </div>

@@ -7,11 +7,13 @@
 /*jshint browser:true jquery:true*/
 define([
     "jquery",
+    "Magento_Checkout/js/opc-shipping-info",
     "jquery/ui",
     "jquery/template"
-], function($){
+], function($, opcShippingInfo){
     'use strict';
-    $.widget('mage.opcShippingInfo', $.mage.opcShippingInfo, {
+    
+    $.widget('mage.opcShippingInfo', opcShippingInfo, {
         options: {
             giftRegistry: {
                 radioTemplateSelector: '#gift-registry-billing',
@@ -31,9 +33,11 @@ define([
             $('.choice', this.options.billing.form).last()
                 .after($(this.options.giftRegistry.radioTemplateSelector).tmpl());
             var shippingCheckbox = $(this.options.giftRegistry.checkboxTemplateSelector).tmpl();
-            shippingCheckbox.on('click', $.proxy(this._checkboxHandler, this));
-            $('.choice', this.options.shipping.form).last()
-                .after(shippingCheckbox);
+            if(shippingCheckbox.length) {
+                shippingCheckbox.on('click', $.proxy(this._checkboxHandler, this));
+                $('.choice', this.options.shipping.form).last()
+                    .after(shippingCheckbox);
+            }
         },
 
         /**
@@ -75,5 +79,6 @@ define([
             }
         }
     });
-
+    
+    return $.mage.opcShippingInfo;
 });

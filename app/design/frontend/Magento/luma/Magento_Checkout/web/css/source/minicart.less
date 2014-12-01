@@ -175,6 +175,25 @@
                 font-weight: @font-weight-bold;
             }
         }
+        .toggle {
+            &:extend(.abstract-toggling-title all);
+            &:after {
+                position: static;
+                margin: 0 0 0 @indent-xs-base;
+                color: @color-gray56;
+            }
+            border: 0;
+            padding: 0 @indent-xl-base @indent-xs-base 0;
+
+        }
+        .active {
+            > .toggle {
+                .icon-font-symbol(
+                    @_icon-font-content: @icon-up,
+                    @_icon-font-position: after
+                );
+            }
+        }
         &.pricing {
             margin-top: 3px;
         }

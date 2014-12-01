@@ -87,10 +87,27 @@
     .block-title {
         &:extend(.abstract-block-title all);
     }
-
+    .product-image-wrapper {
+        &:extend(.abstract-reset-image-wrapper all);
+    }
+    .item {
+        border-bottom: @border-width-base solid @border-color-base;
+    }
     .qty {
         .qty {
             &:extend(.abstract-input-qty all);
+        }
+    }
+    .col {
+        padding: @indent-base 8px 10px;
+        .price-box {
+            display: inline-block;
+        }
+        .price-wrapper {
+            display: block;
+            .font-size(18);
+            white-space: nowrap;
+            font-weight: @font-weight-bold;
         }
     }
 
@@ -99,19 +116,13 @@
             &:extend(.abstract-product-options-list all);
         }
         &-item-photo {
-            display: table-cell;
-            padding-right: @indent-base;
-            vertical-align: top;
-            width: 1%;
-        }
-        &-item-details {
-            display: table-cell;
-            vertical-align: top;
-            word-break: normal;
-            width: 99%;
+            display: block;
+            max-width: 65px;
+            padding: @indent-s-base 0;
         }
         &-item-name {
-            margin-top: 0;
+            display: block;
+            margin: 0 0 @indent-xs-base;
         }
     }
 }
@@ -175,6 +186,37 @@
         .column.main & {
             .actions-toolbar {
                 &:extend(.abstract-reset-left-margin-desktop all);
+            }
+        }
+        .product {
+            &-item-photo {
+                max-width: 100%;
+                display: table-cell;
+                padding: 0 @indent-base 0 0;
+                vertical-align: top;
+                width: 1%;
+            }
+            &-item-details {
+                display: table-cell;
+                vertical-align: top;
+                word-break: normal;
+                width: 99%;
+            }
+        }
+        .col {
+            &.product {
+                width: 48%;
+            }
+            &:not(.product) {
+                text-align: center;
+            }
+            &.price {
+                padding-top: 17px;
+            }
+        }
+        .input-text {
+            &.qty {
+                margin-top: -4px;
             }
         }
     }

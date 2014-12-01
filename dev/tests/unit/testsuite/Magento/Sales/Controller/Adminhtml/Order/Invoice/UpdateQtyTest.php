@@ -8,6 +8,7 @@
 namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
 use Magento\Backend\App\Action;
+use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * Class UpdateQtyTest
@@ -15,11 +16,6 @@ use Magento\Backend\App\Action;
  */
 class UpdateQtyTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $invoiceLoaderMock;
-
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -52,6 +48,8 @@ class UpdateQtyTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $objectManager = new ObjectManager($this);
+
         $this->titleMock = $this->getMockBuilder('Magento\Framework\App\Action\Title')
             ->disableOriginalConstructor()
             ->setMethods([])
@@ -93,14 +91,11 @@ class UpdateQtyTest extends \PHPUnit_Framework_TestCase
             ->method('getObjectManager')
             ->will($this->returnValue($this->objectManagerMock));
 
-        $this->invoiceLoaderMock = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader')
-            ->disableOriginalConstructor()
-            ->setMethods([])
-            ->getMock();
-
-        $this->controller = new \Magento\Sales\Controller\Adminhtml\Order\Invoice\UpdateQty(
-            $contextMock,
-            $this->invoiceLoaderMock
+        $this->controller = $objectManager->getObject(
+            'Magento\Sales\Controller\Adminhtml\Order\Invoice\UpdateQty',
+            [
+                'context' => $contextMock
+            ]
         );
     }
 
@@ -117,21 +112,52 @@ class UpdateQtyTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($orderId));
         $this->requestMock->expects($this->at(1))
             ->method('getParam')
-            ->with('invoice_id')
-            ->will($this->returnValue($invoiceId));
-        $this->requestMock->expects($this->at(2))
-            ->method('getParam')
             ->with('invoice', [])
             ->will($this->returnValue($invoiceData));
-
-        $this->responseMock->expects($this->once())
-            ->method('setBody')
-            ->with($response);
 
         $invoiceMock = $this->getMockBuilder('Magento\Sales\Model\Order\Invoice')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
+        $invoiceMock->expects($this->once())
+            ->method('getTotalQty')
+            ->willReturn(2);
+
+        $orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
+            ->disableOriginalConstructor()
+            ->setMethods(['load', 'getId', 'canInvoice'])
+            ->getMock();
+        $orderMock->expects($this->once())
+            ->method('load')
+            ->with($orderId)
+            ->willReturnSelf();
+        $orderMock->expects($this->once())
+            ->method('getId')
+            ->willReturn($orderId);
+        $orderMock->expects($this->once())
+            ->method('canInvoice')
+            ->willReturn(true);
+
+        $orderService = $this->getMockBuilder('Magento\Sales\Model\Service\Order')
+            ->disableOriginalConstructor()
+            ->setMethods([])
+            ->getMock();
+        $orderService->expects($this->once())
+            ->method('prepareInvoice')
+            ->willReturn($invoiceMock);
+
+        $this->objectManagerMock->expects($this->at(0))
+            ->method('create')
+            ->with('Magento\Sales\Model\Order')
+            ->willReturn($orderMock);
+        $this->objectManagerMock->expects($this->at(1))
+            ->method('create')
+            ->with('Magento\Sales\Model\Service\Order')
+            ->willReturn($orderService);
+
+        $this->responseMock->expects($this->once())
+            ->method('setBody')
+            ->with($response);
 
         $blockItemMock = $this->getMockBuilder('Magento\Sales\Block\Order\Items')
             ->disableOriginalConstructor()
@@ -153,11 +179,6 @@ class UpdateQtyTest extends \PHPUnit_Framework_TestCase
         $this->viewMock->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($layoutMock));
-
-        $this->invoiceLoaderMock->expects($this->once())
-            ->method('load')
-            ->with($orderId, $invoiceId, [])
-            ->will($this->returnValue($invoiceMock));
 
         $this->assertNull($this->controller->execute());
     }

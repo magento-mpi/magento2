@@ -9,7 +9,7 @@ namespace Magento\Solr\Helper;
 
 use Magento\Customer\Helper\Session\CurrentCustomer;
 use Magento\Tax\Model\TaxClass\Source\Product as ProductTaxClassSource;
-use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
+use Magento\Tax\Api\TaxCalculationInterface;
 
 /**
  * Enterprise search helper
@@ -75,7 +75,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
     /**
      * Tax calculation service
      *
-     * @var TaxCalculationServiceInterface
+     * @var TaxCalculationInterface
      */
     protected $taxCalculationService;
 
@@ -134,7 +134,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
      * @param ProductTaxClassSource $productTaxClassSource
-     * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param TaxCalculationInterface $taxCalculationService
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\StoreManagerInterface $storeManager
@@ -148,7 +148,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
         ProductTaxClassSource $productTaxClassSource,
-        TaxCalculationServiceInterface $taxCalculationService,
+        TaxCalculationInterface $taxCalculationService,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\StoreManagerInterface $storeManager,

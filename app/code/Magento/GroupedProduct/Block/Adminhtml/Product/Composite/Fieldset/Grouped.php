@@ -11,9 +11,6 @@
  */
 namespace Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset;
 
-use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
-
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -25,25 +22,17 @@ class Grouped extends \Magento\GroupedProduct\Block\Product\View\Type\Grouped
     protected $_coreHelper;
 
     /**
-     * @var CustomerAccountService
-     */
-    protected $_customerAccountService;
-
-    /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Framework\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Core\Helper\Data $coreHelper
-     * @param CustomerAccountService $customerAccountService
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Core\Helper\Data $coreHelper,
-        CustomerAccountService $customerAccountService,
         array $data = array()
     ) {
-        $this->_customerAccountService = $customerAccountService;
         $this->_coreHelper = $coreHelper;
         parent::__construct(
             $context,

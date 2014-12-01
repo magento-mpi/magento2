@@ -44,12 +44,12 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             ->setRegionId(1)
             ->create();
         $this->_addressBuilder
-            ->setId(1)
+            ->setId('1')
             ->setCountryId('US')
             ->setCustomerId(1)
             ->setPostcode('75477')
             ->setRegion($region)
-            ->setStreet('Green str, 67')
+            ->setStreet(['Green str, 67'])
             ->setTelephone('3468676')
             ->setCity('CityM')
             ->setFirstname('John')
@@ -59,12 +59,12 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
 
         /* XXX: would it be better to have a clear method for this? */
         $this->_addressBuilder
-            ->setId(2)
+            ->setId('2')
             ->setCountryId('US')
             ->setCustomerId(1)
             ->setPostcode('47676')
             ->setRegion($region)
-            ->setStreet('Black str, 48')
+            ->setStreet(['Black str, 48'])
             ->setCity('CityX')
             ->setTelephone('3234676')
             ->setFirstname('John')
@@ -90,7 +90,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveAddressChanges()
     {
-        $address = $this->repository->get(2);
+        $address = $this->repository->getById(2);
 
         $proposedAddressBuilder = $this->_addressBuilder->populate($address);
         $proposedAddressBuilder->setRegion($address->getRegion());
@@ -100,7 +100,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
         $proposedAddress = $this->repository->save($proposedAddressObject);
         $this->assertEquals(2, $proposedAddress->getId());
 
-        $savedAddress = $this->repository->get(2);
+        $savedAddress = $this->repository->getById(2);
         $this->assertNotEquals($this->_expectedAddresses[1]->getTelephone(), $savedAddress->getTelephone());
     }
 
@@ -128,7 +128,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
     public function testGetAddressById()
     {
         $addressId = 2;
-        $address = $this->repository->get($addressId);
+        $address = $this->repository->getById($addressId);
         $this->assertEquals($this->_expectedAddresses[1], $address);
     }
 
@@ -139,7 +139,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAddressByIdBadAddressId()
     {
-        $this->repository->get(12345);
+        $this->repository->getById(12345);
     }
 
     /**
@@ -154,7 +154,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
         $returnedAddress = $this->repository->save($proposedAddress);
         $this->assertNotNull($returnedAddress->getId());
 
-        $savedAddress = $this->repository->get($returnedAddress->getId());
+        $savedAddress = $this->repository->getById($returnedAddress->getId());
 
         $expectedNewAddressBuilder = $this->_addressBuilder->populate($this->_expectedAddresses[1]);
         $expectedNewAddressBuilder->setId($savedAddress->getId());
@@ -180,7 +180,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
 
         $returnedAddress = $this->repository->save($proposedAddress);
 
-        $savedAddress = $this->repository->get($returnedAddress->getId());
+        $savedAddress = $this->repository->getById($returnedAddress->getId());
         $this->assertNotEquals($proposedAddress, $savedAddress);
         $this->assertArrayNotHasKey(
             'weird',
@@ -244,7 +244,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $addressId = 1;
         // See that customer already has an address with expected addressId
-        $addressDataObject = $this->repository->get($addressId);
+        $addressDataObject = $this->repository->getById($addressId);
         $this->assertEquals($addressDataObject->getId(), $addressId);
 
         // Delete the address from the customer
@@ -252,7 +252,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
 
         // See that address is deleted
         try {
-            $addressDataObject = $this->repository->get($addressId);
+            $addressDataObject = $this->repository->getById($addressId);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
             $this->assertEquals('No such entity with addressId = 1', $exception->getMessage());
@@ -267,7 +267,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $addressId = 1;
         // See that customer already has an address with expected addressId
-        $addressDataObject = $this->repository->get($addressId);
+        $addressDataObject = $this->repository->getById($addressId);
         $this->assertEquals($addressDataObject->getId(), $addressId);
 
         // Delete the address from the customer
@@ -275,7 +275,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
 
         // See that address is deleted
         try {
-            $addressDataObject = $this->repository->get($addressId);
+            $addressDataObject = $this->repository->getById($addressId);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
             $this->assertEquals('No such entity with addressId = 1', $exception->getMessage());

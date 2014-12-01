@@ -25,9 +25,10 @@ class Page extends View\Result\Page
      * @param View\LayoutFactory $layoutFactory
      * @param View\Layout\Reader\Pool $layoutReaderPool
      * @param Translate\InlineInterface $translateInline
+     * @param View\Layout\BuilderFactory $layoutBuilderFactory
+     * @param View\Layout\GeneratorPool $generatorPool
      * @param View\Page\Config\RendererFactory $pageConfigRendererFactory
      * @param View\Page\Layout\Reader $pageLayoutReader
-     * @param View\Layout\BuilderFactory $layoutBuilderFactory
      * @param string $template
      * @param App\Action\Title $title
      */
@@ -37,6 +38,7 @@ class Page extends View\Result\Page
         View\Layout\Reader\Pool $layoutReaderPool,
         Translate\InlineInterface $translateInline,
         View\Layout\BuilderFactory $layoutBuilderFactory,
+        View\Layout\GeneratorPool $generatorPool,
         View\Page\Config\RendererFactory $pageConfigRendererFactory,
         View\Page\Layout\Reader $pageLayoutReader,
         $template,
@@ -48,6 +50,7 @@ class Page extends View\Result\Page
             $layoutReaderPool,
             $translateInline,
             $layoutBuilderFactory,
+            $generatorPool,
             $pageConfigRendererFactory,
             $pageLayoutReader,
             $template
