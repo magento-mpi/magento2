@@ -41,7 +41,8 @@ abstract class AbstractAggregateCalculator extends AbstractCalculator
         }
         $rowTax = $this->roundAmount($rowTaxExact, $rate, true, $deltaRoundingType);
         $rowTotal = $rowTotalInclTax - $rowTax;
-        $price = $this->calculationTool->round($rowTotal / $quantity);
+        //$price = $this->calculationTool->round($rowTotal / $quantity);
+        $price = $rowTotal / $quantity;
 
         //Handle discount
         if ($applyTaxAfterDiscount) {
@@ -135,7 +136,8 @@ abstract class AbstractAggregateCalculator extends AbstractCalculator
         $rowTax = array_sum($rowTaxes);
         $rowTaxBeforeDiscount = array_sum($rowTaxesBeforeDiscount);
         $rowTotalInclTax = $rowTotal + $rowTaxBeforeDiscount;
-        $priceInclTax = $this->calculationTool->round($rowTotalInclTax / $quantity);
+        //$priceInclTax = $this->calculationTool->round($rowTotalInclTax / $quantity);
+        $priceInclTax = $rowTotalInclTax / $quantity;
 
         $this->taxDetailsItemBuilder->setCode($item->getCode());
         $this->taxDetailsItemBuilder->setType($item->getType());
