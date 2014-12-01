@@ -1161,7 +1161,7 @@ class Checkout
      */
     protected function _involveNewCustomer()
     {
-        $customer = $this->_quote->getCustomerData();
+        $customer = $this->_quote->getCustomer();
         $confirmationStatus = $this->_accountManagement->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === AccountManagement::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerUrl->getEmailConfirmationUrl($customer->getEmail());

@@ -72,7 +72,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock = $this->getMock('Magento\Sales\Model\Quote',
             [
                 'getId', 'assignCustomer', 'assignCustomerWithAddressChange', 'getBillingAddress',
-                'getShippingAddress', 'isVirtual', 'addCustomerAddressData', 'collectTotals', '__wakeup',
+                'getShippingAddress', 'isVirtual', 'addCustomerAddress', 'collectTotals', '__wakeup',
                 'save', 'getCustomerData'
             ], [], '', false);
         $this->serviceQuote = $this->getMock('\Magento\Sales\Model\Service\Quote', [], [], '', false);
