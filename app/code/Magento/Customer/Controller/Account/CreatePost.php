@@ -227,7 +227,7 @@ class CreatePost extends \Magento\Customer\Controller\Account
             );
 
             $confirmationStatus = $this->accountManagement->getConfirmationStatus($customer->getId());
-            if ($confirmationStatus === AccountManagement::ACCOUNT_CONFIRMATION_REQUIRED) {
+            if ($confirmationStatus === AccountManagementInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
                 $email = $this->customerUrl->getEmailConfirmationUrl($customer->getEmail());
                 // @codingStandardsIgnoreStart
                 $this->messageManager->addSuccess(

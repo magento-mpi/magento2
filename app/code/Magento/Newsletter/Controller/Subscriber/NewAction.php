@@ -18,8 +18,6 @@ use Magento\Customer\Api\AccountManagementInterface as CustomerAccountManagement
 class NewAction extends \Magento\Newsletter\Controller\Subscriber
 {
     /**
-     * Customer Service
-     *
      * @var CustomerAccountManagement
      */
     protected $customerAccountManagement;
@@ -29,18 +27,18 @@ class NewAction extends \Magento\Newsletter\Controller\Subscriber
      *
      * @param Context $context
      * @param SubscriberFactory $subscriberFactory
-     * @param CustomerAccountManagement $customerAccountManagement
      * @param Session $customerSession
      * @param StoreManagerInterface $storeManager
      * @param CustomerUrl $customerUrl
+     * @param CustomerAccountManagement $customerAccountManagement
      */
     public function __construct(
         Context $context,
         SubscriberFactory $subscriberFactory,
-        CustomerAccountManagement $customerAccountManagement,
         Session $customerSession,
         StoreManagerInterface $storeManager,
-        CustomerUrl $customerUrl
+        CustomerUrl $customerUrl,
+        CustomerAccountManagement $customerAccountManagement
     ) {
         $this->customerAccountManagement = $customerAccountManagement;
         parent::__construct(

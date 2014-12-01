@@ -18,7 +18,6 @@ class SubscriberTest extends AbstractController
 {
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-29488');
         parent::setUp();
     }
 
