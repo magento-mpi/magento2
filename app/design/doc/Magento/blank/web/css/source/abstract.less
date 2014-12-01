@@ -62,7 +62,7 @@
 }
 
 .responsive-smaller(@break) when (@break = @screen-m) {
-    .abstract-button-responsive-smaller {
+    .abs-button-responsive-smaller {
         .button-responsive();
     }
 }
@@ -109,7 +109,7 @@
 //
 //    Input quantity
 //--------------------------------------
-.abstract-input-qty {
+.abs-input-qty {
     width: 47px;
     text-align: center;
 }
@@ -225,7 +225,7 @@
             }
         }
         .message {
-            margin: @indent-l-base 0 0 0;
+            margin: @indent-l-base 0 0;
         }
     }
 }
@@ -344,7 +344,7 @@
 //    Split button
 //--------------------------------------
 
-.abstract-split-button {
+.abs-split-button {
     .dropdown-split(
         @_options-selector : ~".items",
         @_dropdown-split-button-border-radius-fix: true
@@ -355,12 +355,12 @@
 //
 //    Action addto
 //--------------------------------------
-.abstract-action-addto-product {
+.abs-action-addto-product {
     &:extend(.action-link-button all);
     .button-s();
 }
 
-.abstract-actions-addto-gridlist {
+.abs-actions-addto-gridlist {
     .icon-font(
         @_icon-font-content: '',
         @_icon-font-size: 29px,
@@ -375,14 +375,14 @@
 //
 //    Large button
 //--------------------------------------
-.abstract-button-l {
+.abs-button-l {
     .button-l();
 }
 
 //
 //   Button as a link
 //--------------------------------------
-.abstract-action-button-as-link {
+.abs-action-button-as-link {
     .button-as-link();
     border-radius: 0;
     font-weight: @font-weight-base;
@@ -392,21 +392,21 @@
 //
 //   Button revert secondary color
 //--------------------------------------
-.abstract-revert-secondary-color {
+.abs-revert-secondary-color {
     .button-revert-secondary-color();
 }
 
 //
 //   Button revert secondary size
 //--------------------------------------
-.abstract-revert-secondary-size {
+.abs-revert-secondary-size {
     .button-revert-secondary-size();
 }
 
 //
 //    Box-tocart block
 //--------------------------------------
-.abstract-box-tocart {
+.abs-box-tocart {
     margin: @indent-s-base 0;
 }
 
@@ -433,7 +433,7 @@
 //
 //    Excl/Incl tax
 //--------------------------------------
-.abstract-incl-excl-tax {
+.abs-incl-excl-tax {
     .tax {
         display: block;
         .font-size(18);
@@ -460,7 +460,7 @@
 //
 //    Cart tax total
 //--------------------------------------
-.abstract-tax-total {
+.abs-tax-total {
     cursor: pointer;
     position: relative;
     padding-right: 12px;

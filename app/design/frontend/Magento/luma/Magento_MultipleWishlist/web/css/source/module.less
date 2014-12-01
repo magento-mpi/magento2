@@ -33,13 +33,13 @@
         .items {
             padding: 6px 0;
         }
-        &:extend(.abstract-dropdown-items-new all);
+        &:extend(.abs-dropdown-items-new all);
 
         > .action {
-            &:extend(.abstract-action-button-as-link all);
+            &:extend(.abs-action-button-as-link all);
             box-shadow: none;
             &.split {
-                &:extend(.abstract-actions-addto all);
+                &:extend(.abs-actions-addto all);
                 margin-right: 5px;
                 .icon-font-symbol(
                     @_icon-font-content: @icon-wishlist-full
@@ -69,7 +69,7 @@
             > .action {
                 &.split {
                     span {
-                        &:extend(.abstract-visually-hidden all);
+                        &:extend(.abs-visually-hidden all);
                     }
                 }
             }
@@ -119,8 +119,8 @@
     }
     // Wish list dropdown
     &-dropdown {
-        &:extend(.abstract-dropdown-simple all);
-        &:extend(.abstract-dropdown-items-new all);
+        &:extend(.abs-dropdown-simple all);
+        &:extend(.abs-dropdown-items-new all);
     }
     &-dropdown.move,
     &-dropdown.copy {
@@ -133,7 +133,7 @@
 .page-multiple-wishlist {
     .page-title {
         .title {
-            &:extend(.abstract-visually-hidden all);
+            &:extend(.abs-visually-hidden all);
         }
     }
     .actions-toolbar {
@@ -156,13 +156,13 @@
             .wishlist-name {
                 &-label {
                     font-weight: @font-weight-semibold;
-                    &:extend(.abstract-colon all);
+                    &:extend(.abs-colon all);
                 }
                 &-current {
                 }
             }
             &-items {
-                &:extend(.abstract-reset-list all);
+                &:extend(.abs-reset-list all);
                 &.active {
                 }
             }
@@ -222,10 +222,10 @@
 
 .block-wishlist-search-results {
     .block-title {
-        &:extend(.abstract-account-title all);
+        &:extend(.abs-account-title all);
     }
     .data.table {
-        &:extend(.abstract-table-striped all);
+        &:extend(.abs-table-striped all);
     }
 }
 
@@ -242,7 +242,7 @@
                 margin: 0 -@layout-width-xs-indent 20px;
                 .wishlist-name {
                     .font-size(16);
-                    &:extend(.abstract-toggling-title-mobile all);
+                    &:extend(.abs-toggling-title-mobile all);
                     &-label {
                     }
                     &-current {
@@ -278,7 +278,7 @@
             }
             &-add.item {
                 .add {
-                    &:extend(.abstract-icon-add-mobile all);
+                    &:extend(.abs-icon-add-mobile all);
                 }
             }
             // Wish list name
@@ -358,7 +358,7 @@
     }
 
     .block-wishlist-management {
-        &:extend(.abstract-add-clearfix-desktop all);
+        &:extend(.abs-add-clearfix-desktop all);
         margin-bottom: @indent-base;
         .wishlist {
             // Select wish list
@@ -458,6 +458,6 @@
     }
 
     .toolbar-wishlist-results {
-        &:extend(.abstract-pager-toolbar all);
+        &:extend(.abs-pager-toolbar all);
     }
 }

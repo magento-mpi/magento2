@@ -79,7 +79,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     {
         $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
         $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
-        $catalogData = $this->getMockBuilder('Magento\Catalog\Helper\Data')->disableOriginalConstructor()->getMock();
+        $productRepository = $this->getMock('Magento\Catalog\Api\ProductRepositoryInterface');
         $filesystem =
             $this->getMockBuilder('Magento\Framework\Filesystem')->disableOriginalConstructor()->getMock();
         $storage = $this->getMockBuilder(
@@ -89,7 +89,6 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
         $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
-        $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
         $productOption = $this->getMock('Magento\Catalog\Model\Product\Option', array(), array(), '', false);
         $eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
@@ -107,7 +106,6 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             'Magento\GiftCard\Model\Catalog\Product\Type\Giftcard',
             $mockedMethods,
             array(
-                $productFactory,
                 $productOption,
                 $eavConfigMock,
                 $productTypeMock,
@@ -117,7 +115,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
                 $filesystem,
                 $coreRegistry,
                 $logger,
-                $catalogData,
+                $productRepository,
                 $this->_storeManagerMock,
                 $locale,
                 $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface'),

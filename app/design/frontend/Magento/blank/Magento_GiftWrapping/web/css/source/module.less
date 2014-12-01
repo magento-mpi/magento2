@@ -14,7 +14,7 @@
     }
     .design {
         margin: @indent-s-base 0;
-        &:extend(.abstract-add-clearfix all);
+        &:extend(.abs-add-clearfix all);
         > img {
             float: left;
             max-width: 100px;
@@ -32,7 +32,7 @@
 .table-order-items,
 .table-order-review {
     .gift-wrapping {
-        &:extend(.abstract-add-clearfix all);
+        &:extend(.abs-add-clearfix all);
         margin: @indent-base 0;
         .title {
             float: none;
@@ -52,13 +52,13 @@
 .responsive(@break) when (@break = @screen-m) {
     .gift-wrapping {
         .nested {
-            &:extend(.abstract-add-clearfix-desktop all);
+            &:extend(.abs-add-clearfix-desktop all);
         }
     }
     .table {
         .gift-wrapping {
             .content {
-                &:extend(.abstract-add-clearfix-desktop all);
+                &:extend(.abs-add-clearfix-desktop all);
             }
         }
     }

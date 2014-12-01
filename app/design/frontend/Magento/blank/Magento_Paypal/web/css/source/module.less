@@ -42,7 +42,7 @@
 
 .form-new-agreement {
     .actions-toolbar {
-        &:extend(.abstract-reset-left-margin all);
+        &:extend(.abs-reset-left-margin all);
     }
 }
 
@@ -51,10 +51,10 @@
 //--------------------------------------
 .paypal-review {
     .block {
-        &:extend(.abstract-account-blocks all);
+        &:extend(.abs-account-blocks all);
         .actions-toolbar {
             .action.primary {
-                &:extend(.abstract-revert-secondary-color all);
+                &:extend(.abs-revert-secondary-color all);
             }
         }
     }
@@ -67,7 +67,7 @@
     }
 
     .items-qty {
-        &:extend(.abstract-reset-list all);
+        &:extend(.abs-reset-list all);
         .item {
             white-space: nowrap;
         }
@@ -118,7 +118,7 @@
 .responsive(@break) when (@break = @screen-m) {
     .paypal-review {
         .block-content {
-            &:extend(.abstract-add-clearfix-desktop all);
+            &:extend(.abs-add-clearfix-desktop all);
             .box-order-shipping-address,
             .box-order-shipping-method,
             .box-order-shipping-method + .box-order-billing-address {
@@ -133,7 +133,7 @@
         }
         .column.main & {
             .actions-toolbar {
-                &:extend(.abstract-reset-left-margin-desktop all);
+                &:extend(.abs-reset-left-margin-desktop all);
             }
         }
         .table-paypal-review-items {
@@ -158,7 +158,7 @@
     .form-new-agreement {
         .fieldset .legend,
         .actions-toolbar {
-            &:extend(.abstract-reset-left-margin-desktop all);
+            &:extend(.abs-reset-left-margin-desktop all);
         }
     }
 }

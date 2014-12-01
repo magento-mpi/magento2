@@ -16,7 +16,7 @@
 }
 
 .form-create-return {
-    &:extend(.abstract-add-fields all);
+    &:extend(.abs-add-fields all);
     .additional {
         &:first-child {
             margin-top: 0;
@@ -26,12 +26,12 @@
         margin-top: 55px;
     }
     .actions-toolbar {
-        &:extend(.abstract-add-clearfix all);
+        &:extend(.abs-add-clearfix all);
     }
 }
 
 .return-status {
-    &:extend(.abstract-status all);
+    &:extend(.abs-status all);
 }
 
 .block-returns-comments {
@@ -57,7 +57,7 @@
 
 .magento-rma-returns-returns,
 .magento-rma-returns-view {
-    &:extend(.abstract-title-orders all);
+    &:extend(.abs-title-orders all);
 }
 
 //
@@ -66,7 +66,7 @@
 .magento-rma-guest-returns {
     .column.main {
         .block:not(.widget) {
-            &:extend(.abstract-account-blocks all);
+            &:extend(.abs-account-blocks all);
         }
     }
 }
@@ -87,7 +87,7 @@
     }
     .magento-rma-returns-returns,
     .magento-rma-returns-view {
-        &:extend(.abstract-title-orders-mobile all);
+        &:extend(.abs-title-orders-mobile all);
     }
     .account {
         .column.main {
@@ -105,7 +105,7 @@
         }
     }
     .table-wrapper.table-returns {
-        &:extend(.abstract-no-border-top all);
+        &:extend(.abs-no-border-top all);
     }
 }
 
@@ -114,24 +114,24 @@
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .form-create-return {
-        &:extend(.abstract-add-fields-desktop all);
-        &:extend(.abstract-form-field-column-2 all);
+        &:extend(.abs-add-fields-desktop all);
+        &:extend(.abs-form-field-column-2 all);
         .fieldset .field {
            width: 45%;
         }
     }
     .return-status {
-        &:extend(.abstract-status-desktop all);
+        &:extend(.abs-status-desktop all);
     }
     .magento-rma-returns-returns,
     .magento-rma-returns-view {
-        &:extend(.abstract-title-orders-desktop all);
+        &:extend(.abs-title-orders-desktop all);
     }
     .magento-rma-guest-returns {
         .column.main .block.block-order-details-view {
-            &:extend(.abstract-add-clearfix-desktop all);
+            &:extend(.abs-add-clearfix-desktop all);
             .block-content:not(.widget) .box {
-                &:extend(.abstract-add-box-sizing-desktop all);
+                &:extend(.abs-add-box-sizing-desktop all);
                 clear: none;
                 float: left;
                 width: 100%/4;

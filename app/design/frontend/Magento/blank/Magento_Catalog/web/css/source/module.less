@@ -69,7 +69,7 @@
 }
 
 .product.name a {
-    &:extend(.abstract-product-link all);
+    &:extend(.abs-product-link all);
 }
 
 .category {
@@ -119,7 +119,7 @@
 //--------------------------------------
 .product.media {
     .product.photo .photo.image {
-        &:extend(.abstract-adaptive-images-centered);
+        &:extend(.abs-adaptive-images-centered);
     }
     .placeholder .photo.container {
         max-width: 100%;
@@ -238,7 +238,7 @@
     .box-tocart {
         margin: @indent-base 0;
         .field.qty {
-            padding-right: 0.75 * @indent-base;
+            padding-right: .75 * @indent-base;
         }
         .input-text.qty {
             @tocart-input-size: @button-l-line-height + 28px;
@@ -250,22 +250,22 @@
             text-align: center;
         }
         .action.tocart {
-            &:extend(.abstract-button-l all);
+            &:extend(.abs-button-l all);
         }
     }
     .product-addto-links {
         margin: @indent-base 0;
     }
     .action.tocompare {
-        &:extend(.abstract-action-addto-product all);
+        &:extend(.abs-action-addto-product all);
         vertical-align: top;
     }
 }
 
 .prices-tier {
-    &:extend(.abstract-reset-list all);
+    &:extend(.abs-reset-list all);
     background: @sidebar-background;
-    padding: @indent-s-base (0.75 * @indent-base);
+    padding: @indent-s-base (.75 * @indent-base);
     margin: @indent-s-base 0;
     .price-tier_price {
         display: inline-block;
@@ -344,24 +344,24 @@
     }
     .action {
         &.delete {
-            &:extend(.abstract-remove-button-for-blocks all);
+            &:extend(.abs-remove-button-for-blocks all);
             position: absolute;
             right: 0;
             top: 0;
         }
     }
     .subtitle {
-        &:extend(.abstract-no-display all);
+        &:extend(.abs-no-display all);
     }
 
     //
     //    Product images only
     //--------------------------------------
     .product-items-images {
-        &:extend(.abstract-add-clearfix all);
+        &:extend(.abs-add-clearfix all);
         margin-left: -@indent-xs-base;
         .product-item {
-            &:extend(.abstract-add-box-sizing all);
+            &:extend(.abs-add-box-sizing all);
             float: left;
             padding-left: @indent-xs-base;
         }
@@ -396,7 +396,7 @@
     .product-info-main .box-tocart {
         .actions {
             .action.tocart {
-                &:extend(.abstract-button-responsive-smaller all);
+                &:extend(.abs-button-responsive-smaller all);
             }
         }
     }
@@ -459,7 +459,7 @@
     }
 
     .product-add-form {
-        &:extend(.abstract-revert-field-type-desktop all);
+        &:extend(.abs-revert-field-type-desktop all);
     }
 
     .table-wrapper.comparison {
@@ -537,7 +537,7 @@
         padding: 22px;
     }
     .map.add.form {
-        &:extend(.abstract-add-clearfix all);
+        &:extend(.abs-add-clearfix all);
         margin-bottom: 15px;
         .price-box {
             float: left;
@@ -573,7 +573,7 @@ body.catalog-product-compare-index {
     .cell.label.remove,
     .cell.label.product {
         span {
-            &:extend(.abstract-visually-hidden all);
+            &:extend(.abs-visually-hidden all);
         }
     }
 
@@ -644,7 +644,7 @@ body.catalog-product-compare-index {
         padding-bottom: 0;
         text-align: right;
         .action.delete {
-            &:extend(.abstract-remove-button-for-blocks all);
+            &:extend(.abs-remove-button-for-blocks all);
         }
     }
     .product-item-actions {
@@ -672,24 +672,24 @@ body.catalog-product-compare-index {
 
 .block-compare {
     .block-title {
-        &:extend(.abstract-block-title all);
+        &:extend(.abs-block-title all);
     }
     .product-item .product-item-name {
         margin-left: 22px;
     }
     .action {
         &.delete {
-            &:extend(.abstract-remove-button-for-blocks all);
+            &:extend(.abs-remove-button-for-blocks all);
             position: absolute;
             left: -6px;
             top: 0;
         }
         &.compare {
-            &:extend(.abstract-revert-secondary-color all);
+            &:extend(.abs-revert-secondary-color all);
         }
     }
     .counter {
-        &:extend(.abstract-block-items-counter all);
+        &:extend(.abs-block-items-counter all);
     }
     .actions-toolbar {
         margin: 17px 0 0;

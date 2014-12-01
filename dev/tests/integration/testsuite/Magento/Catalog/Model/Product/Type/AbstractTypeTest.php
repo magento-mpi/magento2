@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Product\Type;
 
-class AbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractTypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Catalog\Model\Product\Type\AbstractType
@@ -16,7 +16,9 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
+        $productRepository = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Catalog\Api\ProductRepositoryInterface'
+        );
         $catalogProductOption = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Catalog\Model\Product\Option'
         );
@@ -36,7 +38,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Catalog\Model\Product\Type\AbstractType',
             array(
-                $productFactory,
                 $catalogProductOption,
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config'),
                 $catalogProductType,
@@ -45,7 +46,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                 $fileStorageDb,
                 $filesystem,
                 $registry,
-                $logger
+                $logger,
+                $productRepository
             )
         );
     }

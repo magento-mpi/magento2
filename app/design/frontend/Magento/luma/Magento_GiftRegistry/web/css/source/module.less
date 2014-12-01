@@ -8,7 +8,7 @@
 
 .form-giftregistry-share,
 .form-giftregistry-edit {
-    &:extend(.abstract-add-fields all);
+    &:extend(.abs-add-fields all);
     .actions-toolbar:not(:last-child) {
         margin-bottom: @indent-xl-base;
     }
@@ -16,12 +16,12 @@
 
 .form.giftregistry.items {
     .actions-toolbar {
-        &:extend(.abstract-reset-left-margin all);
+        &:extend(.abs-reset-left-margin all);
     }
 }
 
 .giftregisty-dropdown {
-    &:extend(.abstract-dropdown-simple all);
+    &:extend(.abs-dropdown-simple all);
     .action.toggle {
         color: @link-color;
     }
@@ -29,7 +29,7 @@
 
 .table-giftregistry-items {
     .field.qty .qty {
-        &:extend(.abstract-input-qty all);
+        &:extend(.abs-input-qty all);
     }
     .product-image {
         float: left;
@@ -49,14 +49,14 @@
             }
         }
         .action.primary {
-            &:extend(.abstract-revert-to-action-secondary all);
+            &:extend(.abs-revert-to-action-secondary all);
         }
     }
 }
 
 .form-giftregistry-create {
     .fieldset {
-        &:extend(.abstract-forms-margin-small all);
+        &:extend(.abs-forms-margin-small all);
     }
 }
 
@@ -66,23 +66,23 @@
         .css(margin-top, -@indent-m-base);
    }
     .field.date {
-        &:extend(.abstract-field-date all);
+        &:extend(.abs-field-date all);
     }
 }
 
 .form-giftregistry-search {
     margin-bottom: @indent-l-base*2;
     .legend {
-        &:extend(.abstract-account-title all);
+        &:extend(.abs-account-title all);
     }
 }
 
 .block-giftregistry-results {
     .block-title {
-        &:extend(.abstract-account-title all);
+        &:extend(.abs-account-title all);
     }
     .data.table {
-        &:extend(.abstract-table-striped all);
+        &:extend(.abs-table-striped all);
     }
 }
 
@@ -96,10 +96,10 @@
 
 .block-giftregistry-shared-items {
     .block-title {
-        &:extend(.abstract-account-title all);
+        &:extend(.abs-account-title all);
     }
     .product-image-wrapper {
-        &:extend(.abstract-reset-image-wrapper all);
+        &:extend(.abs-reset-image-wrapper all);
     }
     .item {
         .col {
@@ -124,13 +124,13 @@
 
     .qty {
         .qty {
-            &:extend(.abstract-input-qty all);
+            &:extend(.abs-input-qty all);
         }
     }
 
     .product {
         .item-options {
-            &:extend(.abstract-product-options-list all);
+            &:extend(.abs-product-options-list all);
         }
         &-item-photo {
             display: block;
@@ -152,7 +152,7 @@
     .account {
         .table-giftregistry {
             .col.actions {
-                &:extend(.abstract-col-no-prefix all);
+                &:extend(.abs-col-no-prefix all);
             }
             .col.message {
             }
@@ -161,9 +161,9 @@
     .table-giftregistry-items {
         .col.product {
             &:before {
-                &:extend(.abstract-visually-hidden-mobile all);
+                &:extend(.abs-visually-hidden-mobile all);
             }
-            &:extend(.abstract-add-clearfix-mobile all);
+            &:extend(.abs-add-clearfix-mobile all);
         }
         .field.choice,
         .field.qty {
@@ -192,8 +192,8 @@
 .responsive(@break) when (@break = @screen-m) {
     .form-giftregistry-share,
     .form-giftregistry-edit {
-        &:extend(.abstract-add-fields-desktop all);
-        &:extend(.abstract-form-field-column-2 all);
+        &:extend(.abs-add-fields-desktop all);
+        &:extend(.abs-form-field-column-2 all);
         .fieldset .field {
            width: 45%;
         }
@@ -206,7 +206,7 @@
         }
     }
     .form-giftregistry-create {
-        &:extend(.abstract-forms-general-desktop all);
+        &:extend(.abs-forms-general-desktop all);
     }
     .table-giftregistry {
         .col.create {
@@ -255,20 +255,20 @@
     }
 
     .toolbar-giftregistry-results {
-        &:extend(.abstract-pager-toolbar all);
+        &:extend(.abs-pager-toolbar all);
     }
 
     .block-giftregistry-shared {
         .item-options {
-            &:extend(.abstract-product-options-list-desktop all);
-            &:extend(.abstract-add-clearfix-desktop all);
+            &:extend(.abs-product-options-list-desktop all);
+            &:extend(.abs-add-clearfix-desktop all);
         }
     }
 
     .block-giftregistry-shared-items {
         .column.main & {
             .actions-toolbar {
-                &:extend(.abstract-reset-left-margin-desktop all);
+                &:extend(.abs-reset-left-margin-desktop all);
             }
         }
         .item {
