@@ -14,7 +14,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 class Repository implements \Magento\Catalog\Api\ProductCustomOptionRepositoryInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -29,12 +29,12 @@ class Repository implements \Magento\Catalog\Api\ProductCustomOptionRepositoryIn
     protected $converter;
 
     /**
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Catalog\Model\Resource\Product\Option $optionResource
      * @param Converter $converter
      */
     public function __construct(
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Model\Resource\Product\Option $optionResource,
         \Magento\Catalog\Model\Product\Option\Converter $converter
     ) {

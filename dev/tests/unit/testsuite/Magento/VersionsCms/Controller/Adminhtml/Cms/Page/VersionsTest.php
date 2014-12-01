@@ -11,13 +11,38 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class  VersionsTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Magento\Framework\View\Result\Page|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $resultPageMock;
+
+    /**
+     * @var \Magento\Framework\View\Page\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $pageConfigMock;
+
+    /**
+     * @var \Magento\Framework\View\Page\Title|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $pageTitleMock;
+
     public function testExecute()
     {
         $viewMock = $this->basicMock('\Magento\Framework\App\ViewInterface');
         $pageLoaderMock = $this->basicMock('\Magento\VersionsCms\Model\PageLoader');
-
         // Context Mock
         $contextMock = $this->basicMock('\Magento\Backend\App\Action\Context');
+
+        $this->resultPageMock = $this->getMockBuilder('Magento\Framework\View\Result\Page')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->pageConfigMock = $this->getMockBuilder('Magento\Framework\View\Page\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->pageTitleMock = $this->getMockBuilder('Magento\Framework\View\Page\Title')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->basicStub($contextMock, 'getView')->willReturn($viewMock);
         $this->basicStub($contextMock, 'getRequest')
             ->willReturn($this->basicMock('Magento\Framework\App\RequestInterface'));
@@ -41,6 +66,16 @@ class  VersionsTest extends \PHPUnit_Framework_TestCase
             ->method('renderLayout');
         $pageLoaderMock->expects($this->once())
             ->method('load');
+
+        $viewMock->expects($this->any())
+            ->method('getPage')
+            ->willReturn($this->resultPageMock);
+        $this->resultPageMock->expects($this->any())
+            ->method('getConfig')
+            ->willReturn($this->pageConfigMock);
+        $this->pageConfigMock->expects($this->any())
+            ->method('getTitle')
+            ->willReturn($this->pageTitleMock);
 
         $model->execute();
     }

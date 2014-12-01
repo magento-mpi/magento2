@@ -48,7 +48,6 @@ class AddComment extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInv
             if (empty($data['comment'])) {
                 throw new Exception(__('The Comment Text field cannot be empty.'));
             }
-            $this->_title->add(__('Invoices'));
             $invoice = $this->getInvoice();
             if (!$invoice) {
                 $this->_forward('noroute');
@@ -64,6 +63,7 @@ class AddComment extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInv
             $invoice->save();
 
             $this->_view->loadLayout();
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Invoices'));
             $response = $this->_view->getLayout()->getBlock('invoice_comments')->toHtml();
         } catch (Exception $e) {
             $response = ['error' => true, 'message' => $e->getMessage()];

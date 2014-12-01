@@ -28,7 +28,7 @@ class Edit extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry
         }
 
         $this->_initAction();
-        $this->_title->add(__('%1', $model->getLabel()));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('%1', $model->getLabel()));
 
         $block = $this->_view->getLayout()->createBlock(
             'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit'

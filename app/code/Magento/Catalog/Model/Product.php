@@ -7,6 +7,7 @@
  */
 namespace Magento\Catalog\Model;
 
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Object\IdentityInterface;
@@ -191,20 +192,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     protected $_catalogProductVisibility;
 
     /**
-     * Category factory
-     *
-     * @var \Magento\Catalog\Model\CategoryFactory
-     */
-    protected $_categoryFactory;
-
-    /**
-     * Product factory
-     *
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
      * Stock item factory
      *
      * @var \Magento\CatalogInventory\Api\Data\StockItemDataBuilder
@@ -249,6 +236,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     protected $_priceInfo;
 
     /**
+     * @var CategoryRepository
+     */
+    protected $categoryRepository;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataService
@@ -257,7 +249,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * @param Product\Link $productLink
      * @param Product\Configuration\Item\OptionFactory $itemOptionFactory
      * @param \Magento\CatalogInventory\Api\Data\StockItemDataBuilder $stockItemBuilder
-     * @param CategoryFactory $categoryFactory
      * @param Product\Option $catalogProductOption
      * @param Product\Visibility $catalogProductVisibility
      * @param Product\Attribute\Source\Status $catalogProductStatus
@@ -274,6 +265,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param Indexer\Product\Price\Processor $productPriceIndexerProcessor
      * @param Indexer\Product\Eav\Processor $productEavIndexerProcessor
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -287,7 +279,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         Product\Link $productLink,
         \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
         \Magento\CatalogInventory\Api\Data\StockItemDataBuilder $stockItemBuilder,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus,
@@ -304,11 +295,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor,
+        CategoryRepositoryInterface $categoryRepository,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
         $this->_stockItemBuilder = $stockItemBuilder;
-        $this->_categoryFactory = $categoryFactory;
         $this->_optionInstance = $catalogProductOption;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_catalogProductStatus = $catalogProductStatus;
@@ -325,6 +316,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
         $this->_productEavIndexerProcessor = $productEavIndexerProcessor;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct(
             $context,
             $registry,
@@ -565,7 +557,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     {
         $category = $this->getData('category');
         if (is_null($category) && $this->getCategoryId()) {
-            $category = $this->_categoryFactory->create()->load($this->getCategoryId());
+            $category = $this->categoryRepository->get($this->getCategoryId());
             $this->setCategory($category);
         }
         return $category;
