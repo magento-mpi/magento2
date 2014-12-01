@@ -51,6 +51,11 @@ class Observer
     protected $_localeResolver;
 
     /**
+     * @var \Magento\Framework\Registry
+     */
+    protected $_registry;
+
+    /**
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Tax\Model\Sales\Order\TaxFactory $orderTaxFactory
      * @param \Magento\Tax\Model\Sales\Order\Tax\ItemFactory $taxItemFactory
@@ -58,6 +63,7 @@ class Observer
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Tax\Model\Resource\Report\TaxFactory $reportTaxFactory
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Registry $registry
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
@@ -66,7 +72,8 @@ class Observer
         \Magento\Tax\Model\Calculation $calculation,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Tax\Model\Resource\Report\TaxFactory $reportTaxFactory,
-        \Magento\Framework\Locale\ResolverInterface $localeResolver
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Registry $registry
     ) {
         $this->_taxData = $taxData;
         $this->_orderTaxFactory = $orderTaxFactory;
@@ -75,6 +82,7 @@ class Observer
         $this->_localeDate = $localeDate;
         $this->_reportTaxFactory = $reportTaxFactory;
         $this->_localeResolver = $localeResolver;
+        $this->_registry = $registry;
     }
 
     /**
@@ -275,6 +283,28 @@ class Observer
             $address->setExtraTaxAmount(0);
             $address->setBaseExtraTaxAmount(0);
         }
+        return $this;
+    }
+
+    /**
+     * Change default JavaScript templates for options rendering
+     *
+     * @param \Magento\Framework\Event\Observer $observer
+     * @return $this
+     */
+    public function updateProductOptions(\Magento\Framework\Event\Observer $observer)
+    {
+        $response = $observer->getEvent()->getResponseObject();
+        $options = $response->getAdditionalOptions();
+
+        $_product = $this->_registry->registry('current_product');
+        if (!$_product) {
+            return $this;
+        }
+
+        // prepare correct template for options render
+
+        $response->setAdditionalOptions($options);
         return $this;
     }
 }

@@ -104,7 +104,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->catalogHelperMock = $this->getMock('Magento\Catalog\Helper\Data', [], [], '', false);
         $this->stateMock = $this->getMock('Magento\Catalog\Model\Indexer\Product\Flat\State', [], [], '', false);
         $this->scopeConfigInterfaceMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->optionFactoryMock = $this->getMock('Magento\Catalog\Model\Product\OptionFactory');
+        $this->optionFactoryMock = $this->getMock('Magento\Catalog\Model\Product\OptionFactory', [], [], '', false);
         $this->urlMock = $this->getMock('Magento\Catalog\Model\Resource\Url', [], [], '', false);
         $this->timezoneInterfaceMock = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $this->sessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);

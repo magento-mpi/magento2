@@ -166,11 +166,29 @@ class Options extends \Magento\Framework\View\Element\Template
                     'adjustments' =>[]
                 ],
                 'basePrice' => [
-                    'amount' => $this->_catalogData->getTaxPrice($option->getProduct(), $optionPrice, false),
+                    'amount' => $this->_catalogData->getTaxPrice(
+                        $option->getProduct(),
+                        $optionPrice,
+                        false,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        false),
                     'adjustments' =>[]
                 ],
                 'finalPrice' => [
-                    'amount' => $this->_catalogData->getTaxPrice($option->getProduct(), $optionPrice, true),
+                    'amount' => $this->_catalogData->getTaxPrice(
+                        $option->getProduct(),
+                        $optionPrice,
+                        true,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        false),
                     'adjustments' =>[]
                 ]
             ],
