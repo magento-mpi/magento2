@@ -128,7 +128,7 @@ class Http implements \Magento\Framework\AppInterface
     {
         $result = $this->handleDeveloperMode($bootstrap, $exception)
             || $this->handleBootstrapErrors($bootstrap, $exception)
-            || $this->handleSessionException($bootstrap, $exception)
+            || $this->handleSessionException($exception)
             || $this->handleInitException($exception)
             || $this->handleGenericReport($bootstrap, $exception);
         return $result;
@@ -212,11 +212,10 @@ class Http implements \Magento\Framework\AppInterface
     /**
      * Handler for session errors
      *
-     * @param Bootstrap $bootstrap
      * @param \Exception $exception
      * @return bool
      */
-    private function handleSessionException(Bootstrap $bootstrap, \Exception $exception)
+    private function handleSessionException(\Exception $exception)
     {
         if ($exception instanceof \Magento\Framework\Session\Exception) {
             $this->_response->setRedirect($this->_request->getDistroBaseUrl());
