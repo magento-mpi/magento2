@@ -15,7 +15,7 @@
 @message-global-note-link-color-active: @link-color-active;
 @message-global-note-border-color: #d6ca8e;
 
-@message-global-caution-color: #fff;
+@message-global-caution-color: @color-white;
 @message-global-caution-background: #ff0101;
 @message-global-caution-link-color: @link-color;
 @message-global-caution-link-color-hover: @link-color-hover;
@@ -24,18 +24,21 @@
 
 @header-bg-color: false;
 @header-panel-bg-color: #7e807e;
-@header-panel-text-color: #fff;
+@header-panel-text-color: @color-white;
+@header-icons-color: @color-gray56;
+@header-icons-color-hover: @color-gray20;
 
 @addto-color: #999;
 @addto-hover-color: @color-primary;
-@minicart-icons-color: @color-gray56;
+@minicart-icons-color: @header-icons-color;
+@minicart-icons-color-hover: @header-icons-color-hover;
 
 @price-color: #575757;
 @price-size: 22px;
 @price-size-desktop: 36px;
 
-@button-shadow: inset 0px 1px 0px 0px rgba(255, 255, 255, 1), inset 0px -1px 0px 0px fade(@border-color-base, 30);  // Used for secondary button and catalog toolbar controls
-@button-shadow-active: inset 0px 1px 0px 0px fade(@border-color-base, 80), inset 0px -1px 0px 0px fade(@border-color-base, 30);  // Used for secondary button and catalog toolbar controls
+@button-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 1), inset 0 -1px 0 0 fade(@border-color-base, 30);  // Used for secondary button and catalog toolbar controls
+@button-shadow-active: inset 0 1px 0 0 fade(@border-color-base, 80), inset 0 -1px 0 0 fade(@border-color-base, 30);  // Used for secondary button and catalog toolbar controls
 
 @h1-margin-bottom-desktop: @indent-xl-base;
 
@@ -162,16 +165,16 @@ body {
 @footer-bg-color: #f4f4f4;
 @footer-links-separator-border-color: #cecece;
 @footer-links-color: #575757;
-@footer-links-color-hover: #333;
+@footer-links-color-hover: @color-gray20;
 @footer-links-color-current: @color-primary-light;
 
 .page-footer {
-    margin-top: 25px;
+    margin-top: @indent-m-base;
 }
 
 .footer {
     &.content {
-        padding-top: 20px;
+        padding-top: @indent-base;
         border-top: 1px solid @footer-links-separator-border-color;
         ul {
             &:extend(.abstract-reset-list all);
@@ -214,7 +217,7 @@ body {
     padding: @indent-s-base;
     background-color: @color-background-copyright;
     text-align: center;
-    color: #fff;
+    color: @color-white;
 }
 
 .page-header,
@@ -234,13 +237,13 @@ body {
             ul.dropdown {
                 a {
                     .link(
-                         @_link-color: #333,
+                         @_link-color: @color-gray20,
                          @_link-text-decoration: none,
-                         @_link-color-visited: #333,
+                         @_link-color-visited: @color-gray20,
                          @_link-text-decoration-visited: none,
-                         @_link-color-hover: #333,
+                         @_link-color-hover: @color-gray20,
                          @_link-text-decoration-hover: none,
-                         @_link-color-active: #333,
+                         @_link-color-active: @color-gray20,
                          @_link-text-decoration-active: none
                     );
                     display: block;
@@ -307,6 +310,13 @@ body {
                 }
             }
         }
+    }
+}
+
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .logo {
+        margin-top: 4px;
+        margin-bottom: 13px;
     }
 }
 
@@ -404,20 +414,20 @@ body {
         );
         .action.switch {
             .button-reset();
-            color: #fff;
+            color: @color-white;
         }
         li {
             &:extend(.switcher li all);
             min-width: 120px;
             a {
                 .link(
-                      @_link-color: #333,
+                      @_link-color: @color-gray20,
                       @_link-text-decoration: none,
-                      @_link-color-visited: #333,
+                      @_link-color-visited: @color-gray20,
                       @_link-text-decoration-visited: none,
-                      @_link-color-hover: #333,
+                      @_link-color-hover: @color-gray20,
                       @_link-text-decoration-hover: none,
-                      @_link-color-active: #333,
+                      @_link-color-active: @color-gray20,
                       @_link-text-decoration-active: none
                  );
                 display: block;

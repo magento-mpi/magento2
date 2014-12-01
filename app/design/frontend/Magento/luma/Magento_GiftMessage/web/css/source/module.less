@@ -12,6 +12,7 @@
         > .legend {
             &:extend(.abstract-methods-shipping-title all);
             border-bottom: 0;
+            padding-bottom: 0;
         }
     }
     .product-image-wrapper {
@@ -24,8 +25,8 @@
         display: block;
         font-weight: @font-weight-semibold;
         line-height: 36px;
-        margin: 0 0 10px;
-        padding: 0 25px 0 0;
+        margin: 0 0 @indent-s-base;
+        padding: 0 @indent-m-base 0 0;
         position: relative;
         .icon-font(
             @_icon-font-content: @icon-down,
@@ -50,18 +51,18 @@
         }
     }
     .options-items {
-        margin-top: 40px;
+        margin-top: @indent-xl-base;
         .order-title {
             margin: 0 0 15px;
             > .field.choice {
                 .font-size(18);
                 font-weight: @font-weight-light;
                 border-bottom: @border-width-base solid @border-color-base;
-                padding-bottom: 5px;
+                padding-bottom: @indent-xs-base;
             }
         }
         .order-options {
-            margin: 0 0 20px;
+            margin: 0 0 @indent-base;
         }
         .fieldset {
             .field.text {
@@ -78,13 +79,13 @@
         .extra-options-container {
             font-weight: @font-weight-base;
             .field.choice {
-                margin: 20px 0 15px;
+                margin: @indent-base 0 15px;
             }
         }
     }
     .options-order-container,
     .options-items-container {
-        margin-bottom: 10px;
+        margin-bottom: @indent-s-base;
     }
     .gift-messages-order {
         margin-bottom: 25px;
@@ -93,11 +94,11 @@
         .list-reset-styles();
         .item {
             border-bottom: @border-width-base solid @border-color-base;
-            padding: 0 0 20px;
+            padding: 0 0 @indent-base;
             &:extend(.abstract-add-clearfix all);
         }
         .product {
-            margin: 0 0 20px;
+            margin: 0 0 @indent-base;
             .number {
                 color: @color-primary-light;
                 span {
@@ -170,12 +171,12 @@
     .gift-message {
         .items {
             .item {
-                margin: 0 0 20px;
+                margin: 0 0 @indent-base;
                 &:extend(.abstract-add-clearfix-desktop all);
             }
             .product {
                 float: left;
-                margin: 0 30px 0 0;
+                margin: 0 @indent-l-base 0 0;
                 width: 145px;
                 .name {
                     .font-size(16);

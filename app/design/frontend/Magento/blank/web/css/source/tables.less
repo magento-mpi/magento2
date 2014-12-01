@@ -52,13 +52,32 @@ table {
                 }
             }
             tfoot {
-                > tr:first-child {
-                    td {
-                        padding-top: @indent-base;
+                display: block;
+                tr {
+                    display: block;
+                    &:extend(.abstract-add-clearfix-mobile all);
+                    &:first-child {
+                        th,
+                        td {
+                            padding-top: @indent-base;
+                        }
                     }
                 }
-                .mark {
-                    display: none;
+                th {
+                    box-sizing: border-box;
+                    float: left;
+                    padding-left: 0;
+                    padding-right: 0;
+                    text-align: left;
+                    width: 70%;
+                }
+                td {
+                    box-sizing: border-box;
+                    float: left;
+                    padding-left: 0;
+                    padding-right: 0;
+                    text-align: right;
+                    width: 30%;
                 }
             }
         }

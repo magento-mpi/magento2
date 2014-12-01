@@ -76,7 +76,7 @@
         @_icon-font-size: 35px,
         @_icon-font-line-height: 33px,
         @_icon-font-color: @minicart-icons-color,
-        @_icon-font-color-hover: @color-primary,
+        @_icon-font-color-hover: @minicart-icons-color-hover,
         @_icon-font-color-active: @minicart-icons-color
     );
     float: right;
@@ -218,8 +218,13 @@
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-xs) {
     .minicart-wrapper .block-minicart {
-        width: 303px;
-        right: -15px;
+        width: 290px;
+    }
+}
+
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .minicart-wrapper {
+        margin-top: @indent-s-base;
     }
 }
 

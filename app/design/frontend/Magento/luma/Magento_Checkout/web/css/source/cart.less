@@ -46,7 +46,6 @@
 
         .block {
             &:extend(.abstract-cart-block all);
-
             .item-options {
                 margin: 0 0 16px;
                 .field {
@@ -63,7 +62,7 @@
 
             form:not(:last-of-type) {
                 .fieldset {
-                    margin: 0 0 25px;
+                    margin: 0 0 @indent-m-base;
                 }
             }
 
@@ -150,9 +149,9 @@
             }
         }
         .grand {
+            th,
             td {
                 padding: 11px 0;
-                vertical-align: bottom;
             }
             .mark {
                 border-top: 1px solid @border-color-base;
@@ -167,7 +166,6 @@
             .amount {
                 border-top: 1px solid @border-color-base;
                 .font-size(18);
-                vertical-align: top;
             }
         }
         .msrp {
@@ -251,12 +249,12 @@
             &.price,
             &.subtotal,
             &.msrp {
-                padding: @cart-item-cell-padding-top 11px 10px;
+                padding: @cart-item-cell-padding-top 11px @indent-s-base;
                 text-align: center;
                 &:extend(.abstract-incl-excl-tax all);
             }
             &.qty {
-                padding: 20px 11px 10px;
+                padding: 20px 11px @indent-s-base;
                 text-align: center;
                 .label {
                     &:extend(.abstract-visually-hidden all);
@@ -277,10 +275,13 @@
 
         .item {
             &-actions td {
-                padding-bottom: 0;
+                padding-bottom: @indent-base;
                 padding-left: @mobile-cart-padding;
                 padding-right: @mobile-cart-padding;
                 white-space: normal;
+                .actions-toolbar {
+                    &:extend(.abstract-add-clearfix all);
+                }
             }
             .col {
                 &.item {
@@ -289,9 +290,6 @@
                     position: relative;
                     min-height: 75px;
                 }
-            }
-            &.actions td {
-                padding-bottom: @indent-base;
             }
         }
         .action {
@@ -324,7 +322,7 @@
             &-item-name {
                 display: block;
                 .font-size(18);
-                margin: 0 0 @indent-xs-base;
+                margin: -3px 0 @indent-xs-base;
             }
         }
         .gift-registry-name-label {
@@ -622,10 +620,10 @@
                         padding: @cart-item-cell-padding-top 8px 20px 0;
                     }
                 }
-                &.actions td {
+                &-actions td {
                     padding: 0;
                     text-align: left;
-                    .actions {
+                    .actions-toolbar {
                         margin-top: -40px;
                         padding-left: 185px;
                         position: relative;

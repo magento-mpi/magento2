@@ -43,7 +43,7 @@
                 <?php if( $this->isAllowedGuestCheckout() ): ?>
                     <fieldset class="fieldset guest">
                         <div class="field choice">
-                            <input type="radio" name="checkout_method" data-role="checkout-method-guest" id="login:guest" value="guest"<?php if($this->getQuote()->getCheckoutMethod()==Magento\Checkout\Model\Type\Onepage::METHOD_GUEST): ?> checked="checked"<?php endif; ?> class="radio" />
+                            <input type="radio" name="checkout_method" data-role="checkout-method-guest" id="login:guest" value="guest" checked="checked" class="radio" />
                             <label class="label" for="login:guest"><span><?php echo __('Checkout as Guest') ?></span></label>
                         </div>
                         <?php if( $this->getRegistration()->isAllowed() ): ?>
@@ -84,7 +84,7 @@
                 <fieldset class="fieldset login" data-hasrequired="<?php echo __('* Required Fields') ?>">
                     <div class="field note"><?php echo __('Already registered?') ?> <?php echo __('Please log in below:') ?></div>
                     <div class="field email required">
-                        <label class="label" for="login-email"><span><?php echo __('Email Address') ?></span></label>
+                        <label class="label" for="login-email"><span><?php echo __('Email') ?></span></label>
                         <div class="control">
                             <input type="email" class="input-text" id="login-email" name="login[username]" data-validate="{required:true, 'validate-email':true}" value="<?php echo $this->escapeHtml($this->getUsername()) ?>" />
                         </div>
