@@ -181,6 +181,7 @@ class Quote
      */
     protected function processQuoteAddresses(\Magento\Sales\Model\Quote $quote)
     {
+        $customerAddresses = [];
         foreach ($quote->getAllAddresses() as $address) {
             $customerAddress = $this->addressRepository->save(
                 $this->addressBuilder->populateWithArray($address->getData())
@@ -194,7 +195,12 @@ class Quote
             );
             $address->setCustomerAddressId($customerAddress->getId());
             $address->setCustomerAddressData($customerAddress);
+            $customerAddresses[] = $customerAddress;
         }
+        $customer = $this->customerBuilder->populate($this->getQuote()->getCustomer())
+            ->setAddresses($customerAddresses)
+            ->create();
+        $this->getQuote()->setCustomer($customer);
     }
 
     /**

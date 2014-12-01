@@ -607,8 +607,10 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             'street' => [0 => 'Line1', 1 => 'Line2'],
             'city' => 'City',
             'country_id' => 'US',
-            'region' => '',
-            'region_id' => '1',
+            'region' => [
+                'region' => '',
+                'region_id' => '1'
+            ],
             'postcode' => '76868',
             'telephone' => '+8709273498729384',
             'fax' => '',

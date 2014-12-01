@@ -135,6 +135,9 @@ class QuoteTest  extends \PHPUnit_Framework_TestCase
         $this->customerBuilderMock->expects($this->once())
             ->method('create')
             ->willReturn($customerDataMock);
-        $this->assertInstanceOf('Magento\Sales\Model\Quote', $this->quote->prepareQuoteForNewCustomer($this->quoteMock));
+        $this->assertInstanceOf(
+            'Magento\Sales\Model\Quote',
+            $this->quote->prepareQuoteForNewCustomer($this->quoteMock)
+        );
     }
 }

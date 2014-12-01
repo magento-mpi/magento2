@@ -91,7 +91,13 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Customer\Api\CustomerRepositoryInterface', [], [], '', false
         );
 
-        $this->customerFactoryMock = $this->getMock('Magento\Customer\Model\CustomerFactory', ['create'], [], '', false);
+        $this->customerFactoryMock = $this->getMock(
+            'Magento\Customer\Model\CustomerFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
 
         $this->quoteServiceFactory = $this->getMock(
             'Magento\Sales\Model\Service\QuoteFactory',
