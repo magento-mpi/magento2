@@ -44,11 +44,11 @@ $hints = [
                    tooltip-trigger="focus"
                    tooltip-append-to-body="true"
                    required
-                   validate-httpurl />
+                   ng-pattern="/^(http):\/\/(([a-zA-Z0-9$\-_.+!*'(),;:&=]|%[0-9a-fA-F]{2})+@)?(((25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])){3})|localhost|([a-zA-Z0-9\-\u00C0-\u017F]+\.)+([a-zA-Z]{2,}))(:[0-9]+)?(\/(([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*(\/([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*)*)?(\?([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?(\#([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?)?$/" />
         </div>
         <div class="col-md-offset-3 col-md-4" ng-show="webconfig.web.$invalid && webconfig.submitted">
             <div class="error-container">
-                <span ng-show="webconfig.web.$error.required || webconfig.web.$error.validateHttpurl">Please enter a valid base URL path. (ex: http://www.example.com/)</span>
+                <span ng-show="webconfig.web.$error.required || webconfig.web.$error.pattern">Please enter a valid base URL path. (ex: http://www.example.com/)</span>
             </div>
         </div>
     </div>
@@ -102,11 +102,11 @@ $hints = [
                        class="form-control"
                        ng-focus=""
                        required
-                       validate-httpsurl />
+                       ng-pattern="/^(https):\/\/(([a-zA-Z0-9$\-_.+!*'(),;:&=]|%[0-9a-fA-F]{2})+@)?(((25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])){3})|localhost|([a-zA-Z0-9\-\u00C0-\u017F]+\.)+([a-zA-Z]{2,}))(:[0-9]+)?(\/(([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*(\/([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*)*)?(\?([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?(\#([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?)?$/" />
             </div>
             <div class="col-md-offset-3 col-md-4" ng-show="webconfig.https.$invalid && webconfig.submitted">
                 <div class="error-container">
-                    <span ng-show="webconfig.https.$error.required || webconfig.https.$error.validateHttpsurl">Please enter a valid HTTPS base URL path. (ex: https://www.example.com/)</span>
+                    <span ng-show="webconfig.https.$error.required || webconfig.https.$error.pattern">Please enter a valid HTTPS base URL path. (ex: https://www.example.com/)</span>
                 </div>
             </div>
         </div>
