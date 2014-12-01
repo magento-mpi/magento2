@@ -8,6 +8,7 @@
 define([
     "jquery",
     "underscore",
+    "handlebars",
     "jquery/ui",
     "jquery/jquery.parsequery"
 ], function($, _){
@@ -32,6 +33,10 @@ define([
             superSelector: '.super-attribute-select',
             priceHolderSelector: '.price-box',
             state: {},
+            optionTmpl: '{{label}}' +
+                            '{{#if basePrice.value}}' +
+                                ' {{basePrice.formatted}}' +
+                            '{{/if}}',
             mediaGallerySelector: '[data-role=media-gallery]'
         },
 
@@ -60,9 +65,12 @@ define([
          * @private
          */
         _initializeOptions: function() {
+            this.options.optionTmpl = Handlebars.compile(this.options.optionTmpl);
+
             this.options.settings = (this.options.spConfig.containerId) ?
                 $(this.options.spConfig.containerId).find(this.options.superSelector) :
                 $(this.options.superSelector);
+
             this.options.values = this.options.spConfig.defaultValues || {};
             this.options.parentImage = $('[data-role=base-image-container] img').attr('src');
         },
@@ -352,24 +360,31 @@ define([
          * @return {String} The option label with option value and price (e.g. Black +1.99)
          */
         _getOptionLabel: function(option, selOption) {
-            var selectedBasePrice = 0, selectedFinalPrice = 0;
-            var basePrice = 0, finalPrice = 0;
-            if (!this.options.spConfig.stablePrices) {
-                selectedBasePrice = selOption ? parseFloat(selOption.prices.basePrice.amount) : 0;
-                selectedFinalPrice = selOption ? parseFloat(selOption.prices.finalPrice.amount) : 0;
-            }
-            basePrice = parseFloat(option.prices.basePrice.amount - selectedBasePrice);
-            finalPrice = parseFloat(option.prices.finalPrice.amount - selectedFinalPrice);
+            var parsePrice  = this._parsePrice.bind(this, option, selOption),
+                data;
 
-            var str = option.label;
-            if (basePrice) {
-                if (finalPrice) {
-                    str += ' ' + this._formatPrice(basePrice, true) + ' (' + this._formatPrice(finalPrice, true) + ' ' + option.prices.finalPrice.label + ')';
-                } else {
-                    str += ' ' + this._formatPrice(basePrice, true);
-                }
+            data = _.map(option.prices, parsePrice);
+            data = _.indexBy(data, 'name');
+
+            data.label = option.label;
+
+            return this.options.optionTmpl(data);
+        },
+
+        _parsePrice: function(option, selOption, price, name){
+            var selected = 0;
+
+            if (!this.options.spConfig.stablePrices && selOption) {
+                selected = parseFloat(selOption.prices[name].amount);
             }
-            return str;
+
+            price = parseFloat(price.amount - selected);
+
+            return {
+                value:      price,
+                name:       name,
+                formatted:  this._formatPrice(price, true)
+            };
         },
 
         /**

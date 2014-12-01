@@ -93,16 +93,28 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->registry = $this->getMock('Magento\Framework\Registry');
         $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
         $this->categoryTreeResource = $this->getMock('Magento\Catalog\Model\Resource\Category\Tree', [], [], '', false);
-        $this->categoryTreeFactory = $this->getMock('Magento\Catalog\Model\Resource\Category\TreeFactory', ['create'], [], '', false);
+        $this->categoryTreeFactory = $this->getMock(
+            'Magento\Catalog\Model\Resource\Category\TreeFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
         $this->categoryFactory = $this->getMock('Magento\Catalog\Model\CategoryFactory', ['create'], [], '', false);
         $this->storeCollectionFactory = $this->getMock(
             'Magento\Store\Model\Resource\Store\CollectionFactory',
-            ['create'], [], '', false
+            ['create'],
+            [],
+            '',
+            false
         );
         $this->url = $this->getMock('Magento\Framework\UrlInterface');
         $this->productCollectionFactory = $this->getMock(
             'Magento\Catalog\Model\Resource\Product\CollectionFactory',
-            ['create'], [], '', false
+            ['create'],
+            [],
+            '',
+            false
         );
         $this->catalogConfig = $this->getMock('Magento\Catalog\Model\Config', [], [], '', false);
         $this->filterManager = $this->getMock(
