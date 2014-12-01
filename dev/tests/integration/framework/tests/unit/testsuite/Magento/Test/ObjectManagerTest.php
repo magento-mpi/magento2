@@ -24,9 +24,9 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $resource = new \stdClass();
 
-        $instanceConfig = $this->getMockBuilder('\Magento\TestFramework\ObjectManager\Config')
+        $instanceConfig = $this->getMockBuilder('Magento\TestFramework\ObjectManager\Config')
             ->disableOriginalConstructor()
-            ->setMethods(['getPreference'])
+            ->setMethods(['getPreference', 'clear'])
             ->getMock();
 
         $instanceConfig->expects($this->any())->method(
