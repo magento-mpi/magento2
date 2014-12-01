@@ -96,6 +96,12 @@ class Adjustment extends AbstractAdjustment
         );
     }
 
+    /**
+     * Obtain raw amount value (without formatting)
+     *
+     * @param array $exclude
+     * @return float
+     */
     public function getRawAmount($exclude = ['tax', 'weee'])
     {
         return $this->amountRender->getAmount()->getValue($exclude);
