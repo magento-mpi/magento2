@@ -99,7 +99,7 @@ class Account extends GenericMetadata
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
-         \Magento\Customer\Api\AccountManagementInterface $accountManagement,
+        \Magento\Customer\Api\AccountManagementInterface $accountManagement,
         \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,

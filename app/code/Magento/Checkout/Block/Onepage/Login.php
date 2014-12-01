@@ -67,11 +67,11 @@ class Login extends AbstractOnepage
         CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Customer\Model\Url $customerUrl,
         \Magento\Customer\Model\Registration $registration,
-        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         array $data = array()
     ) {
         $this->registration = $registration;
