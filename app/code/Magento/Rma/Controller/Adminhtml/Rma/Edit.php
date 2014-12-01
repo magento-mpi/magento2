@@ -29,7 +29,7 @@ class Edit extends \Magento\Rma\Controller\Adminhtml\Rma
             return;
         }
         $this->_initAction();
-        $this->_title->add(sprintf("#%s", $model->getIncrementId()));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(sprintf("#%s", $model->getIncrementId()));
         $this->_view->renderLayout();
     }
 }
