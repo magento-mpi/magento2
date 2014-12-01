@@ -10,7 +10,7 @@ define([
     "Magento_Catalog/js/price-utils",
     "jquery/ui"
 ], function($,_, utils){
-    "use strict";
+    /*jshint validthis: true */
 
     var globalOptions = {
         productId: null,
@@ -110,7 +110,7 @@ define([
         $.extend(true, this.options, options);
 
         if('disabled' in options) {
-            this._setOption('disabled', options['disabled']);
+            this._setOption('disabled', options.disabled);
         }
         return this;
     }

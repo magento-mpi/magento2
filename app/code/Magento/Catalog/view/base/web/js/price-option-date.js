@@ -28,20 +28,21 @@ define([
      * Function-initializer of priceOptionDate widget
      */
     function initOptionDate() {
+        /*jshint validthis: true */
         var field = this.element;
         var form = field.closest(this.options.fromSelector);
         var dropdowns = $(this.options.dropdownsSelector, field);
+        var optionHandler = {};
         var dateOptionId;
-        var priceOptionHandler = {};
 
         if(dropdowns.length) {
             dateOptionId = this.options.dropdownsSelector + dropdowns.attr('name');
-            priceOptionHandler['optionHandlers'] = {};
-            priceOptionHandler['optionHandlers'][dateOptionId] = onCalendarDropdownChange(dropdowns);
+            optionHandler.optionHandlers = {};
+            optionHandler.optionHandlers[dateOptionId] = onCalendarDropdownChange(dropdowns);
 
             dropdowns.data('role', dateOptionId);
 
-            form.priceOptions(priceOptionHandler);
+            form.priceOptions(optionHandler);
             dropdowns.on('change', onDateChange.bind(this, dropdowns));
         }
     }
@@ -68,7 +69,7 @@ define([
             changes[optionHash] = overhead;
 
             return changes;
-        }
+        };
     }
 
     /**

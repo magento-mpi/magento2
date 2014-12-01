@@ -9,9 +9,10 @@ define([
     'underscore',
     'Magento_Catalog/js/price-utils'
 ], function ($,_, utils) {
-    "use strict";
+    /*jshint validthis: true */
 
     var globalOptions = {
+        optionConfig: null,
         productBundleSelector: '.product.bundle.option',
         qtyFieldSelector: 'input.qty',
         priceBoxSelector: '.price-box',
@@ -197,7 +198,7 @@ define([
         $.extend(true, this.options, options);
 
         if('disabled' in options) {
-            this._setOption('disabled', options['disabled']);
+            this._setOption('disabled', options.disabled);
         }
         return this;
     }

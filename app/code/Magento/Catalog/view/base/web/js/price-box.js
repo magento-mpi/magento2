@@ -13,10 +13,11 @@ define([
     "handlebars",
     "jquery/ui"
 ], function ($, utils, _) {
-    "use strict";
+    /*jshint validthis: true */
 
     var globalOptions = {
         productId: null,
+        priceConfig: null,
         prices: {},
         priceTemplate: '<span class="price">{{formatted}}</span>'
     };
@@ -45,6 +46,7 @@ define([
         var box = this.element;
         box.trigger('updatePrice');
         this.cache.displayPrices = utils.deepClone(this.options.prices);
+        $.mage.priceBox.currencyFormat = this.options.priceConfig && this.options.priceConfig.priceFormat || {};
     }
 
     /**
@@ -142,7 +144,7 @@ define([
     function reDrawPrices() {
         var box = this.element;
         var prices = this.cache.displayPrices;
-        var priceFormat = this.options.priceConfig && this.options.priceConfig.priceFormat || {};
+        var priceFormat = $.mage.priceBox.currencyFormat;
         var priceTemplate = hbs(this.options.priceTemplate);
 
         _.each(prices, function (price, priceCode) {
@@ -152,8 +154,8 @@ define([
                 finalPrice += adjustmentAmount;
             });
 
-            price['final'] = finalPrice;
-            price['formatted'] = utils.formatPrice(finalPrice, priceFormat);
+            price.final = finalPrice;
+            price.formatted = utils.formatPrice(finalPrice, priceFormat);
 
             html = priceTemplate(price);
             $('[data-price-type="' + priceCode + '"]', box).html(html);
@@ -171,7 +173,7 @@ define([
         $.extend(true, this.options, options);
 
         if ('disabled' in options) {
-            this._setOption('disabled', options['disabled']);
+            this._setOption('disabled', options.disabled);
         }
         return this;
     }
