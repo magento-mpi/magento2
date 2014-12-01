@@ -1238,19 +1238,19 @@ input.mage-error ~ .addafter {
         padding: 0;
         border-color: #ada89e;
     }
+    input,
+    select {
+        &[disabled],
+        &[readonly] {
+            ~ .addafter {
+                border-color: #eee;
+                color: #999;
+            }
+        }
+    }
     .pager input {
         border-width: 1px;
     }
-}
-
-.field .control input[type='text'][disabled],
-.field .control input[type='text'][disabled] ~ .addafter,
-.field .control select[disabled],
-.field .control select[disabled] ~ .addafter {
-    background-color: #fff;
-    border-color: #eee;
-    box-shadow: none;
-    color: #999;
 }
 
 .field .control input[type='text'][disabled] ~ .addafter strong,
