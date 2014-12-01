@@ -8,7 +8,6 @@
 namespace Magento\Bundle\Block\Catalog\Product\View\Type;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Tax\Api\TaxCalculationInterface;
 
 /**
  * Catalog bundle product info block
@@ -17,24 +16,6 @@ use Magento\Tax\Api\TaxCalculationInterface;
  */
 class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 {
-    /**
-     * constants for different rounding methods
-     */
-    const UNIT_ROUNDING = 0;
-    const ROW_ROUNDING = 1;
-    const TOTAL_ROUNDING = 2;
-
-    /**
-     * Mapping between constants in \Magento\Tax\Model\Calculation and this class
-     *
-     * @var array
-     */
-    protected $mapping = [
-        TaxCalculationInterface::CALC_UNIT_BASE => self::UNIT_ROUNDING,
-        TaxCalculationInterface::CALC_ROW_BASE => self::ROW_ROUNDING,
-        TaxCalculationInterface::CALC_TOTAL_BASE => self::TOTAL_ROUNDING,
-    ];
-
     /**
      * @var array
      */
@@ -295,7 +276,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 ]
             ],
             'priceType' => $currentProduct->getPriceType(),
-            'includeTax' => $this->_taxData->priceIncludesTax() ? 'true' : 'false',
             'isFixedPrice' => $isFixedPrice,
         );
 
@@ -319,17 +299,5 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             return __('There is no defined renderer for "%1" option type.', $option->getType());
         }
         return $optionBlock->setOption($option)->toHtml();
-    }
-
-    /**
-     * Return the rounding method based on tax calculation
-     * This is a workaround as the proper way is to always call tax service to get taxed price
-     *
-     * @return int
-     */
-    public function getRoundingMethod()
-    {
-        $algorithm = $this->_taxData->getCalculationAgorithm();
-        return isset($this->mapping[$algorithm]) ? $this->mapping[$algorithm] : self::TOTAL_ROUNDING;
     }
 }
