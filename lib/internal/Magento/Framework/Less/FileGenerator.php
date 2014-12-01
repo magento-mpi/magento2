@@ -69,11 +69,22 @@ class FileGenerator
          * @bug This logic is duplicated at \Magento\Framework\View\Asset\PreProcessor\Pool::getPreProcessors()
          * If you need to extend or modify behavior of LESS preprocessing, you must account for both places
          */
+
+        /**
+         * waiting if generation process is already started
+         */
+        $lockFilePath = Source::TMP_MATERIALIZATION_DIR . '/' . self::TMP_LESS_DIR . '/less.lock';
+        while($this->tmpDirectory->isExist($lockFilePath)) {
+            //wait;
+        }
+        $this->tmpDirectory->writeFile($lockFilePath, '');
+
         $this->magentoImportProcessor->process($chain);
         $this->importProcessor->process($chain);
         $this->generateRelatedFiles();
         $lessRelativePath = preg_replace('#\.css$#', '.less', $chain->getAsset()->getPath());
         $tmpFilePath = $this->createFile($lessRelativePath, $chain->getContent());
+        $this->tmpDirectory->delete($lockFilePath);
         return $tmpFilePath;
     }
 
@@ -117,7 +128,10 @@ class FileGenerator
     protected function createFile($relativePath, $contents)
     {
         $filePath = Source::TMP_MATERIALIZATION_DIR . '/' . self::TMP_LESS_DIR . '/' . $relativePath;
-        $this->tmpDirectory->writeFile($filePath, $contents);
+
+        if (!$this->tmpDirectory->isExist($filePath)) {
+            $this->tmpDirectory->writeFile($filePath, $contents);
+        }
         return $this->tmpDirectory->getAbsolutePath($filePath);
     }
 }
