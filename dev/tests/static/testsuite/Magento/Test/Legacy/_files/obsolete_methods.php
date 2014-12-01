@@ -2103,4 +2103,5 @@ return array(
     ['getModule', 'Magento\Framework\Module\ModuleList', 'getOne'],
     ['getModule', 'Magento\Framework\Module\ModuleListInterface', 'getOne'],
     ['_getNewConditionModelInstance', 'Magento\Rule\Model\Condition\Combine'],
+    ['_escapeDefaultValue', 'Magento\Framework\Code\Generator\EntityAbstract'],
 );
