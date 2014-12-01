@@ -181,7 +181,10 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $result = $this->object->toHtml();
 
         //assert price wrapper
-        $this->assertEquals('<div class="price-box price-final_price" data-role="priceBox" data-product-id="">test</div>', $result);
+        $this->assertEquals(
+            '<div class="price-box price-final_price" data-role="priceBox" data-product-id="">test</div>',
+            $result
+        );
     }
 
     public function testRenderMsrpNotRegisteredException()
@@ -211,9 +214,9 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $this->object->setData('price_id', $priceId);
 
         $arguments = [
-            'zone'              => 'test_zone',
-            'display_label'     => 'As low as',
-            'price_id'          => $priceId,
+            'zone' => 'test_zone',
+            'display_label' => 'As low as',
+            'price_id' => $priceId,
             'include_container' => false,
             'skip_adjustments' => true
         ];
