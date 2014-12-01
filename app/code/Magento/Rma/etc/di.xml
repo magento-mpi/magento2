@@ -71,7 +71,7 @@
     </virtualType>
     <type name="\Magento\Rma\Service\V1\RmaMetadataRead">
         <arguments>
-            <argument name="metadataConfig" xsi:type="object">Magento\Customer\Service\Config\CustomerMetadataConfig</argument>
+            <argument name="metadataConfig" xsi:type="object">Magento\Framework\Api\Config\MetadataConfig</argument>
         </arguments>
     </type>
     <type name="Magento\Rma\Model\RmaRepository">
