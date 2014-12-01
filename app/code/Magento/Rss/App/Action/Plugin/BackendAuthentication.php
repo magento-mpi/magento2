@@ -76,6 +76,8 @@ class BackendAuthentication extends \Magento\Backend\App\Action\Plugin\Authentic
      * @param RequestInterface $request
      * @return ResponseInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function aroundDispatch(AbstractAction $subject, \Closure $proceed, RequestInterface $request)
     {
