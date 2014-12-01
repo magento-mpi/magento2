@@ -76,6 +76,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->mockQuoteDetailsBuilder = $this->getMockBuilder('\Magento\Tax\Api\Data\QuoteDetailsDataBuilder')
             ->disableOriginalConstructor()
+            ->setMethods(['populateWithArray', 'create'])
             ->getMock();
         $this->mockTaxCalculationService = $this->getMockBuilder('Magento\Tax\Api\TaxCalculationInterface')
             ->disableOriginalConstructor()
@@ -88,7 +89,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $arguments = [
             'taxData' => $this->mockTaxHelper,
             'taxRateManagement' => $this->mockTaxRateManagement,
-            'groupServiceInterface' => $this->mockGroupService,
+            'groupManagement' => $this->groupManagementMock,
             'config' => $this->mockConfig,
             'quoteDetailsBuilder' => $this->mockQuoteDetailsBuilder,
             'taxCalculationService' => $this->mockTaxCalculationService,
