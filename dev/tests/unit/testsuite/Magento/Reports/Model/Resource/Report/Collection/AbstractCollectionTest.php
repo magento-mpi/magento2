@@ -8,7 +8,6 @@
 
 namespace Magento\Reports\Model\Resource\Report\Collection;
 
-
 class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -45,18 +44,12 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isSubTotals());
     }
 
-    public function testIsSubtotalsReturnsArgument()
+    public function testSetIsSubtotals()
     {
-        $this->assertTrue($this->_model->isSubTotals(true));
-        $this->assertFalse($this->_model->isSubTotals(false));
-    }
-
-    public function testIsSubtotalsState()
-    {
-        $this->_model->isSubTotals(true);
+        $this->_model->setIsSubTotals(true);
         $this->assertTrue($this->_model->isSubTotals());
 
-        $this->_model->isSubTotals(false);
+        $this->_model->setIsSubTotals(false);
         $this->assertFalse($this->_model->isSubTotals());
     }
 }

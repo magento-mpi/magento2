@@ -210,17 +210,25 @@ class AbstractCollection extends \Magento\Framework\Model\Resource\Db\Collection
     }
 
     /**
-     * Getter/Setter for isSubTotals
+     * Getter for isSubTotals
      *
-     * @param null|bool $flag
      * @return bool
      */
-    public function isSubTotals($flag = null)
+    public function isSubTotals()
     {
-        if (!is_null($flag)) {
-            $this->_isSubTotals = $flag;
-        }
         return $this->_isSubTotals;
+    }
+
+    /**
+     * Setter for isSubTotals
+     *
+     * @param bool $flag
+     * @return $this
+     */
+    public function setIsSubTotals($flag)
+    {
+        $this->_isSubTotals = $flag;
+        return $this;
     }
 
     /**
