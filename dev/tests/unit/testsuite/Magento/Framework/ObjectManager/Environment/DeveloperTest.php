@@ -22,7 +22,7 @@ class DeveloperTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMode()
     {
-        $this->assertEquals('developer', $this->_developer->getMode());
+        $this->assertEquals(Developer::MODE, $this->_developer->getMode());
     }
 
     public function testGetObjectManagerConfigLoader()
