@@ -302,6 +302,8 @@ class Observer
             return $this;
         }
 
+        $algorithm = $this->_taxData->getCalculationAgorithm();
+        $options['calculationAlgorithm'] = $algorithm;
         // prepare correct template for options render
 
         $response->setAdditionalOptions($options);

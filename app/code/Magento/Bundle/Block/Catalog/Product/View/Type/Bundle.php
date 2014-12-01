@@ -7,6 +7,8 @@
  */
 namespace Magento\Bundle\Block\Catalog\Product\View\Type;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+
 /**
  * Catalog bundle product info block
  * 
@@ -42,10 +44,16 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_localeFormat;
 
     /**
+     * @var PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Framework\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Bundle\Model\Product\PriceFactory $productPrice
+     * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param array $data
@@ -56,6 +64,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Bundle\Model\Product\PriceFactory $productPrice,
+        PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         array $data = array(),
@@ -63,6 +72,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_productPrice = $productPrice;
+        $this->priceCurrency = $priceCurrency;
         $this->jsonEncoder = $jsonEncoder;
         $this->_localeFormat = $localeFormat;
         parent::__construct(
@@ -173,13 +183,13 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 
                     $tierPriceInfo['prices'] = [
                         'oldPrice' => [
-                            'amount' => $priceBaseAmount
+                            'amount' => $this->priceCurrency->convert($priceBaseAmount)
                         ],
                         'basePrice' => [
-                            'amount' => $priceBaseAmount
+                            'amount' => $this->priceCurrency->convert($priceBaseAmount)
                         ],
                         'finalPrice' => [
-                            'amount' => $priceValue
+                            'amount' => $this->priceCurrency->convert($priceValue)
                         ]
                     ];
                 }
@@ -196,13 +206,13 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     'customQty' => $selectionItem->getSelectionCanChangeQty(),
                     'prices' => [
                         'oldPrice' => [
-                            'amount' => $basePrice
+                            'amount' => $this->priceCurrency->convert($basePrice) // todo: calculate for regular price
                         ],
                         'basePrice' => [
-                            'amount' => $basePrice
+                            'amount' => $this->priceCurrency->convert($basePrice)
                         ],
                         'finalPrice' => [
-                            'amount' => $finalPrice
+                            'amount' => $this->priceCurrency->convert($finalPrice)
                         ]
                     ],
                     'priceType' => $selectionItem->getSelectionPriceType(),
@@ -256,13 +266,13 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
             'prices' => [
                 'oldPrice' => [
-                    'amount' => $baseProductAmount->getValue()
+                    'amount' => $this->priceCurrency->convert($baseProductAmount->getValue())
                 ],
                 'basePrice' => [
-                    'amount' => $isFixedPrice ? $productAmount->getBaseAmount() : 0
+                    'amount' => $isFixedPrice ? $this->priceCurrency->convert($productAmount->getBaseAmount()) : 0
                 ],
                 'finalPrice' => [
-                    'amount' => $isFixedPrice ? $productAmount->getValue() : 0
+                    'amount' => $isFixedPrice ? $this->priceCurrency->convert($productAmount->getValue()) : 0
                 ]
             ],
             'priceType' => $currentProduct->getPriceType(),
