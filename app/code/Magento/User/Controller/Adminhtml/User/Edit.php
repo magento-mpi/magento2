@@ -15,8 +15,6 @@ class Edit extends \Magento\User\Controller\Adminhtml\User
      */
     public function execute()
     {
-        $this->_title->add(__('Users'));
-
         $userId = $this->getRequest()->getParam('user_id');
         /** @var \Magento\User\Model\User $model */
         $model = $this->_userFactory->create();
@@ -32,8 +30,6 @@ class Edit extends \Magento\User\Controller\Adminhtml\User
             $model->setInterfaceLocale(\Magento\Framework\Locale\ResolverInterface::DEFAULT_LOCALE);
         }
 
-        $this->_title->add($model->getId() ? $model->getName() : __('New User'));
-
         // Restore previously entered form data from session
         $data = $this->_session->getUserData(true);
         if (!empty($data)) {
@@ -48,6 +44,8 @@ class Edit extends \Magento\User\Controller\Adminhtml\User
             $breadcrumb = __('New User');
         }
         $this->_initAction()->_addBreadcrumb($breadcrumb, $breadcrumb);
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Users'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend($model->getId() ? $model->getName() : __('New User'));
         $this->_view->renderLayout();
     }
 }

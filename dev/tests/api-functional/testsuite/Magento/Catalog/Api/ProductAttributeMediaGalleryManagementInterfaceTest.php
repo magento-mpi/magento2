@@ -555,7 +555,7 @@ class ProductAttributeMediaGalleryManagementInterfaceTest extends \Magento\TestF
 
         $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
         /** @var \Magento\Catalog\Model\ProductRepository $repository */
-        $repository = $objectManager->get('Magento\Catalog\Model\ProductRepository');
+        $repository = $objectManager->create('Magento\Catalog\Model\ProductRepository');
         $product = $repository->get($productSku);
         $image = current($product->getMediaGallery('images'));
         $imageId = $image['value_id'];
