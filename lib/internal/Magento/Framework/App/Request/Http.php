@@ -579,7 +579,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\A
     {
         $result = '';
         if (isset($server['SCRIPT_NAME'])) {
-            $envPath = str_replace('\\', '/', dirname($server['SCRIPT_NAME']));
+            $envPath = str_replace('\\', '/', dirname(str_replace('\\', '/', $server['SCRIPT_NAME'])));
             if ($envPath != '.' && $envPath != '/') {
                 $result = $envPath;
             }
