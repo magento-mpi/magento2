@@ -317,7 +317,7 @@
             <arg value="-h${env.db_host}"/>
             <arg value="-D${env.db_name_prefix}${instanceIndex}"/>
             <arg value="-e"/>
-            <arg value="UPDATE core_config_data SET value='${env.http_host}${env.build.key}/instance-${instanceIndex}/' WHERE path='web/secure/base_url';
+            <arg value="UPDATE core_config_data SET value='${env.https_host}${env.build.key}/instance-${instanceIndex}/' WHERE path='web/secure/base_url';
                 UPDATE core_config_data SET value='${env.http_host}${env.build.key}/instance-${instanceIndex}/' WHERE path='web/unsecure/base_url';"/>
         </exec>
     </target>
