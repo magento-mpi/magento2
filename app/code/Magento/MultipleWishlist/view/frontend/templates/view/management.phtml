@@ -62,7 +62,7 @@
             </div>
             <div class="wishlist-toolbar-actions">
                 <div id="wishlists-move" class="wishlist-dropdown move" data-wishlist-move='{"moveSelectedUrl":"<?php echo $this->getMoveSelectedUrl();?>", "moveItemUrl":"<?php echo $this->getMoveItemUrl();?>"}'>
-                    <span class="action toggle" data-toggle="dropdown" <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-move-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><span><?php echo __('Move Selected to Wish List');?></span></span>
+                    <span class="action toggle" data-mage-init='{"dropdown":{}}' data-toggle="dropdown" <?php if ($this->getCurrentWishlist()->getId() != $this->getDefaultWishlist()->getId()): ?>data-wishlist-move-selected='{"wishlistId":"<?php echo $this->getDefaultWishlist()->getId();?>"}'<?php endif;?>><span><?php echo __('Move Selected to Wish List');?></span></span>
                     <ul class="items dropdown" data-target="dropdown">
                         <?php foreach ($this->getWishlists() as $wishlist): ?>
                             <?php if ($wishlist->getId() !== $this->getCurrentWishlist()->getId()): ?>

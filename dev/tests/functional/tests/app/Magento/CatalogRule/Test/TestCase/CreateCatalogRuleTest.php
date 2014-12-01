@@ -8,46 +8,41 @@
 
 namespace Magento\CatalogRule\Test\TestCase;
 
-use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 
 /**
  * Test Coverage for Create Catalog Rule
  *
- * @ticketId MAGETWO-
+ * Test Flow:
+ * 1. Log in as default admin user.
+ * 2. Go to Marketing > Catalog Price Rules
+ * 3. Press "+" button to start create new catalog price rule
+ * 4. Fill in all data according to data set
+ * 5. Save rule
+ * 6. Apply newly created catalog rule
+ * 7. Create simple product
+ * 8. Clear cache
+ * 9. Perform all assertions
+ *
+ * @ticketId MAGETWO-23036
  */
-class CreateCatalogRuleTest extends CatalogRuleEntityTest
+class CreateCatalogRuleTest extends AbstractCatalogRuleEntityTest
 {
-    /**
-     * Create simple product with category
-     *
-     * @param FixtureFactory $fixtureFactory
-     * @return array
-     */
-    public function __prepare(
-        FixtureFactory $fixtureFactory
-    ) {
-        $productSimple = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'MAGETWO-23036']);
-        $productSimple->persist();
-
-        return ['product' => $productSimple];
-    }
-
     /**
      * Create Catalog Price Rule
      *
      * @param CatalogRule $catalogPriceRule
-     * @param CatalogProductSimple $product
-     * @return void
+     * @return array
      */
-    public function testCreate(CatalogRule $catalogPriceRule, CatalogProductSimple $product)
+    public function testCreate(CatalogRule $catalogPriceRule)
     {
+        $productSimple = $this->fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'MAGETWO-23036']);
         // Prepare data
         $replace = [
             'conditions' => [
                 'conditions' => [
-                    '%category_1%' => $product->getDataFieldConfig('category_ids')['source']->getIds()[0]
+                    '%category_1%' => $productSimple->getDataFieldConfig('category_ids')['source']->getIds()[0]
                 ]
             ]
         ];
@@ -65,6 +60,9 @@ class CreateCatalogRuleTest extends CatalogRuleEntityTest
         // Apply Catalog Price Rule
         $this->catalogRuleIndex->getGridPageActions()->applyRules();
 
+        // Create simple product
+        $productSimple->persist();
+
         // Flush cache
         $this->adminCache->open();
         $this->adminCache->getActionsBlock()->flushMagentoCache();
@@ -72,5 +70,7 @@ class CreateCatalogRuleTest extends CatalogRuleEntityTest
 
         // Prepare data for tear down
         $this->catalogRules[] = $catalogPriceRule;
+
+        return ['product' => $productSimple];
     }
 }

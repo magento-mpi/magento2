@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+
 namespace Magento\Webapi\DataObjectSerialization;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -15,6 +16,7 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Webapi\Controller\Rest\Response\DataObjectConverter;
 
 /**
+ * api-functional/testsuite/Magento/Webapi/DataObjectSerialization/CustomAttributeSerializationMSCTest.php
  * Class to test if custom attributes are serialized correctly for the new Module Service Contract approach
  */
 class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseService
@@ -62,6 +64,7 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
      */
     protected function setUp()
     {
+        $this->markTestSkipped('This test become irrelevant according to new API Contract');
         $this->_version = 'V1';
         $this->_soapService = 'testModuleMSCAllSoapAndRestV1';
         $this->_restResourcePath = "/{$this->_version}/testmoduleMSC/";
@@ -134,7 +137,9 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
 
     public function testDataObjectCustomAttributes()
     {
-        $this->markTestIncomplete('MAGETWO-31016: incompatible with ZF 1.12.9');
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->markTestIncomplete('MAGETWO-31016: incompatible with ZF 1.12.9');
+        }
         $customAttributeDataObject = $this->customAttributeDataObjectDataBuilder
             ->setName('nameValue')
             ->setCustomAttribute('custom_attribute_int', 1)
@@ -168,7 +173,9 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
 
     public function testDataObjectCustomAttributesPreconfiguredItem()
     {
-        $this->markTestIncomplete('MAGETWO-31016: incompatible with ZF 1.12.9');
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->markTestIncomplete('MAGETWO-31016: incompatible with ZF 1.12.9');
+        }
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . 'itemPreconfigured',
@@ -201,7 +208,9 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
 
     public function testNestedDataObjectCustomAttributes()
     {
-        $this->markTestIncomplete('MAGETWO-31016: incompatible with ZF 1.12.9');
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->markTestIncomplete('MAGETWO-31016: incompatible with ZF 1.12.9');
+        }
         $customAttributeNestedDataObject = $this->customAttributeNestedDataObjectDataBuilder
             ->setName('nestedNameValue')
             ->create();

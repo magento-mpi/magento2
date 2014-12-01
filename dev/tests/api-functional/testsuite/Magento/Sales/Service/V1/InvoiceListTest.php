@@ -7,18 +7,17 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
  * Class InvoiceListTest
- * @package Magento\Sales\Service\V1
  */
 class InvoiceListTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/invoices';
 
-    const SERVICE_READ_NAME = 'salesInvoiceReadV1';
+    const SERVICE_READ_NAME = 'salesInvoiceRepositoryV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -57,7 +56,7 @@ class InvoiceListTest extends WebapiAbstract
         );
         $searchData = $searchCriteriaBuilder->create()->__toArray();
 
-        $requestData = ['searchCriteria' => $searchData];
+        $requestData = ['criteria' => $searchData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
@@ -66,11 +65,12 @@ class InvoiceListTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'search'
+                'operation' => self::SERVICE_READ_NAME . 'getList'
             ]
         ];
 
         $result = $this->_webApiCall($serviceInfo, $requestData);
+        // TODO Test fails, due to the inability of the framework API to handle data collection
         $this->assertArrayHasKey('items', $result);
         $this->assertCount(1, $result['items']);
     }

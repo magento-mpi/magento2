@@ -71,7 +71,6 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $this->model = $objectHelper->getObject(
             'Magento\Bundle\Model\Product\Type',
             array(
-                'productFactory' => $this->getMock('Magento\Catalog\Model\ProductFactory'),
                 'bundleModelSelection' => $this->getMock('Magento\Bundle\Model\SelectionFactory'),
                 'bundleFactory' => $this->getMock('Magento\Bundle\Model\Resource\BundleFactory'),
                 'bundleCollection' => $this->bundleCollection,

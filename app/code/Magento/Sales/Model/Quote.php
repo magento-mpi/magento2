@@ -9,7 +9,7 @@ namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\Quote\Address;
 use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
@@ -251,9 +251,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_statusListFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
-    protected $_productFactory;
+    protected $productRepository;
 
     /**
      * @var \Magento\Sales\Model\Quote\PaymentFactory
@@ -271,7 +271,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_objectCopyService;
 
     /**
-     * @var CustomerDataObject
+     * @var CustomerInterface
      */
     protected $_customerData;
 
@@ -306,6 +306,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $objectFactory;
 
     /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
@@ -320,7 +325,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Framework\Message\Factory $messageFactory
      * @param Status\ListFactory $statusListFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param Quote\PaymentFactory $quotePaymentFactory
      * @param Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
      * @param \Magento\Framework\Object\Copy $objectCopyService
@@ -330,6 +335,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param Quote\Item\Processor $itemProcessor
      * @param \Magento\Framework\Object\Factory $objectFactory
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -349,7 +355,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Framework\Message\Factory $messageFactory,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
         \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory,
         \Magento\Framework\Object\Copy $objectCopyService,
@@ -359,6 +365,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Sales\Model\Quote\Item\Processor $itemProcessor,
         \Magento\Framework\Object\Factory $objectFactory,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -375,7 +382,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->_quoteItemFactory = $quoteItemFactory;
         $this->messageFactory = $messageFactory;
         $this->_statusListFactory = $statusListFactory;
-        $this->_productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->_quotePaymentFactory = $quotePaymentFactory;
         $this->_quotePaymentCollectionFactory = $quotePaymentCollectionFactory;
         $this->_objectCopyService = $objectCopyService;
@@ -385,6 +392,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->stockRegistry = $stockRegistry;
         $this->itemProcessor = $itemProcessor;
         $this->objectFactory = $objectFactory;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -579,7 +587,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Assign customer model object data to quote
      *
-     * @param   CustomerDataObject|\Magento\Customer\Model\Customer $customer
+     * @param   CustomerInterface|\Magento\Customer\Model\Customer $customer
      * @return $this
      */
     public function assignCustomer($customer)
@@ -591,7 +599,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Assign customer model to quote with billing and shipping address change
      *
-     * @param  CustomerDataObject|\Magento\Customer\Model\Customer $customer
+     * @param  CustomerInterface|\Magento\Customer\Model\Customer $customer
      * @param  Address $billingAddress Quote billing address
      * @param  Address $shippingAddress Quote shipping address
      * @return $this
@@ -605,7 +613,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         if ($customer instanceof \Magento\Customer\Model\Customer) {
             $customer = $this->_converter->createCustomerFromModel($customer);
         }
-        /** @var CustomerDataObject $customer */
+        /** @var CustomerInterface $customer */
         if ($customer->getId()) {
             $this->setCustomerData($customer);
 
@@ -685,7 +693,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Retrieve customer data object
      *
-     * @return CustomerDataObject
+     * @return CustomerInterface
      */
     public function getCustomerData()
     {
@@ -697,14 +705,14 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Set customer data object
      *
-     * @param CustomerDataObject $customerData
+     * @param CustomerInterface $customerData
      * @return $this
      */
-    public function setCustomerData(CustomerDataObject $customerData)
+    public function setCustomerData(CustomerInterface $customerData)
     {
         /* @TODO: remove model usage in favor of Data Object in scope of MAGETWO-19930 */
         $customer = $this->_customerFactory->create();
-        $customer->setData(\Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerData));
+        $customer->setData($this->extensibleDataObjectConverter->toFlatArray($customerData));
         $customer->setId($customerData->getId());
         $this->setCustomer($customer);
         return $this;
@@ -766,10 +774,10 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Update customer data object
      *
-     * @param CustomerDataObject $customerData
+     * @param CustomerInterface $customerData
      * @return $this
      */
-    public function updateCustomerData(CustomerDataObject $customerData)
+    public function updateCustomerData(CustomerInterface $customerData)
     {
         $customer = $this->getCustomer();
         /* @TODO: remove this code in favor of customer Data Object usage MAGETWO-19930 */
@@ -1445,7 +1453,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
 
         //We need to create new clear product instance with same $productId
         //to set new option values from $buyRequest
-        $product = $this->_productFactory->create()->setStoreId($this->getStore()->getId())->load($productId);
+        $product = clone $this->productRepository->getById($productId, false, $this->getStore()->getId());
 
         if (!$params) {
             $params = new \Magento\Framework\Object();

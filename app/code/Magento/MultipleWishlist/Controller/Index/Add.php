@@ -9,6 +9,7 @@
 namespace Magento\MultipleWishlist\Controller\Index;
 
 use Magento\Framework\App\Action;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 
 class Add extends \Magento\Wishlist\Controller\Index\Add
 {
@@ -21,16 +22,18 @@ class Add extends \Magento\Wishlist\Controller\Index\Add
      * @param Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider
+     * @param ProductRepositoryInterface $productRepository
      * @param \Magento\MultipleWishlist\Model\WishlistEditor $wishlistEditor
      */
     public function __construct(
         Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider,
+        ProductRepositoryInterface $productRepository,
         \Magento\MultipleWishlist\Model\WishlistEditor $wishlistEditor
     ) {
         $this->wishlistEditor = $wishlistEditor;
-        parent::__construct($context, $customerSession, $wishlistProvider);
+        parent::__construct($context, $customerSession, $wishlistProvider, $productRepository);
     }
 
     /**

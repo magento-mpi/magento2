@@ -228,27 +228,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($company, $customerAddress->getCompany(), 'Company was exported incorrectly.');
     }
 
-    /**
-     * Import order address to quote address
-     */
-    public function testImportOrderAddress()
-    {
-        $street = 'Street1';
-        $email = 'test_email@example.com';
-
-        /** @var \Magento\Sales\Model\Order\Address $orderAddress */
-        $orderAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Sales\Model\Order\Address'
-        );
-
-        $orderAddress->setStreet($street);
-        $orderAddress->setEmail($email);
-        $this->_address->importOrderAddress($orderAddress);
-
-        $this->assertEquals($street, $this->_address->getStreet1(), 'Expected street does not exists');
-        $this->assertEquals($email, $orderAddress->getEmail(), 'Expected email does not exists');
-    }
-
     public function testPopulateBeforeSaveData()
     {
         /** Preconditions */

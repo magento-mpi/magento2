@@ -7,11 +7,13 @@
  */
 namespace Magento\Catalog\Model;
 
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Framework\Profiler;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\UrlFinderInterface;
 use Magento\Framework\Convert\ConvertArray;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Catalog category
@@ -143,13 +145,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
     protected $_storeCollectionFactory;
 
     /**
-     * Category factory
-     *
-     * @var \Magento\Catalog\Model\CategoryFactory
-     */
-    protected $_categoryFactory;
-
-    /**
      * Category tree factory
      *
      * @var \Magento\Catalog\Model\Resource\Category\TreeFactory
@@ -171,13 +166,17 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
     protected $indexerRegistry;
 
     /**
+     * @var CategoryRepositoryInterface
+     */
+    protected $categoryRepository;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Resource\Category\Tree $categoryTreeResource
      * @param Resource\Category\TreeFactory $categoryTreeFactory
-     * @param CategoryFactory $categoryFactory
      * @param \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory
      * @param \Magento\Framework\UrlInterface $url
      * @param Resource\Product\CollectionFactory $productCollectionFactory
@@ -187,6 +186,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
      * @param UrlFinderInterface $urlFinder
      * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -198,7 +198,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource,
         \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
         \Magento\Framework\UrlInterface $url,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
@@ -208,13 +207,13 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         UrlFinderInterface $urlFinder,
         \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
+        CategoryRepositoryInterface $categoryRepository,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_treeModel = $categoryTreeResource;
         $this->_categoryTreeFactory = $categoryTreeFactory;
-        $this->_categoryFactory = $categoryFactory;
         $this->_storeCollectionFactory = $storeCollectionFactory;
         $this->_url = $url;
         $this->_productCollectionFactory = $productCollectionFactory;
@@ -224,6 +223,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         $this->urlFinder = $urlFinder;
         $this->indexerRegistry = $indexerRegistry;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct(
             $context,
             $registry,
@@ -305,13 +305,16 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
          * Validate new parent category id. (category model is used for backward
          * compatibility in event params)
          */
-        $parent = $this->_categoryFactory->create()->setStoreId($this->getStoreId())->load($parentId);
-
-        if (!$parent->getId()) {
+        try {
+            $parent = $this->categoryRepository->get($parentId, $this->getStoreId());
+        } catch (NoSuchEntityException $e) {
             throw new \Magento\Framework\Model\Exception(
                 __(
-                    'Sorry, but we can\'t move the category because we can\'t find the new parent category you selected.'
-                )
+                    'Sorry, but we can\'t move the category because we can\'t find the new parent category you'
+                    . ' selected.'
+                ),
+                0,
+                $e
             );
         }
 
@@ -322,7 +325,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
         } elseif ($parent->getId() == $this->getId()) {
             throw new \Magento\Framework\Model\Exception(
                 __(
-                    'We can\'t perform this category move operation because the parent category matches the child category.'
+                    'We can\'t perform this category move operation because the parent category matches the child'
+                    . 'category.'
                 )
             );
         }
@@ -598,7 +602,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
     public function getParentCategory()
     {
         if (!$this->hasData('parent_category')) {
-            $this->setData('parent_category', $this->_categoryFactory->create()->load($this->getParentId()));
+            $this->setData('parent_category', $this->categoryRepository->get($this->getParentId()));
         }
         return $this->_getData('parent_category');
     }

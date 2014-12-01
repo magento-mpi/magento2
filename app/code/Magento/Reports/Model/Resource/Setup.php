@@ -11,7 +11,7 @@
  */
 namespace Magento\Reports\Model\Resource;
 
-class Setup extends \Magento\Framework\Module\Setup
+class Setup extends \Magento\Framework\Module\DataSetup
 {
     /**
      * @var \Magento\Cms\Model\PageFactory

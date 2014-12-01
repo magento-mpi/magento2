@@ -14,7 +14,7 @@ interface ProductCustomOptionRepositoryInterface
      * Get the list of custom options for a specific product
      *
      * @param string $productSku
-     * @return \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface[]
+     * @return \Magento\Catalog\Api\Data\ProductCustomOptionInterface[]
      */
     public function getList($productSku);
 
@@ -23,25 +23,25 @@ interface ProductCustomOptionRepositoryInterface
      *
      * @param string $productSku
      * @param int $optionId
-     * @return \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface
+     * @return \Magento\Catalog\Api\Data\ProductCustomOptionInterface
      */
     public function get($productSku, $optionId);
 
     /**
      * Delete custom option from product
      *
-     * @param \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface $option
+     * @param \Magento\Catalog\Api\Data\ProductCustomOptionInterface $option
      * @return bool
      */
-    public function delete(\Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface $option);
+    public function delete(\Magento\Catalog\Api\Data\ProductCustomOptionInterface $option);
 
     /**
      * Save custom option
      *
-     * @param \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface $option
-     * @return \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface
+     * @param \Magento\Catalog\Api\Data\ProductCustomOptionInterface $option
+     * @return \Magento\Catalog\Api\Data\ProductCustomOptionInterface
      */
-    public function save(\Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface $option);
+    public function save(\Magento\Catalog\Api\Data\ProductCustomOptionInterface $option);
 
     /**
      * @param string $productSku

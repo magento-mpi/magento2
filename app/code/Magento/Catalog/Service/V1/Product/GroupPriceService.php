@@ -9,7 +9,7 @@
 namespace Magento\Catalog\Service\V1\Product;
 
 use Magento\Catalog\Model\ProductFactory;
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
 use Magento\Catalog\Service\V1\Data\Product;
@@ -17,7 +17,7 @@ use Magento\Catalog\Service\V1\Data\Product;
 class GroupPriceService implements GroupPriceServiceInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -32,9 +32,9 @@ class GroupPriceService implements GroupPriceServiceInterface
     protected $storeManager;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var \Magento\Customer\Api\GroupRepositoryInterface
      */
-    protected $customerGroupService;
+    protected $groupRepository;
 
     /**
      * @var \Magento\Catalog\Model\Product\PriceModifier
@@ -47,25 +47,25 @@ class GroupPriceService implements GroupPriceServiceInterface
     protected $config;
 
     /**
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      * @param Product\GroupPriceBuilder $groupPriceBuilder
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
      * @param \Magento\Catalog\Model\Product\PriceModifier $priceModifier
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
-        ProductRepository $productRepository,
+        ProductRepositoryInterface $productRepository,
         Product\GroupPriceBuilder $groupPriceBuilder,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
+        \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
         \Magento\Framework\App\Config\ScopeConfigInterface $config
     ) {
         $this->productRepository = $productRepository;
         $this->groupPriceBuilder = $groupPriceBuilder;
         $this->storeManager = $storeManager;
-        $this->customerGroupService = $customerGroupService;
+        $this->groupRepository = $groupRepository;
         $this->priceModifier = $priceModifier;
         $this->config = $config;
     }
@@ -78,7 +78,7 @@ class GroupPriceService implements GroupPriceServiceInterface
      */
     public function set($productSku, \Magento\Catalog\Service\V1\Data\Product\GroupPrice $price)
     {
-        $customerGroup = $this->customerGroupService->getGroup($price->getCustomerGroupId());
+        $customerGroup = $this->groupRepository->getById($price->getCustomerGroupId());
         $product = $this->productRepository->get($productSku, ['edit_mode' => true]);
 
         $groupPrices = $product->getData('group_price');

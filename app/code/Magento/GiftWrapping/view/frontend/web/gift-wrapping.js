@@ -253,5 +253,6 @@ define([
         }
 
     });
-
+    
+    return $.mage.giftWrapping;
 });

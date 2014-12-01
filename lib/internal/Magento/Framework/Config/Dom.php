@@ -11,6 +11,9 @@
  */
 namespace Magento\Framework\Config;
 
+/**
+ * Class Dom
+ */
 class Dom
 {
     /**
@@ -77,7 +80,7 @@ class Dom
      */
     public function __construct(
         $xml,
-        array $idAttributes = array(),
+        array $idAttributes = [],
         $typeAttributeName = null,
         $schemaFile = null,
         $errorFormat = self::ERROR_FORMAT_DEFAULT
@@ -256,7 +259,7 @@ class Dom
         libxml_use_internal_errors(true);
         try {
             $result = $dom->schemaValidate($schemaFileName);
-            $errors = array();
+            $errors = [];
             if (!$result) {
                 $validationErrors = libxml_get_errors();
                 if (count($validationErrors)) {
@@ -334,7 +337,7 @@ class Dom
      * @param array &$errors
      * @return bool
      */
-    public function validate($schemaFileName, &$errors = array())
+    public function validate($schemaFileName, &$errors = [])
     {
         $errors = self::validateDomDocument($this->_dom, $schemaFileName, $this->_errorFormat);
         return !count($errors);

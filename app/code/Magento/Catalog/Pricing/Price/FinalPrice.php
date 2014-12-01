@@ -28,6 +28,16 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
     private $basePrice;
 
     /**
+     * @var \Magento\Framework\Pricing\Amount\AmountInterface
+     */
+    protected $minimalPrice;
+
+    /**
+     * @var \Magento\Framework\Pricing\Amount\AmountInterface
+     */
+    protected $maximalPrice;
+
+    /**
      * Get Value
      *
      * @return float|bool
@@ -44,11 +54,16 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
      */
     public function getMinimalPrice()
     {
-        $minimalPrice = $this->product->getMinimalPrice();
-        if ($minimalPrice === null) {
-            $minimalPrice = $this->getValue();
+        if (!$this->minimalPrice) {
+            $minimalPrice = $this->product->getMinimalPrice();
+            if ($minimalPrice === null) {
+                $minimalPrice = $this->getValue();
+            } else {
+                $minimalPrice = $this->priceCurrency->convertAndRound($minimalPrice);
+            }
+            $this->minimalPrice = $this->calculator->getAmount($minimalPrice, $this->product);
         }
-        return $this->calculator->getAmount($minimalPrice, $this->product);
+        return $this->minimalPrice;
     }
 
     /**
@@ -58,7 +73,10 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
      */
     public function getMaximalPrice()
     {
-        return $this->calculator->getAmount($this->getValue(), $this->product);
+        if (!$this->maximalPrice) {
+            $this->maximalPrice = $this->calculator->getAmount($this->getValue(), $this->product);
+        }
+        return $this->maximalPrice;
     }
 
     /**

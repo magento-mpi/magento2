@@ -36,6 +36,7 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped('Solr module disabled');
         $this->subjectMock = $this->getMock('Magento\Customer\Model\Resource\Group', [], [], '', false);
         $this->helperMock = $this->getMock('Magento\Solr\Helper\Data', [], [], '', false);
         $this->indexerMock = $this->getMockForAbstractClass(

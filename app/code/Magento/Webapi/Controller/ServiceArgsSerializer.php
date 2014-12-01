@@ -9,8 +9,6 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\Framework\ObjectManagerInterface;
-use Magento\Framework\ObjectManager\ConfigInterface as ObjectManagerConfig;
 use Magento\Framework\Api\Config\Reader as ServiceConfigReader;
 use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Api\AttributeDataBuilder;
@@ -124,29 +122,6 @@ class ServiceArgsSerializer
             return "{$type}[]";
         }
         return $type;
-    }
-
-    /**
-     * Check if parameter is an array.
-     *
-     * @param ParameterReflection $param
-     * @return bool
-     */
-    protected function _isArrayParam($param)
-    {
-        $isArray = $param->isArray();
-        $docBlock = $param->getDeclaringFunction()->getDocBlock();
-        /** If array type is not set explicitly in the method interface, examine annotations */
-        if (!$isArray && $docBlock) {
-            /** This pattern will help to skip parameters declarations which precede to the current one */
-            $precedingParamsPattern = str_repeat('.*\@param.*', $param->getPosition());
-            $paramType = str_replace('[]', '\[\]', $param->getType());
-            $paramType = str_replace('\\', '\\\\', $paramType);
-            if (preg_match("/.*{$precedingParamsPattern}\@param\s+({$paramType}\[\]).*/is", $docBlock->getContents())) {
-                $isArray = true;
-            }
-        }
-        return $isArray;
     }
 
     /**

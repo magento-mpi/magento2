@@ -40,21 +40,21 @@ class Review extends Block
      *
      * @var string
      */
-    protected $grandTotal = '//tr[normalize-space(td)="Grand Total"]//span';
+    protected $grandTotal = '//tr[@class="grand totals"]/td[@class="amount"]//span';
 
     /**
      * Subtotal search mask
      *
      * @var string
      */
-    protected $subtotal = '//tr[normalize-space(td)="Subtotal"]//span';
+    protected $subtotal = '//tr[@class="totals sub"]/td[@class="amount"]//span';
 
     /**
      * Tax search mask
      *
      * @var string
      */
-    protected $tax = '//tr[normalize-space(td)="Tax"]//span';
+    protected $tax = '//tr[@class="totals-tax"]/td[@class="amount"]//span';
 
     /**
      * Wait element

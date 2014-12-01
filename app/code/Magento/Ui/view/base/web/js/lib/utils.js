@@ -5,8 +5,9 @@
  * @license     {license_link}
  */
 define([
-    'underscore'
-], function(_) {
+    'underscore',
+    'mage/utils'
+], function(_, utils) {
     'use strict';
 
     var utils = {},

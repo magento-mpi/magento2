@@ -207,7 +207,6 @@ class Files
             $globPaths = array(
                 'app/etc/config.xml',
                 'app/etc/*/config.xml',
-                'app/etc/local.xml',
                 'app/code/*/*/etc/config.xml',
                 'app/code/*/*/etc/config.*.xml' // Module DB-specific configs, e.g. config.mysql4.xml
             );
@@ -974,6 +973,28 @@ class Files
         $key = __METHOD__ . "/{$module}";
         if (!isset(self::$_cache[$key])) {
             $files = self::getFiles(array("{$this->_path}/app/code/Magento/{$module}"), '*.php');
+            self::$_cache[$key] = $files;
+        }
+
+        if ($asDataSet) {
+            return self::composeDataSets(self::$_cache[$key]);
+        }
+
+        return self::$_cache[$key];
+    }
+
+    /**
+     * Returns array of composer.json for specified app directory, such as code/Magento, design, i18n
+     *
+     * @param string $appDir
+     * @param bool $asDataSet
+     * @return array
+     */
+    public function getComposerFiles($appDir, $asDataSet = true)
+    {
+        $key = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
+        if (!isset(self::$_cache[$key])) {
+            $files = self::getFiles(array("{$this->_path}/app/{$appDir}"), 'composer.json');
             self::$_cache[$key] = $files;
         }
 
