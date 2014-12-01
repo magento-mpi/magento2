@@ -23,7 +23,10 @@ class SpecificationPluginTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->agreementFactory = $this->getMock('Magento\Paypal\Model\Billing\AgreementFactory', ['create']);
+        $this->agreementFactory = $this->getMockBuilder('Magento\Paypal\Model\Billing\AgreementFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
 
         $objectManagerHelper = new ObjectManagerHelper($this);
         $this->model = $objectManagerHelper->getObject(
@@ -55,7 +58,7 @@ class SpecificationPluginTest extends \PHPUnit_Framework_TestCase
         $paymentMethod = $this->getPaymentMethod('paypal_billing_agreement');
         $quote = $this->getQuote(null);
         $proceed = $this->getProceedClosure(true, $paymentMethod, $quote);
-        $this->assertTrue($this->callAroundIsApplicable($proceed, $paymentMethod, $quote));
+        $this->assertFalse($this->callAroundIsApplicable($proceed, $paymentMethod, $quote));
     }
 
     /**

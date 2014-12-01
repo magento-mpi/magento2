@@ -44,14 +44,20 @@ class SpecificationPlugin
         Quote $quote
     ) {
         $originallyIsApplicable = $proceed($paymentMethod, $quote);
-        if (!$originallyIsApplicable || $paymentMethod->getCode() != 'paypal_billing_agreement'
-            || !$quote->getCustomerId()
-        ) {
-            return $originallyIsApplicable;
+        if (!$originallyIsApplicable) {
+            return false;
         }
-        $availableBA = $this->_agreementFactory->create()->getAvailableCustomerBillingAgreements(
-            $quote->getCustomerId()
-        );
-        return count($availableBA) > 0;
+
+        if ($paymentMethod->getCode() == 'paypal_billing_agreement') {
+            if ($quote->getCustomerId()) {
+                $availableBA = $this->_agreementFactory->create()->getAvailableCustomerBillingAgreements(
+                    $quote->getCustomerId()
+                );
+                return count($availableBA) > 0;
+            }
+            return false;
+        }
+
+        return true;
     }
 }
