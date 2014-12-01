@@ -9,6 +9,7 @@
 
 namespace Magento\Tools\Di\Code\Generator;
 
+use Magento\Framework\App\Area;
 use Magento\Framework\ObjectManager\Config;
 use Magento\Tools\Di\Code\Scanner;
 use Magento\Framework\Interception\Config\Config as InterceptionConfig;
@@ -37,11 +38,6 @@ class InterceptionConfigurationBuilder
      * @var Type
      */
     private $typeReader;
-
-    /**
-     * @var string
-     */
-    const GLOBAL_CONFIG = 'global';
 
     /**
      * @param InterceptionConfig $interceptionConfig
@@ -114,9 +110,9 @@ class InterceptionConfigurationBuilder
 
         $inheritedConfig = [];
         foreach ($this->areaCodesList as $areaKey) {
-            $scopePriority = [self::GLOBAL_CONFIG];
+            $scopePriority = [Area::AREA_GLOBAL];
             $pluginListCloned = clone $this->pluginList;
-            if ($areaKey != self::GLOBAL_CONFIG) {
+            if ($areaKey != Area::AREA_GLOBAL) {
                 $scopePriority[] = $areaKey;
                 $pluginListCloned->setScopePriorityScheme($scopePriority);
             }

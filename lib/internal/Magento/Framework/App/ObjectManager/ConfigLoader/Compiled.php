@@ -8,6 +8,8 @@
  */
 namespace Magento\Framework\App\ObjectManager\ConfigLoader;
 
+use Magento\Framework\App\Area;
+
 class Compiled extends \Magento\Framework\App\ObjectManager\ConfigLoader
 {
     /**
@@ -35,7 +37,7 @@ class Compiled extends \Magento\Framework\App\ObjectManager\ConfigLoader
      */
     public function load($area)
     {
-        if ($area == 'global') {
+        if ($area == Area::AREA_GLOBAL) {
             return $this->globalConfig;
         }
         return \unserialize(\file_get_contents(BP . '/var/di/' . $area . '.ser'));

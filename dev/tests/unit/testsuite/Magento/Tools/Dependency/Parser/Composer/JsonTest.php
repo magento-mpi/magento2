@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Test\Tools\Dependency\Parser\Composer;
+namespace Magento\Tools\Dependency\Parser\Composer;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
