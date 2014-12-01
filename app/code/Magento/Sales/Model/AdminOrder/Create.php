@@ -1678,18 +1678,20 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                 ->create();
             $customer = $this->_validateCustomerData($customer);
         }
+        $this->getQuote()->setCustomer($customer);
+
         if ($this->getBillingAddress()->getSaveInAddressBook()) {
-            $this->_prepareCustomerAddress($customer, $this->getBillingAddress());
+            $this->_prepareCustomerAddress($this->getQuote()->getCustomer(), $this->getBillingAddress());
         }
         if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
-            $this->_prepareCustomerAddress($customer, $this->getShippingAddress());
+            $this->_prepareCustomerAddress($this->getQuote()->getCustomer(), $this->getShippingAddress());
         }
-        $this->getQuote()->updateCustomerData($customer);
+        $this->getQuote()->updateCustomerData($this->getQuote()->getCustomer());
 
         $customerData = $this->extensibleDataObjectConverter->toFlatArray(
-            $this->customerBuilder->populate($customer)->setAddresses([])->create()
+            $this->customerBuilder->populate($this->getQuote()->getCustomer())->setAddresses([])->create()
         );
-        foreach ($this->_createCustomerForm($customer)->getUserAttributes() as $attribute) {
+        foreach ($this->_createCustomerForm($this->getQuote()->getCustomer())->getUserAttributes() as $attribute) {
             if (isset($customerData[$attribute->getAttributeCode()])) {
                 $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
                 $this->getQuote()->setData($quoteCode, $customerData[$attribute->getAttributeCode()]);
@@ -1740,14 +1742,20 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                 if (is_null($customer->getDefaultBilling())) {
                     $customerAddress = $this->addressBuilder->populate($customerAddress)
                         ->setDefaultBilling(true)
+                        ->setCustomerId($customer->getId())
                         ->create();
+                    $customerAddress = $this->addressRepository->save($customerAddress);
+                    $customer = $this->customerBuilder->populate($customer)->setDefaultBilling($customerAddress->getId())->create();
                 }
                 break;
             case \Magento\Sales\Model\Quote\Address::ADDRESS_TYPE_SHIPPING:
                 if (is_null($customer->getDefaultShipping())) {
                     $customerAddress = $this->addressBuilder->populate($customerAddress)
                         ->setDefaultShipping(true)
+                        ->setCustomerId($customer->getId())
                         ->create();
+                    $customerAddress = $this->addressRepository->save($customerAddress);
+                    $customer = $this->customerBuilder->populate($customer)->setDefaultShipping($customerAddress->getId())->create();
                 }
                 break;
             default:
