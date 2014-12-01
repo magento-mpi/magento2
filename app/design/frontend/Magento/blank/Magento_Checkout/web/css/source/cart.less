@@ -104,6 +104,9 @@
 
     //  Totals block
     &-totals {
+        .table-wrapper {
+            overflow: inherit;
+        }
         border-top: 1px solid @border-color-base;
         padding-top: 10px;
         .mark {
@@ -123,7 +126,7 @@
         .grand:last-child {
             .mark,
             .amount {
-                padding-top: @indent-m-base;
+                padding-top: @indent-base;
             }
             .amount {
                 padding-right: 4px;
@@ -290,7 +293,7 @@
         .checkout-methods-items {
             &:extend(.abstract-reset-list all);
             text-align: center;
-            margin-top: @indent-s-base;
+            margin-top: @indent-base;
             .action.primary {
                 &:extend(.abstract-button-l all);
                 margin-bottom: @indent-s-base;

@@ -145,12 +145,17 @@
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-smaller(@break) when (@break = @screen-m) {
     .block-search {
-        margin-top: @indent-s-base;
         .block-content {
             margin-bottom: 0;
         }
+    }
+}
+
+.responsive-smaller(@break) when (@break = @screen-s) {
+    .block-search {
+        margin-top: @indent-s-base;
     }
 }
 
