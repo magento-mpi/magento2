@@ -699,4 +699,19 @@ return array(
         'Magento\Framework\Module\Declaration\Reader\Filesystem',
         'Magento\Framework\App\ObjectManagerFactory::INIT_PARAM_DEPLOYMENT_CONFIG'
     ],
+    [
+        'NOT_INSTALLED_URL_PATH_PARAM',
+        'Magento\Framework\App\Http',
+        'Magento\Framework\App\SetupInfo::PARAM_NOT_INSTALLED_URL_PATH'
+    ],
+    [
+        'NOT_INSTALLED_URL_PARAM',
+        'Magento\Framework\App\Http',
+        'Magento\Framework\App\SetupInfo::PARAM_NOT_INSTALLED_URL'
+    ],
+    [
+        'NOT_INSTALLED_URL_PATH',
+        'Magento\Framework\App\Http',
+        'Magento\Framework\App\SetupInfo::DEFAULT_PATH'
+    ],
 );

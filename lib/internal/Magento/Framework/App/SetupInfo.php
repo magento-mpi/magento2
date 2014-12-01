@@ -16,8 +16,8 @@ class SetupInfo
     /**#@+
      * Initialization parameters for redirecting if the application is not installed
      */
-    const NOT_INSTALLED_URL_PATH_PARAM = 'MAGE_NOT_INSTALLED_URL_PATH';
-    const NOT_INSTALLED_URL_PARAM = 'MAGE_NOT_INSTALLED_URL';
+    const PARAM_NOT_INSTALLED_URL_PATH = 'MAGE_NOT_INSTALLED_URL_PATH';
+    const PARAM_NOT_INSTALLED_URL = 'MAGE_NOT_INSTALLED_URL';
     /**#@-*/
 
     /**
@@ -49,10 +49,10 @@ class SetupInfo
      */
     public function getUrl()
     {
-        if (isset($this->server[self::NOT_INSTALLED_URL_PARAM])) {
-            return $this->server[self::NOT_INSTALLED_URL_PARAM];
+        if (isset($this->server[self::PARAM_NOT_INSTALLED_URL])) {
+            return $this->server[self::PARAM_NOT_INSTALLED_URL];
         }
-        return \Magento\Framework\App\Request\Http::getDistroBaseUrlPath($this->server) . trim($this->getPath(), '/') . '/';
+        return Request\Http::getDistroBaseUrlPath($this->server) . trim($this->getPath(), '/') . '/';
     }
 
     /**
@@ -75,6 +75,7 @@ class SetupInfo
     public function isAvailable($projectRoot)
     {
         if (isset($this->server['DOCUMENT_ROOT'])) {
+            // realpath() is used only to normalize path - there is no intent to check if path actually exists
             $docRoot = str_replace('\\', '/', realpath($this->server['DOCUMENT_ROOT']));
             $installDir = str_replace('\\', '/', realpath($this->getDir($projectRoot)));
             return false !== strpos($installDir . '/', $docRoot . '/');
@@ -89,8 +90,8 @@ class SetupInfo
      */
     private function getPath()
     {
-        if (isset($this->server[self::NOT_INSTALLED_URL_PATH_PARAM])) {
-            return $this->server[self::NOT_INSTALLED_URL_PATH_PARAM];
+        if (isset($this->server[self::PARAM_NOT_INSTALLED_URL_PATH])) {
+            return $this->server[self::PARAM_NOT_INSTALLED_URL_PATH];
         }
         return self::DEFAULT_PATH;
     }

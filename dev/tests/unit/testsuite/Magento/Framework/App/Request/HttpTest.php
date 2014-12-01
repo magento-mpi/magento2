@@ -8,8 +8,6 @@
  */
 namespace Magento\Framework\App\Request;
 
-use Magento\Framework\App\Request\Http as Request;
-
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -406,6 +404,30 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $this->_model->getDistroBaseUrl());
 
         $_SERVER = $originalServerValue;
+    }
+
+    /**
+     * @param string $scriptName
+     * @param string $expected
+     * @dataProvider getDistroBaseUrlPathDataProvider
+     */
+    public function testGetDistroBaseUrlPath($scriptName, $expected)
+    {
+        $this->assertEquals($expected, Http::getDistroBaseUrlPath(['SCRIPT_NAME' => $scriptName]));
+    }
+
+    public function getDistroBaseUrlPathDataProvider()
+    {
+        return [
+            [null, '/'],
+            ['./index.php', '/'],
+            ['.\\index.php', '/'],
+            ['/index.php', '/'],
+            ['\\index.php', '/'],
+            ['subdir/script.php', 'subdir/'],
+            ['subdir\\script.php', 'subdir/'],
+            ['sub\\dir\\script.php', 'sub/dir/'],
+        ];
     }
 
     public function testGetCookieDefault()
