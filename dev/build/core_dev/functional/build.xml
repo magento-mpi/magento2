@@ -188,7 +188,7 @@
             <replacefilter token="{{db_user}}" value="${env.db_user}"/>
             <replacefilter token="{{db_password}}" value="${env.db_password}"/>
             <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
-            <replacefilter token="{{secure_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
+            <replacefilter token="{{secure_url}}" value="${env.https_host}${env.build.key}/instance-${instanceIndex}"/>
         </replace>
 
         <condition property="env.bamboo_tests_configuration" value="basic">
