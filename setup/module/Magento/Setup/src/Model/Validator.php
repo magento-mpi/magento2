@@ -36,7 +36,7 @@ class Validator
      * @param array $actualParams
      * @return array
      */
-    public static function checkMissingParameter($expectedParams, $actualParams)
+    public function checkMissingParameter($expectedParams, $actualParams)
     {
         $missingParams = array_diff(array_keys($expectedParams), array_keys($actualParams));
         foreach ($missingParams as $key => $missingParam) {
@@ -55,7 +55,7 @@ class Validator
      * @param array $actualParams
      * @return array
      */
-    public static function checkExtraParameter($expectedParams, $actualParams)
+    public function checkExtraParameter($expectedParams, $actualParams)
     {
         $extraParams = array_diff(array_keys($actualParams), array_keys($expectedParams));
         return $extraParams;
@@ -68,7 +68,7 @@ class Validator
      * @param $actualParams
      * @return array
      */
-    public static function checkMissingValue($expectedParams, $actualParams)
+    public function checkMissingValue($expectedParams, $actualParams)
     {
         $missingValues = [];
         foreach ($actualParams as $param => $value) {
@@ -88,7 +88,7 @@ class Validator
      * @param $actualParams
      * @return array
      */
-    public static function checkExtraValue($expectedParams, $actualParams)
+    public function checkExtraValue($expectedParams, $actualParams)
     {
         $extraValues = [];
         foreach ($actualParams as $param => $value) {

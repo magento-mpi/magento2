@@ -33,21 +33,23 @@ class ValidatingRouteListener extends \Zend\Mvc\RouteListener
         $validationMessages = '';
         // CLI routing miss, checks for missing/extra parameters
         if (!$match instanceof RouteMatch) {
-            $validationMessages .= $this->checkForMissingAndExtraParams($e);
-            $this->displayMessage($e, $validationMessages);
-            // set error to stop propagation
-            $e->setError('default_error');
+            $validationMessages .= $this->checkParams($e);
+            if ('' !== $validationMessages) {
+                $this->displayMessage($e, $validationMessages);
+                // set error to stop propagation
+                $e->setError('default_error');
+            }
         }
         return null;
     }
 
     /**
-     * Checks for missing and extra parameters
+     * Checks parameters
      *
      * @param MvcEvent $e
      * @return string
      */
-    private function checkForMissingAndExtraParams(MvcEvent $e)
+    private function checkParams(MvcEvent $e)
     {
         $request = $e->getRequest();
         $content = $request->getContent();
@@ -70,41 +72,48 @@ class ValidatingRouteListener extends \Zend\Mvc\RouteListener
             // parse user parameters
             $userParams = $this->parseUserParams($content);
 
-            $missingParams = Validator::checkMissingParameter($expectedParams, $userParams);
-            $extraParams = Validator::checkExtraParameter($expectedParams, $userParams);
-            $missingValues = Validator::checkMissingValue($expectedParams, $userParams);
-            $extraValues = Validator::checkExtraValue($expectedParams, $userParams);
+            $validator = new Validator();
+            $missingParams = $validator->checkMissingParameter($expectedParams, $userParams);
+            $extraParams = $validator->checkExtraParameter($expectedParams, $userParams);
+            $missingValues = $validator->checkMissingValue($expectedParams, $userParams);
+            $extraValues = $validator->checkExtraValue($expectedParams, $userParams);
 
             if (!empty($missingParams)) {
-                $validationMessages .= PHP_EOL . 'Missing parameters:' . PHP_EOL;
+                $validationMessages .= 'Missing parameters:' . PHP_EOL;
                 foreach ($missingParams as $missingParam) {
                     $validationMessages .= $missingParam . PHP_EOL;
                 }
+                $validationMessages .= PHP_EOL;
             }
             if (!empty($extraParams)) {
-                $validationMessages .= PHP_EOL . 'Unidentified parameters:' . PHP_EOL;
+                $validationMessages .= 'Unidentified parameters:' . PHP_EOL;
                 foreach ($extraParams as $extraParam) {
                     $validationMessages .= $extraParam . PHP_EOL;
                 }
+                $validationMessages .= PHP_EOL;
             }
             if (!empty($missingValues)) {
-                $validationMessages .= PHP_EOL . 'Parameters missing value:' . PHP_EOL;
+                $validationMessages .= 'Parameters missing value:' . PHP_EOL;
                 foreach ($missingValues as $missingValue) {
                     $validationMessages .= $missingValue . PHP_EOL;
                 }
+                $validationMessages .= PHP_EOL;
             }
             if (!empty($extraValues)) {
-                $validationMessages .= PHP_EOL . 'Parameters that don\'t need value:' . PHP_EOL;
+                $validationMessages .= 'Parameters that don\'t need value:' . PHP_EOL;
                 foreach ($extraValues as $extraValue) {
                     $validationMessages .= $extraValue . PHP_EOL;
                 }
+                $validationMessages .= PHP_EOL;
             }
             if (empty($missingParams) && empty($extraParams) && empty($missingValues) && empty($extraValue)) {
-                $validationMessages .= 'Please make sure parameters starts with --.' . PHP_EOL;
+                $validationMessages .= 'Please make sure parameters start with --.' . PHP_EOL;
+                $validationMessages .= PHP_EOL;
             }
 
         } else if (!is_null($userAction)) {
             $validationMessages .= "Unknown action name '{$userAction}'." . PHP_EOL;
+            $validationMessages .= PHP_EOL;
         }
 
         return $validationMessages;
