@@ -9,30 +9,6 @@
 /* @var $this \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle */
 ?>
 <?php $_product = $this->getProduct() ?>
-<?php if($_product->isSaleable()): ?>
-    <script type="text/javascript">
-require([
-    'jquery',
-    'mage/mage',
-    'Magento_Bundle/js/price-bundle'
-], function($){
-        $(document).ready(function() {
-            $('#product_addtocart_form').mage('priceBundle', {
-                "bundleConfig": <?php echo $this->getJsonConfig() ?>,
-//                "roundingMethod" : "<?php echo $this->getRoundingMethod() ?>"
-//                "bundleOptionQtyPrefix": "#bundle-option-",
-//                "bundleOptionQtySuffix": "-qty-input",
-//                "priceSelectors": {
-//                    "product-price": "#product-price-<?php echo $_product->getId()?>",
-//                    "bundle-price": "#bundle-price-<?php echo $_product->getId()?>",
-//                    "price-including-tax": "#price-including-tax-product-price-<?php echo $_product->getId()?>",
-//                    "price-excluding-tax": "#price-excluding-tax-product-price-<?php echo $_product->getId()?>"
-//                }
-            });
-        });
-});
-</script>
-<?php endif; ?>
 <?php if ($this->displayProductStockStatus()): ?>
     <?php if ($_product->isAvailable()): ?>
         <p class="stock available" title="<?php echo __('Availability:') ?>">
