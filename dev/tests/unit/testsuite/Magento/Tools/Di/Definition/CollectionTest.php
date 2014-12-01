@@ -23,15 +23,31 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     private $collectionMock;
 
+    /**
+     * Instance name
+     */
     const INSTANCE_1 = 'Class_Name_1';
 
+    /**
+     * Instance name
+     */
     const INSTANCE_2 = 'Class_Name_2';
 
+    /**
+     * Returns initialized argument data
+     *
+     * @return array
+     */
     private function getArgument()
     {
         return ['argument' => ['configuration', 'array', true, null]];
     }
 
+    /**
+     * Returns initialized expected definitions for most cases
+     *
+     * @return array
+     */
     private function getExpectedDefinition()
     {
         return [self::INSTANCE_1 => $this->getArgument()];

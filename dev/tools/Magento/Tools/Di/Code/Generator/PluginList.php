@@ -41,10 +41,7 @@ class PluginList extends Interception\PluginList\PluginList
      *
      * @param string $scopeCode
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     *
      * @return bool
-     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function isCurrentScope($scopeCode)

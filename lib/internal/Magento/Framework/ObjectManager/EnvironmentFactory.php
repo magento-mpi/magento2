@@ -65,6 +65,8 @@ class EnvironmentFactory
     }
 
     /**
+     * Returns definitions
+     *
      * @return DefinitionInterface
      */
     public function getDefinitions()
@@ -73,6 +75,8 @@ class EnvironmentFactory
     }
 
     /**
+     * Returns relations
+     *
      * @return RelationsInterface
      */
     public function getRelations()

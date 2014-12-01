@@ -30,6 +30,8 @@ class Developer extends AbstractEnvironment implements EnvironmentInterface
     protected $configPreference = 'Magento\Framework\ObjectManager\Factory\Dynamic\Developer';
 
     /**
+     * Returns initialized di config entity
+     *
      * @return \Magento\Framework\Interception\ObjectManager\Config
      */
     public function getDiConfig()
@@ -47,6 +49,8 @@ class Developer extends AbstractEnvironment implements EnvironmentInterface
     }
 
     /**
+     * As developer environment does not have config loader, we return null
+     *
      * @return null
      */
     public function getObjectManagerConfigLoader()

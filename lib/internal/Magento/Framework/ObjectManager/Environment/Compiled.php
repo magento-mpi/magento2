@@ -42,6 +42,8 @@ class Compiled extends AbstractEnvironment implements EnvironmentInterface
     protected $configPreference = 'Magento\Framework\ObjectManager\Factory\Compiled';
 
     /**
+     * Returns initialized compiled config
+     *
      * @return \Magento\Framework\Interception\ObjectManager\Config
      */
     public function getDiConfig()
@@ -56,7 +58,7 @@ class Compiled extends AbstractEnvironment implements EnvironmentInterface
     }
 
     /**
-     * Return unserialized config data
+     * Returns config data as array
      *
      * @return array
      */

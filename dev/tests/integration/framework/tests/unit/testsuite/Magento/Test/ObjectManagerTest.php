@@ -29,13 +29,13 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getPreference', 'clean'])
             ->getMock();
 
-        $configMock->expects($this->any())->method(
-            'getPreference'
-        )->will($this->returnCallback(
-            function ($className) {
-                return $className;
-            }
-        ));
+        $configMock->expects($this->atLeastOnce())
+            ->method('getPreference')
+            ->will($this->returnCallback(
+                function ($className) {
+                    return $className;
+                }
+            ));
 
         $cache = $this->getMock('Magento\Framework\App\CacheInterface');
         $configLoader = $this->getMock('Magento\Framework\App\ObjectManager\ConfigLoader', array(), array(), '', false);
