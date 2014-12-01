@@ -47,7 +47,6 @@ define([
         var box = this.element;
         box.trigger('updatePrice');
         this.cache.displayPrices = utils.deepClone(this.options.prices);
-        $.mage.priceBox.currencyFormat = this.options.priceConfig && this.options.priceConfig.priceFormat || {};
     }
 
     /**
@@ -149,7 +148,7 @@ define([
         /*jshint validthis: true */
         var box = this.element;
         var prices = this.cache.displayPrices;
-        var priceFormat = $.mage.priceBox.currencyFormat;
+        var priceFormat = this.options.priceConfig && this.options.priceConfig.priceFormat || {};
         var priceTemplate = hbs(this.options.priceTemplate);
 
         _.each(prices, function (price, priceCode) {

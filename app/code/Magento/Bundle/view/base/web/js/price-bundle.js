@@ -35,9 +35,7 @@ define([
         var form = this.element;
         var bundleOptions = $(this.options.productBundleSelector, form);
 
-        if(this.options.optionConfig) {
-            bundleOptions.trigger('change');
-        }
+        bundleOptions.trigger('change');
     }
 
     function createPriceBundle() {
