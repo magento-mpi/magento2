@@ -85,7 +85,7 @@ class Compiler implements \Magento\Framework\AppInterface
             App\Area::AREA_GLOBAL,
             $this->configReader->generateCachePerScope($definitionsCollection, App\Area::AREA_GLOBAL)
         );
-        $this->interceptionConfigurationBuilder->addAreaCode('global');
+        $this->interceptionConfigurationBuilder->addAreaCode(App\Area::AREA_GLOBAL);
         foreach ($this->areaList->getCodes() as $areaCode) {
             $this->interceptionConfigurationBuilder->addAreaCode($areaCode);
             $this->configWriter->write(
