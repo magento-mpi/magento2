@@ -14,18 +14,14 @@ $helper = $this->helper('Magento\Catalog\Helper\Output');
 <?php $options = $this->decorateArray($this->getOptions()); ?>
 <?php if ($product->isSaleable()):?>
     <?php if (count($options)): ?>
-        <script type="text/javascript">
+<script type="text/javascript">
 require([
     'jquery',
     'mage/mage',
     'Magento_Bundle/js/price-bundle'
 ], function($){
     $(function() {
-//        $('#product_addtocart_form').mage('bundleOption', {
-//            optionConfig:<?php //echo $this->getJsonConfig()?>})
-//            .trigger('changeSelection');
-
-        $('#product_addtocart_form').mage('priceBundle', {
+        $('#product_addtocart_form').priceBundle({
             optionConfig:<?php echo $this->getJsonConfig()?>,
             controlContainer: '.field.option',
             qtyFieldSelector: '.input-text.qty'

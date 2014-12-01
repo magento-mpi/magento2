@@ -12,6 +12,7 @@ define([
     "use strict";
 
     var globalOptions = {
+        optionConfig: null,
         productBundleSelector: '.product.bundle.option',
         qtyFieldSelector: 'input.qty',
         priceBoxSelector: '.price-box',
@@ -30,6 +31,7 @@ define([
     return $.mage.priceBundle;
 
     function initPriceBundle() {
+        /*jshint validthis: true */
         var form = this.element;
         var bundleOptions = $(this.options.productBundleSelector, form);
 
@@ -39,6 +41,7 @@ define([
     }
 
     function createPriceBundle() {
+        /*jshint validthis: true */
         var form = this.element;
         var bundleOptions = $(this.options.productBundleSelector, form);
         var qtyFields = $(this.options.qtyFieldSelector, form);
@@ -48,6 +51,7 @@ define([
     }
 
     function onBundleOptionChanged(event) {
+        /*jshint validthis: true */
         var changes;
         var bundleOption = $(event.target);
         var priceBox = $(this.options.priceBoxSelector);
@@ -136,6 +140,7 @@ define([
     }
 
     function onQtyFieldChanged(event) {
+        /*jshint validthis: true */
         var field = $(event.target);
         var optionInstance = field.data('option');
         var optionConfig = this.options.optionConfig.options[field.data('optionId')].selections[field.data('optionValueId')];
@@ -182,6 +187,7 @@ define([
     }
 
     function updateProductSummary() {
+        /*jshint validthis: true */
         this.element.trigger('updateProductSummary', {
             config: this.options.optionConfig
         });
@@ -194,10 +200,11 @@ define([
      * @return {$.Widget}
      */
     function setOptions(options) {
+        /*jshint validthis: true */
         $.extend(true, this.options, options);
 
         if('disabled' in options) {
-            this._setOption('disabled', options['disabled']);
+            this._setOption('disabled', options.disabled);
         }
         return this;
     }
