@@ -9,7 +9,6 @@ namespace Magento\Framework\Search\Dynamic\Algorithm;
 
 use Magento\Framework\Search\Dynamic\DataProviderInterface;
 use Magento\Framework\Search\Dynamic\Algorithm;
-use Magento\Framework\Search\Adapter\Mysql\Aggregation\IntervalFactory;
 use Magento\Framework\Search\Request\BucketInterface;
 
 class Improved implements AlgorithmInterface
@@ -20,11 +19,6 @@ class Improved implements AlgorithmInterface
     private $algorithm;
 
     /**
-     * @var IntervalFactory
-     */
-    private $intervalFactory;
-
-    /**
      * @var DataProviderInterface
      */
     private $dataProvider;
@@ -32,15 +26,12 @@ class Improved implements AlgorithmInterface
     /**
      * @param DataProviderInterface $dataProvider
      * @param Algorithm $algorithm
-     * @param IntervalFactory $intervalFactory
      */
     public function __construct(
         DataProviderInterface $dataProvider,
-        Algorithm $algorithm,
-        IntervalFactory $intervalFactory
+        Algorithm $algorithm
     ) {
         $this->algorithm = $algorithm;
-        $this->intervalFactory = $intervalFactory;
         $this->dataProvider = $dataProvider;
     }
 
