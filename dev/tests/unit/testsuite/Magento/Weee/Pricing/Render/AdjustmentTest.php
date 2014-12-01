@@ -8,8 +8,6 @@
 
 namespace Magento\Weee\Pricing\Render;
 
-use Magento\TestFramework\Helper\ObjectManager;
-
 /**
  * Class AdjustmentTest for testing Adjustment class
  *
