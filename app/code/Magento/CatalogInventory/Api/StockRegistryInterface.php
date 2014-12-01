@@ -13,21 +13,21 @@ namespace Magento\CatalogInventory\Api;
 interface StockRegistryInterface
 {
     /**
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @return \Magento\CatalogInventory\Api\Data\StockInterface
      */
     public function getStock($websiteId = null);
 
     /**
      * @param int $productId
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @return \Magento\CatalogInventory\Api\Data\StockItemInterface
      */
     public function getStockItem($productId, $websiteId = null);
 
     /**
      * @param string $productSku
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @return \Magento\CatalogInventory\Api\Data\StockItemInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
@@ -35,14 +35,14 @@ interface StockRegistryInterface
 
     /**
      * @param int $productId
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @return \Magento\CatalogInventory\Api\Data\StockStatusInterface
      */
     public function getStockStatus($productId, $websiteId = null);
 
     /**
      * @param string $productSku
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @return \Magento\CatalogInventory\Api\Data\StockStatusInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
@@ -50,15 +50,16 @@ interface StockRegistryInterface
 
     /**
      * Retrieve Product stock status
+     *
      * @param int $productId
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @return int
      */
     public function getProductStockStatus($productId, $websiteId = null);
 
     /**
      * @param string $productSku
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @return int
      * @throw \Magento\Framework\Exception\NoSuchEntityException
      */

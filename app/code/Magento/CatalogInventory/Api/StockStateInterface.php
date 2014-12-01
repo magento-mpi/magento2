@@ -14,14 +14,14 @@ interface StockStateInterface
 {
     /**
      * @param int $productId
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @return bool
      */
     public function verifyStock($productId, $websiteId = null);
 
     /**
      * @param int $productId
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @return bool
      */
     public function verifyNotification($productId, $websiteId = null);
@@ -31,7 +31,7 @@ interface StockStateInterface
      * @param float $itemQty
      * @param float $qtyToCheck
      * @param float $origQty
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @return int
      */
     public function checkQuoteItemQty($productId, $itemQty, $qtyToCheck, $origQty, $websiteId = null);
@@ -48,22 +48,12 @@ interface StockStateInterface
     public function checkQty($productId, $qty, $websiteId = null);
 
     /**
-     * @attention! this method doesn't work with webApi because of output argument
-     *
-     * @param int $productId
-     * @param float $qty
-     * @param int $websiteId
-     * @return \Magento\Framework\Object
-     */
-    public function checkQtyIncrements($productId, $qty, $websiteId = null);
-
-    /**
      * Returns suggested qty that satisfies qty increments and minQty/maxQty/minSaleQty/maxSaleQty conditions
      * or original qty if such value does not exist
      *
      * @param int $productId
      * @param float $qty
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @return float
      */
     public function suggestQty($productId, $qty, $websiteId = null);
@@ -72,7 +62,7 @@ interface StockStateInterface
      * Retrieve stock qty whether product is composite or no
      *
      * @param int $productId
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @return float
      */
     public function getStockQty($productId, $websiteId = null);

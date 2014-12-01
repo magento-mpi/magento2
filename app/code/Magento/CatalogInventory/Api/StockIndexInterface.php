@@ -15,9 +15,9 @@ interface StockIndexInterface
     /**
      * Rebuild stock index of the given website
      *
-     * @param int $productId
-     * @param int $websiteId
-     * @return true
+     * @param int|null $productId
+     * @param int|null $websiteId
+     * @return bool
      */
     public function rebuild($productId = null, $websiteId = null);
 }
