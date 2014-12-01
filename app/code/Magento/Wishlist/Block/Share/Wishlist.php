@@ -60,7 +60,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->pageConfig->setTitle($this->getHeader());
+        $this->pageConfig->getTitle()->set($this->getHeader());
         return $this;
     }
 

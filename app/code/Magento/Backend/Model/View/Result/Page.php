@@ -14,35 +14,28 @@ use Magento\Framework\App;
 class Page extends View\Result\Page
 {
     /**
-     * @var \Magento\Framework\App\Action\Title
-     */
-    protected $title;
-
-    /**
      * Constructor
      *
      * @param View\Element\Template\Context $context
      * @param View\LayoutFactory $layoutFactory
-     * @param View\Layout\Reader\Pool $layoutReaderPool
+     * @param View\Layout\ReaderPool $layoutReaderPool
      * @param Translate\InlineInterface $translateInline
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
      * @param View\Layout\GeneratorPool $generatorPool
      * @param View\Page\Config\RendererFactory $pageConfigRendererFactory
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param string $template
-     * @param App\Action\Title $title
      */
     public function __construct(
         View\Element\Template\Context $context,
         View\LayoutFactory $layoutFactory,
-        View\Layout\Reader\Pool $layoutReaderPool,
+        View\Layout\ReaderPool $layoutReaderPool,
         Translate\InlineInterface $translateInline,
         View\Layout\BuilderFactory $layoutBuilderFactory,
         View\Layout\GeneratorPool $generatorPool,
         View\Page\Config\RendererFactory $pageConfigRendererFactory,
         View\Page\Layout\Reader $pageLayoutReader,
-        $template,
-        App\Action\Title $title
+        $template
     ) {
         parent::__construct(
             $context,
@@ -55,7 +48,6 @@ class Page extends View\Result\Page
             $pageLayoutReader,
             $template
         );
-        $this->title = $title;
     }
 
     /**
@@ -70,10 +62,9 @@ class Page extends View\Result\Page
         $menuBlock = $this->layout->getBlock('menu');
         $menuBlock->setActive($itemId);
         $parents = $menuBlock->getMenuModel()->getParentItems($itemId);
-        $parents = array_reverse($parents);
         foreach ($parents as $item) {
             /** @var $item \Magento\Backend\Model\Menu\Item */
-            $this->title->add($item->getTitle(), true);
+            $this->getConfig()->getTitle()->prepend($item->getTitle());
         }
         return $this;
     }
