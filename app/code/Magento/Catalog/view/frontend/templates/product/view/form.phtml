@@ -14,13 +14,7 @@
 ?>
 <?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
 <?php $_product = $this->getProduct(); ?>
-<script type="text/javascript">
-    require([ 'jquery', 'Magento_Catalog/js/price-box' ], function($){
-        $(function() {
-            $('#product_addtocart_form [data-role=priceBox]').priceBox({'priceConfig': <?php echo $this->getJsonConfig() ?>});
-        });
-    });
-</script>
+
 <div class="product-add-form">
     <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post"
           id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
@@ -41,3 +35,8 @@
         <?php echo $this->getChildHtml('form_bottom'); ?>
     </form>
 </div>
+<script type="text/javascript">
+    require([ 'jquery', 'Magento_Catalog/js/price-box' ], function($){
+        $('#product_addtocart_form [data-role=priceBox]').priceBox({'priceConfig': <?php echo $this->getJsonConfig() ?>});
+    });
+</script>

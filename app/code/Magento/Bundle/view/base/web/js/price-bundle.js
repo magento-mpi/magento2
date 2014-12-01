@@ -7,7 +7,8 @@
 define([
     'jquery',
     'underscore',
-    'Magento_Catalog/js/price-utils'
+    'Magento_Catalog/js/price-utils',
+    'Magento_Catalog/js/price-box'
 ], function ($,_, utils) {
     "use strict";
 
