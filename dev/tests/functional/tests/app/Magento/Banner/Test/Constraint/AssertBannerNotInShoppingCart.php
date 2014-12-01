@@ -10,7 +10,6 @@ namespace Magento\Banner\Test\Constraint;
 
 use Magento\Banner\Test\Fixture\BannerInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
@@ -41,7 +40,6 @@ class AssertBannerNotInShoppingCart extends AbstractConstraint
      * @param CheckoutCart $pageCheckoutCart
      * @param BannerInjectable $banner
      * @param CustomerInjectable $customer
-     * @param CustomerAccountLogin $customerAccountLogin
      * @return void
      */
     public function processAssert(
@@ -51,21 +49,22 @@ class AssertBannerNotInShoppingCart extends AbstractConstraint
         CatalogCategoryView $catalogCategoryView,
         CheckoutCart $pageCheckoutCart,
         BannerInjectable $banner,
-        CustomerAccountLogin $customerAccountLogin,
         CustomerInjectable $customer = null
     ) {
-        $cmsIndex->open();
-        if (!$cmsIndex->getLinksBlock()->isLinkVisible('Log Out') && $customer !== null) {
-            $cmsIndex->getLinksBlock()->openLink("Log In");
-            $customerAccountLogin->getLoginBlock()->login($customer);
+        if ($customer !== null) {
+            $this->objectManager->create(
+                'Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep',
+                ['customer' => $customer]
+            )->run();
+        } else {
+            $cmsIndex->open();
         }
-        $categoryName = $product->getCategoryIds()[0];
         $productName = $product->getName();
-        $cmsIndex->getTopmenu()->selectCategoryByName($categoryName);
+        $cmsIndex->getTopmenu()->selectCategoryByName($product->getCategoryIds()[0]);
         $catalogCategoryView->getListProductBlock()->openProductViewPage($productName);
         $pageCatalogProductView->getViewBlock()->clickAddToCartButton();
         \PHPUnit_Framework_Assert::assertFalse(
-            $pageCheckoutCart->getBannerCartBlock()->checkWidgetBanners($banner),
+            $pageCheckoutCart->getBannerCartBlock()->checkWidgetBanners($banner, $customer),
             'Banner is presents on Shopping Cart'
         );
     }

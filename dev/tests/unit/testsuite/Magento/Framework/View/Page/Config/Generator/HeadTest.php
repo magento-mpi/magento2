@@ -76,7 +76,7 @@ class HeadTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($assets));
 
         $title = 'Page title';
-        $structureMock->expects($this->once())
+        $structureMock->expects($this->atLeastOnce())
             ->method('getTitle')
             ->will($this->returnValue($title));
         $this->pageConfigMock->expects($this->once())

@@ -54,7 +54,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     protected $_parentItem = null;
 
     /**
-     * @var array
+     * @var \Magento\Sales\Model\Quote\Item\AbstractItem[]
      */
     protected $_children = array();
 
@@ -198,7 +198,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     /**
      * Get child items
      *
-     * @return array
+     * @return \Magento\Sales\Model\Quote\Item\AbstractItem[]
      */
     public function getChildren()
     {
