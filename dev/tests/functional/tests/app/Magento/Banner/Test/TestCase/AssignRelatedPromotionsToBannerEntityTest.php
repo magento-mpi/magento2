@@ -17,7 +17,6 @@ use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Banner\Test\Page\Adminhtml\BannerNew;
 use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
@@ -69,26 +68,18 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
     protected $fixtureFactory;
 
     /**
-     * @var CustomerAccountLogout
-     */
-    protected $customerAccountLogout;
-
-    /**
      * Inject pages
      *
      * @param BannerIndex $bannerIndex
      * @param BannerNew $bannerNew
-     * @param CustomerAccountLogout $customerAccountLogout
      * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function __inject(
         BannerIndex $bannerIndex,
         BannerNew $bannerNew,
-        CustomerAccountLogout $customerAccountLogout,
         FixtureFactory $fixtureFactory
     ) {
-        $this->customerAccountLogout = $customerAccountLogout;
         $this->bannerIndex = $bannerIndex;
         $this->bannerNew = $bannerNew;
         $this->fixtureFactory = $fixtureFactory;
@@ -261,7 +252,8 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
                 'dataSet' => $widget,
                 'data' => [
                     'parameters' => [
-                        'banner_ids' => $banner->getBannerId()
+                        'banner_ids' => $banner->getBannerId(),
+                        'display_mode' => 'fixed'
                     ],
                 ]
             ]
@@ -269,15 +261,5 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
         $widget->persist();
 
         return $widget;
-    }
-
-    /**
-     * Logout customer from frontend account
-     *
-     * @return void
-     */
-    public function tearDown()
-    {
-        $this->customerAccountLogout->open();
     }
 }

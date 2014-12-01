@@ -19,8 +19,6 @@ class Edit extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
      */
     public function execute()
     {
-        $this->_title->add(__('Events'));
-
         /** @var ModelEvent $event */
         $event = $this->_eventFactory->create()->setStoreId($this->getRequest()->getParam('store', 0));
         $eventId = $this->getRequest()->getParam('id', false);
@@ -30,8 +28,6 @@ class Edit extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
         }
 
-        $this->_title->add($event->getId() ? sprintf("#%s", $event->getId()) : __('New Event'));
-
         $sessionData = $this->_getSession()->getEventData(true);
         if (!empty($sessionData)) {
             $event->addData($sessionData);
@@ -40,6 +36,10 @@ class Edit extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
         $this->_coreRegistry->register('magento_catalogevent_event', $event);
 
         $this->_initAction();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Events'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $event->getId() ? sprintf("#%s", $event->getId()) : __('New Event')
+        );
         $layout = $this->_view->getLayout();
         if ($switchBlock = $layout->getBlock('store_switcher')) {
             if (!$event->getId() || $this->_storeManager->isSingleStoreMode()) {

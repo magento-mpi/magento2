@@ -7,7 +7,9 @@
  */
 namespace Magento\AdvancedCheckout\Model;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\MessageInterface;
 use Magento\AdvancedCheckout\Helper\Data;
 
@@ -116,13 +118,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $quoteRepository;
 
     /**
-     * Catalog product factory
-     *
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
      * Wishlist factory
      *
      * @var \Magento\Wishlist\Model\WishlistFactory
@@ -187,13 +182,17 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $stockHelper;
 
     /**
+     * @var ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Framework\Message\Factory $messageFactory
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
@@ -204,6 +203,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param \Magento\CatalogInventory\Api\StockStateInterface $stockState
      * @param \Magento\CatalogInventory\Helper\Stock $stockHelper
+     * @param ProductRepositoryInterface $productRepository
      * @param string $itemFailedStatus
      * @param array $data
      */
@@ -214,7 +214,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         Data $checkoutData,
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
@@ -225,6 +224,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\CatalogInventory\Api\StockStateInterface $stockState,
         \Magento\CatalogInventory\Helper\Stock $stockHelper,
+        ProductRepositoryInterface $productRepository,
         $itemFailedStatus = Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
@@ -234,7 +234,6 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->_checkoutData = $checkoutData;
         $this->_optionFactory = $optionFactory;
         $this->_wishlistFactory = $wishlistFactory;
-        $this->_productFactory = $productFactory;
         $this->quoteRepository = $quoteRepository;
         $this->_storeManager = $storeManager;
         $this->_localeFormat = $localeFormat;
@@ -246,6 +245,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->stockRegistry = $stockRegistry;
         $this->stockState = $stockState;
         $this->stockHelper = $stockHelper;
+        $this->productRepository = $productRepository;
         parent::__construct($data);
     }
 
@@ -462,12 +462,13 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
 
         if (!$product instanceof Product) {
             $productId = $product;
-            $product = $this->_productFactory->create()->setStore($this->getStore())
-                ->setStoreId($this->getStore()->getId())
-                ->load($product);
-            if (!$product->getId()) {
+            try {
+                $product = $this->productRepository->getById($productId, false, $this->getStore()->getId());
+            } catch (NoSuchEntityException $e) {
                 throw new \Magento\Framework\Model\Exception(
-                    __('Failed to add a product to cart by id "%1".', $productId)
+                    __('Failed to add a product to cart by id "%1".', $productId),
+                    0,
+                    $e
                 );
             }
         }
@@ -514,11 +515,10 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'));
         }
 
-        $product = $this->_productFactory->create()->setStoreId($this->getStore()->getId())
-            ->load($orderItem->getProductId());
-
-        if (!$product->getId()) {
-            throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'));
+        try {
+            $product = $this->productRepository->getById($orderItem->getProductId(), false, $this->getStore()->getId());
+        } catch (NoSuchEntityException $e) {
+            throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'), 0, $e);
         }
         $info = $orderItem->getProductOptionByCode('info_buyRequest');
         $info = new \Magento\Framework\Object($info);
@@ -890,8 +890,11 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     protected function _loadProductBySku($sku)
     {
-        /** @var $product Product */
-        $product = $this->_productFactory->create()->setStore($this->getCurrentStore())->loadByAttribute('sku', $sku);
+        try {
+            $product = $this->productRepository->get($sku, false, $this->getCurrentStore());
+        } catch (NoSuchEntityException $e) {
+            $product = false;
+        }
         return $product;
     }
 
@@ -943,7 +946,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected function _loadProductWithOptionsBySku($sku, $config = array())
     {
         $product = $this->_loadProductBySku($sku);
-        if ($product && $product->getId()) {
+        if ($product) {
             return $product;
         }
 

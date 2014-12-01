@@ -97,7 +97,7 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
     protected $viewMock;
 
     /**
-     * @var \Magento\Framework\App\Action\Title
+     * @var \Magento\Framework\View\Page\Title
      */
     protected $titleMock;
 
@@ -127,7 +127,7 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
         $backendHelperMock = $this->getMock('Magento\Backend\Helper\Data', [], [], '', false);
         $this->rmaDataMapperMock = $this->getMock('Magento\Rma\Model\Rma\RmaDataMapper', [], [], '', false);
         $this->viewMock = $this->getMock('Magento\Framework\App\ViewInterface', [], [], '', false);
-        $this->titleMock = $this->getMock('Magento\Framework\App\Action\Title', [], [], '', false);
+        $this->titleMock = $this->getMock('Magento\Framework\View\Page\Title', [], [], '', false);
         $this->formMock = $this->getMock('Magento\Framework\Data\Form', ['hasNewAttributes', 'toHtml'], [], '', false);
         $this->helperMock = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
         $this->initMocks();
@@ -155,9 +155,6 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
         $contextMock->expects($this->once())
             ->method('getView')
             ->will($this->returnValue($this->viewMock));
-        $contextMock->expects($this->once())
-            ->method('getTitle')
-            ->will($this->returnValue($this->titleMock));
 
         $this->action = $objectManager->getObject(
             '\\Magento\\Rma\\Controller\\Adminhtml\\Rma\\' . $this->name,

@@ -113,9 +113,9 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected $themeResolver;
 
     /**
-     * @var Layout\Reader\Pool
+     * @var Layout\ReaderPool
      */
-    protected $reader;
+    protected $readerPool;
 
     /**
      * @var bool
@@ -135,7 +135,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     /**
      * @var \Magento\Framework\View\Layout\BuilderInterface
      */
-    protected $layoutBuilder;
+    protected $builder;
 
     /**
      * Constructor
@@ -147,7 +147,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param Design\Theme\ResolverInterface $themeResolver
      * @param Page\Config\Structure $pageConfigStructure
-     * @param Layout\Reader\Pool $reader
+     * @param Layout\ReaderPool $readerPool
      * @param Layout\GeneratorPool $generatorPool
      * @param bool $cacheable
      */
@@ -159,7 +159,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         MessageManagerInterface $messageManager,
         Design\Theme\ResolverInterface $themeResolver,
         Page\Config\Structure $pageConfigStructure,
-        Layout\Reader\Pool $reader,
+        Layout\ReaderPool $readerPool,
         Layout\GeneratorPool $generatorPool,
         $cacheable = true
     ) {
@@ -174,7 +174,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         $this->messageManager = $messageManager;
         $this->themeResolver = $themeResolver;
         $this->pageConfigStructure = $pageConfigStructure;
-        $this->reader = $reader;
+        $this->readerPool = $readerPool;
         $this->generatorPool = $generatorPool;
         $this->cacheable = $cacheable;
 
@@ -183,23 +183,34 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     }
 
     /**
-     * @param Layout\BuilderInterface $layoutBuilder
+     * @param Layout\GeneratorPool $generatorPool
      * @return $this
      */
-    public function setBuilder(Layout\BuilderInterface $layoutBuilder)
+    public function setGeneratorPool(Layout\GeneratorPool $generatorPool)
     {
-        $this->layoutBuilder = $layoutBuilder;
+        $this->generatorPool = $generatorPool;
+        return $this;
+    }
+    
+    /**
+     * @param Layout\BuilderInterface $builder
+     * @return $this
+     */
+    public function setBuilder(Layout\BuilderInterface $builder)
+    {
+        $this->builder = $builder;
         return $this;
     }
 
     /**
      * Build layout blocks from generic layouts and/or page configurations
+     *
      * @return void
      */
     protected function build()
     {
-        if (!empty($this->layoutBuilder)) {
-            $this->layoutBuilder->build();
+        if (!empty($this->builder)) {
+            $this->builder->build();
         }
     }
 
@@ -275,7 +286,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     {
         \Magento\Framework\Profiler::start(__CLASS__ . '::' . __METHOD__);
         \Magento\Framework\Profiler::start('build_structure');
-        $this->reader->readStructure($this->readerContext, $this->getNode());
+        $this->readerPool->interpret($this->readerContext, $this->getNode());
         \Magento\Framework\Profiler::stop('build_structure');
 
         \Magento\Framework\Profiler::start('generate_elements');

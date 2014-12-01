@@ -9,7 +9,8 @@ define([
     "jquery",
     "jquery/ui"
 ], function($){
-
+    "use strict";
+    
     $.widget('mage.downloadable', {
         _create: function() {
             var self = this;
@@ -60,4 +61,6 @@ define([
             }).trigger('reloadPrice');
         }
     });
+    
+    return $.mage.downloadable;
 });
