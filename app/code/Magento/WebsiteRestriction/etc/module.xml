@@ -14,11 +14,5 @@
             <module name="Magento_Customer"/>
             <module name="Magento_Cms"/>
         </sequence>
-        <depends>
-            <module name="Magento_Store"/>
-            <module name="Magento_Customer"/>
-            <module name="Magento_Cms"/>
-            <module name="Magento_Theme" type="soft"/>
-        </depends>
     </module>
 </config>

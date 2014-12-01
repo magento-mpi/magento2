@@ -8,6 +8,7 @@
 namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
 use Magento\Backend\App\Action;
+use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * Class AddCommentTest
@@ -15,11 +16,6 @@ use Magento\Backend\App\Action;
  */
 class AddCommentTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $invoiceLoaderMock;
-
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -52,6 +48,8 @@ class AddCommentTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $objectManager = new ObjectManager($this);
+
         $titleMock = $this->getMockBuilder('Magento\Framework\App\Action\Title')
             ->disableOriginalConstructor()
             ->setMethods([])
@@ -89,45 +87,40 @@ class AddCommentTest extends \PHPUnit_Framework_TestCase
             ->method('getObjectManager')
             ->will($this->returnValue($this->objectManagerMock));
 
-        $this->invoiceLoaderMock = $this->getMockBuilder('Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader')
-            ->disableOriginalConstructor()
-            ->setMethods([])
-            ->getMock();
         $this->commentSenderMock = $this->getMockBuilder('Magento\Sales\Model\Order\Email\Sender\InvoiceCommentSender')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
-        $this->controller = new \Magento\Sales\Controller\Adminhtml\Order\Invoice\AddComment(
-            $contextMock,
-            $this->invoiceLoaderMock,
-            $this->commentSenderMock
+        $this->controller = $objectManager->getObject(
+            'Magento\Sales\Controller\Adminhtml\Order\Invoice\AddComment',
+            [
+                'context' => $contextMock,
+                'invoiceCommentSender' => $this->commentSenderMock
+            ]
         );
     }
 
     public function testExecute()
     {
         $data = ['comment' => 'test comment'];
-        $orderId = 1;
         $invoiceId = 2;
-        $invoiceData = [];
         $response = 'some result';
 
-        $this->requestMock->expects($this->once())
+        $this->requestMock->expects($this->at(0))
+            ->method('getParam')
+            ->with('id')
+            ->willReturn($invoiceId);
+        $this->requestMock->expects($this->at(1))
+            ->method('setParam');
+        $this->requestMock->expects($this->at(2))
             ->method('getPost')
             ->with('comment')
-            ->will($this->returnValue($data));
+            ->willReturn($data);
         $this->requestMock->expects($this->at(3))
             ->method('getParam')
-            ->with('order_id')
-            ->will($this->returnValue($orderId));
-        $this->requestMock->expects($this->at(4))
-            ->method('getParam')
             ->with('invoice_id')
-            ->will($this->returnValue($invoiceId));
-        $this->requestMock->expects($this->at(5))
-            ->method('getParam')
-            ->with('invoice', [])
-            ->will($this->returnValue($invoiceData));
+            ->willReturn($invoiceId);
+
 
         $invoiceMock = $this->getMockBuilder('Magento\Sales\Model\Order\Invoice')
             ->disableOriginalConstructor()
@@ -138,11 +131,14 @@ class AddCommentTest extends \PHPUnit_Framework_TestCase
             ->with($data['comment'], false, false);
         $invoiceMock->expects($this->once())
             ->method('save');
-
-        $this->invoiceLoaderMock->expects($this->once())
+        $invoiceMock->expects($this->once())
             ->method('load')
-            ->with($orderId, $invoiceId, $invoiceData)
-            ->will($this->returnValue($invoiceMock));
+            ->willReturnSelf();
+
+        $this->objectManagerMock->expects($this->once())
+            ->method('create')
+            ->with('Magento\Sales\Model\Order\Invoice')
+            ->willReturn($invoiceMock);
 
         $commentsBlockMock = $this->getMockBuilder('Magento\Sales\Block\Adminhtml\Order\Invoice\View\Comments')
             ->disableOriginalConstructor()

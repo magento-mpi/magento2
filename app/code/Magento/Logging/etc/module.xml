@@ -14,13 +14,5 @@
             <module name="Magento_Catalog"/>
             <module name="Magento_User"/>
         </sequence>
-        <depends>
-            <module name="Magento_Store"/>
-            <module name="Magento_Backend"/>
-            <module name="Magento_User"/>
-            <module name="Magento_Core"/>
-            <module name="Magento_Pci"/>
-            <module name="Magento_Catalog"/>
-        </depends>
     </module>
 </config>

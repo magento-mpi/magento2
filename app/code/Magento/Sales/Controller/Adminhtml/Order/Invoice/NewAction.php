@@ -9,23 +9,22 @@
 namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
 use Magento\Backend\App\Action;
+use Magento\Framework\Registry;
 
 class NewAction extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader
+     * @var Registry
      */
-    protected $invoiceLoader;
+    protected $registry;
 
     /**
      * @param Action\Context $context
-     * @param \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader $invoiceLoader
+     * @param Registry $registry
      */
-    public function __construct(
-        Action\Context $context,
-        \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader $invoiceLoader
-    ) {
-        $this->invoiceLoader = $invoiceLoader;
+    public function __construct(Action\Context $context, Registry $registry)
+    {
+        $this->registry = $registry;
         parent::__construct($context);
     }
 
@@ -46,11 +45,29 @@ class NewAction extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Invoices'));
         $orderId = $this->getRequest()->getParam('order_id');
-        $invoiceId = $this->getRequest()->getParam('invoice_id');
         $invoiceData = $this->getRequest()->getParam('invoice', []);
-        $invoiceData = isset($invoiceData['items']) ? $invoiceData['items'] : [];
-        $invoice = $this->invoiceLoader->load($orderId, $invoiceId, $invoiceData);
-        if ($invoice) {
+        $invoiceItems = isset($invoiceData['items']) ? $invoiceData['items'] : [];
+
+        try {
+            /** @var \Magento\Sales\Model\Order $order */
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
+            if (!$order->getId()) {
+                throw new \Magento\Framework\Exception(__('The order no longer exists.'));
+            }
+
+            if (!$order->canInvoice()) {
+                throw new \Magento\Framework\Exception(__('The order does not allow an invoice to be created.'));
+            }
+
+            /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+            $invoice = $this->_objectManager->create('Magento\Sales\Model\Service\Order', ['order' => $order])
+                ->prepareInvoice($invoiceItems);
+
+            if (!$invoice->getTotalQty()) {
+                throw new \Magento\Framework\Exception(__('Cannot create an invoice without products.'));
+            }
+            $this->registry->register('current_invoice', $invoice);
+
             $this->_title->add(__('New Invoice'));
 
             $comment = $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
@@ -61,8 +78,12 @@ class NewAction extends \Magento\Backend\App\Action
             $this->_view->loadLayout();
             $this->_setActiveMenu('Magento_Sales::sales_order');
             $this->_view->renderLayout();
-        } else {
-            $this->_redirect('sales/order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
+        } catch (\Magento\Framework\Exception $exception) {
+            $this->messageManager->addError($exception->getMessage());
+            $this->_redirect('sales/order/view', ['order_id' => $orderId]);
+        } catch (\Exception $exception) {
+            $this->messageManager->addException($exception, 'Cannot create an invoice.');
+            $this->_redirect('sales/order/view', ['order_id' => $orderId]);
         }
     }
 }
