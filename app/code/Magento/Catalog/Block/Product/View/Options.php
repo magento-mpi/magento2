@@ -163,7 +163,7 @@ class Options extends \Magento\Framework\View\Element\Template
             'prices' => [
                 'oldPrice' => [
                     'amount' => $this->_coreData->currency($option->getPrice(false), false, false),
-                    'adjustments' =>[]
+                    'adjustments' => []
                 ],
                 'basePrice' => [
                     'amount' => $this->_catalogData->getTaxPrice(
@@ -175,8 +175,8 @@ class Options extends \Magento\Framework\View\Element\Template
                         null,
                         null,
                         null,
-                        false),
-                    'adjustments' =>[]
+                        false
+                    )
                 ],
                 'finalPrice' => [
                     'amount' => $this->_catalogData->getTaxPrice(
@@ -188,8 +188,8 @@ class Options extends \Magento\Framework\View\Element\Template
                         null,
                         null,
                         null,
-                        false),
-                    'adjustments' =>[]
+                        false
+                    )
                 ]
             ],
             'type' => $option->getPriceType()
