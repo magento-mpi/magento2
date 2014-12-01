@@ -7,7 +7,7 @@
  */
 namespace Magento\Wishlist\Block;
 
-class AbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Wishlist\Block\AbstractBlock
@@ -22,7 +22,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             array(
                 $objectManager->get('Magento\Catalog\Block\Product\Context'),
                 $objectManager->get('Magento\Framework\App\Http\Context'),
-                $objectManager->get('Magento\Catalog\Model\ProductFactory'),
+                $objectManager->get('Magento\Catalog\Api\ProductRepositoryInterface'),
             )
         );
     }

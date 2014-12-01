@@ -27,8 +27,6 @@ class Downloads extends \Magento\Reports\Controller\Adminhtml\Report\Product
      */
     public function execute()
     {
-        $this->_title->add(__('Downloads Report'));
-
         $this->_initAction()->_setActiveMenu(
             'Magento_Downloadable::report_products_downloads'
         )->_addBreadcrumb(
@@ -37,6 +35,7 @@ class Downloads extends \Magento\Reports\Controller\Adminhtml\Report\Product
         )->_addContent(
             $this->_view->getLayout()->createBlock('Magento\Reports\Block\Adminhtml\Product\Downloads')
         );
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Downloads Report'));
         $this->_view->renderLayout();
     }
 }

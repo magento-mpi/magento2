@@ -17,8 +17,8 @@ class Index extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
      */
     public function execute()
     {
-        $this->_title->add(__('Events'));
         $this->_initAction();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Events'));
         $this->_view->renderLayout();
     }
 }
