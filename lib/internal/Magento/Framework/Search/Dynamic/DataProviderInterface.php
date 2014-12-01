@@ -35,7 +35,7 @@ interface DataProviderInterface
      * @param BucketInterface $bucket
      * @param array $dimensions
      * @param int[] $entityIds
-     * @return \Magento\Framework\Search\Adapter\Mysql\Aggregation\Interval
+     * @return \Magento\Framework\Search\Dynamic\IntervalInterface
      */
     public function getInterval(BucketInterface $bucket, array $dimensions, array $entityIds);
 
