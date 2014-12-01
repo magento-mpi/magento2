@@ -11,13 +11,13 @@ use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Store;
 use Magento\Customer\Model\Address;
 use Magento\Tax\Model\Config;
-use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
-use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
-use Magento\Tax\Service\V1\Data\TaxClassKeyBuilder;
-use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
+use Magento\Tax\Api\Data\QuoteDetailsDataBuilder;
+use Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder;
+use Magento\Tax\Api\Data\TaxClassKeyDataBuilder;
+use Magento\Tax\Api\TaxCalculationInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\Session as CustomerSession;
-use Magento\Tax\Service\V1\OrderTaxServiceInterface;
+use Magento\Tax\Api\OrderTaxManagementInterface;
 
 /**
  * Catalog data helper
@@ -109,16 +109,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Quote details item builder
      *
-     * @var QuoteDetailsItemBuilder
+     * @var QuoteDetailsItemDataBuilder
      */
     protected $quoteDetailsItemBuilder;
 
     /**
      * Tax calculation service
      *
-     * @var TaxCalculationServiceInterface
+     * @var TaxCalculationInterface
      */
-    protected $taxCalculationService;
+    protected $taxCalculation;
 
     /**
      * Address converter
@@ -135,7 +135,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * TaxClassKey builder
      *
-     * @var TaxClassKeyBuilder
+     * @var TaxClassKeyDataBuilder
      */
     protected $taxClassKeyBuilder;
 
@@ -147,9 +147,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $catalogHelper;
 
     /**
-     * @var \Magento\Tax\Service\V1\OrderTaxServiceInterface
+     * @var OrderTaxManagementInterface
      */
-    protected $orderTaxService;
+    protected $orderTaxManagement;
 
     /**
      * @var PriceCurrencyInterface
@@ -168,14 +168,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory
      * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollectionFactory
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
-     * @param QuoteDetailsBuilder $quoteDetailsBuilder
-     * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
-     * @param TaxClassKeyBuilder $taxClassKeyBuilder
-     * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param QuoteDetailsDataBuilder $quoteDetailsBuilder
+     * @param QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder
+     * @param TaxClassKeyDataBuilder $taxClassKeyBuilder
+     * @param TaxCalculationInterface $taxCalculation
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
      * @param \Magento\Catalog\Helper\Data $catalogHelper
-     * @param OrderTaxServiceInterface $orderTaxService
+     * @param OrderTaxManagementInterface $orderTaxManagement
      * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
@@ -190,14 +190,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollectionFactory,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        QuoteDetailsBuilder $quoteDetailsBuilder,
-        QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
-        TaxClassKeyBuilder $taxClassKeyBuilder,
-        TaxCalculationServiceInterface $taxCalculationService,
+        QuoteDetailsDataBuilder $quoteDetailsBuilder,
+        QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder,
+        TaxClassKeyDataBuilder $taxClassKeyBuilder,
+        TaxCalculationInterface $taxCalculation,
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
         \Magento\Catalog\Helper\Data $catalogHelper,
-        OrderTaxServiceInterface $orderTaxService,
+        OrderTaxManagementInterface $orderTaxManagement,
         PriceCurrencyInterface $priceCurrency
     ) {
         parent::__construct($context);
@@ -215,11 +215,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->quoteDetailsBuilder = $quoteDetailsBuilder;
         $this->quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
         $this->taxClassKeyBuilder = $taxClassKeyBuilder;
-        $this->taxCalculationService = $taxCalculationService;
+        $this->taxCalculation = $taxCalculation;
         $this->customerSession = $customerSession;
         $this->addressConverter = $addressConverter;
         $this->catalogHelper = $catalogHelper;
-        $this->orderTaxService = $orderTaxService;
+        $this->orderTaxManagement = $orderTaxManagement;
     }
 
     /**
@@ -721,7 +721,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $source = $current->getOrder();
         }
         if ($current == $source) {
-            $orderTaxDetails = $this->orderTaxService->getOrderTaxDetails($current->getId());
+            $orderTaxDetails = $this->orderTaxManagement->getOrderTaxDetails($current->getId());
             $appliedTaxes = $orderTaxDetails->getAppliedTaxes();
             foreach ($appliedTaxes as $appliedTax) {
                 $taxCode = $appliedTax->getCode();
@@ -731,7 +731,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $taxClassAmount[$taxCode]['percent'] = $appliedTax->getPercent();
             }
         } else {
-            $orderTaxDetails = $this->orderTaxService->getOrderTaxDetails($source->getId());
+            $orderTaxDetails = $this->orderTaxManagement->getOrderTaxDetails($source->getId());
 
             // Apply any taxes for shipping
             $shippingTaxAmount = $current->getShippingTaxAmount();

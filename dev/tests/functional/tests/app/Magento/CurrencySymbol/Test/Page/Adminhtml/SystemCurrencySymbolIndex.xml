@@ -16,7 +16,7 @@
         </messagesBlock>
         <currencySymbolForm>
             <class>Magento\CurrencySymbol\Test\Block\Adminhtml\System\CurrencySymbolForm</class>
-            <locator>#grid</locator>
+            <locator>#currency-symbols-form</locator>
             <strategy>css selector</strategy>
         </currencySymbolForm>
         <pageActions>

@@ -15,12 +15,10 @@ use Magento\Framework\Exception\CouldNotDeleteException;
  *
  * @method \Magento\Tax\Model\Resource\TaxClass _getResource()
  * @method \Magento\Tax\Model\Resource\TaxClass getResource()
- * @method string getClassName()
- * @method \Magento\Tax\Model\ClassModel setClassName(string $value)
- * @method string getClassType()
  * @method \Magento\Tax\Model\ClassModel setClassType(string $value)
  */
-class ClassModel extends \Magento\Framework\Model\AbstractModel
+class ClassModel extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\Tax\Api\Data\TaxClassInterface
 {
     /**
      * Defines Customer Tax Class string
@@ -40,7 +38,8 @@ class ClassModel extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Tax\Model\TaxClass\Factory $classFactory
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param TaxClass\Factory $classFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -48,12 +47,13 @@ class ClassModel extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Tax\Model\TaxClass\Factory $classFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
         $this->_classFactory = $classFactory;
     }
 
@@ -107,4 +107,30 @@ class ClassModel extends \Magento\Framework\Model\AbstractModel
         $this->checkClassCanBeDeleted();
         return parent::beforeDelete();
     }
+
+    /**
+     * @codeCoverageIgnoreStart
+     * {@inheritdoc}
+     */
+    public function getClassId()
+    {
+        return $this->getData('class_id');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getClassName()
+    {
+        return $this->getData('class_name');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getClassType()
+    {
+        return $this->getData('class_type');
+    }
+    //@codeCoverageIgnoreEnd
 }
