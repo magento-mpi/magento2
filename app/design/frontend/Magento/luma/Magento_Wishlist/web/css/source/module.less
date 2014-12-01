@@ -8,7 +8,7 @@
 
 .form.wishlist.items {
     .actions-toolbar {
-        &:extend(.abstract-reset-left-margin all);
+        &:extend(.abs-reset-left-margin all);
     }
 }
 
@@ -17,7 +17,7 @@
 .product-item,
 .table-comparison {
     .action.towishlist {
-        &:extend(.abstract-actions-addto all);
+        &:extend(.abs-actions-addto all);
         .icon-font-symbol(
             @_icon-font-content: @icon-wishlist-full,
             @_icon-font-position: before
@@ -43,7 +43,7 @@
         margin: @indent-s-base 0;
         .qty {
             vertical-align: middle;
-            &:extend(.abstract-input-qty all);
+            &:extend(.abs-input-qty all);
         }
     }
     .col {
@@ -85,10 +85,10 @@
 
 .block-wishlist {
     .block-title {
-        &:extend(.abstract-block-widget-title all);
+        &:extend(.abs-block-widget-title all);
     }
     .counter {
-        &:extend(.abstract-block-items-counter all);
+        &:extend(.abs-block-items-counter all);
     }
     .product-item-name {
         margin-right: @indent-m-base;
@@ -110,7 +110,7 @@
             }
             .comment-box {
                 .label {
-                    &:extend(.abstract-visually-hidden all);
+                    &:extend(.abs-visually-hidden all);
                 }
             }
             &-comment {
@@ -128,10 +128,10 @@
             }
             .box-tocart {
                 input.qty {
-                    &:extend(.abstract-input-qty all);
+                    &:extend(.abs-input-qty all);
                 }
                 .tocart {
-                    &:extend(.abstract-revert-secondary-size all);
+                    &:extend(.abs-revert-secondary-size all);
                 }
             }
         }

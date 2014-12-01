@@ -12,7 +12,7 @@
 .cart {
     //  Summary block
     &-summary {
-        &:extend(.abstract-add-box-sizing all);
+        &:extend(.abs-add-box-sizing all);
         background: @sidebar-background;
         margin-bottom: @indent-m-base;
         padding: 1px 15px @indent-m-base;
@@ -85,21 +85,21 @@
             }
             .fieldset.estimate {
                 >.legend {
-                    &:extend(.abstract-visually-hidden all);
+                    &:extend(.abs-visually-hidden all);
                 }
                 >.legend + br {
-                    &:extend(.abstract-no-display all);
+                    &:extend(.abs-no-display all);
                 }
             }
         }
         .actions-toolbar {
             > .primary {
                 button {
-                    &:extend(.abstract-revert-secondary-color all);
+                    &:extend(.abs-revert-secondary-color all);
                 }
             }
         }
-        &:extend(.abstract-adjustment-incl-excl-tax all);
+        &:extend(.abs-adjustment-incl-excl-tax all);
     }
 
     //  Totals block
@@ -205,10 +205,10 @@
             &.qty {
                 .input-text {
                     margin-top: -5px;
-                    &:extend(.abstract-input-qty all);
+                    &:extend(.abs-input-qty all);
                 }
                 .label {
-                    &:extend(.abstract-visually-hidden all);
+                    &:extend(.abs-visually-hidden all);
                 }
             }
         }
@@ -240,7 +240,7 @@
         }
         .action {
             &.help.map {
-                &:extend(.abstract-action-button-as-link all);
+                &:extend(.abs-action-button-as-link all);
                 font-weight: @font-weight-base;
             }
         }
@@ -274,8 +274,8 @@
         .item-options {
             font-size: @font-size-s;
             margin-bottom: @indent-s-base;
-            &:extend(.abstract-product-options-list all);
-            &:extend(.abstract-add-clearfix all);
+            &:extend(.abs-product-options-list all);
+            &:extend(.abs-add-clearfix all);
         }
 
         .product-item-name + .item-options {
@@ -283,7 +283,7 @@
         }
 
         .product-image-wrapper {
-            &:extend(.abstract-reset-image-wrapper all);
+            &:extend(.abs-reset-image-wrapper all);
         }
         .action.configure {
             display: inline-block;
@@ -292,14 +292,14 @@
     }
     &-container {
         .form-cart {
-            &:extend(.abstract-shopping-cart-items all);
+            &:extend(.abs-shopping-cart-items all);
         }
         .checkout-methods-items {
-            &:extend(.abstract-reset-list all);
+            &:extend(.abs-reset-list all);
             text-align: center;
             margin-top: @indent-base;
             .action.primary {
-                &:extend(.abstract-button-l all);
+                &:extend(.abs-button-l all);
                 margin-bottom: @indent-s-base;
                 width: 100%;
             }
@@ -360,9 +360,9 @@
 .responsive(@break) when (@break = @screen-m) {
     .cart {
         &-container {
-            &:extend(.abstract-add-clearfix-desktop all);
+            &:extend(.abs-add-clearfix-desktop all);
             .form-cart {
-                &:extend(.abstract-shopping-cart-items-desktop all);
+                &:extend(.abs-shopping-cart-items-desktop all);
             }
             .widget {
                 float: left;
@@ -374,7 +374,7 @@
             width: 23%;
             .actions-toolbar {
                 .column.main & {
-                    &:extend(.abstract-reset-left-margin-desktop all);
+                    &:extend(.abs-reset-left-margin-desktop all);
                     > .secondary {
                         float: none;
                     }
@@ -419,7 +419,7 @@
             }
             .item-actions .actions-toolbar {
                 text-align: left;
-                &:extend(.abstract-reset-left-margin-desktop all);
+                &:extend(.abs-reset-left-margin-desktop all);
             }
         }
     }

@@ -12,20 +12,20 @@
 .columns {
     #layout-columns();
     .column.main {
-        &:extend(.abstract-add-box-sizing all);
+        &:extend(.abs-add-box-sizing all);
         flex-grow: 1;
         flex-basis: 100%;
         .css(padding-bottom, @indent-xl-base);
         .vendor-prefix-order(1);
     }
     .sidebar-main {
-        &:extend(.abstract-add-box-sizing all);
+        &:extend(.abs-add-box-sizing all);
         flex-grow: 1;
         flex-basis: 100%;
         .vendor-prefix-order(1);
     }
     .sidebar-additional {
-        &:extend(.abstract-add-box-sizing all);
+        &:extend(.abs-add-box-sizing all);
         flex-grow: 1;
         flex-basis: 100%;
         .vendor-prefix-order(2);
@@ -98,14 +98,14 @@
 
     .column.main {
         #layout-columns > .main();
-        &:extend(.abstract-add-box-sizing-desktop all);
+        &:extend(.abs-add-box-sizing-desktop all);
         min-height: 300px;
     }
 
     .sidebar-main {
         #layout-columns > .left();
         padding-right: @layout-column-main-sidebar-offset;
-        &:extend(.abstract-add-box-sizing-desktop all);
+        &:extend(.abs-add-box-sizing-desktop all);
     }
 
     .page-layout-2columns-right .sidebar-main {
@@ -117,7 +117,7 @@
         #layout-columns > .right();
         padding-left: @layout-column-additional-sidebar-offset;
         clear: right;
-        &:extend(.abstract-add-box-sizing-desktop all);
+        &:extend(.abs-add-box-sizing-desktop all);
     }
 
     .page-layout-2columns-left {

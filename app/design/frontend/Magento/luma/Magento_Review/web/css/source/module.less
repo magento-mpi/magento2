@@ -49,7 +49,7 @@
         display: block;
         width: 100%;
         z-index: 998;
-        background: rgba(255,255,255,0.4);
+        background: rgba(255,255,255,.4);
     }
     &:before {
         content: "";
@@ -66,10 +66,7 @@
         border-radius: @loading-size/2;
         z-index: 999;
         .url("images/loader-1.gif");
-        background-color: rgba(255,255,255,0.7);
-        background-image:url("@{url}");
-        background-repeat: no-repeat;
-        background-position: 50% 50%;
+        background: rgba(255, 255, 255, .7) url("@{url}") no-repeat 50% 50%;
     }
 }
 
@@ -166,7 +163,7 @@
         display: table;
         max-width: 100%;
         margin-bottom: @indent-s-base;
-        &:extend(.abstract-rating-summary all);
+        &:extend(.abs-rating-summary all);
     }
     &-author {
         display: inline;
@@ -177,7 +174,7 @@
     &-date {
         display: inline;
         .review-details-label {
-            &:extend(.abstract-visually-hidden all);
+            &:extend(.abs-visually-hidden all);
         }
     }
     &-title {
@@ -266,7 +263,7 @@
     .reviews-actions {
         display:inline-block;
         vertical-align: middle;
-        font-size: floor(0.8 * @font-size-base);
+        font-size: floor(.8 * @font-size-base);
         a:not(:last-child) {
             margin-right: 30px;
         }
@@ -345,7 +342,7 @@
     .account {
         .table-reviews {
             .col.actions {
-                &:extend(.abstract-col-no-prefix all);
+                &:extend(.abs-col-no-prefix all);
             }
         }
     }
@@ -357,17 +354,17 @@
 .responsive(@break) when (@break = @screen-m) {
     .block-reviews-dashboard {
         .product-name {
-            &:extend(.abstract-account-block-font-size all);
+            &:extend(.abs-account-block-font-size all);
         }
     }
 }
 
 .customer-review {
     .product-details {
-        &:extend(.abstract-add-clearfix all);
-        &:extend(.abstract-margin-for-blocks-and-widgets all);
+        &:extend(.abs-add-clearfix all);
+        &:extend(.abs-margin-for-blocks-and-widgets all);
         .rating-average-label {
-            &:extend(.abstract-visually-hidden all);
+            &:extend(.abs-visually-hidden all);
         }
     }
     .product-media {
@@ -381,7 +378,7 @@
     .review-details {
         margin: 0;
         .title {
-            &:extend(.abstract-account-title all);
+            &:extend(.abs-account-title all);
         }
         .customer-review-rating {
             .css(margin-bottom, @indent-base);
@@ -391,7 +388,7 @@
                     margin-bottom: 0;
                 }
             }
-            &:extend(.abstract-rating-summary all);
+            &:extend(.abs-rating-summary all);
         }
         .review-title {
             .heading(h3);
@@ -431,7 +428,7 @@
 .responsive(@break) when (@break = @screen-m) {
     .customer-review {
         .product-details {
-            &:extend(.abstract-margin-for-blocks-and-widgets-desktop all);
+            &:extend(.abs-margin-for-blocks-and-widgets-desktop all);
         }
     }
 }

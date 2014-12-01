@@ -32,7 +32,7 @@
 
 .product {
     &-items {
-        &:extend(.abstract-reset-list all);
+        &:extend(.abs-reset-list all);
     }
     &-item {
         vertical-align: top;
@@ -40,7 +40,7 @@
             width: 100%/2;
             display: inline-block;
         }
-        &:extend(.abstract-add-box-sizing all);
+        &:extend(.abs-add-box-sizing all);
 
         &-name {
             .product-name();
@@ -67,12 +67,12 @@
             display: none;
             .actions-secondary {
                 > .action {
-                    &:extend(.abstract-actions-addto-gridlist all);
+                    &:extend(.abs-actions-addto-gridlist all);
                     &:before {
                         margin: 0;
                     }
                     span {
-                        &:extend(.abstract-visually-hidden all);
+                        &:extend(.abs-visually-hidden all);
                     }
                 }
             }
@@ -237,7 +237,7 @@
         }
     }
     .product-image-wrapper {
-        &:extend(.abstract-reset-image-wrapper all);
+        &:extend(.abs-reset-image-wrapper all);
     }
 }
 

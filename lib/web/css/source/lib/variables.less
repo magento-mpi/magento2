@@ -46,8 +46,8 @@
 @font-size-base: unit((@font-size-root / 100) * 16 * @font-size-base-ratio, px); // Also used in: @loader-text-font-size
 @font-size-xl: ceil(1.5 * @font-size-base);  // 21
 @font-size-l: ceil(1.25 * @font-size-base);  // 18
-@font-size-s: ceil(0.85 * @font-size-base);  // 12 Also used in: Breadcrumbs and in Small button
-@font-size-xs: floor(0.75 * @font-size-base);  // 11
+@font-size-s: ceil(.85 * @font-size-base);  // 12 Also used in: Breadcrumbs and in Small button
+@font-size-xs: floor(.75 * @font-size-base);  // 11
 
 @font-weight-base: 400;
 @font-weight-light: 300;
@@ -141,7 +141,7 @@
 @h3-font-weight: @heading-font-weight-base;
 @h3-font-style: @heading-font-style-base;
 @h3-line-height: @heading-line-height-base;
-@h3-margin-top: @indent-base * 0.75;
+@h3-margin-top: @indent-base * .75;
 @h3-margin-bottom: @indent-s-base;
 
 @h4-font-size: @font-size-base; // 14px
@@ -153,7 +153,7 @@
 @h4-margin-top: @heading-margin-top-base;
 @h4-margin-bottom: @heading-margin-bottom-base;
 
-@h5-font-size: ceil((@font-size-base * 0.85)); // 12px
+@h5-font-size: ceil((@font-size-base * .85)); // 12px
 @h5-font-color: @heading-color-base;
 @h5-font-family: @heading-font-family-base;
 @h5-font-weight: @font-weight-bold;
@@ -162,7 +162,7 @@
 @h5-margin-top: @heading-margin-top-base;
 @h5-margin-bottom: @heading-margin-bottom-base;
 
-@h6-font-size: ceil((@font-size-base * 0.7)); // 10px
+@h6-font-size: ceil((@font-size-base * .7)); // 10px
 @h6-font-color: @heading-color-base;
 @h6-font-family: @heading-font-family-base;
 @h6-font-weight: @font-weight-bold;
@@ -526,7 +526,7 @@
 @button-display: inline-block;
 @button-default-border: @button-border;
 @button-cursor: pointer;
-@button-disabled-opacity: 0.5;
+@button-disabled-opacity: .5;
 
 // Default = secondary button
 @button-color: @color-primary;
@@ -806,7 +806,7 @@
 //
 //    Loaders variables
 //--------------------------------------
-@loader-overlay-background-color: rgba(255, 255, 255, 0.5); // also used in: @loading-background-color
+@loader-overlay-background-color: rgba(255, 255, 255, .5); // also used in: @loading-background-color
 @loader-overlay-z-index: 9999;
 @loader-icon-width: 160px;
 @loader-icon-height: 160px;
@@ -855,7 +855,7 @@
 // Disabled state
 @form-element-input-disabled-background: @form-element-input-background;
 @form-element-input-disabled-border: @form-element-input-border;
-@form-element-input-disabled-opacity: 0.5;
+@form-element-input-disabled-opacity: .5;
 @form-element-input-disabled-color: @form-element-input-color;
 @form-element-input-disabled-font-style: @form-element-input-font-style;
 
@@ -1395,7 +1395,7 @@
 @popup-background: @color-white;
 @popup-border: 1px solid #aeaeae;
 @popup-shadow: 0 3px 3px rgba(0,0,0,.15);
-@popup-fade: opacity 0.3s linear;
+@popup-fade: opacity .3s linear;
 @popup-z-index: 1001;
 
 @popup-position: fixed;
@@ -1453,7 +1453,7 @@
 
 // Window overlay variables
 @overlay-background: #000;
-@overlay-opacity: 0.5;
+@overlay-opacity: .5;
 @overlay-opacity-old: 50;
-@overlay-fade: opacity 0.15s linear;
+@overlay-fade: opacity .15s linear;
 @overlay-z-index: 1000;

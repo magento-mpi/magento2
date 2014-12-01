@@ -14,7 +14,7 @@
             }
         }
         .block-title {
-            &:extend(.abstract-login-block-title all);
+            &:extend(.abs-login-block-title all);
             .font-size(18);
         }
     }
@@ -42,7 +42,7 @@
         display: none;
     }
     .actions-toolbar .action.primary {
-        &:extend(.abstract-button-l all);
+        &:extend(.abs-button-l all);
     }
 }
 
@@ -84,11 +84,11 @@
         }
         .limiter {
             >.label {
-                &:extend(.abstract-visually-hidden all);
+                &:extend(.abs-visually-hidden all);
             }
         }
         .block:not(.widget) {
-            &:extend(.abstract-account-blocks all);
+            &:extend(.abs-account-blocks all);
         }
     }
     .sidebar-additional {
@@ -108,7 +108,7 @@
     .table-return-items {
         .qty {
             .input-text {
-                &:extend(.abstract-input-qty all);
+                &:extend(.abs-input-qty all);
             }
         }
     }
@@ -118,7 +118,7 @@
 .field.street {
     .field.additional {
         .label {
-            &:extend(.abstract-visually-hidden all);
+            &:extend(.abs-visually-hidden all);
         }
     }
 }
@@ -128,7 +128,7 @@
 //    Blocks & Widgets
 //--------------------------------------
 .block {
-    &:extend(.abstract-margin-for-blocks-and-widgets all);
+    &:extend(.abs-margin-for-blocks-and-widgets all);
     .column.main & {
         &:last-child {
             margin-bottom: 0;
@@ -186,7 +186,7 @@
             margin-bottom: 40px;
         }
         .toolbar {
-            &:extend(.abstract-pager-toolbar-mobile all);
+            &:extend(.abs-pager-toolbar-mobile all);
         }
     }
     .control.captcha-image {
@@ -207,9 +207,9 @@
 //--------------------------------------
 .responsive(@break) when (@break = @screen-m) {
     .login-container {
-        &:extend(.abstract-add-clearfix-desktop all);
+        &:extend(.abs-add-clearfix-desktop all);
         .block {
-            &:extend(.abstract-blocks-2columns all);
+            &:extend(.abs-blocks-2columns all);
             &.login {
                 .actions-toolbar {
                     > .primary {
@@ -224,7 +224,7 @@
         }
         .fieldset {
             &:after {
-                &:extend(.abstract-margin-for-forms-desktop all);
+                &:extend(.abs-margin-for-forms-desktop all);
             }
             > .field {
                 > .control {
@@ -257,23 +257,23 @@
         .column.main {
             .block:not(.widget) {
                 .block-content {
-                    &:extend(.abstract-add-clearfix-desktop all);
+                    &:extend(.abs-add-clearfix-desktop all);
                     .box {
-                        &:extend(.abstract-blocks-2columns all);
+                        &:extend(.abs-blocks-2columns all);
                     }
                 }
             }
         }
         .toolbar {
-            &:extend(.abstract-pager-toolbar all);
+            &:extend(.abs-pager-toolbar all);
         }
     }
 
     .block-addresses-list {
         .items.addresses {
-            &:extend(.abstract-add-clearfix-desktop all);
+            &:extend(.abs-add-clearfix-desktop all);
             > .item {
-                &:extend(.abstract-blocks-2columns all);
+                &:extend(.abs-blocks-2columns all);
                 margin-bottom: @indent-base;
                 &:nth-last-child(1),
                 &:nth-last-child(2) {
@@ -287,7 +287,7 @@
     //    Welcome block
     //--------------------------------------
     .dashboard-welcome-toggler {
-        &:extend(.abstract-visually-hidden-desktop all);
+        &:extend(.abs-visually-hidden-desktop all);
     }
 
     .control.captcha-image {
