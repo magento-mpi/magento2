@@ -60,7 +60,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
             ->method('getScheduledStructure')
             ->will($this->returnValue($this->scheduledStructure));
         $this->scheduledStructure->expects($this->once())->method('setElementToRemoveList')->with('header');
-        $this->model->process($this->context, $this->element, $this->element);
+        $this->model->interpret($this->context, $this->element, $this->element);
     }
 
     public function processDataProvider()

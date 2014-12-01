@@ -104,8 +104,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('Module_Controller_Action'));
 
         $this->eventManager->expects($this->exactly(2))->method('dispatch')->withConsecutive(
-            ['controller_action_layout_render_before'],
-            ['controller_action_layout_render_before_Module_Controller_Action']
+            ['layout_render_before'],
+            ['layout_render_before_Module_Controller_Action']
         );
 
         /** @var \Magento\Framework\App\Response\Http|\PHPUnit_Framework_MockObject_MockObject $response */

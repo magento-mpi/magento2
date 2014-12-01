@@ -130,7 +130,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
 
         $title = $product->getMetaTitle();
         if ($title) {
-            $this->pageConfig->setTitle($title);
+            $this->pageConfig->getTitle()->set($title);
         }
         $keyword = $product->getMetaKeyword();
         $currentCategory = $this->_coreRegistry->registry('current_category');
