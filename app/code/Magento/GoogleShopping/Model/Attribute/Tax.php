@@ -16,7 +16,7 @@ use Magento\Tax\Service\V1\Data\TaxClassKey;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
+class Tax extends DefaultAttribute
 {
     /**
      * Maximum number of tax rates per product supported by google shopping api
@@ -64,13 +64,6 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_quoteDetailsItemBuilder;
 
     /**
-     * Group Service Interface
-     *
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
-     */
-    protected $_groupService;
-
-    /**
      * Default customer tax classId
      *
      * @var int
@@ -85,6 +78,15 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_regionFactory;
 
     /**
+     * Group management
+     *
+     * @var \Magento\Customer\Api\GroupManagementInterface
+     */
+    protected $groupManagement;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -98,8 +100,8 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService
      * @param \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder
      * @param \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupServiceInterface
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -117,10 +119,10 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\Tax\Service\V1\TaxCalculationService $taxCalculationService,
         \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder $quoteDetailsBuilder,
         \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder $quoteDetailsItemBuilder,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupServiceInterface,
         \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_config = $config;
         $this->_taxData = $taxData;
@@ -128,8 +130,8 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         $this->_taxCalculationService = $taxCalculationService;
         $this->_quoteDetailsBuilder = $quoteDetailsBuilder;
         $this->_quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
-        $this->_groupService = $groupServiceInterface;
         $this->_regionFactory = $regionFactory;
+        $this->groupManagement = $groupManagement;
         parent::__construct(
             $context,
             $registry,
@@ -253,8 +255,8 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     private function _getDefaultCustomerTaxClassId($store = null)
     {
         if (is_null($this->_defaultCustomerTaxClassId)) {
-            //Not catching the exception here since default group is expected
-            $defaultCustomerGroup = $this->_groupService->getDefaultGroup($store);
+            // Not catching the exception here since default group is expected
+            $defaultCustomerGroup = $this->groupManagement->getDefaultGroup($store);
             $this->_defaultCustomerTaxClassId = $defaultCustomerGroup->getTaxClassId();
         }
         return $this->_defaultCustomerTaxClassId;

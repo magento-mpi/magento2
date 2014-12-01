@@ -39,12 +39,12 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     public function testSaveShippingWithCustomerId()
     {
         $this->_currentQuote->setCustomerId(1)->save();
-        $data = array(
+        $data = [
             'address_id' => '',
             'firstname' => 'Joe',
             'lastname' => 'Black',
             'company' => 'Lunatis',
-            'street' => array('1100 Parmer', 'ln.'),
+            'street' => ['1100 Parmer', 'ln.'],
             'city' => 'Austin',
             'region_id' => '57',
             'region' => '',
@@ -53,7 +53,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'telephone' => '(512) 999-9999',
             'fax' => '',
             'save_in_address_book' => 1
-        );
+        ];
         $this->_model->saveShipping($data, 1);
 
         $address = $this->_currentQuote->getShippingAddress();
@@ -61,7 +61,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         /* Verify that data from Customer Address identified by id=1 is set */
         $this->assertEquals('John', $address->getFirstname());
         $this->assertEquals('Smith', $address->getLastname());
-        $this->assertEquals(array('Green str, 67'), $address->getStreet());
+        $this->assertEquals(['Green str, 67'], $address->getStreet());
         $this->assertEquals('CityM', $address->getCity());
         $this->assertEquals('Alabama', $address->getRegion());
         $this->assertEquals(1, $address->getRegionId());
@@ -81,12 +81,12 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveShippingWithData()
     {
-        $data = array(
+        $data = [
             'address_id' => '',
             'firstname' => 'Joe',
             'lastname' => 'Black',
             'company' => 'Lunatis',
-            'street' => array('1100 Parmer', 'ln.'),
+            'street' => ['1100 Parmer', 'ln.'],
             'city' => 'Austin',
             'region_id' => '57',
             'region' => '',
@@ -95,7 +95,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'telephone' => '(512) 999-9999',
             'fax' => '',
             'save_in_address_book' => 1
-        );
+        ];
         $this->_model->saveShipping($data, null);
 
         $address = $this->_currentQuote->getShippingAddress();
@@ -166,7 +166,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $this->_model->initCheckout();
         $this->assertFalse($this->_model->getCheckout()->getSteps()['shipping']['allow']);
         $this->assertFalse($this->_model->getCheckout()->getSteps()['billing']['allow']);
-        $this->assertNull($this->_model->getQuote()->getCustomerData()->getEmail());
+        $this->assertNull($this->_model->getQuote()->getCustomer()->getEmail());
     }
 
     /**
@@ -189,7 +189,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $customerSession->setCustomerDataObject($customerData);
         $this->_model = Bootstrap::getObjectManager()->create(
             'Magento\Checkout\Model\Type\Onepage',
-            array('customerSession' => $customerSession)
+            ['customerSession' => $customerSession]
         );
         $this->assertTrue($this->_model->getCheckout()->getSteps()['shipping']['allow']);
         $this->assertTrue($this->_model->getCheckout()->getSteps()['billing']['allow']);
@@ -197,7 +197,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->getCheckout()->getSteps()['shipping']['allow']);
         //When the user is logged in and for Step billing - allow is not reset to true
         $this->assertTrue($this->_model->getCheckout()->getSteps()['billing']['allow']);
-        $this->assertEquals($emailFromFixture, $this->_model->getQuote()->getCustomerData()->getEmail());
+        $this->assertEquals($emailFromFixture, $this->_model->getQuote()->getCustomer()->getEmail());
     }
 
     /**
@@ -230,13 +230,13 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
         /** Execute SUT */
         $result = $this->_model->saveBilling($customerData, $customerAddressId);
-        $this->assertEquals(array(), $result, 'Return value is invalid');
+        $this->assertEquals([], $result, 'Return value is invalid');
 
         /** Ensure that quote addresses were persisted correctly */
         $billingAddress = $quote->getBillingAddress();
         $shippingAddress = $quote->getShippingAddress();
 
-        $quoteAddressFieldsToCheck = array(
+        $quoteAddressFieldsToCheck = [
             'quote_id' => $quote->getId(),
             'firstname' => 'John',
             'lastname' => 'Smith',
@@ -250,7 +250,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'telephone' => '(323) 255-5861',
             'customer_id' => null,
             'customer_address_id' => null
-        );
+        ];
 
         foreach ($quoteAddressFieldsToCheck as $field => $value) {
             $this->assertEquals($value, $billingAddress->getData($field), "{$field} value is invalid");
@@ -271,11 +271,11 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         );
 
         /** Ensure that customer-related data was ported to quote correctly */
-        $quoteFieldsToCheck = array(
+        $quoteFieldsToCheck = [
             'customer_firstname' => 'John',
             'customer_lastname' => 'Smith',
             'customer_email' => 'John.Smith@example.com'
-        );
+        ];
         foreach ($quoteFieldsToCheck as $field => $value) {
             $this->assertEquals($value, $quote->getData($field), "{$field} value is set to quote incorrectly.");
         }
@@ -318,13 +318,13 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
         /** Execute SUT */
         $result = $this->_model->saveBilling($customerData, $customerAddressId);
-        $this->assertEquals(array(), $result, 'Return value is invalid');
+        $this->assertEquals([], $result, 'Return value is invalid');
 
         /** Ensure that quote addresses were persisted correctly */
         $billingAddress = $quote->getBillingAddress();
         $shippingAddress = $quote->getShippingAddress();
 
-        $quoteAddressFieldsToCheck = array(
+        $quoteAddressFieldsToCheck = [
             'quote_id' => $quote->getId(),
             'firstname' => 'John',
             'lastname' => 'Smith',
@@ -338,7 +338,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'telephone' => '(323) 255-5861',
             'customer_id' => null,
             'customer_address_id' => null
-        );
+        ];
 
         foreach ($quoteAddressFieldsToCheck as $field => $value) {
             $this->assertEquals($value, $billingAddress->getData($field), "{$field} value is invalid");
@@ -355,11 +355,11 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         );
 
         /** Ensure that customer-related data was ported to quote correctly */
-        $quoteFieldsToCheck = array(
+        $quoteFieldsToCheck = [
             'customer_firstname' => 'John',
             'customer_lastname' => 'Smith',
             'customer_email' => 'John.Smith@example.com'
-        );
+        ];
         foreach ($quoteFieldsToCheck as $field => $value) {
             $this->assertEquals($value, $quote->getData($field), "{$field} value is set to quote incorrectly.");
         }
@@ -384,12 +384,12 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
 
         /** Execute SUT */
         $result = $this->_model->saveBilling($customerData, $customerAddressId);
-        $validationErrors = array(
+        $validationErrors = [
             '"First Name" is a required value.',
             '"First Name" length must be equal or greater than 1 characters.'
-        );
+        ];
         $this->assertEquals(
-            array('error' => 1, 'message' => $validationErrors),
+            ['error' => 1, 'message' => $validationErrors],
             $result,
             'Validation error is invalid.'
         );
@@ -416,7 +416,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
          * that's why no error occurs when invalid data is provided
          */
         $result = $this->_model->saveBilling($customerData, $addressIdFromFixture);
-        $this->assertEquals(array(), $result, 'No errors expected.');
+        $this->assertEquals([], $result, 'No errors expected.');
     }
 
     /**
@@ -439,7 +439,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $result = $this->_model->saveBilling($customerData, $addressIdFromFixture);
         $validationErrors = 'The customer address is not valid.';
         $this->assertEquals(
-            array('error' => 1, 'message' => $validationErrors),
+            ['error' => 1, 'message' => $validationErrors],
             $result,
             'Validation error is invalid.'
         );
@@ -451,11 +451,11 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     public function testSaveBillingEmptyData()
     {
         /** Execute SUT */
-        $customerData = array();
+        $customerData = [];
         $customerAddressId = false;
         $result = $this->_model->saveBilling($customerData, $customerAddressId);
         $this->assertEquals(
-            array('error' => -1, 'message' => 'Invalid data'),
+            ['error' => -1, 'message' => 'Invalid data'],
             $result,
             'Validation error is invalid.'
         );
@@ -500,7 +500,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $result = $this->_model->saveBilling($customerData, $customerAddressId);
         $validationErrors = '"Email" is not a valid email address.';
         $this->assertEquals(
-            array('error' => -1, 'message' => $validationErrors),
+            ['error' => -1, 'message' => $validationErrors],
             $result,
             'Validation error is invalid.'
         );
@@ -540,7 +540,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getCustomerData()
     {
-        return array(
+        return [
             'firstname' => 'John',
             'lastname' => 'Smith',
             'email' => 'John.Smith@example.com',
@@ -554,6 +554,6 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'confirm_password' => 'password',
             'save_in_address_book' => '1',
             'use_for_shipping' => '1'
-        );
+        ];
     }
 }

@@ -18,6 +18,11 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     protected $_accountBlock;
 
     /**
+     * @var \Magento\TestFramework\Helper\Bootstrap
+     */
+    protected $_objectManager;
+
+    /**
      * @magentoDataFixture Magento/Sales/_files/quote.php
      */
     protected function setUp()
@@ -27,7 +32,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $sessionQuoteMock = $this->getMockBuilder(
             'Magento\Backend\Model\Session\Quote'
         )->disableOriginalConstructor()->setMethods(
-            array('getCustomerId', 'getStore', 'getStoreId', 'getQuote')
+            ['getCustomerId', 'getStore', 'getStoreId', 'getQuote']
         )->getMock();
         $sessionQuoteMock->expects($this->any())->method('getCustomerId')->will($this->returnValue(1));
         $sessionQuoteMock->expects($this->any())->method('getQuote')->will($this->returnValue($quote));
@@ -36,7 +41,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $this->_accountBlock = $layout->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\Create\Form\Account',
             'address_block' . rand(),
-            array('sessionQuote' => $sessionQuoteMock)
+            ['sessionQuote' => $sessionQuoteMock]
         );
         parent::setUp();
     }
@@ -46,7 +51,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetForm()
     {
-        $expectedFields = array('group_id', 'email');
+        $expectedFields = ['group_id', 'email'];
         $form = $this->_accountBlock->getForm();
         $this->assertEquals(1, $form->getElements()->count(), "Form has invalid number of fieldsets");
         $fieldset = $form->getElements()[0];

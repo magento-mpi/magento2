@@ -7,13 +7,8 @@
  */
 namespace Magento\Sales\Model\Service;
 
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Customer\Model\Address\Converter as AddressConverter;
-use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
-
 /**
+ * Class Quote
  * Quote submit service model
  */
 class Quote
@@ -37,7 +32,7 @@ class Quote
      *
      * @var array
      */
-    protected $_orderData = array();
+    protected $_orderData = [];
 
     /**
      * Order that may be created during submission
@@ -71,43 +66,53 @@ class Quote
     protected $_transactionFactory;
 
     /**
-     * @var CustomerAccountServiceInterface
-     */
-    protected $_customerAccountService;
-
-    /**
-     * @var CustomerAddressServiceInterface
-     */
-    protected $_customerAddressService;
-
-    /**
-     * @var AddressBuilder
-     */
-    protected $_customerAddressBuilder;
-
-    /**
-     * @var  CustomerDetailsBuilder
-     */
-    protected $_customerDetailsBuilder;
-
-    /**
-     * @var AddressConverter
-     */
-    protected $addressConverter;
-
-    /**
-     * Class constructor
+     * Account management
      *
+     * @var \Magento\Customer\Api\AccountManagementInterface
+     */
+    protected $accountManagement;
+
+    /**
+     * Customer builder
+     *
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
+     */
+    protected $customerBuilder;
+
+    /**
+     * Address builder
+     *
+     * @var \Magento\Customer\Api\Data\AddressDataBuilder
+     */
+    protected $addressBuilder;
+
+    /**
+     * @var \Magento\Customer\Api\AddressRepositoryInterface
+     */
+    protected $addressRepository;
+
+    /**
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     */
+    protected $customerRepository;
+
+    /**
+     * @var \Magento\Customer\Api\Data\RegionDataBuilder
+     */
+    protected $regionBuilder;
+
+    /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Quote $quote
      * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
-     * @param CustomerAccountServiceInterface $customerAccountService
-     * @param CustomerAddressServiceInterface $customerAddressService
-     * @param AddressBuilder $customerAddressBuilder
-     * @param CustomerDetailsBuilder $customerDetailsBuilder
-     * @param AddressConverter $addressConverter
+     * @param \Magento\Customer\Api\AccountManagementInterface $accountManagement
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     * @param \Magento\Customer\Api\Data\RegionDataBuilder $regionDataBuilder
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
@@ -115,22 +120,25 @@ class Quote
         \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
-        CustomerAccountServiceInterface $customerAccountService,
-        CustomerAddressServiceInterface $customerAddressService,
-        AddressBuilder $customerAddressBuilder,
-        CustomerDetailsBuilder $customerDetailsBuilder,
-        AddressConverter $addressConverter
+        \Magento\Customer\Api\AccountManagementInterface $accountManagement,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder,
+        \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
+        \Magento\Customer\Api\Data\RegionDataBuilder $regionDataBuilder
     ) {
+
+        $this->accountManagement = $accountManagement;
+        $this->customerBuilder = $customerBuilder;
+        $this->addressBuilder = $addressBuilder;
         $this->_eventManager = $eventManager;
         $this->_quote = $quote;
         $this->_convertor = $convertQuoteFactory->create();
         $this->_customerSession = $customerSession;
         $this->_transactionFactory = $transactionFactory;
-        $this->_customerAccountService = $customerAccountService;
-        $this->_customerAddressService = $customerAddressService;
-        $this->_customerAddressBuilder = $customerAddressBuilder;
-        $this->_customerDetailsBuilder = $customerDetailsBuilder;
-        $this->addressConverter = $addressConverter;
+        $this->addressRepository = $addressRepository;
+        $this->customerRepository = $customerRepository;
+        $this->regionBuilder = $regionDataBuilder;
     }
 
     /**
@@ -168,6 +176,61 @@ class Quote
     }
 
     /**
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return void
+     */
+    protected function processQuoteAddresses(\Magento\Sales\Model\Quote $quote)
+    {
+        foreach ($quote->getAllAddresses() as $address) {
+            $customerAddress = $this->addressRepository->save(
+                $this->addressBuilder->populateWithArray($address->getData())
+                    ->setCustomerId($quote->getCustomer()->getId())
+                    ->setRegion(
+                        $this->regionBuilder->setRegion($address->getRegion())
+                        ->setRegionCode($address->getRegionCode())
+                        ->setRegionId($address->getRegionId())
+                        ->create()
+                    )->create()
+            );
+            $address->setCustomerAddressId($customerAddress->getId());
+            $address->setCustomerAddressData($customerAddress);
+        }
+    }
+
+    /**
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return void
+     */
+    protected function prepareCustomerData(\Magento\Sales\Model\Quote $quote)
+    {
+        $customer = $quote->getCustomer();
+
+        if (!$customer->getId()) {
+            $customer = $this->accountManagement->createAccountWithPasswordHash(
+                $this->customerBuilder->populate($customer)->create(),
+                $quote->getPasswordHash()
+            );
+        } else {
+            $this->customerRepository->save($customer);
+        }
+
+        if (!$quote->getBillingAddress()->getId() && $customer->getDefaultBilling()) {
+            $quote->getBillingAddress()->importCustomerAddressData(
+                $this->addressRepository->getById($customer->getDefaultBilling())
+            );
+        }
+        if (!$quote->getShippingAddress()->getSameAsBilling()
+            && !$quote->getBillingAddress()->getId()
+            && $customer->getDefaultShipping()
+        ) {
+            $quote->getShippingAddress()->importCustomerAddressData(
+                $this->addressRepository->getById($customer->getDefaultBilling())
+            );
+        }
+        $quote->setCustomer($customer);
+    }
+
+    /**
      * Submit the quote. Quote submit process will create the order based on quote data
      *
      * @return \Magento\Sales\Model\Order
@@ -181,43 +244,9 @@ class Quote
         $isVirtual = $quote->isVirtual();
 
         $transaction = $this->_transactionFactory->create();
-
-        $customerData = null;
         if (!$quote->getCustomerIsGuest()) {
-            $customerData = $quote->getCustomerData();
-            $addresses = $quote->getCustomerAddressData();
-            $customerDetails = $this->_customerDetailsBuilder
-                ->setCustomer($customerData)
-                ->setAddresses($addresses)
-                ->create();
-            if ($customerData->getId()) {
-                $this->_customerAccountService->updateCustomer($customerData->getId(), $customerDetails);
-            } else { //for new customers
-                $customerData = $this->_customerAccountService->createCustomerWithPasswordHash(
-                    $customerDetails,
-                    $quote->getPasswordHash()
-                );
-                $addresses = $this->_customerAddressService->getAddresses(
-                    $customerData->getId()
-                );
-                //Update quote address information
-                foreach ($addresses as $address) {
-                    if ($address->isDefaultBilling()) {
-                        $quote->getBillingAddress()->setCustomerAddressData($address);
-                    } else {
-                        if ($address->isDefaultShipping()) {
-                            $quote->getShippingAddress()->setCustomerAddressData($address);
-                        }
-                    }
-                }
-                if ($quote->getShippingAddress() && $quote->getShippingAddress()->getSameAsBilling()) {
-                    $quote->getShippingAddress()->setCustomerAddressData(
-                        $quote->getBillingAddress()->getCustomerAddressData()
-                    );
-                }
-            }
-
-            $quote->setCustomerData($customerData)->setCustomerAddressData($addresses);
+            $this->prepareCustomerData($quote);
+            $this->processQuoteAddresses($quote);
         }
         $transaction->addObject($quote);
 
@@ -227,15 +256,17 @@ class Quote
         } else {
             $order = $this->_convertor->addressToOrder($quote->getShippingAddress());
         }
+
         $order->setBillingAddress($this->_convertor->addressToOrderAddress($quote->getBillingAddress()));
-        if ($quote->getBillingAddress()->getCustomerAddressData()) {
-            $order->getBillingAddress()->setCustomerAddressData($quote->getBillingAddress()->getCustomerAddressData());
+        if ($quote->getBillingAddress()->getCustomerAddress()) {
+            $order->getBillingAddress()->setCustomerAddressData($quote->getBillingAddress()->getCustomerAddress());
         }
+
         if (!$isVirtual) {
             $order->setShippingAddress($this->_convertor->addressToOrderAddress($quote->getShippingAddress()));
-            if ($quote->getShippingAddress()->getCustomerAddressData()) {
+            if ($quote->getShippingAddress()->getCustomerAddress()) {
                 $order->getShippingAddress()->setCustomerAddressData(
-                    $quote->getShippingAddress()->getCustomerAddressData()
+                    $quote->getShippingAddress()->getCustomerAddress()
                 );
             }
         }
@@ -253,8 +284,9 @@ class Quote
             $order->addItem($orderItem);
         }
 
-        if ($customerData) {
-            $order->setCustomerId($customerData->getId());
+        $customer = $quote->getCustomer();
+        if ($customer) {
+            $order->setCustomerId($customer->getId());
         }
         $order->setQuote($quote);
 
@@ -265,7 +297,7 @@ class Quote
          */
         $this->_eventManager->dispatch(
             'sales_model_service_quote_submit_before',
-            array('order' => $order, 'quote' => $quote)
+            ['order' => $order, 'quote' => $quote]
         );
         try {
             $order->place();
@@ -273,11 +305,12 @@ class Quote
             $this->_inactivateQuote();
             $this->_eventManager->dispatch(
                 'sales_model_service_quote_submit_success',
-                array('order' => $order, 'quote' => $quote)
+                ['order' => $order, 'quote' => $quote]
             );
         } catch (\Exception $e) {
             //reset order ID's on exception, because order not saved
             $order->setId(null);
+
             /** @var $item \Magento\Sales\Model\Order\Item */
             foreach ($order->getItemsCollection() as $item) {
                 $item->setOrderId(null);
@@ -286,11 +319,12 @@ class Quote
 
             $this->_eventManager->dispatch(
                 'sales_model_service_quote_submit_failure',
-                array('order' => $order, 'quote' => $quote)
+                ['order' => $order, 'quote' => $quote]
             );
             throw $e;
         }
         $this->_order = $order;
+
         return $order;
     }
 
@@ -304,7 +338,7 @@ class Quote
         $this->_validate();
         $this->_eventManager->dispatch(
             'sales_model_service_quote_submit_nominal_items',
-            array('quote' => $this->_quote)
+            ['quote' => $this->_quote]
         );
         $this->_inactivateQuote();
         $this->_deleteNominalItems();

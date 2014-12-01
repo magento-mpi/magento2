@@ -7,7 +7,7 @@
  */
 namespace Magento\Paypal\Model\Resource\Billing\Agreement;
 
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Customer\Api\CustomerMetadataInterface;
 
 /**
  * Billing agreements resource collection
