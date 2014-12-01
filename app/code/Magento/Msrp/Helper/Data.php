@@ -35,6 +35,11 @@ class Data extends AbstractHelper
     protected $config;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    /**
      * @var ProductRepositoryInterface
      */
     protected $productRepository;
@@ -45,6 +50,7 @@ class Data extends AbstractHelper
      * @param \Magento\Msrp\Model\Product\Options $productOptions
      * @param \Magento\Msrp\Model\Msrp $msrp
      * @param \Magento\Msrp\Model\Config $config
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param ProductRepositoryInterface $productRepository
      */
     public function __construct(
@@ -53,6 +59,7 @@ class Data extends AbstractHelper
         \Magento\Msrp\Model\Product\Options $productOptions,
         \Magento\Msrp\Model\Msrp $msrp,
         \Magento\Msrp\Model\Config $config,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         ProductRepositoryInterface $productRepository
     ) {
         parent::__construct($context);
@@ -60,6 +67,7 @@ class Data extends AbstractHelper
         $this->productOptions = $productOptions;
         $this->msrp = $msrp;
         $this->config = $config;
+        $this->priceCurrency = $priceCurrency;
         $this->productRepository = $productRepository;
     }
 
@@ -154,6 +162,9 @@ class Data extends AbstractHelper
             } else {
                 $msrp = $product->getTypeInstance()->getChildrenMsrp($product);
             }
+        }
+        if ($msrp) {
+            $msrp = $this->priceCurrency->convertAndRound($msrp);
         }
         return $msrp > $price->getValue();
     }

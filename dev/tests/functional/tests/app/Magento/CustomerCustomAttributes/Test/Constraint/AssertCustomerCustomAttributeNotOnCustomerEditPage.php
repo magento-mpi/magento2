@@ -8,6 +8,7 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
+use Mtf\ObjectManager;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Page\CustomerAccountEdit;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
@@ -36,6 +37,7 @@ class AssertCustomerCustomAttributeNotOnCustomerEditPage extends AbstractConstra
      * @param CustomerAccountEdit $customerAccountEdit
      * @param CustomerInjectable $customer
      * @param CustomerCustomAttribute $customerAttribute
+     * @param ObjectManager $objectManager
      * @return void
      */
     public function processAssert(
@@ -43,15 +45,19 @@ class AssertCustomerCustomAttributeNotOnCustomerEditPage extends AbstractConstra
         CustomerAccountIndex $customerAccountIndex,
         CustomerAccountEdit $customerAccountEdit,
         CustomerInjectable $customer,
-        CustomerCustomAttribute $customerAttribute
+        CustomerCustomAttribute $customerAttribute,
+        ObjectManager $objectManager
     ) {
         $customerAccountLogin->open();
         $customerAccountLogin->getLoginBlock()->fill($customer);
         $customerAccountLogin->getLoginBlock()->submit();
         $customerAccountIndex->open();
         $customerAccountIndex->getAccountMenuBlock()->openMenuItem('Account Information');
+        $isCustomerAttributeVisible = $customerAccountEdit->getAccountInfoForm()
+            ->isCustomerAttributeVisible($customerAttribute);
+        $objectManager->create('\Magento\Customer\Test\TestStep\LogoutCustomerOnFrontendStep')->run();
         \PHPUnit_Framework_Assert::assertFalse(
-            $customerAccountEdit->getAccountInfoForm()->isCustomerAttributeVisible($customerAttribute),
+            $isCustomerAttributeVisible,
             'Customer Custom Attribute with attribute code: \'' . $customerAttribute->getAttributeCode() . '\' '
             . 'is present during register customer on frontend.'
         );

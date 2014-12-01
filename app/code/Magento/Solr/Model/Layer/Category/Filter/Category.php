@@ -26,6 +26,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Registry $coreRegistry
@@ -37,6 +38,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Registry $coreRegistry,
         CategoryRepositoryInterface $categoryRepository,
@@ -48,6 +50,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
             $filterItemFactory,
             $storeManager,
             $layer,
+            $itemDataBuilder,
             $escaper,
             $coreRegistry,
             $categoryRepository,
@@ -69,7 +72,6 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         $productCollection = $this->getLayer()->getProductCollection();
         $facets = $productCollection->getFacetedData('category_ids');
 
-        $data = array();
         foreach ($categories as $category) {
             $categoryId = $category->getId();
             if (isset($facets[$categoryId])) {
@@ -79,15 +81,15 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
             }
 
             if ($category->getIsActive() && $category->getProductCount()) {
-                $data[] = array(
-                    'label' => $this->_escaper->escapeHtml($category->getName()),
-                    'value' => $categoryId,
-                    'count' => $category->getProductCount()
+                $this->itemDataBuilder->addItemData(
+                    $this->_escaper->escapeHtml($category->getName()),
+                    $categoryId,
+                    $category->getProductCount()
                 );
             }
         }
 
-        return $data;
+        return $this->itemDataBuilder->build();
     }
 
     /**

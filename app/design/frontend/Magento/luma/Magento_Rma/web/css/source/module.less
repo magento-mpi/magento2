@@ -104,6 +104,9 @@
             }
         }
     }
+    .table-wrapper.table-returns {
+        &:extend(.abstract-no-border-top all);
+    }
 }
 
 //
@@ -112,7 +115,7 @@
 .responsive(@break) when (@break = @screen-m) {
     .form-create-return {
         &:extend(.abstract-add-fields-desktop all);
-        &:extend(.form-field-column-2 all);
+        &:extend(.abstract-form-field-column-2 all);
         .fieldset .field {
            width: 45%;
         }

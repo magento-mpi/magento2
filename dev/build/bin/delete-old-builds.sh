@@ -41,7 +41,7 @@ for package in $MMDBBUILDPACKAGES; do
     fi
 
     for build in $BUILDSTODELETE; do
-        DATABASE=`grep -R dbname $build/app/etc/ | grep "local.xml:" | grep mysql | head -n1 | cut -d "[" -f 3 | cut -d "]" -f 1`
+        DATABASE=`grep -R dbname app/etc/config.php | sed "s/.*config\.php:.*'dbname'.=>.'//" | sed "s/',//"`
         logprint "    Cleaning $build"
         if [ $DATABASE ]; then
             logprint "      Dropping $DATABASE"

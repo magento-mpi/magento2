@@ -21,13 +21,6 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
     protected $_productCollectionFactory;
 
     /**
-     * Layer factory
-     *
-     * @var \Magento\Catalog\Model\LayerFactory
-     */
-    protected $_layerFactory;
-
-    /**
      * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
@@ -35,27 +28,24 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Core\Helper\PostData $postDataHelper
-     * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
+     * @param \Magento\Catalog\Model\Layer\Resolver $layerResolver
      * @param CategoryRepositoryInterface $categoryRepository
-     * @param \Magento\Catalog\Model\LayerFactory $layerFactory
      * @param CollectionFactory $productCollectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\PostData $postDataHelper,
-        \Magento\Catalog\Model\Layer\Category $catalogLayer,
+        \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         CategoryRepositoryInterface $categoryRepository,
-        \Magento\Catalog\Model\LayerFactory $layerFactory,
         CollectionFactory $productCollectionFactory,
         array $data = array()
     ) {
-        $this->_layerFactory = $layerFactory;
         $this->_productCollectionFactory = $productCollectionFactory;
         parent::__construct(
             $context,
             $postDataHelper,
-            $catalogLayer,
+            $layerResolver,
             $categoryRepository,
             $data
         );
@@ -69,7 +59,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
         if (is_null($this->_productCollection)) {
             /** @var Collection $collection */
             $collection = $this->_productCollectionFactory->create();
-            $this->_layerFactory->create()->prepareProductCollection($collection);
+            $this->_catalogLayer->prepareProductCollection($collection);
 
             $collection->addAttributeToFilter('promotion', 1)->addStoreFilter();
 

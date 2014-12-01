@@ -88,9 +88,9 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $itemModel;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     /**
      * Store instance
@@ -119,9 +119,9 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     protected $_giftRegistryData = null;
 
     /**
-     * @var \Magento\Sales\Model\QuoteFactory
+     * @var \Magento\Sales\Model\QuoteRepository
      */
-    protected $quoteFactory;
+    protected $quoteRepository;
 
     /**
      * @var \Magento\Customer\Model\CustomerFactory
@@ -187,9 +187,9 @@ class Entity extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param Item $itemModel
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\GiftRegistry\Model\PersonFactory $personFactory
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
@@ -213,9 +213,9 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         \Magento\GiftRegistry\Model\Type $type,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         Item $itemModel,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\GiftRegistry\Model\PersonFactory $personFactory,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
@@ -236,9 +236,9 @@ class Entity extends \Magento\Framework\Model\AbstractModel
         $this->_type = $type;
         $this->attributeConfig = $attributeConfig;
         $this->itemModel = $itemModel;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
         $this->customerSession = $customerSession;
-        $this->quoteFactory = $quoteFactory;
+        $this->quoteRepository = $quoteRepository;
         $this->customerFactory = $customerFactory;
         $this->personFactory = $personFactory;
         $this->itemFactory = $itemFactory;
@@ -287,9 +287,12 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     {
         $skippedItems = 0;
         if (is_array($itemsIds)) {
-            $quote = $this->quoteFactory->create();
+            try {
+                $quote = $this->quoteRepository->getForCustomer($this->getCustomerId());
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                $quote = $this->quoteRepository->create();
+            }
             $quote->setWebsite($this->storeManager->getWebsite($this->getWebsiteId()));
-            $quote->loadByCustomer($this->getCustomerId());
 
             foreach ($quote->getAllVisibleItems() as $item) {
                 if (in_array($item->getId(), $itemsIds)) {
@@ -1052,7 +1055,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
             $model = $this->itemModel->load($id);
             if ($model->getId() && $model->getEntityId() == $this->getId()) {
                 if (!isset($item['delete'])) {
-                    $stockItemDo = $this->stockItemService->getStockItem($model->getProductId());
+                    $stockItemDo = $this->stockRegistry->getStockItem($model->getProductId(), $this->getWebsiteId());
                     // not \Magento\Framework\Model\Exception intentionally
                     if ($stockItemDo->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
                         throw new \Magento\Framework\Exception(__('Please correct the  gift registry item quantity.'));
@@ -1074,7 +1077,7 @@ class Entity extends \Magento\Framework\Model\AbstractModel
     {
         $this->_validateItems($items);
         foreach ($items as $id => $item) {
-            $model = $this->itemModel->load($id);
+            $model = $this->itemFactory->create()->load($id);
             if (isset($item['delete'])) {
                 $model->delete();
             } else {

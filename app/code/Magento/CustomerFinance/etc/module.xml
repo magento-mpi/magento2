@@ -8,17 +8,6 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
-    <module name="Magento_CustomerFinance" schema_version="1.0.0.0" active="false">
-        <depends>
-            <module name="Magento_Backend"/>
-            <module name="Magento_Core"/>
-            <module name="Magento_Customer"/>
-            <module name="Magento_CustomerBalance"/>
-            <module name="Magento_Eav"/>
-            <module name="Magento_ImportExport"/>
-            <module name="Magento_CustomerImportExport"/>
-            <module name="Magento_Reward"/>
-            <module name="Magento_Store"/>
-        </depends>
+    <module name="Magento_CustomerFinance" schema_version="2.0.0">
     </module>
 </config>

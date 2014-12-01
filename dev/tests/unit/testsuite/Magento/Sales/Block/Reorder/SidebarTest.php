@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Block\Reorder;
 
+use Magento\Customer\Model\Context;
+
 /**
  * Class SidebarTest
  *
@@ -49,13 +51,18 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
      */
     protected $orderCollection;
 
-    /** @var \Magento\CatalogInventory\Service\V1\StockItemService|\PHPUnit_Framework_MockObject_MockObject */
-    protected $stockItemService;
-
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $objectManagerHelper;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $stockItemMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockRegistry;
 
     protected function setUp()
     {
@@ -95,13 +102,22 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->stockItemService = $this->getMock(
-            'Magento\CatalogInventory\Service\V1\StockItemService',
-            [],
+        $this->stockRegistry = $this->getMockBuilder('Magento\CatalogInventory\Model\StockRegistry')
+            ->disableOriginalConstructor()
+            ->setMethods(['getStockItem', '__wakeup'])
+            ->getMock();
+
+        $this->stockItemMock = $this->getMock(
+            'Magento\CatalogInventory\Model\Stock\Item',
+            ['getIsInStock', '__wakeup'],
             [],
             '',
             false
         );
+
+        $this->stockRegistry->expects($this->any())
+            ->method('getStockItem')
+            ->will($this->returnValue($this->stockItemMock));
     }
 
     protected function tearDown()
@@ -119,7 +135,7 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
                 'orderConfig' => $this->orderConfig,
                 'customerSession' => $this->customerSession,
                 'httpContext' => $this->httpContext,
-                'stockItemService' => $this->stockItemService,
+                'stockRegistry' => $this->stockRegistry,
             ]
         );
     }
@@ -194,7 +210,7 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
 
         $this->httpContext->expects($this->once())
             ->method('getValue')
-            ->with($this->equalTo(\Magento\Customer\Helper\Data::CONTEXT_AUTH))
+            ->with($this->equalTo(Context::CONTEXT_AUTH))
             ->will($this->returnValue(true));
 
         $this->customerSession->expects($this->once())
@@ -241,22 +257,37 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
         $product->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($productId));
-        $this->stockItemService->expects($this->once())
+        $this->stockItemMock->expects($this->once())
             ->method('getIsInStock')
-            ->with($this->equalTo($productId))
-            ->will($this->returnValue($result ));
+            ->will($this->returnValue($result));
+        $this->stockRegistry->expects($this->any())
+            ->method('getStockItem')
+            ->will($this->returnValue($this->stockItemMock));
 
-        $orderItem = $this->getMock('Magento\Sales\Model\Order\Item', [], [], '', false);
+
+        $orderItem = $this->getMock('Magento\Sales\Model\Order\Item', ['getStore', 'getProduct'], [], '', false);
         $orderItem->expects($this->any())
             ->method('getProduct')
-            ->willReturn($product);
+            ->will($this->returnValue($product));
+        $store = $this->getMock('Magento\Store\Model\Store', ['getWebsiteId'], [], '', false);
+        $store->expects($this->any())
+            ->method('getWebsiteId')
+            ->will($this->returnValue(10));
+        $orderItem->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($store));
+
         $this->createBlockObject();
         $this->assertSame($result, $this->block->isItemAvailableForReorder($orderItem));
     }
 
     public function testItemNotAvailableForReorderWhenProductNotExist()
     {
-        $this->stockItemService->expects($this->never())->method('getIsInStock');
+        $this->stockItemMock->expects($this->never())->method('getIsInStock');
+        $this->stockRegistry->expects($this->any())
+            ->method('getStockItem')
+            ->will($this->returnValue($this->stockItemMock));
+
 
         $orderItem = $this->getMock('Magento\Sales\Model\Order\Item', [], [], '', false);
         $orderItem->expects($this->any())

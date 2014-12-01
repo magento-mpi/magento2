@@ -12,12 +12,13 @@ use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Layer;
 use Magento\Catalog\Model\Resource;
 use Magento\Framework\Object;
+use Magento\Catalog\Model\Layer\ContextInterface;
 
 class Search extends \Magento\Catalog\Model\Layer
 {
     /**
-     * @param Search\Context $context
-     * @param \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory
+     * @param ContextInterface $context
+     * @param StateFactory $layerStateFactory
      * @param Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param Resource\Product $catalogProduct
      * @param \Magento\Framework\StoreManagerInterface $storeManager
@@ -26,7 +27,7 @@ class Search extends \Magento\Catalog\Model\Layer
      * @param array $data
      */
     public function __construct(
-        Search\Context $context,
+        ContextInterface $context,
         StateFactory $layerStateFactory,
         Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         Resource\Product $catalogProduct,

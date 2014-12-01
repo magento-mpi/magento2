@@ -11,6 +11,7 @@ namespace Magento\Catalog\Controller\Category;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Result\PageFactory;
+use Magento\Catalog\Model\Layer\Resolver;
 
 class View extends \Magento\Framework\App\Action\Action
 {
@@ -51,6 +52,13 @@ class View extends \Magento\Framework\App\Action\Action
     protected $resultPageFactory;
 
     /**
+     * Catalog Layer Resolver
+     *
+     * @var Resolver
+     */
+    private $layerResolver;
+
+    /**
      * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
@@ -64,6 +72,7 @@ class View extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
+     * @param Resolver $layerResolver
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param CategoryRepositoryInterface $categoryRepository
      */
@@ -75,16 +84,18 @@ class View extends \Magento\Framework\App\Action\Action
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
         PageFactory $resultPageFactory,
+        Resolver $layerResolver,
         CategoryRepositoryInterface $categoryRepository
     ) {
+        parent::__construct($context);
         $this->_storeManager = $storeManager;
         $this->_catalogDesign = $catalogDesign;
         $this->_catalogSession = $catalogSession;
         $this->_coreRegistry = $coreRegistry;
         $this->categoryUrlPathGenerator = $categoryUrlPathGenerator;
         $this->resultPageFactory = $resultPageFactory;
+        $this->layerResolver = $layerResolver;
         $this->categoryRepository = $categoryRepository;
-        parent::__construct($context);
     }
 
     /**
@@ -135,6 +146,7 @@ class View extends \Magento\Framework\App\Action\Action
         }
         $category = $this->_initCategory();
         if ($category) {
+            $this->layerResolver->create(Resolver::CATALOG_LAYER_CATEGORY);
             $settings = $this->_catalogDesign->getDesignSettings($category);
 
             // apply custom design

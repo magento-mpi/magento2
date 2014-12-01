@@ -37,16 +37,6 @@ use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 class UpdateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTest
 {
     /**
-     * Skip failed tests
-     *
-     * @return void
-     */
-    public static function setUpBeforeClass()
-    {
-        self::markTestIncomplete("Bug: MAGETWO-30155");
-    }
-
-    /**
      * Prepare data
      *
      * @param FixtureFactory $fixtureFactory
@@ -110,9 +100,7 @@ class UpdateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
     public static function tearDownAfterClass()
     {
         parent::tearDownAfterClass();
-
-        self::$widgetInstanceEdit->getTemplateBlock()->waitLoader();
-        self::$widgetInstanceEdit->getPageActionsBlock()->delete();
+        ObjectManager::getInstance()->create('Magento\Widget\Test\TestStep\DeleteAllWidgetsStep')->run();
         self::$cachePage->open()->getActionsBlock()->flushMagentoCache();
     }
 }

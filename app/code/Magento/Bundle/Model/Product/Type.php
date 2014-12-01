@@ -126,6 +126,16 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $priceCurrency;
 
     /**
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
+     */
+    protected $_stockRegistry;
+
+    /**
+     * @var \Magento\CatalogInventory\Api\StockStateInterface
+     */
+    protected $_stockState;
+
+    /**
      * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
@@ -146,6 +156,8 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Bundle\Model\OptionFactory $bundleOption
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param PriceCurrencyInterface $priceCurrency
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param \Magento\CatalogInventory\Api\StockStateInterface $stockState
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -169,7 +181,9 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Bundle\Model\Resource\Selection $bundleSelection,
         \Magento\Bundle\Model\OptionFactory $bundleOption,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        PriceCurrencyInterface $priceCurrency
+        PriceCurrencyInterface $priceCurrency,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Magento\CatalogInventory\Api\StockStateInterface $stockState
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_catalogData = $catalogData;
@@ -181,6 +195,8 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         $this->_bundleFactory = $bundleFactory;
         $this->_bundleModelSelection = $bundleModelSelection;
         $this->priceCurrency = $priceCurrency;
+        $this->_stockRegistry = $stockRegistry;
+        $this->_stockState = $stockState;
         parent::__construct(
             $catalogProductOption,
             $eavConfig,
@@ -579,9 +595,12 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function isSalable($product)
     {
-        $salable = parent::isSalable($product);
-        if (!is_null($salable)) {
-            return $salable;
+        if (!parent::isSalable($product)) {
+            return false;
+        }
+
+        if ($product->hasData('all_items_salable')) {
+            return $product->getData('all_items_salable');
         }
 
         $optionCollection = $this->getOptionsCollection($product);
@@ -604,14 +623,23 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
             return false;
         }
         $salableSelectionCount = 0;
+
         foreach ($selectionCollection as $selection) {
+            /* @var $selection \Magento\Catalog\Model\Product */
             if ($selection->isSalable()) {
-                $requiredOptionIds[$selection->getOptionId()] = 1;
-                $salableSelectionCount++;
+                $selectionEnoughQty = $this->_stockRegistry->getStockItem($selection->getId())->getManageStock()
+                    ? $selection->getSelectionQty() <= $this->_stockState->getStockQty($selection->getId())
+                    : $selection->isInStock();
+
+                if (!$selection->hasSelectionQty() || $selection->getSelectionCanChangeQty() || $selectionEnoughQty) {
+                    $requiredOptionIds[$selection->getOptionId()] = 1;
+                    $salableSelectionCount++;
+                }
             }
         }
-
-        return array_sum($requiredOptionIds) == count($requiredOptionIds) && $salableSelectionCount;
+        $isSalable = array_sum($requiredOptionIds) == count($requiredOptionIds) && $salableSelectionCount;
+        $product->setData('all_items_salable', $isSalable);
+        return $isSalable;
     }
 
     /**

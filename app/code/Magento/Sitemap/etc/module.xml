@@ -8,18 +8,9 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
-    <module name="Magento_Sitemap" schema_version="1.6.0.0" active="true">
+    <module name="Magento_Sitemap" schema_version="1.6.0.0">
         <sequence>
             <module name="Magento_Catalog"/>
         </sequence>
-        <depends>
-            <module name="Magento_Store"/>
-            <module name="Magento_Catalog"/>
-            <module name="Magento_Core"/>
-            <module name="Magento_Eav"/>
-            <module name="Magento_Cms"/>
-            <module name="Magento_Backend"/>
-            <module name="Magento_CatalogUrlRewrite"/>
-        </depends>
     </module>
 </config>

@@ -1,3 +1,85 @@
+0.1.0-alpha105
+=============
+* Various improvements:
+    * Merged SQL and Data Upgrades for the Tax, Weee, Customer, CustomerImportExport, ProductAlert, Sendfriend and Wishlist modules
+    * Added 'Interface' suffix to all interface names
+    * Stabilized functional tests for the following modules:
+        * CheckoutAgreements
+        * Customer
+        * GiftMessage
+        * Integration
+        * Msrp
+        * Reports
+* Added the following functional tests:
+    * Create product attribute from product page
+* Fixed bugs:
+    * Fixed an issue where bundle product price doubled during backend order creation
+    * Fixed an issue where an error was thrown during Tax Rate creation, deletion and update
+    * Fixed an issue where FPT was doubled when creating a refund if two FPTs were applied, and as a result the refund could not be created
+    * Fixed an issue where the subtotal including tax field was not refreshed after removing downloadable product from cart
+    * Fixed an issue where a downloadable link tax was not added to a product price on the product page if price was displayed including tax
+    * Fixed an issue with incorrect product prices for bundle products in shopping cart
+    * Fixed an issue where bundle product price was calculated incorrectly on the product page
+    * Fixed an issue where configurable product options were not updated after changing currency
+    * Fixed an issue where a standalone simple product and the same product as part of the grouped, were not recognized as one product in the shopping cart.
+    * Fixed an issue where the incorrect tier pricing information was displayed in shopping cart
+    * Fixed an issue where no notice was displayed in the shopping cart for products with MAP enabled
+    * Fixed an issue where it was impossible to place an order from customer page in Admin
+    * Fixed an issue where it was impossible to add address for a customer in Admin
+    * Fixed an issue with broken redirect URL after deleting a product from the My Wishlist widget
+    * Fixed an issue where it was impossible to assign an admin user to a user role
+* Service Contracts:
+    * Implemented Service Contracts for the CatalogInventory Module
+* Framework Improvements:
+    * Added the ability to configure the list of loaded modules before installation
+    * Added the ability to use the Composer autoloader instead of the Magento custom autoloaders for tests
+    * Introduced a repository for storing a quote entity
+* Performance improvements:
+    * Split Magento\Customer\Helper\Data
+* Processed GitHub requests:
+    * [#731](https://github.com/magento/magento2/issues/731) -- Filter grid is absent on CMS Pages in Backend
+
+0.1.0-alpha104
+=============
+* Various improvements:
+    * Merge SQL and Data Upgrades for the Sales and SalesRule modules
+    * Add getDefaultBilling and getDefaultShipping to Customer Interface
+    * Stabilized the Bundle module
+    * Stabilized the CatalogSearch module
+    * Stabilized the Cms module
+    * Stabilized the SalesRule module
+* Performance improvements:
+    * Introduced CatalogRule indexers based on Mview
+    * Significantly decreased the amount of unused objects, mostly in category and product view scenarios:
+		* Got rid of non-shared indexer instances all over the code introducing Magento\Indexer\Model\IndexerRegistry
+		* Magento\Catalog\Pricing\Price\BasePrice being created on demand only, instead of unconditioned creation in constructor
+		* Created proxies for unused objects with big amount of dependencies
+		* Fixed \Magento\Review\Block\Product\Review block which injected backend block context by mistake
+		* A customer model in \Magento\Customer\Model\Layout\DepersonalizePlugin being created on demand only, instead of constructor
+    * Introduced caching for product attribute metadata loading procedure
+    * Improved SavePayment Checkout step to save only payment related data
+    * Speed up all Checkout steps of the One Page Checkout
+    * Updated the benchmark.jmx jmeter script in the performance toolkit
+* Fixed bugs:
+    * Fixed an issue where performance toolkit generator created Products/Categories without URL rewrites due to install area elimination
+    * Fixed an issue where the Custom Options fieldset on Product Information page was collapsible
+    * Fixed an issue where the Base URL was added to target path for Custom UrlRewrite
+    * Fixed an issue where an invalid Cross-sells amount was displayed in the Shopping Cart
+    * Fixed an issue where the Mage_Catalog_Model_Product_Type_AbstractTest::testBeforeSave integration test failed when Mage_Downloadable module was not available
+    * Fixed an issue where the custom URL rewrite redirected to sub-folder when Request Path contained slash
+    * Fixed an issue where it was impossible to place an order if registering during checkout
+    * Fixed an issue where there was no possibility to save default billing and shipping addresses for customer on the store front
+    * Fixed an issue where a widget of Catalog Category Link type was not displayed on the store front
+    * Fixed an issue where the Versions tab was absent on the CMS page with version control
+    * Fixed an issue where it was impossible to insert Widgets and Images to a CMS page
+* Added the following functional tests:
+    * Create widget
+    * Print order from guest on frontend
+* Framework Improvements:
+    * Removed duplicated logic from API Builders and Builder generators. Added support for populating builders from the objects, implementing data interface
+* Processed GitHub requests:
+    * [#674](https://github.com/magento/magento2/issues/674) -- Widgets in content pages
+
 0.1.0-alpha103
 =============
 * Fixed bugs:

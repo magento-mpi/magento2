@@ -34,29 +34,12 @@ class Dom implements \Magento\Framework\Config\ConverterInterface
                 throw new \Exception("Attribute 'schema_version' is missing for module '{$name}'.");
             }
             $moduleData['schema_version'] = $versionNode->nodeValue;
-            $activeNode = $moduleAttributes->getNamedItem('active');
-            if (is_null($activeNode)) {
-                throw new \Exception("Attribute 'active' is missing for module '{$name}'.");
-            }
-            $moduleData['active'] = $activeNode->nodeValue == 'false' ? false : true;
-            $moduleData['dependencies'] = array(
-                'modules' => array(),
-                'extensions' => array('strict' => array(), 'alternatives' => array())
-            );
+            $moduleData['sequence'] = [];
             /** @var $childNode \DOMNode */
             foreach ($moduleNode->childNodes as $childNode) {
                 switch ($childNode->nodeName) {
-                    case 'depends':
-                        $moduleData['dependencies'] = array_merge(
-                            $moduleData['dependencies'],
-                            $this->_convertExtensionDependencies($childNode)
-                        );
-                        break;
                     case 'sequence':
-                        $moduleData['dependencies'] = array_merge(
-                            $moduleData['dependencies'],
-                            $this->_convertModuleDependencies($childNode)
-                        );
+                        $moduleData['sequence'] = $this->_readModules($childNode);
                         break;
                 }
             }
@@ -67,85 +50,27 @@ class Dom implements \Magento\Framework\Config\ConverterInterface
     }
 
     /**
-     * Convert extension depends node into assoc array
-     *
-     * @param \DOMNode $dependsNode
-     * @return array
-     * @throws \Exception
-     */
-    protected function _convertExtensionDependencies(\DOMNode $dependsNode)
-    {
-        $dependencies = array('extensions' => array('strict' => array(), 'alternatives' => array()));
-        /** @var $childNode \DOMNode */
-        foreach ($dependsNode->childNodes as $childNode) {
-            switch ($childNode->nodeName) {
-                case 'extension':
-                    $dependencies['extensions']['strict'][] = $this->_convertExtensionNode($childNode);
-                    break;
-                case 'choice':
-                    $alternatives = array();
-                    /** @var $extensionNode \DOMNode */
-                    foreach ($childNode->childNodes as $extensionNode) {
-                        switch ($extensionNode->nodeName) {
-                            case 'extension':
-                                $alternatives[] = $this->_convertExtensionNode($extensionNode);
-                                break;
-                        }
-                    }
-                    if (empty($alternatives)) {
-                        throw new \Exception('Node "choice" cannot be empty.');
-                    }
-                    $dependencies['extensions']['alternatives'][] = $alternatives;
-                    break;
-            }
-        }
-        return $dependencies;
-    }
-
-    /**
-     * Convert extension node into assoc array
-     *
-     * @param \DOMNode $extensionNode
-     * @return array
-     * @throws \Exception
-     */
-    protected function _convertExtensionNode(\DOMNode $extensionNode)
-    {
-        $extensionData = array();
-        $nameNode = $extensionNode->attributes->getNamedItem('name');
-        if (is_null($nameNode)) {
-            throw new \Exception('Attribute "name" is required for extension node.');
-        }
-        $extensionData['name'] = $nameNode->nodeValue;
-        $minVersionNode = $extensionNode->attributes->getNamedItem('minVersion');
-        if (!is_null($minVersionNode)) {
-            $extensionData['minVersion'] = $minVersionNode->nodeValue;
-        }
-        return $extensionData;
-    }
-
-    /**
      * Convert module depends node into assoc array
      *
-     * @param \DOMNode $dependsNode
+     * @param \DOMNode $node
      * @return array
      * @throws \Exception
      */
-    protected function _convertModuleDependencies(\DOMNode $dependsNode)
+    protected function _readModules(\DOMNode $node)
     {
-        $dependencies = array('modules' => array());
+        $result = [];
         /** @var $childNode \DOMNode */
-        foreach ($dependsNode->childNodes as $childNode) {
+        foreach ($node->childNodes as $childNode) {
             switch ($childNode->nodeName) {
                 case 'module':
                     $nameNode = $childNode->attributes->getNamedItem('name');
                     if (is_null($nameNode)) {
                         throw new \Exception('Attribute "name" is required for module node.');
                     }
-                    $dependencies['modules'][] = $nameNode->nodeValue;
+                    $result[] = $nameNode->nodeValue;
                     break;
             }
         }
-        return $dependencies;
+        return $result;
     }
 }

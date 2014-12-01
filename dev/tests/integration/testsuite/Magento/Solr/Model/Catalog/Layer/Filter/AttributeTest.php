@@ -16,6 +16,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
      */
     public function testApplyFilterToCollectionSelectString($givenValue, $expectedValue)
     {
+        $this->markTestSkipped('Solr module disabled');
         $options = array();
         foreach ($this->getAttributeValues() as $testValues) {
             $options[] = array('label' => $testValues[0], 'value' => $testValues[0]);

@@ -122,4 +122,6 @@ define([
             });
         }
     });
+    
+    return $.mage.pageCache;
 });

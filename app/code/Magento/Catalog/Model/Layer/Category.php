@@ -9,25 +9,23 @@
 namespace Magento\Catalog\Model\Layer;
 
 use Magento\Catalog\Api\CategoryRepositoryInterface;
-use Magento\Catalog\Model\Layer;
 use Magento\Catalog\Model\Resource;
-use Magento\Framework\Object;
+use Magento\Catalog\Model\Layer\ContextInterface;
 
 class Category extends \Magento\Catalog\Model\Layer
 {
     /**
-     * @param Category\Context $context
-     * @param \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory
+     * @param ContextInterface $context
+     * @param StateFactory $layerStateFactory
      * @param Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param Resource\Product $catalogProduct
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Registry $registry
      * @param CategoryRepositoryInterface $categoryRepository
-     * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      */
     public function __construct(
-        Category\Context $context,
+        ContextInterface $context,
         StateFactory $layerStateFactory,
         Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         Resource\Product $catalogProduct,

@@ -24,6 +24,7 @@ use Magento\Framework\App\ResponseInterface;
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Page extends Layout
 {
@@ -68,6 +69,28 @@ class Page extends Layout
     protected $template;
 
     /**
+     * @var Framework\App\RequestInterface
+     */
+    protected $request;
+
+    /**
+     * Asset service
+     *
+     * @var \Magento\Framework\View\Asset\Repository
+     */
+    protected $assetRepo;
+
+    /**
+     * @var Framework\Logger
+     */
+    protected $logger;
+
+    /**
+     * @var Framework\UrlInterface
+     */
+    protected $urlBuilder;
+
+    /**
      * Constructor
      *
      * @param View\Element\Template\Context $context
@@ -75,10 +98,13 @@ class Page extends Layout
      * @param View\Layout\Reader\Pool $layoutReaderPool
      * @param Framework\Translate\InlineInterface $translateInline
      * @param View\Layout\BuilderFactory $layoutBuilderFactory
+     * @param View\Layout\GeneratorPool $generatorPool
      * @param View\Page\Config\RendererFactory $pageConfigRendererFactory
      * @param View\Page\Layout\Reader $pageLayoutReader
      * @param string $template
      * @param bool $isIsolated
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         View\Element\Template\Context $context,
@@ -86,11 +112,16 @@ class Page extends Layout
         View\Layout\Reader\Pool $layoutReaderPool,
         Framework\Translate\InlineInterface $translateInline,
         View\Layout\BuilderFactory $layoutBuilderFactory,
+        View\Layout\GeneratorPool $generatorPool,
         View\Page\Config\RendererFactory $pageConfigRendererFactory,
         View\Page\Layout\Reader $pageLayoutReader,
         $template,
         $isIsolated = false
     ) {
+        $this->request = $context->getRequest();
+        $this->assetRepo = $context->getAssetRepository();
+        $this->logger = $context->getLogger();
+        $this->urlBuilder = $context->getUrlBuilder();
         $this->pageConfig = $context->getPageConfig();
         $this->pageLayoutReader = $pageLayoutReader;
         $this->viewFileSystem = $context->getViewFileSystem();
@@ -102,6 +133,7 @@ class Page extends Layout
             $layoutReaderPool,
             $translateInline,
             $layoutBuilderFactory,
+            $generatorPool,
             $isIsolated
         );
         $this->initPageConfigReader();
@@ -200,7 +232,8 @@ class Page extends Layout
                 'headAdditional' => $addBlock ? $addBlock->toHtml() : null,
                 'htmlAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HTML),
                 'headAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HEAD),
-                'bodyAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_BODY)
+                'bodyAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_BODY),
+                'loaderIcon' => $this->getViewFileUrl('images/loader-2.gif')
             ]);
 
             $output = $this->getLayout()->getOutput();
@@ -278,5 +311,23 @@ class Page extends Layout
         }
         $output = ob_get_clean();
         return $output;
+    }
+
+    /**
+     * Retrieve url of a view file
+     *
+     * @param string $fileId
+     * @param array $params
+     * @return string
+     */
+    protected function getViewFileUrl($fileId, array $params = array())
+    {
+        try {
+            $params = array_merge(array('_secure' => $this->request->isSecure()), $params);
+            return $this->assetRepo->getUrlWithParams($fileId, $params);
+        } catch (\Magento\Framework\Exception $e) {
+            $this->logger->logException($e);
+            return $this->urlBuilder->getUrl('', ['_direct' => 'core/index/notFound']);
+        }
     }
 }

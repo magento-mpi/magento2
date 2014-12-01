@@ -221,7 +221,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     /**
      * Prevent loading disallowed queue
      *
-     * @param \Magento\Newsletter\Model\Queque $model
+     * @param \Magento\Newsletter\Model\Queue $model
      * @return void
      */
     public function newsletterQueueLoadAfter($model)
