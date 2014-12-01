@@ -185,6 +185,7 @@ class DataObjectProcessor
      * Convert array of custom_attributes to use flat array structure
      *
      * @param \Magento\Framework\Api\AttributeInterface[] $customAttributes
+     * @param string $dataObjectType
      * @return array
      */
     protected function convertCustomAttributes($customAttributes, $dataObjectType)
@@ -200,6 +201,7 @@ class DataObjectProcessor
      * Convert custom_attribute object to use flat array structure
      *
      * @param \Magento\Framework\Api\AttributeInterface $customAttribute
+     * @param string $dataObjectType
      * @return array
      */
     protected function convertCustomAttribute($customAttribute, $dataObjectType)
