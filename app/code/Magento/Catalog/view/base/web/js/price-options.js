@@ -10,7 +10,7 @@ define([
     "Magento_Catalog/js/price-utils",
     "jquery/ui"
 ], function($,_, utils){
-    /*jshint validthis: true */
+    "use strict";
 
     var globalOptions = {
         productId: null,
@@ -34,6 +34,7 @@ define([
      * Triggered once.
      */
     function createPriceOptions() {
+        /*jshint validthis: true */
         var form = this.element;
         var options = $(this.options.optionsSelector, form);
 
@@ -45,6 +46,7 @@ define([
      * @param event
      */
     function onOptionChanged(event) {
+        /*jshint validthis: true */
         var changes;
         var option = $(event.target);
         var handler = this.options.optionHandlers[option.data('role')];
@@ -107,6 +109,7 @@ define([
      * @return {$.Widget}
      */
     function setOptions(options) {
+        /*jshint validthis: true */
         $.extend(true, this.options, options);
 
         if('disabled' in options) {

@@ -13,7 +13,7 @@ define([
     "handlebars",
     "jquery/ui"
 ], function ($, utils, _) {
-    /*jshint validthis: true */
+    "use strict";
 
     var globalOptions = {
         productId: null,
@@ -43,6 +43,7 @@ define([
      * changed options.prices -> changed cached prices -> recalculation -> redraw price box
      */
     function initPriceBox() {
+        /*jshint validthis: true */
         var box = this.element;
         box.trigger('updatePrice');
         this.cache.displayPrices = utils.deepClone(this.options.prices);
@@ -53,6 +54,7 @@ define([
      * Widget creating.
      */
     function createPriceBox() {
+        /*jshint validthis: true */
         var box = this.element;
 
         setDefaultsFromPriceConfig.call(this);
@@ -70,6 +72,7 @@ define([
      * @return {Function}
      */
     function onUpdatePrice(event, prices, isReplace) {
+        /*jshint validthis: true */
         return updatePrices.call(this, prices, isReplace);
     }
 
@@ -86,6 +89,7 @@ define([
      * @param {Object} newPrices
      */
     function updatePrices(newPrices) {
+        /*jshint validthis: true */
         var prices = this.cache.displayPrices;
         var additionalPrice = {};
         var keys = [];
@@ -114,6 +118,7 @@ define([
                 _.each(priceValue.adjustments, function (adValue, adCode) {
                     additionalPrice[priceCode].adjustments[adCode] = 0 + (additionalPrice[priceCode].adjustments[adCode] || 0) + adValue;
                 });
+                console.log(priceCode, ': ', '+', priceValue.amount, ' = ', additionalPrice[priceCode].amount);
             });
         });
 
@@ -132,6 +137,8 @@ define([
                 _.each(option.adjustments, function (pa, paCode) {
                     final.adjustments[paCode] = 0 + (origin.adjustments[paCode] || 0) + pa;
                 });
+
+                console.log(priceCode, ': ', origin.amount,'+', option.amount, ' = ', final.amount);
             }, this);
         }
 
@@ -142,6 +149,7 @@ define([
      * Render price unit block.
      */
     function reDrawPrices() {
+        /*jshint validthis: true */
         var box = this.element;
         var prices = this.cache.displayPrices;
         var priceFormat = $.mage.priceBox.currencyFormat;
@@ -170,6 +178,7 @@ define([
      * @return {mage.priceBox}
      */
     function setOptions(options) {
+        /*jshint validthis: true */
         $.extend(true, this.options, options);
 
         if ('disabled' in options) {
@@ -180,6 +189,7 @@ define([
 
 
     function setDefaultsFromDataSet() {
+        /*jshint validthis: true */
         var box = this.element;
         var priceHolders = $('[data-price-type]', box);
         var prices = this.options.prices;
@@ -197,6 +207,7 @@ define([
     }
 
     function setDefaultsFromPriceConfig() {
+        /*jshint validthis: true */
         var config = this.options.priceConfig;
         if (config) {
             if (+config.productId !== +this.options.productId) {
