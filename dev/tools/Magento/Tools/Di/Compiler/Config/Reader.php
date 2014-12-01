@@ -44,10 +44,11 @@ class Reader
     private $typeReader;
 
     /**
-     * @param \Magento\Framework\ObjectManager\ConfigInterface $diContainerConfig
+     * @param ConfigInterface $diContainerConfig
      * @param App\ObjectManager\ConfigLoader $configLoader
      * @param ArgumentsResolverFactory $argumentsResolverFactory
      * @param ClassReaderDecorator $classReaderDecorator
+     * @param Type $typeReader
      */
     public function __construct(
         \Magento\Framework\ObjectManager\ConfigInterface $diContainerConfig,
