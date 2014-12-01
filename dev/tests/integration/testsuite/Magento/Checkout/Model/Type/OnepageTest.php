@@ -121,6 +121,10 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->saveBilling($this->_getCustomerData(), null);
         $this->_prepareQuote($this->_getQuote());
+        foreach ($this->_getQuote()->getAddressesCollection() as $quoteAddress) {
+            $quoteAddress->unsId();
+        }
+
         $this->_model->saveOrder();
 
         /** @var $order \Magento\Sales\Model\Order */

@@ -32,6 +32,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param CustomerAddressHelper $customerAddressHelper
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param array $data
      */
     public function __construct(

@@ -45,8 +45,8 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
+     * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param array $data
      */
     public function __construct(
@@ -60,8 +60,8 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
+        \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         array $data = array()
     ) {
         $this->_addressFactory = $addressFactory;

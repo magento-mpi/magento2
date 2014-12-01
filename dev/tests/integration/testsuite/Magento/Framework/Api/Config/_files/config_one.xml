@@ -8,7 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../lib/internal/Magento/Framework/Api/etc/data_object.xsd">
-    <custom_attributes for="Magento\Tax\Api\Data\TaxRate">
+    <custom_attributes for="Magento\Tax\Api\Data\TaxRateInterface">
     </custom_attributes>
     <custom_attributes for="Magento\Catalog\Api\Data\Product">
         <attribute code="stock_item" type="Magento\CatalogInventory\Api\Data\StockItem" />

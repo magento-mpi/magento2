@@ -104,7 +104,7 @@ class Quote
 
     /**
      * @param \Magento\Sales\Model\Quote $quote
-     * @param $customerId
+     * @param int|null $customerId
      * @return \Magento\Sales\Model\Quote
      */
     public function prepareRegisteredCustomerQuote(\Magento\Sales\Model\Quote $quote, $customerId)
