@@ -73,7 +73,7 @@ angular.module('create-admin-account', ['ngStorage'])
             require: "ngModel",
             link: function(scope, elm, attrs, ctrl){
                 var validator = function(value){
-                    var isValid = !(!((value.length > 6) && (value.match(/[\d]+/) && value.match(/[a-zA-Z]+/))));
+                    var isValid = (value.length > 6) && (value.match(/[\d]+/) && value.match(/[a-zA-Z]+/));
                     ctrl.$setValidity('checkPassword', isValid);
                     return value;
                 };
