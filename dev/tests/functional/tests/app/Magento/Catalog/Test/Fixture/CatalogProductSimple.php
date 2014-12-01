@@ -526,10 +526,11 @@ class CatalogProductSimple extends InjectableFixture
         'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\AttributeSetId',
     ];
 
-    protected $attributes = [
-        'attribute_code' => 'attributes',
+    protected $custom_attribute = [
+        'attribute_code' => 'custom_attribute',
         'backend_type' => 'virtual',
         'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CustomAttribute',
     ];
 
     protected $custom_options = [
@@ -617,6 +618,21 @@ class CatalogProductSimple extends InjectableFixture
     protected $is_virtual = [
         'attribute_code' => 'is_virtual',
         'backend_type' => 'virtual',
+    ];
+
+    protected $attributes = [
+        'attribute_code' => 'attributes',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $fpt = [
+        'attribute_code' => 'fpt',
+        'backend_type' => 'decimal',
+        'is_required' => '0',
+        'default_value' => '',
+        'input' => 'text',
+        'group' => 'product-details',
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Fpt'
     ];
 
     public function getCategoryIds()
@@ -879,9 +895,9 @@ class CatalogProductSimple extends InjectableFixture
         return $this->getData('attribute_set_id');
     }
 
-    public function getAttribute()
+    public function getCustomAttribute()
     {
-        return $this->getData('attributes');
+        return $this->getData('custom_attribute');
     }
 
     public function getCustomOptions()
@@ -942,5 +958,15 @@ class CatalogProductSimple extends InjectableFixture
     public function getIsVirtual()
     {
         return $this->getData('is_virtual');
+    }
+
+    public function getAttributes()
+    {
+        return $this->getData('attributes');
+    }
+
+    public function getFptData()
+    {
+        return $this->getData('fpt');
     }
 }

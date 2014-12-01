@@ -24,24 +24,24 @@ class WriteService implements WriteServiceInterface
     protected $quoteRepository;
 
     /**
-     * Product loader.
+     * Product repository.
      *
-     * @var \Magento\Catalog\Service\V1\Product\ProductLoader
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
-    protected $productLoader;
+    protected $productRepository;
 
     /**
      * Constructs a write service object.
      *
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository Quote repository.
-     * @param \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader Product loader.
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      */
     public function __construct(
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
-        \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
     ) {
         $this->quoteRepository = $quoteRepository;
-        $this->productLoader = $productLoader;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -61,13 +61,13 @@ class WriteService implements WriteServiceInterface
             throw InputException::invalidFieldValue('qty', $qty);
         }
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
 
-        $product = $this->productLoader->load($data->getSku());
+        $product = $this->productRepository->get($data->getSku());
 
         try {
             $quote->addProduct($product, $qty);
-            $quote->collectTotals()->save();
+            $this->quoteRepository->save($quote->collectTotals());
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not add item to quote');
         }
@@ -92,7 +92,7 @@ class WriteService implements WriteServiceInterface
             throw InputException::invalidFieldValue('qty', $qty);
         }
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
         $quoteItem = $quote->getItemById($itemId);
         if (!$quoteItem) {
             throw new NoSuchEntityException("Cart $cartId doesn't contain item  $itemId");
@@ -100,7 +100,7 @@ class WriteService implements WriteServiceInterface
         $quoteItem->setData('qty', $qty);
 
         try {
-            $quote->collectTotals()->save();
+            $this->quoteRepository->save($quote->collectTotals());
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not update quote item');
         }
@@ -123,14 +123,14 @@ class WriteService implements WriteServiceInterface
          *
          * @var \Magento\Sales\Model\Quote $quote
          */
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
         $quoteItem = $quote->getItemById($itemId);
         if (!$quoteItem) {
             throw new NoSuchEntityException("Cart $cartId doesn't contain item  $itemId");
         }
         try {
             $quote->removeItem($itemId);
-            $quote->collectTotals()->save();
+            $this->quoteRepository->save($quote->collectTotals());
         } catch (\Exception $e) {
             throw new CouldNotSaveException('Could not remove item from quote');
         }

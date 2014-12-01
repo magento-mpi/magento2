@@ -28,7 +28,7 @@ class Info extends Block
      *
      * @var string
      */
-    protected $optionsLink = 'a.configure-popup';
+    protected $optionsLink = '.action.configure';
 
     /**
      * Tier price message selector
@@ -42,7 +42,7 @@ class Info extends Block
      *
      * @var string
      */
-    protected $msrp = '.pricing.msrp';
+    protected $msrp = '.msrp.notice';
 
     /**
      * Delete button selector

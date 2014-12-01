@@ -113,7 +113,6 @@ class ShipmentSalesArchiveEntityTest extends Injectable
      */
     public function test(OrderInjectable $order, $invoice, array $data)
     {
-        $this->markTestIncomplete('MAGETWO-28872, MAGETWO-28867');
         // Preconditions
         $order->persist();
         if ($invoice) {

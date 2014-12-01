@@ -16,9 +16,8 @@ use Magento\Catalog\Service\V1\Data\Product;
 use Magento\Catalog\Service\V1\Data\ProductBuilder;
 use Magento\Catalog\Service\V1\Data\ProductMapper;
 use Magento\Catalog\Service\V1\ProductServiceInterface;
-use Magento\Catalog\Service\V1\Product\ProductLoader;
 use Magento\Catalog\Model\Product\Type;
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -31,11 +30,8 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
     /** @var ProductMapper */
     protected $productMapper;
 
-    /** @var ObjectManager */
+    /** @var ObjectManagerInterface */
     private $objectManager;
-
-    /** @var ProductLoader */
-    private $productLoader;
 
     /** @var ProductServiceInterface */
     private $productService;
@@ -64,7 +60,6 @@ class BundleProductSaveProcessorTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = Bootstrap::getObjectManager();
         $this->productType = $this->objectManager->create('Magento\Bundle\Model\Product\Type');
         $this->productRepository = $this->objectManager->get('Magento\Catalog\Model\ProductRepository');
-        $this->productLoader = $this->objectManager->create('Magento\Catalog\Service\V1\Product\ProductLoader');
         $this->productMapper = $this->objectManager->create('Magento\Catalog\Service\V1\Data\ProductMapper');
         $this->productService = $this->objectManager->create('Magento\Catalog\Service\V1\ProductServiceInterface');
         $this->productBuilder = $this->objectManager->create('Magento\Catalog\Service\V1\Data\ProductBuilder');

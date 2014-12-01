@@ -10,7 +10,7 @@
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Framework\Api\ExtensibleObjectBuilder;
-use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
@@ -21,7 +21,7 @@ class CustomerDetailsBuilder extends ExtensibleObjectBuilder
     /**
      * Customer builder
      *
-     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     protected $_customerBuilder;
 
@@ -34,16 +34,16 @@ class CustomerDetailsBuilder extends ExtensibleObjectBuilder
 
     /**
      * @param \Magento\Framework\Api\ObjectFactory $objectFactory
-     * @param AttributeValueBuilder $valueBuilder
+     * @param AttributeDataBuilder $valueBuilder
      * @param MetadataServiceInterface $metadataService
-     * @param CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param AddressBuilder $addressBuilder
      */
     public function __construct(
         \Magento\Framework\Api\ObjectFactory $objectFactory,
-        AttributeValueBuilder $valueBuilder,
+        AttributeDataBuilder $valueBuilder,
         MetadataServiceInterface $metadataService,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
     ) {
         parent::__construct($objectFactory, $valueBuilder, $metadataService);
@@ -79,10 +79,10 @@ class CustomerDetailsBuilder extends ExtensibleObjectBuilder
     /**
      * Set customer
      *
-     * @param \Magento\Customer\Service\V1\Data\Customer $customer
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @return $this
      */
-    public function setCustomer(Customer $customer)
+    public function setCustomer(\Magento\Customer\Api\Data\CustomerInterface $customer)
     {
         return $this->_set(CustomerDetails::KEY_CUSTOMER, $customer);
     }

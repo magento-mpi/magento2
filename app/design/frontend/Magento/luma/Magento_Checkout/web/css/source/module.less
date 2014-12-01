@@ -153,9 +153,8 @@
 
     // Customer login
     .login-wrapper {
-        .mix-flex();
         .block {
-            > .title {
+            .block-title {
                 strong {
                     .font-size(22);
                     font-weight: @font-weight-light;
@@ -174,95 +173,13 @@
                     margin-bottom: 30px;
                 }
             }
-            &.guest {
-                flex-basis: 100%;
-                .mix-flex-order(0);
-                margin-bottom: 50px;
             }
-            &.customer.login {
-                flex-basis: 100%;
-                .mix-flex-order(1);
-                margin-bottom: 0;
             }
-        }
-    }
 
     .opc-payment-additional {
         margin: 0 0 10px 15px;
         + .opc-payment {
             margin: 40px 0 0;
-        }
-    }
-
-    // Order review
-    .data.table {
-        &:extend(.abstract-product-options-list all);
-        thead tr:first-child th {
-            padding-top: 0;
-        }
-        tbody {
-            tr:first-child td {
-                border-top: @border-width-base solid @border-color-base;
-            }
-            tr:not(:last-child) td {
-                border-bottom: @border-width-base solid @border-color-base;
-            }
-        }
-        .col {
-            &.price,
-            &.qty {
-                text-align: center;
-                white-space: nowrap;
-            }
-            &.subtotal {
-                text-align: right;
-                white-space: nowrap;
-            }
-            &.price,
-            &.subtotal {
-                &:extend(.abstract-incl-excl-tax all);
-            }
-        }
-        .amount {
-            text-align: right;
-        }
-        tfoot td {
-            background: @sidebar-background;
-        }
-        .item-options {
-            margin: 20px 0 0;
-            &:extend(.abstract-add-clearfix all);
-            .price {
-                font-weight: @font-weight-bold;
-            }
-        }
-        .product-item-name {
-            &:extend(.abstract-checkout-product-name all);
-        }
-        .cart-price {
-            &:extend(.abstract-checkout-cart-price all);
-        }
-        .grand.totals {
-            .font-size(16);
-            td {
-                padding: 0 0 40px;
-                > strong {
-                    border-top: @border-width-base solid @border-color-base;
-                    display: block;
-                    padding-top: 11px;
-                }
-            }
-            .mark {
-                padding-left: 10px;
-                strong {
-                    font-weight: @font-weight-bold;
-                    padding-right: 15px;
-                }
-            }
-            .amount {
-                padding-right: 10px;
-                padding-left: 10px;
-            }
         }
     }
 
@@ -303,6 +220,11 @@
             font-weight: @font-weight-bold;
         }
     }
+    .price-box {
+        margin-top: @indent-s-base;
+        margin-bottom: @indent-xs-base;
+        margin-left: @indent-base;
+    }
 }
 
 // Payment methods
@@ -319,12 +241,12 @@
         > .fieldset {
             padding: 0 10px 40px;
             &.redirect {
+                padding: 0;
                 margin: 10px 0 30px 37px;
                 width: 80%;
             }
         }
     }
-
     img {
         vertical-align: middle;
     }
@@ -365,6 +287,45 @@
                     )
                 }
             }
+        }
+    }
+}
+
+// Order review
+.table-order-review {
+    &:extend(.abstract-product-options-list all);
+    thead tr:first-child th {
+        padding-top: 0;
+    }
+    .col {
+        &.price,
+        &.qty {
+            text-align: center;
+            white-space: nowrap;
+        }
+        &.price,
+        &.subtotal {
+            &:extend(.abstract-incl-excl-tax all);
+        }
+    }
+    .item-options {
+        margin: @indent-base 0 0;
+        &:extend(.abstract-add-clearfix all);
+        .price {
+            font-weight: @font-weight-bold;
+        }
+    }
+    .product-item-name {
+        &:extend(.abstract-checkout-product-name all);
+    }
+    .cart-price {
+        &:extend(.abstract-checkout-cart-price all);
+    }
+    .grand.totals {
+        .font-size(16);
+        th,
+        td {
+            padding: 0 @indent-s-base;
         }
     }
 }
@@ -490,36 +451,32 @@
 //    Mobile
 //--------------------------------------
 .responsive-smaller(@break) when (@break = @screen-s) {
-    .opc-wrapper {
-        .data.table {
-            &:extend(.abstract-table-vertical-mobile-s all);
-            &:extend(.abstract-product-items-summary all);
-            tbody tr {
-                td:not(:last-child) {
-                    border: none;
-                }
-                td:last-child {
-                    border-top: none;
-                    border-bottom: @border-width-base solid @border-color-base;
-                }
-                .product-item-name {
-                    display: inline-block;
-                }
-                .col {
-                    &.qty {
-                        text-align: left;
-                    }
-                    &.price,
-                    &.subtotal {
-                        text-align: left;
-                        .price-including-tax,
-                        .price-excluding-tax {
-                            display: inline-block;
-                        }
+    .table-order-review {
+        tbody tr {
+            td:not(:last-child) {
+                border: none;
+            }
+            td:last-child {
+                border-top: none;
+                border-bottom: @border-width-base solid @border-color-base;
+            }
+            .product-item-name {
+                display: inline-block;
+            }
+            .col {
+                &.price,
+                &.subtotal {
+                    text-align: left;
+                    .price-including-tax,
+                    .price-excluding-tax {
+                        display: inline-block;
                     }
                 }
             }
         }
+    }
+    .table-wrapper&.order-review-wrapper {
+        &:extend(.abstract-no-border-top all);
     }
 }
 
@@ -535,7 +492,7 @@
         .layout-column(2, 2, @layout-column-checkout-main-width);
         &:extend(.abstract-add-box-sizing-desktop-s all);
         .step-content {
-            &:extend(.form-field-column-2-s all);
+            &:extend(.abstract-form-field-column-2-s all);
 
             .form {
                 &.shipping.address,
@@ -561,7 +518,7 @@
             }
 
             .payments .field {
-                &:extend(.form-field-revert-column-1-s all);
+                &:extend(.abstract-form-field-revert-column-1-s all);
             }
             .toolbar {
                 text-align: left;
@@ -570,10 +527,9 @@
 
         // Login or register
         .login-wrapper {
-            display: block;
             &:extend(.abstract-add-clearfix-desktop-s all);
             .block {
-                &:extend(.abstract-blocks-2columns-reverse-s all);
+                &:extend(.abstract-blocks-2columns-s all);
                 margin-bottom: 0;
             }
             .fieldset {
@@ -593,19 +549,12 @@
         .checkout-submit-order .actions-toolbar > .primary {
             float: right;
         }
-        .data.table {
-            .grand.totals {
-                .amount {
-                    padding-left: 0;
-                }
-            }
-        }
     }
 
     // Payment methods
     .methods-payment {
         .item-content > .fieldset {
-            margin: 10px 0 30px @opc-margin-left;
+            margin: @indent-s-base 0 @indent-l-base @opc-margin-left;
             padding: 0;
             width: 46%;
             .field {
@@ -625,7 +574,41 @@
     }
 
     .checkout-success .subtitle .print {
-        margin-left: 40px;
+        margin-left: @indent-xl-base;
+    }
+
+    .table-order-review {
+        .col.subtotal,
+        .amount {
+            text-align: right;
+        }
+        .col.item {
+            width: 70%;
+        }
+        .grand.totals {
+            .font-size(16);
+            th,
+            td {
+                padding: 0 0 @indent-xl-base;
+            }
+            strong {
+                border-top: @border-width-base solid @border-color-base;
+                display: block;
+                padding-top: 11px;
+            }
+            .mark {
+                strong {
+                    margin-left: @indent-s-base;
+                    padding-right: @indent-s-base;
+                }
+            }
+            .amount {
+                strong {
+                    padding-left: @indent-s-base;
+                    margin-right: @indent-s-base;
+                }
+            }
+        }
     }
 
     // Checkout success
@@ -633,7 +616,7 @@
         .page-title {
             .print {
                 display: inline-block;
-                margin-left: 40px;
+                margin-left: @indent-xl-base;
                 .font-size(14);
                 &:extend(.abstract-action-print-s all);
             }

@@ -35,9 +35,10 @@ abstract class AbstractActionProductToAnotherWishlistTest extends AbstractMultip
     protected function createProduct($product, $qty)
     {
         list($fixture, $dataSet) = explode('::', $product);
+        $data = ($qty !== '-') ? ['checkout_data' => ['qty' => $qty]] : [];
         $product = $this->fixtureFactory->createByCode(
             $fixture,
-            ['dataSet' => $dataSet, 'data' => ['checkout_data' => ['data' => ['qty' => $qty]]]]
+            ['dataSet' => $dataSet, 'data' => $data]
         );
         $product->persist();
         return $product;
@@ -51,7 +52,7 @@ abstract class AbstractActionProductToAnotherWishlistTest extends AbstractMultip
      */
     protected function addProductToWishlist($product)
     {
-        self::$browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
+        $this->browser->open($_ENV['app_frontend_url'] . $product->getUrlKey() . '.html');
         $this->catalogProductView->getViewBlock()->addToWishlist($product);
     }
 
@@ -69,7 +70,9 @@ abstract class AbstractActionProductToAnotherWishlistTest extends AbstractMultip
         $qtyToAction
     ) {
         $productBlock = $this->wishlistIndex->getMultipleItemsBlock()->getItemProduct($product);
-        $productBlock->fillProduct(['qty' => $qtyToAction]);
+        if ($qtyToAction !== '-') {
+            $productBlock->fillProduct(['qty' => $qtyToAction]);
+        }
         $productBlock->actionToWishlist($multipleWishlist, $this->action);
     }
 }

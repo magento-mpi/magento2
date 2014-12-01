@@ -7,17 +7,20 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 
+/**
+ * Class ShipmentGetTest
+ */
 class ShipmentGetTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/shipment';
-    const SERVICE_READ_NAME = 'salesShipmentReadV1';
+    const SERVICE_READ_NAME = 'salesShipmentRepositoryV1';
     const SERVICE_VERSION = 'V1';
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -34,6 +37,7 @@ class ShipmentGetTest extends WebapiAbstract
         /** @var \Magento\Sales\Model\Order\Shipment $shipment */
         $shipmentCollection = $this->objectManager->get('Magento\Sales\Model\Resource\Order\Shipment\Collection');
         $shipment = $shipmentCollection->getFirstItem();
+        $shipment->load($shipment->getId());
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $shipment->getId(),
@@ -50,9 +54,12 @@ class ShipmentGetTest extends WebapiAbstract
         $this->assertArrayHasKey('items', $result);
         $this->assertArrayHasKey('tracks', $result);
         unset($data['items']);
+        unset($data['packages']);
         unset($data['tracks']);
         foreach ($data as $key => $value) {
-            $this->assertEquals($shipment->getData($key), $value, $key);
+            if (!empty($value)) {
+                $this->assertEquals($shipment->getData($key), $value, $key);
+            }
         }
         $shipmentItem = $this->objectManager->get('Magento\Sales\Model\Order\Shipment\Item');
         foreach ($result['items'] as $item) {

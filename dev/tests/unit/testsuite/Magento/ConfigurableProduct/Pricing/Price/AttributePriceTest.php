@@ -108,9 +108,9 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             $this->saleableItemMock,
             $qty,
             $this->calculatorMock,
+            $this->priceCurrency,
             $this->priceModifier,
-            $this->storeManagerMock,
-            $this->priceCurrency
+            $this->storeManagerMock
         );
     }
 
@@ -121,9 +121,9 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             $this->saleableItemMock,
             $qty,
             $this->calculatorMock,
+            $this->priceCurrency,
             $this->priceModifier,
-            $this->storeManagerMock,
-            $this->priceCurrency
+            $this->storeManagerMock
         );
         $this->assertInstanceOf('Magento\ConfigurableProduct\Pricing\Price\AttributePrice', $object);
     }
@@ -139,6 +139,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         $modifiedValue = 140;
         $valueIndex = 2;
         $optionId = 1;
+
         $expected = [
             'priceOptions' =>
                 [
@@ -215,9 +216,9 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->priceCurrency->expects($this->once())
-            ->method('convert')
-            ->with($this->equalTo($modifiedValue))
+        // don't do any actual conversions; just return whatever was passed in
+        $this->priceCurrency->expects($this->any())
+            ->method('convertAndRound')
             ->will($this->returnArgument(0));
 
         $this->storeManagerMock->expects($this->any())
@@ -338,6 +339,9 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
                 [\Magento\Catalog\Pricing\Price\CustomOptionPriceInterface::CONFIGURATION_OPTION_FLAG => true]
             )
             ->will($this->returnValue(80.99));
+        $this->priceCurrency->expects($this->once())
+            ->method('convertAndRound')
+            ->will($this->returnArgument(0));
         $this->assertEquals(
             80.99,
             $this->attribute->getOptionValueModified(

@@ -66,9 +66,9 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected $_visibility;
 
     /**
-     * @var \Magento\CatalogInventory\Model\Stock\Status
+     * @var \Magento\CatalogInventory\Helper\Stock
      */
-    protected $_status;
+    protected $stockHelper;
 
     /**
      * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
@@ -86,7 +86,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
-     * @param \Magento\CatalogInventory\Model\Stock\Status $status
+     * @param \Magento\CatalogInventory\Helper\Stock $stockHelper
      * @param \Magento\Checkout\Model\Session $session
      * @param \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -100,7 +100,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $visibility,
-        \Magento\CatalogInventory\Model\Stock\Status $status,
+        \Magento\CatalogInventory\Helper\Stock $stockHelper,
         \Magento\Checkout\Model\Session $session,
         \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -111,7 +111,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         $this->productTypeConfig = $productTypeConfig;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_visibility = $visibility;
-        $this->_status = $status;
+        $this->stockHelper = $stockHelper;
         $this->_checkoutSession = $session;
         $this->_productLinkFactory = $productLinkFactory;
         $this->_productFactory = $productFactory;
@@ -268,12 +268,15 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected function _getTargetLinkCollection()
     {
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
-        $collection = $this->_productLinkFactory->create()->useCrossSellLinks()->getProductCollection()->setStoreId(
-            $this->_storeManager->getStore()->getId()
-        )->setGroupBy();
+        $collection = $this->_productLinkFactory->create()
+            ->useCrossSellLinks()
+            ->getProductCollection()
+            ->setStoreId($this->_storeManager->getStore()->getId())
+            ->setPageSize($this->getPositionLimit())
+            ->setGroupBy();
         $this->_addProductAttributesAndPrices($collection);
         $collection->setVisibility($this->_visibility->getVisibleInSiteIds());
-        $this->_status->addIsInStockFilterToCollection($collection);
+        $this->stockHelper->addIsInStockFilterToCollection($collection);
 
         return $collection;
     }
@@ -331,7 +334,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         $this->_addProductAttributesAndPrices($collection);
 
         $collection->setVisibility($this->_visibility->getVisibleInCatalogIds());
-        $this->_status->addIsInStockFilterToCollection($collection);
+        $this->stockHelper->addIsInStockFilterToCollection($collection);
 
         return $collection;
     }

@@ -41,11 +41,15 @@ class Curl extends AbstractCurl
         'page_group' => [
             'All Pages' => 'all_pages',
             'Specified Page' => 'pages',
-            'Page Layouts' => 'page_layouts'
+            'Page Layouts' => 'page_layouts',
+            'Non-Anchor Categories' => 'notanchor_categories'
         ],
         'template' => [
             'CMS Page Link Block Template' => 'widget/link/link_block.phtml'
         ],
+        'layout_handle' => [
+            'Shopping Cart' => 'checkout_cart_index'
+        ]
     ];
 
     /**
@@ -72,7 +76,7 @@ class Curl extends AbstractCurl
             unset($data['page_id']);
         }
         if ($fixture->hasData('store_ids')) {
-            $data['store_ids'][0] = $fixture->getDataFieldConfig('store_ids')['source']->getStore()[0]->getStoreId();
+            $data['store_ids'][0] = $fixture->getDataFieldConfig('store_ids')['source']->getStores()[0]->getStoreId();
         }
         unset($data['code']);
         unset($data['theme_id']);
@@ -140,7 +144,7 @@ class Curl extends AbstractCurl
     {
         $widgetInstancePageGroup['layout_handle'] = 'default';
         $widgetInstancePageGroup['for'] = 'all';
-        if (!isset($this->mappingData['template'][$widgetInstancePageGroup['template']])) {
+        if (!isset($widgetInstancePageGroup['template'])) {
             $widgetInstancePageGroup['template'] = $this->widgetInstanceTemplate;
         }
 
@@ -155,6 +159,23 @@ class Curl extends AbstractCurl
      */
     protected function prepareNotanchorCategoriesGroup(array $widgetInstancePageGroup)
     {
-        return $widgetInstancePageGroup['is_anchor_only'] = 0;
+        $widgetInstancePageGroup['is_anchor_only'] = 0;
+        $widgetInstancePageGroup['for'] = 'all';
+        $widgetInstancePageGroup['layout_handle'] = 'catalog_category_view_type_default';
+
+        return $widgetInstancePageGroup;
+    }
+
+    /**
+     * Prepare Specified Page Group.
+     *
+     * @param array $widgetInstancePageGroup
+     * @return array
+     */
+    protected function preparePagesGroup(array $widgetInstancePageGroup)
+    {
+        $widgetInstancePageGroup['for'] = 'all';
+
+        return $widgetInstancePageGroup;
     }
 }

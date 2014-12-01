@@ -17,7 +17,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\DesignInterface'
         )->setDesignTheme(
-            'Magento/plushe'
+            'Magento/luma'
         );
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'

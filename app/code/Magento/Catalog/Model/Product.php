@@ -10,6 +10,8 @@ namespace Magento\Catalog\Model;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Object\IdentityInterface;
+use Magento\Catalog\Api\Data\ProductInterface;
+use Magento\Framework\Convert\ConvertArray;
 
 /**
  * Catalog product model
@@ -29,7 +31,10 @@ use Magento\Framework\Object\IdentityInterface;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityInterface, SaleableInterface
+class Product extends \Magento\Catalog\Model\AbstractModel implements
+    IdentityInterface,
+    SaleableInterface,
+    ProductInterface
 {
     /**
      * Entity code.
@@ -202,9 +207,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Stock item factory
      *
-     * @var \Magento\CatalogInventory\Model\Stock\ItemFactory
+     * @var \Magento\CatalogInventory\Api\Data\StockItemDataBuilder
      */
-    protected $_stockItemFactory;
+    protected $_stockItemBuilder;
 
     /**
      * Item option factory
@@ -220,10 +225,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     protected $_filesystem;
 
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $categoryIndexer;
+    /** @var \Magento\Indexer\Model\IndexerRegistry */
+    protected $indexerRegistry;
 
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor
@@ -248,11 +251,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataService
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
      * @param Product\Configuration\Item\OptionFactory $itemOptionFactory
-     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param \Magento\CatalogInventory\Api\Data\StockItemDataBuilder $stockItemBuilder
      * @param CategoryFactory $categoryFactory
      * @param Product\Option $catalogProductOption
      * @param Product\Visibility $catalogProductVisibility
@@ -266,10 +270,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * @param Resource\Product\Collection $resourceCollection
      * @param \Magento\Framework\Data\CollectionFactory $collectionFactory
      * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
+     * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param Indexer\Product\Price\Processor $productPriceIndexerProcessor
-     * @param  \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor
+     * @param Indexer\Product\Eav\Processor $productEavIndexerProcessor
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -277,11 +281,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataService,
         \Magento\Framework\StoreManagerInterface $storeManager,
         Product\Url $url,
         Product\Link $productLink,
         \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
-        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
+        \Magento\CatalogInventory\Api\Data\StockItemDataBuilder $stockItemBuilder,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
@@ -295,14 +300,14 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         Resource\Product\Collection $resourceCollection,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Filesystem $filesystem,
-        \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
+        \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
-        $this->_stockItemFactory = $stockItemFactory;
+        $this->_stockItemBuilder = $stockItemBuilder;
         $this->_categoryFactory = $categoryFactory;
         $this->_optionInstance = $catalogProductOption;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -316,11 +321,19 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
         $this->_filesystem = $filesystem;
-        $this->categoryIndexer = $categoryIndexer;
+        $this->indexerRegistry = $indexerRegistry;
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
         $this->_productEavIndexerProcessor = $productEavIndexerProcessor;
-        parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $storeManager,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
@@ -331,19 +344,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected function _construct()
     {
         $this->_init('Magento\Catalog\Model\Resource\Product');
-    }
-
-    /**
-     * Return product category indexer object
-     *
-     * @return \Magento\Indexer\Model\IndexerInterface
-     */
-    protected function getCategoryIndexer()
-    {
-        if (!$this->categoryIndexer->getId()) {
-            $this->categoryIndexer->load(Indexer\Product\Category::INDEXER_ID);
-        }
-        return $this->categoryIndexer;
     }
 
     /**
@@ -421,6 +421,47 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     }
 
     /**
+     * Get visibility status
+     * @see \Magento\Catalog\Model\Product\Visibility
+     *
+     * @return int
+     */
+    public function getVisibility()
+    {
+        return $this->_getData('visibility');
+    }
+
+    /**
+     * Get product attribute set id
+     *
+     * @return int
+     */
+    public function getAttributeSetId()
+    {
+        return $this->_getData('attribute_set_id');
+    }
+
+    /**
+     * Get product creation date
+     *
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->_getData('created_at');
+    }
+
+    /**
+     * Get previous product update date
+     *
+     * @return string
+     */
+    public function getUpdatedAt()
+    {
+        return $this->_getData('updated_at');
+    }
+
+    /**
      * Set Price calculation flag
      *
      * @param bool $calculate
@@ -434,7 +475,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Get product type identifier
      *
-     * @return string
+     * @return array|string
      */
     public function getTypeId()
     {
@@ -627,7 +668,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      *
      * @return void
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $this->cleanCache();
         $this->setTypeHasOptions(false);
@@ -684,7 +725,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
             $this->setOrigData('website_ids', $websiteIds);
         }
 
-        parent::_beforeSave();
+        parent::beforeSave();
     }
 
     /**
@@ -707,7 +748,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      *
      * @return \Magento\Catalog\Model\Product
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->getLinkInstance()->saveProductRelations($this);
         $this->getTypeInstance()->save($this);
@@ -726,7 +767,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
             $this->getOptionInstance()->setProduct($this)->saveOptions();
         }
 
-        $result = parent::_afterSave();
+        $result = parent::afterSave();
 
         $this->_getResource()->addCommitCallback(array($this, 'reindex'));
         $this->reloadPriceInfo();
@@ -788,8 +829,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     public function reindex()
     {
         $this->_productFlatIndexerProcessor->reindexRow($this->getEntityId());
-        if (!$this->getCategoryIndexer()->isScheduled()) {
-            $this->getCategoryIndexer()->reindexRow($this->getId());
+        $categoryIndexer = $this->indexerRegistry->get(Indexer\Product\Category::INDEXER_ID);
+        if (!$categoryIndexer->isScheduled()) {
+            $categoryIndexer->reindexRow($this->getId());
         }
     }
 
@@ -799,10 +841,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      *
      * @return \Magento\Catalog\Model\Product
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         $this->cleanCache();
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 
     /**
@@ -810,11 +852,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      *
      * @return void
      */
-    protected function _afterDeleteCommit()
+    public function afterDeleteCommit()
     {
         $this->reindex();
         $this->_productPriceIndexerProcessor->reindexRow($this->getId());
-        parent::_afterDeleteCommit();
+        parent::afterDeleteCommit();
     }
 
     /**
@@ -1389,8 +1431,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
         if (method_exists($productType, 'getIsSalable')) {
             return $productType->getIsSalable($this);
         }
-        if ($this->hasData('is_salable')) {
-            return $this->getData('is_salable');
+        if ($this->hasData('is_saleable')) {
+            return $this->getData('is_saleable');
         }
 
         return $this->isSalable();
@@ -1531,31 +1573,17 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * @param array $data Array to form the object from
      * @return \Magento\Catalog\Model\Product
      */
-    public function fromArray($data)
+    public function fromArray(array $data)
     {
         if (isset($data['stock_item'])) {
             if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-                $stockItem = $this->_stockItemFactory->create()->setData($data['stock_item'])->setProduct($this);
+                $stockItem = $this->_stockItemBuilder->populateWithArray($data['stock_item'])->create();
+                $stockItem->setProduct($this);
                 $this->setStockItem($stockItem);
             }
             unset($data['stock_item']);
         }
         $this->setData($data);
-        return $this;
-    }
-
-    /**
-     * Delete product
-     *
-     * @return \Magento\Catalog\Model\Product
-     */
-    public function delete()
-    {
-        parent::delete();
-        $this->_eventManager->dispatch(
-            $this->_eventPrefix . '_delete_after_done',
-            array($this->_eventObject => $this)
-        );
         return $this;
     }
 
@@ -2024,5 +2052,52 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
             $this->_priceInfo = null;
             return $this->getPriceInfo();
         }
+    }
+
+    /**
+     * Return Data Object data in array format.
+     *
+     * @return array
+     */
+    public function __toArray()
+    {
+        $data = $this->_data;
+        $hasToArray = function ($model) {
+            return is_object($model) && method_exists($model, '__toArray') && is_callable([$model, '__toArray']);
+        };
+        foreach ($data as $key => $value) {
+            if ($hasToArray($value)) {
+                $data[$key] = $value->__toArray();
+            } elseif (is_array($value)) {
+                foreach ($value as $nestedKey => $nestedValue) {
+                    if ($hasToArray($nestedValue)) {
+                        $value[$nestedKey] = $nestedValue->__toArray();
+                    }
+                }
+                $data[$key] = $value;
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Convert Category model into flat array.
+     *
+     * @return array
+     */
+    public function toFlatArray()
+    {
+        $dataArray = $this->__toArray();
+        //process custom attributes if present
+        if (array_key_exists('custom_attributes', $dataArray) && !empty($dataArray['custom_attributes'])) {
+            /** @var \Magento\Framework\Api\AttributeInterface[] $customAttributes */
+            $customAttributes = $dataArray['custom_attributes'];
+            unset ($dataArray['custom_attributes']);
+            foreach ($customAttributes as $attributeValue) {
+                $dataArray[$attributeValue[\Magento\Framework\Api\AttributeInterface::ATTRIBUTE_CODE]]
+                    = $attributeValue[\Magento\Framework\Api\AttributeInterface::VALUE];
+            }
+        }
+        return $dataArray;
     }
 }

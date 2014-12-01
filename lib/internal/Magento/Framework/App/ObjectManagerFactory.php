@@ -21,6 +21,16 @@ use Magento\Framework\Filesystem\DriverPool;
 class ObjectManagerFactory
 {
     /**
+     * Initialization parameter for a custom deployment configuration file
+     */
+    const INIT_PARAM_DEPLOYMENT_CONFIG_FILE = 'MAGE_CONFIG_FILE';
+
+    /**
+     * Initialization parameter for custom deployment configuration data
+     */
+    const INIT_PARAM_DEPLOYMENT_CONFIG = 'MAGE_CONFIG';
+
+    /**
      * Locator class name
      *
      * @var string
@@ -51,7 +61,7 @@ class ObjectManagerFactory
     /**
      * Factory
      *
-     * @var \Magento\Framework\ObjectManager\Factory
+     * @var \Magento\Framework\ObjectManager\FactoryInterface
      */
     protected $factory;
 
@@ -72,29 +82,27 @@ class ObjectManagerFactory
      *
      * @param array $arguments
      * @param bool $useCompiled
-     * @return \Magento\Framework\ObjectManager
+     * @return \Magento\Framework\ObjectManagerInterface
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function create(array $arguments, $useCompiled = true)
     {
-        FileResolver::addIncludePath($this->directoryList->getPath(DirectoryList::GENERATION));
-
-        $appArguments = $this->createAppArguments($this->directoryList, $arguments);
+        $deploymentConfig = $this->createDeploymentConfig($this->directoryList, $arguments);
 
         $definitionFactory = new \Magento\Framework\ObjectManager\DefinitionFactory(
             $this->driverPool->getDriver(DriverPool::FILE),
             $this->directoryList->getPath(DirectoryList::DI),
             $this->directoryList->getPath(DirectoryList::GENERATION),
-            $appArguments->get('definition.format', 'serialized')
+            $deploymentConfig->get('definition/format', 'serialized')
         );
 
-        $definitions = $definitionFactory->createClassDefinition($appArguments->get('definitions'), $useCompiled);
+        $definitions = $definitionFactory->createClassDefinition($deploymentConfig->get('definitions'), $useCompiled);
         $relations = $definitionFactory->createRelations();
         $configClass = $this->_configClassName;
         /** @var \Magento\Framework\ObjectManager\Config\Config $diConfig */
         $diConfig = new $configClass($relations, $definitions);
-        $appMode = $appArguments->get(State::PARAM_MODE, State::MODE_DEFAULT);
+        $appMode = isset($arguments[State::PARAM_MODE]) ? $arguments[State::PARAM_MODE] : State::MODE_DEFAULT;
 
         $booleanUtils = new \Magento\Framework\Stdlib\BooleanUtils();
         $argInterpreter = $this->createArgumentInterpreter($booleanUtils);
@@ -111,10 +119,10 @@ class ObjectManagerFactory
             $diConfig,
             null,
             $definitions,
-            $appArguments->get()
+            $arguments
         );
 
-        if ($appArguments->get('MAGE_PROFILER') == 2) {
+        if (isset($arguments['MAGE_PROFILER']) && $arguments['MAGE_PROFILER'] == 2) {
             $this->factory = new \Magento\Framework\ObjectManager\Profiler\FactoryDecorator(
                 $this->factory,
                 \Magento\Framework\ObjectManager\Profiler\Log::getInstance()
@@ -122,21 +130,21 @@ class ObjectManagerFactory
         }
 
         $sharedInstances = [
-            'Magento\Framework\App\Arguments' => $appArguments,
+            'Magento\Framework\App\DeploymentConfig' => $deploymentConfig,
             'Magento\Framework\App\Filesystem\DirectoryList' => $this->directoryList,
             'Magento\Framework\Filesystem\DirectoryList' => $this->directoryList,
             'Magento\Framework\Filesystem\DriverPool' => $this->driverPool,
-            'Magento\Framework\ObjectManager\Relations' => $relations,
-            'Magento\Framework\Interception\Definition' => $definitionFactory->createPluginDefinition(),
-            'Magento\Framework\ObjectManager\Config' => $diConfig,
-            'Magento\Framework\ObjectManager\Definition' => $definitions,
+            'Magento\Framework\ObjectManager\RelationsInterface' => $relations,
+            'Magento\Framework\Interception\DefinitionInterface' => $definitionFactory->createPluginDefinition(),
+            'Magento\Framework\ObjectManager\ConfigInterface' => $diConfig,
+            'Magento\Framework\ObjectManager\DefinitionInterface' => $definitions,
             'Magento\Framework\Stdlib\BooleanUtils' => $booleanUtils,
             'Magento\Framework\ObjectManager\Config\Mapper\Dom' => $argumentMapper,
             $configClass => $diConfig
         ];
 
         $className = $this->_locatorClassName;
-        /** @var \Magento\Framework\ObjectManager $objectManager */
+        /** @var \Magento\Framework\ObjectManagerInterface $objectManager */
         $objectManager = new $className($this->factory, $diConfig, $sharedInstances);
 
         $this->factory->setObjectManager($objectManager);
@@ -147,8 +155,6 @@ class ObjectManagerFactory
             $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global')
         );
         $objectManager->get('Magento\Framework\Config\ScopeInterface')->setCurrentScope('global');
-        $objectManager->get('Magento\Framework\App\Resource')
-            ->setCache($objectManager->get('Magento\Framework\App\CacheInterface'));
         $interceptionConfig = $objectManager->get('Magento\Framework\Interception\Config\Config');
         $diConfig->setInterceptionConfig($interceptionConfig);
 
@@ -156,23 +162,22 @@ class ObjectManagerFactory
     }
 
     /**
-     * Create instance of application arguments
+     * Creates deployment configuration object
      *
      * @param DirectoryList $directoryList
      * @param array $arguments
-     * @return Arguments
+     * @return DeploymentConfig
      */
-    protected function createAppArguments(DirectoryList $directoryList, array $arguments)
+    protected function createDeploymentConfig(DirectoryList $directoryList, array $arguments)
     {
-        return new Arguments(
-            $arguments,
-            new \Magento\Framework\App\Arguments\Loader(
-                $directoryList,
-                isset(
-                    $arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE]
-                ) ? $arguments[\Magento\Framework\App\Arguments\Loader::PARAM_CUSTOM_FILE] : null
-            )
-        );
+        $customFile = isset($arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE])
+            ? $arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG_FILE]
+            : null;
+        $customData = isset($arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG])
+            ? $arguments[self::INIT_PARAM_DEPLOYMENT_CONFIG]
+            : [];
+        $reader = new DeploymentConfig\Reader($directoryList, $customFile);
+        return new DeploymentConfig($reader, $customData);
     }
 
     /**
@@ -243,19 +248,19 @@ class ObjectManagerFactory
     /**
      * Crete plugin list object
      *
-     * @param \Magento\Framework\ObjectManager $objectManager
-     * @param \Magento\Framework\ObjectManager\Relations $relations
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param \Magento\Framework\ObjectManager\RelationsInterface $relations
      * @param \Magento\Framework\ObjectManager\DefinitionFactory $definitionFactory
      * @param \Magento\Framework\ObjectManager\Config\Config $diConfig
-     * @param \Magento\Framework\ObjectManager\Definition $definitions
+     * @param \Magento\Framework\ObjectManager\DefinitionInterface $definitions
      * @return \Magento\Framework\Interception\PluginList\PluginList
      */
     protected function _createPluginList(
-        \Magento\Framework\ObjectManager $objectManager,
-        \Magento\Framework\ObjectManager\Relations $relations,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
+        \Magento\Framework\ObjectManager\RelationsInterface $relations,
         \Magento\Framework\ObjectManager\DefinitionFactory $definitionFactory,
         \Magento\Framework\ObjectManager\Config\Config $diConfig,
-        \Magento\Framework\ObjectManager\Definition $definitions
+        \Magento\Framework\ObjectManager\DefinitionInterface $definitions
     ) {
         return $objectManager->create(
             'Magento\Framework\Interception\PluginList\PluginList',

@@ -15,7 +15,7 @@ class OrderCancelTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesOrderWriteV1';
+    const SERVICE_NAME = 'salesOrderManagementV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php

@@ -19,8 +19,6 @@ use Magento\Framework\Api\ExtensibleDataInterface;
  */
 abstract class AbstractExtensibleModel extends AbstractModel implements ExtensibleDataInterface
 {
-    const CUSTOM_ATTRIBUTES_KEY = 'custom_attributes';
-
     /**
      * @var MetadataServiceInterface
      */
@@ -50,6 +48,9 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         $this->metadataService = $metadataService;
         $data = $this->filterCustomAttributes($data);
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        if (isset($data['id'])) {
+            $this->setId($data['id']);
+        }
     }
 
     /**
@@ -60,25 +61,25 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
      */
     protected function filterCustomAttributes($data)
     {
-        if (empty($data[self::CUSTOM_ATTRIBUTES_KEY])) {
+        if (empty($data[self::CUSTOM_ATTRIBUTES])) {
             return $data;
         }
         $customAttributesCodes = $this->getCustomAttributesCodes();
-        $data[self::CUSTOM_ATTRIBUTES_KEY] =
-            array_intersect_key($data[self::CUSTOM_ATTRIBUTES_KEY], $customAttributesCodes);
+        $data[self::CUSTOM_ATTRIBUTES] =
+            array_intersect_key($data[self::CUSTOM_ATTRIBUTES], $customAttributesCodes);
         return $data;
     }
 
     /**
      * Retrieve custom attributes values.
      *
-     * @return \Magento\Framework\Api\AttributeValue[]|null
+     * @return \Magento\Framework\Api\AttributeInterface[]|null
      */
     public function getCustomAttributes()
     {
         // Returning as a sequential array (instead of stored associative array) to be compatible with the interface
-        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
-            ? array_values($this->_data[self::CUSTOM_ATTRIBUTES_KEY])
+        return isset($this->_data[self::CUSTOM_ATTRIBUTES])
+            ? array_values($this->_data[self::CUSTOM_ATTRIBUTES])
             : [];
     }
 
@@ -86,33 +87,13 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
      * Get an attribute value.
      *
      * @param string $attributeCode
-     * @return \Magento\Framework\Api\AttributeValue|null null if the attribute has not been set
+     * @return \Magento\Framework\Api\AttributeInterface|null null if the attribute has not been set
      */
     public function getCustomAttribute($attributeCode)
     {
-        return isset($this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode])
-            ? $this->_data[self::CUSTOM_ATTRIBUTES_KEY][$attributeCode]
+        return isset($this->_data[self::CUSTOM_ATTRIBUTES][$attributeCode])
+            ? $this->_data[self::CUSTOM_ATTRIBUTES][$attributeCode]
             : null;
-    }
-
-    /**
-     * Overwrite data in the object.
-     *
-     * The $key parameter can be string or array.
-     * If $key is string, the attribute value will be overwritten by $value
-     *
-     * If $key is an array, it will overwrite all the data in the object.
-     *
-     * @param string|array  $key
-     * @param mixed         $value
-     * @return $this
-     */
-    public function setData($key, $value = null)
-    {
-        if ($key == self::CUSTOM_ATTRIBUTES_KEY) {
-            throw new \LogicException("Custom attributes must be set only using setCustomAttribute() method.");
-        }
-        return parent::setData($key, $value);
     }
 
     /**
@@ -134,17 +115,17 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
      */
     public function getData($key = '', $index = null)
     {
-        if ($key == self::CUSTOM_ATTRIBUTES_KEY) {
+        if ($key === self::CUSTOM_ATTRIBUTES) {
             throw new \LogicException("Custom attributes array should be retrieved via getCustomAttributes() only.");
-        } else if ($key == '') {
+        } else if ($key === '') {
             /** Represent model data and custom attributes as a flat array */
             $data = array_merge($this->_data, $this->getCustomAttributes());
-            unset($data[self::CUSTOM_ATTRIBUTES_KEY]);
+            unset($data[self::CUSTOM_ATTRIBUTES]);
         } else {
             $data = parent::getData($key, $index);
             if ($data === null) {
                 /** Try to find necessary data in custom attributes */
-                $data = parent::getData(self::CUSTOM_ATTRIBUTES_KEY . "/{$key}", $index);
+                $data = parent::getData(self::CUSTOM_ATTRIBUTES . "/{$key}", $index);
             }
         }
         return $data;
@@ -172,5 +153,17 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         }
         $this->customAttributesCodes = $attributeCodes;
         return $attributeCodes;
+    }
+
+    /**
+     * Identifier setter
+     *
+     * @param mixed $value
+     * @return $this
+     */
+    public function setId($value)
+    {
+        parent::setId($value);
+        return $this->setData('id', $value);
     }
 }

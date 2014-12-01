@@ -7,12 +7,15 @@
  */
 namespace Magento\Sales\Model\Resource\Order\Shipment;
 
+use Magento\Sales\Model\Spi\ShipmentTrackResourceInterface;
+use Magento\Sales\Model\Resource\Entity as SalesResource;
+
 /**
  * Flat sales order shipment comment resource
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Track extends \Magento\Sales\Model\Resource\Entity
+class Track extends SalesResource implements ShipmentTrackResourceInterface
 {
     /**
      * Event prefix
@@ -55,7 +58,7 @@ class Track extends \Magento\Sales\Model\Resource\Entity
      */
     protected function _construct()
     {
-        $this->_init('sales_flat_shipment_track', 'entity_id');
+        $this->_init('sales_shipment_track', 'entity_id');
     }
 
     /**
@@ -67,6 +70,11 @@ class Track extends \Magento\Sales\Model\Resource\Entity
      */
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
+        /** @var \Magento\Sales\Model\Order\Shipment\Track $object */
+        if (!$object->getParentId() && $object->getShipment()) {
+            $object->setParentId($object->getShipment()->getId());
+        }
+
         parent::_beforeSave($object);
         $errors = $this->validator->validate($object);
         if (!empty($errors)) {

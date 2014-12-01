@@ -100,6 +100,11 @@ class Multishipping extends \Magento\Framework\Object
     protected $priceCurrency;
 
     /**
+     * @var \Magento\Sales\Model\QuoteRepository
+     */
+    protected $quoteRepository;
+
+    /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -114,6 +119,7 @@ class Multishipping extends \Magento\Framework\Object
      * @param \Magento\Multishipping\Helper\Data $helper
      * @param OrderSender $orderSender
      * @param PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param array $data
      */
     public function __construct(
@@ -131,6 +137,7 @@ class Multishipping extends \Magento\Framework\Object
         \Magento\Multishipping\Helper\Data $helper,
         OrderSender $orderSender,
         PriceCurrencyInterface $priceCurrency,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -147,6 +154,7 @@ class Multishipping extends \Magento\Framework\Object
         $this->_customerAddressService = $customerAddressService;
         $this->orderSender = $orderSender;
         $this->priceCurrency = $priceCurrency;
+        $this->quoteRepository = $quoteRepository;
         parent::__construct($data);
         $this->_init();
     }
@@ -454,7 +462,7 @@ class Multishipping extends \Magento\Framework\Object
             )->importCustomerAddressData(
                 $address
             )->collectTotals();
-            $this->getQuote()->save();
+            $this->quoteRepository->save($this->getQuote());
         }
         return $this;
     }
@@ -473,7 +481,8 @@ class Multishipping extends \Magento\Framework\Object
         }
         if (isset($address)) {
             $this->getQuote()->getBillingAddress($addressId)->importCustomerAddressData($address)->collectTotals();
-            $this->getQuote()->collectTotals()->save();
+            $this->getQuote()->collectTotals();
+            $this->quoteRepository->save($this->getQuote());
         }
         return $this;
     }
@@ -521,7 +530,7 @@ class Multishipping extends \Magento\Framework\Object
             $quote->getShippingAddress()->setCollectShippingRates(true);
             $quote->setTotalsCollectedFlag(false)->collectTotals();
         }
-        $quote->save();
+        $this->quoteRepository->save($quote);
         return $this;
     }
 
@@ -649,7 +658,8 @@ class Multishipping extends \Magento\Framework\Object
             $this->_session->setOrderIds($orderIds);
             $this->_checkoutSession->setLastQuoteId($this->getQuote()->getId());
 
-            $this->getQuote()->setIsActive(false)->save();
+            $this->getQuote()->setIsActive(false);
+            $this->quoteRepository->save($this->getQuote());
 
             $this->_eventManager->dispatch(
                 'checkout_submit_all_after',
@@ -670,7 +680,8 @@ class Multishipping extends \Magento\Framework\Object
      */
     public function save()
     {
-        $this->getQuote()->collectTotals()->save();
+        $this->getQuote()->collectTotals();
+        $this->quoteRepository->save($this->getQuote());
         return $this;
     }
 
@@ -841,7 +852,7 @@ class Multishipping extends \Magento\Framework\Object
     /**
      * Retrieve customer object
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     public function getCustomer()
     {

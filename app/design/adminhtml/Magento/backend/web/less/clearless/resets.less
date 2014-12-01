@@ -14,6 +14,7 @@
     details,
     figcaption,
     figure,
+    main,
     footer,
     header,
     hgroup,
@@ -26,8 +27,6 @@
     canvas,
     video {
         display: inline-block;
-        *display: inline;
-        *zoom: 1;
     }
     audio:not([controls]) {
         display: none;
@@ -40,6 +39,7 @@
         font-size: 100%;
         -webkit-text-size-adjust: 100%;
         -ms-text-size-adjust: 100%;
+        font-size-adjust: 100%;
     }
     html,
     button,
@@ -161,7 +161,6 @@
     }
     img {
         border: 0;
-        -ms-interpolation-mode: bicubic;
     }
     svg:not(:root) {
         overflow: hidden;
@@ -217,8 +216,6 @@
     }
     input[type="search"] {
         -webkit-appearance: textfield;
-        -moz-box-sizing: content-box;
-        -webkit-box-sizing: content-box;
         box-sizing: content-box;
     }
     input[type="search"]::-webkit-search-decoration,
@@ -254,7 +251,7 @@
     fieldset, form, label, legend,
     table, caption, tbody, tfoot, thead, tr, th, td,
     article, aside, canvas, details, embed,
-    figure, figcaption, footer, header, hgroup,
+    figure, figcaption, main, footer, header, hgroup,
     menu, nav, output, ruby, section, summary,
     time, mark, audio, video {
         margin: 0;
@@ -264,7 +261,7 @@
         font: inherit;
         vertical-align: baseline;
     }
-    article, aside, details, figcaption, figure,
+    article, aside, details, figcaption, figure, main,
     footer, header, hgroup, menu, nav, section {
         display: block;
     }

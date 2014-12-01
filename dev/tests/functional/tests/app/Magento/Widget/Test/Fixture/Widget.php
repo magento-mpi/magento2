@@ -11,7 +11,6 @@ namespace Magento\Widget\Test\Fixture;
 use Mtf\Fixture\InjectableFixture;
 
 /**
- * Class Widget
  * Fixture for Widget
  *
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -31,6 +30,20 @@ class Widget extends InjectableFixture
     protected $defaultDataSet = [
     ];
 
+    protected $code = [
+        'attribute_code' => 'code',
+        'backend_type' => 'virtual',
+        'input' => 'select',
+        'group' => 'settings',
+    ];
+
+    protected $theme_id = [
+        'attribute_code' => 'theme_id',
+        'backend_type' => 'virtual',
+        'input' => 'select',
+        'group' => 'settings',
+    ];
+
     protected $anchor_text = [
         'attribute_code' => 'anchor_text',
         'backend_type' => 'varchar',
@@ -39,6 +52,7 @@ class Widget extends InjectableFixture
     protected $title = [
         'attribute_code' => 'title',
         'backend_type' => 'varchar',
+        'group' => 'frontend_properties',
     ];
 
     protected $template = [
@@ -80,24 +94,11 @@ class Widget extends InjectableFixture
         'backend_type' => 'varchar',
     ];
 
-    protected $code = [
-        'attribute_code' => 'code',
-        'backend_type' => 'virtual',
-        'input' => 'select',
-        'group' => 'settings',
-    ];
-
-    protected $theme_id = [
-        'attribute_code' => 'theme_id',
-        'backend_type' => 'virtual',
-        'input' => 'select',
-        'group' => 'settings',
-    ];
-
     protected $store_ids = [
         'attribute_code' => 'store_ids',
         'backend_type' => 'virtual',
         'source' => 'Magento\Widget\Test\Fixture\Widget\StoreIds',
+        'group' => 'frontend_properties',
     ];
 
     protected $widget_instance = [
@@ -119,6 +120,20 @@ class Widget extends InjectableFixture
         'attribute_code' => 'page_id',
         'backend_type' => 'virtual',
         'source' => 'Magento\Widget\Test\Fixture\Widget\PageIds',
+    ];
+
+    protected $layout = [
+        'attribute_code' => 'layout',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Widget\Test\Fixture\Widget\LayoutUpdates',
+        'group' => 'layout_updates',
+    ];
+
+    protected $widgetOptions = [
+        'attribute_code' => 'widgetOptions',
+        'backend_type' => 'virtual',
+        'source' => 'Magento\Widget\Test\Fixture\Widget\WidgetOptions',
+        'group' => 'widget_options',
     ];
 
     public function getAnchorText()
@@ -199,5 +214,15 @@ class Widget extends InjectableFixture
     public function getPageId()
     {
         return $this->getData('page_id');
+    }
+
+    public function getLayout()
+    {
+        return $this->getData('layout');
+    }
+
+    public function getWidgetOptions()
+    {
+        return $this->getData('widgetOptions');
     }
 }

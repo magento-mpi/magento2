@@ -8,7 +8,7 @@
 
 namespace Magento\Test\Integrity;
 
-use Magento\TestFramework\Utility\Files;
+use Magento\Framework\Test\Utility\Files;
 use Magento\Framework\Shell;
 use Magento\Framework\Exception;
 use Magento\Tools\Composer\Helper\ReplaceFilter;
@@ -62,7 +62,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
 
     public function testValidComposerJson()
     {
-        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker = new \Magento\Framework\Test\Utility\AggregateInvoker($this);
         $invoker(
         /**
          * @param string $dir
@@ -87,7 +87,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function validateComposerJsonDataProvider()
     {
-        $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
+        $root = \Magento\Framework\Test\Utility\Files::init()->getPathToSource();
         $result = [];
         foreach (glob("{$root}/app/code/Magento/*", GLOB_ONLYDIR) as $dir) {
             $result[$dir] = [$dir, 'magento2-module'];

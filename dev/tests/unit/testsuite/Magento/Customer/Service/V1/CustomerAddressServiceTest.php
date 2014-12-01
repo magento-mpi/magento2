@@ -11,7 +11,7 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Framework\Api\AttributeValueBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * \Magento\Customer\Service\V1\CustomerAddressService
@@ -117,6 +117,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $objectManagerHelper;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $_extensibleDataObjectConverterMock;
 
     public function setUp()
     {
@@ -250,15 +255,23 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             array('regionBuilder' => $regionBuilder, 'metadataService' => $addressMetadataService)
         );
 
-        $customerBuilder = $this->objectManagerHelper->getObject(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder',
-            ['metadataService' => $customerMetadataService]
-        );
+        $customerBuilderMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerDataBuilder')
+            ->disableOriginalConstructor()
+            ->setMethods(['populateWithArray'])
+            ->getMock();
 
+        $this->_extensibleDataObjectConverterMock = $this->getMock(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_customerConverter = new \Magento\Customer\Model\Converter(
-            $customerBuilder,
+            $customerBuilderMock,
             $this->_customerFactoryMock,
-            $this->_storeManagerMock
+            $this->_storeManagerMock,
+            $this->_extensibleDataObjectConverterMock
         );
 
         $this->_addressConverterMock = $this->getMockBuilder(

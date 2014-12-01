@@ -10,11 +10,14 @@ namespace Magento\Sales\Service\V1;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 
+/**
+ * Class CreditmemoCancelTest
+ */
 class CreditmemoCancelTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesCreditmemoWriteV1';
+    const SERVICE_NAME = 'salesCreditmemoManagementV1';
 
     const CREDITMEMO_INCREMENT_ID = '100000001';
 
