@@ -73,6 +73,11 @@ class Review implements SetupInterface
     protected $entityId;
 
     /**
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
@@ -81,6 +86,7 @@ class Review implements SetupInterface
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param \Magento\Review\Model\Rating\OptionFactory $ratingOptionsFactory
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      */
     public function __construct(
         \Magento\Review\Model\ReviewFactory $reviewFactory,
@@ -90,7 +96,8 @@ class Review implements SetupInterface
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount,
         \Magento\Tools\SampleData\Logger $logger,
-        \Magento\Review\Model\Rating\OptionFactory $ratingOptionsFactory
+        \Magento\Review\Model\Rating\OptionFactory $ratingOptionsFactory,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager
     ) {
         $this->reviewFactory = $reviewFactory;
         $this->fixtureHelper = $fixtureHelper;
@@ -100,6 +107,7 @@ class Review implements SetupInterface
         $this->logger = $logger;
         $this->customerAccount = $customerAccount;
         $this->ratingOptionsFactory = $ratingOptionsFactory;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -113,7 +121,7 @@ class Review implements SetupInterface
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
         $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
         foreach ($csvReader as $row) {
-            $storeId = ['1'];
+            $storeId = [$this->storeManager->getStoreId()];
             $this->createRating($row['rating_code'], $storeId);
             if (!$this->getProductIdBySku($row['sku'])) {
                 continue;
@@ -169,9 +177,9 @@ class Review implements SetupInterface
         )->setStatusId(
             \Magento\Review\Model\Review::STATUS_APPROVED
         )->setStoreId(
-            1
+            $this->storeManager->getStoreId()
         )->setStores(
-            array(1)
+            array($this->storeManager->getStoreId())
         );
         return $review;
     }
@@ -214,7 +222,7 @@ class Review implements SetupInterface
      * @param array $stores
      * @return void
      */
-    protected function createRating($ratingCode, $stores = ['1'])
+    protected function createRating($ratingCode, $stores)
     {
         $stores[] = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         $rating = $this->getRating($ratingCode);

@@ -69,6 +69,11 @@ class GiftRegistry implements SetupInterface
     protected $productIndexer;
 
     /**
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
+     */
+    protected $storeManager;
+
+    /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory,
      * @param \Magento\Directory\Model\CountryFactory $countryFactory,
@@ -79,6 +84,7 @@ class GiftRegistry implements SetupInterface
      * @param \Magento\Catalog\Model\ProductFactory $productFactory,
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source $productIndexer
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      */
     public function __construct(
         FixtureHelper $fixtureHelper,
@@ -90,7 +96,8 @@ class GiftRegistry implements SetupInterface
         \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
-        \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source $productIndexer
+        \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source $productIndexer,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
@@ -102,6 +109,7 @@ class GiftRegistry implements SetupInterface
         $this->productFactory = $productFactory;
         $this->itemFactory = $itemFactory;
         $this->productIndexer = $productIndexer;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -124,7 +132,7 @@ class GiftRegistry implements SetupInterface
             $giftRegistry->addData(
                 [
                     'customer_id' => $data['customer_id'],
-                    'website_id' => 1,
+                    'website_id' => $this->storeManager->getWebsiteId(),
                     'url_key' => $giftRegistry->getGenerateKeyId(),
                     'created_at' => $this->dateFactory->create()->date(),
                     'is_add_action' => true
@@ -158,7 +166,9 @@ class GiftRegistry implements SetupInterface
     protected function generateData(array $giftRegistryData)
     {
         $giftRegistryData['sku'] = explode("\n", $giftRegistryData['sku']);
-        $customer = $this->customerFactory->create()->setWebsiteId(1)->loadByEmail($giftRegistryData['customer_email']);
+        $customer = $this->customerFactory->create();
+        $customer->setWebsiteId($this->storeManager->getWebsiteId())
+            ->loadByEmail($giftRegistryData['customer_email']);
         $address = $customer->getDefaultBillingAddress()->getData();
         return [
             'customer_id' => $customer->getId(),

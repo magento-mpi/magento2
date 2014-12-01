@@ -59,52 +59,22 @@ class Customer implements SetupInterface
     /**
      * @var array $customerDataProfile
      */
-    protected $customerDataProfile = [
-        'website_id' => '1',
-        'group_id' => '1',
-        'disable_auto_group_change' => '0',
-        'prefix',
-        'firstname' => '',
-        'middlename' => '',
-        'lastname' => '',
-        'suffix' => '',
-        'email' => '',
-        'dob' => '',
-        'taxvat' => '',
-        'gender' => '',
-        'confirmation' => false,
-        'sendemail' => false
-    ];
+    protected $customerDataProfile;
 
     /**
      * @var array $customerDataAddress
      */
-    protected $customerDataAddress = [
-        'prefix' => '',
-        'firstname' => '',
-        'middlename' => '',
-        'lastname' => '',
-        'suffix' => '',
-        'company' => '',
-        'street' => [
-            0 => '',
-            1 => ''
-        ],
-        'city' => '',
-        'country_id' => '',
-        'region' => '',
-        'postcode' => '',
-        'telephone' => '',
-        'fax' => '',
-        'vat_id' => '',
-        'default_billing' => true,
-        'default_shipping' => true
-    ];
+    protected $customerDataAddress;
 
     /**
      * @var \Magento\Tools\SampleData\Logger
      */
     protected $logger;
+
+    /**
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
+     */
+    protected $storeManager;
 
     /**
      * @param FixtureHelper $fixtureHelper
@@ -116,6 +86,7 @@ class Customer implements SetupInterface
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Tools\SampleData\Logger $logger
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param array $fixtures
      */
     public function __construct(
@@ -128,6 +99,7 @@ class Customer implements SetupInterface
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Tools\SampleData\Logger $logger,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
         $fixtures = [
             'Customer/customer_profile.csv'
         ]
@@ -142,6 +114,7 @@ class Customer implements SetupInterface
         $this->countryFactory = $countryFactory;
         $this->fixtures = $fixtures;
         $this->logger = $logger;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -156,8 +129,8 @@ class Customer implements SetupInterface
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
             foreach ($csvReader as $row) {
                 // Collect customer profile and addresses data
-                $customerData['profile'] = $this->convertRowData($row, $this->customerDataProfile);
-                $customerData['address'] = $this->convertRowData($row, $this->customerDataAddress);
+                $customerData['profile'] = $this->convertRowData($row, $this->getDefaultCustomerProfile());
+                $customerData['address'] = $this->convertRowData($row, $this->getDefaultCustomerAddress());
                 $customerData['address']['region_id'] = $this->getRegionId($customerData['address']);
                 $customerProfile = $this->customerBuilder->populateWithArray($customerData['profile'])->create();
                 $addresses[] = $this->addressBuilder->populateWithArray($customerData['address'])->create();
@@ -180,6 +153,63 @@ class Customer implements SetupInterface
             }
             $this->logger->log(PHP_EOL);
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function getDefaultCustomerProfile()
+    {
+        if (!$this->customerDataProfile) {
+            $this->customerDataProfile = [
+                'website_id' => $this->storeManager->getWebsiteId(),
+                'group_id' => $this->storeManager->getGroupId(),
+                'disable_auto_group_change' => '0',
+                'prefix',
+                'firstname' => '',
+                'middlename' => '',
+                'lastname' => '',
+                'suffix' => '',
+                'email' => '',
+                'dob' => '',
+                'taxvat' => '',
+                'gender' => '',
+                'confirmation' => false,
+                'sendemail' => false
+            ];
+        }
+        return $this->customerDataProfile;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getDefaultCustomerAddress()
+    {
+        if (!$this->customerDataAddress) {
+            $this->customerDataAddress = [
+                'prefix' => '',
+                'firstname' => '',
+                'middlename' => '',
+                'lastname' => '',
+                'suffix' => '',
+                'company' => '',
+                'street' => [
+                    0 => '',
+                    1 => ''
+                ],
+                'city' => '',
+                'country_id' => '',
+                'region' => '',
+                'postcode' => '',
+                'telephone' => '',
+                'fax' => '',
+                'vat_id' => '',
+                'default_billing' => true,
+                'default_shipping' => true
+            ];
+        }
+        return $this->customerDataAddress;
     }
 
     /**

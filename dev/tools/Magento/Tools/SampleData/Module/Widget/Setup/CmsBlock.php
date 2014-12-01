@@ -147,7 +147,7 @@ class CmsBlock implements SetupInterface
 
                 $widgetInstance->setType($type)->setCode($code)->setThemeId($themeId);
                 $widgetInstance->setTitle($row['title'])
-                    ->setStoreIds(array(0))
+                    ->setStoreIds(array(\Magento\Store\Model\Store::DEFAULT_STORE_ID))
                     ->setWidgetParameters(array('block_id' => $block->getId()))
                     ->setPageGroups(array($pageGroup));
                 $widgetInstance->save();
