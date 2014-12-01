@@ -2,9 +2,5 @@ name,url_key,path,active,is_anchor,include_in_menu,position,display_mode,page_la
 Sale,sale,,1,0,1,6,PAGE,,
 "What's New",what-is-new,,1,0,1,1,PAGE,,
 Collections,collections,,0,0,0,,PAGE,,
-"Erin Recommends",erin-recommends,Collections,1,1,0,20,PAGE,"1column","<remove name=""page.main.title""/>"
-"Performance Fabrics",performance-fabrics,Collections,1,1,0,21,PAGE,"1column","<remove name=""page.main.title""/>"
-"Eco Friendly",eco-friendly,Collections,1,1,0,22,PAGE,"1column","<remove name=""page.main.title""/>"
-Promotions,promotions,,0,0,0,,PAGE,,
-"Performance Fabric New",performance-new,Promotions,1,1,0,,,,
-"Eco Collection New",eco-new,Promotions,1,1,0,,,,
+"Performance Fabrics New",performance-new,Collections,1,1,0,,PAGE,,
+"Eco Collection New",eco-new,Collections,1,1,0,,PAGE,,

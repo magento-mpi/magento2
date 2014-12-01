@@ -1,7 +1,9 @@
 category,sku,name,size_general,description,price,style_general,activity_general,material,sleeve,collar,pattern,climate,color,eco_collection,performance_fabric,erin_recommends,new,sale,special_price,attribute_set
 "Men
 Tops
-Hoodies & Sweatshirts",MH01,"Chaz Kangeroo Hoodie","XS
+Hoodies & Sweatshirts
+Collections
+Eco Friendly",MH01,"Chaz Kangeroo Hoodie","XS
 S
 M
 L
@@ -41,7 +43,9 @@ Purple
 Red",,,,1,,,Top
 "Men
 Tops
-Hoodies & Sweatshirts",MH03,"Bruno Compete Hoodie","XS
+Hoodies & Sweatshirts
+Collections
+Eco Friendly",MH03,"Bruno Compete Hoodie","XS
 S
 M
 L
@@ -56,7 +60,9 @@ Blue
 Green",1,,1,1,,,Top
 "Men
 Tops
-Hoodies & Sweatshirts",MH04,"Frankie  Sweatshirt","XS
+Hoodies & Sweatshirts
+Collections
+Eco Friendly",MH04,"Frankie  Sweatshirt","XS
 S
 M
 L
@@ -265,7 +271,9 @@ Orange
 Red",,1,,1,,,Top
 "Men
 Tops
-Jackets",MJ04,"Kenobi Trail Jacket","XS
+Jackets
+Collections
+Eco Friendly",MJ04,"Kenobi Trail Jacket","XS
 S
 M
 L
@@ -392,7 +400,9 @@ Red
 Green",,1,,,1,52.00,Top
 "Men
 Tops
-Jackets",MJ06,"Jupiter All-Weather Trainer ","XS
+Jackets
+Collections
+Eco Friendly",MJ06,"Jupiter All-Weather Trainer ","XS
 S
 M
 L
@@ -474,7 +484,9 @@ Red
 Black",,1,,1,,,Top
 "Men
 Tops
-Tees",MS05,"Helios EverCool&trade; Tee","XS
+Tees
+Collections
+Eco Friendly",MS05,"Helios EverCool&trade; Tee","XS
 S
 M
 L
@@ -750,7 +762,9 @@ Indoor
 Warm",Black,,1,,,,,Top
 "Men
 Tops
-Tanks",MT07,"Argus All-Weather Tank","XS
+Tanks
+Collections
+Eco Friendly",MT07,"Argus All-Weather Tank","XS
 S
 M
 L
@@ -805,7 +819,9 @@ Indoor
 Warm",Yellow,,,,,1,15.00,Top
 "Men
 Tops
-Tanks",MT11,"Atlas Fitness Tank","XS
+Tanks
+Collections
+Eco Friendly",MT11,"Atlas Fitness Tank","XS
 S
 M
 L
