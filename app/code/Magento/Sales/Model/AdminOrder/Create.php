@@ -1742,20 +1742,14 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
                 if (is_null($customer->getDefaultBilling())) {
                     $customerAddress = $this->addressBuilder->populate($customerAddress)
                         ->setDefaultBilling(true)
-                        ->setCustomerId($customer->getId())
                         ->create();
-                    $customerAddress = $this->addressRepository->save($customerAddress);
-                    $customer = $this->customerBuilder->populate($customer)->setDefaultBilling($customerAddress->getId())->create();
                 }
                 break;
             case \Magento\Sales\Model\Quote\Address::ADDRESS_TYPE_SHIPPING:
                 if (is_null($customer->getDefaultShipping())) {
                     $customerAddress = $this->addressBuilder->populate($customerAddress)
                         ->setDefaultShipping(true)
-                        ->setCustomerId($customer->getId())
                         ->create();
-                    $customerAddress = $this->addressRepository->save($customerAddress);
-                    $customer = $this->customerBuilder->populate($customer)->setDefaultShipping($customerAddress->getId())->create();
                 }
                 break;
             default:
