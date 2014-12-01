@@ -54,17 +54,17 @@
         display: none;
     }
     &-options {
-        margin: 0 5px 0 7px;
+        margin: 0 0 0 7px;
         width: auto;
     }
     &-action {
         vertical-align: top;
         .icon-font(
-            @icon-arrow-down,
+            @icon-arrow-up,
             @_icon-font-size: 28px,
             @_icon-font-line-height: 32px,
-            @_icon-font-color: @text-color-muted,
-            @_icon-font-color-hover: @color-primary,
+            @_icon-font-color: @header-icons-color,
+            @_icon-font-color-hover: @header-icons-color-hover,
             @_icon-font-text-hide: true
         );
         &.sort-desc:before {

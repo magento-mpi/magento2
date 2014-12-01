@@ -64,14 +64,15 @@
         display: none;
     }
     &-options {
-        margin: 0 5px 0 7px;
+        margin: 0 @indent-xs-base 0 7px;
         width: auto;
     }
     &-action {
         .icon-font(
-            @icon-arrow-down,
+            @icon-arrow-up,
             @_icon-font-size: 16px,
-            @_icon-font-color: @text-color-muted
+            @_icon-font-color: @header-icons-color,
+            @_icon-font-color-hover: @header-icons-color-hover
         );
         .icon-text-hide();
         &.sort-desc:before {
