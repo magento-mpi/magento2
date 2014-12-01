@@ -8,7 +8,6 @@
 namespace Magento\Tax\Model\Calculation;
 
 use Magento\Tax\Model\Calculation;
-use Magento\Customer\Service\V1\Data\Address;
 use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
 use Magento\Tax\Api\Data\TaxDetailsItemDataBuilder;
 use Magento\Tax\Api\Data\AppliedTaxDataBuilder;
