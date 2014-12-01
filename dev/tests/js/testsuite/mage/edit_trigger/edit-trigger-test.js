@@ -69,16 +69,19 @@ EditTriggerTest.prototype.testTriggerClick = function() {
 };
 EditTriggerTest.prototype.testDestroy = function() {
     var editTrigger = jQuery('body').editTrigger(),
-        editTriggerExist = !!editTrigger.data('mageEditTrigger'),
         editProcessed = false,
         mousemoveProcessed = false;
+    
     $('body')
         .on('edit.editTrigger', function() {editProcessed = true;})
         .on('mousemove.editTrigger', function() {mousemoveProcessed = true;});
-    editTrigger.editTrigger('destroy');
-    assertEquals(false, editTriggerExist === !!editTrigger.data('mageEditTrigger'));
+    
+    editTrigger.editTrigger('destroy');    
+    assertEquals(false, !!editTrigger.data('mageEditTrigger'));
+
     $('body').trigger('edit.editTrigger');
     assertEquals(false, editProcessed);
+    
     $('body').trigger('mousemove.editTrigger');
     assertEquals(false, mousemoveProcessed);
 };
