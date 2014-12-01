@@ -50,9 +50,9 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getList'])
             ->getMock();
 
-        $this->interceptionConfigurationBuilder = $this->getMockBuilder('\Magento\Tools\Di\Code\Generator\InterceptionConfigurationBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->interceptionConfigurationBuilder = $this->getMockBuilder(
+            '\Magento\Tools\Di\Code\Generator\InterceptionConfigurationBuilder'
+        )->disableOriginalConstructor()->getMock();
 
         $this->configReader = $this->getMockBuilder('\Magento\Tools\Di\Compiler\Config\Reader')
             ->disableOriginalConstructor()

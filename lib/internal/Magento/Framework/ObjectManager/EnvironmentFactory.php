@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\ObjectManager;
 
-use Magento\Framework\App\Arguments;
 use Magento\Framework\ObjectManager\Environment\Compiled;
 use Magento\Framework\ObjectManager\Environment\Developer;
 

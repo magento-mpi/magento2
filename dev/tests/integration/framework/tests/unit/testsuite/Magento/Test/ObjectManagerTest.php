@@ -24,12 +24,12 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $resource = new \stdClass();
 
-        $instanceConfig = $this->getMockBuilder('Magento\TestFramework\ObjectManager\Config')
+        $configMock = $this->getMockBuilder('Magento\TestFramework\ObjectManager\Config')
             ->disableOriginalConstructor()
-            ->setMethods(['getPreference', 'clear'])
+            ->setMethods(['getPreference', 'clean'])
             ->getMock();
 
-        $instanceConfig->expects($this->any())->method(
+        $configMock->expects($this->any())->method(
             'getPreference'
         )->will($this->returnCallback(
             function ($className) {
@@ -60,7 +60,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 
         $model = new \Magento\TestFramework\ObjectManager(
             $factory,
-            $instanceConfig,
+            $configMock,
             array(
                 'Magento\Framework\App\Cache\Type\Config' => $cache,
                 'Magento\Framework\App\ObjectManager\ConfigLoader' => $configLoader,

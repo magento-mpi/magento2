@@ -57,7 +57,8 @@ class Compiled extends AbstractEnvironment implements EnvironmentInterface
 
     /**
      * Return unserialized config data
-     * @return mixed
+     *
+     * @return array
      */
     private function getConfigData()
     {
@@ -69,6 +70,8 @@ class Compiled extends AbstractEnvironment implements EnvironmentInterface
     }
 
     /**
+     * Returns file path
+     *
      * @return string
      */
     public static function getFilePath()
@@ -77,6 +80,8 @@ class Compiled extends AbstractEnvironment implements EnvironmentInterface
     }
 
     /**
+     * Returns new instance of compiled config loader
+     *
      * @return \Magento\Framework\App\ObjectManager\ConfigLoader\Compiled
      */
     public function getObjectManagerConfigLoader()

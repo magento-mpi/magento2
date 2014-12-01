@@ -17,6 +17,7 @@ class Compiled extends AbstractFactory
      * @param array $arguments
      * @return object
      * @throws \Exception
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function create($requestedType, array $arguments = array())
     {
