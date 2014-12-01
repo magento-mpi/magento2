@@ -118,11 +118,11 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
                 <a class="action edit" href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo __('Edit item parameters') ?>"><span><?php echo __('Edit') ?></span></a>
             <?php endif ?>
 
-            <button title="<?php echo __('Remove item') ?>"
+            <a href="#" title="<?php echo __('Remove item') ?>"
                     class="action delete"
                     data-post='<?php echo $this->helper('Magento\Checkout\Helper\Cart')->getDeletePostJson($_item); ?>'>
                 <span><?php echo __('Remove item')?></span>
-            </button>
+            </a>
         </div>
     </td>
 </tr>
