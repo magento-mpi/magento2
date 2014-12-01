@@ -18,6 +18,8 @@ class Move implements Layout\ReaderInterface
     /**#@-*/
 
     /**
+     * {@inheritdoc}
+     *
      * @return string[]
      */
     public function getSupportedNodes()
@@ -30,10 +32,9 @@ class Move implements Layout\ReaderInterface
      *
      * @param Context $readerContext
      * @param Layout\Element $currentElement
-     * @param Layout\Element $parentElement
      * @return $this
      */
-    public function process(Context $readerContext, Layout\Element $currentElement, Layout\Element $parentElement)
+    public function interpret(Context $readerContext, Layout\Element $currentElement)
     {
         $this->scheduleMove($readerContext->getScheduledStructure(), $currentElement);
         return false;

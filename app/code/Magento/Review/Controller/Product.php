@@ -10,6 +10,7 @@ namespace Magento\Review\Controller;
 use Magento\Framework\App\RequestInterface;
 use Magento\Catalog\Model\Product as CatalogProduct;
 use Magento\Review\Model\Review;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Review controller
@@ -42,9 +43,9 @@ class Product extends \Magento\Framework\App\Action\Action
     /**
      * Catalog catgory model
      *
-     * @var \Magento\Catalog\Model\CategoryFactory
+     * @var \Magento\Catalog\Api\CategoryRepositoryInterface
      */
-    protected $_categoryFactory;
+    protected $categoryRepository;
 
     /**
      * Logger
@@ -56,9 +57,9 @@ class Product extends \Magento\Framework\App\Action\Action
     /**
      * Catalog product model
      *
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
-    protected $_productFactory;
+    protected $productRepository;
 
     /**
      * Review model
@@ -99,9 +100,9 @@ class Product extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Catalog\Model\Design $catalogDesign
@@ -113,9 +114,9 @@ class Product extends \Magento\Framework\App\Action\Action
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository,
         \Magento\Framework\Logger $logger,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Catalog\Model\Design $catalogDesign,
@@ -127,9 +128,9 @@ class Product extends \Magento\Framework\App\Action\Action
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
         $this->_reviewSession = $reviewSession;
-        $this->_categoryFactory = $categoryFactory;
+        $this->categoryRepository = $categoryRepository;
         $this->_logger = $logger;
-        $this->_productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->_reviewFactory = $reviewFactory;
         $this->_ratingFactory = $ratingFactory;
         $this->_catalogDesign = $catalogDesign;
@@ -186,7 +187,7 @@ class Product extends \Magento\Framework\App\Action\Action
         }
 
         if ($categoryId) {
-            $category = $this->_categoryFactory->create()->load($categoryId);
+            $category = $this->categoryRepository->get($categoryId);
             $this->_coreRegistry->register('current_category', $category);
         }
 
@@ -217,13 +218,12 @@ class Product extends \Magento\Framework\App\Action\Action
             return false;
         }
 
-        $product = $this->_productFactory->create()->setStoreId(
-            $this->_storeManager->getStore()->getId()
-        )->load(
-            $productId
-        );
-        /* @var $product CatalogProduct */
-        if (!$product->getId() || !$product->isVisibleInCatalog() || !$product->isVisibleInSiteVisibility()) {
+        try {
+            $product = $this->productRepository->getById($productId);
+            if (!$product->isVisibleInCatalog() || !$product->isVisibleInSiteVisibility()) {
+                throw new NoSuchEntityException();
+            }
+        } catch (NoSuchEntityException $noEntityException) {
             return false;
         }
 
