@@ -194,7 +194,7 @@ define([
                 return;
             }
             if(tier.prices[magicKey].amount < oneItemPrice[magicKey].amount) {
-                oneItemPrice = tier.prices;
+                oneItemPrice = utils.deepClone(tier.prices);
             }
         });
         return oneItemPrice;
