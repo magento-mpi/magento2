@@ -9,6 +9,8 @@ namespace Magento\Tools\SampleData\Module\Sales\Setup\Order;
 
 /**
  * Class Processor
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Processor
 {
@@ -129,9 +131,7 @@ class Processor
     protected function processQuote($data = array())
     {
         $orderCreateModel = $this->createOrderFactory->create(
-            [
-                'quoteSession' => $this->sessionQuoteFactory->create()
-            ]
+            ['quoteSession' => $this->sessionQuoteFactory->create()]
         );
         if (!empty($data['order'])) {
             $orderCreateModel->importPostData($data['order']);
@@ -208,7 +208,6 @@ class Processor
      * @param \Magento\Sales\Model\Order\Item $orderItem
      * @param string $storeCreditAmount
      * @return void
-     * @TODO uncomment code after merge with mainline
      */
     protected function refundOrder(\Magento\Sales\Model\Order\Item $orderItem, $storeCreditAmount = '')
     {
@@ -216,9 +215,8 @@ class Processor
             $orderItem->getId() => $orderItem->getQtyToRefund()
         ];
         if (!empty($storeCreditAmount)) {
-            //Refund to store credit doesn't working in Magento MAGETWO-30058
-            //$creditmemoData['refund_customerbalance_return_enable'] = '1';
-            //$creditmemoData['refund_customerbalance_return'] = '32';
+            $creditmemoData['refund_customerbalance_return_enable'] = '1';
+            $creditmemoData['refund_customerbalance_return'] = '32';
         }
         $creditmemoLoader = $this->creditmemoLoaderFactory->create();
         $creditmemoLoader->setOrderId($orderItem->getOrderId());

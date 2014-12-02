@@ -16,6 +16,8 @@ use \Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Launches setup of sample data for Theme module
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Setup implements SetupInterface
 {
