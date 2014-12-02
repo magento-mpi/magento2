@@ -21,6 +21,9 @@ class RowBaseCalculator extends AbstractAggregateCalculator
         $type = self::KEY_REGULAR_DELTA_ROUNDING,
         $round = true
     ) {
-        return $this->calculationTool->round($amount);
+        if ($round) {
+            $amount = $this->calculationTool->round($amount);
+        }
+        return $amount;
     }
 }
