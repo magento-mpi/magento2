@@ -90,7 +90,7 @@ class Deploy
     {
         $pathNormalized = str_replace('\\', '/', $path);
 
-        foreach($exclude as $item) {
+        foreach ($exclude as $item) {
             if (strpos($pathNormalized, $item) !== false) {
                 return true;
             }

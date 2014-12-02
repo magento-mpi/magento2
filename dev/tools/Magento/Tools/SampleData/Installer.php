@@ -74,9 +74,11 @@ class Installer implements \Magento\Framework\AppInterface
      * @param Console\Response $response
      * @param Helper\PostInstaller $postInstaller
      * @param Helper\Deploy $deploy
+     * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param array $data
      * @throws \Exception
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         State $appState,
@@ -87,6 +89,7 @@ class Installer implements \Magento\Framework\AppInterface
         Console\Response $response,
         Helper\PostInstaller $postInstaller,
         Helper\Deploy $deploy,
+        \Magento\User\Model\UserFactory $userFactory,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         array $data = []
     ) {
@@ -99,8 +102,7 @@ class Installer implements \Magento\Framework\AppInterface
         $this->postInstaller = $postInstaller;
         $this->deploy = $deploy;
         $this->session = $backendAuthSession;
-        /** @var \Magento\User\Model\User $user */
-        $user = $objectManager->create('Magento\User\Model\User')->loadByUsername($data['admin_username']);
+        $user = $userFactory->create()->loadByUsername($data['admin_username']);
         if (!$user || !$user->getId()) {
             throw new \Exception('Invalid username provided');
         }

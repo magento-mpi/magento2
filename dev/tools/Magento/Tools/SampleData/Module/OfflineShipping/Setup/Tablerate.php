@@ -52,12 +52,13 @@ class Tablerate implements SetupInterface
     protected $configWriter;
 
     /**
-     * @param \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate $tablerate,
-     * @param \Magento\Tools\SampleData\Helper\Fixture $fixtureHelper
-     * @param \Magento\Tools\SampleData\Helper\Csv\ReaderFactory $csvReaderFactory
+     * @param \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate $tablerate
+     * @param FixtureHelper $fixtureHelper
+     * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
+     * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
      */
     public function __construct(
         \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate $tablerate,

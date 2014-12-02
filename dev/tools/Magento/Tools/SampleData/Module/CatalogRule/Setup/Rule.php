@@ -171,6 +171,4 @@ class Rule implements SetupInterface
         }
         return $websiteIds;
     }
-
-
 }

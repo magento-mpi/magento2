@@ -82,6 +82,7 @@ class Setup implements SetupInterface
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param FixtureHelper $fixtureHelper
      * @param Logger $logger
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Theme\Model\Config $config,
@@ -166,5 +167,4 @@ class Setup implements SetupInterface
             $this->configCacheType->clean();
         }
     }
-
 }
