@@ -8,6 +8,7 @@
 namespace Magento\Paypal\Model\Method\Checks;
 
 use Magento\Payment\Model\Checks\PaymentMethodChecksInterface;
+use Magento\Paypal\Model\Config;
 use Magento\Sales\Model\Quote;
 use Magento\Payment\Model\Checks\SpecificationInterface;
 use Magento\Paypal\Model\Billing\AgreementFactory;
@@ -48,7 +49,7 @@ class SpecificationPlugin
             return false;
         }
 
-        if ($paymentMethod->getCode() == 'paypal_billing_agreement') {
+        if ($paymentMethod->getCode() == Config::METHOD_BILLING_AGREEMENT) {
             if ($quote->getCustomerId()) {
                 $availableBA = $this->_agreementFactory->create()->getAvailableCustomerBillingAgreements(
                     $quote->getCustomerId()
