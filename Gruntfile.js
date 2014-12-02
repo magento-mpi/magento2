@@ -121,14 +121,14 @@ module.exports = function (grunt) {
                     name: 'Magento UI Library',
                     verbose: true,
                     include: [
-                        '<%= config.path.doc %>/<%= config.doc.styleName %>.css',
-                        'lib/web/jquery/jquery.min.js',
-                        'lib/web/jquery/jquery-ui.min',
-                        '<%= config.path.doc %>/source/js/dropdown.js'
+                        '<%= config.path.doc %>/<%= config.doc.styleName %>.css'
+                        //'lib/web/jquery/jquery.min.js',
+                        //'lib/web/jquery/jquery-ui.min',
+                        //'<%= config.path.doc %>/source/js/dropdown.js'
                     ]
                 },
                 files: {
-                    '': '' // Todo UI: Check out JS for Styledocco
+                    '<%= config.path.doc %>': '<%= config.path.doc %>/source' // Todo UI: Check out JS for Styledocco
                 }
             }
         }

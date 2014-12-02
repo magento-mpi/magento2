@@ -15,8 +15,8 @@
 //    Mobile styles collector
 //--------------------------------------
 
-.responsive-max-m() {}
-.responsive-min-m() {}
+.responsive-max-m(@break) {}
+.responsive-min-m(@break) {}
 
 @media only screen and (max-width: (@screen-xs - 1)) {
     .responsive-max-m(@screen-xs);
@@ -37,7 +37,7 @@
 //    Laptop styles collector
 //--------------------------------------
 
-.responsive-min-l() {}
+.responsive-min-l(@break) {}
 
 @media all and (min-width: @screen-m),
 print {
