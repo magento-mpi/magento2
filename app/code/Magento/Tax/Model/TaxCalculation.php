@@ -108,7 +108,7 @@ class TaxCalculation implements TaxCalculationInterface
         TaxDetailsDataBuilder $taxDetailsBuilder,
         TaxDetailsItemDataBuilder $taxDetailsItemBuilder,
         StoreManagerInterface $storeManager,
-        TaxClassService $taxClassService
+        TaxClassManagementInterface $taxClassManagement
     ) {
         $this->calculationTool = $calculation;
         $this->calculatorFactory = $calculatorFactory;
@@ -116,7 +116,7 @@ class TaxCalculation implements TaxCalculationInterface
         $this->taxDetailsBuilder = $taxDetailsBuilder;
         $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
         $this->storeManager = $storeManager;
-        $this->taxClassService = $taxClassService;
+        $this->taxClassManagement = $taxClassManagement;
     }
 
     /**

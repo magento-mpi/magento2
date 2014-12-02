@@ -16,7 +16,7 @@ use Magento\Tax\Api\Data\TaxDetailsInterface;
 use Magento\Tax\Api\Data\TaxDetailsItemInterface;
 use Magento\Sales\Model\Quote\Item\AbstractItem;
 use Magento\Framework\Object;
-use \Magento\Customer\Api\Data\AddressInterface as CustomerAddress;
+use Magento\Customer\Api\Data\AddressInterface as CustomerAddress;
 use Magento\Customer\Api\Data\AddressDataBuilder as CustomerAddressBuilder;
 use Magento\Customer\Api\Data\RegionDataBuilder as CustomerAddressRegionBuilder;
 

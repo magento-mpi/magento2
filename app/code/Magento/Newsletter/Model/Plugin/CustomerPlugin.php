@@ -45,7 +45,7 @@ class CustomerPlugin
     }
 
     /**
-     * Plugin after delete customer that updates any newsletter subscription that may have existed.
+     * Plugin around delete customer that updates any newsletter subscription that may have existed.
      *
      * @param CustomerRepository $subject
      * @param callable $deleteCustomerById Function we are wrapping around
@@ -69,7 +69,7 @@ class CustomerPlugin
     }
 
     /**
-     * Plugin after delete customer that updates any newsletter subscription that may have existed.
+     * Plugin around delete customer that updates any newsletter subscription that may have existed.
      *
      * @param CustomerRepository $subject
      * @param callable $deleteCustomer Function we are wrapping around
