@@ -61,7 +61,8 @@ try {
     exit(1);
 }
 
-function readResponseTimeReport($filename) {
+function readResponseTimeReport($filename)
+{
     $result = [];
     $f = fopen($filename, 'r');
     while (!feof($f) && is_array($line = fgetcsv($f))) {
@@ -78,7 +79,8 @@ function readResponseTimeReport($filename) {
     return $result;
 }
 
-function getMeanValue(array $times) {
+function getMeanValue(array $times)
+{
     global $skipMeasurementsPercent;
     sort($times);
     $slice = array_slice($times, 0, round(count($times) - count($times) * $skipMeasurementsPercent / 100));
@@ -86,6 +88,7 @@ function getMeanValue(array $times) {
     return array_sum($slice) / count($slice);
 }
 
-function getDeviation(array $mainlineResults, array $branchResults) {
+function getDeviation(array $mainlineResults, array $branchResults)
+{
     return 100 * (getMeanValue($branchResults) / getMeanValue($mainlineResults) - 1);
 }
