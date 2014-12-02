@@ -39,8 +39,8 @@ class Status extends AbstractExtensibleModel implements StockStatusInterface
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param MetadataServiceInterface $metadataService
-     * @param StockRegistryInterface $stockRegistry
      * @param AttributeDataBuilder $customAttributeBuilder
+     * @param StockRegistryInterface $stockRegistry
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -49,8 +49,8 @@ class Status extends AbstractExtensibleModel implements StockStatusInterface
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         MetadataServiceInterface $metadataService,
-        StockRegistryInterface $stockRegistry,
         AttributeDataBuilder $customAttributeBuilder,
+        StockRegistryInterface $stockRegistry,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []

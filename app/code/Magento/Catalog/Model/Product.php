@@ -253,6 +253,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
@@ -275,7 +276,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * @param Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param Indexer\Product\Price\Processor $productPriceIndexerProcessor
      * @param Indexer\Product\Eav\Processor $productEavIndexerProcessor
-     * @param AttributeDataBuilder $customAttributeBuilder
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -284,6 +284,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\StoreManagerInterface $storeManager,
         Product\Url $url,
         Product\Link $productLink,
@@ -306,7 +307,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor,
-        AttributeDataBuilder $customAttributeBuilder,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -332,8 +332,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
             $context,
             $registry,
             $metadataService,
-            $storeManager,
             $customAttributeBuilder,
+            $storeManager,
             $resource,
             $resourceCollection,
             $data

@@ -60,14 +60,14 @@ class DataBuilder extends EntityAbstract
      * @param string|null $resultClassName
      * @param Io|null $ioObject
      * @param CodeGenerator\CodeGeneratorInterface|null $classGenerator
-     * @param FileResolver|null $fileResolver
+     * @param \Magento\Framework\Code\Generator\DefinedClasses|null $definedClasses
      */
     public function __construct(
         $sourceClassName = null,
         $resultClassName = null,
         Io $ioObject = null,
         CodeGenerator\CodeGeneratorInterface $classGenerator = null,
-        FileResolver $fileResolver = null
+        \Magento\Framework\Code\Generator\DefinedClasses $definedClasses = null
     ) {
         $this->typeProcessor = new \Magento\Framework\Reflection\TypeProcessor();
         parent::__construct(
@@ -75,7 +75,7 @@ class DataBuilder extends EntityAbstract
             $resultClassName,
             $ioObject,
             $classGenerator,
-            $fileResolver
+            $definedClasses
         );
     }
 
