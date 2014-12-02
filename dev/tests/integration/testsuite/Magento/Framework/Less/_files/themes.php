@@ -21,4 +21,4 @@ $objectManger->get('Magento\Framework\App\State')
 
 /** @var $registration \Magento\Core\Model\Theme\Registration */
 $registration = $objectManger->create('Magento\Core\Model\Theme\Registration');
-$registration->register('*/*/theme.xml');
+$registration->register('*/*/*/theme.xml');

@@ -7,6 +7,7 @@
  */
 namespace Magento\Review\Block\Product;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Review\Model\Resource\Review\Collection as ReviewCollection;
 use Magento\Tax\Api\TaxCalculationInterface;
 
@@ -35,13 +36,13 @@ class View extends \Magento\Catalog\Block\Product\View
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\View\Page\Config $pageConfig
+     * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
      * @param array $data
      */
@@ -49,12 +50,12 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Customer\Model\Session $customerSession,
+        ProductRepositoryInterface $productRepository,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
@@ -63,12 +64,12 @@ class View extends \Magento\Catalog\Block\Product\View
             $context,
             $coreData,
             $jsonEncoder,
-            $productFactory,
             $string,
             $productHelper,
             $productTypeConfig,
             $localeFormat,
             $customerSession,
+            $productRepository,
             $data
         );
     }

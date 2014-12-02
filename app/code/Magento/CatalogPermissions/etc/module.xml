@@ -17,15 +17,5 @@
             <module name="Magento_Checkout"/>
             <module name="Magento_WebsiteRestriction"/>
         </sequence>
-        <depends>
-            <module name="Magento_Store"/>
-            <module name="Magento_Backend"/>
-            <module name="Magento_Catalog"/>
-            <module name="Magento_Customer"/>
-            <module name="Magento_Indexer"/>
-            <module name="Magento_ImportExport"/>
-            <module name="Magento_Eav"/>
-            <module name="Magento_Sales"/>
-        </depends>
     </module>
 </config>
