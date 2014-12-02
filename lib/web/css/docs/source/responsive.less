@@ -42,19 +42,44 @@
 
 //  # Responsive mixins usage
 //
-//  Every time you want to add some media queries you should write:
+//  For gathering media queries you can use responsive mixin collectors
+//
+//  ## Common
+//  For common styles every time you want to add some styles you should write:
 //  ```css
-//  .responsive-max-m(@break) when (@break = @screen-s) {
+//  .responsive-common() {
 //      your styles
 //  }
 //  ```
 //  It will be complied to:
 //  ```css
+//      your styles
+//  ```
+//  ## Mobile
+//  Every time you want to add some mobile media queries you can use one of:
+//  ```css
+//  .responsive-max-m(@break) {}
+//  .responsive-min-m(@break) {}
+//  ```
+//  As example
+//  ```css
+//  .responsive-max-m(@break) when (@break = @screen-s) {
+//      your styles
+//  }
+//  ```
+//  It will be complied to
+//  ```css
 //  @media only screen and (max-width: 640px) {
 //      your styles
 //  }
 //  ```
-//  Or:
+//  ## Desktop
+//  Every time you want to add some mobile media queries you can use:
+//
+//  ```css
+//  .responsive-min-l(@break)) {}
+//  ```
+//  As example
 //  ```css
 //  .responsive-min-l(@break) when (@break = @screen-m) {
 //      your styles
@@ -66,6 +91,20 @@
 //      your styles
 //  }
 //  ```
+//  ## Gathering
+//  Everything that you include in collector mixins above will go in place where they declarated.
+//  As example all
+//  ```css
+//  .responsive-min-l(@break)) {
+//      your code
+//  }
+//  ```
+//  Will go to
+//  ```css
+//  .responsive-min-l(@break));
+//  ```
+//  By default you can find it responsive.less file in lib
+//
 //  &nbsp;
 
 //  # Responsive breakpoints
