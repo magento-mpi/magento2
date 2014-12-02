@@ -17,10 +17,9 @@ class Index extends \Magento\Pci\Controller\Adminhtml\Locks
      */
     public function execute()
     {
-        $this->_title->add(__('Locked Users'));
-
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Pci::system_acl_locks');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Locked Users'));
         $this->_view->renderLayout();
     }
 }

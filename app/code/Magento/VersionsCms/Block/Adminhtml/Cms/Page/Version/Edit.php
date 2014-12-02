@@ -151,7 +151,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $cmsPage = $this->_coreRegistry->registry('cms_page');
         return $this->getUrl(
             'adminhtml/cms_page/edit',
-            array('page_id' => $cmsPage ? $cmsPage->getPageId() : null, 'tab' => 'versions')
+            array('page_id' => $cmsPage ? $cmsPage->getId() : null, 'tab' => 'versions')
         );
     }
 

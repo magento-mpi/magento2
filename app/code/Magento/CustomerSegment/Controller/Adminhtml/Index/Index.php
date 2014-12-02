@@ -17,10 +17,9 @@ class Index extends \Magento\CustomerSegment\Controller\Adminhtml\Index
      */
     public function execute()
     {
-        $this->_title->add(__('Customer Segments'));
-
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_CustomerSegment::customer_customersegment');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customer Segments'));
         $this->_view->renderLayout();
     }
 }

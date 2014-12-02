@@ -81,7 +81,6 @@ class UpdateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
         MultipleWishlist $multipleWishlist,
         CustomerInjectable $customer
     ) {
-        $this->markTestIncomplete("Bug: MAGETWO-30155");
         //Steps
         $multipleWishlistOriginal = $this->createMultipleWishlist($multipleWishlistOriginal, $customer);
         $this->openWishlistPage($customer);

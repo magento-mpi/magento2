@@ -2894,4 +2894,5 @@ return array(
     ['Magento\Framework\Module\DependencyManagerInterface'],
     ['Magento\Framework\App\Arguments\Loader'],
     ['Magento\Framework\App\Arguments', 'Magento\Framework\App\DeploymentConfig'],
+    ['Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader'],
 );

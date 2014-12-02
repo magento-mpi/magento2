@@ -96,6 +96,6 @@ class Invoice extends SalesResource implements InvoiceResourceInterface
                 $comment->save();
             }
         }
-        return parent::_beforeSave($object);
+        return parent::_afterSave($object);
     }
 }
