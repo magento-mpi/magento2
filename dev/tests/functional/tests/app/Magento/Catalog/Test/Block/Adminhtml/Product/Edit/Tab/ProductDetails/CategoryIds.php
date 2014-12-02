@@ -46,7 +46,25 @@ class CategoryIds extends MultisuggestElement
      */
     public function setValue($values)
     {
-        $this->find($this->top, Locator::SELECTOR_XPATH)->click();
+        $this->waitInitElement();
         parent::setValue($values);
+    }
+
+    /**
+     * Wait init search suggest container.
+     *
+     * @return void
+     * @throws \Exception
+     */
+    protected function waitInitElement()
+    {
+        $browser = clone $this;
+        $selector = '.mage-suggest.category-select';
+
+        $browser->waitUntil(
+            function () use ($browser, $selector) {
+                return $browser->find($selector)->isVisible() ? true : null;
+            }
+        );
     }
 }
