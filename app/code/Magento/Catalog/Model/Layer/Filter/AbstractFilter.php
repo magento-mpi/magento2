@@ -383,7 +383,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object implements Filte
     /**
      * Checks whether the option reduces the number of results
      *
-     *@param int $optionCount Count of search results with this option
+     * @param int $optionCount Count of search results with this option
      * @param int $totalSize Current search results count
      * @return bool
      */
