@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Model\Address;
 
+use Magento\Framework\Api\AttributeDataBuilder;
+
 /**
  * Address abstract model
  *
@@ -89,6 +91,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param Config $addressConfig
@@ -102,6 +105,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractExtensibleModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Eav\Model\Config $eavConfig,
         Config $addressConfig,
@@ -121,6 +125,7 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractExtensibleModel
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $resource,
             $resourceCollection,
             $data
