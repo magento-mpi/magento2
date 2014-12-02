@@ -9,6 +9,9 @@ namespace Magento\Sales\Model\Order;
 
 use Magento\Sales\Api\Data\OrderAddressInterface;
 use Magento\Customer\Model\Address\AbstractAddress;
+use Magento\Customer\Api\AddressMetadataInterface;
+use Magento\Customer\Api\Data\AddressDataBuilder;
+use Magento\Customer\Api\Data\RegionDataBuilder;
 use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
@@ -70,6 +73,9 @@ class Address extends AbstractAddress implements OrderAddressInterface
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param AddressMetadataInterface $addressMetadataService
+     * @param AddressDataBuilder $addressBuilder
+     * @param RegionDataBuilder $regionBuilder
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -85,6 +91,9 @@ class Address extends AbstractAddress implements OrderAddressInterface
         \Magento\Customer\Model\Address\Config $addressConfig,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
+        AddressMetadataInterface $addressMetadataService,
+        AddressDataBuilder $addressBuilder,
+        RegionDataBuilder $regionBuilder,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -100,6 +109,9 @@ class Address extends AbstractAddress implements OrderAddressInterface
             $addressConfig,
             $regionFactory,
             $countryFactory,
+            $addressMetadataService,
+            $addressBuilder,
+            $regionBuilder,
             $resource,
             $resourceCollection,
             $data

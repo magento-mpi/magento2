@@ -80,15 +80,6 @@ class AccountManagement implements AccountManagementInterface
     // welcome email, when confirmation is enabled
     const NEW_ACCOUNT_EMAIL_CONFIRMATION = 'confirmation';
 
-    // email with confirmation link
-
-    // Constants for confirmation statuses
-    const ACCOUNT_CONFIRMED = 'account_confirmed';
-
-    const ACCOUNT_CONFIRMATION_REQUIRED = 'account_confirmation_required';
-
-    const ACCOUNT_CONFIRMATION_NOT_REQUIRED = 'account_confirmation_not_required';
-
     /**
      * Constants for types of emails to send out.
      * pdl:

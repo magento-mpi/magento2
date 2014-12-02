@@ -17,14 +17,14 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     /**
      * Customer Account Service
      *
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    private $accountService;
+    private $customerRepository;
 
     public function setUp()
     {
-        $this->accountService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->customerRepository = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Api\CustomerRepositoryInterface');
     }
 
     public function tearDown()
@@ -55,11 +55,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $customerBuilder->setFirstname('Firstname')
             ->setLastname('Lastname')
             ->setEmail('customer_two@example.com');
-        /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
-        $customerDetailsBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
-        $customerDetailsBuilder->setCustomer($customerBuilder->create());
-        $createdCustomer = $this->accountService
-            ->createCustomer($customerDetailsBuilder->create(), 'password');
+        $createdCustomer = $this->customerRepository->save($customerBuilder->create());
 
         $subscriber->loadByEmail('customer_two@example.com');
         $this->assertTrue($subscriber->isSubscribed());
@@ -81,10 +77,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $customerBuilder->setFirstname('Firstname')
             ->setLastname('Lastname')
             ->setEmail('customer@example.com');
-        /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
-        $customerDetailsBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
-        $customerDetailsBuilder->setCustomer($customerBuilder->create());
-        $this->accountService->createCustomer($customerDetailsBuilder->create());
+        $this->customerRepository->save($customerBuilder->create());
 
         $this->verifySubscriptionNotExist('customer@example.com');
     }
@@ -103,15 +96,12 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($subscriber->isSubscribed());
         $this->assertEquals(1, (int)$subscriber->getCustomerId());
 
-        $customer = $this->accountService->getCustomer(1);
+        $customer = $this->customerRepository->getById(1);
         /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
         $customerBuilder = $objectManager->get('Magento\Customer\Api\Data\CustomerDataBuilder');
         $customerBuilder->populate($customer)
             ->setEmail('new@example.com');
-        /** @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder */
-        $customerDetailsBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
-        $customerDetailsBuilder->setCustomer($customerBuilder->create());
-        $this->accountService->updateCustomer(1, $customerDetailsBuilder->create());
+        $this->customerRepository->save($customerBuilder->create());
 
         $subscriber->loadByEmail('new@example.com');
         $this->assertTrue($subscriber->isSubscribed());
@@ -122,7 +112,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Newsletter/_files/subscribers.php
      */
-    public function testCustomerDeletedAdminArea()
+    public function testCustomerDeletedByIdAdminArea()
     {
         $objectManager = Bootstrap::getObjectManager();
 
@@ -131,8 +121,24 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $subscriber->loadByEmail('customer@example.com');
         $this->assertTrue($subscriber->isSubscribed());
 
-        $this->accountService->deleteCustomer(1);
+        $this->customerRepository->deleteById(1);
 
+        $this->verifySubscriptionNotExist('customer@example.com');
+    }
+
+    /**
+     * @magentoAppArea adminhtml
+     * @magentoDataFixture Magento/Newsletter/_files/subscribers.php
+     */
+    public function testCustomerDeletedAdminArea()
+    {
+        $customer = $this->customerRepository->getById(1);
+        $objectManager = Bootstrap::getObjectManager();
+        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
+        $subscriber = $objectManager->create('Magento\Newsletter\Model\Subscriber');
+        $subscriber->loadByEmail('customer@example.com');
+        $this->assertTrue($subscriber->isSubscribed());
+        $this->customerRepository->delete($customer);
         $this->verifySubscriptionNotExist('customer@example.com');
     }
 
