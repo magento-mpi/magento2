@@ -25,7 +25,9 @@ class Edit extends \Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled
 
         /** @var $helper \Magento\ScheduledImportExport\Helper\Data */
         $helper = $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data');
-        $this->_title->add($helper->getOperationHeaderText($operationType, 'edit'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $helper->getOperationHeaderText($operationType, 'edit')
+        );
 
         $this->_view->renderLayout();
     }
