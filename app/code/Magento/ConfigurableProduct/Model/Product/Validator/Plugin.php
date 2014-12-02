@@ -133,7 +133,7 @@ class Plugin
         $parentProductData = [];
         foreach ($product->getAttributes() as $attribute) {
             if ($attribute->getIsUserDefined() && $attribute->getIsRequired()) {
-                $parentProductData[$attribute->getName()] = $product->getData($attribute->getName());
+                $parentProductData[$attribute->getAttributeCode()] = $product->getData($attribute->getAttributeCode());
             }
         }
         return $parentProductData;
