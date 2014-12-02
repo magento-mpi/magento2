@@ -20,6 +20,21 @@ class FileGenerator
     const TMP_LESS_DIR = 'less';
 
     /**
+     * Max execution (locking) time for generation process (in seconds)
+     */
+    const MAX_LOCK_TIME = 300;
+
+    /**
+     * Lock file, if exists shows that process is locked
+     */
+    const LOCK_FILE = 'less.lock';
+
+    /**
+     * @var string
+     */
+    protected $lessDirectory;
+
+    /**
      * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     protected $tmpDirectory;
@@ -52,6 +67,7 @@ class FileGenerator
         \Magento\Framework\Less\PreProcessor\Instruction\Import $importProcessor
     ) {
         $this->tmpDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $this->lessDirectory = Source::TMP_MATERIALIZATION_DIR . '/' . self::TMP_LESS_DIR;
         $this->assetRepo = $assetRepo;
         $this->magentoImportProcessor = $magentoImportProcessor;
         $this->importProcessor = $importProcessor;
@@ -71,13 +87,13 @@ class FileGenerator
          */
 
         /**
-         * waiting if generation process is already started
+         * wait if generation process has already started
          */
-        $lockFilePath = Source::TMP_MATERIALIZATION_DIR . '/' . self::TMP_LESS_DIR . '/less.lock';
-        while ($this->tmpDirectory->isExist($lockFilePath)) {
-            //wait;
+        while ($this->isProcessLocked()) {
+            sleep(1);
         }
-        $this->tmpDirectory->writeFile($lockFilePath, '');
+        $lockFilePath = $this->lessDirectory . '/' . self::LOCK_FILE;
+        $this->tmpDirectory->writeFile($lockFilePath, time());
 
         $this->magentoImportProcessor->process($chain);
         $this->importProcessor->process($chain);
@@ -86,6 +102,25 @@ class FileGenerator
         $tmpFilePath = $this->createFile($lessRelativePath, $chain->getContent());
         $this->tmpDirectory->delete($lockFilePath);
         return $tmpFilePath;
+    }
+
+    /**
+     * Check whether generation process has already locked
+     *
+     * @return bool
+     */
+    protected function isProcessLocked()
+    {
+        $lockFilePath = $this->lessDirectory . '/' . self::LOCK_FILE;
+        if ($this->tmpDirectory->isExist($lockFilePath)) {
+            $lockTime = time() - (int)$this->tmpDirectory->readFile($lockFilePath);
+            if ($lockTime >= self::MAX_LOCK_TIME) {
+                $this->tmpDirectory->delete($lockFilePath);
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -127,7 +162,7 @@ class FileGenerator
      */
     protected function createFile($relativePath, $contents)
     {
-        $filePath = Source::TMP_MATERIALIZATION_DIR . '/' . self::TMP_LESS_DIR . '/' . $relativePath;
+        $filePath = $this->lessDirectory . '/' . $relativePath;
 
         if (!$this->tmpDirectory->isExist($filePath)) {
             $this->tmpDirectory->writeFile($filePath, $contents);
