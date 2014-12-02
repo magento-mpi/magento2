@@ -241,7 +241,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      * Test if datetime properly saved after import
      *
      * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
-     * TODO test is environment dependent
+     * TODO MAGETWO-31206
      */
     public function testSaveDatetimeAttribute()
     {
