@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Service\V1;
+namespace Magento\Customer\Api;
 
 use Magento\Integration\Model\Oauth\Token as TokenModel;
 use Magento\TestFramework\Helper\Bootstrap;
 
-class CustomerAddressServiceMeTest extends \Magento\TestFramework\TestCase\WebapiAbstract
+class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     /** @var $token TokenModel */
     private $token;
@@ -46,29 +46,6 @@ class CustomerAddressServiceMeTest extends \Magento\TestFramework\TestCase\Webap
         $registry->unregister('isSecureArea');
         $registry->register('isSecureArea', false);
         parent::tearDown();
-    }
-
-    /**
-     * @magentoApiDataFixture Magento/Customer/_files/customer.php
-     * @magentoApiDataFixture Magento/Customer/_files/customer_two_addresses.php
-     */
-    public function testGetAddresses()
-    {
-        $fixtureCustomerId = 1;
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => "/V1/customers/me/addresses",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
-                'token' => $this->token
-            ]
-        ];
-        $requestData = ['customerId' => $fixtureCustomerId];
-        $addressesData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals(
-            [$this->getFirstFixtureAddressData(), $this->getSecondFixtureAddressData()],
-            $addressesData,
-            "Addresses list is invalid."
-        );
     }
 
     /**
