@@ -27,6 +27,8 @@ class Newsletter extends \Magento\Customer\Controller\Adminhtml\Index
             ->loadByCustomerId($customerId);
 
         $this->_coreRegistry->register('subscriber', $subscriber);
-        $this->_view->loadLayout()->renderLayout();
+        $this->_view->loadLayout();
+        $this->prepareDefaultCustomerTitle();
+        $this->_view->renderLayout();
     }
 }

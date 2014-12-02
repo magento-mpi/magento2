@@ -7,37 +7,30 @@
  */
 namespace Magento\Cms\Model\DataSource;
 
-use Magento\Framework\Data\AbstractCriteria;
 use Magento\Framework\Data\CollectionDataSourceInterface;
+use Magento\Cms\Model\Resource\PageCriteria;
 
 /**
  * CMS page collection data source
  *
  * Class PageCollection
  */
-class PageCollection extends AbstractCriteria implements CollectionDataSourceInterface
+class PageCollection extends PageCriteria implements CollectionDataSourceInterface
 {
     /**
-     * @var \Magento\Cms\Model\Resource\PageCriteria
-     */
-    protected $criteria;
-
-    /**
-     * @var \Magento\Cms\Model\PageRepository
+     * @var \Magento\Cms\Api\PageRepositoryInterface
      */
     protected $repository;
 
     /**
-     * @param \Magento\Cms\Model\Resource\PageCriteria $criteria
-     * @param \Magento\Cms\Model\PageRepository $repository
+     * @param \Magento\Cms\Api\PageRepositoryInterface $repository
+     * @param string $mapper
      */
-    public function __construct(
-        \Magento\Cms\Model\Resource\PageCriteria $criteria,
-        \Magento\Cms\Model\PageRepository $repository
-    ) {
-        $this->criteria = $criteria;
+    public function __construct(\Magento\Cms\Api\PageRepositoryInterface $repository, $mapper = '')
+    {
         $this->repository = $repository;
-        $this->criteria->setFirstStoreFlag(true);
+        $this->setFirstStoreFlag(true);
+        parent::__construct($mapper);
     }
 
     /**
@@ -46,18 +39,18 @@ class PageCollection extends AbstractCriteria implements CollectionDataSourceInt
     public function addFilter($name, $field, $condition = null, $type = 'public')
     {
         if ($field === 'store_id') {
-            $this->criteria->addStoreFilter($condition, false);
+            $this->addStoreFilter($condition, false);
         } else {
-            $this->criteria->addFilter($name, $field, $condition, $type);
+            parent::addFilter($name, $field, $condition, $type);
         }
     }
 
     /**
-     * @return \Magento\Cms\Model\Resource\Page\Collection
+     * @return \Magento\Cms\Api\Data\PageCollectionInterface
      */
     public function getResultCollection()
     {
-        return $this->repository->getList($this->criteria);
+        return $this->repository->getList($this);
     }
 
     /**

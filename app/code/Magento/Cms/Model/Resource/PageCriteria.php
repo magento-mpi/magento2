@@ -7,12 +7,12 @@
  */
 namespace Magento\Cms\Model\Resource;
 
-use Magento\Framework\Data\AbstractCriteria;
+use Magento\Cms\Api\PageCriteriaInterface;
 
 /**
  * Class PageCriteria
  */
-class PageCriteria extends AbstractCriteria
+class PageCriteria extends CmsAbstractCriteria implements PageCriteriaInterface
 {
     /**
      * @param string $mapper

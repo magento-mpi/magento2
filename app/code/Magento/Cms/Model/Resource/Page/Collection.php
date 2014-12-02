@@ -15,11 +15,13 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\Data\SearchResultProcessorFactory;
 use Magento\Framework\Data\SearchResultProcessor;
+use Magento\Cms\Api\Data\PageCollectionInterface;
+use Magento\Cms\Model\Resource\AbstractCollection;
 
 /**
  * CMS page collection
  */
-class Collection extends AbstractSearchResult
+class Collection extends AbstractSearchResult implements PageCollectionInterface
 {
     /**
      * @var StoreManagerInterface
@@ -57,19 +59,21 @@ class Collection extends AbstractSearchResult
      */
     protected function init()
     {
-        $this->setDataInterfaceName('Magento\Cms\Model\Page');
+        $this->setDataInterfaceName('Magento\Cms\Api\Data\PageInterface');
         $this->query->addCountSqlSkipPart(\Zend_Db_Select::GROUP, true);
+        $this->storeTableName = 'cms_page_store';
+        $this->linkFieldName = 'page_id';
     }
 
     /**
-     * @return string[]
+     * @return array
      */
     public function toOptionIdArray()
     {
         $res = [];
         $existingIdentifiers = [];
         foreach ($this->getItems() as $item) {
-            /** @var \Magento\Cms\Model\Page $item */
+            /** @var PageInterface $item */
             $identifier = $item->getIdentifier();
 
             $data['value'] = $identifier;
@@ -111,7 +115,7 @@ class Collection extends AbstractSearchResult
                     ->where('cps.page_id IN (?)', $items);
                 if ($result = $connection->fetchPairs($select)) {
                     foreach ($this->getItems() as $item) {
-                        /** @var \Magento\Cms\Model\Page $item */
+                        /** @var PageInterface $item */
                         if (!isset($result[$item->getPageId()])) {
                             continue;
                         }

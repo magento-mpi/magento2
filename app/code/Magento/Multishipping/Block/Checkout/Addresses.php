@@ -84,7 +84,9 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
      */
     protected function _prepareLayout()
     {
-        $this->pageConfig->setTitle(__('Ship to Multiple Addresses') . ' - ' . $this->pageConfig->getDefaultTitle());
+        $this->pageConfig->getTitle()->set(
+            __('Ship to Multiple Addresses') . ' - ' . $this->pageConfig->getTitle()->getDefault()
+        );
         return parent::_prepareLayout();
     }
 

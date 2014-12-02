@@ -21,7 +21,6 @@ class UpdateQty extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvo
     public function execute()
     {
         try {
-            $this->_title->add(__('Invoices'));
             $orderId = $this->getRequest()->getParam('order_id');
             $invoiceData = $this->getRequest()->getParam('invoice', []);
             $invoiceItems = isset($invoiceData['items']) ? $invoiceData['items'] : [];
@@ -48,6 +47,7 @@ class UpdateQty extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvo
             $invoice->setCommentText($invoiceRawCommentText);
 
             $this->_view->loadLayout();
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Invoices'));
             $response = $this->_view->getLayout()->getBlock('order_items')->toHtml();
         } catch (Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());

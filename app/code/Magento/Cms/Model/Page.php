@@ -7,6 +7,9 @@
  */
 namespace Magento\Cms\Model;
 
+use Magento\Cms\Api\Data\PageInterface;
+use Magento\Framework\Object\IdentityInterface;
+
 /**
  * Cms Page Model
  *
@@ -46,14 +49,8 @@ namespace Magento\Cms\Model;
  * @method \Magento\Cms\Model\Page setCustomThemeTo(string $value)
  * @method int[] getStores()
  */
-class Page extends \Magento\Framework\Model\AbstractModel
+class Page extends \Magento\Framework\Model\AbstractModel implements IdentityInterface, PageInterface
 {
-    const PAGE_ID = 'page_id';
-
-    const IDENTIFIER = 'identifier';
-
-    const TITLE = 'title';
-
     /**
      * No route page id
      */
@@ -96,9 +93,9 @@ class Page extends \Magento\Framework\Model\AbstractModel
     /**
      * @return int
      */
-    public function getPageId()
+    public function getId()
     {
-        return (int) $this->_getData(self::PAGE_ID);
+        return $this->_getData(PageInterface::PAGE_ID);
     }
 
     /**
@@ -106,7 +103,7 @@ class Page extends \Magento\Framework\Model\AbstractModel
      */
     public function getIdentifier()
     {
-        return (string) $this->_getData(self::IDENTIFIER);
+        return (string) $this->_getData(PageInterface::IDENTIFIER);
     }
 
     /**
@@ -114,7 +111,7 @@ class Page extends \Magento\Framework\Model\AbstractModel
      */
     public function getTitle()
     {
-        return $this->_getData(self::TITLE);
+        return $this->_getData(PageInterface::TITLE);
     }
 
     /**

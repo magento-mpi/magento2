@@ -90,7 +90,7 @@ class PageRepository
     {
         $page = $this->pageFactory->create();
         $this->resource->load($page, $pageId);
-        if (!$page->getPageId()) {
+        if (!$page->getId()) {
             throw new NoSuchEntityException(sprintf('CMS Page with id "%s" does not exist.', $pageId));
         }
         return $page;
