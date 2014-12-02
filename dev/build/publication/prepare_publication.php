@@ -56,12 +56,6 @@ try {
         echo "Assuming that 'source-point' is a commit ID." . PHP_EOL;
     }
 
-    // check if root composer.json exists
-    if (!file_exists($targetComposerJson)) {
-        throw new Exception("Composer file '{$targetComposerJson}' does not exist.");
-    }
-    $rootJson = json_decode(file_get_contents($targetComposerJson));
-
     $logFile = $targetDir . '/' . $changelogFile;
     echo "Source log file is '$logFile'" . PHP_EOL;
     $targetLog = file_exists($logFile) ? file_get_contents($logFile) : '';
@@ -85,6 +79,12 @@ try {
     if (!empty($targetLog) && $sourceLog == $targetLog) {
         throw new Exception("Aborting attempt to publish with old changelog. '$logFile' is not updated.");
     }
+
+    // check if root composer.json exists
+    if (!file_exists($targetComposerJson)) {
+        throw new Exception("Composer file '{$targetComposerJson}' does not exist.");
+    }
+    $rootJson = json_decode(file_get_contents($targetComposerJson));
 
     echo 'Parsing top section of CHANGELOG.md:' . PHP_EOL;
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
