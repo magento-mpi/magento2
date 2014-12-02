@@ -46,6 +46,8 @@ define([
         var priceBox = $(this.options.priceBoxSelector, form);
         var qtyFields = $(this.options.qtyFieldSelector, form);
 
+        applyQtyFix.call(this);
+
         bundleOptions.on('change', onBundleOptionChanged.bind(this));
         qtyFields.on('change', onQtyFieldChanged.bind(this));
         priceBox.priceBox('setDefault', this.options.optionConfig.prices);
@@ -67,7 +69,9 @@ define([
             changes = defaultGetOptionValue(bundleOption, this.options.optionConfig);
         }
 
-        priceBox.trigger('updatePrice', changes);
+        if(changes){
+            priceBox.trigger('updatePrice', changes);
+        }
         this.updateProductSummary();
     }
 
@@ -87,24 +91,26 @@ define([
         switch (optionType) {
             case 'radio':
             case 'select-one':
+                if(optionType === 'radio' && !element.is(':checked')) {
+                    return null;
+                }
+
                 var qtyField = element.data('qtyField');
                 qtyField.data('option', element);
 
                 if (optionValue) {
                     optionQty = optionConfig[optionValue].qty || 0;
-                    if(optionType === 'radio' && element.is(':checked') || optionType === 'select-one') {
-                        canQtyCustomize = optionConfig[optionValue].customQty === '1';
-                        toggleQtyField(qtyField, optionQty, optionId, optionValue, canQtyCustomize);
-                        tempChanges = utils.deepClone(optionConfig[optionValue].prices);
-                        tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig[optionValue]);
-                        tempChanges = applyQty(tempChanges, optionQty);
-                    }
+                    canQtyCustomize = optionConfig[optionValue].customQty === '1';
+                    toggleQtyField(qtyField, optionQty, optionId, optionValue, canQtyCustomize);
+                    tempChanges = utils.deepClone(optionConfig[optionValue].prices);
+                    tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig[optionValue]);
+                    tempChanges = applyQty(tempChanges, optionQty);
                 } else {
+                    tempChanges = {};
                     toggleQtyField(qtyField, '0', optionId, optionValue, false);
                 }
                 optionHash = 'bundle-option-' + optionName;
-                changes[optionHash] = tempChanges || {};
-
+                changes[optionHash] = tempChanges;
                 selectedIds[optionId] = [optionValue];
                 break;
             case 'select-multiple':
@@ -141,11 +147,9 @@ define([
                 tempChanges = utils.deepClone(optionConfig[optionValue].prices);
                 tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig);
                 tempChanges = applyQty(tempChanges, optionQty);
-                changes[optionHash] = element.is(':checked') ? tempChanges : {};
 
                 optionHash = 'bundle-option-' + optionName;
-                changes[optionHash] = tempChanges || {};
-
+                changes[optionHash] = tempChanges;
                 selectedIds[optionId] = [optionValue];
                 break;
         }
@@ -176,7 +180,7 @@ define([
         }
     }
 
-    function applyQty( prices, qty) {
+    function applyQty(prices, qty) {
         _.each(prices, function(everyPrice){
             everyPrice.amount *= qty;
             _.each(everyPrice.adjustments, function(el, index){
@@ -186,7 +190,7 @@ define([
         return prices;
     }
 
-    function applyTierPrice( oneItemPrice, qty, optionConfig ) {
+    function applyTierPrice(oneItemPrice, qty, optionConfig) {
         var tiers = optionConfig.tierPrice;
         var magicKey = _.keys(oneItemPrice)[0];
         _.each(tiers, function(tier) {
@@ -198,6 +202,20 @@ define([
             }
         });
         return oneItemPrice;
+    }
+
+    function applyQtyFix() {
+        /*jshint validthis: true */
+        var config = this.options.optionConfig;
+        _.each(config.options, function(option){
+            _.each(option.selections, function(item){
+                if(item.qty && item.qty !== 1) {
+                    _.each(item.prices, function(price){
+                        price.amount = price.amount / item.qty;
+                    });
+                }
+            });
+        });
     }
 
     function updateProductSummary() {
