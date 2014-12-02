@@ -45,6 +45,7 @@ class CreateProductAttributeEntityTest extends Scenario
      */
     public function testCreateProductAttribute(CatalogProductAttribute $productAttribute)
     {
+        $this->markTestIncomplete('CICD-1041');
         $this->attribute = $productAttribute;
         $this->executeScenario();
     }

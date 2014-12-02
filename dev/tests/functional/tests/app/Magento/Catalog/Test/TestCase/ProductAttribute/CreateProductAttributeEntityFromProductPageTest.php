@@ -67,6 +67,7 @@ class CreateProductAttributeEntityFromProductPageTest extends Scenario
      */
     public function test(CatalogProductAttribute $attribute)
     {
+        $this->markTestIncomplete("Bug: MAGETWO-31183");
         $this->attribute = $attribute;
         $this->executeScenario();
     }

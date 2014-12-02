@@ -78,6 +78,7 @@ class UpdateAttributeSetTest extends Injectable
         CatalogAttributeSet $attributeSetOriginal,
         CatalogProductAttribute $productAttributeOriginal
     ) {
+        $this->markTestIncomplete('CICD-1041');
         // Precondition
         $attributeSetOriginal->persist();
         $productAttributeOriginal->persist();
