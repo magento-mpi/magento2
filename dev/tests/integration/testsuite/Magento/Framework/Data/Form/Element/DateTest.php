@@ -59,7 +59,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
                     'time_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
                     'value' => $currentTime
                 ),
-                date('m/d/y g:i A', $currentTime)
+                date('m/j/y g:i A', $currentTime)
             ),
             array(
                 array(
@@ -73,7 +73,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
                     'date_format' => \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
                     'value' => $currentTime
                 ),
-                date('m/d/y', $currentTime)
+                date('m/j/y', $currentTime)
             )
         );
     }
