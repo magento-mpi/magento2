@@ -40,9 +40,9 @@ class Operation extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         try {
-            $this->_title->add(__('Scheduled Imports/Exports'));
             $this->_view->loadLayout();
             $this->_setActiveMenu('Magento_ScheduledImportExport::system_convert_magento_scheduled_operation');
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Scheduled Imports/Exports'));
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/scheduled_operation/index');

@@ -15,8 +15,8 @@
         <callback class="Magento\Store\Model\Resource\Store\Collection" method="limitStores" />
         <callback class="Magento\Store\Model\Resource\Website\Collection" method="limitWebsites" />
         <callback class="Magento\Store\Model\Resource\Group\Collection" method="limitStoreGroups" />
-        <callback class="Magento\Cms\Model\Resource\Page\Collection" method="addStoreFilter" />
-        <callback class="Magento\Cms\Model\Resource\Block\Collection" method="addStoreFilter" />
+        <callback class="Magento\Cms\Model\Resource\Page\Grid\Collection" method="addStoreFilter" />
+        <callback class="Magento\Cms\Model\Resource\Block\Grid\Collection" method="addStoreFilter" />
         <callback class="Magento\Sales\Model\Resource\Order\Collection" method="addStoreAttributeToFilter" />
         <callback class="Magento\Catalog\Model\Resource\Product\Collection" method="limitProducts" />
         <callback class="Magento\Customer\Model\Resource\Customer\Collection" method="limitCustomers" />

@@ -17,8 +17,6 @@ class Edit extends \Magento\Cms\Controller\Adminhtml\Block
      */
     public function execute()
     {
-        $this->_title->add(__('Blocks'));
-
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('block_id');
         $model = $this->_objectManager->create('Magento\Cms\Model\Block');
@@ -32,9 +30,6 @@ class Edit extends \Magento\Cms\Controller\Adminhtml\Block
                 return;
             }
         }
-
-        $this->_title->add($model->getId() ? $model->getTitle() : __('New Block'));
-
         // 3. Set entered data if was error when we do save
         $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
         if (!empty($data)) {
@@ -49,6 +44,9 @@ class Edit extends \Magento\Cms\Controller\Adminhtml\Block
             $id ? __('Edit Block') : __('New Block'),
             $id ? __('Edit Block') : __('New Block')
         );
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Blocks'));
+        $this->_view->getPage()
+            ->getConfig()->getTitle()->prepend($model->getId() ? $model->getTitle() : __('New Block'));
         $this->_view->renderLayout();
     }
 }

@@ -166,9 +166,9 @@ class Item extends AbstractExtensibleModel implements OrderItemInterface
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
-    protected $_productFactory;
+    protected $productRepository;
 
     /**
      * @var \Magento\Framework\StoreManagerInterface
@@ -180,7 +180,7 @@ class Item extends AbstractExtensibleModel implements OrderItemInterface
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\Framework\StoreManagerInterface $storeManager
@@ -191,16 +191,16 @@ class Item extends AbstractExtensibleModel implements OrderItemInterface
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
     ) {
-        $this->_orderFactory = $orderFactory;
-        $this->_productFactory = $productFactory;
-        $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
+        $this->_orderFactory = $orderFactory;
+        $this->_storeManager = $storeManager;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -722,12 +722,16 @@ class Item extends AbstractExtensibleModel implements OrderItemInterface
     /**
      * Retrieve product
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return \Magento\Catalog\Model\Product|null
      */
     public function getProduct()
     {
-        if (!$this->getData('product')) {
-            $product = $this->_productFactory->create()->load($this->getProductId());
+        if (!$this->hasData('product')) {
+            try {
+                $product = $this->productRepository->getById($this->getProductId());
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $noEntityException) {
+                $product = null;
+            }
             $this->setProduct($product);
         }
         return $this->getData('product');
