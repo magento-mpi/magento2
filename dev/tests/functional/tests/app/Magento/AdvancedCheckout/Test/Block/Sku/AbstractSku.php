@@ -38,6 +38,13 @@ abstract class AbstractSku extends Form
     protected $row = '//*[contains(@class,"fields additional") and .//*[contains(@id,"id-items[%d_")]]';
 
     /**
+     * Add by SKU form selector.
+     *
+     * @var string
+     */
+    protected $addBySkuForm = '.form-addbysku';
+
+    /**
      * Click Add to Cart button
      *
      * @return void
@@ -55,6 +62,14 @@ abstract class AbstractSku extends Form
      */
     public function fillForm(array $orderOptions)
     {
+        $browser = $this->browser;
+        $addBySkuForm = $this->addBySkuForm;
+        $browser->waitUntil(
+            function () use ($browser, $addBySkuForm) {
+                $element = $browser->find($addBySkuForm);
+                return $element->isVisible() ? true : null;
+            }
+        );
         foreach ($orderOptions as $key => $value) {
             if ($key !== 0) {
                 $this->_rootElement->find($this->addRow)->click();

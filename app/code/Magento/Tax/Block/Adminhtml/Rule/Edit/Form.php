@@ -11,7 +11,7 @@
  */
 namespace Magento\Tax\Block\Adminhtml\Rule\Edit;
 
-use Magento\Tax\Service\V1\TaxClassServiceInterface;
+use Magento\Tax\Api\TaxClassManagementInterface;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -26,12 +26,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $formKey;
 
     /**
-     * @var \Magento\Tax\Service\V1\TaxRuleServiceInterface
+     * @var \Magento\Tax\Api\TaxRuleRepositoryInterface
      */
     protected $ruleService;
 
     /**
-     * @var \Magento\Tax\Service\V1\TaxClassServiceInterface
+     * @var \Magento\Tax\Api\TaxClassRepositoryInterface
      */
     protected $taxClassService;
 
@@ -50,8 +50,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Tax\Model\Rate\Source $rateSource
-     * @param \Magento\Tax\Service\V1\TaxRuleServiceInterface $ruleService
-     * @param \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService
+     * @param \Magento\Tax\Api\TaxRuleRepositoryInterface $ruleService
+     * @param \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassService
      * @param \Magento\Tax\Model\TaxClass\Source\Customer $customerTaxClassSource
      * @param \Magento\Tax\Model\TaxClass\Source\Product $productTaxClassSource
      * @param array $data
@@ -61,8 +61,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Tax\Model\Rate\Source $rateSource,
-        \Magento\Tax\Service\V1\TaxRuleServiceInterface $ruleService,
-        \Magento\Tax\Service\V1\TaxClassServiceInterface $taxClassService,
+        \Magento\Tax\Api\TaxRuleRepositoryInterface $ruleService,
+        \Magento\Tax\Api\TaxClassRepositoryInterface $taxClassService,
         \Magento\Tax\Model\TaxClass\Source\Customer $customerTaxClassSource,
         \Magento\Tax\Model\TaxClass\Source\Product $productTaxClassSource,
         array $data = array()
@@ -97,7 +97,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $taxRuleId = $this->_coreRegistry->registry('tax_rule_id');
         try {
-            $taxRule = $this->ruleService->getTaxRule($taxRuleId);
+            $taxRule = $this->ruleService->get($taxRuleId);
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             /** Tax rule not found */
         }
@@ -124,7 +124,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         );
 
         // Editable multiselect for customer tax class
-        $selectConfig = $this->getTaxClassSelectConfig(TaxClassServiceInterface::TYPE_CUSTOMER);
+        $selectConfig = $this->getTaxClassSelectConfig(TaxClassManagementInterface::TYPE_CUSTOMER);
         $options = $this->customerTaxClassSource->getAllOptions(false);
         if (!empty($options)) {
             $selected = $options[0];
@@ -153,7 +153,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         );
 
         // Editable multiselect for product tax class
-        $selectConfig = $this->getTaxClassSelectConfig(TaxClassServiceInterface::TYPE_PRODUCT);
+        $selectConfig = $this->getTaxClassSelectConfig(TaxClassManagementInterface::TYPE_PRODUCT);
         $options = $this->productTaxClassSource->getAllOptions(false);
         if (!empty($options)) {
             $selected = $options[0];
@@ -299,7 +299,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Extract tax rule data in a format which is
      *
-     * @param \Magento\Tax\Service\V1\Data\TaxRule $taxRule
+     * @param \Magento\Tax\Api\Data\TaxRuleInterface $taxRule
      * @return array
      */
     protected function extractTaxRuleData($taxRule)
@@ -310,7 +310,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'tax_product_class' => $taxRule->getProductTaxClassIds(),
             'tax_rate' => $taxRule->getTaxRateIds(),
             'priority' => $taxRule->getPriority(),
-            'position' => $taxRule->getSortOrder(),
+            'position' => $taxRule->getPosition(),
             'calculate_subtotal' => $taxRule->getCalculateSubtotal()
         ];
         return $taxRuleData;

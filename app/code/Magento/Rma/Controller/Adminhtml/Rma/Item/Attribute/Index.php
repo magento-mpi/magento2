@@ -17,8 +17,8 @@ class Index extends \Magento\Rma\Controller\Adminhtml\Rma\Item\Attribute
      */
     public function execute()
     {
-        $this->_title->add(__('Returns Attributes'));
         $this->_initAction();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Returns Attributes'));
         $this->_view->renderLayout();
     }
 }

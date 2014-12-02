@@ -17,10 +17,9 @@ class Invoices extends \Magento\SalesArchive\Controller\Adminhtml\Archive
      */
     public function execute()
     {
-        $this->_title->add(__('Invoices'));
-
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_invoices');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Invoices'));
         $this->_view->renderLayout();
     }
 }

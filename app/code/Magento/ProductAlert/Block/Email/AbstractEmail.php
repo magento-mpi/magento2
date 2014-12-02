@@ -41,17 +41,25 @@ abstract class AbstractEmail extends \Magento\Framework\View\Element\Template
     protected $priceCurrency;
 
     /**
+     * @var \Magento\Catalog\Helper\Image
+     */
+    protected $imageHelper;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Filter\Input\MaliciousCode $maliciousCode
      * @param PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Filter\Input\MaliciousCode $maliciousCode,
         PriceCurrencyInterface $priceCurrency,
+        \Magento\Catalog\Helper\Image $imageHelper,
         array $data = array()
     ) {
+        $this->imageHelper = $imageHelper;
         $this->priceCurrency = $priceCurrency;
         $this->_maliciousCode = $maliciousCode;
         parent::__construct($context, $data);
@@ -200,5 +208,26 @@ abstract class AbstractEmail extends \Magento\Framework\View\Element\Template
             );
         }
         return $price;
+    }
+
+    /**
+     * Product thumbnail image url getter
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @return string
+     */
+    public function getThumbnailUrl($product)
+    {
+        return (string)$this->imageHelper->init($product, 'thumbnail')->resize($this->getThumbnailSize());
+    }
+
+    /**
+     * Thumbnail image size getter
+     *
+     * @return int
+     */
+    public function getThumbnailSize()
+    {
+        return $this->getVar('product_thumbnail_image_size', 'Magento_Catalog');
     }
 }

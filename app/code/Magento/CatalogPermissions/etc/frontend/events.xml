@@ -47,7 +47,7 @@
     <event name="controller_action_predispatch_catalogsearch">
         <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Observer" method="checkCatalogSearchPreDispatch" />
     </event>
-    <event name="controller_action_layout_load_before">
+    <event name="layout_load_before">
         <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Observer" method="checkCatalogSearchLayout" />
     </event>
     <event name="rss_catalog_new_xml_callback">
