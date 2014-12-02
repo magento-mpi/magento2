@@ -101,6 +101,7 @@ class Edit extends \Magento\Directory\Block\Data
             try {
                 $this->_address = $this->_addressRepository->getById($addressId);
             } catch (NoSuchEntityException $e) {
+                $this->_address = null;
             }
         }
 

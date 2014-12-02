@@ -13,7 +13,7 @@ use Magento\Bundle\Service\V1\Product\Option\ReadService as OptionReadService;
 use Magento\Bundle\Service\V1\Product\Option\WriteService as OptionWriteService;
 use Magento\Framework\Api\Eav\AttributeValue;
 use Magento\Catalog\Model\Product as ProductModel;
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product\Type as ProductType;
 use Magento\Catalog\Service\V1\Data\Product;
 use Magento\Catalog\Service\V1\Product\ProductSaveProcessorInterface;
@@ -35,7 +35,7 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
     private $optionReadService;
 
     /**
-     * @var ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     private $productRepository;
 
@@ -44,12 +44,12 @@ class BundleProductSaveProcessor implements ProductSaveProcessorInterface
      *
      * @param OptionWriteService $optionWriteService
      * @param OptionReadService $optionReadService
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      */
     public function __construct(
         OptionWriteService $optionWriteService,
         OptionReadService $optionReadService,
-        ProductRepository $productRepository
+        ProductRepositoryInterface $productRepository
     ) {
         $this->optionWriteService = $optionWriteService;
         $this->optionReadService = $optionReadService;

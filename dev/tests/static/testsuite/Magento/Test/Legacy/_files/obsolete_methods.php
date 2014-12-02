@@ -2110,5 +2110,7 @@ return array(
         'getRatesByCustomerAndProductTaxClassId',
         'Magento\Tax\Service\V1\TaxRuleServiceInterface',
         'Magento\Tax\Api\TaxRateManagementInterface::getRatesByCustomerAndProductTaxClassId'
-    ]
+    ],
+    ['getProduct', 'Magento\Catalog\Helper\Product'],
+    ['getCategoryModel', 'Magento\Catalog\Model\Resource\Url'],
 );
