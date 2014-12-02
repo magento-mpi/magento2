@@ -7,9 +7,9 @@
  */
 namespace Magento\Widget\Model\Config;
 
-/**
- * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_disabled.php
- */
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Framework\App\Cache\State;
+
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -22,10 +22,15 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     private $fileResolver;
 
+    public static function setUpBeforeClass()
+    {
+        Bootstrap::getInstance()->reinitialize([State::PARAM_BAN_CACHE => true]);
+    }
+
     public function setUp()
     {
         $this->fileResolver = $this->getMockForAbstractClass('Magento\Framework\Config\FileResolverInterface');
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = Bootstrap::getObjectManager();
         $this->model = $objectManager->create(
             'Magento\Widget\Model\Config\Reader', ['fileResolver' => $this->fileResolver]
         );

@@ -8,12 +8,19 @@
  */
 namespace Magento\Widget\Model\Config;
 
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Framework\App\Cache\State;
+
 /**
- * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_disabled.php
  * @magentoAppArea adminhtml
  */
 class DataTest extends \PHPUnit_Framework_TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        Bootstrap::getInstance()->reinitialize([State::PARAM_BAN_CACHE => true]);
+    }
+
     public function testGet()
     {
         $fileResolver = $this->getMockForAbstractClass('Magento\Framework\Config\FileResolverInterface');
