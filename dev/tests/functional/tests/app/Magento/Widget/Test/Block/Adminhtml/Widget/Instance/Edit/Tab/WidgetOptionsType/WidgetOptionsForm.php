@@ -12,6 +12,7 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Block\Form;
 use Mtf\Fixture\InjectableFixture;
+use Magento\Backend\Test\Block\Template;
 
 /**
  * Responds for filling widget options form
@@ -45,6 +46,13 @@ class WidgetOptionsForm extends Form
      * @var string
      */
     protected $pathToGrid = '';
+
+    /**
+     * Selector for template block.
+     *
+     * @var string
+     */
+    protected $template = './ancestor::body';
 
     /**
      * Filling widget options form
@@ -87,6 +95,7 @@ class WidgetOptionsForm extends Form
     {
         foreach ($entities['value'] as $entity) {
             $this->_rootElement->find($this->selectBlock)->click();
+            $this->getTemplateBlock()->waitLoader();
             $grid = $this->blockFactory->create(
                 $this->pathToGrid,
                 [
@@ -106,5 +115,18 @@ class WidgetOptionsForm extends Form
     protected function prepareFilter(InjectableFixture $entity)
     {
         return ['title' => $entity->getTitle()];
+    }
+
+    /**
+     * Get template block.
+     *
+     * @return Template
+     */
+    public function getTemplateBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Backend\Test\Block\Template',
+            ['element' => $this->_rootElement->find($this->template, Locator::SELECTOR_XPATH)]
+        );
     }
 }
