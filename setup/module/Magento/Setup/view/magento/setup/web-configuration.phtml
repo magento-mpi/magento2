@@ -35,7 +35,7 @@ $hints = [
         <label class="col-md-3 control-label">Your Store Address&nbsp;<span class="required">*</span></label>
         <div class="col-md-4">
             <input ng-blur="addSlash()"
-                   type="text"
+                   type="url"
                    name="web"
                    ng-model="config.address.web"
                    class="form-control"
@@ -43,12 +43,11 @@ $hints = [
                    tooltip-html-unsafe="<?php echo $hints['address_web']; ?>"
                    tooltip-trigger="focus"
                    tooltip-append-to-body="true"
-                   required
-                   ng-pattern="/^(http):\/\/(([a-zA-Z0-9$\-_.+!*'(),;:&=]|%[0-9a-fA-F]{2})+@)?(((25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])){3})|localhost|([a-zA-Z0-9\-\u00C0-\u017F]+\.)+([a-zA-Z]{2,}))(:[0-9]+)?(\/(([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*(\/([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*)*)?(\?([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?(\#([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?)?$/" />
+                   required />
         </div>
         <div class="col-md-offset-3 col-md-4" ng-show="webconfig.web.$invalid && webconfig.submitted">
             <div class="error-container">
-                <span ng-show="webconfig.web.$error.required || webconfig.web.$error.pattern">Please enter a valid base URL path. (ex: http://www.example.com/)</span>
+                <span ng-show="webconfig.web.$error.required || webconfig.web.$error.url">Please enter a valid base URL path. (ex: http://www.example.com/)</span>
             </div>
         </div>
     </div>
@@ -95,18 +94,17 @@ $hints = [
         <div class="form-group" ng-show="showHttpsField()">
             <label ng-show="config.https.front || config.https.admin" class="col-md-4 col-md-offset-3">Your HTTPS Store address:</label>
             <div class="col-md-4 col-md-offset-3">
-                <input type="text"
+                <input type="url"
                        name="https"
                        ng-model="config.https.text"
                        ng-if="config.https.front || config.https.admin"
                        class="form-control"
                        ng-focus=""
-                       required
-                       ng-pattern="/^(https):\/\/(([a-zA-Z0-9$\-_.+!*'(),;:&=]|%[0-9a-fA-F]{2})+@)?(((25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|[0-1][0-9][0-9]|[1-9][0-9]|[0-9])){3})|localhost|([a-zA-Z0-9\-\u00C0-\u017F]+\.)+([a-zA-Z]{2,}))(:[0-9]+)?(\/(([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*(\/([a-zA-Z0-9$\-_.+!*'(),;:@&=]|%[0-9a-fA-F]{2})*)*)?(\?([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?(\#([a-zA-Z0-9$\-_.+!*'(),;:@&=\/?]|%[0-9a-fA-F]{2})*)?)?$/" />
+                       required />
             </div>
             <div class="col-md-offset-3 col-md-4" ng-show="webconfig.https.$invalid && webconfig.submitted">
                 <div class="error-container">
-                    <span ng-show="webconfig.https.$error.required || webconfig.https.$error.pattern">Please enter a valid HTTPS base URL path. (ex: https://www.example.com/)</span>
+                    <span ng-show="webconfig.https.$error.required || webconfig.https.$error.url">Please enter a valid HTTPS base URL path. (ex: https://www.example.com/)</span>
                 </div>
             </div>
         </div>
