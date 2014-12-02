@@ -258,14 +258,24 @@ class BundleOptionPriceTest extends \PHPUnit_Framework_TestCase
     protected function createSelectionMock($selectionData)
     {
         $selection = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->setMethods(['isSalable', 'getAmount', 'getSelectionQty', '__wakeup'])
+            ->setMethods(['isSalable', 'getAmount', 'getQuantity', 'getProduct', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
+
         // All items are saleable
         $selection->expects($this->any())->method('isSalable')->will($this->returnValue(true));
         $selection->setData($selectionData['data']);
         $amountMock = $this->createAmountMock($selectionData['amount']);
         $selection->expects($this->any())->method('getAmount')->will($this->returnValue($amountMock));
+        $selection->expects($this->any())->method('getQuantity')->will($this->returnValue(1));
+
+        $innerProduct = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->setMethods(['getSelectionCanChangeQty', '__wakeup'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $innerProduct->expects($this->any())->method('getSelectionCanChangeQty')->will($this->returnValue(true));
+        $selection->expects($this->any())->method('getProduct')->will($this->returnValue($innerProduct));
+
         return $selection;
     }
 

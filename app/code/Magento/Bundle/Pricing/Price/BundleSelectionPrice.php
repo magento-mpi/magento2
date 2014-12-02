@@ -133,4 +133,12 @@ class BundleSelectionPrice extends AbstractPrice
             return $this->bundleProduct;
         }
     }
+
+    /**
+     * @return float
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
 }

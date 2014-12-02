@@ -301,29 +301,40 @@ class Calculator implements BundleCalculatorInterface
     {
         $fullAmount = 0.;
         $adjustments = [];
-        $amountList = [$this->calculator->getAmount($basePriceValue, $bundleProduct, $exclude)];
-        /** @var $option \Magento\Bundle\Model\Option */
+        $i = 0;
+
+        $amountList[$i]['amount'] = $this->calculator->getAmount($basePriceValue, $bundleProduct, $exclude);
+        $amountList[$i]['hasRequiredQty'] = false;
+        $amountList[$i]['quantity'] = 1;
+
         foreach ($selectionPriceList as $selectionPrice) {
-            $amountList[] = $selectionPrice->getAmount();
+            ++$i;
+            $amountList[$i]['amount'] = $selectionPrice->getAmount();
+            $amountList[$i]['hasRequiredQty'] = !$selectionPrice->getProduct()->getSelectionCanChangeQty();
+            $amountList[$i]['quantity'] = $selectionPrice->getQuantity();
         }
+
         /** @var  Store $store */
         $store = $bundleProduct->getStore();
         $roundingMethod = $this->taxHelper->getCalculationAgorithm($store);
-        /** @var \Magento\Framework\Pricing\Amount\AmountInterface $itemAmount */
-        foreach ($amountList as $itemAmount) {
+        foreach ($amountList as $amountInfo) {
+            /** @var \Magento\Framework\Pricing\Amount\AmountInterface $itemAmount */
+            $itemAmount = $amountInfo['amount'];
+            $qty = $amountInfo['hasRequiredQty'] ? $amountInfo['quantity'] : 1;
+
             if ($roundingMethod != TaxCalculationServiceInterface::CALC_TOTAL_BASE) {
                 //We need to round the individual selection first
-                $fullAmount += $this->priceCurrency->round($itemAmount->getValue());
+                $fullAmount += ($this->priceCurrency->round($itemAmount->getValue()) * $qty);
                 foreach ($itemAmount->getAdjustmentAmounts() as $code => $adjustment) {
-                    $adjustment = $this->priceCurrency->round($adjustment);
+                    $adjustment = $this->priceCurrency->round($adjustment) * $qty;
                     $adjustments[$code] = isset($adjustments[$code]) ? $adjustments[$code] + $adjustment : $adjustment;
                 }
             } else {
-                $fullAmount += $itemAmount->getValue();
+                $fullAmount += ($itemAmount->getValue() * $qty);
                 foreach ($itemAmount->getAdjustmentAmounts() as $code => $adjustment) {
+                    $adjustment = $adjustment * $qty;
                     $adjustments[$code] = isset($adjustments[$code]) ? $adjustments[$code] + $adjustment : $adjustment;
                 }
-
             }
         }
         if ($exclude && isset($adjustments[$exclude])) {

@@ -66,6 +66,12 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getStockQty'])
             ->disableOriginalConstructor()
             ->getMock();
+        $bundleModelSelection = $this->getMockBuilder('\Magento\Bundle\Model\SelectionFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $bundleFactory = $this->getMockBuilder('\Magento\Bundle\Model\Resource\BundleFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject(
@@ -74,8 +80,8 @@ class TypeTest extends \PHPUnit_Framework_TestCase
                 'productFactory' => $this->getMockBuilder('Magento\Catalog\Model\ProductFactory')
                     ->disableOriginalConstructor()
                     ->getMock(),
-                'bundleModelSelection' => $this->getMock('Magento\Bundle\Model\SelectionFactory'),
-                'bundleFactory' => $this->getMock('Magento\Bundle\Model\Resource\BundleFactory'),
+                'bundleModelSelection' => $bundleModelSelection,
+                'bundleFactory' => $bundleFactory,
                 'bundleCollection' => $this->bundleCollection,
                 'bundleOption' => $this->bundleOptionFactory,
                 'catalogData' => $this->catalogData,
@@ -88,7 +94,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testHasWeightTrue()
     {
-        $this->assertTrue($this->model->hasWeight(), 'This product has not weight, but it should');
+        $this->assertTrue($this->model->hasWeight(), 'This product has no weight, but it should');
     }
 
     public function testGetIdentities()
