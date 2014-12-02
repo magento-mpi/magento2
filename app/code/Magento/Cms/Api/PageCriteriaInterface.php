@@ -13,14 +13,6 @@ namespace Magento\Cms\Api;
 interface PageCriteriaInterface extends \Magento\Framework\Api\CriteriaInterface
 {
     /**
-     * Add Criteria object
-     *
-     * @param \Magento\Cms\Api\PageCriteriaInterface $criteria
-     * @return void
-     */
-    public function addCriteria(\Magento\Cms\Api\PageCriteriaInterface $criteria);
-
-    /**
      * Set first store flag
      *
      * @param bool $flag

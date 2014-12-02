@@ -17,9 +17,8 @@ class Index extends \Magento\TargetRule\Controller\Adminhtml\Targetrule
      */
     public function execute()
     {
-        $this->_title->add(__('Related Products Rules'));
-
         $this->_initAction();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Related Products Rules'));
         $this->_view->renderLayout();
     }
 }

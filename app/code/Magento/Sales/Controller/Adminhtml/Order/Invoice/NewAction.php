@@ -43,7 +43,6 @@ class NewAction extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $this->_title->add(__('Invoices'));
         $orderId = $this->getRequest()->getParam('order_id');
         $invoiceData = $this->getRequest()->getParam('invoice', []);
         $invoiceItems = isset($invoiceData['items']) ? $invoiceData['items'] : [];
@@ -68,8 +67,6 @@ class NewAction extends \Magento\Backend\App\Action
             }
             $this->registry->register('current_invoice', $invoice);
 
-            $this->_title->add(__('New Invoice'));
-
             $comment = $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
             if ($comment) {
                 $invoice->setCommentText($comment);
@@ -77,6 +74,8 @@ class NewAction extends \Magento\Backend\App\Action
 
             $this->_view->loadLayout();
             $this->_setActiveMenu('Magento_Sales::sales_order');
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Invoices'));
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('New Invoice'));
             $this->_view->renderLayout();
         } catch (\Magento\Framework\Exception $exception) {
             $this->messageManager->addError($exception->getMessage());
