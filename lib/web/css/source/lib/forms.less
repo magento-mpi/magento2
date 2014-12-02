@@ -611,18 +611,18 @@
 
     .addon {
         .vendor-prefix-display(inline-flex);
-        .vendor-prefix-flex-wrap(wrap);
+        .vendor-prefix-flex-wrap(nowrap);
         padding: 0;
         width: 100%;
         textarea,
         select,
         input {
             .vendor-prefix-order(2);
+            .vendor-prefix-flex-basis(100%);
             box-shadow: none;
             display: inline-block;
             margin: 0;
             width: auto;
-            flex-basis: 100%;
         }
         .addbefore,
         .addafter {
