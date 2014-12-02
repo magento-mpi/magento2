@@ -43,10 +43,12 @@ define([
         /*jshint validthis: true */
         var form = this.element;
         var bundleOptions = $(this.options.productBundleSelector, form);
+        var priceBox = $(this.options.priceBoxSelector, form);
         var qtyFields = $(this.options.qtyFieldSelector, form);
 
         bundleOptions.on('change', onBundleOptionChanged.bind(this));
         qtyFields.on('change', onQtyFieldChanged.bind(this));
+        priceBox.priceBox('setDefault', this.options.optionConfig.prices);
     }
 
     function onBundleOptionChanged(event) {
@@ -98,7 +100,7 @@ define([
                         tempChanges = applyQty(tempChanges, optionQty);
                     }
                 } else {
-                    toggleQtyField(qtyField, '', optionId, optionValue, false);
+                    toggleQtyField(qtyField, '0', optionId, optionValue, false);
                 }
                 optionHash = 'bundle-option-' + optionName;
                 changes[optionHash] = tempChanges || {};
@@ -132,6 +134,19 @@ define([
                 } else if(!element.is(':checked')) {
                     selectedIds[optionId] = _.without(selectedIds[optionId], optionValue);
                 }
+                break;
+            case 'hidden':
+                optionHash = 'bundle-option-' + optionName + '##' + optionValue;
+                optionQty = optionConfig[optionValue].qty || 0;
+                tempChanges = utils.deepClone(optionConfig[optionValue].prices);
+                tempChanges = applyTierPrice(tempChanges, optionQty, optionConfig);
+                tempChanges = applyQty(tempChanges, optionQty);
+                changes[optionHash] = element.is(':checked') ? tempChanges : {};
+
+                optionHash = 'bundle-option-' + optionName;
+                changes[optionHash] = tempChanges || {};
+
+                selectedIds[optionId] = [optionValue];
                 break;
         }
 
@@ -179,7 +194,7 @@ define([
                 return;
             }
             if(tier.prices[magicKey].amount < oneItemPrice[magicKey].amount) {
-                oneItemPrice = tier.prices;
+                oneItemPrice = utils.deepClone(tier.prices);
             }
         });
         return oneItemPrice;

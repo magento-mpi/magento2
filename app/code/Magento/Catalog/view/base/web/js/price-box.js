@@ -31,6 +31,7 @@ define([
         _setOptions: setOptions,
         updatePrice: updatePrices,
         reloadPrice: reDrawPrices,
+        setDefault: setDefaultPrices,
 
         cache: {}
     });
@@ -164,13 +165,21 @@ define([
             html = priceTemplate(price);
             $('[data-price-type="' + priceCode + '"]', box).html(html);
         });
+    }
 
+    /**
+     * Overwrites initial (default) prices object.
+     * @param {Object} prices
+     */
+    function setDefaultPrices(prices) {
+        this.cache.displayPrices = utils.deepClone(prices);
+        this.options.prices = utils.deepClone(prices);
     }
 
     /**
      * Custom behavior on getting options:
      * now widget able to deep merge of accepted configuration.
-     * @param  {Object}  options
+     * @param  {Object} options
      * @return {mage.priceBox}
      */
     function setOptions(options) {
