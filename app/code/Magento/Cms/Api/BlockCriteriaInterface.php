@@ -8,9 +8,9 @@
 namespace Magento\Cms\Api;
 
 /**
- * Interface PageCriteriaInterface
+ * Interface BlockCriteriaInterface
  */
-interface PageCriteriaInterface extends \Magento\Framework\Api\CriteriaInterface
+interface BlockCriteriaInterface extends \Magento\Framework\Api\CriteriaInterface
 {
     /**
      * Set first store flag
@@ -23,9 +23,9 @@ interface PageCriteriaInterface extends \Magento\Framework\Api\CriteriaInterface
     /**
      * Add filter by store
      *
-     * @param int|\Magento\Store\Model\Store $store
+     * @param int $storeId
      * @param bool $withAdmin
      * @return void
      */
-    public function addStoreFilter($store, $withAdmin = true);
+    public function addStoreFilter($storeId, $withAdmin = true);
 }

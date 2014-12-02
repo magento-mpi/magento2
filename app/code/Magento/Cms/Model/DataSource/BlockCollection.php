@@ -8,25 +8,26 @@
 namespace Magento\Cms\Model\DataSource;
 
 use Magento\Framework\Data\CollectionDataSourceInterface;
-use Magento\Cms\Model\Resource\PageCriteria;
+use Magento\Cms\Model\Resource\BlockCriteria;
+use Magento\Cms\Api\BlockRepositoryInterface;
 
 /**
- * CMS page collection data source
+ * CMS block collection data source
  *
- * Class PageCollection
+ * Class BlockCollection
  */
-class PageCollection extends PageCriteria implements CollectionDataSourceInterface
+class BlockCollection extends BlockCriteria implements CollectionDataSourceInterface
 {
     /**
-     * @var \Magento\Cms\Api\PageRepositoryInterface
+     * @var BlockRepositoryInterface
      */
     protected $repository;
 
     /**
-     * @param \Magento\Cms\Api\PageRepositoryInterface $repository
+     * @param BlockRepositoryInterface $repository
      * @param string $mapper
      */
-    public function __construct(\Magento\Cms\Api\PageRepositoryInterface $repository, $mapper = '')
+    public function __construct(BlockRepositoryInterface $repository, $mapper = '')
     {
         $this->repository = $repository;
         $this->setFirstStoreFlag(true);
@@ -46,7 +47,7 @@ class PageCollection extends PageCriteria implements CollectionDataSourceInterfa
     }
 
     /**
-     * @return \Magento\Cms\Api\Data\PageCollectionInterface
+     * @return \Magento\Cms\Api\Data\BlockCollectionInterface
      */
     public function getResultCollection()
     {

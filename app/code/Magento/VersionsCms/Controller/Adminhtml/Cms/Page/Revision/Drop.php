@@ -11,6 +11,9 @@ namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision;
 use Magento\Backend\App\Action;
 use Magento\VersionsCms\Controller\Adminhtml\Cms\Page\RevisionInterface;
 
+/**
+ * Class Drop
+ */
 class Drop extends \Magento\Backend\App\Action implements RevisionInterface
 {
     /**
