@@ -97,6 +97,7 @@ try {
     execVerbose("$gitCmd config user.name " . getGitUsername());
     execVerbose("$gitCmd config user.email " . getGitEmail());
     execVerbose("$gitCmd commit --message=%s", $commitMsg);
+    execVerbose("$gitCmd tag %s", $rootJson->version);
 
 } catch (Exception $exception) {
     echo $exception->getMessage() . PHP_EOL;
