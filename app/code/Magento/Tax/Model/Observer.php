@@ -305,6 +305,7 @@ class Observer
         $algorithm = $this->_taxData->getCalculationAgorithm();
         $options['calculationAlgorithm'] = $algorithm;
         // prepare correct template for options render
+        $options['optionTemplate'] = '{{label}}{{#if finalPrice.value}} {{finalPrice.formatted}} (Excl. tax: {{basePrice.formatted}}){{/if}}';
 
         $response->setAdditionalOptions($options);
         return $this;

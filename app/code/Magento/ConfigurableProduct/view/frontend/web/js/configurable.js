@@ -10,7 +10,8 @@ define([
     "underscore",
     "handlebars",
     "jquery/ui",
-    "jquery/jquery.parsequery"
+    "jquery/jquery.parsequery",
+    "Magento_Catalog/js/price-box"
 ], function($, _){
 
     function getPrices(elems){
@@ -33,9 +34,9 @@ define([
             superSelector: '.super-attribute-select',
             priceHolderSelector: '.price-box',
             state: {},
-            optionTmpl: '{{label}}' +
-                            '{{#if basePrice.value}}' +
-                                ' {{basePrice.formatted}}' +
+            optionTemplate: '{{label}}' +
+                            '{{#if finalPrice.value}}' +
+                                ' {{finalPrice.formatted}}' +
                             '{{/if}}',
             mediaGallerySelector: '[data-role=media-gallery]'
         },
@@ -65,7 +66,11 @@ define([
          * @private
          */
         _initializeOptions: function() {
-            this.options.optionTmpl = Handlebars.compile(this.options.optionTmpl);
+            var priceBoxOptions = $(this.options.priceHolderSelector).priceBox('option');
+            if(priceBoxOptions.priceConfig && priceBoxOptions.priceConfig.optionTemplate) {
+                this.options.optionTemplate = priceBoxOptions.priceConfig.optionTemplate;
+            }
+            this.options.optionTemplate = Handlebars.compile(this.options.optionTemplate);
 
             this.options.settings = (this.options.spConfig.containerId) ?
                 $(this.options.spConfig.containerId).find(this.options.superSelector) :
@@ -368,7 +373,7 @@ define([
 
             data.label = option.label;
 
-            return this.options.optionTmpl(data);
+            return this.options.optionTemplate(data);
         },
 
         _parsePrice: function(option, selOption, price, name){
