@@ -85,6 +85,7 @@ class MassActionsGiftWrappingEntityTest extends Injectable
      */
     public function test($giftWrappings, $giftWrappingsIndexToSelect, $action, $status, $giftWrappingsIndexToStay)
     {
+        $this->markTestIncomplete('Bug: MAGETWO-30995');
         // Precondition
         $giftWrappingsInitial = explode(",", $giftWrappings);
         $giftWrappings = $this->createGiftWrappings($giftWrappingsInitial);

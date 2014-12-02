@@ -44,7 +44,7 @@ class Giftregistry extends \Magento\Backend\App\Action
             __('Gift Registry')
         );
 
-        $this->_title->add(__('Gift Registry Types'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Gift Registry Types'));
         return $this;
     }
 

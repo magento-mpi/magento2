@@ -7,6 +7,9 @@
  */
 namespace Magento\Catalog\Helper;
 
+use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
@@ -101,20 +104,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * Product factory
-     *
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
-     * Category factory
-     *
-     * @var \Magento\Catalog\Model\CategoryFactory
-     */
-    protected $_categoryFactory;
-
-    /**
      * Template filter factory
      *
      * @var \Magento\Catalog\Model\Template\Filter\Factory
@@ -176,9 +165,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $priceCurrency;
 
     /**
+     * @var ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
+     * @var CategoryRepositoryInterface
+     */
+    protected $categoryRepository;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Framework\Stdlib\String $string
@@ -196,11 +193,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
      * @param PriceCurrencyInterface $priceCurrency
+     * @param ProductRepositoryInterface $productRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\Stdlib\String $string,
@@ -217,10 +214,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService,
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
-        PriceCurrencyInterface $priceCurrency
+        PriceCurrencyInterface $priceCurrency,
+        ProductRepositoryInterface $productRepository,
+        CategoryRepositoryInterface $categoryRepository
     ) {
-        $this->_categoryFactory = $categoryFactory;
-        $this->_productFactory = $productFactory;
         $this->_storeManager = $storeManager;
         $this->_catalogSession = $catalogSession;
         $this->_templateFilterFactory = $templateFilterFactory;
@@ -238,6 +235,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_customerSession = $customerSession;
         $this->_addressConverter = $addressConverter;
         $this->priceCurrency = $priceCurrency;
+        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct($context);
     }
 
@@ -337,7 +336,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $productId = $this->_catalogSession->getLastViewedProductId();
         if ($productId) {
-            $product = $this->_productFactory->create()->load($productId);
+            try {
+                $product = $this->productRepository->getById($productId);
+            } catch (NoSuchEntityException $e) {
+                return '';
+            }
             /* @var $product \Magento\Catalog\Model\Product */
             if ($this->_catalogProduct->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
@@ -345,7 +348,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
         $categoryId = $this->_catalogSession->getLastViewedCategoryId();
         if ($categoryId) {
-            $category = $this->_categoryFactory->create()->load($categoryId);
+            try {
+                $category = $this->categoryRepository->get($categoryId);
+            } catch (NoSuchEntityException $e) {
+                return '';
+            }
             /* @var $category \Magento\Catalog\Model\Category */
             if (!$this->_catalogCategory->canShow($category)) {
                 return '';

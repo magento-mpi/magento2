@@ -148,7 +148,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $objectMock = $this->getMock(
             'Magento\Framework\Object',
-            ['getData', 'getPageId', 'setData', 'getTitle', 'getIdentifier'],
+            ['getData', 'getId', 'setData', 'getTitle', 'getIdentifier'],
             [],
             '',
             false
@@ -253,7 +253,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->with($selectMock)
             ->will($this->returnValue([123 => 999]));
         $objectMock->expects($this->any())
-            ->method('getPageId')
+            ->method('getId')
             ->will($this->returnValue(123));
         $this->storeManagerMock->expects($this->any())
             ->method('getStore')

@@ -16,7 +16,7 @@ use Magento\Framework\Exception\InputException;
 class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceManagementInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -46,7 +46,7 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
     protected $storeManager;
 
     /**
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Api\Data\ProductGroupPriceDataBuilder $groupPriceBuilder
      * @param GroupRepositoryInterface $groupRepository
@@ -54,7 +54,7 @@ class GroupPriceManagement implements \Magento\Catalog\Api\ProductGroupPriceMana
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
-        \Magento\Catalog\Model\ProductRepository $productRepository,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Api\Data\ProductGroupPriceDataBuilder $groupPriceBuilder,
         GroupRepositoryInterface $groupRepository,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,

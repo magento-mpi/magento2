@@ -37,9 +37,8 @@ class Wishlist extends \Magento\MultipleWishlist\Controller\Adminhtml\Report\Cus
      */
     public function execute()
     {
-        $this->_title->add(__("Customer Wish List Report"));
-
         $this->_initAction();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__("Customer Wish List Report"));
         $this->_view->renderLayout();
     }
 }

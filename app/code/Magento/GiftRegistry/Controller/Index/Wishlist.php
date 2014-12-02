@@ -13,6 +13,27 @@ use \Magento\Framework\Model\Exception;
 class Wishlist extends \Magento\GiftRegistry\Controller\Index
 {
     /**
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
+     */
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
+    ) {
+        parent::__construct($context, $coreRegistry, $formKeyValidator);
+        $this->productRepository = $productRepository;
+    }
+
+    /**
      * Add wishlist items to customer active gift registry action
      *
      * @return void
@@ -35,11 +56,7 @@ class Wishlist extends \Magento\GiftRegistry\Controller\Index
                 $redirectParams['wishlist_id'] = $wishlistItem->getWishlistId();
             } catch (Exception $e) {
                 if ($e->getCode() == \Magento\GiftRegistry\Model\Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
-                    $product = $this->_objectManager->create(
-                        'Magento\Catalog\Model\Product'
-                    )->load(
-                        (int)$wishlistItem->getProductId()
-                    );
+                    $product = $this->productRepository->getById((int)$wishlistItem->getProductId());
                     $query['options'] = \Magento\GiftRegistry\Block\Product\View::FLAG;
                     $query['entity'] = $this->getRequest()->getParam('entity');
                     $this->getResponse()->setRedirect(
