@@ -245,6 +245,7 @@ class ListCompare extends Block
      */
     public function getEmptyMessage()
     {
+        $this->waitForElementVisible($this->isEmpty);
         $isEmpty = $this->_rootElement->find($this->isEmpty);
         if ($isEmpty->isVisible()) {
             return $isEmpty->getText();

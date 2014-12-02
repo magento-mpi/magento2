@@ -20,7 +20,7 @@ class Sidebar extends ListCompare
      *
      * @var string
      */
-    protected $isEmpty = 'p.empty';
+    protected $isEmpty = 'div.empty';
 
     /**
      * Product name selector.
