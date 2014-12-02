@@ -118,6 +118,12 @@
     </route>
 
     <!-- Customer Account Service-->
+    <route url="/V1/customers/:customerId" method="GET">
+        <service class="Magento\Customer\Api\CustomerRepositoryInterface" method="getById"/>
+        <resources>
+            <resource ref="Magento_Customer::customer"/>
+        </resources>
+    </route>
     <route url="/V1/customers" method="POST">
         <service class="Magento\Customer\Api\AccountManagementInterface" method="createAccount"/>
         <resources>
