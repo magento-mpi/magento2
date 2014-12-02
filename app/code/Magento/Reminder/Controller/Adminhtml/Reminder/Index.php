@@ -17,9 +17,9 @@ class Index extends \Magento\Reminder\Controller\Adminhtml\Reminder
      */
     public function execute()
     {
-        $this->_title->add(__('Email Reminders'));
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Reminder::promo_reminder');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Email Reminders'));
         $this->_view->renderLayout();
     }
 }

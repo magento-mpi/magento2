@@ -11,7 +11,7 @@
     <event name="websiterestriction_frontend">
         <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer\SkipWebsiteRestriction" method="execute" />
     </event>
-    <event name="controller_action_layout_generate_blocks_after">
+    <event name="layout_generate_blocks_after">
         <observer name="magento_persistenthistory" instance="Magento\PersistentHistory\Model\Observer\ApplyPersistentData" method="execute" />
     </event>
     <event name="controller_action_predispatch_catalog_product_compare_clear">

@@ -17,9 +17,8 @@ class Index extends \Magento\Reward\Controller\Adminhtml\Reward\Rate
      */
     public function execute()
     {
-        $this->_title->add(__('Reward Exchange Rates'));
-
         $this->_initAction();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Reward Exchange Rates'));
         $this->_view->renderLayout();
     }
 }
