@@ -51,10 +51,10 @@ class Payment extends SalesResource
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         /**@var $object \Magento\Sales\Model\Order\Payment */
-        parent::_beforeSave($object);
         if (!$object->getParentId() && $object->getOrder()) {
             $object->setParentId($object->getOrder()->getId());
         }
-        return $this;
+
+        return parent::_beforeSave($object);
     }
 }
