@@ -33,7 +33,6 @@ class Setup implements SetupInterface
     public function __construct(
         Setup\Review $reviewSetup,
         PostInstaller $postInstaller
-
     ) {
         $this->reviewSetup = $reviewSetup;
         $this->postInstaller = $postInstaller;

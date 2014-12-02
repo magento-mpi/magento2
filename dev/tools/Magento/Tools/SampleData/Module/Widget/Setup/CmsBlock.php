@@ -64,6 +64,7 @@ class CmsBlock implements SetupInterface
      * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
      * @param \Magento\Cms\Model\Resource\Block\Collection $cmsBlockCollection
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param array $fixtures
      */
     public function __construct(

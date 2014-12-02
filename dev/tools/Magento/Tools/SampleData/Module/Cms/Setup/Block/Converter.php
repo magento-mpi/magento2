@@ -170,48 +170,10 @@ class Converter
         $replaceData = array();
 
         foreach ($matches['value'] as $matchKey => $matchValue) {
-            $type = trim($matches['type'][$matchKey]);
-            switch ($type) {
-                case 'category':
-                    $category = $this->getCategoryByUrlKey($matchValue);
-                    if (empty($category)) {
-                        continue;
-                    }
-                    $categoryUrl = $category->getRequestPath();
-                    $replaceData['regexp'][] = '/{{category key="' . $matchValue .'"}}/';
-                    $replaceData['value'][] = '{{store url=""}}' . $categoryUrl;
-                    break;
-                case 'categoryId':
-                    $category = $this->getCategoryByUrlKey($matchValue);
-                    if (empty($category)) {
-                        continue;
-                    }
-                    $replaceData['regexp'][] = '/{{categoryId key="' . $matchValue .'"}}/';
-                    $replaceData['value'][] = sprintf('%03d', $category->getId());
-                    break;
-                case 'product':
-                    $productCollection = $this->productCollectionFactory->create();
-                    $productItem = $productCollection->addAttributeToFilter('sku', $matchValue)
-                        ->addUrlRewrite()
-                        ->getFirstItem();
-                    $productUrl = null;
-                    if ($productItem) {
-                        $productUrl ='{{store url=""}}' .  $productItem->getRequestPath();
-                    }
-                    $replaceData['regexp'][] = '/{{product sku="' . $matchValue .'"}}/';
-                    $replaceData['value'][] = $productUrl;
-                    break;
-                case 'attribute':
-                    if (strpos($matchValue, ':') == false) {
-                        break;
-                    }
-                    list($code, $value) = explode(':', $matchValue);
-
-                    if (!empty($code) && !empty($value)) {
-                        $replaceData['regexp'][] = '/{{attribute key="' . $matchValue .'"}}/';
-                        $replaceData['value'][] = sprintf('%03d', $this->getAttributeOptionValueId($code, $value));
-                    }
-                    break;
+            $callback = "matcher" . ucfirst(trim($matches['type'][$matchKey]));
+            $matchResult = call_user_func_array(array($this, $callback), array($matchValue));
+            if (!empty($matchResult)) {
+                $replaceData = array_merge_recursive($replaceData, $matchResult);
             }
         }
         return $replaceData;
@@ -297,5 +259,75 @@ class Converter
         }
         $this->attributeCodeOptionValueIdsPair[$attributeCode] = $opt;
         return $this->attributeCodeOptionValueIdsPair[$attributeCode][$value];
+    }
+
+    /**
+     * @param string $matchValue
+     * @return array
+     */
+    protected function matcherCategory($matchValue)
+    {
+        $replaceData = array();
+        $category = $this->getCategoryByUrlKey($matchValue);
+        if (!empty($category)) {
+            $categoryUrl = $category->getRequestPath();
+            $replaceData['regexp'][] = '/{{category key="' . $matchValue .'"}}/';
+            $replaceData['value'][] = '{{store url=""}}' . $categoryUrl;
+        }
+        return $replaceData;
+    }
+
+    /**
+     * @param string $matchValue
+     * @return array
+     */
+    protected function matcherCategoryId($matchValue)
+    {
+        $replaceData = array();
+        $category = $this->getCategoryByUrlKey($matchValue);
+        if (!empty($category)) {
+            $replaceData['regexp'][] = '/{{categoryId key="' . $matchValue .'"}}/';
+            $replaceData['value'][] = sprintf('%03d', $category->getId());
+        }
+        return $replaceData;
+    }
+
+    /**
+     * @param string $matchValue
+     * @return array
+     */
+    protected function matcherProduct($matchValue)
+    {
+        $replaceData = array();
+        $productCollection = $this->productCollectionFactory->create();
+        $productItem = $productCollection->addAttributeToFilter('sku', $matchValue)
+            ->addUrlRewrite()
+            ->getFirstItem();
+        $productUrl = null;
+        if ($productItem) {
+            $productUrl ='{{store url=""}}' .  $productItem->getRequestPath();
+        }
+        $replaceData['regexp'][] = '/{{product sku="' . $matchValue .'"}}/';
+        $replaceData['value'][] = $productUrl;
+        return $replaceData;
+    }
+
+    /**
+     * @param string $matchValue
+     * @return array
+     */
+    protected function matcherAttribute($matchValue)
+    {
+        $replaceData = array();
+        if (strpos($matchValue, ':') === false) {
+            return $replaceData;
+        }
+        list($code, $value) = explode(':', $matchValue);
+
+        if (!empty($code) && !empty($value)) {
+            $replaceData['regexp'][] = '/{{attribute key="' . $matchValue .'"}}/';
+            $replaceData['value'][] = sprintf('%03d', $this->getAttributeOptionValueId($code, $value));
+        }
+        return $replaceData;
     }
 }

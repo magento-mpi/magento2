@@ -8,6 +8,10 @@
  
 namespace Magento\Catalog\Service\V1\Product\Link;
 
+/**
+ * @todo remove this interface
+ * @deprecated
+ */
 interface WriteServiceInterface
 {
     /**
@@ -19,6 +23,9 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
+     *
+     * @deprecated
+     * @see \Magento\Catalog\Api\ProductLinkManagementInterface::assign
      */
     public function assign($productSku, array $assignedProducts, $type);
 
@@ -31,6 +38,9 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
+     *
+     * @deprecated
+     * @see \Magento\Catalog\Api\ProductLinkManagementInterface::update
      */
     public function update($productSku, Data\ProductLink $linkedProduct, $type);
 
@@ -43,6 +53,9 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @return bool
+     *
+     * @deprecated
+     * @see \Magento\Catalog\Api\ProductLinkManagementInterface::remove
      */
     public function remove($productSku, $linkedProductSku, $type);
 }

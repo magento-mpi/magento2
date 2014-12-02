@@ -22,25 +22,32 @@ class Groupprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Groupp
     protected $_productAttributeBackendGroupprice;
 
     /**
-     * @param \Magento\Framework\Logger $logger
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice $productAttributeBackendGroupprice
      */
     public function __construct(
-        \Magento\Framework\Logger $logger,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement,
         \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice $productAttributeBackendGroupprice
     ) {
         $this->_productAttributeBackendGroupprice = $productAttributeBackendGroupprice;
-        parent::__construct($logger, $currencyFactory, $storeManager, $catalogData, $config, $catalogProductType);
+        parent::__construct(
+            $currencyFactory,
+            $storeManager,
+            $catalogData,
+            $config,
+            $catalogProductType,
+            $groupManagement
+        );
     }
 
     /**
@@ -61,5 +68,15 @@ class Groupprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Groupp
     protected function _getDuplicateErrorMessage()
     {
         return __('We found a duplicate website group price customer group.');
+    }
+
+    /**
+     * By default attribute value is considered non-scalar that can be stored in a generic way
+     *
+     * @return bool
+     */
+    public function isScalar()
+    {
+        return false;
     }
 }

@@ -7,12 +7,15 @@
  */
 namespace Magento\Sales\Model\Resource\Order\Creditmemo;
 
+use Magento\Sales\Model\Spi\CreditmemoItemResourceInterface;
+use Magento\Sales\Model\Resource\Entity as SalesResource;
+
 /**
  * Flat sales order creditmemo item resource
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Item extends \Magento\Sales\Model\Resource\Entity
+class Item extends SalesResource implements CreditmemoItemResourceInterface
 {
     /**
      * Event prefix
@@ -28,6 +31,19 @@ class Item extends \Magento\Sales\Model\Resource\Entity
      */
     protected function _construct()
     {
-        $this->_init('sales_flat_creditmemo_item', 'entity_id');
+        $this->_init('sales_creditmemo_item', 'entity_id');
+    }
+
+    /**
+     * @param \Magento\Framework\Model\AbstractModel $object
+     * @return $this
+     */
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
+    {
+        /**@var $object \Magento\Sales\Model\Order\Creditmemo\Item*/
+        if (!$object->getParentId() && $object->getCreditmemo()) {
+            $object->setParentId($object->getCreditmemo()->getId());
+        }
+        return parent::_beforeSave($object);
     }
 }

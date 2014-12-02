@@ -190,7 +190,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $pageGroupIds = array();
         $tmpPageGroups = array();
@@ -245,7 +245,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
         $this->setData('page_groups', $tmpPageGroups);
         $this->setData('page_group_ids', $pageGroupIds);
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -601,12 +601,12 @@ class Instance extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if ($this->dataHasChangedFor('page_groups') || $this->dataHasChangedFor('widget_parameters')) {
             $this->_invalidateCache();
         }
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -614,11 +614,11 @@ class Instance extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         if ($this->getPageGroups()) {
             $this->_invalidateCache();
         }
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 }

@@ -61,7 +61,7 @@ class Cron extends \Magento\Framework\App\Config\Value
      * @return void
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $cronExprString = '';
 

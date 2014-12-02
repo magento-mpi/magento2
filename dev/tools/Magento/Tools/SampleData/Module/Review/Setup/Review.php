@@ -270,7 +270,7 @@ class Review implements SetupInterface
      */
     protected function getRatingEntityId()
     {
-        if(!$this->entityId) {
+        if (!$this->entityId) {
             $rating = $this->ratingFactory->create();
             $this->entityId = $rating->getEntityIdByCode(\Magento\Review\Model\Rating::ENTITY_PRODUCT_CODE);
         }

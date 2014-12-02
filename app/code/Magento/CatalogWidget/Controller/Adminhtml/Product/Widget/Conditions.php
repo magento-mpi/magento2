@@ -37,25 +37,24 @@ class Conditions extends \Magento\CatalogWidget\Controller\Adminhtml\Product\Wid
     public function execute()
     {
         $id = $this->getRequest()->getParam('id');
-        $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
-        $type = $typeArr[0];
+        $typeData = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
+        $className = $typeData[0];
 
-        $model = $this->_objectManager->create($type)
+        $model = $this->_objectManager->create($className)
             ->setId($id)
-            ->setType($type)
+            ->setType($className)
             ->setRule($this->rule)
             ->setPrefix('conditions');
 
-        if (!empty($typeArr[1])) {
-            $model->setAttribute($typeArr[1]);
+        if (!empty($typeData[1])) {
+            $model->setAttribute($typeData[1]);
         }
 
+        $result = '';
         if ($model instanceof AbstractCondition) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
-            $html = $model->asHtmlRecursive();
-        } else {
-            $html = '';
+            $result = $model->asHtmlRecursive();
         }
-        $this->getResponse()->setBody($html);
+        $this->getResponse()->setBody($result);
     }
 }

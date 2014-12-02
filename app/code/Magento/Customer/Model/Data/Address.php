@@ -25,7 +25,7 @@ class Address extends \Magento\Framework\Api\AbstractExtensibleObject implements
     /**
      * Get region
      *
-     * @return \Magento\Customer\Service\V1\Data\Region|null
+     * @return \Magento\Customer\Api\Data\RegionInterface|null
      */
     public function getRegion()
     {
@@ -170,5 +170,25 @@ class Address extends \Magento\Framework\Api\AbstractExtensibleObject implements
     public function getCustomerId()
     {
         return $this->_get(self::CUSTOMER_ID);
+    }
+
+    /**
+     * Get if this address is default shipping address.
+     *
+     * @return bool|null
+     */
+    public function isDefaultShipping()
+    {
+        return $this->_get(self::DEFAULT_SHIPPING);
+    }
+
+    /**
+     * Get if this address is default billing address
+     *
+     * @return bool|null
+     */
+    public function isDefaultBilling()
+    {
+        return $this->_get(self::DEFAULT_BILLING);
     }
 }

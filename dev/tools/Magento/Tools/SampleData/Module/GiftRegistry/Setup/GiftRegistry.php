@@ -79,6 +79,7 @@ class GiftRegistry implements SetupInterface
      * @param \Magento\Catalog\Model\ProductFactory $productFactory,
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source $productIndexer
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         FixtureHelper $fixtureHelper,

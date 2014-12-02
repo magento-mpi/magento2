@@ -31,7 +31,6 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $resourceModel->expects($this->once())->method('addCommitCallback')->will($this->returnSelf());
         $dateTime = $this->getMock('\Magento\Framework\Stdlib\DateTime', array(), array());
         $dateTime->expects(
             $this->once()
@@ -51,7 +50,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
         );
         $model->setId(0);
         // set any data to set _hasDataChanges flag
-        $model->save();
+        $model->beforeSave();
 
         $this->assertEquals(self::TEST_FORMATTED_TIME, $model->getUpdatedAt());
     }

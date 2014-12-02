@@ -19,7 +19,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\Layout',
             array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
         );
-        $authorization = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+        $authorization = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\AuthorizationInterface',
             array('aclPolicy' =>  new \Magento\Framework\Authorization\Policy\DefaultPolicy())
         );

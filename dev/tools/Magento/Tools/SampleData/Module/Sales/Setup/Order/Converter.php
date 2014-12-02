@@ -38,7 +38,7 @@ class Converter
      * @param \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter
      * @param \Magento\Eav\Model\Config $eavConfig
      */
-    public  function __construct(
+    public function __construct(
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter,

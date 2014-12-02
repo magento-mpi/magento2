@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Widget\Helper;
 
 /**
@@ -14,7 +20,7 @@ class Conditions
      */
     public function encode(array $value)
     {
-        $value = str_replace(['{','}','"', '\\'], ['[',']','`', '|'], serialize($value));
+        $value = str_replace(['{', '}', '"', '\\'], ['[', ']', '`', '|'], serialize($value));
         return $value;
     }
 
@@ -26,7 +32,7 @@ class Conditions
      */
     public function decode($value)
     {
-        $value = str_replace(['[',']','`', '|'],['{','}','"', '\\'], $value);
+        $value = str_replace(['[', ']', '`', '|'], ['{', '}', '"', '\\'], $value);
         $value = unserialize($value);
         return $value;
     }

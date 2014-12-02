@@ -42,7 +42,6 @@ class Setup implements SetupInterface
         State $appState,
         Setup\Order $orderSetup,
         PostInstaller $postInstaller
-
     ) {
         $this->appState = $appState;
         $this->orderSetup = $orderSetup;

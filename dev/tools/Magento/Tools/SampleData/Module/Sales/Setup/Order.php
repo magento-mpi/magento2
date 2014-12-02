@@ -55,9 +55,7 @@ class Order implements SetupInterface
         Order\Converter $converter,
         Order\Processor $orderProcessor,
         \Magento\Tools\SampleData\Logger $logger,
-        $fixtures = [
-            'Sales/orders.csv'
-        ]
+        $fixtures = ['Sales/orders.csv']
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;

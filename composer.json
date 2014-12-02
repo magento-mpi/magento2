@@ -2,13 +2,15 @@
     "name": "magento/project-mainline",
     "description": "Magento project mainline",
     "type": "project",
-    "version": "0.1.0-alpha102",
+    "version": "0.1.0-alpha105",
     "require": {
         "php": "~5.4.11|~5.5.0",
         "zendframework/zend-stdlib": "2.0.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.1.0"
+        "phpunit/phpunit": "4.1.0",
+        "squizlabs/php_codesniffer": "1.5.3",
+        "phpmd/phpmd": "@stable"
     },
     "replace": {
         "magento/module-admin-gws": "self.version",
@@ -31,6 +33,7 @@
         "magento/module-catalog-rule": "self.version",
         "magento/module-catalog-search": "self.version",
         "magento/module-catalog-url-rewrite": "self.version",
+        "magento/module-magento/module-catalog-widget": "self.version",
         "magento/module-centinel": "self.version",
         "magento/module-checkout": "self.version",
         "magento/module-checkout-agreements": "self.version",
@@ -133,7 +136,6 @@
         "magento/theme-adminhtml-backend": "self.version",
         "magento/theme-frontend-blank": "self.version",
         "magento/theme-frontend-luma": "self.version",
-        "magento/theme-frontend-plushe": "self.version",
         "magento/language-de_de": "self.version",
         "magento/language-en_us": "self.version",
         "magento/language-es_es": "self.version",
@@ -216,32 +218,10 @@
         "use-include-path": true
     },
     "autoload": {
-        "psr-0": {
-            "Apache_": "lib/internal/",
-            "Cm_": "lib/internal/",
-            "Credis_": "lib/internal/",
-            "Less_": "lib/internal/",
-            "Symfony\\": "lib/internal/",
-            "Zend_Date": "app/code/",
-            "Zend_Mime": "app/code/",
-            "Zend_": "lib/internal/",
-            "Zend\\": "lib/internal/"
-        },
         "psr-4": {
-            "Magento\\Framework\\": "lib/internal/Magento/Framework/",
-            "Magento\\": [
-                "var/generation/Magento/",
-                "app/code/Magento/"
-            ],
-            "Zend\\Soap\\": "app/code/Zend/Soap/",
-            "Zend\\": "lib/internal/Zend/"
-        },
-        "classmap": ["app/code/"]
+            "Magento\\Framework\\": "lib/internal/Magento/Framework/"
+        }
     },
-    "include-path": [
-        "/lib/internal/",
-        "/app/code/"
-    ],
     "autoload-dev": {
         "psr-4": {
             "Magento\\Sniffs\\": "dev/tests/static/framework/Magento/Sniffs/",

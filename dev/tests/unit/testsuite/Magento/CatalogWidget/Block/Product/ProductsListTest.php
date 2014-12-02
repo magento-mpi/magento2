@@ -288,7 +288,7 @@ class ProductsListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTitle()
     {
-        $this->assertEquals('Products List', $this->productsList->getTitle());
+        $this->assertEmpty($this->productsList->getTitle());
     }
 
     public function testGetNonDefaultTitle()

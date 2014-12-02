@@ -64,11 +64,11 @@ class Conditions extends Template implements RendererInterface
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Data\Form\Element\Factory $elementFactory,
         \Magento\Rule\Block\Conditions $conditions,
         \Magento\CatalogWidget\Model\Rule $rule,
         \Magento\Framework\Registry $registry,
-        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->elementFactory = $elementFactory;
@@ -106,8 +106,9 @@ class Conditions extends Template implements RendererInterface
      */
     public function getNewChildUrl()
     {
-        return $this->getUrl('catalog_widget/product_widget/conditions/form/'
-            . $this->getElement()->getContainer()->getHtmlId());
+        return $this->getUrl(
+            'catalog_widget/product_widget/conditions/form/' . $this->getElement()->getContainer()->getHtmlId()
+        );
     }
 
     /**

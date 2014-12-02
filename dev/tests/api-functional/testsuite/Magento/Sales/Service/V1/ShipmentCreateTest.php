@@ -7,24 +7,22 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
  * Class ShipmentCreateTest
- *
- * @package Magento\Sales\Service\V1
  */
 class ShipmentCreateTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/shipment';
 
-    const SERVICE_READ_NAME = 'salesShipmentWriteV1';
+    const SERVICE_READ_NAME = 'salesShipmentRepositoryV1';
 
     const SERVICE_VERSION = 'V1';
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -64,7 +62,7 @@ class ShipmentCreateTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'create'
+                'operation' => self::SERVICE_READ_NAME . 'save'
             ]
         ];
         $data = [
@@ -81,12 +79,13 @@ class ShipmentCreateTest extends WebapiAbstract
             'increment_id' => null,
             'created_at' => null,
             'updated_at' => null,
-            'packages' => null,
+//            'packages' => null,
             'shipping_label' => null,
             'tracks' => [],
             'items' => $items,
+            'comments' => []
         ];
-        $result = $this->_webApiCall($serviceInfo, ['shipmentDataObject' => $data]);
-        $this->assertTrue($result);
+        $result = $this->_webApiCall($serviceInfo, ['entity' => $data]);
+        $this->assertNotEmpty($result);
     }
 }

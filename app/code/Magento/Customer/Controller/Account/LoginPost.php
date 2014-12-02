@@ -12,9 +12,9 @@ use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\StoreManagerInterface;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Core\Helper\Data as CoreHelper;
-use Magento\Customer\Helper\Data as CustomerHelper;
+use Magento\Customer\Model\Url as CustomerUrl;
 use Magento\Framework\Exception\EmailNotConfirmedException;
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\Core\App\Action\FormKeyValidator;
@@ -30,14 +30,14 @@ class LoginPost extends \Magento\Customer\Controller\Account
     /** @var StoreManagerInterface */
     protected $storeManager;
 
-    /** @var CustomerAccountServiceInterface  */
-    protected $customerAccountService;
+    /** @var AccountManagementInterface */
+    protected $customerAccountManagement;
 
     /** @var CoreHelper */
     protected $coreHelperData;
 
-    /** @var CustomerHelper */
-    protected $customerHelperData;
+    /** @var CustomerUrl */
+    protected $customerUrl;
 
     /** @var FormKeyValidator */
     protected $formKeyValidator;
@@ -47,9 +47,9 @@ class LoginPost extends \Magento\Customer\Controller\Account
      * @param Session $customerSession
      * @param ScopeConfigInterface $scopeConfig
      * @param StoreManagerInterface $storeManager
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param AccountManagementInterface $customerAccountManagement
      * @param CoreHelper $coreHelperData
-     * @param CustomerHelper $customerHelperData
+     * @param CustomerUrl $customerHelperData
      * @param FormKeyValidator $formKeyValidator
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -59,16 +59,16 @@ class LoginPost extends \Magento\Customer\Controller\Account
         Session $customerSession,
         ScopeConfigInterface $scopeConfig,
         StoreManagerInterface $storeManager,
-        CustomerAccountServiceInterface $customerAccountService,
+        AccountManagementInterface $customerAccountManagement,
         CoreHelper $coreHelperData,
-        CustomerHelper $customerHelperData,
+        CustomerUrl $customerHelperData,
         FormKeyValidator $formKeyValidator
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
-        $this->customerAccountService = $customerAccountService;
+        $this->customerAccountManagement = $customerAccountManagement;
         $this->coreHelperData = $coreHelperData;
-        $this->customerHelperData = $customerHelperData;
+        $this->customerUrl = $customerHelperData;
         $this->formKeyValidator = $formKeyValidator;
         parent::__construct($context, $customerSession);
     }
@@ -92,15 +92,15 @@ class LoginPost extends \Magento\Customer\Controller\Account
             $this->_getSession()->getBeforeAuthUrl() == $this->storeManager->getStore()->getBaseUrl()
         ) {
             // Set default URL to redirect customer to
-            $this->_getSession()->setBeforeAuthUrl($this->customerHelperData->getAccountUrl());
+            $this->_getSession()->setBeforeAuthUrl($this->customerUrl->getAccountUrl());
             // Redirect customer to the last page visited after logging in
             if ($this->_getSession()->isLoggedIn()) {
                 if (!$this->scopeConfig->isSetFlag(
-                    CustomerHelper::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
+                    CustomerUrl::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
                 ) {
-                    $referer = $this->getRequest()->getParam(CustomerHelper::REFERER_QUERY_PARAM_NAME);
+                    $referer = $this->getRequest()->getParam(CustomerUrl::REFERER_QUERY_PARAM_NAME);
                     if ($referer) {
                         $referer = $this->coreHelperData->urlDecode($referer);
                         if ($this->_url->isOwnOriginUrl()) {
@@ -111,10 +111,10 @@ class LoginPost extends \Magento\Customer\Controller\Account
                     $this->_getSession()->setBeforeAuthUrl($this->_getSession()->getAfterAuthUrl(true));
                 }
             } else {
-                $this->_getSession()->setBeforeAuthUrl($this->customerHelperData->getLoginUrl());
+                $this->_getSession()->setBeforeAuthUrl($this->customerUrl->getLoginUrl());
             }
-        } elseif ($this->_getSession()->getBeforeAuthUrl() == $this->customerHelperData->getLogoutUrl()) {
-            $this->_getSession()->setBeforeAuthUrl($this->customerHelperData->getDashboardUrl());
+        } elseif ($this->_getSession()->getBeforeAuthUrl() == $this->customerUrl->getLogoutUrl()) {
+            $this->_getSession()->setBeforeAuthUrl($this->customerUrl->getDashboardUrl());
         } else {
             if (!$this->_getSession()->getAfterAuthUrl()) {
                 $this->_getSession()->setAfterAuthUrl($this->_getSession()->getBeforeAuthUrl());
@@ -143,11 +143,11 @@ class LoginPost extends \Magento\Customer\Controller\Account
             $login = $this->getRequest()->getPost('login');
             if (!empty($login['username']) && !empty($login['password'])) {
                 try {
-                    $customer = $this->customerAccountService->authenticate($login['username'], $login['password']);
+                    $customer = $this->customerAccountManagement->authenticate($login['username'], $login['password']);
                     $this->_getSession()->setCustomerDataAsLoggedIn($customer);
                     $this->_getSession()->regenerateId();
                 } catch (EmailNotConfirmedException $e) {
-                    $value = $this->customerHelperData->getEmailConfirmationUrl($login['username']);
+                    $value = $this->customerUrl->getEmailConfirmationUrl($login['username']);
                     $message = __(
                         'This account is not confirmed.' .
                         ' <a href="%1">Click here</a> to resend confirmation email.',

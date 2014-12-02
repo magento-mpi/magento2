@@ -10,7 +10,7 @@ namespace Magento\Tools\SampleData;
 use Magento\Framework\App\State;
 use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Event;
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\App\ObjectManager\ConfigLoader;
 use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Console;
@@ -36,7 +36,7 @@ class Installer implements \Magento\Framework\AppInterface
     protected $moduleList;
 
     /**
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -69,24 +69,27 @@ class Installer implements \Magento\Framework\AppInterface
      * @param State $appState
      * @param SetupFactory $setupFactory
      * @param ModuleListInterface $moduleList
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param ConfigLoader $configLoader
      * @param Console\Response $response
      * @param Helper\PostInstaller $postInstaller
      * @param Helper\Deploy $deploy
+     * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param array $data
      * @throws \Exception
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         State $appState,
         SetupFactory $setupFactory,
         ModuleListInterface $moduleList,
-        ObjectManager $objectManager,
+        ObjectManagerInterface $objectManager,
         ConfigLoader $configLoader,
         Console\Response $response,
         Helper\PostInstaller $postInstaller,
         Helper\Deploy $deploy,
+        \Magento\User\Model\UserFactory $userFactory,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         array $data = []
     ) {
@@ -99,8 +102,7 @@ class Installer implements \Magento\Framework\AppInterface
         $this->postInstaller = $postInstaller;
         $this->deploy = $deploy;
         $this->session = $backendAuthSession;
-        /** @var \Magento\User\Model\User $user */
-        $user = $objectManager->create('Magento\User\Model\User')->loadByUsername($data['admin_username']);
+        $user = $userFactory->create()->loadByUsername($data['admin_username']);
         if (!$user || !$user->getId()) {
             throw new \Exception('Invalid username provided');
         }
@@ -119,7 +121,7 @@ class Installer implements \Magento\Framework\AppInterface
         $this->deploy->run();
 
         $resources = $this->initResources();
-        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
+        foreach ($this->moduleList->getNames() as $moduleName) {
             if (isset($resources[$moduleName])) {
                 $resourceType = $resources[$moduleName];
                 $this->setupFactory->create($resourceType)->run();

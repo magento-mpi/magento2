@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\View\Element\UiComponent;
 
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class ConfigFactory
@@ -17,7 +17,7 @@ class ConfigFactory
     /**
      * Object Manager instance
      *
-     * @var ObjectManager
+     * @var ObjectManagerInterface
      */
     protected $objectManager = null;
 
@@ -31,11 +31,11 @@ class ConfigFactory
     /**
      * Factory constructor
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param string $instanceName
      */
     public function __construct(
-        ObjectManager $objectManager,
+        ObjectManagerInterface $objectManager,
         $instanceName = 'Magento\Framework\View\Element\UiComponent\ConfigInterface'
     ) {
         $this->objectManager = $objectManager;
@@ -46,7 +46,7 @@ class ConfigFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento\Ui\Configuration
+     * @return \Magento\Framework\View\Element\UiComponent\ConfigInterface
      */
     public function create(array $data = [])
     {

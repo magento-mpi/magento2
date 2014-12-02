@@ -9,7 +9,7 @@ namespace Magento\Sales\Model;
 
 use Magento\Sales\Model\Quote\Address;
 use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
-use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
@@ -117,6 +117,8 @@ use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
  * @method Quote setGiftMessageId(int $value)
  * @method bool|null getIsPersistent()
  * @method Quote setIsPersistent(bool $value)
+ * @method Quote setSharedStoreIds(array $values)
+ * @method Quote setWebsite($value)
  */
 class Quote extends \Magento\Framework\Model\AbstractModel
 {
@@ -162,6 +164,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @var \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     protected $_payments;
+
+    /**
+     * @var \Magento\Sales\Model\Quote\Payment
+     */
+    protected $_currentPayment;
 
     /**
      * Different groups of error infos
@@ -264,7 +271,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_objectCopyService;
 
     /**
-     * @var CustomerDataObject
+     * @var CustomerInterface
      */
     protected $_customerData;
 
@@ -284,9 +291,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_addressConverter;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     /**
      * @var \Magento\Sales\Model\Quote\Item\Processor
@@ -297,6 +304,11 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @var \Magento\Framework\Object\Factory
      */
     protected $objectFactory;
+
+    /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
 
     /**
      * @param \Magento\Framework\Model\Context $context
@@ -320,9 +332,10 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\Address\Converter $addressConverter
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param Quote\Item\Processor $itemProcessor
      * @param \Magento\Framework\Object\Factory $objectFactory
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -349,9 +362,10 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Customer\Model\Converter $converter,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\Address\Converter $addressConverter,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Sales\Model\Quote\Item\Processor $itemProcessor,
         \Magento\Framework\Object\Factory $objectFactory,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -375,9 +389,10 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->_converter = $converter;
         $this->_addressService = $addressService;
         $this->_addressConverter = $addressConverter;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
         $this->itemProcessor = $itemProcessor;
         $this->objectFactory = $objectFactory;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -449,7 +464,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         /**
          * Currency logic
@@ -494,7 +509,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             $this->setCustomerId($this->_customer->getId());
         }
 
-        parent::_beforeSave();
+        parent::beforeSave();
     }
 
     /**
@@ -502,9 +517,9 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        parent::_afterSave();
+        parent::afterSave();
 
         if (null !== $this->_addresses) {
             $this->getAddressesCollection()->save();
@@ -516,6 +531,10 @@ class Quote extends \Magento\Framework\Model\AbstractModel
 
         if (null !== $this->_payments) {
             $this->getPaymentsCollection()->save();
+        }
+
+        if (null !== $this->_currentPayment) {
+            $this->getPayment()->save();
         }
         return $this;
     }
@@ -568,7 +587,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Assign customer model object data to quote
      *
-     * @param   CustomerDataObject|\Magento\Customer\Model\Customer $customer
+     * @param   CustomerInterface|\Magento\Customer\Model\Customer $customer
      * @return $this
      */
     public function assignCustomer($customer)
@@ -580,7 +599,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Assign customer model to quote with billing and shipping address change
      *
-     * @param  CustomerDataObject|\Magento\Customer\Model\Customer $customer
+     * @param  CustomerInterface|\Magento\Customer\Model\Customer $customer
      * @param  Address $billingAddress Quote billing address
      * @param  Address $shippingAddress Quote shipping address
      * @return $this
@@ -594,7 +613,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         if ($customer instanceof \Magento\Customer\Model\Customer) {
             $customer = $this->_converter->createCustomerFromModel($customer);
         }
-        /** @var CustomerDataObject $customer */
+        /** @var CustomerInterface $customer */
         if ($customer->getId()) {
             $this->setCustomerData($customer);
 
@@ -674,7 +693,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Retrieve customer data object
      *
-     * @return CustomerDataObject
+     * @return CustomerInterface
      */
     public function getCustomerData()
     {
@@ -686,14 +705,14 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Set customer data object
      *
-     * @param CustomerDataObject $customerData
+     * @param CustomerInterface $customerData
      * @return $this
      */
-    public function setCustomerData(CustomerDataObject $customerData)
+    public function setCustomerData(CustomerInterface $customerData)
     {
         /* @TODO: remove model usage in favor of Data Object in scope of MAGETWO-19930 */
         $customer = $this->_customerFactory->create();
-        $customer->setData(\Magento\Framework\Api\ExtensibleDataObjectConverter::toFlatArray($customerData));
+        $customer->setData($this->extensibleDataObjectConverter->toFlatArray($customerData));
         $customer->setId($customerData->getId());
         $this->setCustomer($customer);
         return $this;
@@ -755,10 +774,10 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     /**
      * Update customer data object
      *
-     * @param CustomerDataObject $customerData
+     * @param CustomerInterface $customerData
      * @return $this
      */
-    public function updateCustomerData(CustomerDataObject $customerData)
+    public function updateCustomerData(CustomerInterface $customerData)
     {
         $customer = $this->getCustomer();
         /* @TODO: remove this code in favor of customer Data Object usage MAGETWO-19930 */
@@ -1121,9 +1140,8 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     public function hasItemsWithDecimalQty()
     {
         foreach ($this->getAllItems() as $item) {
-            /** @var \Magento\CatalogInventory\Service\V1\Data\StockItem $stockItemDo */
-            $stockItemDo = $this->stockItemService->getStockItem($item->getProduct()->getId());
-            if ($stockItemDo->getStockId() && $stockItemDo->getIsQtyDecimal()) {
+            $stockItemDo = $this->stockRegistry->getStockItem($item->getProduct()->getId(), $item->getStore()->getWebsiteId());
+            if ($stockItemDo->getId() && $stockItemDo->getIsQtyDecimal()) {
                 return true;
             }
         }
@@ -1338,7 +1356,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
             if (!$parentItem) {
                 $parentItem = $item;
             }
-            if ($parentItem && $candidate->getParentProductId()) {
+            if ($parentItem && $candidate->getParentProductId() && !$item->getParentItem()) {
                 $item->setParentItem($parentItem);
             }
 
@@ -1577,7 +1595,15 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      */
     public function getPayment()
     {
-        foreach ($this->getPaymentsCollection() as $payment) {
+        if (null === $this->_currentPayment || !$this->_currentPayment) {
+            $this->_currentPayment = $this->_quotePaymentCollectionFactory->create()
+                ->setQuoteFilter($this->getId())
+                ->getFirstItem();
+        }
+        if ($payment = $this->_currentPayment) {
+            if ($this->getId()) {
+                $payment->setQuote($this);
+            }
             if (!$payment->isDeleted()) {
                 return $payment;
             }
@@ -2282,16 +2308,13 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Save quote with prevention checking
+     * Check if model can be saved
      *
-     * @return $this
+     * @return bool
      */
-    public function save()
+    public function isPreventSaving()
     {
-        if ($this->_preventSaving) {
-            return $this;
-        }
-        return parent::save();
+        return $this->_preventSaving;
     }
 
     /**

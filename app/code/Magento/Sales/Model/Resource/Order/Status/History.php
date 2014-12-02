@@ -7,14 +7,16 @@
  */
 namespace Magento\Sales\Model\Resource\Order\Status;
 
+use Magento\Sales\Model\Resource\Entity;
 use Magento\Sales\Model\Order\Status\History\Validator;
+use Magento\Sales\Model\Spi\OrderStatusHistoryResourceInterface;
 
 /**
  * Flat sales order status history resource
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Sales\Model\Resource\Entity
+class History extends Entity implements OrderStatusHistoryResourceInterface
 {
     /**
      * @var Validator
@@ -55,7 +57,7 @@ class History extends \Magento\Sales\Model\Resource\Entity
      */
     protected function _construct()
     {
-        $this->_init('sales_flat_order_status_history', 'entity_id');
+        $this->_init('sales_order_status_history', 'entity_id');
     }
 
     /**

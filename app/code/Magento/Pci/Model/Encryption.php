@@ -9,6 +9,7 @@ namespace Magento\Pci\Model;
 
 use Magento\Framework\Model\Exception;
 use Magento\Framework\Encryption\Crypt;
+use Magento\Framework\App\DeploymentConfig;
 
 /**
  * More sophisticated encryption model, that can:
@@ -55,16 +56,16 @@ class Encryption extends \Magento\Framework\Encryption\Encryptor
     /**
      * @param \Magento\Framework\Math\Random $randomGenerator
      * @param \Magento\Framework\Encryption\CryptFactory $cryptFactory
-     * @param string $cryptKey
+     * @param DeploymentConfig $deploymentConfig
      */
     public function __construct(
         \Magento\Framework\Math\Random $randomGenerator,
         \Magento\Framework\Encryption\CryptFactory $cryptFactory,
-        $cryptKey
+        DeploymentConfig $deploymentConfig
     ) {
-        parent::__construct($randomGenerator, $cryptFactory, $cryptKey);
+        parent::__construct($randomGenerator, $cryptFactory, $deploymentConfig);
         // load all possible keys
-        $this->_keys = preg_split('/\s+/s', trim($cryptKey));
+        $this->_keys = preg_split('/\s+/s', trim($this->_cryptKey));
         $this->_keyVersion = count($this->_keys) - 1;
     }
 

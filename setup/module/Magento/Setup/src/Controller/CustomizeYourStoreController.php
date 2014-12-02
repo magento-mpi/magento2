@@ -10,7 +10,7 @@ namespace Magento\Setup\Controller;
 use Magento\Setup\Model\SampleData;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Magento\Locale\Lists;
+use Magento\Setup\Model\Lists;
 
 class CustomizeYourStoreController extends AbstractActionController
 {
@@ -20,7 +20,7 @@ class CustomizeYourStoreController extends AbstractActionController
     protected $view;
 
     /**
-     * @var \Magento\Locale\Lists
+     * @var \Magento\Setup\Model\Lists
      */
     protected $list;
 

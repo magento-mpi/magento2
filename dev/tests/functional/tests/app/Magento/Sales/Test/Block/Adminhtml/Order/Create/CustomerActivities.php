@@ -13,6 +13,7 @@ use Mtf\Block\Block;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\LastOrderedItems;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\ProductsInComparison;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyComparedProducts;
+use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyViewedProducts;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\ShoppingCartItems;
 use Mtf\Client\Element\Locator;
 
@@ -59,6 +60,7 @@ class CustomerActivities extends Block
 
     /**
      * Shopping cart sidebar selector
+     * Shopping cart sidebar selector
      *
      * @var string
      */
@@ -72,6 +74,13 @@ class CustomerActivities extends Block
      */
     protected $lastSidebar = '//*[@class="create-order-sidebar-container"]/div[div[@class="create-order-sidebar-block"]][last()]';
     // @codingStandardsIgnoreEnd
+
+    /**
+     * Backend abstract block
+     *
+     * @var string
+     */
+    protected $templateBlock = './ancestor::body';
 
     /**
      * Get last ordered items block
@@ -126,6 +135,19 @@ class CustomerActivities extends Block
     }
 
     /**
+     * Get products in view block
+     *
+     * @return RecentlyViewedProducts
+     */
+    public function getRecentlyViewedProductsBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar\RecentlyViewedProducts',
+            ['element' => $this->_rootElement->find($this->recentlyViewedSidebar)]
+        );
+    }
+
+    /**
      * Get shopping Cart items block
      *
      * @return ShoppingCartItems
@@ -139,6 +161,19 @@ class CustomerActivities extends Block
     }
 
     /**
+     * Get backend abstract block
+     *
+     * @return \Magento\Backend\Test\Block\Template
+     */
+    public function getTemplateBlock()
+    {
+        return $this->blockFactory->create(
+            'Magento\Backend\Test\Block\Template',
+            ['element' => $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)]
+        );
+    }
+
+    /**
      * Click 'Update Changes' button
      *
      * @return void
@@ -147,5 +182,6 @@ class CustomerActivities extends Block
     {
         $this->_rootElement->find($this->lastSidebar, Locator::SELECTOR_XPATH)->click();
         $this->_rootElement->find($this->updateChanges)->click();
+        $this->getTemplateBlock()->waitLoader();
     }
 }

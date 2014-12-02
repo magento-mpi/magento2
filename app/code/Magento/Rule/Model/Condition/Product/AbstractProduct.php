@@ -222,7 +222,21 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
             }
         }
 
-        // Set new values only if we really got them
+        $this->_setSelectOptions($selectOptions, $selectReady, $hashedReady);
+
+        return $this;
+    }
+
+    /**
+     * Set new values only if we really got them
+     *
+     * @param array $selectOptions
+     * @param array $selectReady
+     * @param array $hashedReady
+     * @return $this
+     */
+    protected function _setSelectOptions($selectOptions, $selectReady, $hashedReady)
+    {
         if ($selectOptions !== null) {
             // Overwrite only not already existing values
             if (!$selectReady) {
@@ -239,7 +253,6 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
                 $this->setData('value_option', $hashedOptions);
             }
         }
-
         return $this;
     }
 
@@ -315,11 +328,11 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     {
         $attribute = $this->getAttribute();
         if ('category_ids' != $attribute) {
+            $productCollection->addAttributeToSelect($attribute, 'left');
             if ($this->getAttributeObject()->isScopeGlobal()) {
                 $attributes = $this->getRule()->getCollectedAttributes();
                 $attributes[$attribute] = true;
                 $this->getRule()->setCollectedAttributes($attributes);
-                $productCollection->addAttributeToSelect($attribute, 'left');
             } else {
                 $this->_entityAttributeValues = $productCollection->getAllAttributeValues($attribute);
             }
@@ -591,14 +604,20 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     }
 
     /**
-     * Get field by attribute
+     * Get mapped sql field
      *
      * @return string
      */
     public function getMappedSqlField()
     {
-
-        return ($this->getAttribute() == 'category_ids') ? 'e.entity_id' : parent::getMappedSqlField();
+        if (!$this->isAttributeSetOrCategory()) {
+            $mappedSqlField = $this->getEavAttributeTableAlias() . '.value';
+        } elseif ($this->getAttribute() == 'category_ids') {
+            $mappedSqlField = 'e.entity_id';
+        } else {
+            $mappedSqlField = parent::getMappedSqlField();
+        }
+        return $mappedSqlField;
     }
 
     /**
@@ -685,5 +704,27 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         }
 
         return $operator;
+    }
+
+    /**
+     * Check is attribute set or category
+     *
+     * @return bool
+     */
+    protected function isAttributeSetOrCategory()
+    {
+        return in_array($this->getAttribute(), ['attribute_set_id', 'category_ids']);
+    }
+
+    /**
+     * Get eav attribute alias
+     *
+     * @return string
+     */
+    protected function getEavAttributeTableAlias()
+    {
+        $attribute = $this->getAttributeObject();
+
+        return 'at_' . $attribute->getAttributeCode();
     }
 }

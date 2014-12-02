@@ -125,7 +125,7 @@ class InstanceTest extends \PHPUnit_Framework_TestCase
         );
         $model->setData('widget_parameters', $params);
         $this->assertEquals('', $model->generateLayoutUpdateXml('content'));
-        $model->setId('test_id')->setPackageTheme('Magento/blank');
+        $model->setId('test_id')->setPackageTheme('Magento/luma');
         $result = $model->generateLayoutUpdateXml('content');
         $this->assertContains('<referenceContainer name="content">', $result);
         $this->assertContains('<block class="' . $model->getType() . '"', $result);

@@ -9,9 +9,9 @@ namespace Magento\Catalog\Model\Resource\Product;
 
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
+use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Framework\DB\Select;
 use Magento\Store\Model\Store;
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Product collection
@@ -245,6 +245,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     protected $dateTime;
 
     /**
+     * @var GroupManagementInterface
+     */
+    protected $_groupManagement;
+
+    /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
@@ -263,6 +268,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param GroupManagementInterface $groupManagement
      * @param \Zend_Db_Adapter_Abstract $connection
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -286,6 +292,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\DateTime $dateTime,
+        GroupManagementInterface $groupManagement,
         $connection = null
     ) {
         $this->moduleManager = $moduleManager;
@@ -297,6 +304,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $this->_customerSession = $customerSession;
         $this->_resourceHelper = $resourceHelper;
         $this->dateTime = $dateTime;
+        $this->_groupManagement = $groupManagement;
         parent::__construct(
             $entityFactory,
             $logger,
@@ -366,9 +374,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function getPriceExpression($select)
     {
-        if (null === $this->_priceExpression) {
-            $this->_preparePriceExpressionParameters($select);
-        }
+        //@todo: Add caching of price expresion
+        $this->_preparePriceExpressionParameters($select);
         return $this->_priceExpression;
     }
 
@@ -1316,40 +1323,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     }
 
     /**
-     * Join prices from price rules to products collection
-     *
-     * @return $this
-     */
-    protected function _joinPriceRules()
-    {
-        if ($this->isEnabledFlat()) {
-            $customerGroup = $this->_customerSession->getCustomerGroupId();
-            $priceColumn = 'e.display_price_group_' . $customerGroup;
-            $this->getSelect()->columns(array('_rule_price' => $priceColumn));
-
-            return $this;
-        }
-        if (!$this->moduleManager->isEnabled('Magento_CatalogRule')) {
-            return $this;
-        }
-        $wId = $this->_storeManager->getWebsite()->getId();
-        $gId = $this->_customerSession->getCustomerGroupId();
-
-        $storeDate = $this->_localeDate->scopeTimeStamp($this->getStoreId());
-        $conditions = 'price_rule.product_id = e.entity_id AND ';
-        $conditions .= "price_rule.rule_date = '" . $this->dateTime->formatDate($storeDate, false) . "' AND ";
-        $conditions .= $this->getConnection()->quoteInto('price_rule.website_id = ? AND', $wId);
-        $conditions .= $this->getConnection()->quoteInto('price_rule.customer_group_id = ?', $gId);
-
-        $this->getSelect()->joinLeft(
-            array('price_rule' => $this->getTable('catalogrule_product_price')),
-            $conditions,
-            array('rule_price' => 'rule_price')
-        );
-        return $this;
-    }
-
-    /**
      * Retrieve all ids
      *
      * @param boolean $resetCache
@@ -2062,7 +2035,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         foreach ($adapter->fetchAll($select) as $row) {
             $tierPrices[$row['product_id']][] = array(
                 'website_id' => $row['website_id'],
-                'cust_group' => $row['all_groups'] ? CustomerGroupServiceInterface::CUST_GROUP_ALL : $row['cust_group'],
+                'cust_group' => $row['all_groups'] ? $this->_groupManagement->getAllCustomersGroup()->getId() : $row['cust_group'],
                 'price_qty' => $row['price_qty'],
                 'price' => $row['price'],
                 'website_price' => $row['price']

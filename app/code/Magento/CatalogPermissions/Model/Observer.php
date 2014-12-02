@@ -620,8 +620,6 @@ class Observer
      */
     protected function _checkPermission($data, $permission, $method)
     {
-        $result = true;
-
         /*
          * If there is no permissions for this
          * product then we will use configuration default

@@ -7,26 +7,19 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 
+/**
+ * Class InvoiceGetTest
+ */
 class InvoiceGetTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/invoice';
 
-    const SERVICE_READ_NAME = 'salesInvoiceReadV1';
+    const SERVICE_READ_NAME = 'salesInvoiceRepositoryV1';
 
     const SERVICE_VERSION = 'V1';
-
-    /**
-     * @var \Magento\Framework\ObjectManager
-     */
-    protected $objectManager;
-
-    protected function setUp()
-    {
-        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-    }
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/invoice.php

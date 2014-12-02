@@ -23,7 +23,7 @@ class CreditmemoGetTest extends WebapiAbstract
     /**
      * Service read name
      */
-    const SERVICE_READ_NAME = 'salesCreditmemoReadV1';
+    const SERVICE_READ_NAME = 'salesCreditmemoRepositoryV1';
 
     /**
      * Service version
@@ -36,7 +36,7 @@ class CreditmemoGetTest extends WebapiAbstract
     const CREDITMEMO_INCREMENT_ID = '100000001';
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -102,14 +102,6 @@ class CreditmemoGetTest extends WebapiAbstract
 
         $actual = $this->_webApiCall($serviceInfo, ['id' => $creditmemo->getId()]);
         $expected = $creditmemo->getData();
-        $expectedItems = $creditmemo->getAllItems();
-        $this->assertTrue(count($expectedItems) === count($actual['items']));
-
-        /** @var \Magento\Sales\Model\Order\Creditmemo\Item $item */
-        foreach ($expectedItems as $key => $item) {
-            $this->assertArrayHasKey($key, $actual['items']);
-            $this->assertEquals($item->getData(), $actual['items'][$key]);
-        }
 
         foreach ($this->requiredFields as $field) {
             $this->assertArrayHasKey($field, $actual);

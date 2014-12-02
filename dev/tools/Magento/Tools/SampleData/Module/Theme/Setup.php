@@ -16,6 +16,8 @@ use \Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Launches setup of sample data for Theme module
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Setup implements SetupInterface
 {
@@ -82,6 +84,7 @@ class Setup implements SetupInterface
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param FixtureHelper $fixtureHelper
      * @param Logger $logger
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Theme\Model\Config $config,
@@ -142,7 +145,7 @@ class Setup implements SetupInterface
     protected function addHeadInclude()
     {
         $styleContent = '';
-        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
+        foreach ($this->moduleList->getNames() as $moduleName) {
             $fileName = substr($moduleName, strpos($moduleName, "_") + 1) . '/styles.css';
             $fileName = $this->fixtureHelper->getPath($fileName);
             if (!$fileName) {
@@ -153,18 +156,17 @@ class Setup implements SetupInterface
         if (empty($styleContent)) {
             return;
         }
-        $themesDir = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
-        file_put_contents("$themesDir/styles.css", $styleContent);
+        $mediaDir = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
+        file_put_contents("$mediaDir/styles.css", $styleContent);
         $linkTemplate = '<link  rel="stylesheet" type="text/css"  media="all" href="%sstyles.css" />';
         $baseUrl = $this->baseUrl->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA));
         $linkText = sprintf($linkTemplate, $baseUrl);
 
         $miscScriptsNode = 'design/head/includes';
         $miscScripts = $this->scopeConfig->getValue($miscScriptsNode);
-        if (strpos($miscScripts, $linkText) === false) {
+        if (!$miscScripts || strpos($miscScripts, $linkText) === false) {
             $this->configWriter->save($miscScriptsNode, $miscScripts . $linkText);
             $this->configCacheType->clean();
         }
     }
-
 }
