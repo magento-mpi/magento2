@@ -7,13 +7,17 @@
 
 'use strict';
 angular.module('install', ['ngStorage'])
-    .controller('installController', ['$scope', '$sce', '$timeout', '$localStorage', '$rootScope', 'progress', function ($scope, $sce, $timeout, $localStorage, $rootScope, progress) {
+    .controller('installController', ['$scope', '$sce', '$timeout', '$localStorage', '$rootScope', 'progress', 'Storage', function ($scope, $sce, $timeout, $localStorage, $rootScope, progress, Storage) {
         $scope.isStarted = false;
         $scope.isInProgress = false;
         $scope.isConsole = false;
         $scope.isDisabled = false;
         $scope.toggleConsole = function () {
             $scope.isConsole = $scope.isConsole === false;
+        };
+
+        $scope.barStyle = function (value) {
+            return { width: value + '%' };
         };
 
         $scope.checkProgress = function () {
@@ -43,18 +47,18 @@ angular.module('install', ['ngStorage'])
 
         $scope.start = function () {
             var data = {
-                'db': $localStorage.db,
-                'admin': $localStorage.admin,
-                'store': $localStorage.store,
-                'config': $localStorage.config
+                'db': Storage.db,
+                'admin': Storage.admin,
+                'store': Storage.store,
+                'config': Storage.config
             };
             $scope.isStarted = true;
             $scope.isInProgress = true;
             progress.post(data, function (response) {
                 $scope.isInProgress = false;
                 if (response.success) {
-                    $localStorage.config.encrypt.key = response.key;
-                    $localStorage.messages = response.messages;
+                    Storage.config.encrypt.key = response.key;
+                    Storage.messages = response.messages;
                     $scope.nextState();
                 } else {
                     $scope.displayFailure();
@@ -78,7 +82,7 @@ angular.module('install', ['ngStorage'])
     .service('progress', ['$http', function ($http) {
         return {
             get: function (callback) {
-                $http.get('install/progress').then(callback);
+                $http.post('install/progress').then(callback);
             },
             post: function (data, callback) {
                 $http.post('install/start', data).success(callback);

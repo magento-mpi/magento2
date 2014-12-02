@@ -7,7 +7,7 @@
 
 'use strict';
 angular.module('add-database', ['ngStorage'])
-    .controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', '$timeout', function ($scope, $state, $localStorage, $http, $timeout) {
+    .controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', '$timeout', 'Storage', function ($scope, $state, $localStorage, $http, $timeout, Storage) {
         $scope.db = {
             useExistingDb: 1,
             useAccess: 1
@@ -26,6 +26,7 @@ angular.module('add-database', ['ngStorage'])
 
         $scope.$on('nextState', function () {
             $localStorage.db = $scope.db;
+            Storage.db = $scope.db;
         });
 
         // Listens on form validate event, dispatched by parent controller
