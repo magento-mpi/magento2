@@ -140,7 +140,7 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
             'CATALOG_PRODUCTS_LIST_WIDGET',
             $this->_storeManager->getStore()->getId(),
             $this->_design->getDesignTheme()->getId(),
-            $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP),
+            $this->httpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP),
             intval($this->getRequest()->getParam(self::PAGE_VAR_NAME, 1)),
             $this->getProductsPerPage(),
             $conditions
