@@ -136,18 +136,18 @@ class PageRepositoryTest extends \PHPUnit_Framework_TestCase
             false,
             true,
             true,
-            ['getPageId']
+            ['getId']
         );
 
+        $pageMock->expects($this->atLeastOnce())
+            ->method('getId')
+            ->will($this->returnValue($id));
         $this->pageFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($pageMock));
         $this->resourceMock->expects($this->once())
             ->method('load')
             ->with($pageMock, $id);
-        $pageMock->expects($this->once())
-            ->method('getPageId')
-            ->will($this->returnValue($id));
 
         $this->assertEquals($pageMock, $this->pageRepository->get($id));
     }
@@ -245,7 +245,7 @@ class PageRepositoryTest extends \PHPUnit_Framework_TestCase
             false,
             true,
             true,
-            ['getPageId']
+            ['getId']
         );
 
         $this->pageFactoryMock->expects($this->once())
@@ -255,7 +255,7 @@ class PageRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('load')
             ->with($pageMock, $id);
         $pageMock->expects($this->once())
-            ->method('getPageId')
+            ->method('getId')
             ->will($this->returnValue($id));
         $this->resourceMock->expects($this->once())
             ->method('delete')

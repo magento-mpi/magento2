@@ -65,7 +65,7 @@ class Content extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
         /* @var $fieldset \Magento\Framework\Data\Form\Element\Fieldset */
         $fieldset = $this->getForm()->getElement('content_fieldset');
 
-        if ($model->getPageId()) {
+        if ($model->getId()) {
             $fieldset->addField('page_id', 'hidden', array('name' => 'page_id'));
 
             $fieldset->addField('version_id', 'hidden', array('name' => 'version_id'));

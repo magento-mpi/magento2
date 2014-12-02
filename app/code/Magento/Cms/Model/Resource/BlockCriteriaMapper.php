@@ -8,18 +8,18 @@
 namespace Magento\Cms\Model\Resource;
 
 /**
- * Class PageCriteriaMapper
+ * Class BlockCriteriaMapper
  */
-class PageCriteriaMapper extends CmsCriteriaMapper
+class BlockCriteriaMapper extends CmsCriteriaMapper
 {
     /**
      * @inheritdoc
      */
     protected function init()
     {
-        $this->storeTableName = 'cms_page_store';
-        $this->linkFieldName = 'page_id';
-        $this->initResource('Magento\Cms\Model\Resource\Page');
+        $this->storeTableName = 'cms_block_store';
+        $this->linkFieldName = 'block_id';
+        $this->initResource('Magento\Cms\Model\Resource\Block');
         parent::init();
     }
 }
