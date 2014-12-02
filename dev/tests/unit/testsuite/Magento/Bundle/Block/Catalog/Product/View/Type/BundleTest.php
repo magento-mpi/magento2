@@ -144,21 +144,12 @@ class BundleTest extends \PHPUnit_Framework_TestCase
             ->method('encode')
             ->will($this->returnArgument(0));
 
-        $priceCurrencyMock = $this->getMockBuilder('Magento\Directory\Model\PriceCurrency')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $priceCurrencyMock->expects($this->never())
-            ->method('convert')
-            ->willReturnArgument(0);
-
-
         /** @var $bundleBlock BundleBlock */
         $bundleBlock = $objectHelper->getObject(
             'Magento\Bundle\Block\Catalog\Product\View\Type\Bundle',
             [
                 'context' => $context,
-                'jsonEncoder' => $jsonEncoderMock,
-                'priceCurrency' => $priceCurrencyMock,
+                'jsonEncoder' => $jsonEncoderMock
             ]
         );
 
