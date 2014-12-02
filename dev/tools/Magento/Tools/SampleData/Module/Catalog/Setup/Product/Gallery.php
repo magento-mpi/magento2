@@ -119,6 +119,7 @@ class Gallery
             $this->galleryAttribute->insertGalleryValueInStore(array(
                 'value_id' => $id,
                 'store_id' => 0,
+                'entity_id' => $product->getId(),
                 'label' => 'Image',
                 'position' => $i,
                 'disables' => 0
