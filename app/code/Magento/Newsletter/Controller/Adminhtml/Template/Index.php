@@ -17,8 +17,6 @@ class Index extends \Magento\Newsletter\Controller\Adminhtml\Template
      */
     public function execute()
     {
-        $this->_setTitle();
-
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
             return;
@@ -29,6 +27,7 @@ class Index extends \Magento\Newsletter\Controller\Adminhtml\Template
         $this->_addContent(
             $this->_view->getLayout()->createBlock('Magento\Newsletter\Block\Adminhtml\Template', 'template')
         );
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Newsletter Templates'));
         $this->_view->renderLayout();
     }
 }

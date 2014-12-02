@@ -13,6 +13,9 @@
  */
 namespace Magento\AdminGws\Model;
 
+use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
+
 class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver implements CallbackProcessorInterface
 {
     /**
@@ -78,6 +81,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     protected $messageManager;
 
     /**
+     * @var CategoryRepositoryInterface
+     */
+    protected $categoryRepository;
+
+    /**
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\Model\Session $backendSession
@@ -90,6 +98,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
      * @param \Magento\Framework\App\ResponseInterface $response
      * @param \Magento\Framework\App\ActionFlag $actionFlag
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param CategoryRepositoryInterface $categoryRepository
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -105,7 +114,8 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\Framework\App\ActionFlag $actionFlag,
-        \Magento\Framework\Message\ManagerInterface $messageManager
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        CategoryRepositoryInterface $categoryRepository
     ) {
         $this->_registry = $registry;
         $this->_backendUrl = $backendUrl;
@@ -118,6 +128,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
         $this->_storeManager = $storeManager;
         $this->_response = $response;
         $this->messageManager = $messageManager;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct($role);
     }
 
@@ -330,12 +341,12 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
                         $forward = true;
                     }
                 } else {
-                    $category = $this->_objectManager->create(
-                        'Magento\Catalog\Model\Category'
-                    )->load(
-                        $this->_request->getParam('id')
-                    );
-                    if (!$category->getId() || !$this->_isCategoryAllowed($category)) {
+                    try {
+                        $category = $this->categoryRepository->get($this->_request->getParam('id'));
+                    } catch (NoSuchEntityException $e) {
+                        $category = null;
+                    }
+                    if (!$category || !$this->_isCategoryAllowed($category)) {
                         // no viewing wrong categories
                         $forward = true;
                     }
@@ -375,17 +386,18 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
         // instead of generic (we are capped by allowed store groups root categories)
         // check whether attempting to create event for wrong category
         if ('new' === $this->_request->getActionName()) {
-            $category = $this->_objectManager->create(
-                'Magento\Catalog\Model\Category'
-            )->load(
-                $this->_request->getParam('category_id')
-            );
-            if ($this->_request->getParam(
-                'category_id'
-            ) && !$this->_isCategoryAllowed(
-                $category
-            ) || !$this->_role->getIsWebsiteLevel()
-            ) {
+            $categoryId = $this->_request->getParam('category_id');
+            if (!$categoryId) {
+                return $this->_forward();
+            }
+
+            try {
+                $category = $this->categoryRepository->get($categoryId);
+            } catch (NoSuchEntityException $e) {
+                return $this->_forward();
+            }
+
+            if (!$this->_isCategoryAllowed($category) || !$this->_role->getIsWebsiteLevel()) {
                 return $this->_forward();
             }
         }
@@ -408,11 +420,13 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
         )->load(
             $this->_request->getParam('id')
         );
-        $category = $this->_objectManager->create(
-            'Magento\Catalog\Model\Category'
-        )->load(
-            $catalogEvent->getCategoryId()
-        );
+
+        try {
+            $category = $this->categoryRepository->get($catalogEvent->getCategoryId());
+        } catch (NoSuchEntityException $e) {
+            return $this->_forward();
+        }
+
         if (!$this->_isCategoryAllowed($category)) {
             return $this->_forward();
         }
@@ -650,9 +664,6 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
      */
     protected function _isCategoryAllowed($category)
     {
-        if (!$category->getId()) {
-            return false;
-        }
         $categoryPath = $category->getPath();
         foreach ($this->_role->getAllowedRootCategories() as $rootPath) {
             if ($categoryPath === $rootPath || 0 === strpos($categoryPath, "{$rootPath}/")) {
@@ -1075,20 +1086,18 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
      */
     protected function _validateCatalogSubCategoryAddPermission($categoryId)
     {
-        $category = $this->_objectManager->create('Magento\Catalog\Model\Category')->load($categoryId);
-        if ($category->getId()) {
+        try {
+            $category = $this->categoryRepository->get($categoryId);
             /**
              * viewing for parent category allowed and
              * user has exclusive access to root category
              * so we can allow user to add sub category
              */
-            if ($this->_isCategoryAllowed($category) && $this->_role->hasExclusiveCategoryAccess($category->getPath())
-            ) {
-                return true;
-            }
+            return $this->_isCategoryAllowed($category)
+                && $this->_role->hasExclusiveCategoryAccess($category->getPath());
+        } catch (NoSuchEntityException $e) {
+            return false;
         }
-
-        return false;
     }
 
     /**

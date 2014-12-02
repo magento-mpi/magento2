@@ -17,8 +17,8 @@ class Index extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custo
      */
     public function execute()
     {
-        $this->_title->add(__('Customer Address Attributes'));
         $this->_initAction();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customer Address Attributes'));
         $this->_view->renderLayout();
     }
 }
