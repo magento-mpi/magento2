@@ -58,7 +58,7 @@ class Updater
     {
         foreach (array_keys($this->_moduleList->getModules()) as $moduleName) {
             foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
-                if (!$this->_moduleManager->isDbDataUpToDate($moduleName, $resourceName)) {
+                if ($this->_moduleManager->getDbDataVersionError($moduleName, $resourceName)) {
                     $this->_setupFactory->create($resourceName, $moduleName)->applyDataUpdates();
                 }
             }

@@ -7,6 +7,8 @@
  */
 namespace Magento\Framework\Module;
 
+use Magento\Framework\Module\Plugin\DbStatusValidator;
+
 class ManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -129,7 +131,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             ->method('getDbVersion')
             ->with($resourceName)
             ->will($this->returnValue($dbVersion));
-        $this->assertSame($expectedResult, $this->_model->isDbSchemaUpToDate($moduleName, $resourceName));
+        $this->assertEquals($expectedResult, $this->_model->getDbSchemaVersionError($moduleName, $resourceName));
     }
 
     /**
@@ -146,7 +148,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             ->method('getDataVersion')
             ->with($resourceName)
             ->will($this->returnValue($dbVersion));
-        $this->assertSame($expectedResult, $this->_model->isDbDataUpToDate($moduleName, $resourceName));
+        $this->assertEquals($expectedResult, $this->_model->getDbDataVersionError($moduleName, $resourceName));
     }
 
     /**
@@ -155,10 +157,25 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function isDbUpToDateDataProvider()
     {
         return [
-            'version in config == version in db' => ['Module_One', '1', true],
-            'version in config < version in db' => ['Module_One', '2', false],
-            'version in config > version in db' => ['Module_Two', '1', false],
-            'no version in db' => ['Module_One', false, false],
+            'version in config == version in db' => ['Module_One', '1', []],
+            'version in config < version in db' =>
+                [
+                    'Module_One',
+                    '2',
+                    [DbStatusValidator::ERROR_KEY_CURRENT => '2', DbStatusValidator::ERROR_KEY_NEEDED => '1']
+                ],
+            'version in config > version in db' =>
+                [
+                    'Module_Two',
+                    '1',
+                    [DbStatusValidator::ERROR_KEY_CURRENT => '1', DbStatusValidator::ERROR_KEY_NEEDED => '2']
+                ],
+            'no version in db' =>
+                [
+                    'Module_One',
+                    false,
+                    [DbStatusValidator::ERROR_KEY_CURRENT => 'none', DbStatusValidator::ERROR_KEY_NEEDED => '1']
+                ],
         ];
     }
 
@@ -168,7 +185,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsDbSchemaUpToDateException()
     {
-        $this->_model->isDbSchemaUpToDate('Module_Three', 'resource');
+        $this->_model->getDbSchemaVersionError('Module_Three', 'resource');
     }
 
     /**
@@ -177,6 +194,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsDbDataUpToDateException()
     {
-        $this->_model->isDbDataUpToDate('Module_Three', 'resource');
+        $this->_model->getDbDataVersionError('Module_Three', 'resource');
     }
 }

@@ -84,9 +84,9 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     public function testUpdateDataNotApplied()
     {
         $this->moduleManager->expects($this->once())
-            ->method('isDbDataUpToDate')
+            ->method('getDbDataVersionError')
             ->with('Test_Module', 'catalog_setup')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue([]));
         $this->_factoryMock->expects($this->never())
             ->method('create');
         $this->_model->updateData();
@@ -95,9 +95,11 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     public function testUpdateData()
     {
         $this->moduleManager->expects($this->once())
-            ->method('isDbDataUpToDate')
+            ->method('getDbDataVersionError')
             ->with('Test_Module', 'catalog_setup')
-            ->will($this->returnValue(false));
+            ->will(
+                $this->returnValue(['module' => 'Test_Module', 'type' => 'data', 'current' => '1', 'needed' => '2'])
+            );
         $this->_factoryMock->expects($this->any())
             ->method('create')
             ->with('catalog_setup', 'Test_Module')
@@ -112,9 +114,9 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     public function testUpdateDataNoUpdates()
     {
         $this->moduleManager->expects($this->once())
-            ->method('isDbDataUpToDate')
+            ->method('getDbDataVersionError')
             ->with('Test_Module', 'catalog_setup')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue([]));
         $this->_factoryMock->expects($this->never())
             ->method('create');
 

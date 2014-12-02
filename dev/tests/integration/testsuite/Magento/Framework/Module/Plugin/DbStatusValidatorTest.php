@@ -37,7 +37,10 @@ class DbStatusValidatorTest extends \Magento\TestFramework\TestCase\AbstractCont
             } catch (\Magento\Framework\Module\Exception $e) {
                 if ($e->getMessage() != 'Please update your database: first run "composer install" from the Magento ' .
                     'root/ and root/setup directories. Then run "php –f index.php update" from the Magento ' .
-                    'root/setup directory.'
+                    'root/setup directory.' . PHP_EOL .
+                    'Error details: database is out of date.' . PHP_EOL .
+                    'Magento_AdminNotification schema: current version - 0.1, latest version - 2.0.0.0' . PHP_EOL .
+                    'Magento_AdminNotification data: current version - 0.1, latest version - 2.0.0.0'
                 ) {
                     $failureMessage = "DB status validation doesn't work properly. Caught exception message is '"
                         . $e->getMessage() ."'";

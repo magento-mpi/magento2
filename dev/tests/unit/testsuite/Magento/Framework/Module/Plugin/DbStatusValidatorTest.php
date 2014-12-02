@@ -134,10 +134,10 @@ class DbStatusValidatorTest extends \PHPUnit_Framework_TestCase
         ;
         $this->_cacheMock->expects($this->never())->method('save');
         $this->moduleManager->expects($this->any())
-            ->method('isDbSchemaUpToDate')
+            ->method('getDbSchemaVersionError')
             ->will($this->returnValueMap($schemaValueMap));
         $this->moduleManager->expects($this->any())
-            ->method('isDbDataUpToDate')
+            ->method('getDbDataVersionError')
             ->will($this->returnValueMap($dataValueMap));
         $this->_model->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock);
     }
@@ -150,32 +150,74 @@ class DbStatusValidatorTest extends \PHPUnit_Framework_TestCase
         return [
             'schema is outdated' => [
                 [
-                    ['Module_One', 'resource_Module_One', false],
-                    ['Module_Two', 'resource_Module_Two', true],
+                    ['Module_One', 'resource_Module_One',
+                     [
+                      DbStatusValidator::ERROR_KEY_MODULE => 'Module_One',
+                      DbStatusValidator::ERROR_KEY_TYPE => 'schema',
+                      DbStatusValidator::ERROR_KEY_CURRENT => 'none',
+                      DbStatusValidator::ERROR_KEY_NEEDED => '1'
+                     ]
+                    ],
+                    ['Module_Two', 'resource_Module_Two', []],
                 ],
                 [
-                    ['Module_One', 'resource_Module_One', true],
-                    ['Module_Two', 'resource_Module_Two', true],
+                    ['Module_One', 'resource_Module_One', []],
+                    ['Module_Two', 'resource_Module_Two', []],
                 ],
             ],
             'data is outdated' => [
                 [
-                    ['Module_One', 'resource_Module_One', true],
-                    ['Module_Two', 'resource_Module_Two', true],
+                    ['Module_One', 'resource_Module_One', []],
+                    ['Module_Two', 'resource_Module_Two', []],
                 ],
                 [
-                    ['Module_One', 'resource_Module_One', true],
-                    ['Module_Two', 'resource_Module_Two', false],
+                    ['Module_One', 'resource_Module_One', []],
+                    ['Module_Two', 'resource_Module_Two',
+                     [
+                         DbStatusValidator::ERROR_KEY_MODULE => 'Module_Two',
+                         DbStatusValidator::ERROR_KEY_TYPE => 'data',
+                         DbStatusValidator::ERROR_KEY_CURRENT => 'none',
+                         DbStatusValidator::ERROR_KEY_NEEDED => '1'
+                     ]
+                    ],
                 ],
             ],
             'both schema and data are outdated' => [
                 [
-                    ['Module_One', 'resource_Module_One', false],
-                    ['Module_Two', 'resource_Module_Two', false],
+                    ['Module_One', 'resource_Module_One',
+                     [
+                         DbStatusValidator::ERROR_KEY_MODULE => 'Module_One',
+                         DbStatusValidator::ERROR_KEY_TYPE => 'schema',
+                         DbStatusValidator::ERROR_KEY_CURRENT => 'none',
+                         DbStatusValidator::ERROR_KEY_NEEDED => '1'
+                     ]
+                    ],
+                    ['Module_Two', 'resource_Module_Two',
+                     [
+                         DbStatusValidator::ERROR_KEY_MODULE => 'Module_Two',
+                         DbStatusValidator::ERROR_KEY_TYPE => 'schema',
+                         DbStatusValidator::ERROR_KEY_CURRENT => 'none',
+                         DbStatusValidator::ERROR_KEY_NEEDED => '1'
+                     ]
+                    ],
                 ],
                 [
-                    ['Module_One', 'resource_Module_One', false],
-                    ['Module_Two', 'resource_Module_Two', false],
+                    ['Module_One', 'resource_Module_One',
+                     [
+                         DbStatusValidator::ERROR_KEY_MODULE => 'Module_One',
+                         DbStatusValidator::ERROR_KEY_TYPE => 'data',
+                         DbStatusValidator::ERROR_KEY_CURRENT => 'none',
+                         DbStatusValidator::ERROR_KEY_NEEDED => '1'
+                     ]
+                    ],
+                    ['Module_Two', 'resource_Module_Two',
+                     [
+                         DbStatusValidator::ERROR_KEY_MODULE => 'Module_Two',
+                         DbStatusValidator::ERROR_KEY_TYPE => 'data',
+                         DbStatusValidator::ERROR_KEY_CURRENT => 'none',
+                         DbStatusValidator::ERROR_KEY_NEEDED => '1'
+                     ]
+                    ],
                 ],
             ],
         ];

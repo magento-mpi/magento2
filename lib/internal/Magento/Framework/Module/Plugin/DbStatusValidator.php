@@ -13,6 +13,15 @@ use Magento\Framework\Cache\FrontendInterface;
 
 class DbStatusValidator
 {
+    /**#@+
+     * Constants defined for keys of error array
+     */
+    const ERROR_KEY_MODULE = 'module';
+    const ERROR_KEY_TYPE = 'type';
+    const ERROR_KEY_CURRENT = 'current';
+    const ERROR_KEY_NEEDED = 'needed';
+    /**#@-*/
+
     /**
      * @var FrontendInterface
      */
@@ -66,10 +75,13 @@ class DbStatusValidator
         \Magento\Framework\App\RequestInterface $request
     ) {
         if (!$this->cache->load('db_is_up_to_date')) {
-            if (!$this->isDbUpToDate()) {
+            $errors  = $this->getOutOfDateDbErrors();
+            if ($errors) {
+                $formattedErrors = $this->formatErrors($errors);
                 throw new \Magento\Framework\Module\Exception(
                     'Please update your database: first run "composer install" from the Magento root/ and root/setup '.
-                    'directories. Then run "php –f index.php update" from the Magento root/setup directory.'
+                    'directories. Then run "php –f index.php update" from the Magento root/setup directory.'. PHP_EOL .
+                    'Error details: database is out of date.' . PHP_EOL . implode(PHP_EOL, $formattedErrors)
                 );
             } else {
                 $this->cache->save('true', 'db_is_up_to_date');
@@ -78,22 +90,43 @@ class DbStatusValidator
         return $proceed($request);
     }
 
-    /**
-     * Check if DB is up to date
-     *
-     * @return bool
-     */
-    private function isDbUpToDate()
+    private function formatErrors($errorsData)
     {
+        $formattedErrors = [];
+        foreach ($errorsData as $error) {
+            $formattedErrors[] = $error[self::ERROR_KEY_MODULE] . ' ' . $error[self::ERROR_KEY_TYPE] .
+                ': current version - ' . $error[self::ERROR_KEY_CURRENT ] .
+                ', latest version - ' . $error[self::ERROR_KEY_NEEDED];
+        }
+        return $formattedErrors;
+    }
+    /**
+     * Get array of errors if DB is out of date, return [] if DB is current
+     *
+     * @return [] Array of errors, each error contains module name, current version, needed version,
+     *              and type (schema or data).  The array will be empty if all schema and data are current.
+     */
+    private function getOutOfDateDbErrors()
+    {
+        $errors = [];
         foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
             foreach ($this->resourceResolver->getResourceList($moduleName) as $resourceName) {
-                $isSchemaUpToDate = $this->moduleManager->isDbSchemaUpToDate($moduleName, $resourceName);
-                $isDataUpToDate = $this->moduleManager->isDbDataUpToDate($moduleName, $resourceName);
-                if (!$isSchemaUpToDate || !$isDataUpToDate) {
-                    return false;
+                $errorData = $this->moduleManager->getDbSchemaVersionError($moduleName, $resourceName);
+                if ($errorData) {
+                    $errors[] = array_merge(
+                        [self::ERROR_KEY_MODULE => $moduleName, '' . self::ERROR_KEY_TYPE . '' => 'schema'],
+                        $errorData
+                    );
+                }
+                $errorData = $this->moduleManager->getDbDataVersionError($moduleName, $resourceName);
+                if ($errorData) {
+                    $errors[] = array_merge(
+                        [self::ERROR_KEY_MODULE => $moduleName, self::ERROR_KEY_TYPE => 'data'],
+                        $errorData
+                    );
                 }
             }
         }
-        return true;
+        return $errors;
     }
 }

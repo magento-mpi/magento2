@@ -11,7 +11,8 @@
  */
 namespace Magento\Framework\Module;
 
-use \Magento\Framework\Module\Updater\SetupInterface;
+use Magento\Framework\Module\Plugin\DbStatusValidator;
+use Magento\Framework\Module\Updater\SetupInterface;
 
 class Manager
 {
@@ -103,27 +104,46 @@ class Manager
     }
 
     /**
-     * Check if DB schema is up to date
+     * Check if DB schema is up to date, return error data if it is not.
      *
      * @param string $moduleName
      * @param string $resourceName
-     * @return bool
+     * @return [] Contains current and needed version strings
      */
-    public function isDbSchemaUpToDate($moduleName, $resourceName)
+    public function getDbSchemaVersionError($moduleName, $resourceName)
     {
-        $dbVer = $this->_moduleResource->getDbVersion($resourceName);
-        return $this->isModuleVersionEqual($moduleName, $dbVer);
+        $dbVer = $this->_moduleResource->getDbVersion($resourceName); // version saved in DB
+
+        $configVer = $this->verifyModuleVersion($moduleName, $dbVer);
+
+        if ($configVer === true) {
+            return [];
+        } else {
+            $dbVer = $dbVer ?: 'none';
+            return [DbStatusValidator::ERROR_KEY_CURRENT => $dbVer, DbStatusValidator::ERROR_KEY_NEEDED => $configVer];
+        }
     }
 
     /**
+     * Check if DB data is up to date, return error data if it is not.
+     *
      * @param string $moduleName
      * @param string $resourceName
-     * @return bool
+     * @return []
      */
-    public function isDbDataUpToDate($moduleName, $resourceName)
+    public function getDbDataVersionError($moduleName, $resourceName)
     {
         $dataVer = $this->_moduleResource->getDataVersion($resourceName);
-        return $this->isModuleVersionEqual($moduleName, $dataVer);
+        $configVer = $this->verifyModuleVersion($moduleName, $dataVer);
+        if ($configVer === true) {
+            return [];
+        } else {
+            $dataVer = $dataVer ?: 'none';
+            return [
+                DbStatusValidator::ERROR_KEY_CURRENT => $dataVer,
+                DbStatusValidator::ERROR_KEY_NEEDED => $configVer
+            ];
+        }
     }
 
     /**
@@ -131,10 +151,10 @@ class Manager
      *
      * @param string $moduleName
      * @param string|bool $version
-     * @return bool
+     * @return true|string Returns true if up to date, string containing current version if it is not.
      * @throws \UnexpectedValueException
      */
-    private function isModuleVersionEqual($moduleName, $version)
+    private function verifyModuleVersion($moduleName, $version)
     {
         $module = $this->_moduleList->getModule($moduleName);
         if (empty($module['schema_version'])) {
@@ -142,6 +162,13 @@ class Manager
         }
         $configVer = $module['schema_version'];
 
-        return ($version !== false && version_compare($configVer, $version) === SetupInterface::VERSION_COMPARE_EQUAL);
+        $compareResult = ($version !== false
+            && version_compare($configVer, $version) === SetupInterface::VERSION_COMPARE_EQUAL);
+
+        if ($compareResult) {
+            return true;
+        } else {
+            return $configVer;
+        }
     }
 }
