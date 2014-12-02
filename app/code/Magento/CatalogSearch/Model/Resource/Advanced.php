@@ -99,7 +99,7 @@ class Advanced extends \Magento\Framework\Model\Resource\Db\AbstractDb
             } elseif (!isset($value['from']) && !isset($value['to'])) { // select
                 // select
                 $condition = array('in' => $value);
-            } elseif (isset($value['from']) || isset($value['to'])) {
+            } elseif (isset($value['from']) && '' !== $value['from'] || isset($value['to']) && '' !== $value['to']) {
                 // range
                 $condition = $value;
             }
