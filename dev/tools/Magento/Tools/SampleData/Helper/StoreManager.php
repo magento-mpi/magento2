@@ -7,6 +7,8 @@
  */
 namespace Magento\Tools\SampleData\Helper;
 
+use Magento\Framework\StoreManagerInterface;
+
 /**
  * Class StoreManager
  */
@@ -28,20 +30,22 @@ class StoreManager
     protected $website;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager
     ) {
         $this->storeManager = $storeManager;
     }
 
     /**
+     * Loading and caching of default website, store and store view
+     *
      * @return bool
      */
     protected function loadStore()
@@ -64,6 +68,19 @@ class StoreManager
     }
 
     /**
+     * Load and return default store view
+     *
+     * @return \Magento\Store\Model\Store
+     */
+    public function getStore()
+    {
+        $this->loadStore();
+        return $this->store;
+    }
+
+    /**
+     * Loads default store view and returns its id
+     *
      * @return int
      */
     public function getStoreId()
@@ -73,6 +90,8 @@ class StoreManager
     }
 
     /**
+     * Loads default website and returns its id
+     *
      * @return int
      */
     public function getWebsiteId()
@@ -82,6 +101,8 @@ class StoreManager
     }
 
     /**
+     * Loads default store and returns its id
+     *
      * @return int
      */
     public function getGroupId()

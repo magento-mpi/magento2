@@ -150,7 +150,10 @@ class Processor
         }
         $orderCreateModel->collectShippingRates();
         if (!empty($data['payment'])) {
-            $orderCreateModel->getQuote()->getPayment()->addData($data['payment']);
+            /** @var \Magento\Sales\Model\Quote\Payment $payment */
+            $payment = $orderCreateModel->getQuote()->getPayment();
+            $payment->addData($data['payment']);
+            $payment->setQuote($orderCreateModel->getQuote());
         }
         $orderCreateModel->initRuleData()->saveQuote();
         return $orderCreateModel;
