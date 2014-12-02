@@ -12,14 +12,14 @@ use Magento\Setup\Model\Lists;
 use Magento\Setup\Model\InstallerFactory;
 use Magento\Setup\Model\Installer;
 use Magento\Setup\Model\ConsoleLogger;
+use Magento\Setup\Model\UserConfigurationDataMapper;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
 use Magento\Setup\Model\AdminAccount;
 use Magento\Framework\App\MaintenanceMode;
-use Magento\Setup\Module\Setup\ConfigMapper;
-use Magento\Setup\Model\Validator;
+use Magento\Setup\Model\DeploymentConfigMapper;
 
 /**
  * Controller that handles all setup commands via command line interface.
@@ -103,13 +103,6 @@ class ConsoleController extends AbstractActionController
     private $installer;
 
     /**
-     * Parameter value validator
-     *
-     * @var Validator
-     */
-    private $validator;
-
-    /**
      * Gets router configuration to be used in module definition
      *
      * @return array
@@ -151,16 +144,16 @@ class ConsoleController extends AbstractActionController
      */
     private static function getCliConfig()
     {
-        $deployConfig = '--' . ConfigMapper::KEY_DB_HOST . '='
-            . ' --' . ConfigMapper::KEY_DB_NAME . '='
-            . ' --' . ConfigMapper::KEY_DB_USER . '='
-            . ' --' . ConfigMapper::KEY_BACKEND_FRONTNAME . '='
-            . ' [--' . ConfigMapper::KEY_DB_PASS . '=]'
-            . ' [--' . ConfigMapper::KEY_DB_PREFIX . '=]'
-            . ' [--' . ConfigMapper::KEY_DB_MODEL . '=]'
-            . ' [--' . ConfigMapper::KEY_DB_INIT_STATEMENTS . '=]'
-            . ' [--' . ConfigMapper::KEY_SESSION_SAVE . '=]'
-            . ' [--' . ConfigMapper::KEY_ENCRYPTION_KEY . '=]'
+        $deployConfig = '--' . DeploymentConfigMapper::KEY_DB_HOST . '='
+            . ' --' . DeploymentConfigMapper::KEY_DB_NAME . '='
+            . ' --' . DeploymentConfigMapper::KEY_DB_USER . '='
+            . ' --' . DeploymentConfigMapper::KEY_BACKEND_FRONTNAME . '='
+            . ' [--' . DeploymentConfigMapper::KEY_DB_PASS . '=]'
+            . ' [--' . DeploymentConfigMapper::KEY_DB_PREFIX . '=]'
+            . ' [--' . DeploymentConfigMapper::KEY_DB_MODEL . '=]'
+            . ' [--' . DeploymentConfigMapper::KEY_DB_INIT_STATEMENTS . '=]'
+            . ' [--' . DeploymentConfigMapper::KEY_SESSION_SAVE . '=]'
+            . ' [--' . DeploymentConfigMapper::KEY_ENCRYPTION_KEY . '=]'
             . ' [--' . Installer::ENABLE_MODULES . '=]'
             . ' [--' . Installer::DISABLE_MODULES . '=]';
         $userConfig = '[--' . UserConfig::KEY_BASE_URL . '=]'
@@ -263,7 +256,6 @@ class ConsoleController extends AbstractActionController
         $this->options = $options;
         $this->installer = $installerFactory->create($consoleLogger);
         $this->maintenanceMode = $maintenanceMode;
-        $this->validator = new Validator();
     }
 
     /**
@@ -296,10 +288,11 @@ class ConsoleController extends AbstractActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        if ($this->validator->validate(self::CMD_INSTALL, $request->getParams()->toArray())) {
+        $validationMessages = Installer::validateInstall($request->getParams()->toArray());
+        if ('' === $validationMessages) {
             $this->installer->install($request->getParams());
         } else {
-            $this->log->log($this->validator->getValidationMessages());
+            $this->log->log(PHP_EOL . $validationMessages);
         }
     }
 
@@ -313,11 +306,12 @@ class ConsoleController extends AbstractActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        if ($this->validator->validate(self::CMD_INSTALL_CONFIG, $request->getParams()->toArray())) {
+        $validationMessages = DeploymentConfigMapper::validateDeploymentConfig($request->getParams()->toArray());
+        if ('' === $validationMessages) {
             $this->installer->checkInstallationFilePermissions();
             $this->installer->installDeploymentConfig($request->getParams());
         } else {
-            $this->log->log($this->validator->getValidationMessages());
+            $this->log->log(PHP_EOL . $validationMessages);
         }
     }
 
@@ -366,10 +360,11 @@ class ConsoleController extends AbstractActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        if ($this->validator->validate(self::CMD_INSTALL_USER_CONFIG, $request->getParams()->toArray())) {
+        $validationMessages = UserConfigurationDataMapper::validateUserConfig($request->getParams()->toArray());
+        if ('' === $validationMessages) {
             $this->installer->installUserConfig($request->getParams());
         } else {
-            $this->log->log($this->validator->getValidationMessages());
+            $this->log->log(PHP_EOL . $validationMessages);
         }
     }
 
@@ -382,10 +377,11 @@ class ConsoleController extends AbstractActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        if ($this->validator->validate(self::CMD_INSTALL_ADMIN_USER, $request->getParams()->toArray())) {
+        $validationMessages = AdminAccount::validateAdmin($request->getParams()->toArray());
+        if ('' === $validationMessages) {
             $this->installer->installAdminUser($request->getParams());
         } else {
-            $this->log->log($this->validator->getValidationMessages());
+            $this->log->log(PHP_EOL . $validationMessages);
         }
     }
 
@@ -449,11 +445,14 @@ class ConsoleController extends AbstractActionController
             case UserConfig::KEY_TIMEZONE:
                 return $this->arrayToString($this->options->getTimezoneList());
             default:
-                if ($details[$type]['usage']) {
-                    $formatted = $this->formatCliUsage($details[$type]['usage']);
-                    return "\nAvailable parameters:\n{$formatted}\n";
+                if (isset($details[$type])) {
+                    if ($details[$type]['usage']) {
+                        $formatted = $this->formatCliUsage($details[$type]['usage']);
+                        return "\nAvailable parameters:\n{$formatted}\n";
+                    }
+                    return "\nThis command has no parameters.\n";
                 }
-                return "\nThis command has no parameters.\n";
+                throw new \InvalidArgumentException("Unknown type: {$type}");
         }
     }
 

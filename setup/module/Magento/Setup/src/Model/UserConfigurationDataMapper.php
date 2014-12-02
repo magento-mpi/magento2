@@ -81,4 +81,105 @@ class UserConfigurationDataMapper
 
         return $configData;
     }
+
+    /**
+     * Validate parameter values of user configuration tool
+     *
+     * @param array $data
+     * @return string
+     */
+    public static function validateUserConfig(array $data)
+    {
+        $validationMessages = '';
+        // check URL
+        if (isset($data[self::KEY_BASE_URL]) && !self::validateUrl($data[self::KEY_BASE_URL])) {
+            $validationMessages .= self::KEY_BASE_URL .
+                ": Please enter a valid base url. Current: {$data[self::KEY_BASE_URL]}" . PHP_EOL;
+        }
+        if (isset($data[self::KEY_BASE_URL_SECURE]) && !self::validateUrl($data[self::KEY_BASE_URL_SECURE], true)) {
+            $validationMessages .= self::KEY_BASE_URL_SECURE .
+                ": Please enter a valid secure base url. Current: {$data[self::KEY_BASE_URL_SECURE]}" . PHP_EOL;
+        }
+
+        // check 0/1 options
+        $flags = [];
+        if (isset($data[self::KEY_USE_SEF_URL])) {
+            $flags[self::KEY_USE_SEF_URL] = $data[self::KEY_USE_SEF_URL];
+        }
+        if (isset($data[self::KEY_IS_SECURE])) {
+            $flags[self::KEY_IS_SECURE] = $data[self::KEY_IS_SECURE];
+        }
+        if (isset($data[self::KEY_IS_SECURE_ADMIN])) {
+            $flags[self::KEY_IS_SECURE_ADMIN] = $data[self::KEY_IS_SECURE_ADMIN];
+        }
+        if (isset($data[self::KEY_ADMIN_USE_SECURITY_KEY])) {
+            $flags[self::KEY_ADMIN_USE_SECURITY_KEY] = $data[self::KEY_ADMIN_USE_SECURITY_KEY];
+        }
+
+        $validationMessages .= self::validateOneZeroFlags($flags);
+
+        // check language, currency and timezone
+        $options = new Lists(new \Zend_Locale());
+        if (isset($data[self::KEY_LANGUAGE])) {
+            if (!isset($options->getLocaleList()[$data[self::KEY_LANGUAGE]])) {
+                $validationMessages .= self::KEY_LANGUAGE . ': Please use a valid language. ' .
+                    "Current: {$data[self::KEY_LANGUAGE]}" . PHP_EOL;
+            }
+        }
+
+        if (isset($data[self::KEY_CURRENCY])) {
+            if (!isset($options->getCurrencyList()[$data[self::KEY_CURRENCY]])) {
+                $validationMessages .= self::KEY_CURRENCY . ': Please use a valid currency. ' .
+                    "Current: {$data[self::KEY_CURRENCY]}" . PHP_EOL;
+            }
+        }
+
+        if (isset($data[self::KEY_TIMEZONE])) {
+            if (!isset($options->getTimezoneList()[$data[self::KEY_TIMEZONE]])) {
+                $validationMessages .= self::KEY_TIMEZONE . ': Please use a valid timezone. ' .
+                    "Current: {$data[self::KEY_TIMEZONE]}" . PHP_EOL;
+            }
+        }
+
+        return $validationMessages;
+    }
+
+    /**
+     * Validate if all flags are of 0/1 option
+     *
+     * @param array $flags
+     * @return string
+     */
+    private static function validateOneZeroFlags(array $flags = [])
+    {
+        $validationMessages = '';
+        $wrongOptionMessage = 'Please enter a valid option (0/1). ';
+        foreach ($flags as $key => $flag) {
+            if ($flag !== '0' && $flag !== '1') {
+                $validationMessages .= "{$key}: {$wrongOptionMessage} Current: {$flag}" . PHP_EOL;
+            }
+        }
+        return $validationMessages;
+    }
+
+    /**
+     * Validate URL
+     *
+     * @param string $url
+     * @param bool $secure
+     * @return bool
+     */
+    private function validateUrl($url, $secure = false)
+    {
+        $validator = new \Zend\Validator\Uri();
+        if ($validator->isValid($url)) {
+            if ($secure) {
+                return strpos($url, 'https://') !== false;
+            }
+            else {
+                return strpos($url, 'http://') !== false;
+            }
+        }
+        return false;
+    }
 }
