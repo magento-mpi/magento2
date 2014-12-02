@@ -23,8 +23,8 @@
             line-height: 16px;
             border: 1px solid @border-color-base;
             text-align: center;
-            padding: 7px 10px 7px 10px;
-            @_shadow: inset 0 1px 0 0 #fff, inset 0 -1px 0 0 fade(@border-color-base, 30);
+            padding: 7px 10px;
+            @_shadow: inset 0 1px 0 0 @color-white, inset 0 -1px 0 0 fade(@border-color-base, 30);
             background-color: @toolbar-element-background;
             .css(box-shadow, @_shadow);
             border-radius: 3px;
@@ -37,7 +37,7 @@
                 border-radius: 2px;
                 padding: 2px;
                 font-size: .8em;
-                margin:0 5px;
+                margin: 0 5px;
                 color: @color-white;
                 min-width: 1em;
                 line-height: 1;
