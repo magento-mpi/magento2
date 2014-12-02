@@ -14,7 +14,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 /**
  * Class PageRepository
  */
-class PageRepository
+class PageRepository implements \Magento\Cms\Api\PageRepositoryInterface
 {
     /**
      * @var \Magento\Cms\Model\Resource\Page
@@ -65,11 +65,11 @@ class PageRepository
     /**
      * Save Page data
      *
-     * @param \Magento\Cms\Model\Page $page
-     * @return \Magento\Cms\Model\Page
+     * @param \Magento\Cms\Api\Data\PageInterface $page
+     * @return \Magento\Cms\Api\Data\PageInterface
      * @throws CouldNotSaveException
      */
-    public function save(\Magento\Cms\Model\Page $page)
+    public function save(\Magento\Cms\Api\Data\PageInterface $page)
     {
         try {
             $this->resource->save($page);
@@ -99,10 +99,10 @@ class PageRepository
     /**
      * Load Page data collection by given search criteria
      *
-     * @param \Magento\Cms\Model\Resource\PageCriteria $criteria
-     * @return \Magento\Cms\Model\Resource\Page\Collection
+     * @param \Magento\Cms\Api\PageCriteriaInterface $criteria
+     * @return \Magento\Cms\Api\Data\PageCollectionInterface
      */
-    public function getList(\Magento\Cms\Model\Resource\PageCriteria $criteria)
+    public function getList(\Magento\Cms\Api\PageCriteriaInterface $criteria)
     {
         $queryBuilder = $this->queryBuilderFactory->create();
         $queryBuilder->setCriteria($criteria);
@@ -115,11 +115,11 @@ class PageRepository
     /**
      * Delete Page
      *
-     * @param \Magento\Cms\Model\Page $page
+     * @param \Magento\Cms\Api\Data\PageInterface $page
      * @return bool
      * @throws \Magento\Framework\Exception\CouldNotDeleteException
      */
-    public function delete(\Magento\Cms\Model\Page $page)
+    public function delete(\Magento\Cms\Api\Data\PageInterface $page)
     {
         try {
             $this->resource->delete($page);

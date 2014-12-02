@@ -196,7 +196,6 @@ class Quote
             $quote->getBillingAddress()->importCustomerAddressData(
                 $this->addressRepository->getById($customer->getDefaultBilling())
             );
-            $quote->getShippingAddress()->setCustomerAddressId($customer->getDefaultBilling());
         }
         if (!$quote->getShippingAddress()->getSameAsBilling()
             && !$quote->getBillingAddress()->getId()
@@ -205,7 +204,6 @@ class Quote
             $quote->getShippingAddress()->importCustomerAddressData(
                 $this->addressRepository->getById($customer->getDefaultShipping())
             );
-            $quote->getShippingAddress()->setCustomerAddressId($customer->getDefaultShipping());
         }
         $quote->setCustomer($customer);
     }
