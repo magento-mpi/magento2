@@ -150,6 +150,9 @@
                         <next>selectCustomerOrder</next>
                     </step>
                     <step name="selectCustomerOrder" module="Magento_Sales">
+                        <next>selectStore</next>
+                    </step>
+                    <step name="selectStore" module="Magento_Sales">
                         <next>addProducts</next>
                     </step>
                     <step name="addProducts" module="Magento_Sales">

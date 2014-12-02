@@ -11,7 +11,7 @@
     <blocks>
         <bannersBlock>
             <class>Magento\Banner\Test\Block\Banners</class>
-            <locator>.widget.banners</locator>
+            <locator>.widget.block-banners</locator>
             <strategy>css selector</strategy>
         </bannersBlock>
         <widgetView>
