@@ -202,7 +202,6 @@ class Category implements SetupInterface
                 $rootNode = $this->storeManager->getStore()->getRootCategoryId();
             }
             $tree = $this->resourceCategoryTreeFactory->create();
-            /* @var $tree \Magento\Catalog\Model\Resource\Category\Tree */
             $node = $tree->loadNode($rootNode)->loadChildren();
 
             $tree->addCollectionData(null, false, $rootNode);
