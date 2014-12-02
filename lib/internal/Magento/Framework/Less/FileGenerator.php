@@ -74,7 +74,7 @@ class FileGenerator
          * waiting if generation process is already started
          */
         $lockFilePath = Source::TMP_MATERIALIZATION_DIR . '/' . self::TMP_LESS_DIR . '/less.lock';
-        while($this->tmpDirectory->isExist($lockFilePath)) {
+        while ($this->tmpDirectory->isExist($lockFilePath)) {
             //wait;
         }
         $this->tmpDirectory->writeFile($lockFilePath, '');
