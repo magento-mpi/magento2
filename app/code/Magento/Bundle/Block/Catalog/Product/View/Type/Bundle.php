@@ -183,9 +183,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                         ]
                     ];
                 }
-                // break the reference with the last element
-
-
                 $bundleOptionPriceAmount = $currentProduct->getPriceInfo()->getPrice('bundle_option')
                     ->getOptionSelectionAmount($selectionItem);
                 $finalPrice = $bundleOptionPriceAmount->getValue();
