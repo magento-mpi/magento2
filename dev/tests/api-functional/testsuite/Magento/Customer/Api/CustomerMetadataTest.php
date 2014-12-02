@@ -12,6 +12,9 @@ use Magento\Customer\Api\Data\CustomerInterface as Customer;
 use Magento\Customer\Model\Data\AttributeMetadata;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
+/**
+ * Class CustomerMetadataTest
+ */
 class CustomerMetadataTest extends WebapiAbstract
 {
     const SERVICE_NAME = "customerCustomerMetadataServiceV1";
@@ -40,7 +43,7 @@ class CustomerMetadataTest extends WebapiAbstract
         ];
 
         $requestData = [
-            "attributeCode" => $attributeCode
+            'attributeCode' => $attributeCode
         ];
 
         $attributeMetadata = $this->_webapiCall($serviceInfo, $requestData);
@@ -164,26 +167,6 @@ class CustomerMetadataTest extends WebapiAbstract
     }
 
     /**
-     * Data provider for testGetAttributes.
-     *
-     * @return array
-     */
-    public function getAttributesDataProvider()
-    {
-        $attributeMetadata = $this->getAttributeMetadataDataProvider();
-        return [
-            [
-                'adminhtml_customer',
-                $attributeMetadata[Customer::FIRSTNAME][1]
-            ],
-            [
-                'adminhtml_customer',
-                $attributeMetadata[Customer::GENDER][1]
-            ]
-        ];
-    }
-
-    /**
      * Test retrieval of attributes
      *
      * @param string $formCode Form code
@@ -204,10 +187,9 @@ class CustomerMetadataTest extends WebapiAbstract
             ]
         ];
 
-        $requestData = [];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $requestData['formCode']   = $formCode;
-        }
+        $requestData = [
+            'formCode' => $formCode
+        ];
 
         $attributeMetadataList = $this->_webApiCall($serviceInfo, $requestData);
         foreach ($attributeMetadataList as $attributeMetadata) {
@@ -220,6 +202,26 @@ class CustomerMetadataTest extends WebapiAbstract
                 break;
             }
         }
+    }
+
+    /**
+     * Data provider for testGetAttributes.
+     *
+     * @return array
+     */
+    public function getAttributesDataProvider()
+    {
+        $attributeMetadata = $this->getAttributeMetadataDataProvider();
+        return [
+            [
+                'adminhtml_customer',
+                $attributeMetadata[Customer::FIRSTNAME][1]
+            ],
+            [
+                'adminhtml_customer',
+                $attributeMetadata[Customer::GENDER][1]
+            ]
+        ];
     }
 
     /**
