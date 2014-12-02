@@ -90,6 +90,12 @@ class DbStatusValidator
         return $proceed($request);
     }
 
+    /**
+     * Format each error in the error data from getOutOfDataDbErrors into a single message
+     *
+     * @param $errorsData array of error data from getOutOfDateDbErrors
+     * @return array Messages that can be used to log the error
+     */
     private function formatErrors($errorsData)
     {
         $formattedErrors = [];
@@ -100,6 +106,7 @@ class DbStatusValidator
         }
         return $formattedErrors;
     }
+
     /**
      * Get array of errors if DB is out of date, return [] if DB is current
      *
