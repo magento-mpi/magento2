@@ -7,6 +7,8 @@
  */
 namespace Magento\Solr\Model\Layer\Category\Filter;
 
+use Magento\Catalog\Api\CategoryRepositoryInterface;
+
 /**
  * Layer category filter
  *
@@ -26,9 +28,9 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Layer $layer
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\Registry $coreRegistry
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      */
@@ -37,9 +39,9 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Registry $coreRegistry,
+        CategoryRepositoryInterface $categoryRepository,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
@@ -49,9 +51,9 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
             $storeManager,
             $layer,
             $itemDataBuilder,
-            $categoryFactory,
             $escaper,
             $coreRegistry,
+            $categoryRepository,
             $data
         );
     }
