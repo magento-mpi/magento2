@@ -15,6 +15,7 @@ interface ReadServiceInterface
      * @param \Magento\Catalog\Service\V1\Data\Product $product
      * @param \Magento\ConfigurableProduct\Service\V1\Data\Option[] $options
      * @return \Magento\Catalog\Service\V1\Data\Product[]
+     * @see \Magento\ConfigurableProduct\Api\ConfigurableProductManagementInterface::generateVariation
      */
     public function generateVariation(
         \Magento\Catalog\Service\V1\Data\Product $product,

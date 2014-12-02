@@ -13,6 +13,7 @@ interface WriteServiceInterface
      * @param  string $productSku
      * @param  string $childSku
      * @return bool
+     * @see \Magento\ConfigurableProduct\Api\LinkManagementInterface::addChild
      */
     public function addChild($productSku, $childSku);
 
@@ -24,6 +25,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Webapi\Exception
      * @return bool
+     * @see \Magento\ConfigurableProduct\Api\LinkManagementInterface::removeChild
      */
     public function removeChild($productSku, $childSku);
 }

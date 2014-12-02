@@ -15,6 +15,7 @@ interface ReadServiceInterface
      *
      * @param string $productId
      * @return \Magento\Catalog\Service\V1\Data\Product[]
+     * @see \Magento\ConfigurableProduct\Api\LinkManagementInterface::getChildren
      */
     public function getChildren($productId);
 }

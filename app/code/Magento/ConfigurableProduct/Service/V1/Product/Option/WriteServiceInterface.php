@@ -19,6 +19,7 @@ interface WriteServiceInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @throws \InvalidArgumentException
+     * @see \Magento\ConfigurableProduct\Api\OptionRepositoryInterface::save
      */
     public function add($productSku, \Magento\ConfigurableProduct\Service\V1\Data\Option $option);
 
@@ -29,6 +30,7 @@ interface WriteServiceInterface
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Webapi\Exception
+     * @see \Magento\ConfigurableProduct\Api\OptionRepositoryInterface::save
      */
     public function update($productSku, $optionId, \Magento\ConfigurableProduct\Service\V1\Data\Option $option);
 
@@ -40,6 +42,7 @@ interface WriteServiceInterface
      * @return bool
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Webapi\Exception
+     * @see \Magento\ConfigurableProduct\Api\OptionRepositoryInterface::deleteById
      */
     public function remove($productSku, $optionId);
 }
