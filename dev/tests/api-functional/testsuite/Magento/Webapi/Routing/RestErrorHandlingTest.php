@@ -9,13 +9,20 @@
  */
 namespace Magento\Webapi\Routing;
 
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Webapi\Exception as WebapiException;
 
 class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
+    /**
+     * @var string
+     */
+    protected $mode;
+
     protected function setUp()
     {
         $this->_markTestAsRestOnly();
+        $this->mode = Bootstrap::getObjectManager()->get('Magento\Framework\App\State')->getMode();
         parent::setUp();
     }
 
@@ -81,12 +88,17 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             )
         );
 
-        $expectedMessage = 'Internal Error. Details are available in Magento log file. Report ID: webapi-XXX';
+        $expectedMessage = $this->mode == \Magento\Framework\App\State::MODE_DEVELOPER
+            ? 'Non service exception'
+            : 'Internal Error. Details are available in Magento log file. Report ID: webapi-XXX';
+
         $this->_errorTest(
             $serviceInfo,
             [],
             WebapiException::HTTP_INTERNAL_ERROR,
-            $expectedMessage
+            $expectedMessage,
+            null,
+            'Magento\TestModule3\Service\V1\Error->otherException()' // Check if trace contains proper error source
         );
     }
 
@@ -98,9 +110,16 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
      * @param int $httpStatus - Expected HTTP status
      * @param string|array $errorMessage - \Exception error message
      * @param array $parameters - Optional parameters array, or null if no parameters
+     * @param string $traceString - Optional trace string to verify
      */
-    protected function _errorTest($serviceInfo, $data, $httpStatus, $errorMessage, $parameters = array())
-    {
+    protected function _errorTest(
+        $serviceInfo,
+        $data,
+        $httpStatus,
+        $errorMessage,
+        $parameters = array(),
+        $traceString = null
+    ) {
         // TODO: need to get header info instead of catching the exception
         try {
             $this->_webApiCall($serviceInfo, $data);
@@ -132,6 +151,10 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
             if ($parameters) {
                 $this->assertEquals($parameters, $body['parameters'], 'Checking body parameters');
+            }
+
+            if ($this->mode == \Magento\Framework\App\State::MODE_DEVELOPER && $traceString) {
+                $this->assertContains($traceString, $body['trace'], 'Trace information is incorrect.');
             }
         }
     }
