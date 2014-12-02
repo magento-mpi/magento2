@@ -32,9 +32,9 @@ class Block implements SetupInterface
     protected $fixtures;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Category\WriteServiceInterface
+     * @var \Magento\Catalog\Api\CategoryRepositoryInterface
      */
-    protected $categoryWriteService;
+    protected $categoryRepository;
 
     /**
      * @var \Magento\Catalog\Service\V1\Data\CategoryBuilder
@@ -56,8 +56,7 @@ class Block implements SetupInterface
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Cms\Model\BlockFactory $blockFactory
      * @param Block\Converter $converter
-     * @param \Magento\Catalog\Service\V1\Category\WriteServiceInterface $categoryWriteService
-     * @param \Magento\Catalog\Service\V1\Data\CategoryBuilder $categoryDataBuilder
+     * @param \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param array $fixtures
      */
@@ -66,8 +65,7 @@ class Block implements SetupInterface
         CsvReaderFactory $csvReaderFactory,
         \Magento\Cms\Model\BlockFactory $blockFactory,
         Block\Converter $converter,
-        \Magento\Catalog\Service\V1\Category\WriteServiceInterface $categoryWriteService,
-        \Magento\Catalog\Service\V1\Data\CategoryBuilder $categoryDataBuilder,
+        \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository,
         \Magento\Tools\SampleData\Logger $logger,
         $fixtures = array()
     ) {
@@ -75,8 +73,7 @@ class Block implements SetupInterface
         $this->csvReaderFactory = $csvReaderFactory;
         $this->blockFactory = $blockFactory;
         $this->converter = $converter;
-        $this->categoryWriteService = $categoryWriteService;
-        $this->categoryDataBuilder = $categoryDataBuilder;
+        $this->categoryRepository = $categoryRepository;
         $this->fixtures = $fixtures;
         if (empty($this->fixtures)) {
             $this->fixtures = $this->fixtureHelper->getDirectoryFiles('Cms/Block');
@@ -135,8 +132,9 @@ class Block implements SetupInterface
             'display_mode' => 'PRODUCTS_AND_PAGE'
         );
         if (!empty($categoryId)) {
-            $updateCategoryData = $this->categoryDataBuilder->populateWithArray($categoryCms)->create();
-            $this->categoryWriteService->update($categoryId, $updateCategoryData);
+            $category = $this->categoryRepository->get($categoryId);
+            $category->setData($categoryCms);
+            $this->categoryRepository->save($categoryId);
         }
     }
 }

@@ -153,6 +153,7 @@ class Attribute implements SetupInterface
                 $attribute->addData($data);
                 $attribute->setIsUserDefined(1);
 
+                $attribute->setEntityTypeId($this->getEntityTypeId());
                 $attribute->save();
                 $attributeId = $attribute->getId();
 

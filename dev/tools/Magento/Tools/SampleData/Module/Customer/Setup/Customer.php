@@ -10,6 +10,7 @@ namespace Magento\Tools\SampleData\Module\Customer\Setup;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Customer\Api\Data\RegionInterface;
 
 /**
  * Class Customer
@@ -27,34 +28,32 @@ class Customer implements SetupInterface
     protected $csvReaderFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     protected $customerBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\AddressBuilder
+     * @var \Magento\Customer\Api\Data\AddressDataBuilder
      */
     protected $addressBuilder;
-
-    /**
-     * @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder
-     */
-    protected $customerDetailsBuilder;
-
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
-     */
-    protected $customerAccount;
-
-    /**
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $customerFactory;
 
     /**
      * @var \Magento\Directory\Model\CountryFactory
      */
     protected $countryFactory;
+
+    /**
+     * @var \Magento\Customer\Api\Data\AddressDataBuilder
+     */
+    protected $addressDataBuilder;
+
+    /**
+     * @var \Magento\Customer\Api\Data\RegionDataBuilder
+     */
+    protected $regionDataBuilder;
+
+    /** @var \Magento\Customer\Api\AccountManagementInterface */
+    protected $accountManagement;
 
     /**
      * @var array $customerDataProfile
@@ -79,12 +78,12 @@ class Customer implements SetupInterface
     /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
-     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
-     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
-     * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressDataBuilder
+     * @param \Magento\Customer\Api\Data\RegionDataBuilder $regionDataBuilder
+     * @param \Magento\Customer\Api\AccountManagementInterface $accountManagement
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param array $fixtures
@@ -92,12 +91,12 @@ class Customer implements SetupInterface
     public function __construct(
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
-        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
-        \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
+        \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder,
         \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Customer\Api\Data\AddressDataBuilder $addressDataBuilder,
+        \Magento\Customer\Api\Data\RegionDataBuilder $regionDataBuilder,
+        \Magento\Customer\Api\AccountManagementInterface $accountManagement,
         \Magento\Tools\SampleData\Logger $logger,
         \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
         $fixtures = [
@@ -108,10 +107,10 @@ class Customer implements SetupInterface
         $this->csvReaderFactory = $csvReaderFactory;
         $this->customerBuilder = $customerBuilder;
         $this->addressBuilder = $addressBuilder;
-        $this->customerDetailsBuilder = $customerDetailsBuilder;
-        $this->customerAccount = $customerAccount;
-        $this->customerFactory = $customerFactory;
         $this->countryFactory = $countryFactory;
+        $this->addressDataBuilder = $addressDataBuilder;
+        $this->regionDataBuilder = $regionDataBuilder;
+        $this->accountManagement = $accountManagement;
         $this->fixtures = $fixtures;
         $this->logger = $logger;
         $this->storeManager = $storeManager;
@@ -132,23 +131,32 @@ class Customer implements SetupInterface
                 $customerData['profile'] = $this->convertRowData($row, $this->getDefaultCustomerProfile());
                 $customerData['address'] = $this->convertRowData($row, $this->getDefaultCustomerAddress());
                 $customerData['address']['region_id'] = $this->getRegionId($customerData['address']);
-                $customerProfile = $this->customerBuilder->populateWithArray($customerData['profile'])->create();
+
                 $addresses[] = $this->addressBuilder->populateWithArray($customerData['address'])->create();
-                // Build customer details object
-                $customerDetails = $this->customerDetailsBuilder
-                    ->setCustomer($customerProfile)
-                    ->setAddresses($addresses)
+
+                $address = $customerData['address'];
+                $region = [
+                    RegionInterface::REGION_ID => $address['region_id'],
+                    RegionInterface::REGION => !empty($address['region']) ? $address['region'] : null,
+                    RegionInterface::REGION_CODE => !empty($address['region_code']) ? $address['region_code'] : null
+                ];
+
+                $region = $this->regionDataBuilder
+                    ->populateWithArray($region)
                     ->create();
-                // Save customer
-                $emailAvailable = $this->customerAccount
-                    ->isEmailAvailable($customerProfile->getEmail(), $customerProfile->getWebsiteId());
-                if ($emailAvailable) {
-                    $customer = $this->customerAccount->createCustomer($customerDetails);
-                    $customerId = $customer->getId();
-                } else {
-                    $customerId = $this->customerAccount->getCustomerByEmail($customerProfile->getEmail())->getId();
-                }
-                $this->updateCustomerPassword($customerId, $row['password']);
+
+                $address = $this->addressDataBuilder
+                    ->populateWithArray($customerData['address'])
+                    ->setRegion($region)
+                    ->setDefaultBilling(true)
+                    ->setDefaultShipping(true)
+                    ->create();
+
+                $customer = $this->customerBuilder->populateWithArray($customerData['profile'])
+                    ->setAddresses(array($address))
+                    ->create();
+
+                $this->accountManagement->createAccount($customer, $row['password']);
                 $this->logger->log('.');
             }
             $this->logger->log(PHP_EOL);
@@ -242,17 +250,5 @@ class Customer implements SetupInterface
     {
         $country = $this->countryFactory->create()->loadByCode($address['country_id']);
         return $country->getRegionCollection()->addFieldToFilter('name', $address['region'])->getFirstItem()->getId();
-    }
-
-    /**
-     * @param string $customerId
-     * @param string $password
-     * @return void
-     */
-    protected function updateCustomerPassword($customerId, $password)
-    {
-        $customerAccountData = $this->customerAccount->getCustomer($customerId);
-        $customerModel = $this->customerFactory->create()->setWebsiteId($customerAccountData->getWebsiteId());
-        $customerModel->loadByEmail($customerAccountData->getEmail())->setPassword($password)->save();
     }
 }
