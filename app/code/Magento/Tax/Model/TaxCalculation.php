@@ -72,7 +72,7 @@ class TaxCalculation implements TaxCalculationInterface
     private $keyedItems;
 
     /**
-     * parent item code to children item array.
+     * Parent item code to children item array.
      *
      * @var QuoteDetailsItemInterface[][]
      */

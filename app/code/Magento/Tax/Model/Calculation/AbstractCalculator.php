@@ -14,6 +14,7 @@ use Magento\Tax\Api\Data\AppliedTaxDataBuilder;
 use Magento\Tax\Api\Data\AppliedTaxRateDataBuilder;
 use Magento\Tax\Api\Data\TaxDetailsItemInterface;
 use Magento\Tax\Api\TaxClassManagementInterface;
+use Magento\Customer\Api\Data\AddressInterface as CustomerAddress;
 
 abstract class AbstractCalculator
 {

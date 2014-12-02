@@ -31,14 +31,14 @@ interface QuoteDetailsInterface extends \Magento\Framework\Api\ExtensibleDataInt
     /**
      * Get customer billing address
      *
-     * @return CustomerAddress|null
+     * @return \Magento\Customer\Api\Data\AddressInterface|null
      */
     public function getBillingAddress();
 
     /**
      * Get customer shipping address
      *
-     * @return CustomerAddress|null
+     * @return \Magento\Customer\Api\Data\AddressInterface|null
      */
     public function getShippingAddress();
 
