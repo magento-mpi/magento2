@@ -53,6 +53,7 @@ class DocBlock
             new \Magento\TestFramework\Workaround\Cleanup\TestCaseProperties(),
             new \Magento\TestFramework\Workaround\Cleanup\StaticProperties(),
             new \Magento\TestFramework\Isolation\WorkingDirectory(),
+            new \Magento\TestFramework\Isolation\DeploymentConfig(),
             new \Magento\TestFramework\Annotation\AppIsolation($application),
             new \Magento\TestFramework\Event\Transaction(
                 new \Magento\TestFramework\EventManager(
