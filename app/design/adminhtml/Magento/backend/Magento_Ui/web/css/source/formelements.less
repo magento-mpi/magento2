@@ -96,7 +96,7 @@
         border: 1px solid @field-tooltip-content--border-color;
         border-radius: 1px;
         bottom: 42px;
-        @_shadow: 0px 2px 8px 0px rgba(0, 0, 0, .3);
+        @_shadow: 0 2px 8px 0 rgba(0, 0, 0, .3);
         .css(box-shadow, @_shadow);
         &:after,
         &:before {
@@ -406,7 +406,7 @@
         input:focus + .label:before {
             outline: 0;
             border-color: @field-control_focus--border-color;
-            //box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, .3);
+            //box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .3);
         }
         .control {
             &-radio + .label:before {
