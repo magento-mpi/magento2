@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Controller;
+namespace Magento\Catalog\Controller\Adminhtml\Product\Set;
 
 use Magento\Framework\Message\MessageInterface;
 
