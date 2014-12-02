@@ -24,8 +24,8 @@ class WidgetView extends Block
      */
     protected $widgetSelectors = [
         'cmsPageLink' => '/descendant-or-self::div//a[contains(.,"%s")]',
-        'catalogCategoryLink' => './/*/a[contains(.,"%s")]',
-        'catalogProductLink' => './/*/a[contains(.,"%s")]',
+        'catalogCategoryLink' => '//a[contains(.,"%s")]',
+        'catalogProductLink' => '//a[contains(.,"%s")]',
         'recentlyComparedProducts' => '/descendant-or-self::div[contains(.,"%s")]',
         'recentlyViewedProducts' => '/descendant-or-self::div[contains(.,"%s")]',
         'cmsStaticBlock' => '/descendant-or-self::div[contains(.,"%s")]'
