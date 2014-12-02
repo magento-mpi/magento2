@@ -6,8 +6,11 @@
  * @license   {license_link}
  */
 
-namespace Magento\Setup\Model;
+namespace Magento\Setup\Mvc\Console;
 
+/**
+ * Extending ZF RouteMatcher for a public getter
+ */
 class RouteMatcher extends \Zend\Console\RouteMatcher\DefaultRouteMatcher
 {
     /**

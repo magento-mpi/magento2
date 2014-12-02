@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Setup\Module\Setup;
+namespace Magento\Setup\Model;
 
 use Magento\Framework\App\DeploymentConfig\BackendConfig;
 use Magento\Framework\App\DeploymentConfig\DbConfig;
@@ -14,7 +14,7 @@ use Magento\Framework\App\DeploymentConfig\EncryptConfig;
 use Magento\Framework\App\DeploymentConfig\InstallConfig;
 use Magento\Framework\App\DeploymentConfig\SessionConfig;
 
-class ConfigMapper
+class DeploymentConfigMapper
 {
     /**#@+
      * Parameters for setup tool
@@ -50,4 +50,34 @@ class ConfigMapper
         self::KEY_BACKEND_FRONTNAME => BackendConfig::KEY_FRONTNAME,
         self::KEY_ENCRYPTION_KEY => EncryptConfig::KEY_ENCRYPTION_KEY,
     ];
+
+    /**
+     * Validate parameter values of deployment configuration tool
+     *
+     * @param array $data
+     * @return string
+     */
+    public static function validateDeploymentConfig(array $data)
+    {
+        $validationMessages = '';
+        if (isset($data[self::KEY_BACKEND_FRONTNAME]) &&
+            !preg_match('/^[a-zA-Z0-9_]+$/', $data[self::KEY_BACKEND_FRONTNAME])
+        ) {
+            $validationMessages .= self::KEY_BACKEND_FRONTNAME .
+                ': Please use alphanumeric characters and underscore. ' .
+                "Current: {$data[self::KEY_BACKEND_FRONTNAME]}" . PHP_EOL;
+        }
+        if (isset($data[self::KEY_SESSION_SAVE]) && $data[self::KEY_SESSION_SAVE] !== 'files' &&
+            $data[self::KEY_SESSION_SAVE] !== 'db'
+        ) {
+            $validationMessages .= self::KEY_SESSION_SAVE .
+                ": Please use 'files' or 'db'. Current: {$data[self::KEY_SESSION_SAVE]}" . PHP_EOL;
+        }
+        if (isset($data[self::KEY_ENCRYPTION_KEY]) && !$data[self::KEY_ENCRYPTION_KEY]) {
+            $validationMessages .= self::KEY_ENCRYPTION_KEY .
+                ": Please enter a valid encryption key. Current: {$data[self::KEY_ENCRYPTION_KEY]}" . PHP_EOL;
+        }
+
+        return $validationMessages;
+    }
 }

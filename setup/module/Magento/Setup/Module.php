@@ -39,13 +39,6 @@ class Module implements
         /** @var \Zend\EventManager\SharedEventManager $sharedEvents */
         $sharedEvents = $events->getSharedManager();
 
-        // attach a ValidatingRouteListener before default RouteListener for parameter validation
-        $oldRouteListener = $application->getServiceManager()->get('routelistener');
-        $oldRouteListener->detach($events);
-        $routeListener = new \Magento\Setup\Mvc\ValidatingRouteListener();
-        $routeListener->attach($events);
-        $oldRouteListener->attach($events);
-
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($events);
 
