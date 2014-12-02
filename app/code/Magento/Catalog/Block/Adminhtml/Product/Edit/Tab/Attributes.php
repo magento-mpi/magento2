@@ -120,6 +120,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
                     }
                 }
             }
+
             $form->addValues($values);
             $form->setFieldNameSuffix('product');
 

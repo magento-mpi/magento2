@@ -205,5 +205,6 @@ define([
             return str ? str.replace(/([ ;&,.+*~\':"!\^$\[\]()=>|\/@])/g, '\\$1') : str;
         }
     });
-
+    
+    return $.mage.rowBuilder;
 });

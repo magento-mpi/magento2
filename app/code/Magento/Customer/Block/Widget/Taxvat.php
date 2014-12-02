@@ -13,6 +13,7 @@ use Magento\Customer\Api\CustomerMetadataInterface;
 /**
  * Customer Value Added Tax Widget
  *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Taxvat extends AbstractWidget
 {

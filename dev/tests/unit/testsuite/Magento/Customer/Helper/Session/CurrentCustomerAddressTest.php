@@ -20,11 +20,6 @@ class CurrentCustomerAddressTest extends \PHPUnit_Framework_TestCase
     protected $currentCustomerMock;
 
     /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $customerRepositoryMock;
-
-    /**
      * @var \Magento\Customer\Api\AccountManagementInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerAccountManagementMock;
@@ -50,38 +45,11 @@ class CurrentCustomerAddressTest extends \PHPUnit_Framework_TestCase
         $this->customerAccountManagementMock = $this->getMockBuilder('Magento\Customer\Api\AccountManagementInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->customerRepositoryMock = $this->getMockBuilder('Magento\Customer\Api\CustomerRepositoryInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
 
         $this->currentCustomerAddress = new \Magento\Customer\Helper\Session\CurrentCustomerAddress(
             $this->currentCustomerMock,
-            $this->customerAccountManagementMock,
-            $this->customerRepositoryMock
+            $this->customerAccountManagementMock
         );
-    }
-
-    /**
-     * Test getCustomerAddresses
-     */
-    public function testGetCustomerAddresses()
-    {
-        $this->currentCustomerMock->expects($this->once())
-            ->method('getCustomerId')
-            ->will($this->returnValue($this->customerCurrentId));
-
-        $customerMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
-            ->setMethods(['getAddresses'])
-            ->getMockForAbstractClass();
-        $customerMock->expects($this->once())
-            ->method('getAddresses')
-            ->will($this->returnValue([$this->customerAddressDataMock]));
-
-        $this->customerRepositoryMock->expects($this->once())
-            ->method('getById')
-            ->will($this->returnValue($customerMock));
-
-        $this->assertEquals([$this->customerAddressDataMock], $this->currentCustomerAddress->getCustomerAddresses());
     }
 
     /**

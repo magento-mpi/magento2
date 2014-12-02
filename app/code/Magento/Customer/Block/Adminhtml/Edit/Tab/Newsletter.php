@@ -9,11 +9,12 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Ui\Component\Layout\Tabs\TabInterface;
 
 /**
  * Customer account form block
  */
-class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
+class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements TabInterface
 {
     /**
      * @var string
@@ -29,6 +30,13 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
      * @var AccountManagementInterface
      */
     protected $customerAccountManagement;
+
+    /**
+     * Core registry
+     *
+     * @var \Magento\Framework\Registry
+     */
+    protected $_coreRegistry = null;
 
     /**
      * Constructor
@@ -54,12 +62,85 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
+     * Return Tab label
+     *
+     * @return string
+     */
+    public function getTabLabel()
+    {
+        return __('Newsletter');
+    }
+
+    /**
+     * Return Tab title
+     *
+     * @return string
+     */
+    public function getTabTitle()
+    {
+        return __('Newsletter');
+    }
+
+    /**
+     * Tab class getter
+     *
+     * @return string
+     */
+    public function getTabClass()
+    {
+        return '';
+    }
+
+    /**
+     * Return URL link to Tab content
+     *
+     * @return string
+     */
+    public function getTabUrl()
+    {
+        return '';
+    }
+
+    /**
+     * Tab should be loaded trough Ajax call
+     *
+     * @return bool
+     */
+    public function isAjaxLoaded()
+    {
+        return false;
+    }
+
+    /**
+     * Can show tab in tabs
+     *
+     * @return boolean
+     */
+    public function canShowTab()
+    {
+        return $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+    }
+
+    /**
+     * Tab is hidden
+     *
+     * @return boolean
+     */
+    public function isHidden()
+    {
+        return false;
+    }
+
+    /**
      * Initialize the form.
      *
      * @return $this
      */
     public function initForm()
     {
+        if (!$this->canShowTab()) {
+            return $this;
+        }
         /**@var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_newsletter');
@@ -72,7 +153,11 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'subscription',
             'checkbox',
-            array('label' => __('Subscribed to Newsletter'), 'name' => 'subscription')
+            array(
+                'label' => __('Subscribed to Newsletter'),
+                'name' => 'subscription',
+                'data-form-part' => $this->getData('target_form')
+            )
         );
 
         if ($this->customerAccountManagement->isReadOnly($customerId)) {
@@ -131,6 +216,20 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
                 'newsletter.grid'
             )
         );
-        return parent::_prepareLayout();
+        parent::_prepareLayout();
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        if ($this->canShowTab()) {
+            $this->initForm();
+            return parent::_toHtml();
+        } else {
+            return '';
+        }
     }
 }

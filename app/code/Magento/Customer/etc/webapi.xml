@@ -67,25 +67,25 @@
 
     <!-- Customer Metadata Service-->
     <route url="/V1/attributeMetadata/customer/attribute/:attributeCode" method="GET">
-        <service class="Magento\Customer\Service\V1\CustomerMetadataServiceInterface" method="getAttributeMetadata"/>
+        <service class="Magento\Customer\Api\CustomerMetadataInterface" method="getAttributeMetadata"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
     <route url="/V1/attributeMetadata/customer/form/:formCode" method="GET">
-        <service class="Magento\Customer\Service\V1\CustomerMetadataServiceInterface" method="getAttributes"/>
+        <service class="Magento\Customer\Api\CustomerMetadataInterface" method="getAttributes"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
     <route url="/V1/attributeMetadata/customer" method="GET">
-        <service class="Magento\Customer\Service\V1\CustomerMetadataServiceInterface" method="getAllAttributesMetadata"/>
+        <service class="Magento\Customer\Api\CustomerMetadataInterface" method="getAllAttributesMetadata"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>
     </route>
     <route url="/V1/attributeMetadata/customer/custom" method="GET">
-        <service class="Magento\Customer\Service\V1\CustomerMetadataServiceInterface" method="getCustomAttributesMetadata"/>
+        <service class="Magento\Customer\Api\CustomerMetadataInterface" method="getCustomAttributesMetadata"/>
         <resources>
             <resource ref="Magento_Customer::customer"/>
         </resources>

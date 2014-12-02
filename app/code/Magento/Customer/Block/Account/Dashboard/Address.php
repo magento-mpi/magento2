@@ -120,15 +120,11 @@ class Address extends \Magento\Framework\View\Element\Template
      */
     public function getPrimaryShippingAddressEditUrl()
     {
-        if (is_null($this->getCustomer()) || is_null($this->currentCustomerAddress->getDefaultShippingAddress())) {
+        if (!$this->getCustomer()) {
             return '';
         } else {
             $address = $this->currentCustomerAddress->getDefaultShippingAddress();
-            if ($address) {
-                $addressId = $address->getId();
-            } else {
-                $addressId = null;
-            }
+            $addressId = $address ? $address->getId() : null;
             return $this->_urlBuilder->getUrl(
                 'customer/address/edit',
                 array('id' => $addressId)
@@ -141,15 +137,11 @@ class Address extends \Magento\Framework\View\Element\Template
      */
     public function getPrimaryBillingAddressEditUrl()
     {
-        if (is_null($this->getCustomer()) || is_null($this->currentCustomerAddress->getDefaultBillingAddress())) {
+        if (!$this->getCustomer()) {
             return '';
         } else {
             $address = $this->currentCustomerAddress->getDefaultBillingAddress();
-            if ($address) {
-                $addressId = $address->getId();
-            } else {
-                $addressId = null;
-            }
+            $addressId = $address ? $address->getId() : null;
             return $this->_urlBuilder->getUrl(
                 'customer/address/edit',
                 array('id' => $addressId)

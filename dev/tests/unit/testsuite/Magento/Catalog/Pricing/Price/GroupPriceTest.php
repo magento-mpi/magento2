@@ -54,6 +54,11 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
     protected $backendMock;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceCurrencyMock;
+
+    /**
      * Set up test case
      */
     public function setUp()
@@ -108,10 +113,13 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $this->priceCurrencyMock = $this->getMock('\Magento\Framework\Pricing\PriceCurrencyInterface');
+
         $this->groupPrice = new \Magento\Catalog\Pricing\Price\GroupPrice(
             $this->productMock,
             1,
             $this->calculatorMock,
+            $this->priceCurrencyMock,
             $this->customerSessionMock
         );
     }
@@ -121,6 +129,8 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGroupPriceCustomerGroupInSession()
     {
+        $groupPrice = 80;
+        $convertedValue = 56.24;
         $this->productMock->expects($this->once())
             ->method('getCustomerGroupId')
             ->will($this->returnValue(null));
@@ -151,12 +161,16 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
                 [
                     [
                         'cust_group' => 3,
-                        'website_price' => 80
+                        'website_price' => $groupPrice
                     ]
                 ]
 
             ));
-        $this->assertEquals(80, $this->groupPrice->getValue());
+        $this->priceCurrencyMock->expects($this->once())
+            ->method('convertAndRound')
+            ->with($groupPrice)
+            ->will($this->returnValue($convertedValue));
+        $this->assertEquals($convertedValue, $this->groupPrice->getValue());
     }
 
     /**
@@ -164,6 +178,8 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGroupPriceCustomerGroupInProduct()
     {
+        $groupPrice = 80;
+        $convertedPrice = 56.23;
         $this->productMock->expects($this->exactly(2))
             ->method('getCustomerGroupId')
             ->will($this->returnValue(3));
@@ -191,12 +207,16 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
                 [
                     [
                         'cust_group' => 3,
-                        'website_price' => 80
+                        'website_price' => $groupPrice
                     ]
                 ]
 
             ));
-        $this->assertEquals(80, $this->groupPrice->getValue());
+        $this->priceCurrencyMock->expects($this->once())
+            ->method('convertAndRound')
+            ->with($groupPrice)
+            ->will($this->returnValue($convertedPrice));
+        $this->assertEquals($convertedPrice, $this->groupPrice->getValue());
     }
 
     /**

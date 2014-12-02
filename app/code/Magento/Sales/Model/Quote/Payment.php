@@ -70,6 +70,7 @@ class Payment extends \Magento\Payment\Model\Info
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
@@ -80,6 +81,7 @@ class Payment extends \Magento\Payment\Model\Info
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
@@ -88,7 +90,16 @@ class Payment extends \Magento\Payment\Model\Info
         array $data = array()
     ) {
         $this->methodSpecificationFactory = $methodSpecificationFactory;
-        parent::__construct($context, $registry, $paymentData, $encryptor, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $paymentData,
+            $encryptor,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
@@ -151,9 +162,8 @@ class Payment extends \Magento\Payment\Model\Info
          */
         $quote->collectTotals();
 
-        if (!$method->isAvailable($quote)
-            || !$this->methodSpecificationFactory->create($data->getChecks())->isApplicable($method, $quote)
-        ) {
+        $methodSpecification = $this->methodSpecificationFactory->create($data->getChecks());
+        if (!$method->isAvailable($quote) || !$methodSpecification->isApplicable($method, $quote)) {
             throw new \Magento\Framework\Model\Exception(__('The requested Payment Method is not available.'));
         }
 

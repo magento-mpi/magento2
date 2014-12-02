@@ -774,6 +774,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * Check if accounts confirmation is required in config
      *
      * @return bool
+     * @deprecated
      */
     public function isConfirmationRequired()
     {

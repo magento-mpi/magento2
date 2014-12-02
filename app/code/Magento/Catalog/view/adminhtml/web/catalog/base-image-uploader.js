@@ -136,4 +136,6 @@ define([
             });
         }
     });
+
+    return $.mage.baseImage;
 });

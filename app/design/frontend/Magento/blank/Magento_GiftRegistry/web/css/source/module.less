@@ -36,7 +36,7 @@
 
 .form.giftregistry .fieldset {
     .cart-summary & {
-        margin: 15px 0 @indent-m-base;
+        margin: 25px 0 @indent-xs-base;
         .field {
             margin: 0 0 @indent-s-base;
             .control {
@@ -45,6 +45,7 @@
             }
         }
         .action.primary {
+            margin-bottom: 0;
             &:extend(.abstract-revert-secondary-color all);
             &:extend(.abstract-revert-secondary-size all);
         }
@@ -128,13 +129,6 @@
     .form-giftregistry-search {
         .fieldset {
             margin-bottom: 15px;
-        }
-    }
-
-    .block-giftregistry-results,
-    .block-giftregistry-shared-items {
-        .data.table {
-            &:extend(.abstract-table-vertical-mobile-s all);
         }
     }
 
