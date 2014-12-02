@@ -280,24 +280,31 @@
 
 .vendor-prefix-display (
     @_value: flex
-) when (@_value = flex){
+) {
     display: ~"-webkit-@{_value}";
     display: ~"-ms-@{_value}box";
     display: @_value;
+}
+
+.vendor-prefix-flex-wrap (
+    @_value: wrap
+) {
+    -webkit-flex-wrap: @_value;
+            flex-wrap: @_value;
 }
 
 .vendor-prefix-flex-direction (
     @_value: column
 ) {
     -webkit-flex-direction: @_value;
-    -ms-flex-direction: @_value;
-        flex-direction: @_value;
+        -ms-flex-direction: @_value;
+            flex-direction: @_value;
 }
 
 .vendor-prefix-order (
     @_value: 0
 ) {
-    -webkit-order: @_value;
     -ms-flex-order: @_value;
+     -webkit-order: @_value;
              order: @_value;
 }
