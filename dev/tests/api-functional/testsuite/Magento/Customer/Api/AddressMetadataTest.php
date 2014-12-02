@@ -8,11 +8,14 @@
 
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\Data\Address;
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
+use Magento\Customer\Api\Data\AddressInterface as Address;
+use Magento\Customer\Model\Data\AttributeMetadata;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
-class AddressMetadataServiceTest extends WebapiAbstract
+/**
+ * Class AddressMetadataTest
+ */
+class AddressMetadataTest extends WebapiAbstract
 {
     const SERVICE_NAME = "customerAddressMetadataServiceV1";
     const SERVICE_VERSION = "V1";
@@ -40,7 +43,7 @@ class AddressMetadataServiceTest extends WebapiAbstract
         ];
 
         $requestData = [
-            "attributeCode" => $attributeCode
+            'attributeCode' => $attributeCode
         ];
 
         $attributeMetadata = $this->_webapiCall($serviceInfo, $requestData);
@@ -57,8 +60,8 @@ class AddressMetadataServiceTest extends WebapiAbstract
     public function getAttributeMetadataDataProvider()
     {
         return [
-            Address::KEY_POSTCODE => [
-                Address::KEY_POSTCODE,
+            Address::POSTCODE => [
+                Address::POSTCODE,
                 [
                     AttributeMetadata::ATTRIBUTE_CODE => 'postcode',
                     AttributeMetadata::FRONTEND_INPUT => 'text',
@@ -101,7 +104,7 @@ class AddressMetadataServiceTest extends WebapiAbstract
 
         $attributeMetadata = $this->_webApiCall($serviceInfo);
         $this->assertCount(19, $attributeMetadata);
-        $postcode = $this->getAttributeMetadataDataProvider()[Address::KEY_POSTCODE][1];
+        $postcode = $this->getAttributeMetadataDataProvider()[Address::POSTCODE][1];
         $validationResult = $this->checkMultipleAttributesValidationRules($postcode, $attributeMetadata);
         list($postcode, $attributeMetadata) = $validationResult;
         $this->assertContains($postcode, $attributeMetadata);
@@ -134,22 +137,6 @@ class AddressMetadataServiceTest extends WebapiAbstract
     }
 
     /**
-     * Data provider for testGetAttributes.
-     *
-     * @return array
-     */
-    public function getAttributesDataProvider()
-    {
-        $attributeMetadata = $this->getAttributeMetadataDataProvider();
-        return [
-            [
-                'customer_address_edit',
-                $attributeMetadata[Address::KEY_POSTCODE][1]
-            ]
-        ];
-    }
-
-    /**
      * Test retrieval of attributes
      *
      * @param string $formCode Form code
@@ -170,10 +157,9 @@ class AddressMetadataServiceTest extends WebapiAbstract
             ]
         ];
 
-        $requestData = [];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $requestData['formCode'] = $formCode;
-        }
+        $requestData = [
+            'formCode' => $formCode
+        ];
 
         $attributeMetadataList = $this->_webApiCall($serviceInfo, $requestData);
         foreach ($attributeMetadataList as $attributeMetadata) {
@@ -187,6 +173,22 @@ class AddressMetadataServiceTest extends WebapiAbstract
                 break;
             }
         }
+    }
+
+    /**
+     * Data provider for testGetAttributes.
+     *
+     * @return array
+     */
+    public function getAttributesDataProvider()
+    {
+        $attributeMetadata = $this->getAttributeMetadataDataProvider();
+        return [
+            [
+                'customer_address_edit',
+                $attributeMetadata[Address::POSTCODE][1]
+            ]
+        ];
     }
 
     /**
