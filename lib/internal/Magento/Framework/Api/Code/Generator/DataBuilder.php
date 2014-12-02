@@ -13,6 +13,7 @@ use Magento\Framework\Code\Generator\EntityAbstract;
 use Magento\Framework\Code\Generator\Io;
 use Magento\Framework\ObjectManager\ConfigInterface as ObjectManagerConfig;
 use Zend\Code\Reflection\ClassReflection;
+use Magento\Framework\Filesystem\FileResolver;
 
 /**
  * Class Builder

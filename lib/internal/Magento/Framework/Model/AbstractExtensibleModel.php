@@ -11,6 +11,7 @@ namespace Magento\Framework\Model;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Api\ExtensibleDataInterface;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Symfony\Component\DependencyInjection\Exception\LogicException;
 
 /**
  * Abstract model with custom attributes support.
@@ -74,7 +75,10 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
             return $data;
         }
         $customAttributesCodes = $this->getCustomAttributesCodes();
-        $data[self::CUSTOM_ATTRIBUTES] = array_intersect_key($data[self::CUSTOM_ATTRIBUTES], $customAttributesCodes);
+        $data[self::CUSTOM_ATTRIBUTES] = array_intersect_key(
+            (array)$data[self::CUSTOM_ATTRIBUTES],
+            $customAttributesCodes
+        );
         foreach ($data[self::CUSTOM_ATTRIBUTES] as $code => $value) {
             if (!($value instanceof \Magento\Framework\Api\AttributeInterface)) {
                 $data[self::CUSTOM_ATTRIBUTES][$code] = $this->customAttributeBuilder

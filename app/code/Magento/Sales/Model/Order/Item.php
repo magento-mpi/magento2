@@ -9,6 +9,7 @@ namespace Magento\Sales\Model\Order;
 
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Sales\Api\Data\OrderItemInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Order Item Model
@@ -176,15 +177,17 @@ class Item extends AbstractExtensibleModel implements OrderItemInterface
     protected $_storeManager;
 
     /**
+     * Initialize dependencies.
+     *
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
