@@ -8,8 +8,6 @@
  */
 namespace Magento\Bundle\Model;
 
-namespace Magento\Bundle\Service\V1\Product\Link;
-
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\CouldNotSaveException;
@@ -44,7 +42,6 @@ class LinkManagement implements \Magento\Bundle\Api\ProductLinkManagementInterfa
     /**
      * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Bundle\Api\Data\LinkDataBuilder $linkBuilder
-     * @param \Magento\Bundle\Model\SelectionFactory $bundleSelection
      * @param \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory
      * @param \Magento\Bundle\Model\SelectionFactory $bundleSelection
      * @param \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection
@@ -55,7 +52,6 @@ class LinkManagement implements \Magento\Bundle\Api\ProductLinkManagementInterfa
         \Magento\Bundle\Api\Data\LinkDataBuilder $linkBuilder,
         \Magento\Bundle\Model\SelectionFactory $bundleSelection,
         \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory,
-        \Magento\Bundle\Model\SelectionFactory $bundleSelection,
         \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection,
         \Magento\Framework\StoreManagerInterface $storeManager
     ) {
