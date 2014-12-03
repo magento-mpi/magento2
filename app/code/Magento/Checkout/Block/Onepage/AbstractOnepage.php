@@ -117,7 +117,6 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Model\Address\Mapper $addressMapper,
         array $data = array()
     ) {
-        $this->dataObjectConverter = $dataObjectConverter;
         $this->_coreData = $coreData;
         $this->_configCacheType = $configCacheType;
         $this->_customerSession = $customerSession;
