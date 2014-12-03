@@ -19,7 +19,7 @@ class Observer
      *
      * @var \Magento\Persistent\Helper\Session
      */
-    protected $_persistentSession = null;
+    protected $_persistentSession;
 
     /**
      * Layout model
@@ -48,19 +48,21 @@ class Observer
     protected $_customerViewHelper;
 
     /**
-     * Customer account service
+     * Customer repository
      *
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    protected $_customerAccountService;
+    protected $customerRepository;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\View\LayoutInterface $layout
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Customer\Helper\View $customerViewHelper
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         \Magento\Persistent\Helper\Session $persistentSession,
@@ -68,14 +70,14 @@ class Observer
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\Escaper $escaper,
         \Magento\Customer\Helper\View $customerViewHelper,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
     ) {
         $this->_persistentSession = $persistentSession;
         $this->_url = $url;
         $this->_layout = $layout;
         $this->_escaper = $escaper;
         $this->_customerViewHelper = $customerViewHelper;
-        $this->_customerAccountService = $customerAccountService;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -88,9 +90,7 @@ class Observer
     {
         $escapedName = $this->_escaper->escapeHtml(
             $this->_customerViewHelper->getCustomerName(
-                $this->_customerAccountService->getCustomer(
-                    $this->_persistentSession->getSession()->getCustomerId()
-                )
+                $this->customerRepository->getById($this->_persistentSession->getSession()->getCustomerId())
             ),
             null
         );
