@@ -271,8 +271,6 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
                 ->setName($type . '_address_id')
                 ->setId($type . ':address-select')
                 ->setClass('address-select')
-                //->setExtraParams('onchange="'.$type.'.newAddress(!this.value)"')
-                // temp disable inline javascript, need to clean this later
                 ->setValue($addressId)
                 ->setOptions($options);
 
