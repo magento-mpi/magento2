@@ -3,7 +3,9 @@ category,name,sku,size_pants,description,price,activity_general,style_bottom,mat
 Bottoms
 Pants
 Promotions
-Pants","Karmen Yoga Pant",WP01,"26
+Pants
+Collections
+Performance Fabrics","Karmen Yoga Pant",WP01,"26
 27
 28
 29","<p>Good for running, hiking, lounging or stretching, the Cora Parachute Pant presents comfortable styling designed to help you look and feel great.</p>
@@ -19,7 +21,9 @@ Black",1,1,,,,,Bottom
 Bottoms
 Pants
 Promotions
-Pants","Emma Leggings",WP02,"26
+Pants
+Collections
+Performance Fabrics","Emma Leggings",WP02,"26
 27
 28
 29","<p>These comfortable and practical leggings pair perfectly with any workout top or casual tee. The Emma's subtle contrast fabric and fit ensure you're stylish without overdoing it.</p>
@@ -39,8 +43,8 @@ Bottoms
 Pants
 Promotions
 Pants
-Promotions
-Yoga New","Ida Workout Parachute Pant",WP03,"26
+Collections
+New Luma Yoga Collection","Ida Workout Parachute Pant",WP03,"26
 27
 28
 29","<p>The Ida Workout Parachute Pant is made of lightweight, super-soft fabric that keeps you comfortable during any level of activity, whether Downward Dog or a few trail miles.</p>
@@ -81,7 +85,9 @@ Black",,,,,,,Bottom
 Bottoms
 Pants
 Promotions
-Pants","Sahara Leggings",WP05,"26
+Pants
+Collections
+Erin Recommends","Sahara Leggings",WP05,"26
 27
 28
 29","<p>Contrast colors, full-length leggings, and opaque, high-stretch fabric define the Sahara. Flat-locked seams and quick-drying wicking properties prevent chafing. A deep elasticated waistband and carefully positioned seamlines create a flattering silhouette.</p>
@@ -100,7 +106,9 @@ Red",,,1,,,,Bottom
 Bottoms
 Pants
 Promotions
-Pants","Diana Tights",WP06,"26
+Pants
+Collections
+Erin Recommends","Diana Tights",WP06,"26
 27
 28
 29","<p>Perfect for hot bikram session or cool-down stretching. 8-percent stretch means you'll feel like anything is possible in the capri-style Diana Tights.</p>
@@ -121,7 +129,9 @@ Blue",,,1,,,,Bottom
 Bottoms
 Pants
 Promotions
-Pants","Aeon Capri",WP07,"26
+Pants
+Collections
+Performance Fabrics","Aeon Capri",WP07,"26
 27
 28
 29","<p>Reach for the stars and beyond in these Aeon Capri pant. With a soft, comfortable feel and moisture wicking fabric, these duo-tone leggings are easy to wear -- and wear attractively.</p>
@@ -179,7 +189,9 @@ Blue",,,,,,,Bottom
 Bottoms
 Pants
 Promotions
-Pants","Daria Bikram Pant",WP10,"26
+Pants
+Collections
+Eco Friendly","Daria Bikram Pant",WP10,"26
 27
 28
 29","<p>The Daria Bikram Pant is designed to stretch and move with your body to make extreme yoga extremely comfortable.</p>
@@ -209,7 +221,9 @@ Red",,,,,,,Bottom
 Bottoms
 Pants
 Promotions
-Pants","Deirdre Relaxed-Fit Capri",WP12,"26
+Pants
+Collections
+Performance Fabrics","Deirdre Relaxed-Fit Capri",WP12,"26
 27
 28
 29","<p>Invigorate your yoga practice with this Deirdre Relaxed-Fit Capri, designed to let you move without strain or restriction.</p>
@@ -226,7 +240,9 @@ Green",1,1,,,,,Bottom
 Bottoms
 Pants
 Promotions
-Pants","Portia Capri",WP13,"26
+Pants
+Collections
+Erin Recommends","Portia Capri",WP13,"26
 27
 28
 29","<p>From yoga at dawn to evenings curled up with a book, our Portia Capri gives you the comfort and freedom to cruise through the day. The high-waisted design keeps you covered while you're bending and stretching, while contrast stripes promise a dash of sporty style.</p>
@@ -239,10 +255,10 @@ Green",1,,1,,,,Bottom
 "Women
 Bottoms
 Shorts
-Promotions
-Eco Collection New
-Promotions
-Yoga New","Fiona Fitness Short",WSH01,"28
+Collections
+New Luma Yoga Collection
+Collections
+Eco Friendly","Fiona Fitness Short",WSH01,"28
 29
 30
 31
@@ -280,12 +296,10 @@ Orange",,,,,1,24.00,Bottom
 "Women
 Bottoms
 Shorts
-Promotions
-Eco Collection New
-Promotions
-Performance Fabric New
-Promotions
-Yoga New","Gwen Drawstring Bike Short",WSH03,"28
+Collections
+New Luma Yoga Collection
+Collections
+Performance Fabrics","Gwen Drawstring Bike Short",WSH03,"28
 29
 30
 31
@@ -353,8 +367,8 @@ Orange",,,,,,,Bottom
 "Women
 Bottoms
 Shorts
-Promotions
-Yoga New","Echo Fit Compression Short",WSH07,"26
+Collections
+New Luma Yoga Collection","Echo Fit Compression Short",WSH07,"26
 27
 28
 29","<p>Your muscles know it's go time the second you pull on the Echo Fit Compression Short. A balance of firm, stimulating squeeze with breathability, it offers the support and comfort you need to give it your all.</p>
@@ -374,7 +388,9 @@ Blue
 Purple",,,,1,,,Bottom
 "Women
 Bottoms
-Shorts","Sybil Running Short",WSH08,"28
+Shorts
+Collections
+Performance Fabrics","Sybil Running Short",WSH08,"28
 29
 30
 31
@@ -406,7 +422,9 @@ Green
 White",,,,,,,Bottom
 "Women
 Bottoms
-Shorts","Ana Running Short",WSH10,"26
+Shorts
+Collections
+Eco Friendly","Ana Running Short",WSH10,"26
 27
 28
 29","<p>Time to lace up your kicks and beat that personal best in the Ana Running Short. It's designed with breathable mesh side panels to help keep you cool while you master the miles.</p>
@@ -420,7 +438,9 @@ Orange
 White",1,,,,,,Bottom
 "Women
 Bottoms
-Shorts","Ina Compression Short",WSH11,"26
+Shorts
+Collections
+Erin Recommends","Ina Compression Short",WSH11,"26
 27
 28
 29","<p>One of Luma's most popular items, the Ina Compression Short has you covered with exceptional support and comfort, whether you're running the trail, riding a bike or ripping out reps. The ventilating fabric offers cool relief and prevents irritating chafing.</p>
@@ -436,7 +456,9 @@ Red
 Orange",,1,1,,,,Bottom
 "Women
 Bottoms
-Shorts","Erika Running Short",WSH12,"28
+Shorts
+Collections
+Erin Recommends","Erika Running Short",WSH12,"28
 29
 30
 31
