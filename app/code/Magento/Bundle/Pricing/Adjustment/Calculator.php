@@ -321,7 +321,7 @@ class Calculator implements BundleCalculatorInterface
             $itemAmount = $amountInfo['amount'];
             $qty = $amountInfo['quantity'];
 
-            if ($roundingMethod != TaxCalculationServiceInterface::CALC_TOTAL_BASE) {
+            if ($roundingMethod != TaxCalculationInterface::CALC_TOTAL_BASE) {
                 //We need to round the individual selection first
                 $fullAmount += ($this->priceCurrency->round($itemAmount->getValue()) * $qty);
                 foreach ($itemAmount->getAdjustmentAmounts() as $code => $adjustment) {
