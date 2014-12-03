@@ -46,14 +46,29 @@ angular.module('add-database', ['ngStorage'])
             $interval.cancel(intervalPromise);
         });
 
-        $scope.$on('previousState()', function () {
+        $scope.$on('previousState', function () {
             $interval.cancel(intervalPromise);
         });
-
 
         // Listens on form validate event, dispatched by parent controller
         $scope.$on('validate-' + $state.current.id, function() {
             $scope.validate();
+        });
+
+        $scope.$watch('db.host', function(newVal, oldVal) {
+            $scope.database.$valid = false;
+        });
+
+        $scope.$watch('db.user', function(newVal, oldVal) {
+            $scope.database.$valid = false;
+        });
+
+        $scope.$watch('db.password', function(newVal, oldVal) {
+            $scope.database.$valid = false;
+        });
+
+        $scope.$watch('db.name', function(newVal, oldVal) {
+            $scope.database.$valid = false;
         });
 
         // Dispatch 'validation-response' event to parent controller
