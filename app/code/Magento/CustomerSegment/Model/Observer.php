@@ -47,12 +47,24 @@ class Observer
     protected $_storeManager;
 
     /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $customerFactory;
+
+    /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno
      * @param \Magento\CustomerSegment\Helper\Data $segmentHelper
      * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      */
     public function __construct(
         \Magento\Framework\StoreManagerInterface $storeManager,
@@ -60,7 +72,9 @@ class Observer
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno,
         \Magento\CustomerSegment\Helper\Data $segmentHelper,
-        \Magento\Framework\Registry $coreRegistry
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
@@ -68,6 +82,8 @@ class Observer
         $this->_configSourceYesno = $configSourceYesno;
         $this->_coreRegistry = $coreRegistry;
         $this->_segmentHelper = $segmentHelper;
+        $this->customerFactory = $customerFactory;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
     }
 
     /**
@@ -148,8 +164,13 @@ class Observer
     public function processQuote(\Magento\Framework\Event\Observer $observer)
     {
         $quote = $observer->getEvent()->getQuote();
-        $customer = $quote->getCustomer();
-        if ($customer && $customer->getId()) {
+        $customerData = $quote->getCustomer();
+        if ($customerData && $customerData->getId()) {
+            $customer = $this->customerFactory->create(
+                [
+                    'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData)
+                ]
+            );
             $website = $quote->getStore()->getWebsite();
             $this->_customer->processCustomer($customer, $website);
         }
