@@ -130,7 +130,7 @@ class ShipmentLoaderTest extends \PHPUnit_Framework_TestCase
         $this->loader->unsetData('shipment_id');
         $orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
-            ->setMethods([])
+            ->setMethods(['getForcedShipmentWithInvoice', 'getId', 'load', 'canShip'])
             ->getMock();
         $this->orderFactoryMock->expects($this->once())
             ->method('create')
@@ -144,7 +144,7 @@ class ShipmentLoaderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->loader->getOrderId()));
         $orderMock->expects($this->any())
             ->method('getForcedShipmentWithInvoice')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue(false));
         $orderMock->expects($this->once())
             ->method('canShip')
             ->will($this->returnValue(true));

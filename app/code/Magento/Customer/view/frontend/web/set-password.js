@@ -9,7 +9,8 @@ define([
     "jquery",
     "jquery/ui"
 ], function($){
-
+    "use strict";
+    
     $.widget('mage.setPassword', {
         options: {
         },
@@ -44,4 +45,6 @@ define([
                 '{required:true, equalTo:"' + this.options.passwordId + '"}');
         }
     });
+    
+    return $.mage.setPassword;
 });

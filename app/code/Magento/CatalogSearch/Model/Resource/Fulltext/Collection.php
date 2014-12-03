@@ -68,6 +68,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      * @param \Magento\Search\Model\QueryFactory $catalogSearchData
      * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
      * @param \Magento\Framework\Search\Request\Builder $requestBuilder
@@ -94,6 +95,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement,
         \Magento\Search\Model\QueryFactory $catalogSearchData,
         \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
         \Magento\Framework\Search\Request\Builder $requestBuilder,
@@ -121,6 +123,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $localeDate,
             $customerSession,
             $dateTime,
+            $groupManagement,
             $connection
         );
         $this->requestBuilder = $requestBuilder;

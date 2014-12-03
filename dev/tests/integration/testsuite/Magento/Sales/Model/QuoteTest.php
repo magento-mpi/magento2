@@ -7,12 +7,17 @@
  */
 namespace Magento\Sales\Model;
 
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class QuoteTest extends \PHPUnit_Framework_TestCase
 {
+    private function convertToArray($entity)
+    {
+        return Bootstrap::getObjectManager()
+            ->create('Magento\Framework\Api\ExtensibleDataObjectConverter')
+            ->toFlatArray($entity);
+    }
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_virtual.php
      * @magentoDataFixture Magento/Sales/_files/quote.php
@@ -37,24 +42,17 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
-        $customerMetadataService = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerMetadataService'
-        );
-        $customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder',
-            [
-                'metadataService' => $customerMetadataService
-            ]
-        );
+        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
+        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         $expected = $this->_getCustomerDataArray();
-        $customerBuilder->populateWithArray($expected);
+        $customer = $customerBuilder->populateWithArray($expected)->create();
 
-        $customerDataSet = $customerBuilder->create();
-        $this->assertEquals($expected, $customerDataSet->__toArray());
-        $quote->setCustomerData($customerDataSet);
 
-        $customerDataRetrieved = $quote->getCustomerData();
-        $this->assertEquals($expected, $customerDataRetrieved->__toArray());
+        $this->assertEquals($expected, $this->convertToArray($customer));
+        $quote->setCustomer($customer);
+        //
+        $customer = $quote->getCustomer();
+        $this->assertEquals($expected, $this->convertToArray($customer));
         $this->assertEquals('qa@example.com', $quote->getCustomerEmail());
     }
 
@@ -62,29 +60,31 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
-        $customerMetadataService = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerMetadataService'
-        );
-        $customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder',
-            [
-                'metadataService' => $customerMetadataService
-            ]
-        );
+        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         $expected = $this->_getCustomerDataArray();
-
+        //For save in repository
+        $expected = $this->removeIdFromCustomerData($expected);
         $customerBuilder->populateWithArray($expected);
         $customerDataSet = $customerBuilder->create();
-        $this->assertEquals($expected, $customerDataSet->__toArray());
-        $quote->setCustomerData($customerDataSet);
-
-        $expected[Customer::EMAIL] = 'test@example.com';
+        $this->assertEquals($expected, $this->convertToArray($customerDataSet));
+        /**
+         * @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+         */
+        $customerRepository = Bootstrap::getObjectManager()
+            ->create('\Magento\Customer\Api\CustomerRepositoryInterface');
+        $customerRepository->save($customerDataSet);
+        $quote->setCustomer($customerDataSet);
+        $expected = $this->_getCustomerDataArray();
+        $expected = $this->changeEmailInCustomerData('test@example.com', $expected);
         $customerBuilder->populateWithArray($expected);
         $customerDataUpdated = $customerBuilder->create();
-
         $quote->updateCustomerData($customerDataUpdated);
-        $customerDataRetrieved = $quote->getCustomerData();
-        $this->assertEquals($expected, $customerDataRetrieved->__toArray());
+        $customer = $quote->getCustomer();
+        $expected = $this->changeEmailInCustomerData('test@example.com', $expected);
+        ksort($expected);
+        $actual = $this->convertToArray($customer);
+        ksort($actual);
+        $this->assertEquals($expected, $actual);
         $this->assertEquals('test@example.com', $quote->getCustomerEmail());
     }
 
@@ -94,13 +94,13 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomerGroupFromCustomer()
     {
         /** Preconditions */
-        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder */
-        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
+        $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\CustomerDataBuilder');
         $customerGroupId = 3;
         $customerData = $customerBuilder->setId(1)->setGroupId($customerGroupId)->create();
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
-        $quote->setCustomerData($customerData);
+        $quote->setCustomer($customerData);
         $quote->unsetData('customer_group_id');
 
         /** Execute SUT */
@@ -268,19 +268,19 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      * Customer with two addresses created. First address is default billing, second is default shipping.
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     protected function _prepareQuoteForTestAssignCustomerWithAddressChange($quote)
     {
         $objectManager = Bootstrap::getObjectManager();
-        /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService */
-        $customerService = $objectManager->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = $objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
         $fixtureCustomerId = 1;
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $objectManager->create('Magento\Customer\Model\Customer');
         $fixtureSecondAddressId = 2;
         $customer->load($fixtureCustomerId)->setDefaultShipping($fixtureSecondAddressId)->save();
-        $customerData = $customerService->getCustomer($fixtureCustomerId);
+        $customerData = $customerRepository->getById($fixtureCustomerId);
         $this->assertEmpty(
             $quote->getBillingAddress()->getId(),
             "Precondition failed: billing address should be empty."
@@ -292,27 +292,49 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         return $customerData;
     }
 
+    /**
+     * @param $email
+     * @param array $customerData
+     * @return array
+     */
+    protected function changeEmailInCustomerData($email, array $customerData)
+    {
+        $customerData[\Magento\Customer\Model\Data\Customer::EMAIL] = $email;
+        return $customerData;
+    }
+
+    /**
+     * @param array $customerData
+     * @return array
+     */
+    protected function removeIdFromCustomerData(array $customerData)
+    {
+        unset($customerData[\Magento\Customer\Model\Data\Customer::ID]);
+        return $customerData;
+    }
+
     protected function _getCustomerDataArray()
     {
-        return array(
-            Customer::ID => 1,
-            Customer::CONFIRMATION => 'test',
-            Customer::CREATED_AT => '2/3/2014',
-            Customer::CREATED_IN => 'Default',
-            Customer::DEFAULT_BILLING => 'test',
-            Customer::DEFAULT_SHIPPING => 'test',
-            Customer::DOB => '2/3/2014',
-            Customer::EMAIL => 'qa@example.com',
-            Customer::FIRSTNAME => 'Joe',
-            Customer::GENDER => 'Male',
-            Customer::GROUP_ID => \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
-            Customer::LASTNAME => 'Dou',
-            Customer::MIDDLENAME => 'Ivan',
-            Customer::PREFIX => 'Dr.',
-            Customer::STORE_ID => 1,
-            Customer::SUFFIX => 'Jr.',
-            Customer::TAXVAT => 1,
-            Customer::WEBSITE_ID => 1
-        );
+        return [
+            \Magento\Customer\Model\Data\Customer::CONFIRMATION => 'test',
+            \Magento\Customer\Model\Data\Customer::CREATED_AT => '2/3/2014',
+            \Magento\Customer\Model\Data\Customer::CREATED_IN => 'Default',
+            \Magento\Customer\Model\Data\Customer::DEFAULT_BILLING => 'test',
+            \Magento\Customer\Model\Data\Customer::DEFAULT_SHIPPING => 'test',
+            \Magento\Customer\Model\Data\Customer::DOB => '2014-02-03 00:00:00',
+            \Magento\Customer\Model\Data\Customer::EMAIL => 'qa@example.com',
+            \Magento\Customer\Model\Data\Customer::FIRSTNAME => 'Joe',
+            \Magento\Customer\Model\Data\Customer::GENDER => 'Male',
+            \Magento\Customer\Model\Data\Customer::GROUP_ID =>
+                \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+            \Magento\Customer\Model\Data\Customer::ID => 1,
+            \Magento\Customer\Model\Data\Customer::LASTNAME => 'Dou',
+            \Magento\Customer\Model\Data\Customer::MIDDLENAME => 'Ivan',
+            \Magento\Customer\Model\Data\Customer::PREFIX => 'Dr.',
+            \Magento\Customer\Model\Data\Customer::STORE_ID => 1,
+            \Magento\Customer\Model\Data\Customer::SUFFIX => 'Jr.',
+            \Magento\Customer\Model\Data\Customer::TAXVAT => 1,
+            \Magento\Customer\Model\Data\Customer::WEBSITE_ID => 1
+        ];
     }
 }

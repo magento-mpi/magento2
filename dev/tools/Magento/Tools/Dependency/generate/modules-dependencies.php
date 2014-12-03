@@ -7,6 +7,7 @@
  */
 
 require_once __DIR__ . '/bootstrap.php';
+
 use Magento\Framework\Test\Utility\Files;
 use Magento\Tools\Dependency\ServiceLocator;
 
@@ -17,7 +18,7 @@ try {
     $directory = $console->getOption('directory') ?: BP;
 
     Files::setInstance(new \Magento\Framework\Test\Utility\Files($directory));
-    $filesForParse = Files::init()->getConfigFiles('module.xml', array(), false);
+    $filesForParse = Files::init()->getComposerFiles('code', false);
 
     ServiceLocator::getDependenciesReportBuilder()->build(
         array(

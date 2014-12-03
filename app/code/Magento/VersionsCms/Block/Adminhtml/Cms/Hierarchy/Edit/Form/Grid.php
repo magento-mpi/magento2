@@ -13,21 +13,21 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form;
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
-     * @var \Magento\Cms\Model\Resource\Page\CollectionFactory
+     * @var \Magento\Cms\Model\Resource\Page\Grid\CollectionFactory
      */
     protected $_pageCollectionFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollectionFactory
+     * @param \Magento\Cms\Model\Resource\Page\Grid\CollectionFactory $pageCollectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollectionFactory,
-        array $data = array()
+        \Magento\Cms\Model\Resource\Page\Grid\CollectionFactory $pageCollectionFactory,
+        array $data = []
     ) {
         $this->_pageCollectionFactory = $pageCollectionFactory;
         parent::__construct($context, $backendHelper, $data);
@@ -76,44 +76,44 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'is_selected',
-            array(
+            [
                 'header_css_class' => 'col-select',
                 'column_css_class' => 'col-select',
                 'type' => 'checkbox',
                 'index' => 'page_id',
                 'filter' => false
-            )
+            ]
         );
         $this->addColumn(
             'page_id',
-            array(
+            [
                 'header' => __('Page ID'),
                 'header_css_class' => 'col-page-id col-id',
                 'column_css_class' => 'col-page-id col-id',
                 'sortable' => true,
                 'type' => 'range',
                 'index' => 'page_id'
-            )
+            ]
         );
 
         $this->addColumn(
             'title',
-            array(
+            [
                 'header' => __('Title'),
                 'header_css_class' => 'col-title',
                 'column_css_class' => 'col-title label',
                 'index' => 'title'
-            )
+            ]
         );
 
         $this->addColumn(
             'identifier',
-            array(
+            [
                 'header' => __('URL Key'),
                 'header_css_class' => 'col-identifier',
                 'column_css_class' => 'col-identifier identifier',
                 'index' => 'identifier'
-            )
+            ]
         );
 
         return parent::_prepareColumns();
@@ -126,7 +126,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/pageGrid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/pageGrid', ['_current' => true]);
     }
 
     /**

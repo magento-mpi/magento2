@@ -419,9 +419,14 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_categoryColFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var \Magento\Customer\Api\GroupRepositoryInterface
      */
-    protected $_customerGroupService;
+    protected $groupRepository;
+
+    /**
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     */
+    protected $searchCriteriaBuilder;
 
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -506,7 +511,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param Product\OptionFactory $optionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryColFactory
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Product\Type\Factory $productTypeFactory
@@ -540,7 +546,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\CatalogImportExport\Model\Import\Product\OptionFactory $optionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryColFactory,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
+        \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\CatalogImportExport\Model\Import\Product\Type\Factory $productTypeFactory,
@@ -564,7 +571,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_resourceFactory = $resourceFactory;
         $this->_setColFactory = $setColFactory;
         $this->_categoryColFactory = $categoryColFactory;
-        $this->_customerGroupService = $customerGroupService;
+        $this->groupRepository = $groupRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->_productFactory = $productFactory;
         $this->_storeManager = $storeManager;
         $this->_productTypeFactory = $productTypeFactory;
@@ -721,7 +729,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     protected function _initCustomerGroups()
     {
-        foreach ($this->_customerGroupService->getGroups() as $group) {
+        foreach ($this->groupRepository->getList($this->searchCriteriaBuilder->create())->getItems() as $group) {
             $this->_customerGroups[$group->getId()] = true;
         }
         return $this;
@@ -1782,7 +1790,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $productIdsToReindex[] = $row['product_id'];
 
                 $row['website_id'] = $this->stockConfiguration->getDefaultWebsiteId();
-                $row['stock_id'] = $this->stockRegistry->getStock($row['website_id'])->getId();
+                $row['stock_id'] = $this->stockRegistry->getStock($row['website_id'])->getStockId();
 
                 $stockItemDo = $this->stockRegistry->getStockItem($row['product_id'], $row['website_id']);
                 $existStockData = $stockItemDo->getData();

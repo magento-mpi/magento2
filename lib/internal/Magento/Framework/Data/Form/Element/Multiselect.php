@@ -98,7 +98,17 @@ class Multiselect extends AbstractElement
      */
     public function getHtmlAttributes()
     {
-        return array('title', 'class', 'style', 'onclick', 'onchange', 'disabled', 'size', 'tabindex');
+        return array(
+            'title',
+            'class',
+            'style',
+            'onclick',
+            'onchange',
+            'disabled',
+            'size',
+            'tabindex',
+            'data-form-part'
+        );
     }
 
     /**

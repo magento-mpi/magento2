@@ -6,16 +6,24 @@
 //  * @license     {license_link}
 //  */
 
+
+
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 //
 //    Shopping cart
 //--------------------------------------
 .cart {
     //  Summary block
     &-summary {
-        &:extend(.abstract-add-box-sizing all);
+        &:extend(.abs-add-box-sizing all);
         background: @sidebar-background;
-        margin-bottom: 25px;
-        padding: 1px 15px 25px;
+        margin-bottom: @indent-m-base;
+        padding: 1px 15px @indent-m-base;
         > .title {
             .heading(h3);
             display: block;
@@ -85,41 +93,55 @@
             }
             .fieldset.estimate {
                 >.legend {
-                    &:extend(.abstract-visually-hidden all);
+                    &:extend(.abs-visually-hidden all);
                 }
                 >.legend + br {
-                    &:extend(.abstract-no-display all);
+                    &:extend(.abs-no-display all);
                 }
             }
         }
         .actions-toolbar {
             > .primary {
                 button {
-                    &:extend(.abstract-revert-secondary-color all);
+                    &:extend(.abs-revert-secondary-color all);
                 }
             }
         }
-        &:extend(.abstract-adjustment-incl-excl-tax all);
+        &:extend(.abs-adjustment-incl-excl-tax all);
     }
 
     //  Totals block
     &-totals {
+        .table-wrapper {
+            overflow: inherit;
+        }
         border-top: 1px solid @border-color-base;
         padding-top: 10px;
         .mark {
+            font-weight: @font-weight-base;
             padding-left: 4px;
+            strong {
+                font-weight: @font-weight-base;
+            }
         }
         .amount {
             padding-right: 4px;
             text-align: right;
+            strong {
+                font-weight: @font-weight-base;
+            }
         }
-        .grand {
+        .grand:last-child {
             .mark,
             .amount {
-                padding-top: 25px;
+                padding-top: @indent-base;
             }
-            .mark strong {
-                font-weight: @font-weight-base;
+            .amount {
+                padding-right: 4px;
+                text-align: right;
+                strong {
+                    font-weight: @font-weight-bold;
+                }
             }
         }
         .msrp {
@@ -135,7 +157,7 @@
                 }
                 .amount .price {
                     position: relative;
-                    padding-right: 25px;
+                    padding-right: @indent-m-base;
                     .icon-font(
                         @icon-down,
                         @_icon-font-size: 30px,
@@ -187,19 +209,14 @@
             }
         }
         .col {
-            &.qty,
-            &.price,
-            &.subtotal,
-            &.msrp {
-                padding-top: 20px;
-            }
+            padding-top: 20px;
             &.qty {
                 .input-text {
                     margin-top: -5px;
-                    width: 45px;
+                    &:extend(.abs-input-qty all);
                 }
                 .label {
-                    &:extend(.abstract-visually-hidden all);
+                    &:extend(.abs-visually-hidden all);
                 }
             }
         }
@@ -216,19 +233,14 @@
                     position: relative;
                     min-height: 75px;
                 }
-                &.qty {
-                    .input-text {
-                        &:extend(.abstract-input-qty all);
-                    }
-                }
             }
         }
-        .actions {
+        .actions-toolbar {
             > .action {
                 &:extend(button all);
                 .link-as-button();
-                margin-left: 10px;
-                margin-bottom: 10px;
+                margin-left: @indent-s-base;
+                margin-bottom: @indent-s-base;
                 &:first-child {
                     margin-left: 0;
                 }
@@ -236,7 +248,7 @@
         }
         .action {
             &.help.map {
-                &:extend(.abstract-action-button-as-link all);
+                &:extend(.abs-action-button-as-link all);
                 font-weight: @font-weight-base;
             }
         }
@@ -256,17 +268,22 @@
             &-item-name {
                 display: inline-block;
                 font-weight: @font-weight-base;
+                margin-top: -6px;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
         }
-
+        .gift-registry-name-label {
+            &:after {
+                content: ":";
+            }
+        }
         // Product options
         .item-options {
             font-size: @font-size-s;
             margin-bottom: @indent-s-base;
-            &:extend(.abstract-product-options-list all);
-            &:extend(.abstract-add-clearfix all);
+            &:extend(.abs-product-options-list all);
+            &:extend(.abs-add-clearfix all);
         }
 
         .product-item-name + .item-options {
@@ -274,7 +291,7 @@
         }
 
         .product-image-wrapper {
-            &:extend(.abstract-reset-image-wrapper all);
+            &:extend(.abs-reset-image-wrapper all);
         }
         .action.configure {
             display: inline-block;
@@ -283,15 +300,15 @@
     }
     &-container {
         .form-cart {
-            &:extend(.abstract-shopping-cart-items all);
+            &:extend(.abs-shopping-cart-items all);
         }
         .checkout-methods-items {
-            &:extend(.abstract-reset-list all);
+            &:extend(.abs-reset-list all);
             text-align: center;
-            margin-top: @indent-s-base;
+            margin-top: @indent-base;
             .action.primary {
-                &:extend(.abstract-button-l all);
-                margin-bottom: 20px;
+                &:extend(.abs-button-l all);
+                margin-bottom: @indent-s-base;
                 width: 100%;
             }
         }
@@ -305,20 +322,17 @@
     margin-top: 70px;
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .cart {
         &.table-wrapper {
             thead {
-                .col {
-                    &.price,
-                    &.qty,
-                    &.subtotal,
-                    &.msrp {
-                        display: none;
-                    }
+                .col:not(.item) {
+                    display: none;
                 }
             }
             .col {
@@ -326,7 +340,7 @@
                 &.price,
                 &.subtotal,
                 &.msrp {
-                    .box-sizing();
+                    box-sizing: border-box;
                     display: block;
                     float: left;
                     text-align: center;
@@ -353,12 +367,12 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .cart {
         &-container {
-            &:extend(.abstract-add-clearfix-desktop all);
+            &:extend(.abs-add-clearfix-desktop all);
             .form-cart {
-                &:extend(.abstract-shopping-cart-items-desktop all);
+                &:extend(.abs-shopping-cart-items-desktop all);
             }
             .widget {
                 float: left;
@@ -370,7 +384,7 @@
             width: 23%;
             .actions-toolbar {
                 .column.main & {
-                    &:extend(.abstract-reset-left-margin-desktop all);
+                    &:extend(.abs-reset-left-margin-desktop all);
                     > .secondary {
                         float: none;
                     }
@@ -390,17 +404,17 @@
             .item {
                 .col {
                     &.item {
-                        padding: 27px 8px 10px;
+                        padding: 27px 8px @indent-s-base;
                     }
                 }
-                &.actions td {
+                &-actions td {
                     text-align: right;
                 }
             }
             .product {
                 &-item-photo {
                     display: table-cell;
-                    padding-right: 20px;
+                    padding-right: @indent-base;
                     vertical-align: top;
                     width: 1%;
                     position: static;
@@ -412,6 +426,10 @@
                     white-space: normal;
                     width: 99%;
                 }
+            }
+            .item-actions .actions-toolbar {
+                text-align: left;
+                &:extend(.abs-reset-left-margin-desktop all);
             }
         }
     }

@@ -63,7 +63,7 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
         $data['variations-matrix'] = $this->prepareVariationsMatrix($product);
         $data['attributes'] = $this->prepareAttributes($configurableAttributesData);
         $data['new-variations-attribute-set-id'] = $attributeSetId;
-        $data['associated_product_ids'] = [];
+        $data['associated_product_ids'] = $this->prepareAssociatedProductIds($configurableAttributesData);
 
         return $this->replaceMappingData($data);
     }
@@ -118,10 +118,16 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
         /** @var ConfigurableAttributesData $configurableAttributesData */
         $configurableAttributesData = $product->getDataFieldConfig('configurable_attributes_data')['source'];
         $attributesData = $configurableAttributesData->getAttributesData();
+        $assignedProducts = $configurableAttributesData->getProducts();
         $matrixData = $product->getConfigurableAttributesData()['matrix'];
         $result = [];
 
         foreach ($matrixData as $variationKey => $variation) {
+            // For assigned products doesn't send data about them
+            if (isset($assignedProducts[$variationKey])) {
+                continue;
+            }
+
             $compositeKeys = explode(' ', $variationKey);
             $keyIds = [];
             $configurableAttribute = [];
@@ -161,5 +167,22 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
             $ids[] = $attribute->getAttributeId();
         }
         return $ids;
+    }
+
+    /**
+     * Prepare associated product ids
+     *
+     * @param ConfigurableAttributesData $configurableAttributesData
+     * @return array
+     */
+    protected function prepareAssociatedProductIds(ConfigurableAttributesData $configurableAttributesData)
+    {
+        $productIds = [];
+
+        foreach ($configurableAttributesData->getProducts() as $product) {
+            $productIds[] = $product->getId();
+        }
+
+        return $productIds;
     }
 }
