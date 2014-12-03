@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Tools\SampleData\Installer;
+namespace Magento\Tools\SampleData;
 
 /**
  * Class InstallTest
-  */
-class InstallTest extends \PHPUnit_Framework_TestCase
+ */
+class InstallerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDataFixture Magento/User/_files/user_with_role.php

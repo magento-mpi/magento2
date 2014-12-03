@@ -28,7 +28,7 @@ class Page implements SetupInterface
     protected $csvReaderFactory;
 
     /**
-     * @var \Magento\Cms\Model\Page
+     * @var \Magento\Cms\Model\PageFactory
      */
     protected $pageFactory;
 

@@ -11,7 +11,7 @@ namespace Magento\Tools\SampleData\Module\Theme;
 /**
  * Class ThemeTest
  */
-class ThemeTest extends \PHPUnit_Framework_TestCase
+class SetupTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoDbIsolation enabled

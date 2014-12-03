@@ -10,7 +10,7 @@ namespace Magento\Tools\SampleData\Module\Cms\Setup;
 
 /**
  * Class PageTest
-  */
+ */
 class PageTest extends \PHPUnit_Framework_TestCase
 {
     /**
