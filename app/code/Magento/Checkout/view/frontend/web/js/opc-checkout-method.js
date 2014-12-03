@@ -135,7 +135,16 @@ define([
          * Callback function for ajax complete event(global)
          * @private
          */
-        _ajaxComplete: function() {
+        _ajaxComplete: function(res) {
+            var data = res.responseJSON,
+                hasErrors = !!data.error,
+                errors;
+
+            if (hasErrors) {
+                errors = data.error_messages;
+                errors && alert(errors);
+            }
+
             this.element.find('.section').filter('.' + this.sectionActiveClass).children(this.contentSelector).trigger("processStop");
         },
 
