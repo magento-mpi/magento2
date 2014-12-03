@@ -7,13 +7,14 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
 
+use Magento\Ui\Component\Layout\Tabs\TabInterface;
+
 /**
  * Customer Account Payment Profiles form block
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
-    \Magento\Backend\Block\Widget\Tab\TabInterface
+class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements TabInterface
 {
     /**
      * Block template
@@ -47,9 +48,10 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
-     * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+     * @param \Magento\Customer\Model\Address\Mapper $addressConverter
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
@@ -58,11 +60,12 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
-        \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
+        \Magento\Customer\Model\Address\Mapper $addressConverter,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct(
@@ -70,9 +73,10 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
             $customerSession,
             $checkoutSession,
             $pbridgeSession,
-            $regionFactory,
             $pbridgeData,
             $httpContext,
+            $addressRepository,
+            $addressConverter,
             $data
         );
     }
@@ -120,6 +124,37 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
     }
 
     /**
+     * Tab class getter
+     *
+     * @return string
+     */
+    public function getTabClass()
+    {
+        return '';
+    }
+
+    /**
+     * Return URL link to Tab content
+     *
+     * @return string
+     */
+    public function getTabUrl()
+    {
+        return '';
+    }
+
+    /**
+     * Tab should be loaded trough Ajax call
+     *
+     * @return bool
+     */
+    public function isAjaxLoaded()
+    {
+        return false;
+    }
+
+
+    /**
      * Check if payment profiles enabled
      * @return bool
      */
@@ -147,20 +182,20 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
         $helper = $this->_pbridgeData;
         $helper->setStoreId($this->_getCurrentStore()->getId());
         return $helper->getPaymentProfileUrl(
-            array(
+            [
                 'billing_address' => $this->_getAddressInfo(),
                 'css_url' => null,
                 'customer_id' => $this->getCustomerIdentifier(),
                 'customer_name' => $this->getCustomerName(),
                 'customer_email' => $this->getCustomerEmail()
-            )
+            ]
         );
     }
 
     /**
      * Get current customer object
      *
-     * @return null|\Magento\Customer\Model\Customer
+     * @return null|\Magento\Customer\Api\Data\CustomerInterface
      */
     protected function _getCurrentCustomer()
     {

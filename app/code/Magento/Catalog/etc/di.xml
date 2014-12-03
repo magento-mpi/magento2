@@ -117,6 +117,7 @@
                     <item name="tax_class_id" xsi:type="string">tax_class_id</item>
                 </item>
             </argument>
+            <argument name="productRepository" xsi:type="object">Magento\Catalog\Api\ProductRepositoryInterface\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\Product">
@@ -202,7 +203,7 @@
         <plugin name="catalogProductFlatIndexerStoreGroup" type="Magento\Catalog\Model\Indexer\Product\Flat\Plugin\StoreGroup" />
         <plugin name="categoryStoreGroupAroundSave" type="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreGroup"/>
     </type>
-    <type name="Magento\Customer\Service\V1\CustomerGroupServiceInterface">
+    <type name="Magento\Customer\Api\GroupRepositoryInterface">
         <plugin name="invalidatePriceIndexerOnCustomerGroup" type="Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup"/>
     </type>
     <type name="Magento\Indexer\Model\Config\Data">
@@ -541,15 +542,15 @@
     <preference for="Magento\Catalog\Api\Data\ProductLinkInterface" type="Magento\Catalog\Model\ProductLink\Link" />
     <preference for="\Magento\Catalog\Api\CategoryLinkManagementInterface" type="\Magento\Catalog\Model\CategoryLinkManagement" />
     <preference for="\Magento\Catalog\Api\CategoryLinkRepositoryInterface" type="\Magento\Catalog\Model\CategoryLinkRepository" />
-    <preference for="Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface" type="Magento\Catalog\Model\Product\Option" />
+    <preference for="Magento\Catalog\Api\Data\ProductCustomOptionInterface" type="Magento\Catalog\Model\Product\Option" />
     <preference for="Magento\Catalog\Api\ProductGroupPriceManagementInterface" type="Magento\Catalog\Model\Product\GroupPriceManagement" />
     <preference for="Magento\Catalog\Api\Data\ProductGroupPriceInterface" type="Magento\Catalog\Model\Product\GroupPrice" />
     <preference for="Magento\Catalog\Api\ProductCustomOptionRepositoryInterface" type="\Magento\Catalog\Model\Product\Option\Repository" />
-    <preference for="Magento\Catalog\Api\Data\ProductCustomOptionOptionTypeInterface" type="Magento\Catalog\Model\Product\Option\Type" />
+    <preference for="Magento\Catalog\Api\Data\ProductCustomOptionTypeInterface" type="Magento\Catalog\Model\Product\Option\Type" />
     <preference for="Magento\Catalog\Api\ProductTierPriceManagementInterface" type="\Magento\Catalog\Model\Product\TierPriceManagement" />
     <preference for="Magento\Catalog\Api\Data\ProductTierPriceInterface" type="Magento\Catalog\Model\Product\TierPrice" />
     <preference for="Magento\Catalog\Api\Data\CategoryProductLinkInterface" type="Magento\Catalog\Model\CategoryProductLink" />
-    <preference for="Magento\Catalog\Api\ProductCustomOptionOptionTypeListInterface" type="Magento\Catalog\Model\ProductOptions\TypeList" />
+    <preference for="Magento\Catalog\Api\ProductCustomOptionTypeListInterface" type="Magento\Catalog\Model\ProductOptions\TypeList" />
     <preference for="Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface" type="\Magento\Catalog\Model\Product\Option\Value" />
     <virtualType name="Magento\Catalog\Model\Resource\Attribute\Collection" type="Magento\Eav\Model\Resource\Entity\Attribute\Collection">
     </virtualType>

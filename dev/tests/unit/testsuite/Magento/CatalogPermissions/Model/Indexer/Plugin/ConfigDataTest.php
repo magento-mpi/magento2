@@ -7,6 +7,9 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ConfigDataTest extends \PHPUnit_Framework_TestCase
 {
     /**

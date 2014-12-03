@@ -10,13 +10,13 @@ namespace Magento\Bundle\Service\V1\Product\Link;
 use Magento\Bundle\Model\Option;
 use Magento\Bundle\Service\V1\Data\Product\LinkConverter;
 use Magento\Catalog\Model\Product;
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Webapi\Exception;
 
 class ReadService implements ReadServiceInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     private $productRepository;
 
@@ -26,11 +26,11 @@ class ReadService implements ReadServiceInterface
     private $linkConverter;
 
     /**
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      * @param LinkConverter $linkConverter
      */
     public function __construct(
-        ProductRepository $productRepository,
+        ProductRepositoryInterface $productRepository,
         LinkConverter $linkConverter
     ) {
 

@@ -78,5 +78,6 @@ define([
                 .find('.input-text').toggleClass(this.options.requiredEntry, length > 0);
         }
     });
-
+    
+    return $.mage.giftOptions;
 });

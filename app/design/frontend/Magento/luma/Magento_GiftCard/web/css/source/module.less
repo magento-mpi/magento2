@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .page-product-giftcard {
     .giftcard-amount {
         text-align: left;
@@ -16,9 +22,6 @@
         .field:last-child {
             padding-bottom: @form-field-vertical-indent !important;
         }
-    }
-    .product-options-wrapper {
-        margin-top: @form-field-vertical-indent;
     }
     .product-info-main {
         .price-box {
@@ -52,6 +55,10 @@
         clear: none;
         border: 0;
         padding-top: 0;
+        .product-options-wrapper .field:not(.text) {
+            margin-top: @form-field-vertical-indent;
+            margin-bottom: @form-field-vertical-indent;
+        }
     }
     .giftcard.form {
         clear: both;
@@ -68,18 +75,20 @@
     }
     .fieldset.giftcard {
         >.legend {
-            &:extend(.abstract-visually-hidden all);
+            &:extend(.abs-visually-hidden all);
         }
         >.legend + br {
-            &:extend(.abstract-no-display all);
+            &:extend(.abs-no-display all);
         }
     }
+}
+
 }
 
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .cart-discount {
         .giftcard .content {
             padding-bottom: 35px;
@@ -98,7 +107,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .page-product-giftcard {
         .product-info-main {
             .price-box {

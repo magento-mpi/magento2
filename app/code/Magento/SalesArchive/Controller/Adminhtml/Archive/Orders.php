@@ -17,10 +17,9 @@ class Orders extends \Magento\SalesArchive\Controller\Adminhtml\Archive
      */
     public function execute()
     {
-        $this->_title->add(__('Orders'));
-
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_orders');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Orders'));
         $this->_view->renderLayout();
     }
 }

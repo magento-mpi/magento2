@@ -6,11 +6,20 @@
 //  * @license     {license_link}
 //  */
 
-.table.data.grouped {
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+.table.grouped {
     .table-bordered(
-        @_type: horizontal
+        @_table_type: horizontal
     );
-    .product.name {
+    > thead > tr > th {
+        border-bottom: 0;
+    }
+    .product-item-name {
         font-weight: @font-weight-base;
     }
     .price-box {
@@ -18,18 +27,16 @@
             font-size: @font-size-base; 
         }
     }
-    .col.qty {
-        .control.qty {
-            .qty {
-                &:extend(.abstract-input-qty all);
-            }
+    .control {
+        .qty {
+            &:extend(.abs-input-qty all);
         }
     }
     .stock.unavailable {
-        margin: 0;
-        white-space: nowrap;
-        text-transform: none;
         font-weight: normal;
+        margin: 0;
+        text-transform: none;
+        white-space: nowrap;
     }
     .row-tier-price {
         td {
@@ -39,4 +46,6 @@
             margin: 0 -10px 10px;
         }
     }
+}
+
 }

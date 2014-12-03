@@ -49,7 +49,7 @@ class AssertWidgetCatalogCategoryLink extends AbstractConstraint
         $adminCache->getMessagesBlock()->waitSuccessMessage();
 
         $cmsIndex->open();
-        $widgetText = $widget->getWidgetOptions()[0]['entities'][0]->getName();
+        $widgetText = $widget->getWidgetOptions()[0]['anchor_text'];
 
         \PHPUnit_Framework_Assert::assertTrue(
             $cmsIndex->getWidgetView()->isWidgetVisible($widget, $widgetText),
@@ -59,7 +59,7 @@ class AssertWidgetCatalogCategoryLink extends AbstractConstraint
         $cmsIndex->getWidgetView()->clickToWidget($widget, $widgetText);
         $title = $categoryView->getTitleBlock()->getTitle();
         \PHPUnit_Framework_Assert::assertEquals(
-            $widgetText,
+            $widget->getWidgetOptions()[0]['entities'][0]->getName(),
             $title,
             'Wrong category title.'
         );

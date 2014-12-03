@@ -6,13 +6,20 @@
 //  * @license     {license_link}
 //  */
 
+
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .cart {
     &-summary {
         .block {
             &.giftcard {
                 .action.check {
                     .button-s();
-                    &:extend(.abstract-action-button-as-link all);
+                    &:extend(.abs-action-button-as-link all);
                     margin-top: @indent-base;
                 }
             }
@@ -27,15 +34,17 @@
             padding-bottom: @form-field-vertical-indent;
         }
     }
-    .product-options-wrapper {
+    .product-options-wrapper .field:first-of-type {
         margin-top: @form-field-vertical-indent;
     }
     .fieldset.giftcard {
         >.legend {
-            &:extend(.abstract-visually-hidden all);
+            &:extend(.abs-visually-hidden all);
         }
         >.legend + br {
-            &:extend(.abstract-no-display all);
+            &:extend(.abs-no-display all);
         }
     }
+}
+
 }

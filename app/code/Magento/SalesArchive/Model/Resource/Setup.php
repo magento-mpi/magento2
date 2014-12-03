@@ -12,7 +12,7 @@ namespace Magento\SalesArchive\Model\Resource;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Setup extends \Magento\Framework\Module\Setup
+class Setup extends \Magento\Framework\Module\DataSetup
 {
     /**
      * Call afterApplyAllUpdates flag

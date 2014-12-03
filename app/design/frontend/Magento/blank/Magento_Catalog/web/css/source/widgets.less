@@ -6,15 +6,24 @@
 //  * @license     {license_link}
 //  */
 
-.widget.product.link {
-    a {
-        &:extend(.abstract-product-link all);
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+.block-product-link,
+.block-category-link {
+    &.widget {
+        display: block;
+        margin-bottom: @indent-base;
     }
 }
 
-div.widget.product.link,
-div.widget.category.link {
-    &:extend(.abstract-margin-for-blocks-and-widgets all);
+.block-product-link-inline {
+    &.widget {
+        margin: 0;
+    }
 }
 
 .block.widget {
@@ -39,25 +48,36 @@ div.widget.category.link {
     }
 }
 
-.responsive(@break) when (@break = @screen-s) {
+}
+
+//
+//    Mobile
+//--------------------------------------
+
+.responsive-min-m(@break) when (@break = @screen-s) {
     .block.widget .products-grid .product-item,
     .layout-1 .block.widget .products-grid .product-item,
     .layout-3 .block.widget .products-grid .product-item { width: 100%/3 }
 }
-.responsive(@break) when (@break = @screen-m) {
+
+//
+//    Desktop
+//--------------------------------------
+
+.responsive-min-l(@break) when (@break = @screen-m) {
     .block.widget .products-grid .product-item{ width: 100%/3 }
     .layout-1 .block.widget .products-grid .product-item { width: 100%/4 }
     .layout-3 .block.widget .products-grid .product-item { width: 100%/2 }
 }
-.responsive(@break) when (@break = @screen-l) {
+
+.responsive-min-l(@break) when (@break = @screen-l) {
     .block.widget .products-grid .product-item { width: 100%/5 }
     .layout-1 .block.widget .products-grid .product-item { width: 100%/6 }
     .layout-3 .block.widget .products-grid .product-item { width: 100%/4 }
     .block.widget .products-grid .product-items { margin: 0; }
     .block.widget .products-grid .product-item {
-        width: 100%/4;
-        width: 200px;
-        margin-left: calc(~"(100% - 4 * 200px) / 3");
+        width: 22%;
+        margin-left: calc(~"(100% - 4 * 22%) / 3");
         padding: 0;
         &:nth-child(4n+1) {
             margin-left: 0;
@@ -65,13 +85,10 @@ div.widget.category.link {
     }
 }
 
-//
-//    Desktop
-//--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .sidebar .block.widget .pager {
         .item:not(.pages-item-next):not(.pages-item-previous) {
-            &:extend(.abstract-no-display-desktop all);
+            &:extend(.abs-no-display-desktop all);
         }
         .pages-item-next {
             padding: 0;

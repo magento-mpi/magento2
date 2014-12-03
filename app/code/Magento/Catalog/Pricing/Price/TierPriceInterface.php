@@ -22,4 +22,9 @@ interface TierPriceInterface
      * @return int
      */
     public function getTierPriceCount();
+
+    /**
+     * @return bool
+     */
+    public function isPercentageDiscount();
 }

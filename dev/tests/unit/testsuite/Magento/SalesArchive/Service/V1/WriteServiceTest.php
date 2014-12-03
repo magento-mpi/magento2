@@ -47,8 +47,8 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->orderRepositoryMock = $this->getMock(
-            'Magento\Sales\Model\OrderRepository',
-            ['find'],
+            'Magento\Sales\Api\Data\OrderSearchResultInterface',
+            [],
             [],
             '',
             false
@@ -84,7 +84,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\SalesArchive\Service\V1\WriteService',
             [
                 'archive' => $this->archiveMock,
-                'orderRepository' => $this->orderRepositoryMock,
+                'orderSearchResult' => $this->orderRepositoryMock,
                 'archiveMapper' => $this->archiveMapperMock,
                 'searchResultsBuilder' => $this->archiveSearchResultsBuilderMock,
                 'criteriaBuilder' => $this->searchCriteriaBuilderMock,
@@ -154,7 +154,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->searchCriteriaBuilderMock->expects($this->once())->method('create')->will(
             $this->returnValue($searchCriteriaBuildMock)
         );
-        $this->orderRepositoryMock->expects($this->once())->method('find')->with($searchCriteriaBuildMock)
+        $this->orderRepositoryMock->expects($this->once())->method('getItems')
             ->will($this->returnValue([$orderMock]));
         $this->archiveMapperMock->expects($this->once())->method('extractDto')->with($orderMock)
             ->will($this->returnValue($archiveDtoMock));

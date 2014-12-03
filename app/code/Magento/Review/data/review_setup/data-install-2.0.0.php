@@ -12,7 +12,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-/* @var $installer \Magento\Framework\Module\Setup */
+/* @var $installer \Magento\Framework\Module\DataSetup */
 $installer = $this;
 
 //Fill table review/review_entity

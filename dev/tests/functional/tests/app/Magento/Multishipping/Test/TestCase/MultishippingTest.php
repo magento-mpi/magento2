@@ -13,9 +13,7 @@ use Mtf\TestCase\Functional;
 use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 
 /**
- * Class MultishippingTest
- * Test multiple address page checkout with different configurations
- *
+ * Test multiple address page checkout with different configurations.
  */
 class MultishippingTest extends Functional
 {
@@ -29,7 +27,7 @@ class MultishippingTest extends Functional
      */
     public function testMultishippingCheckout(GuestPaypalDirect $fixture)
     {
-        $this->markTestIncomplete('MAGETWO-28220');
+        $this->markTestIncomplete('MAGETWO-31038');
         $fixture->persist();
 
         //Ensure shopping cart is empty
@@ -94,7 +92,7 @@ class MultishippingTest extends Functional
     }
 
     /**
-     * Verify order in Backend
+     * Verify order in Backend.
      *
      * @param array $orderIds
      * @param GuestPaypalDirect $fixture

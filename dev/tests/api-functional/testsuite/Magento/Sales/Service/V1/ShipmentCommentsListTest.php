@@ -15,7 +15,7 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
  */
 class ShipmentCommentsListTest extends WebapiAbstract
 {
-    const SERVICE_NAME = 'salesShipmentReadV1';
+    const SERVICE_NAME = 'salesShipmentManagementV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -43,11 +43,12 @@ class ShipmentCommentsListTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'commentsList'
+                'operation' => self::SERVICE_NAME . 'getCommentsList'
             ]
         ];
         $requestData = ['id' => $shipment->getId()];
         $result = $this->_webApiCall($serviceInfo, $requestData);
+        // TODO Test fails, due to the inability of the framework API to handle data collection
         foreach ($result['items'] as $item) {
             /** @var \Magento\Sales\Model\Order\Shipment\Comment $shipmentHistoryStatus */
             $shipmentHistoryStatus = $objectManager->get('Magento\Sales\Model\Order\Shipment\Comment')

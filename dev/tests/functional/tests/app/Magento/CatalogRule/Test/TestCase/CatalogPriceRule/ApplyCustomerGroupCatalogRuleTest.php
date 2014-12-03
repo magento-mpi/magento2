@@ -105,13 +105,13 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
         // Verify Notice Message
         $messagesBlock->assertNoticeMessage();
 
-        // Save new product
-        $simpleProductFixture->persist();
-
         // Apply Catalog Price Rule
         $catalogRulePage->open();
         $catalogRuleGrid = $catalogRulePage->getGridPageActions();
         $catalogRuleGrid->applyRules();
+
+        // Save new product
+        $simpleProductFixture->persist();
 
         // Verify Success Message
         $catalogRulePage->getMessagesBlock()->waitSuccessMessage();

@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Model\Config\Source;
 
+use Magento\Customer\Api\GroupManagementInterface;
+
 class Group implements \Magento\Framework\Option\ArrayInterface
 {
     /**
@@ -15,9 +17,9 @@ class Group implements \Magento\Framework\Option\ArrayInterface
     protected $_options;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var GroupManagementInterface
      */
-    protected $_groupService;
+    protected $_groupManagement;
 
     /**
      * @var \Magento\Framework\Convert\Object
@@ -25,14 +27,14 @@ class Group implements \Magento\Framework\Option\ArrayInterface
     protected $_converter;
 
     /**
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
+     * @param GroupManagementInterface $groupManagement
      * @param \Magento\Framework\Convert\Object $converter
      */
     public function __construct(
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
+        GroupManagementInterface $groupManagement,
         \Magento\Framework\Convert\Object $converter
     ) {
-        $this->_groupService = $groupService;
+        $this->_groupManagement = $groupManagement;
         $this->_converter = $converter;
     }
 
@@ -42,7 +44,7 @@ class Group implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $groups = $this->_groupService->getGroups(false);
+            $groups = $this->_groupManagement->getLoggedInGroups();
             $this->_options = $this->_converter->toOptionArray($groups, 'id', 'code');
             array_unshift($this->_options, array('value' => '', 'label' => __('-- Please Select --')));
         }

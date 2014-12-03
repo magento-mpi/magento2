@@ -20,18 +20,14 @@ class Edit extends \Magento\Tax\Controller\Adminhtml\Rate
      */
     public function execute()
     {
-        $this->_title->add(__('Tax Zones and Rates'));
-
         $rateId = (int)$this->getRequest()->getParam('rate');
         $this->_coreRegistry->register(RegistryConstants::CURRENT_TAX_RATE_ID, $rateId);
         try {
-            $taxRateDataObject = $this->_taxRateService->getTaxRate($rateId);
+            $taxRateDataObject = $this->_taxRateRepository->get($rateId);
         } catch (NoSuchEntityException $e) {
             $this->getResponse()->setRedirect($this->getUrl("*/*/"));
             return;
         }
-
-        $this->_title->add(sprintf("%s", $taxRateDataObject->getCode()));
 
         $this->_initAction()->_addBreadcrumb(
             __('Manage Tax Rates'),
@@ -56,6 +52,8 @@ class Edit extends \Magento\Tax\Controller\Adminhtml\Rate
                 )
             )
         );
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Tax Zones and Rates'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(sprintf("%s", $taxRateDataObject->getCode()));
         $this->_view->renderLayout();
     }
 }

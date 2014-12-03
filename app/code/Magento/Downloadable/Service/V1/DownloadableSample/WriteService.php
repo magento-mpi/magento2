@@ -10,7 +10,7 @@ namespace Magento\Downloadable\Service\V1\DownloadableSample;
 
 use \Magento\Downloadable\Service\V1\Data\FileContentUploaderInterface;
 use \Magento\Downloadable\Service\V1\DownloadableSample\Data\DownloadableSampleContent;
-use \Magento\Catalog\Model\ProductRepository;
+use \Magento\Catalog\Api\ProductRepositoryInterface;
 use \Magento\Downloadable\Service\V1\DownloadableSample\Data\DownloadableSampleContentValidator;
 use \Magento\Framework\Exception\InputException;
 use \Magento\Framework\Json\EncoderInterface;
@@ -20,7 +20,7 @@ use \Magento\Framework\Exception\NoSuchEntityException;
 class WriteService implements WriteServiceInterface
 {
     /**
-     * @var ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -45,14 +45,14 @@ class WriteService implements WriteServiceInterface
     protected $linkFactory;
 
     /**
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      * @param DownloadableSampleContentValidator $contentValidator
      * @param FileContentUploaderInterface $fileContentUploader
      * @param EncoderInterface $jsonEncoder
      * @param SampleFactory $sampleFactory
      */
     public function __construct(
-        ProductRepository $productRepository,
+        ProductRepositoryInterface $productRepository,
         DownloadableSampleContentValidator $contentValidator,
         FileContentUploaderInterface $fileContentUploader,
         EncoderInterface $jsonEncoder,

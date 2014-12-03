@@ -42,7 +42,7 @@ class SendTest extends \PHPUnit_Framework_TestCase
     public function testGetUserName()
     {
         $this->customerSession->setCustomerId(1);
-        $this->assertEquals('Firstname Lastname', $this->block->getUserName());
+        $this->assertEquals('John Smith', $this->block->getUserName());
     }
 
     /**
