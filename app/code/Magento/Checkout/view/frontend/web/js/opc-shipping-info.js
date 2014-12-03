@@ -32,13 +32,14 @@ define([
         _create: function() {
             this._super();
             var events = {};
-            events['change ' + this.options.shipping.addressDropdownSelector] = function(e) {
-                $(this.options.shipping.newAddressFormSelector).toggle(!$(e.target).val());
-                $(this.options.shipping.copyBillingSelector).prop('checked', false);
-            };
             var onInputPropChange = function() {
                 $(this.options.shipping.copyBillingSelector).prop('checked', false);
             };
+            events['change ' + this.options.shipping.addressDropdownSelector] = function(e) {
+                $(this.options.shipping.newAddressFormSelector).toggle(!$(e.target).val());
+                onInputPropChange();
+            };
+            // for guest checkout
             events['input ' + this.options.shipping.form + ' :input[name]'] = onInputPropChange;
             events['propertychange ' + this.options.shipping.form + ' :input[name]'] = onInputPropChange;
             events['click ' + this.options.shipping.copyBillingSelector] = function(e) {
