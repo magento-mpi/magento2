@@ -9,7 +9,8 @@ define([
     "jquery",
     "jquery/ui"
 ], function($){
-
+    "use strict";
+    
     $.widget('mage.requireCookie', {
         options: {
             event: 'click',
@@ -50,4 +51,5 @@ define([
         }
     });
 
+    return $.mage.requireCookie;
 });

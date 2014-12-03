@@ -8,8 +8,7 @@
 namespace Magento\GiftWrapping\Model\Total\Quote\Tax;
 
 use Magento\Sales\Model\Quote\Address\Total\AbstractTotal;
-use \Magento\Tax\Model\Sales\Total\Quote\CommonTaxCollector;
-use Magento\Tax\Service\V1\Data\TaxDetails\Item as ItemTaxDetails;
+use Magento\Tax\Model\Sales\Total\Quote\CommonTaxCollector;
 
 /**
  * GiftWrapping tax total calculator for quote

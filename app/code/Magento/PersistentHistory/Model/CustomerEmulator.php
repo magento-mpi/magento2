@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -8,13 +7,11 @@
  */
 namespace Magento\PersistentHistory\Model;
 
+/**
+ * Class CustomerEmulator
+ */
 class CustomerEmulator
 {
-    /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
-     */
-    protected $_customerAccountService;
-
     /**
      * Persistent session
      *
@@ -54,13 +51,22 @@ class CustomerEmulator
     protected $_coreRegistry = null;
 
     /**
+     * Customer repository
+     *
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     */
+    protected $customerRepository;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\PersistentHistory\Helper\Data $ePersistentData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         \Magento\Persistent\Helper\Session $persistentSession,
@@ -69,7 +75,7 @@ class CustomerEmulator
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
     ) {
         $this->_persistentSession = $persistentSession;
         $this->_wishlistData = $wishlistData;
@@ -77,7 +83,7 @@ class CustomerEmulator
         $this->_coreRegistry = $coreRegistry;
         $this->_customerFactory = $customerFactory;
         $this->_customerSession = $customerSession;
-        $this->_customerAccountService = $customerAccountService;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -99,8 +105,8 @@ class CustomerEmulator
         // apply persistent data to segments
         $this->_coreRegistry->register('segment_customer', $customer, true);
         if ($this->_ePersistentData->isWishlistPersist()) {
-            /** @var \Magento\Customer\Service\V1\Data\Customer $customerDataObject */
-            $customerDataObject = $this->_customerAccountService->getCustomer(
+            /** @var \Magento\Customer\Api\Data\CustomerInterface $customerDataObject */
+            $customerDataObject = $this->customerRepository->getById(
                 $this->_persistentSession->getSession()->getCustomerId()
             );
             $this->_wishlistData->setCustomer($customerDataObject);

@@ -69,16 +69,27 @@ class ReplaceFilter
     public function moveMagentoComponentsToRequire(Package $package, $useWildcard)
     {
         $rootVersion = $package->get('version');
-        $rootWildcard = preg_replace('/\.\d+$/', '.*', $rootVersion);
         foreach ($package->get('replace') as $key => $value) {
             if ($this->matchMagentoComponent($key) && $package->get("replace->{$key}")) {
                 $package->unsetProperty("replace->{$key}");
-                if ($value === 'self.version') {
-                    $newValue = $useWildcard ? $rootWildcard : $rootVersion;
-                } else {
-                    $newValue = $value;
-                }
+                $newValue = VersionCalculator::calculateVersionValue($rootVersion, $value, $useWildcard);
                 $package->set("require->{$key}", $newValue);
+            }
+        }
+    }
+
+    /**
+     * Go through the "replace section" and remove Magento components under "replace" section
+     *
+     * @param Package $package
+     * @return void
+     */
+    public function removeMagentoComponentsFromReplace(Package $package)
+    {
+        $keys = array_keys((array)$package->get('replace'));
+        foreach ($keys as $key) {
+            if ($this->matchMagentoComponent($key) && $package->get("replace->{$key}")) {
+                $package->unsetProperty("replace->{$key}");
             }
         }
     }

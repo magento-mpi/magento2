@@ -56,7 +56,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
             ->willReturn(false);
 
         // Must throw exception
-        $this->model->setValue($invalidCookiePath)->save();
+        $this->model->setValue($invalidCookiePath)->beforeSave();
     }
 
     /**
@@ -75,7 +75,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
         $this->resourceMock->expects($this->any())->method('addCommitCallback')->willReturnSelf();
 
         // Must not throw exception
-        $this->model->setValue($validCookiePath)->save();
+        $this->model->setValue($validCookiePath)->beforeSave();
     }
 
     /**
@@ -92,6 +92,6 @@ class PathTest extends \PHPUnit_Framework_TestCase
         $this->resourceMock->expects($this->any())->method('addCommitCallback')->willReturnSelf();
 
         // Must not throw exception
-        $this->model->setValue($validCookiePath)->save();
+        $this->model->setValue($validCookiePath)->beforeSave();
     }
 }

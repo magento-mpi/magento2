@@ -23,6 +23,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Filter\StripTags $tagFilter
@@ -33,6 +34,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Filter\StripTags $tagFilter,
@@ -44,6 +46,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
             $filterItemFactory,
             $storeManager,
             $layer,
+            $itemDataBuilder,
             $filterAttributeFactory,
             $string,
             $tagFilter,
@@ -67,24 +70,23 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         $optionsFacetedData = $productCollection->getFacetedData($fieldName);
         $options = $attribute->getSource()->getAllOptions(false);
 
-        $data = array();
         foreach ($options as $option) {
             $optionId = $option['value'];
             // Check filter type
             if ($this->_getIsFilterableAttribute(
                 $attribute
-            ) != \Magento\Catalog\Model\Layer\Filter\Attribute::OPTIONS_ONLY_WITH_RESULTS ||
+            ) != \Magento\Catalog\Model\Layer\Filter\Attribute::ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS ||
                 !empty($optionsFacetedData[$optionId])
             ) {
-                $data[] = array(
-                    'label' => $this->tagFilter->filter($option['label']),
-                    'value' => $option['label'],
-                    'count' => isset($optionsFacetedData[$optionId]) ? $optionsFacetedData[$optionId] : 0
+                $this->itemDataBuilder->addItemData(
+                    $this->tagFilter->filter($option['label']),
+                    $option['label'],
+                    isset($optionsFacetedData[$optionId]) ? $optionsFacetedData[$optionId] : 0
                 );
             }
         }
 
-        return $data;
+        return $this->itemDataBuilder->build();
     }
 
     /**
@@ -93,7 +95,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      * @param \Zend_Controller_Request_Abstract $request
      * @return \Magento\Catalog\Model\Layer\Filter\Attribute
      */
-    public function apply(\Zend_Controller_Request_Abstract $request)
+    public function apply(\Magento\Framework\App\RequestInterface $request)
     {
         $filter = $request->getParam($this->_requestVar);
         if (is_array($filter)) {
@@ -187,7 +189,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
     public function getItemsCount()
     {
         $attributeIsFilterable = $this->getAttributeModel()->getIsFilterable();
-        if ($attributeIsFilterable == \Magento\Catalog\Model\Layer\Filter\Attribute::OPTIONS_ONLY_WITH_RESULTS) {
+        if ($attributeIsFilterable == \Magento\Catalog\Model\Layer\Filter\Attribute::ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS) {
             return parent::getItemsCount();
         }
 

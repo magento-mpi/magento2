@@ -279,9 +279,12 @@ class Application
 
         $objectManager->configure(
             array(
-                'preferences' => array(
-                    'Magento\Framework\App\State' => 'Magento\TestFramework\App\State'
-                )
+                'preferences' => [
+                    'Magento\Framework\App\State' => 'Magento\TestFramework\App\State',
+                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock',
+                    'Magento\Framework\Mail\Template\TransportBuilder' =>
+                        'Magento\TestFramework\Mail\Template\TransportBuilderMock',
+                ],
             )
         );
 

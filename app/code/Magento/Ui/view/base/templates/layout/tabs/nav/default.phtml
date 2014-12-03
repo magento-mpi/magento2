@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * @var \Magento\Ui\Component\Layout\Tabs\Nav $this
+ */
+?>
+<div data-role="spinner" data-component="<?php echo $this->getDataScope(); ?>.sections" class="grid-loading-mask">
+    <div class="grid-loader"></div>
+</div>
+<div data-bind="scope: '<?php echo $this->getDataScope(); ?>.sections' " class="ui-tabs">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>

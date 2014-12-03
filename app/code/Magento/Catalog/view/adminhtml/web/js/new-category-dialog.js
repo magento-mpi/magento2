@@ -134,4 +134,6 @@ define([
             });
         }
     });
+    
+    return $.mage.newCategoryDialog;
 });

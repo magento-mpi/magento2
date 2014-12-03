@@ -17,7 +17,9 @@ $skuFormId = 'skuForm' . $uniqueSuffix;
 ?>
 <div class="widget block block-addbysku" data-mage-init='{"itemTable":{"addBlockData":{"uniqueSuffix":"<?php echo $uniqueSuffix; ?>"}}}'>
     <?php if (!$this->getIsTitleHidden()): ?>
-        <div class="block-title"><strong><?php echo __('Order by SKU') ?></strong></div>
+        <div class="block-title">
+            <strong role="heading" aria-level="2"><?php echo __('Order by SKU') ?></strong>
+        </div>
     <?php endif ?>
     <div class="block-content">
         <form id="<?php echo $skuFormId; ?>" class="form form-addbysku" action="<?php echo $this->getFormAction(); ?>" method="post"
@@ -78,7 +80,7 @@ $skuFormId = 'skuForm' . $uniqueSuffix;
                                class="qty"
                                maxlength="13"
                                data-validate='{
-                                    "required-if-specified": "[data-id=${rowIndex}${uniqueSuffix}sku]",
+                                    "required-number-if-specified": "[data-id=${rowIndex}${uniqueSuffix}sku]",
                                     "validate-number": true,
                                     "validate-greater-than-zero": true,
                                     "validate-number-range": "0.0001-99999999.9999"

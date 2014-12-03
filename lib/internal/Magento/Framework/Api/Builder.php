@@ -147,10 +147,12 @@ class Builder implements BuilderInterface
     public function create()
     {
         if ($this->getDataType() == self::TYPE_DATA_MODEL) {
+            /** @var \Magento\Framework\Model\AbstractExtensibleModel $dataObject */
             $dataObject = $this->objectFactory->create(
                 $this->_getDataObjectType(),
                 ['data' => $this->data]
             );
+            $dataObject->setDataChanges(true);
         } else {
             $dataObjectType = $this->_getDataObjectType();
             $dataObject = $this->objectFactory->create(
@@ -158,7 +160,10 @@ class Builder implements BuilderInterface
                 ['builder' => $this]
             );
         }
-        $this->data = array();
+        if ($dataObject instanceof \Magento\Framework\Object) {
+            $dataObject->setDataChanges(true);
+        }
+        $this->data = [];
         return $dataObject;
     }
 
@@ -193,7 +198,7 @@ class Builder implements BuilderInterface
         ExtensibleDataInterface $secondDataObject
     ) {
         $objectType = $this->_getDataObjectType();
-        if (get_class($firstDataObject) != $objectType || get_class($secondDataObject) != $objectType) {
+        if (!$firstDataObject instanceof $objectType || !$secondDataObject instanceof $objectType) {
             throw new \LogicException('Wrong prototype object given. It can only be of "' . $objectType . '" type.');
         }
         $firstObjectArray = $this->objectProcessor->buildOutputDataArray($firstDataObject, $objectType);

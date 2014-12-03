@@ -38,7 +38,7 @@ class Register extends \Magento\Directory\Block\Data
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\Url $customerUrl
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -84,7 +84,7 @@ class Register extends \Magento\Directory\Block\Data
      */
     protected function _prepareLayout()
     {
-        $this->pageConfig->setTitle(__('Create New Customer Account'));
+        $this->pageConfig->getTitle()->set(__('Create New Customer Account'));
         return parent::_prepareLayout();
     }
 

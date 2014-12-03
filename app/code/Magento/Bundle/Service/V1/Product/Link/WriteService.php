@@ -8,7 +8,7 @@
 
 namespace Magento\Bundle\Service\V1\Product\Link;
 
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Bundle\Model\Option;
@@ -19,7 +19,7 @@ use Magento\Webapi\Exception;
 class WriteService implements WriteServiceInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -44,14 +44,14 @@ class WriteService implements WriteServiceInterface
     protected $optionCollection;
 
     /**
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Bundle\Model\SelectionFactory $bundleSelection
      * @param \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory
-     * @param \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection,
+     * @param \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
-        ProductRepository $productRepository,
+        ProductRepositoryInterface $productRepository,
         \Magento\Bundle\Model\SelectionFactory $bundleSelection,
         \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory,
         \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection,
@@ -71,8 +71,27 @@ class WriteService implements WriteServiceInterface
     {
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->productRepository->get($productSku);
+        return $this->addChildForProduct($product, $optionId, $linkedProduct);
+    }
+
+    /**
+     * Add child options for product
+     *
+     * @param \Magento\Catalog\Api\Data\ProductInterface $product
+     * @param int $optionId
+     * @param \Magento\Bundle\Service\V1\Data\Product\Link $linkedProduct
+     * @return mixed
+     * @throws CouldNotSaveException
+     * @throws InputException
+     * @throws NoSuchEntityException
+     */
+    public function addChildForProduct(
+        \Magento\Catalog\Api\Data\ProductInterface $product,
+        $optionId,
+        \Magento\Bundle\Service\V1\Data\Product\Link $linkedProduct
+    ) {
         if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
-            throw new InputException('Product with specified sku: "%1" is not a bundle product', [$productSku]);
+            throw new InputException('Product with specified sku: "%1" is not a bundle product', [$product->getSku()]);
         }
 
         $options = $this->optionCollection->create();
@@ -89,7 +108,7 @@ class WriteService implements WriteServiceInterface
         if ($isNewOption) {
             throw new InputException(
                 'Product with specified sku: "%1" does not contain option: "%2"',
-                [$productSku, $optionId]
+                [$product->getSku(), $optionId]
             );
         }
 
@@ -103,11 +122,11 @@ class WriteService implements WriteServiceInterface
         }
         if ($selections) {
             foreach ($selections as $selection) {
-                if ($selection['option_id'] = $optionId &&
+                if ($selection['option_id'] == $optionId &&
                     $selection['product_id'] == $linkProductModel->getId()) {
                     throw new CouldNotSaveException(
                         'Child with specified sku: "%1" already assigned to product: "%2"',
-                        [$linkedProduct->getSku(), $productSku]
+                        [$linkedProduct->getSku(), $product->getSku()]
                     );
                 }
             }

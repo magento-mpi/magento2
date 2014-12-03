@@ -15,77 +15,47 @@ class CrosssellTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\TargetRule\Block\Checkout\Cart\Crosssell */
     protected $crosssell;
 
-    /** @var \Magento\Catalog\Block\Product\Context|\PHPUnit_Framework_MockObject_MockObject */
-    protected $context;
-
-    /** @var \Magento\TargetRule\Model\Resource\Index|\PHPUnit_Framework_MockObject_MockObject */
-    protected $index;
-
     /** @var \Magento\TargetRule\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $targetRuleHelper;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $collectionFactory;
-
-    /** @var \Magento\Catalog\Model\Product\Visibility|\PHPUnit_Framework_MockObject_MockObject */
-    protected $visibility;
-
-    /** @var \Magento\CatalogInventory\Model\Stock\Status|\PHPUnit_Framework_MockObject_MockObject */
-    protected $status;
-
-    /** @var \Magento\Checkout\Model\Session|\PHPUnit_Framework_MockObject_MockObject */
-    protected $session;
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $linkFactory;
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $productFactory;
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $indexFactory;
-
-    /** @var \Magento\Catalog\Model\ProductTypes\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $config;
 
     /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManager;
 
-    /** @var \Magento\Catalog\Model\Config|\PHPUnit_Framework_MockObject_MockObject */
-    protected $catalogConfig;
-
     protected function setUp()
     {
         $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
-        $this->catalogConfig = $this->getMock('Magento\Catalog\Model\Config', [], [], '', false);
-        $this->context = $this->getMock('Magento\Catalog\Block\Product\Context', [], [], '', false);
-        $this->context->expects($this->any())->method('getStoreManager')->willReturn($this->storeManager);
-        $this->context->expects($this->any())->method('getCatalogConfig')->willReturn($this->catalogConfig);
-        $this->index = $this->getMock('Magento\TargetRule\Model\Resource\Index', [], [], '', false);
+        $catalogConfig = $this->getMock('Magento\Catalog\Model\Config', [], [], '', false);
+        $context = $this->getMock('Magento\Catalog\Block\Product\Context', [], [], '', false);
+        $context->expects($this->any())->method('getStoreManager')->willReturn($this->storeManager);
+        $context->expects($this->any())->method('getCatalogConfig')->willReturn($catalogConfig);
+        $index = $this->getMock('Magento\TargetRule\Model\Resource\Index', [], [], '', false);
         $this->targetRuleHelper = $this->getMock('Magento\TargetRule\Helper\Data', [], [], '', false);
-        $this->collectionFactory = $this->getMock('Magento\Catalog\Model\Resource\Product\CollectionFactory');
-        $this->visibility = $this->getMock('Magento\Catalog\Model\Product\Visibility', [], [], '', false);
-        $this->status = $this->getMock('Magento\CatalogInventory\Model\Stock\Status', [], [], '', false);
-        $this->session = $this->getMock('Magento\Checkout\Model\Session', [], [], '', false);
+        $collectionFactory = $this->getMock('Magento\Catalog\Model\Resource\Product\CollectionFactory');
+        $visibility = $this->getMock('Magento\Catalog\Model\Product\Visibility', [], [], '', false);
+        $status = $this->getMock('Magento\CatalogInventory\Model\Stock\Status', [], [], '', false);
+        $session = $this->getMock('Magento\Checkout\Model\Session', [], [], '', false);
         $this->linkFactory = $this->getMock('Magento\Catalog\Model\Product\LinkFactory', ['create']);
-        $this->productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory');
-        $this->indexFactory = $this->getMock('Magento\TargetRule\Model\IndexFactory');
-        $this->config = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
+        $productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory');
+        $indexFactory = $this->getMock('Magento\TargetRule\Model\IndexFactory');
+        $config = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
 
         $this->crosssell = (new ObjectManager($this))->getObject(
             'Magento\TargetRule\Block\Checkout\Cart\Crosssell',
             [
-                'context' => $this->context,
-                'index' => $this->index,
+                'context' => $context,
+                'index' => $index,
                 'targetRuleData' => $this->targetRuleHelper,
-                'productCollectionFactory' => $this->collectionFactory,
-                'visibility' => $this->visibility,
-                'status' => $this->status,
-                'session' => $this->session,
+                'productCollectionFactory' => $collectionFactory,
+                'visibility' => $visibility,
+                'status' => $status,
+                'session' => $session,
                 'productLinkFactory' => $this->linkFactory,
-                'productFactory' => $this->productFactory,
-                'indexFactory' => $this->indexFactory,
-                'productTypeConfig' => $this->config
+                'productFactory' => $productFactory,
+                'indexFactory' => $indexFactory,
+                'productTypeConfig' => $config
             ]
         );
     }

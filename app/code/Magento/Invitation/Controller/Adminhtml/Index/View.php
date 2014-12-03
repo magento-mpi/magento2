@@ -21,6 +21,7 @@ class View extends \Magento\Invitation\Controller\Adminhtml\Index
             $this->_initInvitation();
             $this->_view->loadLayout();
             $this->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Invitations'));
             $this->_view->renderLayout();
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());

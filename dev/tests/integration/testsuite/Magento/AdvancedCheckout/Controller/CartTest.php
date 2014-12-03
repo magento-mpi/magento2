@@ -11,6 +11,9 @@
  */
 namespace Magento\AdvancedCheckout\Controller;
 
+/**
+ * Class CartTest
+ */
 class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
@@ -21,6 +24,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testConfigureActionWithGiftCardProduct()
     {
+        $this->markTestIncomplete('MAGETWO-30916');
         /** @var $session \Magento\Checkout\Model\Session  */
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Checkout\Model\Session'
