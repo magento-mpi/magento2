@@ -393,20 +393,31 @@ class AccountManagementTest extends WebapiAbstract
         try {
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
-            $errorObj = $this->processRestExceptionResult($e);
-            $this->assertEquals(
-                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
-                $errorObj['message']
-            );
-            $this->assertEquals([
+            $expectedErrorParameters =
+                [
                     'fieldName' => 'email',
                     'fieldValue' => 'dummy@example.com',
                     'field2Name' => 'websiteId',
                     'field2Value' => 0,
-                ], $errorObj['parameters']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
+                ];
+            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+                $errorObj = $this->processRestExceptionResult($e);
+                $this->assertEquals(
+                    NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
+                    $errorObj['message']
+                );
+                $this->assertEquals($expectedErrorParameters, $errorObj['parameters']);
+                $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
+            } else {
+                $this->assertInstanceOf('SoapFault', $e);
+                $this->checkSoapFault(
+                    $e,
+                    NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
+                    'env:Sender',
+                    $expectedErrorParameters
+                );
+            }
         }
-
     }
 
     public function testGetConfirmationStatus()
@@ -475,18 +486,30 @@ class AccountManagementTest extends WebapiAbstract
         try {
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
-            $errorObj = $this->processRestExceptionResult($e);
-            $this->assertEquals(
-                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
-                $errorObj['message']
-            );
-            $this->assertEquals([
+            $expectedErrorParameters =
+                [
                     'fieldName' => 'email',
                     'fieldValue' => 'dummy@example.com',
                     'field2Name' => 'websiteId',
                     'field2Value' => 0,
-                ], $errorObj['parameters']);
-            $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
+                ];
+            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+                $errorObj = $this->processRestExceptionResult($e);
+                $this->assertEquals(
+                    NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
+                    $errorObj['message']
+                );
+                $this->assertEquals($expectedErrorParameters, $errorObj['parameters']);
+                $this->assertEquals(HTTPExceptionCodes::HTTP_NOT_FOUND, $e->getCode());
+            } else {
+                $this->assertInstanceOf('SoapFault', $e);
+                $this->checkSoapFault(
+                    $e,
+                    NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
+                    'env:Sender',
+                    $expectedErrorParameters
+                );
+            }
         }
     }
 
