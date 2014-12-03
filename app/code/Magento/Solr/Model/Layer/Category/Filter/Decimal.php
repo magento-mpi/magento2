@@ -46,10 +46,10 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
     /**
      * Apply decimal range filter to product collection
      *
-     * @param \Zend_Controller_Request_Abstract $request
+     * @param \Magento\Framework\App\RequestInterface $request
      * @return $this
      */
-    public function apply(\Zend_Controller_Request_Abstract $request)
+    public function apply(\Magento\Framework\App\RequestInterface $request)
     {
         /**
          * Filter must be string: $index, $range

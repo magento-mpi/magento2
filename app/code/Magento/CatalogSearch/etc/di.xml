@@ -157,13 +157,6 @@
             <argument name="stateKey" xsi:type="object">Magento\CatalogSearch\Model\Layer\Search\StateKey</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Magento\CatalogSearch\Model\Layer\Advanced\Context" type="Magento\Catalog\Model\Layer\Context">
-        <arguments>
-            <argument name="collectionProvider" xsi:type="object">Magento\CatalogSearch\Model\Layer\Advanced\ItemCollectionProvider</argument>
-            <argument name="stateKey" xsi:type="object">Magento\CatalogSearch\Model\Layer\Search\StateKey</argument>
-            <argument name="collectionFilter" xsi:type="object">Magento\CatalogSearch\Model\Layer\Advanced\CollectionFilter</argument>
-        </arguments>
-    </virtualType>
     <type name="Magento\Catalog\Model\Layer\Category">
         <arguments>
             <argument name="context" xsi:type="object">Magento\CatalogSearch\Model\Layer\Category\Context</argument>
