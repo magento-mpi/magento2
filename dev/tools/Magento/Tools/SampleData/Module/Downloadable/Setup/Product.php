@@ -85,6 +85,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
                     $downloadableRow,
                     $this->downloadableData[$sku]
                 );
+                $this->downloadableData[$sku]['sample'] = $this->converter->getSamplesInfo();
             }
         }
 
