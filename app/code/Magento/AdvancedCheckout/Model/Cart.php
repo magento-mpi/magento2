@@ -474,7 +474,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         }
 
         $stockItemDo = $this->stockRegistry->getStockItem($product->getId(), $this->getStore()->getWebsiteId());
-        if ($stockItemDo->getId()) {
+        if ($stockItemDo->getItemId()) {
             if (!$stockItemDo->getIsQtyDecimal()) {
                 $qty = (int)$qty;
             } else {
@@ -599,7 +599,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
                     $item->getProduct()->getId(),
                     $this->getStore()->getWebsiteId()
                 );
-                if ($stockItemDo->getId() && !$stockItemDo->getIsQtyDecimal()) {
+                if ($stockItemDo->getItemId() && !$stockItemDo->getIsQtyDecimal()) {
                     $itemQty = (int)$itemQty;
                 } else {
                     $item->setIsQtyDecimal(1);

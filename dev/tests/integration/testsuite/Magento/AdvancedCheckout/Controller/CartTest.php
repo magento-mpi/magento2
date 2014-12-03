@@ -11,6 +11,9 @@
  */
 namespace Magento\AdvancedCheckout\Controller;
 
+/**
+ * Class CartTest
+ */
 class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
