@@ -25,7 +25,7 @@ class Details extends \Magento\Paypal\Controller\Adminhtml\Paypal\Reports
         }
         $this->_coreRegistry->register('current_transaction', $row);
         $this->_initAction();
-        $this->_title->add(__('View Transaction'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('View Transaction'));
         $this->_addContent(
             $this->_view->getLayout()->createBlock(
                 'Magento\Paypal\Block\Adminhtml\Settlement\Details',

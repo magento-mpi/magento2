@@ -8,7 +8,7 @@
 namespace Magento\CatalogInventory\Model;
 
 /**
- * Class ObserverTest
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
@@ -58,29 +58,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $stockConfiguration;
 
     /**
-     * @var \Magento\CatalogInventory\Api\StockItemRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $stockItemRepository;
-
-    /**
-     * @var \Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $stockItemBuilder;
-
-    /**
-     * @var \Magento\CatalogInventory\Api\Data\StockInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $stock;
-
-    /**
      * @var \Magento\CatalogInventory\Api\Data\StockItemInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $stockItem;
-
-    /**
-     * @var \Magento\CatalogInventory\Api\Data\StockStatusInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $stockStatus;
 
     /**
      * @var \Magento\Framework\Event|\PHPUnit_Framework_MockObject_MockObject
@@ -94,9 +74,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->stockItemRegistry = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\ItemRegistry')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->stockStatus = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Status')
             ->disableOriginalConstructor()
             ->getMock();
@@ -128,12 +105,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->stockRegistry = $this->getMockForAbstractClass(
-            '\Magento\CatalogInventory\Api\StockRegistryInterface',
-            ['getStockItem'],
-            '',
-            false
-        );
+        $this->stockRegistry = $this->getMockForAbstractClass('\Magento\CatalogInventory\Api\StockRegistryInterface');
         $this->stockRegistry->expects($this->any())->method('getStockItem')->willReturn($this->stockItem);
         $this->stockManagement = $this->getMockForAbstractClass(
             '\Magento\CatalogInventory\Api\StockManagementInterface',
@@ -147,12 +119,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->stockIndex = $this->getMockForAbstractClass(
-            '\Magento\CatalogInventory\Api\StockIndexInterface',
-            ['rebuild'],
-            '',
-            false
-        );
+        $this->stockIndex = $this->getMockForAbstractClass('\Magento\CatalogInventory\Api\StockIndexInterface');
         
         $this->stockHelper = $this->getMock(
             '\Magento\CatalogInventory\Helper\Stock',
@@ -166,26 +133,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->stockConfiguration = $this->getMockForAbstractClass(
-            '\Magento\CatalogInventory\Api\StockConfigurationInterface',
-            [
-                'isAutoReturnEnabled',
-                'isDisplayProductStockStatus'
-            ],
-            '',
-            false
+            '\Magento\CatalogInventory\Api\StockConfigurationInterface'
         );
-        $this->stockItemRepository = $this->getMockForAbstractClass(
-            '\Magento\CatalogInventory\Api\StockItemRepositoryInterface',
-            ['save'],
-            '',
-            false
+        $stockItemRepository = $this->getMockForAbstractClass(
+            '\Magento\CatalogInventory\Api\StockItemRepositoryInterface'
         );
-        $this->stockItemBuilder = $this->getMock(
-            '\Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder',
-            ['mergeDataObjectWithArray'],
-            [],
-            '',
-            false
+        $stockItemBuilder = $this->getMock(
+            '\Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder'
         );
         $this->priceIndexer = $this->getMockBuilder('Magento\Catalog\Model\Indexer\Product\Price\Processor')
             ->disableOriginalConstructor()
@@ -203,8 +157,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'stockIndex' => $this->stockIndex,
                 'stockHelper' => $this->stockHelper,
                 'stockConfiguration' => $this->stockConfiguration,
-                'stockItemRepository' => $this->stockItemRepository,
-                'stockItemBuilder' => $this->stockItemBuilder
+                'stockItemRepository' => $stockItemRepository,
+                'stockItemBuilder' => $stockItemBuilder
             ]
         );
 

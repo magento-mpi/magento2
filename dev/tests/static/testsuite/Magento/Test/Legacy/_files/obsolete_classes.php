@@ -2917,4 +2917,5 @@ return array(
         'Magento\Bundle\Api\ProductOptionTypeListInterface'
     ],
     ['Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader'],
+    ['Magento\Sales\Model\Resource\AbstractResource', 'Magento\Framework\Model\Resource\Db\AbstractDb'],
 );

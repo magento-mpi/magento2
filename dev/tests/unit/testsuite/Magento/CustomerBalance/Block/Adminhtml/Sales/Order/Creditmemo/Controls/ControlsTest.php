@@ -56,14 +56,14 @@ class ControlsTest extends PHPUnit_Framework_TestCase
      *
      * @var string
      */
-    protected $getRewardCurrencyAmount = 'getRewardCurrencyAmount';
+    protected $getBaseRewardCurrencyAmount = 'getBaseRewardCurrencyAmount';
 
     /**
      * Name of mocked method
      *
      * @var string
      */
-    protected $getCustomerBalanceReturnMax = 'getCustomerBalanceReturnMax';
+    protected $getBaseCustomerBalanceReturnMax = 'getBaseCustomerBalanceReturnMax';
 
     /**
      * Name of mocked method
@@ -118,7 +118,7 @@ class ControlsTest extends PHPUnit_Framework_TestCase
         $this->mockCreditMemo = $this->getMockBuilder(
             $this->creditMemoClass
         )->disableOriginalConstructor()->setMethods(
-            array($this->getRewardCurrencyAmount, $this->getCustomerBalanceReturnMax)
+            array($this->getBaseRewardCurrencyAmount, $this->getBaseCustomerBalanceReturnMax)
         )->getMock();
         // Create mock registry and set it up to return mock credit memo class
         $this->mockRegistry = $this->getMockBuilder(
@@ -151,7 +151,7 @@ class ControlsTest extends PHPUnit_Framework_TestCase
         $this->mockCreditMemo->expects(
             $this->any()
         )->method(
-            $this->getRewardCurrencyAmount
+            $this->getBaseRewardCurrencyAmount
         )->will(
             $this->returnValue(10)
         );
@@ -159,7 +159,7 @@ class ControlsTest extends PHPUnit_Framework_TestCase
         $this->mockCreditMemo->expects(
             $this->any()
         )->method(
-            $this->getCustomerBalanceReturnMax
+            $this->getBaseCustomerBalanceReturnMax
         )->will(
             $this->returnValue(100)
         );
@@ -175,7 +175,7 @@ class ControlsTest extends PHPUnit_Framework_TestCase
         $this->mockCreditMemo->expects(
             $this->any()
         )->method(
-            $this->getRewardCurrencyAmount
+            $this->getBaseRewardCurrencyAmount
         )->will(
             $this->returnValue(0)
         );
@@ -183,7 +183,7 @@ class ControlsTest extends PHPUnit_Framework_TestCase
         $this->mockCreditMemo->expects(
             $this->any()
         )->method(
-            $this->getCustomerBalanceReturnMax
+            $this->getBaseCustomerBalanceReturnMax
         )->will(
             $this->returnValue(100)
         );
@@ -199,7 +199,7 @@ class ControlsTest extends PHPUnit_Framework_TestCase
         $this->mockCreditMemo->expects(
             $this->any()
         )->method(
-            $this->getRewardCurrencyAmount
+            $this->getBaseRewardCurrencyAmount
         )->will(
             $this->returnValue(200)
         );
@@ -207,7 +207,7 @@ class ControlsTest extends PHPUnit_Framework_TestCase
         $this->mockCreditMemo->expects(
             $this->any()
         )->method(
-            $this->getCustomerBalanceReturnMax
+            $this->getBaseCustomerBalanceReturnMax
         )->will(
             $this->returnValue(100)
         );

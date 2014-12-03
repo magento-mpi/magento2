@@ -51,6 +51,21 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
     protected $sessionMock;
 
     /**
+     * @var \Magento\Framework\View\Result\Page|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $resultPageMock;
+
+    /**
+     * @var \Magento\Framework\View\Page\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $pageConfigMock;
+
+    /**
+     * @var \Magento\Framework\View\Page\Title|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $pageTitleMock;
+
+    /**
      * @var \Magento\Sales\Controller\Adminhtml\Order\Invoice\NewAction
      */
     protected $controller;
@@ -99,6 +114,15 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getCommentText', 'setIsUrlNotice'])
             ->getMock();
+        $this->resultPageMock = $this->getMockBuilder('Magento\Framework\View\Result\Page')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->pageConfigMock = $this->getMockBuilder('Magento\Framework\View\Page\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->pageTitleMock = $this->getMockBuilder('Magento\Framework\View\Page\Title')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $contextMock = $this->getMockBuilder('Magento\Backend\App\Action\Context')
             ->disableOriginalConstructor()
@@ -134,6 +158,15 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
         $contextMock->expects($this->any())
             ->method('getMessageManager')
             ->will($this->returnValue($this->messageManagerMock));
+        $this->viewMock->expects($this->any())
+            ->method('getPage')
+            ->willReturn($this->resultPageMock);
+        $this->resultPageMock->expects($this->any())
+            ->method('getConfig')
+            ->willReturn($this->pageConfigMock);
+        $this->pageConfigMock->expects($this->any())
+            ->method('getTitle')
+            ->willReturn($this->pageTitleMock);
 
         $this->controller = $objectManager->getObject(
             'Magento\Sales\Controller\Adminhtml\Order\Invoice\NewAction',

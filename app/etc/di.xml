@@ -8,6 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\Framework\ObjectManager\FactoryInterface" type="Magento\Framework\ObjectManager\Factory\Dynamic\Developer" />
     <preference for="Magento\Framework\Search\Adapter\Mysql\Filter\PreprocessorInterface" type="Magento\Framework\Search\Adapter\Mysql\Filter\Preprocessor" />
     <preference for="Magento\Framework\Search\Adapter\Mysql\Field\ResolverInterface" type="Magento\Framework\Search\Adapter\Mysql\Field\Resolver" />
     <preference for="Magento\Framework\App\RequestInterface" type="Magento\Framework\App\Request\Http" />
@@ -297,7 +298,7 @@
             <argument name="paramInterpreter" xsi:type="object">Magento\Framework\Data\Argument\Interpreter\String</argument>
         </arguments>
     </type>
-    <virtualType name="containerRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+    <virtualType name="containerRenderPool" type="Magento\Framework\View\Layout\ReaderPool">
         <arguments>
             <argument name="readers" xsi:type="array">
                 <item name="container" xsi:type="string">Magento\Framework\View\Layout\Reader\Container</item>
@@ -311,7 +312,7 @@
             <argument name="readerPool" xsi:type="object">containerRenderPool</argument>
         </arguments>
     </type>
-    <virtualType name="blockRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+    <virtualType name="blockRenderPool" type="Magento\Framework\View\Layout\ReaderPool">
         <arguments>
             <argument name="readers" xsi:type="array">
                 <item name="container" xsi:type="string">Magento\Framework\View\Layout\Reader\Container</item>
@@ -333,7 +334,7 @@
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
-    <virtualType name="bodyRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+    <virtualType name="bodyRenderPool" type="Magento\Framework\View\Layout\ReaderPool">
         <arguments>
             <argument name="readers" xsi:type="array">
                 <item name="container" xsi:type="string">Magento\Framework\View\Layout\Reader\Container</item>
@@ -349,7 +350,7 @@
             <argument name="readerPool" xsi:type="object">bodyRenderPool</argument>
         </arguments>
     </type>
-    <virtualType name="commonRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+    <virtualType name="commonRenderPool" type="Magento\Framework\View\Layout\ReaderPool">
         <arguments>
             <argument name="readers" xsi:type="array">
                 <item name="html" xsi:type="string">Magento\Framework\View\Page\Config\Reader\Html</item>
@@ -365,10 +366,10 @@
     </virtualType>
     <type name="Magento\Framework\View\Layout">
         <arguments>
-            <argument name="reader" xsi:type="object" shared="false">commonRenderPool</argument>
+            <argument name="readerPool" xsi:type="object" shared="false">commonRenderPool</argument>
         </arguments>
     </type>
-    <virtualType name="genericLayoutRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+    <virtualType name="genericLayoutRenderPool" type="Magento\Framework\View\Layout\ReaderPool">
         <arguments>
             <argument name="readers" xsi:type="array">
                 <item name="container" xsi:type="string">Magento\Framework\View\Layout\Reader\Container</item>
@@ -384,7 +385,7 @@
             <argument name="layoutReaderPool" xsi:type="object">genericLayoutRenderPool</argument>
         </arguments>
     </type>
-    <virtualType name="pageConfigRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+    <virtualType name="pageConfigRenderPool" type="Magento\Framework\View\Layout\ReaderPool">
         <arguments>
             <argument name="readers" xsi:type="array">
                 <item name="html" xsi:type="string">Magento\Framework\View\Page\Config\Reader\Html</item>

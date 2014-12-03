@@ -36,7 +36,7 @@ class NewAction extends \Magento\Rma\Controller\Adminhtml\Rma
             }
 
             $this->_initAction();
-            $this->_title->add(__('New Return'));
+            $this->_view->getPage()->getConfig()->getTitle()->prepend(__('New Return'));
             $this->_view->renderLayout();
         }
     }
