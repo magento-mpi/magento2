@@ -24,7 +24,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['create'])
             ->getMock();
 
-        $setupFactory->expects($this->any())->method('create')->will($this->returnCallback([$this, 'createSetupModel']));
+        $setupFactory->expects($this->any())->method('create')
+            ->will($this->returnCallback([$this, 'createSetupModel']));
 
         /** @var \Magento\Tools\SampleData\Installer $installer */
         $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
