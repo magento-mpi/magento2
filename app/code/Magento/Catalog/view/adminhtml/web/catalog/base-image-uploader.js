@@ -10,7 +10,6 @@ define([
     "jquery/ui",
     "jquery/template",
     "jquery/file-uploader",
-    "Magento_Catalog/js/product-gallery",
     "mage/translate"
 ], function($){
 
