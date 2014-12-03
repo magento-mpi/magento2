@@ -77,6 +77,16 @@ interface AccountManagementInterface
     public function activate($email, $confirmationKey);
 
     /**
+     * Activate a customer account using a key that was sent in a confirmation e-mail.
+     *
+     * @param int $customerId
+     * @param string $confirmationKey
+     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function activateById($customerId, $confirmationKey);
+
+    /**
      * Authenticate a customer by username and password
      *
      * @param string $email
@@ -96,6 +106,17 @@ interface AccountManagementInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function changePassword($email, $currentPassword, $newPassword);
+
+    /**
+     * Change customer password.
+     *
+     * @param int $customerId
+     * @param string $currentPassword
+     * @param string $newPassword
+     * @return bool true on success
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function changePasswordById($customerId, $currentPassword, $newPassword);
 
     /**
      * Send an email to the customer with a password reset link.
