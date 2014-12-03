@@ -189,8 +189,8 @@ class Processor
     }
 
     /**
-     * @param $orderId
-     * @param $invoiceData
+     * @param int $orderId
+     * @param array $invoiceData
      * @return bool
      */
     protected function createInvoice($orderId, $invoiceData)
