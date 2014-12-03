@@ -104,9 +104,6 @@ sub vcl_deliver {
         unset resp.http.Age;
     }
 
-    if (req.url ~ "\.(css|js|jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf|woff)(\?|$)") {
-        unset resp.http.Cookie;
-    }
     unset resp.http.X-Magento-Debug;
     unset resp.http.X-Magento-Tags;
     unset resp.http.X-Powered-By;
