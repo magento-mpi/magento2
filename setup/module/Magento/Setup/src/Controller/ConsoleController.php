@@ -288,12 +288,7 @@ class ConsoleController extends AbstractActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        $validationMessages = Installer::validateInstall($request->getParams()->toArray());
-        if ('' === $validationMessages) {
-            $this->installer->install($request->getParams());
-        } else {
-            $this->log->log(PHP_EOL . $validationMessages);
-        }
+        $this->installer->install($request->getParams());
     }
 
     /**
@@ -306,13 +301,8 @@ class ConsoleController extends AbstractActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        $validationMessages = DeploymentConfigMapper::validateDeploymentConfig($request->getParams()->toArray());
-        if ('' === $validationMessages) {
-            $this->installer->checkInstallationFilePermissions();
-            $this->installer->installDeploymentConfig($request->getParams());
-        } else {
-            $this->log->log(PHP_EOL . $validationMessages);
-        }
+        $this->installer->checkInstallationFilePermissions();
+        $this->installer->installDeploymentConfig($request->getParams());
     }
 
     /**
@@ -360,12 +350,7 @@ class ConsoleController extends AbstractActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        $validationMessages = UserConfigurationDataMapper::validateUserConfig($request->getParams()->toArray());
-        if ('' === $validationMessages) {
-            $this->installer->installUserConfig($request->getParams());
-        } else {
-            $this->log->log(PHP_EOL . $validationMessages);
-        }
+        $this->installer->installUserConfig($request->getParams());
     }
 
     /**
@@ -377,12 +362,7 @@ class ConsoleController extends AbstractActionController
     {
         /** @var \Zend\Console\Request $request */
         $request = $this->getRequest();
-        $validationMessages = AdminAccount::validateAdmin($request->getParams()->toArray());
-        if ('' === $validationMessages) {
-            $this->installer->installAdminUser($request->getParams());
-        } else {
-            $this->log->log(PHP_EOL . $validationMessages);
-        }
+        $this->installer->installAdminUser($request->getParams());
     }
 
     /**
