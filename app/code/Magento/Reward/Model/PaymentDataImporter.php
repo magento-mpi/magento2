@@ -25,15 +25,31 @@ class PaymentDataImporter
     protected $_rewardFactory;
 
     /**
-     * @param \Magento\Reward\Model\RewardFactory $rewardFactory
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $customerFactory;
+
+    /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
+     * @param RewardFactory $rewardFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      */
     public function __construct(
         \Magento\Reward\Model\RewardFactory $rewardFactory,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_rewardFactory = $rewardFactory;
+        $this->customerFactory = $customerFactory;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
     }
 
     /**
@@ -55,12 +71,16 @@ class PaymentDataImporter
         }
         $quote->setUseRewardPoints((bool)$useRewardPoints);
         if ($quote->getUseRewardPoints()) {
+            $customerData = $quote->getCustomer();
+            $customer = $this->customerFactory->create(
+                [
+                    'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData)
+                ]
+            );
             /* @var $reward \Magento\Reward\Model\Reward */
-            $reward = $this->_rewardFactory->create()->setCustomer(
-                $quote->getCustomer()
-            )->setWebsiteId(
-                $quote->getStore()->getWebsiteId()
-            )->loadByCustomer();
+            $reward = $this->_rewardFactory->create()->setCustomer($customer);
+            $reward->setWebsiteId($quote->getStore()->getWebsiteId());
+            $reward->loadByCustomer();
             $minPointsBalance = (int)$this->_scopeConfig->getValue(
                 \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,

@@ -54,7 +54,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     protected $_parentItem = null;
 
     /**
-     * @var array
+     * @var \Magento\Sales\Model\Quote\Item\AbstractItem[]
      */
     protected $_children = array();
 
@@ -71,9 +71,9 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     protected $_optionsByCode;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
-    protected $_productFactory;
+    protected $productRepository;
 
     /**
      * @var \Magento\Framework\Pricing\PriceCurrencyInterface
@@ -83,7 +83,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -92,14 +92,14 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->_productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->priceCurrency = $priceCurrency;
     }
 
@@ -126,10 +126,10 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     {
         $product = $this->_getData('product');
         if ($product === null && $this->getProductId()) {
-            $product = $this->_productFactory->create()->setStoreId(
+            $product = clone $this->productRepository->getById(
+                $this->getProductId(),
+                false,
                 $this->getQuote()->getStoreId()
-            )->load(
-                $this->getProductId()
             );
             $this->setProduct($product);
         }
@@ -196,9 +196,9 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     }
 
     /**
-     * Get chil items
+     * Get child items
      *
-     * @return array
+     * @return \Magento\Sales\Model\Quote\Item\AbstractItem[]
      */
     public function getChildren()
     {
@@ -666,5 +666,26 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns the total discount amounts of all the child items.  If there are no children, returns the discount
+     * amount of this item.
+     *
+     * @return float
+     */
+    public function getTotalDiscountAmount()
+    {
+        $totalDiscountAmount = 0;
+        /* \Magento\Sales\Model\Quote\Item\AbstractItem[] */
+        $children = $this->getChildren();
+        if (!empty($children) && $this->isChildrenCalculated()) {
+            foreach ($children as $child) {
+                $totalDiscountAmount += $child->getDiscountAmount();
+            }
+        } else {
+            $totalDiscountAmount = $this->getDiscountAmount();
+        }
+        return $totalDiscountAmount;
     }
 }

@@ -9,7 +9,8 @@ define([
     "jquery/ui",
     "mage/cookies"
 ], function($){
-
+    "use strict";
+    
     /**
      * FormKey Widget - this widget is generating from key, saves it to cookie and
      */
@@ -43,4 +44,5 @@ define([
         $('body').formKey();
     });
 
+    return $.mage.formKey;
 });

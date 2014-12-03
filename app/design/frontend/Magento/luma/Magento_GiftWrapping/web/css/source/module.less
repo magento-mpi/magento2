@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .opc-wrapper {
     .fieldset.gift-message .field.gift-wrapping {
         padding: 0;
@@ -18,19 +24,20 @@
         .font-size(16);
         font-weight: @font-weight-semibold;
         display: inline-block;
-        margin: 0 0 10px;
+        margin: 0 0 @indent-s-base;
     }
     .nested {
-        &:extend(.abstract-add-clearfix all);
-        margin: 20px 0;
+        &:extend(.abs-add-clearfix all);
+        margin: @indent-base 0;
         img {
             max-width: 100px;
             max-height: 100px;
             float: left;
-            margin-right: 20px;
+            margin-right: @indent-base;
         }
         .price-box {
             display: block;
+            margin-left: 0;
         }
     }
 }
@@ -43,7 +50,7 @@
             float: none;
         }
         .content {
-            &:extend(.abstract-add-clearfix all);
+            &:extend(.abs-add-clearfix all);
             margin: 0;
             > img {
                 float: left;
@@ -55,12 +62,18 @@
     }
 }
 
-.responsive(@break) when (@break = @screen-m) {
+}
+
+//
+//    Mobile
+//--------------------------------------
+
+.responsive-min-l(@break) when (@break = @screen-m) {
     .data.table {
         .gift-wrapping {
             .nested,
             .content {
-                &:extend(.abstract-add-clearfix-desktop all);
+                &:extend(.abs-add-clearfix-desktop all);
             }
         }
     }

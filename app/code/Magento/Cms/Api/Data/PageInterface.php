@@ -9,7 +9,6 @@ namespace Magento\Cms\Api\Data;
 
 /**
  * Interface Page
- * @package Magento\Cms\Api\Data
  * @data-api
  */
 interface PageInterface
@@ -25,7 +24,7 @@ interface PageInterface
      *
      * @return int
      */
-    public function getPageId();
+    public function getId();
 
     /**
      * Retrieve page identifier

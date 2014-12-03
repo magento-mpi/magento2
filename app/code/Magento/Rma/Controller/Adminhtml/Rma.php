@@ -95,7 +95,7 @@ class Rma extends \Magento\Backend\App\Action
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Rma::sales_magento_rma_rma');
 
-        $this->_title->add(__('Returns'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Returns'));
         return $this;
     }
 

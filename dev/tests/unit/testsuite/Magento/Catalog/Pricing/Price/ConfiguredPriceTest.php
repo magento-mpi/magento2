@@ -44,6 +44,11 @@ class ConfiguredPriceTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceCurrencyMock;
+
+    /**
      * Initialize base dependencies
      */
     protected function setUp()
@@ -66,7 +71,9 @@ class ConfiguredPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->calculator = $this->getMock('Magento\Framework\Pricing\Adjustment\Calculator', [], [], '', false);
 
-        $this->model = new ConfiguredPrice($this->product, 1, $this->calculator);
+        $this->priceCurrencyMock = $this->getMock('\Magento\Framework\Pricing\PriceCurrencyInterface');
+
+        $this->model = new ConfiguredPrice($this->product, 1, $this->calculator, $this->priceCurrencyMock);
         $this->model->setItem($this->item);
     }
 

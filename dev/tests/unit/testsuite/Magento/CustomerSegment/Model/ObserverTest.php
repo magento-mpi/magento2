@@ -19,12 +19,31 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     private $_segmentHelper;
 
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory |\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $customerFactoryMock;
+
+    /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter |\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $extensibleDataObjectConverterMock;
+
+
     protected function setUp()
     {
         $this->_segmentHelper = $this->getMock(
             'Magento\CustomerSegment\Helper\Data',
             array('isEnabled', 'addSegmentFieldsToForm'),
             array(),
+            '',
+            false
+        );
+        $this->customerFactoryMock = $this->getMock('Magento\Customer\Model\CustomerFactory', [], [], '', false);
+        $this->extensibleDataObjectConverterMock = $this->getMock(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter',
+            [],
+            [],
             '',
             false
         );
@@ -35,7 +54,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\CustomerSegment\Model\Customer', array(), array(), '', false),
             $this->getMock('Magento\Backend\Model\Config\Source\Yesno', array(), array(), '', false),
             $this->_segmentHelper,
-            $coreRegistry
+            $coreRegistry,
+            $this->customerFactoryMock,
+            $this->extensibleDataObjectConverterMock
         );
     }
 

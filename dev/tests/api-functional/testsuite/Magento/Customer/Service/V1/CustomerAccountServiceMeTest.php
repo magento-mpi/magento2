@@ -66,7 +66,7 @@ class CustomerAccountServiceMeTest extends WebapiAbstract
             ['customerRegistry' => $this->customerRegistry]
         );
         $this->customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder'
+            'Magento\Customer\Api\Data\CustomerDataBuilder'
         );
         $this->customerDetailsBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'

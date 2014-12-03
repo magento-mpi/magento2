@@ -5,8 +5,12 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-define(["jquery","jquery/ui"], function($){
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     "use strict";
+
     $.widget('mage.carousel', {
         options: {
             panelSelector: '[data-slider-panel="slider-panel"]',
@@ -218,4 +222,6 @@ define(["jquery","jquery/ui"], function($){
             this.sliderPanel.parent().width(this.sliderPanel.outerWidth() + 'px').height(this.sliderPanel.outerHeight() + 'px');
         }
     });
+    
+    return $.mage.carousel;
 });

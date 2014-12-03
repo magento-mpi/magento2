@@ -79,7 +79,6 @@ class RangeTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->select);
 
         $this->resource = $this->getMockBuilder('Magento\Framework\App\Resource')
-            ->setMethods(['getConnection'])
             ->disableOriginalConstructor()
             ->getMock();
         $this->resource->expects($this->any())

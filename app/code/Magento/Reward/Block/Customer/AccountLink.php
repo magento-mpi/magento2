@@ -9,6 +9,8 @@ namespace Magento\Reward\Block\Customer;
 
 /**
  * "Reward Points" link
+ *
+ * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class AccountLink extends \Magento\Framework\View\Element\Html\Link\Current
 {
@@ -40,10 +42,6 @@ class AccountLink extends \Magento\Framework\View\Element\Html\Link\Current
      */
     protected function _toHtml()
     {
-        if ($this->_rewardHelper->isEnabledOnFront()) {
-            return parent::_toHtml();
-        } else {
-            return '';
-        }
+        return $this->_rewardHelper->isEnabledOnFront() ? parent::_toHtml() : '';
     }
 }

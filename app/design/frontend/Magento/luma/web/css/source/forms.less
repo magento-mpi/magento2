@@ -9,16 +9,13 @@
 @legend-border-bottom: 1px solid #c5c5c5;
 @form-field-vertical-indent-desktop: 29px;
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .fieldset {
-    .legend + .fieldset,
-    .legend + div {
-        clear: both;
-    }
-    .legend {
-        span {
-            margin-right: @indent-xs-base;
-        }
-    }
     .form-fieldset();
     &:last-child {
         margin-bottom: 0;
@@ -50,34 +47,38 @@
             }
         }
     }
-    fieldset.field {
-        border: 0;
-        padding: 0;
+}
+.legend + .fieldset,
+.legend + div {
+    clear: both;
+}
+.legend {
+    span {
+        margin-right: @indent-xs-base;
     }
-    .field.date {
-        .time-picker {
-            white-space: nowrap;
-            margin-top: @indent-s-base;
-            display: inline-block;
-        }
+}
+fieldset.field {
+    border: 0;
+    padding: 0;
+}
+.field.date {
+    .time-picker {
+        white-space: nowrap;
+        margin-top: @indent-s-base;
+        display: inline-block;
     }
-
 }
 
 .select-styling() {
     .css(appearance, none, 1);
     appearance: none;
     border: 1px solid @border-color-base;
-    background: transparent;
     height: 32px;
     .url("images/select-bg.svg");
-    background-color: @select-background;
-    background-image: url("@{url}");
-    background-repeat: no-repeat;
-    background-position: 100% 45%;
+    background: @select-background url("@{url}") no-repeat 100% 45%;
     background-size: 30px 60px;
     padding-right: 25px;
-    text-indent: 0.01em;
+    text-indent: .01em;
     text-overflow: '';
     &::-ms-expand{
         display:none;
@@ -136,15 +137,13 @@ select:focus ~ .tooltip .tooltip-content {
     }
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
-    .fieldset {
-        .legend {
-            .css(border-bottom, @legend-border-bottom);
-        }
-        > .field {
-        }
+.responsive-min-l(@break) when (@break = @screen-m) {
+    .legend {
+        .css(border-bottom, @legend-border-bottom);
     }
 }

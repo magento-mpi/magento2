@@ -308,7 +308,7 @@
 
     <!-- Product Custom Options -->
     <route url="/V1/products/options/types" method="GET">
-        <service class="Magento\Catalog\Api\ProductCustomOptionOptionTypeListInterface" method="getItems"/>
+        <service class="Magento\Catalog\Api\ProductCustomOptionTypeListInterface" method="getItems"/>
         <resources>
             <resource ref="Magento_Catalog::catalog"/>
         </resources>

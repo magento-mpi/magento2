@@ -11,7 +11,7 @@ namespace Magento\Catalog\Api;
 interface ProductTierPriceManagementInterface
 {
     /**
-     * Create tire price for product
+     * Create tier price for product
      *
      * @param string $productSku
      * @param string $customerGroupId

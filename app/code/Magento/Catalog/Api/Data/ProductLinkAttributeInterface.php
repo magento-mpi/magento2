@@ -18,7 +18,7 @@ interface ProductLinkAttributeInterface
     public function getCode();
 
     /**
-     * Get attribute value
+     * Get attribute type
      *
      * @return string
      */
