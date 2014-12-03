@@ -30,14 +30,15 @@ class Cache
      */
     public function startTest(\PHPUnit_Framework_TestCase $test)
     {
-        $annotations = $test->getAnnotations();
-        $class = isset($annotations['class']['magentoCache']) ? $annotations['class']['magentoCache'] : [];
-        $method = isset($annotations['method']['magentoCache']) ? $annotations['method']['magentoCache'] : [];
-        $chosenAnnotations = $method ?: $class;
-        if (!$chosenAnnotations) {
+        $source = $test->getAnnotations();
+        if (isset($source['method']['magentoCache'])) {
+            $annotations = $source['method']['magentoCache'];
+        } elseif (isset($source['class']['magentoCache'])) {
+            $annotations = $source['class']['magentoCache'];
+        } else {
             return;
         }
-        $this->setValues($this->parseValues($chosenAnnotations, $test), $test);
+        $this->setValues($this->parseValues($annotations, $test), $test);
     }
 
     /**
