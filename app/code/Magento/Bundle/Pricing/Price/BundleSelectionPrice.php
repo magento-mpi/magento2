@@ -97,6 +97,7 @@ class BundleSelectionPrice extends AbstractPrice
                 ->getPrice($priceCode)
                 ->getValue();
         } else {
+            $selectionPriceValue = $this->selection->getSelectionPriceValue();
             if ($this->product->getSelectionPriceType()) {
                 // calculate price for selection type percent
                 $price = $this->bundleProduct->getPriceInfo()
@@ -108,10 +109,9 @@ class BundleSelectionPrice extends AbstractPrice
                     'catalog_product_get_final_price',
                     array('product' => $product, 'qty' => $this->bundleProduct->getQty())
                 );
-                $value = $product->getData('final_price') * ($this->selection->getSelectionPriceValue() / 100);
+                $value = $product->getData('final_price') * ($selectionPriceValue / 100) * $this->quantity ;
             } else {
                 // calculate price for selection type fixed
-                $selectionPriceValue = $this->selection->getSelectionPriceValue();
                 $value = $this->priceCurrency->convertAndRound($selectionPriceValue) * $this->quantity;
             }
         }
@@ -132,13 +132,5 @@ class BundleSelectionPrice extends AbstractPrice
         } else {
             return $this->bundleProduct;
         }
-    }
-
-    /**
-     * @return float
-     */
-    public function getQuantity()
-    {
-        return $this->quantity;
     }
 }

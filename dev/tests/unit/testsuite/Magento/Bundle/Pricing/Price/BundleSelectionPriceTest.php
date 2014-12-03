@@ -330,9 +330,4 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
         $product = $this->selectionPrice->getProduct();
         $this->assertEquals($this->productMock, $product);
     }
-
-    public function testGetQuantity()
-    {
-        $this->assertEquals(1, $this->selectionPrice->getQuantity());
-    }
 }

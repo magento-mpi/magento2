@@ -304,13 +304,12 @@ class Calculator implements BundleCalculatorInterface
         $i = 0;
 
         $amountList[$i]['amount'] = $this->calculator->getAmount($basePriceValue, $bundleProduct, $exclude);
-        $amountList[$i]['hasRequiredQty'] = false;
         $amountList[$i]['quantity'] = 1;
 
         foreach ($selectionPriceList as $selectionPrice) {
             ++$i;
             $amountList[$i]['amount'] = $selectionPrice->getAmount();
-            $amountList[$i]['hasRequiredQty'] = !$selectionPrice->getProduct()->getSelectionCanChangeQty();
+            // always honor the quantity given
             $amountList[$i]['quantity'] = $selectionPrice->getQuantity();
         }
 
@@ -320,7 +319,7 @@ class Calculator implements BundleCalculatorInterface
         foreach ($amountList as $amountInfo) {
             /** @var \Magento\Framework\Pricing\Amount\AmountInterface $itemAmount */
             $itemAmount = $amountInfo['amount'];
-            $qty = $amountInfo['hasRequiredQty'] ? $amountInfo['quantity'] : 1;
+            $qty = $amountInfo['quantity'];
 
             if ($roundingMethod != TaxCalculationServiceInterface::CALC_TOTAL_BASE) {
                 //We need to round the individual selection first
