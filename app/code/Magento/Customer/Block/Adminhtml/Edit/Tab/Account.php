@@ -78,10 +78,10 @@ class Account extends GenericMetadata
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor
-     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
-     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Customer\Model\Options $options
+     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Store\Model\System\Store $systemStore
+     * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Customer\Api\AccountManagementInterface $accountManagement
      * @param \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
@@ -95,10 +95,10 @@ class Account extends GenericMetadata
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
-        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
-        \Magento\Store\Model\System\Store $systemStore,
         \Magento\Customer\Model\Options $options,
+        \Magento\Framework\Json\EncoderInterface $jsonEncoder,
+        \Magento\Store\Model\System\Store $systemStore,
+        \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Customer\Api\AccountManagementInterface $accountManagement,
         \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
