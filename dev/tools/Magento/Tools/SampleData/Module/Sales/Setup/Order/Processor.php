@@ -30,9 +30,9 @@ class Processor
     protected $createOrderFactory;
 
     /**
-     * @var \Magento\Customer\Model\CustomerFactory
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    protected $customerFactory;
+    protected $customerRepository;
 
     /**
      * @var \Magento\Framework\DB\TransactionFactory
@@ -63,20 +63,19 @@ class Processor
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Phrase\Renderer\CompositeFactory $rendererCompositeFactory
      * @param \Magento\Sales\Model\AdminOrder\CreateFactory $createOrderFactory
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerFactory
      * @param \Magento\Backend\Model\Session\QuoteFactory $sessionQuoteFactory
      * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory
      * @param \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoaderFactory $shipmentLoaderFactory
      * @param \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoaderFactory $creditmemoLoaderFactory
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Phrase\Renderer\CompositeFactory $rendererCompositeFactory,
         \Magento\Sales\Model\AdminOrder\CreateFactory $createOrderFactory,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerFactory,
         \Magento\Backend\Model\Session\QuoteFactory $sessionQuoteFactory,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -87,7 +86,7 @@ class Processor
         $this->coreRegistry = $coreRegistry;
         $this->rendererCompositeFactory = $rendererCompositeFactory;
         $this->createOrderFactory = $createOrderFactory;
-        $this->customerFactory = $customerFactory;
+        $this->customerRepository = $customerFactory;
         $this->sessionQuoteFactory = $sessionQuoteFactory;
         $this->transactionFactory = $transactionFactory;
         $this->orderFactory = $orderFactory;
@@ -109,9 +108,7 @@ class Processor
                 $orderCreateModel->setPaymentData($orderData['payment']);
                 $orderCreateModel->getQuote()->getPayment()->addData($orderData['payment']);
             }
-            $customer = $this->customerFactory->create()
-                ->setWebsiteId(1)
-                ->loadByEmail($orderData['order']['account']['email']);
+            $customer = $this->customerRepository->get($orderData['order']['account']['email'], 1);
             $orderCreateModel->getQuote()->setCustomer($customer);
             $orderCreateModel->getSession()->setCustomerId($customer->getId());
             $order = $orderCreateModel
