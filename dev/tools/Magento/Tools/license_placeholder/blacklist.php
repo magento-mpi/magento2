@@ -31,7 +31,7 @@ return array(
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/expected',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd_ruleset.xsd',
-    'dev/tests/unit/testsuite/Magento/Test/Tools/View/Generator/_files/ThemeDeployment/run/source',
+    'dev/tests/unit/testsuite/Magento/Tools/View/Generator/_files/ThemeDeployment/run/source',
     'dev/tools/Magento/Tools/I18n/Zend',
     'dev/tools/PHP-Parser',
     'dev/tools/performance-toolkit/README.txt',

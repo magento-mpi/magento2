@@ -49,7 +49,7 @@ class GithubPublicationTests
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\ProductPageTest');
 
         // Creating Grouped product and assign it to the category (MAGETWO-13610)
-        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateGroupedTest');
+        $suite->addTestSuite('Magento\GroupedProduct\Test\TestCase\CreateGroupedTest');
 
         // Creating Virtual product with required fields only and assign it to the category (MAGETWO-13593)
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateVirtualTest');
