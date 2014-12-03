@@ -83,7 +83,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->_product->expects($this->once())->method('getCanShowPrice')->will($this->returnValue(true));
 
         $this->_registry->expects(
-            $this->once()
+            $this->any()
         )->method(
             'registry'
         )->with(
@@ -113,7 +113,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->_product->expects($this->any())->method('getCanShowPrice')->will($this->returnValue($showProductPrice));
 
         $this->_registry->expects(
-            $this->once()
+            $this->any()
         )->method(
             'registry'
         )->with(
