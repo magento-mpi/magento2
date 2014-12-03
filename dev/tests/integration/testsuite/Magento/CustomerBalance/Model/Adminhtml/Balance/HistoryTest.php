@@ -60,7 +60,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @param null|string $comment
      * @dataProvider additionalInfoDataProvider
-     * @covers \Magento\CustomerBalance\Model\Adminhtml\Balance\History::_beforeSave
+     * @covers \Magento\CustomerBalance\Model\Adminhtml\Balance\History::beforeSave
      */
     public function testAdditionalInfo($comment)
     {
