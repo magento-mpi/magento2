@@ -2,5 +2,5 @@ name,url_key,path,active,is_anchor,include_in_menu,position,display_mode,page_la
 Sale,sale,,1,0,1,6,PAGE,,
 "What's New",what-is-new,,1,0,1,1,PAGE,,
 Collections,collections,,0,0,0,,PAGE,,
-"Performance Fabrics New",performance-new,Collections,1,1,0,,PAGE,"1column",""
+"Performance Sportswear New",performance-new,Collections,1,1,0,,PAGE,"1column",""
 "Eco Collection New",eco-new,Collections,1,1,0,,PAGE,"1column",""
