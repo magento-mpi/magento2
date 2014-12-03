@@ -303,6 +303,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      * Make sure requirements of components are reflected in root composer.json
      *
      * @param \StdClass $json
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     private function assertRequireInSync(\StdClass $json)
     {

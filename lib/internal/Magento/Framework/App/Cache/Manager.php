@@ -98,6 +98,7 @@ class Manager
      * Flushes specified cache storages
      *
      * @param string[] $types
+     * @return void
      */
     public function flush(array $types)
     {

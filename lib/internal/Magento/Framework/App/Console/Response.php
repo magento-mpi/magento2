@@ -60,6 +60,7 @@ class Response implements \Magento\Framework\App\ResponseInterface
 
     /**
      * @param string $body
+     * @return void
      */
     public function setBody($body)
     {
