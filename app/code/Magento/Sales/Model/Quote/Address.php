@@ -10,7 +10,6 @@ namespace Magento\Sales\Model\Quote;
 use Magento\Customer\Service\V1\Data\AddressBuilder as CustomerAddressBuilder;
 use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Customer\Api\Data\RegionDataBuilder;
@@ -244,6 +243,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $validator;
 
     /**
+     * @var \Magento\Customer\Model\Address\Mapper
+     */
+    protected $addressMapper;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
@@ -270,6 +274,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param CustomerAddressBuilder $customerAddressBuilder
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param Address\Validator $validator
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -301,6 +306,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         CustomerAddressBuilder $customerAddressBuilder,
         CustomerAddressServiceInterface $customerAddressService,
         Address\Validator $validator,
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -319,6 +325,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_customerAddressBuilder = $customerAddressBuilder;
         $this->_customerAdressService = $customerAddressService;
         $this->validator = $validator;
+        $this->addressMapper = $addressMapper;
         parent::__construct(
             $context,
             $registry,
@@ -489,7 +496,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_address',
             'to_quote_address',
-            AddressConverter::toFlatArray($address),
+            $this->addressMapper->toFlatArray($address),
             $this
         );
         $region = $this->getRegion();

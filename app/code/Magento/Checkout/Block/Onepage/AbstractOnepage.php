@@ -92,6 +92,11 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     protected $httpContext;
 
     /**
+     * @var \Magento\Customer\Model\Address\Mapper
+     */
+    protected $addressMapper;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -103,6 +108,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
      * @param CustomerAddressService $customerAddressService
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param array $data
      */
     public function __construct(
@@ -117,6 +123,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         CustomerAddressService $customerAddressService,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -131,6 +138,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         $this->_customerAccountService = $customerAccountService;
         $this->_customerAddressService = $customerAddressService;
         $this->_addressConfig = $addressConfig;
+        $this->addressMapper = $addressMapper;
     }
 
     /**
@@ -245,7 +253,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
                 $label = $this->_addressConfig->getFormatByCode(
                     AddressConfig::DEFAULT_ADDRESS_FORMAT
                 )->getRenderer()->renderArray(
-                    \Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address)
+                    $this->addressMapper->toFlatArray($address)
                 );
 
                 $options[] = array('value' => $address->getId(), 'label' => $label);

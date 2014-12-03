@@ -8,7 +8,6 @@
 namespace Magento\Multishipping\Block\Checkout\Address;
 
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Customer\Helper\Address as CustomerAddressHelper;
 use Magento\Framework\Exception\NoSuchEntityException;
 
@@ -28,12 +27,18 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     protected $_customerAddressHelper;
 
     /**
+     * @var \Magento\Customer\Model\Address\Mapper
+     */
+    protected $addressMapper;
+
+    /**
      * Initialize dependencies.
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerAddressHelper $customerAddressHelper
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param array $data
      */
     public function __construct(
@@ -41,10 +46,12 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAddressHelper $customerAddressHelper,
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
         array $data = array()
     ) {
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAddressHelper = $customerAddressHelper;
+        $this->addressMapper = $addressMapper;
         parent::__construct($context, $multishipping, $data);
     }
 
@@ -96,7 +103,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         $formatTypeRenderer = $this->_customerAddressHelper->getFormatTypeRenderer('html');
         $result = '';
         if ($formatTypeRenderer) {
-            $result = $formatTypeRenderer->renderArray(AddressConverter::toFlatArray($addressData));
+            $result = $formatTypeRenderer->renderArray($this->addressMapper->toFlatArray($addressData));
         }
         return $result;
     }
