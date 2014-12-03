@@ -64,7 +64,6 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
         $this->_multishipping = $multishipping;
         $this->customerRepository = $customerRepository;
         $this->_addressConfig = $addressConfig;
-        $this->mapper = $mapper;
         parent::__construct($context, $data);
         $this->addressMapper = $addressMapper;
         $this->_isScopePrivate = true;
