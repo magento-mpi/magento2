@@ -24,25 +24,25 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected $_customer = null;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    protected $_customerAccountService;
+    protected $customerRepository;
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         array $data = array()
     ) {
-        $this->_customerAccountService = $customerAccountService;
+        $this->customerRepository = $customerRepository;
         parent::__construct(
             $context,
             $httpContext,
@@ -72,7 +72,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     public function getWishlistCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = $this->_customerAccountService->getCustomer($this->_getWishlist()->getCustomerId());
+            $this->_customer = $this->customerRepository->getById($this->_getWishlist()->getCustomerId());
         }
 
         return $this->_customer;

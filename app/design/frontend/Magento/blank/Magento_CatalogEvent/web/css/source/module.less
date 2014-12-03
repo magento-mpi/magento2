@@ -10,6 +10,12 @@
 @catalog-event-color: @color-primary;
 
 //
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+//
 //     Catalog Events
 // --------------------------------------
 .block-category-event {
@@ -64,16 +70,18 @@
     }
 }
 
+}
+
 //
 //    Mobile @screen-s
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
 }
 
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .block-category-event {
         &.block:last-child {
             margin-bottom: @indent-l-base;

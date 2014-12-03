@@ -147,3 +147,4 @@ app/code/Magento/CatalogInventory/Api/Data
 app/code/Magento/Sales/Model/Spi
 Magento/Catalog/Service
 Magento/Catalog/Model/ProductLink
+Magento/GroupedProduct/Model/Resource/Product/Type/Grouped
