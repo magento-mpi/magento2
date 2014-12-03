@@ -7,12 +7,12 @@
  */
 namespace Magento\CatalogInventory\Model\Adminhtml\Stock;
 
+use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\CatalogInventory\Api\StockConfigurationInterface as StockConfigurationInterface;
 use Magento\CatalogInventory\Api\StockItemRepositoryInterface as StockItemRepositoryInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
-use Magento\Customer\Api\GroupManagementInterface;
-use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Catalog Inventory Stock Model for adminhtml area

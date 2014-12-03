@@ -17,8 +17,6 @@ use Magento\Catalog\Model\ProductFactory;
 
 /**
  * Interface StockStateProvider
- * @package Magento\CatalogInventory\Model
- * @spi
  */
 class StockStateProvider implements StockStateProviderInterface
 {

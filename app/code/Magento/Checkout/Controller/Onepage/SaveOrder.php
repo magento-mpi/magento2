@@ -8,9 +8,6 @@
  */
 namespace Magento\Checkout\Controller\Onepage;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadataService;
-
 class SaveOrder extends \Magento\Checkout\Controller\Onepage
 {
     /**

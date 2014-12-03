@@ -106,7 +106,6 @@ class AccountManagement implements AccountManagementInterface
      */
     private $validationResultsDataBuilder;
 
-
     /**
      * @var ManagerInterface
      */
@@ -244,8 +243,8 @@ class AccountManagement implements AccountManagementInterface
      * @param \Magento\Framework\Registry $registry
      * @param CustomerViewHelper $customerViewHelper
      * @param DateTime $dateTime
-     * @param \Magento\Framework\ObjectFactory $objectFactory
      * @param CustomerModel $customerModel
+     * @param \Magento\Framework\ObjectFactory $objectFactory
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -274,8 +273,8 @@ class AccountManagement implements AccountManagementInterface
         \Magento\Framework\Registry $registry,
         CustomerViewHelper $customerViewHelper,
         DateTime $dateTime,
-        \Magento\Framework\ObjectFactory $objectFactory,
         CustomerModel $customerModel,
+        \Magento\Framework\ObjectFactory $objectFactory,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->customerFactory = $customerFactory;
@@ -301,9 +300,9 @@ class AccountManagement implements AccountManagementInterface
         $this->registry = $registry;
         $this->customerViewHelper = $customerViewHelper;
         $this->dateTime = $dateTime;
+        $this->customerModel = $customerModel;
         $this->objectFactory = $objectFactory;
         $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
-        $this->customerModel = $customerModel;
     }
 
     /**
@@ -1099,5 +1098,16 @@ class AccountManagement implements AccountManagementInterface
         $mergedCustomerData->addData($customerData);
         $mergedCustomerData->setData('name', $this->customerViewHelper->getCustomerName($customer));
         return $mergedCustomerData;
+    }
+
+    /**
+     * Return hashed password, which can be directly saved to database.
+     *
+     * @param string $password
+     * @return string
+     */
+    public function getPasswordHash($password)
+    {
+        return $this->encryptor->getHash($password);
     }
 }

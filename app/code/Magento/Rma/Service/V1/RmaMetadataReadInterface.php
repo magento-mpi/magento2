@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
 namespace Magento\Rma\Service\V1;
 
-use Magento\Customer\Service\V1\MetadataServiceInterface;
-
-interface RmaMetadataReadInterface extends MetadataServiceInterface
+/**
+ * Interface RmaMetadataReadInterface
+ */
+interface RmaMetadataReadInterface extends \Magento\Customer\Api\MetadataInterface
 {
     const ATTRIBUTE_SET_ID = 9;
 

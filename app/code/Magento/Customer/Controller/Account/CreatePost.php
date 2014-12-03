@@ -8,9 +8,9 @@
  */
 namespace Magento\Customer\Controller\Account;
 
+use Magento\Customer\Model\AccountManagement;
 use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Model\Url;
-use Magento\Customer\Model\AccountManagement;
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
