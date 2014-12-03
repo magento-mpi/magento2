@@ -38,7 +38,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     /**
      * @var \Magento\Customer\Model\Address\Mapper
      */
-    protected $mapper;
+    protected $addressMapper;
 
     /**
      * Constructor
@@ -48,7 +48,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
-     * @param \Magento\Customer\Model\Address\Mapper $mapper
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param array $data
      */
     public function __construct(
@@ -57,8 +57,8 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
-        \Magento\Customer\Model\Address\Mapper $mapper,
-        array $data = []
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
+        array $data = array()
     ) {
         $this->_filterGridFactory = $filterGridFactory;
         $this->_multishipping = $multishipping;
@@ -66,6 +66,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
         $this->_addressConfig = $addressConfig;
         $this->mapper = $mapper;
         parent::__construct($context, $data);
+        $this->addressMapper = $addressMapper;
         $this->_isScopePrivate = true;
     }
 
@@ -143,7 +144,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
                 $label = $this->_addressConfig
                     ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
                     ->getRenderer()
-                    ->renderArray($arrayData);
+                    ->renderArray($this->addressMapper->toFlatArray($address));
 
                 $options[] = [
                     'value' => $address->getId(),
