@@ -55,10 +55,19 @@ class Tablerate implements SetupInterface
      * @param \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate $tablerate
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
+     */
+    protected $storeManager;
+
+    /**
+     * @param \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate $tablerate,
+     * @param \Magento\Tools\SampleData\Helper\Fixture $fixtureHelper
+     * @param \Magento\Tools\SampleData\Helper\Csv\ReaderFactory $csvReaderFactory
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      */
     public function __construct(
         \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate $tablerate,
@@ -67,7 +76,8 @@ class Tablerate implements SetupInterface
         \Magento\Framework\App\Resource $resource,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
+        \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager
     ) {
         $this->tablerate = $tablerate;
         $this->fixtureHelper = $fixtureHelper;
@@ -76,6 +86,7 @@ class Tablerate implements SetupInterface
         $this->regionCollectionFactory = $regionCollectionFactory;
         $this->cacheTypeList = $cacheTypeList;
         $this->configWriter = $configWriter;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -98,7 +109,7 @@ class Tablerate implements SetupInterface
             $adapter->insert(
                 $adapter->getTableName('shipping_tablerate'),
                 [
-                    'website_id' => 1,
+                    'website_id' => $this->storeManager->getWebsiteId(),
                     'dest_country_id' => $data['country'],
                     'dest_region_id' => $regionId,
                     'dest_zip' => $data['zip'],

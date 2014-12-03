@@ -44,6 +44,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
      * @param CsvReaderFactory $csvReaderFactory
      * @param Product\Gallery $gallery
      * @param \Magento\Tools\SampleData\Logger $logger
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProductType
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $fixtures
@@ -57,6 +58,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
         CsvReaderFactory $csvReaderFactory,
         Product\Gallery $gallery,
         \Magento\Tools\SampleData\Logger $logger,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableProductType,
         \Magento\Eav\Model\Config $eavConfig,
         $fixtures = array(
@@ -78,6 +80,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
             $csvReaderFactory,
             $gallery,
             $logger,
+            $storeManager,
             $fixtures
         );
     }

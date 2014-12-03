@@ -127,7 +127,7 @@ class Gallery
             ));
             $this->galleryAttribute->insertGalleryValueInStore(array(
                 'value_id' => $id,
-                'store_id' => 0,
+                'store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
                 'label' => 'Image',
                 'position' => $i,
                 'disables' => 0

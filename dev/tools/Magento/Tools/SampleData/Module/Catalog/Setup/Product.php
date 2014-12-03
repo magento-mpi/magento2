@@ -68,6 +68,11 @@ class Product implements SetupInterface
     protected $logger;
 
     /**
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param Product\Converter $converter
@@ -75,6 +80,7 @@ class Product implements SetupInterface
      * @param CsvReaderFactory $csvReaderFactory
      * @param Product\Gallery $gallery
      * @param \Magento\Tools\SampleData\Logger $logger
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param array $fixtures
      */
     public function __construct(
@@ -85,6 +91,7 @@ class Product implements SetupInterface
         CsvReaderFactory $csvReaderFactory,
         Product\Gallery $gallery,
         \Magento\Tools\SampleData\Logger $logger,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
         $fixtures = array(
             'Catalog/SimpleProduct/products_gear_bags.csv',
             'Catalog/SimpleProduct/products_gear_fitness_equipment.csv',
@@ -101,6 +108,7 @@ class Product implements SetupInterface
         $this->gallery = $gallery;
         $this->fixtures = $fixtures;
         $this->logger = $logger;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -129,10 +137,10 @@ class Product implements SetupInterface
                 $product
                     ->setTypeId($this->productType)
                     ->setAttributeSetId($attributeSetId)
-                    ->setWebsiteIds(array(1))
+                    ->setWebsiteIds(array($this->storeManager->getWebsiteId()))
                     ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
                     ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 0))
-                    ->setStoreId(0);
+                    ->setStoreId(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
                 if (empty($data['visibility'])) {
                     $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);

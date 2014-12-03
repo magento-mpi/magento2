@@ -22,7 +22,7 @@ class Category implements SetupInterface
     protected $categoryFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
      */
     protected $storeManager;
 
@@ -60,7 +60,7 @@ class Category implements SetupInterface
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Category\TreeFactory $resourceCategoryTreeFactory
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param FixtureHelper $fixtureHelper
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param CsvReaderFactory $csvReaderFactory
@@ -69,7 +69,7 @@ class Category implements SetupInterface
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Category\TreeFactory $resourceCategoryTreeFactory,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
         FixtureHelper $fixtureHelper,
         \Magento\Tools\SampleData\Logger $logger,
         CsvReaderFactory $csvReaderFactory
@@ -113,7 +113,7 @@ class Category implements SetupInterface
                     $category->setData($data)
                         ->setPath($parentCategory->getData('path'))
                         ->setAttributeSetId($category->getDefaultAttributeSetId())
-                        ->setStoreId($this->storeManager->getStore()->getId());
+                        ->setStoreId(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
                     $this->setAdditionalData($row, $category);
                     $category->save();
                 }

@@ -80,7 +80,7 @@ class Page implements SetupInterface
                 $this->pageFactory->create()
                     ->load($row['identifier'], 'identifier')
                     ->addData($row)
-                    ->setStores(array(0))
+                    ->setStores(array(\Magento\Store\Model\Store::DEFAULT_STORE_ID))
                     ->save();
                 $this->logger->log('.');
             }

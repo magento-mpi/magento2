@@ -55,6 +55,11 @@ class Processor
     protected $creditmemoLoaderFactory;
 
     /**
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Phrase\Renderer\CompositeFactory $rendererCompositeFactory
      * @param \Magento\Sales\Model\AdminOrder\CreateFactory $createOrderFactory
@@ -64,6 +69,7 @@ class Processor
      * @param \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoaderFactory $invoiceLoaderFactory
      * @param \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoaderFactory $shipmentLoaderFactory
      * @param \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoaderFactory $creditmemoLoaderFactory
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      */
     public function __construct(
         \Magento\Framework\Registry $coreRegistry,
@@ -74,7 +80,8 @@ class Processor
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
         \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoaderFactory $invoiceLoaderFactory,
         \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoaderFactory $shipmentLoaderFactory,
-        \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoaderFactory $creditmemoLoaderFactory
+        \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoaderFactory $creditmemoLoaderFactory,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager
     ) {
         $this->coreRegistry = $coreRegistry;
         $this->rendererCompositeFactory = $rendererCompositeFactory;
@@ -85,6 +92,7 @@ class Processor
         $this->invoiceLoaderFactory = $invoiceLoaderFactory;
         $this->shipmentLoaderFactory = $shipmentLoaderFactory;
         $this->creditmemoLoaderFactory = $creditmemoLoaderFactory;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -101,7 +109,7 @@ class Processor
                 $orderCreateModel->getQuote()->getPayment()->addData($orderData['payment']);
             }
             $customer = $this->customerFactory->create()
-                ->setWebsiteId(1)
+                ->setWebsiteId($this->storeManager->getWebsiteId())
                 ->loadByEmail($orderData['order']['account']['email']);
             $orderCreateModel->getQuote()->setCustomer($customer);
             $orderCreateModel->getSession()->setCustomerId($customer->getId());
@@ -143,7 +151,10 @@ class Processor
         }
         $orderCreateModel->collectShippingRates();
         if (!empty($data['payment'])) {
-            $orderCreateModel->getQuote()->getPayment()->addData($data['payment']);
+            /** @var \Magento\Sales\Model\Quote\Payment $payment */
+            $payment = $orderCreateModel->getQuote()->getPayment();
+            $payment->addData($data['payment']);
+            $payment->setQuote($orderCreateModel->getQuote());
         }
         $orderCreateModel->initRuleData()->saveQuote();
         return $orderCreateModel;

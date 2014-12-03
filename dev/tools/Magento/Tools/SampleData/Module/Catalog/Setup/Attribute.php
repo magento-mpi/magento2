@@ -70,6 +70,11 @@ class Attribute implements SetupInterface
     protected $logger;
 
     /**
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
@@ -77,6 +82,7 @@ class Attribute implements SetupInterface
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param FixtureHelper $fixtureHelper
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param CsvReaderFactory $csvReaderFactory
      */
@@ -88,6 +94,7 @@ class Attribute implements SetupInterface
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         FixtureHelper $fixtureHelper,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
         \Magento\Tools\SampleData\Logger $logger,
         CsvReaderFactory $csvReaderFactory
     ) {
@@ -99,6 +106,7 @@ class Attribute implements SetupInterface
         $this->moduleList = $moduleList;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->storeManager = $storeManager;
         $this->logger = $logger;
     }
 
@@ -128,7 +136,9 @@ class Attribute implements SetupInterface
 
                 $frontendLabel = explode("\n", $data['frontend_label']);
                 if (count($frontendLabel) > 1) {
-                    $data['frontend_label'] = $frontendLabel;
+                    $data['frontend_label'] = [];
+                    $data['frontend_label'][\Magento\Store\Model\Store::DEFAULT_STORE_ID] = $frontendLabel[0];
+                    $data['frontend_label'][$this->storeManager->getStoreId()] = $frontendLabel[1];
                 }
                 $data['option'] = $this->getOption($attribute, $data);
                 $data['source_model'] = $this->productHelper->getAttributeSourceModelByInputType(

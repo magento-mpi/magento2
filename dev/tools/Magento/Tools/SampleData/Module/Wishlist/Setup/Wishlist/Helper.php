@@ -28,18 +28,26 @@ class Helper
     protected $productIndexer;
 
     /**
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source $productIndexer
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      */
     public function __construct(
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source $productIndexer
+        \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source $productIndexer,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager
     ) {
         $this->customerFactory = $customerFactory;
         $this->productFactory = $productFactory;
         $this->productIndexer = $productIndexer;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -50,7 +58,7 @@ class Helper
     {
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->customerFactory->create();
-        $customer->setWebsiteId(1);
+        $customer->setWebsiteId($this->storeManager->getWebsiteId());
         $customer->loadByEmail($email);
         if ($customer->getId()) {
             return $customer;

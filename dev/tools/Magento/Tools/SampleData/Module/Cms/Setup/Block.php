@@ -114,7 +114,7 @@ class Block implements SetupInterface
         } else {
             $cmsBlock->addData($data);
         }
-        $cmsBlock->setStores(array('0'));
+        $cmsBlock->setStores(array(\Magento\Store\Model\Store::DEFAULT_STORE_ID));
         $cmsBlock->setIsActive(1);
         $cmsBlock->save();
         return $cmsBlock;
