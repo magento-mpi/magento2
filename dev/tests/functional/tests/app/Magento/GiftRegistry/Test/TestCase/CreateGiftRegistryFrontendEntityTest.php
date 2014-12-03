@@ -151,6 +151,7 @@ class CreateGiftRegistryFrontendEntityTest extends Injectable
      */
     public function test(GiftRegistry $giftRegistry, CustomerInjectable $customer)
     {
+        $this->markTestIncomplete('Bug: MAGETWO-31328');
         // Steps
         $this->cmsIndex->open();
         $this->cmsIndex->getLinksBlock()->openLink("Log In");

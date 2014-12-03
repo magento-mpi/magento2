@@ -53,6 +53,7 @@ class CopyProductToAnotherWishlistEntityTest extends AbstractActionProductToAnot
      */
     public function test(MultipleWishlist $multipleWishlist, CustomerInjectable $customer, $product, $qty, $qtyToAction)
     {
+        $this->markTestIncomplete('Bug: MAGETWO-31328');
         // Preconditions
         $this->createMultipleWishlist($multipleWishlist, $customer);
         $product = $this->createProduct($product, $qty);
