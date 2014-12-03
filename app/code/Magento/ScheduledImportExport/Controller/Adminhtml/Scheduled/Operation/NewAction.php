@@ -19,7 +19,7 @@ class NewAction extends \Magento\ScheduledImportExport\Controller\Adminhtml\Sche
     {
         $operationType = $this->getRequest()->getParam('type');
         $this->_initAction();
-        $this->_title->add(
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
             $this->_objectManager->get(
                 'Magento\ScheduledImportExport\Helper\Data'
             )->getOperationHeaderText(

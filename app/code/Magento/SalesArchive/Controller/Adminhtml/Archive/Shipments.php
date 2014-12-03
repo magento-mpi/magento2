@@ -17,10 +17,9 @@ class Shipments extends \Magento\SalesArchive\Controller\Adminhtml\Archive
      */
     public function execute()
     {
-        $this->_title->add(__('Shipments'));
-
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_shipments');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Shipments'));
         $this->_view->renderLayout();
     }
 }

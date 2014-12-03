@@ -62,7 +62,6 @@ class BundleOptions
      * @param \Magento\Catalog\Api\Data\ProductInterface $product
      * @param bool $saveOptions
      * @return \Magento\Catalog\Api\Data\ProductInterface
-     * @throws \Magento\Framework\Exception\CouldNotSaveException
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
@@ -99,6 +98,7 @@ class BundleOptions
      * @param callable $proceed
      * @param string $sku
      * @param bool $editMode
+     * @param int|null $storeId
      * @return \Magento\Catalog\Api\Data\ProductInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -106,10 +106,11 @@ class BundleOptions
         \Magento\Catalog\Api\ProductRepositoryInterface $subject,
         \Closure $proceed,
         $sku,
-        $editMode = false
+        $editMode = false,
+        $storeId = null
     ) {
         /** @var \Magento\Catalog\Api\Data\ProductInterface $product */
-        $product = $proceed($sku, $editMode);
+        $product = $proceed($sku, $editMode, $storeId);
         if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             return $product;
         }

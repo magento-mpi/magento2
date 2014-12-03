@@ -71,17 +71,14 @@ class Controls extends Template
      */
     public function getReturnValue()
     {
-        $max = $this->_coreRegistry->registry('current_creditmemo')->getCustomerBalanceReturnMax();
-
-        //We want to subtract the reward balance when returning to the customer
-        $rewardCurrencyBalance = $this->_coreRegistry->registry('current_creditmemo')->getRewardCurrencyAmount();
-        if ($rewardCurrencyBalance > 0 && $rewardCurrencyBalance < $max) {
-            $max = $max - $rewardCurrencyBalance;
+        $customerBalance = $this->_coreRegistry->registry('current_creditmemo')
+            ->getBaseCustomerBalanceReturnMax();
+        // We want to subtract the reward amount when returning to the customer
+        $rewardAmount = $this->_coreRegistry->registry('current_creditmemo')
+            ->getBaseRewardCurrencyAmount();
+        if ($rewardAmount > 0 && $rewardAmount < $customerBalance) {
+            $customerBalance -= $rewardAmount;
         }
-
-        if ($max) {
-            return $max;
-        }
-        return 0;
+        return $customerBalance ? $customerBalance : 0;
     }
 }

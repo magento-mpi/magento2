@@ -17,10 +17,9 @@ class Index extends \Magento\Logging\Controller\Adminhtml\Logging
      */
     public function execute()
     {
-        $this->_title->add(__('Report'));
-
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_events');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Report'));
         $this->_view->renderLayout();
     }
 }
