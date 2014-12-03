@@ -126,7 +126,6 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $this->addressMapper = $addressMapper;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->filterBuilder = $filterBuilder;
-        $this->mapper = $mapper;
         parent::__construct(
             $context,
             $sessionQuote,
