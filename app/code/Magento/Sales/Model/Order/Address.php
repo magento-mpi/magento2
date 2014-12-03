@@ -17,8 +17,8 @@ use Magento\Customer\Model\Address\AbstractAddress;
  * @method \Magento\Sales\Model\Resource\Order\Address getResource()
  * @method Address setParentId(int $value)
  * @method Address setCustomerAddressId(int $value)
- * @method \Magento\Customer\Service\V1\Data\Address getCustomerAddressData()
- * @method Address setCustomerAddressData(\Magento\Customer\Service\V1\Data\Address $value)
+ * @method \Magento\Customer\Api\Data\AddressInterface getCustomerAddressData()
+ * @method Address setCustomerAddressData(\Magento\Customer\Api\Data\AddressInterface $value)
  * @method Address setQuoteAddressId(int $value)
  * @method Address setRegionId(int $value)
  * @method Address setCustomerId(int $value)
@@ -85,7 +85,7 @@ class Address extends AbstractAddress implements OrderAddressInterface
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,

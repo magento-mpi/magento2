@@ -7,8 +7,7 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Address\Config as AddressConfig;
 
 /**
@@ -36,10 +35,10 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
-     * @param CustomerAccountService $customerAccountService
-     * @param CustomerAddressService $customerAddressService
+     * @param CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param array $data
      */
@@ -51,10 +50,10 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        CustomerAccountService $customerAccountService,
-        CustomerAddressService $customerAddressService,
+        CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         array $data = array()
     ) {
@@ -67,10 +66,10 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
-            $customerAccountService,
-            $customerAddressService,
+            $customerRepository,
             $addressConfig,
             $httpContext,
+            $dataObjectConverter,
             $data
         );
         $this->_isScopePrivate = true;
