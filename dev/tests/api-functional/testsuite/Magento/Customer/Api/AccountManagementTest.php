@@ -477,7 +477,7 @@ class AccountManagementTest extends WebapiAbstract
         } catch (\Exception $e) {
             $errorObj = $this->processRestExceptionResult($e);
             $this->assertEquals(
-                'No such entity with %fieldName = %fieldValue, %field2Name = %field2Value',
+                NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
                 $errorObj['message']
             );
             $this->assertEquals([
@@ -642,14 +642,68 @@ class AccountManagementTest extends WebapiAbstract
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ],
             'soap' => [
-                'service' => self::SERVICE_NAME,
+                'service' => CustomerRepositoryTest::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteById'
+                'operation' => CustomerRepositoryTest::SERVICE_NAME . 'DeleteById'
             ]
         ];
 
         $response = $this->_webApiCall($serviceInfo, ['customerId' => $customerId]);
         $this->assertTrue($response);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Customer/_files/customer.php
+     * @magentoApiDataFixture Magento/Customer/_files/customer_two_addresses.php
+     */
+    public function testGetDefaultBillingAddress()
+    {
+        $fixtureCustomerId = 1;
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . "/$fixtureCustomerId/billingAddress",
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetDefaultBillingAddress'
+            ]
+        ];
+        $requestData = ['customerId' => $fixtureCustomerId];
+        $addressData = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(
+            $this->getFirstFixtureAddressData(),
+            $addressData,
+            "Default billing address data is invalid."
+        );
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/Customer/_files/customer.php
+     * @magentoApiDataFixture Magento/Customer/_files/customer_two_addresses.php
+     */
+    public function testGetDefaultShippingAddress()
+    {
+        $fixtureCustomerId = 1;
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . "/$fixtureCustomerId/shippingAddress",
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetDefaultShippingAddress'
+            ]
+        ];
+        $requestData = ['customerId' => $fixtureCustomerId];
+        $addressData = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(
+            $this->getFirstFixtureAddressData(),
+            $addressData,
+            "Default shipping address data is invalid."
+        );
     }
 
     /**
@@ -660,5 +714,29 @@ class AccountManagementTest extends WebapiAbstract
         $customerData = $this->customerHelper->createSampleCustomer();
         $this->currentCustomerId[] = $customerData['id'];
         return $customerData;
+    }
+
+    /**
+     * Retrieve data of the first fixture address.
+     *
+     * @return array
+     */
+    protected function getFirstFixtureAddressData()
+    {
+        return [
+            'firstname' => 'John',
+            'lastname' => 'Smith',
+            'city' => 'CityM',
+            'country_id' => 'US',
+            'company' => 'CompanyName',
+            'postcode' => '75477',
+            'telephone' => '3468676',
+            'street' => ['Green str, 67'],
+            'id' => 1,
+            'default_billing' => true,
+            'default_shipping' => true,
+            'customer_id' => '1',
+            'region' => ['region' => 'Alabama', 'region_id' => 1, 'region_code' => 'AL'],
+        ];
     }
 }

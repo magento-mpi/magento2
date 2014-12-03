@@ -17,7 +17,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
  */
 class CustomerMetadataTest extends WebapiAbstract
 {
-    const SERVICE_NAME = "customerCustomerMetadataServiceV1";
+    const SERVICE_NAME = "customerCustomerMetadataV1";
     const SERVICE_VERSION = "V1";
     const RESOURCE_PATH = "/V1/attributeMetadata/customer";
 
@@ -38,7 +38,7 @@ class CustomerMetadataTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetAttributeMetadata'
+                'operation' => self::SERVICE_NAME . 'GetAttributeMetadata'
             ]
         ];
 
@@ -128,7 +128,7 @@ class CustomerMetadataTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetAllAttributesMetadata'
+                'operation' => self::SERVICE_NAME . 'GetAllAttributesMetadata'
             ]
         ];
 
@@ -155,7 +155,7 @@ class CustomerMetadataTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetCustomAttributesMetadata'
+                'operation' => self::SERVICE_NAME . 'GetCustomAttributesMetadata'
             ]
         ];
 
@@ -183,7 +183,7 @@ class CustomerMetadataTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetAttributes'
+                'operation' => self::SERVICE_NAME . 'GetAttributes'
             ]
         ];
 

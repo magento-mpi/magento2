@@ -96,60 +96,6 @@ class AddressRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
     /**
      * @magentoApiDataFixture Magento/Customer/_files/customer.php
-     * @magentoApiDataFixture Magento/Customer/_files/customer_two_addresses.php
-     */
-    public function testGetDefaultBillingAddress()
-    {
-        $fixtureCustomerId = 1;
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => "/V1/customers/$fixtureCustomerId/billingAddress",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
-                'service' => self::SOAP_SERVICE_NAME,
-                'serviceVersion' => self::SOAP_SERVICE_VERSION,
-                'operation' => self::SOAP_SERVICE_NAME . 'GetDefaultBillingAddress'
-            ]
-        ];
-        $requestData = ['customerId' => $fixtureCustomerId];
-        $addressData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals(
-            $this->getFirstFixtureAddressData(),
-            $addressData,
-            "Default billing address data is invalid."
-        );
-    }
-
-    /**
-     * @magentoApiDataFixture Magento/Customer/_files/customer.php
-     * @magentoApiDataFixture Magento/Customer/_files/customer_two_addresses.php
-     */
-    public function testGetDefaultShippingAddress()
-    {
-        $fixtureCustomerId = 1;
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => "/V1/customers/$fixtureCustomerId/shippingAddress",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
-                'service' => self::SOAP_SERVICE_NAME,
-                'serviceVersion' => self::SOAP_SERVICE_VERSION,
-                'operation' => self::SOAP_SERVICE_NAME . 'GetDefaultShippingAddress'
-            ]
-        ];
-        $requestData = ['customerId' => $fixtureCustomerId];
-        $addressData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals(
-            $this->getFirstFixtureAddressData(),
-            $addressData,
-            "Default shipping address data is invalid."
-        );
-    }
-
-    /**
-     * @magentoApiDataFixture Magento/Customer/_files/customer.php
      * @magentoApiDataFixture Magento/Customer/_files/customer_address.php
      */
     public function testDeleteAddress()

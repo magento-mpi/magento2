@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Service\V1;
+namespace Magento\Customer\Api;
 
 use Magento\Customer\Api\Data\AddressInterface as Address;
 use Magento\Customer\Model\Data\AttributeMetadata;
@@ -17,7 +17,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
  */
 class AddressMetadataTest extends WebapiAbstract
 {
-    const SERVICE_NAME = "customerAddressMetadataServiceV1";
+    const SERVICE_NAME = "customerAddressMetadataV1";
     const SERVICE_VERSION = "V1";
     const RESOURCE_PATH = "/V1/attributeMetadata/customerAddress";
 
@@ -38,7 +38,7 @@ class AddressMetadataTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerAddressMetadataServiceV1GetAttributeMetadata'
+                'operation' => self::SERVICE_NAME . 'GetAttributeMetadata'
             ]
         ];
 
@@ -98,7 +98,7 @@ class AddressMetadataTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerAddressMetadataServiceV1GetAllAttributesMetadata'
+                'operation' => self::SERVICE_NAME . 'GetAllAttributesMetadata'
             ]
         ];
 
@@ -126,7 +126,7 @@ class AddressMetadataTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerAddressMetadataServiceV1GetCustomAttributesMetadata'
+                'operation' => self::SERVICE_NAME . 'GetCustomAttributesMetadata'
             ]
         ];
 
@@ -153,7 +153,7 @@ class AddressMetadataTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerAddressMetadataServiceV1GetAttributes'
+                'operation' => self::SERVICE_NAME . 'GetAttributes'
             ]
         ];
 
