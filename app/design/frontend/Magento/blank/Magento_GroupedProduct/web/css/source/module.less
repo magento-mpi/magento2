@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .table.grouped {
     .table-bordered(
         @_table_type: horizontal
@@ -23,7 +29,7 @@
     }
     .control {
         .qty {
-            &:extend(.abstract-input-qty all);
+            &:extend(.abs-input-qty all);
         }
     }
     .stock.unavailable {
@@ -40,4 +46,6 @@
             margin: 0 -10px 10px;
         }
     }
+}
+
 }

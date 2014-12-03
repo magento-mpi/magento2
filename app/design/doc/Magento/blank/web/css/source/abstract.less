@@ -55,14 +55,14 @@
     .button-responsive();
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .button-desktop {
         width: auto;
     }
 }
 
-.responsive-smaller(@break) when (@break = @screen-m) {
-    .abstract-button-responsive-smaller {
+.responsive-max-m(@break) when (@break = @screen-m) {
+    .abs-button-responsive-smaller {
         .button-responsive();
     }
 }
@@ -70,7 +70,7 @@
 //
 //    Blocks in 2 columns
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .blocks-2columns {
         width: 48.8%;
         &:nth-child(odd) {
@@ -109,7 +109,7 @@
 //
 //    Input quantity
 //--------------------------------------
-.abstract-input-qty {
+.abs-input-qty {
     width: 47px;
     text-align: center;
 }
@@ -163,7 +163,7 @@
     margin-left: 0;
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .reset-left-margin-desktop {
         margin-left: 0;
     }
@@ -186,7 +186,7 @@
 //
 //    Action with icon remove with text for desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .action-remove-desktop when not (@form-field-type-inline-label-width = false) and not (@form-field-type-inline-label-width = '') {
         top: 6px;
         margin-left: @form-field-type-inline-label-width + 50%;
@@ -225,7 +225,7 @@
             }
         }
         .message {
-            margin: @indent-l-base 0 0 0;
+            margin: @indent-l-base 0 0;
         }
     }
 }
@@ -233,7 +233,7 @@
 //
 //    Add Recipient for desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .add-recipients-desktop {
         .recipients {
             .additional {
@@ -248,7 +248,7 @@
 //
 //    Margin for forms
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .margin-for-forms-desktop when not (@form-field-type-inline-label-width = false) and not (@form-field-type-inline-label-width = '') {
         margin-left: @form-field-type-inline-label-width;
     }
@@ -261,13 +261,13 @@
     .visually-hidden();
 }
 
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .visually-hidden-mobile {
         .visually-hidden();
     } 
 }
 
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .visually-hidden-mobile-m {
         .visually-hidden();
     }
@@ -280,13 +280,13 @@
     .clearfix();
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .add-clearfix-desktop {
         .clearfix();
     }
 }
 
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .add-clearfix-mobile {
         .clearfix();
     }
@@ -299,7 +299,7 @@
     box-sizing: border-box;
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .add-box-sizing-desktop {
         box-sizing: border-box;
     }
@@ -308,7 +308,7 @@
 //
 //    Revert field type
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .revert-field-type-desktop {
         .fieldset {
             > .field,
@@ -344,7 +344,7 @@
 //    Split button
 //--------------------------------------
 
-.abstract-split-button {
+.abs-split-button {
     .dropdown-split(
         @_options-selector : ~".items",
         @_dropdown-split-button-border-radius-fix: true
@@ -355,12 +355,12 @@
 //
 //    Action addto
 //--------------------------------------
-.abstract-action-addto-product {
+.abs-action-addto-product {
     &:extend(.action-link-button all);
     .button-s();
 }
 
-.abstract-actions-addto-gridlist {
+.abs-actions-addto-gridlist {
     .icon-font(
         @_icon-font-content: '',
         @_icon-font-size: 29px,
@@ -375,14 +375,14 @@
 //
 //    Large button
 //--------------------------------------
-.abstract-button-l {
+.abs-button-l {
     .button-l();
 }
 
 //
 //   Button as a link
 //--------------------------------------
-.abstract-action-button-as-link {
+.abs-action-button-as-link {
     .button-as-link();
     border-radius: 0;
     font-weight: @font-weight-base;
@@ -392,28 +392,28 @@
 //
 //   Button revert secondary color
 //--------------------------------------
-.abstract-revert-secondary-color {
+.abs-revert-secondary-color {
     .button-revert-secondary-color();
 }
 
 //
 //   Button revert secondary size
 //--------------------------------------
-.abstract-revert-secondary-size {
+.abs-revert-secondary-size {
     .button-revert-secondary-size();
 }
 
 //
 //    Box-tocart block
 //--------------------------------------
-.abstract-box-tocart {
+.abs-box-tocart {
     margin: @indent-s-base 0;
 }
 
 //
 //    Vertical Table
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .table-vertical-mobile {
         .table-responsive();
         tbody > tr {
@@ -433,7 +433,7 @@
 //
 //    Excl/Incl tax
 //--------------------------------------
-.abstract-incl-excl-tax {
+.abs-incl-excl-tax {
     .tax {
         display: block;
         .font-size(18);
@@ -460,7 +460,7 @@
 //
 //    Cart tax total
 //--------------------------------------
-.abstract-tax-total {
+.abs-tax-total {
     cursor: pointer;
     position: relative;
     padding-right: 12px;
