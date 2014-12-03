@@ -136,7 +136,7 @@ define([
          * @private
          */
         _ajaxComplete: function(res) {
-			var data = res.responseJSON,
+            var data = res.responseJSON,
                 hasErrors = !!data.error,
                 errors;
 
