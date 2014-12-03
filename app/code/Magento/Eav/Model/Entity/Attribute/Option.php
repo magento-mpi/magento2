@@ -36,6 +36,7 @@ class Option extends AbstractExtensibleModel implements AttributeOptionInterface
     /**
      * @codeCoverageIgnoreStart
      * {@inheritdoc}
+     * @codeCoverageIgnoreStart
      */
     public function getLabel()
     {

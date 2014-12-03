@@ -75,6 +75,7 @@ class Group extends \Magento\Framework\Model\AbstractExtensibleModel implements
     /**
      * @codeCoverageIgnoreStart
      * {@inheritdoc}
+     * @codeCoverageIgnoreStart
      */
     public function getAttributeGroupId()
     {
