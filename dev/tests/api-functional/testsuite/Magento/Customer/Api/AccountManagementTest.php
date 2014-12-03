@@ -119,9 +119,9 @@ class AccountManagementTest extends WebapiAbstract
                         'httpMethod' => RestConfig::HTTP_METHOD_DELETE
                     ],
                     'soap' => [
-                        'service' => self::SERVICE_NAME,
+                        'service' => CustomerRepositoryTest::SERVICE_NAME,
                         'serviceVersion' => self::SERVICE_VERSION,
-                        'operation' => self::SERVICE_NAME . 'DeleteById'
+                        'operation' => CustomerRepositoryTest::SERVICE_NAME . 'DeleteById'
                     ]
                 ];
 
