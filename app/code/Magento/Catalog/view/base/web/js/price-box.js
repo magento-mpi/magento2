@@ -172,6 +172,7 @@ define([
      * @param {Object} prices
      */
     function setDefaultPrices(prices) {
+        /*jshint validthis: true */
         this.cache.displayPrices = utils.deepClone(prices);
         this.options.prices = utils.deepClone(prices);
     }
