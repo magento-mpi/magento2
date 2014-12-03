@@ -9,8 +9,6 @@ namespace Magento\CatalogInventory\Api;
 
 /**
  * Interface StockIndexInterface
- * @package Magento\CatalogInventory\Api
- * @api
  */
 interface StockIndexInterface
 {
@@ -19,7 +17,7 @@ interface StockIndexInterface
      *
      * @param int $productId
      * @param int $websiteId
-     * @return true
+     * @return bool
      */
     public function rebuild($productId = null, $websiteId = null);
 }
