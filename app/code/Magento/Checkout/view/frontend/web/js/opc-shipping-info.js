@@ -34,6 +34,7 @@ define([
             var events = {};
             events['change ' + this.options.shipping.addressDropdownSelector] = function(e) {
                 $(this.options.shipping.newAddressFormSelector).toggle(!$(e.target).val());
+                $(this.options.shipping.copyBillingSelector).prop('checked', false);
             };
             var onInputPropChange = function() {
                 $(this.options.shipping.copyBillingSelector).prop('checked', false);
