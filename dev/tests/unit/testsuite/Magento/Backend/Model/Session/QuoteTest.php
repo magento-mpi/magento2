@@ -13,57 +13,7 @@ namespace Magento\Backend\Model\Session;
 class QuoteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $storeManagerMock;
-
-    /**
-     * @var \Magento\Sales\Model\OrderFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $orderFactoryMock;
-
-    /**
-     * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $cookieMetadataFactoryMock;
-
-    /**
-     * @var \Magento\Framework\Stdlib\CookieManager|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $cookieManagerMock;
-
-    /**
-     * @var \Magento\Framework\Session\StorageInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $storageMock;
-
-    /**
-     * @var \Magento\Framework\Session\ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $validatorMock;
-
-    /**
-     * @var \Magento\Framework\Session\SaveHandlerInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $saveHandlerMock;
-
-    /**
-     * @var \Magento\Framework\Session\Config\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $sessionConfigMock;
-
-    /**
-     * @var \Magento\Framework\Session\SidResolverInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $sidResolverMock;
-
-    /**
-     * @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $requestMock;
-
-    /**
-     * @var \Magento\Customer\Api\CustomerRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerRepositoryMock;
 
@@ -83,7 +33,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     protected $quote;
 
     /**
-     * @var \Magento\Customer\Api\GroupManagementInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $groupManagementMock;
 
@@ -130,81 +80,39 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->requestMock = $this->getMock(
-            'Magento\Framework\App\Request\Http',
-            [],
-            [],
-            '',
-            false
-        );
-        $this->sidResolverMock = $this->getMockForAbstractClass(
-            'Magento\Framework\Session\SidResolverInterface',
-            [],
-            '',
-            false
-        );
-        $this->sessionConfigMock = $this->getMockForAbstractClass(
-            'Magento\Framework\Session\Config\ConfigInterface',
-            [],
-            '',
-            false
-        );
-        $this->saveHandlerMock = $this->getMockForAbstractClass(
-            'Magento\Framework\Session\SaveHandlerInterface',
-            [],
-            '',
-            false
-        );
-        $this->validatorMock = $this->getMockForAbstractClass(
-            'Magento\Framework\Session\ValidatorInterface',
-            [],
-            '',
-            false
-        );
-        $this->storageMock = $this->getMockForAbstractClass(
-            'Magento\Framework\Session\StorageInterface',
-            [],
-            '',
-            false
-        );
-        $this->cookieManagerMock = $this->getMock('Magento\Framework\Stdlib\CookieManagerInterface');
-        $this->cookieMetadataFactoryMock = $this->getMock(
+        $requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $sidResolverMock = $this->getMockForAbstractClass('Magento\Framework\Session\SidResolverInterface');
+        $sessionConfigMock = $this->getMockForAbstractClass('Magento\Framework\Session\Config\ConfigInterface');
+        $saveHandlerMock = $this->getMockForAbstractClass('Magento\Framework\Session\SaveHandlerInterface');
+        $validatorMock = $this->getMockForAbstractClass('Magento\Framework\Session\ValidatorInterface');
+        $storageMock = $this->getMockForAbstractClass('Magento\Framework\Session\StorageInterface');
+        $cookieManagerMock = $this->getMock('Magento\Framework\Stdlib\CookieManagerInterface');
+        $cookieMetadataFactoryMock = $this->getMock(
             'Magento\Framework\Stdlib\Cookie\CookieMetadataFactory',
             [],
             [],
             '',
             false
         );
-        $this->orderFactoryMock = $this->getMock(
-            'Magento\Sales\Model\OrderFactory',
-            [],
-            [],
-            '',
-            false
-        );
-        $this->storeManagerMock = $this->getMockForAbstractClass(
-            'Magento\Framework\StoreManagerInterface',
-            [],
-            '',
-            false
-        );
+        $orderFactoryMock = $this->getMock('Magento\Sales\Model\OrderFactory', [], [], '', false);
+        $storeManagerMock = $this->getMockForAbstractClass('Magento\Framework\StoreManagerInterface');
 
         $this->quote = $this->getMock(
             'Magento\Backend\Model\Session\Quote',
             ['getStoreId', 'getQuoteId', 'setQuoteId', 'hasCustomerId', 'getCustomerId'],
             [
-                'request' => $this->requestMock,
-                'sidResolver' => $this->sidResolverMock,
-                'sessionConfig' => $this->sessionConfigMock,
-                'saveHandler' => $this->saveHandlerMock,
-                'validator' => $this->validatorMock,
-                'storage' => $this->storageMock,
-                'cookieManager' => $this->cookieManagerMock,
-                'cookieMetadataFactory' => $this->cookieMetadataFactoryMock,
+                'request' => $requestMock,
+                'sidResolver' => $sidResolverMock,
+                'sessionConfig' => $sessionConfigMock,
+                'saveHandler' => $saveHandlerMock,
+                'validator' => $validatorMock,
+                'storage' => $storageMock,
+                'cookieManager' => $cookieManagerMock,
+                'cookieMetadataFactory' => $cookieMetadataFactoryMock,
                 'quoteRepository' => $this->quoteRepositoryMock,
                 'customerRepository' => $this->customerRepositoryMock,
-                'orderFactory' => $this->orderFactoryMock,
-                'storeManager' => $this->storeManagerMock,
+                'orderFactory' => $orderFactoryMock,
+                'storeManager' => $storeManagerMock,
                 'groupManagement' => $this->groupManagementMock
             ],
             '',

@@ -170,17 +170,6 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($this->storeMock));
         $this->storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
 
-        $customerQuoteMock = $this->getMock('\Magento\Sales\Model\Quote',
-            [
-                'loadByCustomer',
-                'getIsActive',
-                'getId',
-                '__wakeup'
-            ],
-            [],
-            '',
-            false
-        );
         $this->quoteRepositoryMock->expects($this->once())
             ->method('getActiveForCustomer')
             ->with($userId)
