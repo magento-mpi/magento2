@@ -54,7 +54,8 @@ class RouteListener extends \Zend\Mvc\RouteListener
      * Display messages on console
      *
      * @param MvcEvent $e
-     * @param $validationMessages
+     * @param string $validationMessages
+     * @return void
      */
     private function displayMessages(MvcEvent $e, $validationMessages)
     {

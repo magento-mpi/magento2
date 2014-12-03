@@ -96,7 +96,6 @@ class VerboseValidator
             $validationMessages .= PHP_EOL;
         }
 
-
         return $validationMessages;
     }
 
@@ -157,8 +156,8 @@ class VerboseValidator
     /**
      * Checks for parameters that are missing values
      *
-     * @param $expectedParams
-     * @param $actualParams
+     * @param array $expectedParams
+     * @param array $actualParams
      * @return array
      */
     public function checkMissingValue($expectedParams, $actualParams)
@@ -177,8 +176,8 @@ class VerboseValidator
     /**
      * Checks for parameters that do not need values
      *
-     * @param $expectedParams
-     * @param $actualParams
+     * @param array $expectedParams
+     * @param array $actualParams
      * @return array
      */
     public function checkExtraValue($expectedParams, $actualParams)
