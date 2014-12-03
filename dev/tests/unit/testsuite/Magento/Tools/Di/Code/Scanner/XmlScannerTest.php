@@ -15,11 +15,6 @@ class XmlScannerTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var string
-     */
-    protected $_testDir;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_logMock;
@@ -34,11 +29,11 @@ class XmlScannerTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Tools\Di\Code\Scanner\XmlScanner(
             $this->_logMock = $this->getMock('\Magento\Tools\Di\Compiler\Log\Log', array(), array(), '', false)
         );
-        $this->_testDir = str_replace('\\', '/', realpath(__DIR__ . '/../../') . '/_files');
+        $testDir = __DIR__ . '/../../' . '/_files';
         $this->_testFiles = array(
-            $this->_testDir . '/app/code/Magento/SomeModule/etc/adminhtml/system.xml',
-            $this->_testDir . '/app/code/Magento/SomeModule/etc/di.xml',
-            $this->_testDir . '/app/code/Magento/SomeModule/view/frontend/default.xml'
+            $testDir . '/app/code/Magento/SomeModule/etc/adminhtml/system.xml',
+            $testDir . '/app/code/Magento/SomeModule/etc/di.xml',
+            $testDir . '/app/code/Magento/SomeModule/view/frontend/default.xml'
         );
     }
 
