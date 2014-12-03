@@ -713,22 +713,6 @@ class Installer
         return $this->installInfo;
     }
 
-
-    /**
-     * Validate install parameter values
-     *
-     * @param array $data
-     * @return string
-     */
-    public static function validateInstall(array $data)
-    {
-        $validationMessages = '';
-        $validationMessages .=  DeploymentConfigMapper::validateDeploymentConfig($data);
-        $validationMessages .= UserConfigurationDataMapper::validateUserConfig($data);
-        $validationMessages .= AdminAccount::validateAdmin($data);
-        return $validationMessages;
-    }
-
     /**
      * Deletes the database and creates it again
      *

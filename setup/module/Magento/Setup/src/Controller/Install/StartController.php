@@ -101,14 +101,14 @@ class StartController extends AbstractActionController
         $result[DeploymentConfigMapper::KEY_DB_HOST] = isset($source['db']['host']) ? $source['db']['host'] : '';
         $result[DeploymentConfigMapper::KEY_DB_NAME] = isset($source['db']['name']) ? $source['db']['name'] : '';
         $result[DeploymentConfigMapper::KEY_DB_USER] = isset($source['db']['user']) ? $source['db']['user'] :'';
-        $result[DeploymentConfigMapper::KEY_DB_PASS] = isset($source['db']['password']) ? $source['db']['password'] : '';
-        $result[DeploymentConfigMapper::KEY_DB_PREFIX] = isset($source['db']['tablePrefix']) ? $source['db']['tablePrefix'] : '';
+        $result[DeploymentConfigMapper::KEY_DB_PASS] =
+            isset($source['db']['password']) ? $source['db']['password'] : '';
+        $result[DeploymentConfigMapper::KEY_DB_PREFIX] =
+            isset($source['db']['tablePrefix']) ? $source['db']['tablePrefix'] : '';
         $result[DeploymentConfigMapper::KEY_BACKEND_FRONTNAME] = isset($source['config']['address']['admin'])
-            ? $source['config']['address']['admin']
-            : '';
+            ? $source['config']['address']['admin'] : '';
         $result[DeploymentConfigMapper::KEY_ENCRYPTION_KEY] = isset($source['config']['encrypt']['key'])
-            ? $source['config']['encrypt']['key']
-            : '';
+            ? $source['config']['encrypt']['key'] : '';
         return $result;
     }
 
