@@ -700,7 +700,7 @@ class Observer
 
         $rewardedAmountAfterRefund = $creditMemo->getRewardedAmountAfterRefund();
 
-        $customerBalanceTotalRefunded = $order->getBaseCustomerBalanceTotalRefunded();
+        $customerBalanceTotalRefunded = $order->getBsCustomerBalTotalRefunded();
         $rewardedAmountRefunded = $order->getBaseTotalRefunded() - $order->getBaseTaxRefunded()
             - $order->getBaseShippingRefunded();
         if ($customerBalanceTotalRefunded > $rewardedAmountRefunded) {

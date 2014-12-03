@@ -102,7 +102,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Framework\App\Config | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $scopeConfig;
-
+    
     /**
      * @var \Magento\Customer\Api\AddressRepositoryInterface | \PHPUnit_Framework_MockObject_MockObject
      */
@@ -143,6 +143,9 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     protected $objectCopyServiceMock;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $this->quoteAddressFactoryMock = $this->getMock(

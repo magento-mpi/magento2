@@ -13,6 +13,7 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
  * Class StockRegistryProviderTest
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class StockRegistryProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -125,8 +126,7 @@ class StockRegistryProviderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
-
+        
         $this->stockFactory = $this->getMock(
             '\Magento\CatalogInventory\Api\Data\StockInterfaceFactory',
             ['create'],
