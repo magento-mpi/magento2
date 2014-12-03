@@ -47,13 +47,13 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
      */
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
-        \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Eav\Model\Config $config,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
+        \Magento\Framework\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->storeManager = $storeManager;
