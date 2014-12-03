@@ -8,36 +8,98 @@
 
 namespace Magento\Customer\Api;
 
+use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Model\CustomerRegistry;
 use Magento\Integration\Model\Oauth\Token as TokenModel;
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\Helper\Customer as CustomerHelper;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
+/**
+ * Class AccountManagementMeTest
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @magentoApiDataFixture Magento/Customer/_files/customer.php
+ * @magentoApiDataFixture Magento/Customer/_files/customer_two_addresses.php
+ */
 class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-    /** @var $token TokenModel */
+    const RESOURCE_PATH = '/V1/customers/me';
+    const RESOURCE_PATH_CUSTOMER_TOKEN = "/V1/integration/customer/token";
+
+    /**
+     * @var CustomerRepositoryInterface
+     */
+    private $customerRepository;
+
+    /**
+     * @var CustomerBuilder
+     */
+    private $customerBuilder;
+
+    /**
+     * @var CustomerRegistry
+     */
+    private $customerRegistry;
+
+    /**
+     * @var CustomerHelper
+     */
+    private $customerHelper;
+
+    /**
+     * @var TokenModel
+     */
     private $token;
 
-    protected function setUp()
+    /**
+     * @var CustomerInterface
+     */
+    private $customerData;
+
+    /**
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
+     */
+    private $dataObjectProcessor;
+
+    /**
+     * Execute per test initialization.
+     */
+    public function setUp()
     {
         $this->_markTestAsRestOnly();
 
-        // get token
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => '/V1/integration/customer/token',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ]
-        ];
-        $requestData = ['username' => 'customer@example.com', 'password' => 'password'];
-        $this->token = $this->_webApiCall($serviceInfo, $requestData);
+        $this->customerRegistry = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Model\CustomerRegistry'
+        );
 
-        parent::setUp();
+        $this->customerRepository = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\CustomerRepositoryInterface',
+            ['customerRegistry' => $this->customerRegistry]
+        );
+        $this->customerBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Api\Data\CustomerDataBuilder'
+        );
+        $this->customerHelper = new CustomerHelper();
+        $this->customerData = $this->customerHelper->createSampleCustomer();
+
+        // get token
+        $this->resetTokenForCustomerSampleData();
+
+        $this->dataObjectProcessor = Bootstrap::getObjectManager()->create(
+            'Magento\Framework\Reflection\DataObjectProcessor'
+        );
     }
 
     /**
      * Ensure that fixture customer and his addresses are deleted.
      */
-    protected function tearDown()
+    public function tearDown()
     {
+        unset($this->customerRepository);
+
         /** @var \Magento\Framework\Registry $registry */
         $registry = Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
         $registry->unregister('isSecureArea');
@@ -48,12 +110,119 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
         parent::tearDown();
     }
 
+    public function testChangePassword()
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/password',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+                'token' => $this->token
+            ]
+        ];
+        $requestData = ['currentPassword' => 'test@123', 'newPassword' => '123@test'];
+        $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/customers/login',
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
+            ]
+        ];
+        $requestData = ['email' => $this->customerData[CustomerInterface::EMAIL], 'password' => '123@test'];
+        $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($this->customerData[CustomerInterface::ID], $customerResponseData[CustomerInterface::ID]);
+    }
+
+    public function testUpdateCustomer()
+    {
+        $customerData = $this->_getCustomerData($this->customerData[CustomerInterface::ID]);
+        $lastName = $customerData->getLastname();
+
+        $updatedCustomerData = $this->dataObjectProcessor->buildOutputDataArray(
+            $customerData,
+            'Magento\Customer\Api\Data\CustomerInterface'
+        );
+        $updatedCustomerData[CustomerInterface::LASTNAME] = $lastName . 'Updated';
+        $updatedCustomerData[CustomerInterface::ID] = 25;
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+                'token' => $this->token
+            ]
+        ];
+        $requestData = ['customer' => $updatedCustomerData];
+
+        $response = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($lastName . "Updated", $response[CustomerInterface::LASTNAME]);
+
+        $customerData = $this->_getCustomerData($this->customerData[CustomerInterface::ID]);
+        $this->assertEquals($lastName . "Updated", $customerData->getLastname());
+    }
+
+    public function testGetCustomerData()
+    {
+        //Get expected details from the Service directly
+        $customerData = $this->_getCustomerData($this->customerData[CustomerInterface::ID]);
+        $expectedCustomerDetails = $this->dataObjectProcessor->buildOutputDataArray(
+            $customerData,
+            'Magento\Customer\Api\Data\CustomerInterface'
+        );
+        $expectedCustomerDetails['addresses'][0]['id'] =
+            (int)$expectedCustomerDetails['addresses'][0]['id'];
+
+        $expectedCustomerDetails['addresses'][1]['id'] =
+            (int)$expectedCustomerDetails['addresses'][1]['id'];
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+                'token' => $this->token
+            ]
+        ];
+        $customerDetailsResponse = $this->_webApiCall($serviceInfo);
+
+        unset($expectedCustomerDetails['custom_attributes']);
+        unset($customerDetailsResponse['custom_attributes']); //for REST
+
+        $this->assertEquals($expectedCustomerDetails, $customerDetailsResponse);
+    }
+
+    public function testGetCustomerActivateCustomer()
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/activate',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+                'token' => $this->token
+            ]
+        ];
+        $requestData = ['confirmationKey' => $this->customerData[CustomerInterface::CONFIRMATION]];
+        $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals($this->customerData[CustomerInterface::ID], $customerResponseData[CustomerInterface::ID]);
+        // Confirmation key is removed after confirmation
+        $this->assertFalse(isset($customerResponseData[CustomerInterface::CONFIRMATION]));
+    }
+
     /**
-     * @magentoApiDataFixture Magento/Customer/_files/customer.php
-     * @magentoApiDataFixture Magento/Customer/_files/customer_two_addresses.php
+     * Return the customer details.
+     *
+     * @param int $customerId
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
+    protected function _getCustomerData($customerId)
+    {
+        $data =  $this->customerRepository->getById($customerId);
+        $this->customerRegistry->remove($customerId);
+        return $data;
+    }
+
     public function testGetDefaultBillingAddress()
     {
+        $this->resetTokenForCustomerFixture();
+
         $fixtureCustomerId = 1;
         $serviceInfo = [
             'rest' => [
@@ -71,12 +240,10 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
         );
     }
 
-    /**
-     * @magentoApiDataFixture Magento/Customer/_files/customer.php
-     * @magentoApiDataFixture Magento/Customer/_files/customer_two_addresses.php
-     */
     public function testGetDefaultShippingAddress()
     {
+        $this->resetTokenForCustomerFixture();
+
         $fixtureCustomerId = 1;
         $serviceInfo = [
             'rest' => [
@@ -139,5 +306,40 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
             'customer_id' => '1',
             'region' => ['region' => 'Alabama', 'region_id' => 1, 'region_code' => 'AL'],
         ];
+    }
+
+    /**
+     * Sets the test's access token for the customer fixture
+     */
+    protected function resetTokenForCustomerFixture()
+    {
+        $this->resetTokenForCustomer('customer@example.com', 'password');
+    }
+
+    /**
+     * Sets the test's access token for the created customer sample data
+     */
+    protected function resetTokenForCustomerSampleData()
+    {
+        $this->resetTokenForCustomer($this->customerData[CustomerInterface::EMAIL], 'test@123');
+    }
+
+    /**
+     * Sets the test's access token for a particular username and password.
+     *
+     * @param string $username
+     * @param string $password
+     */
+    protected function resetTokenForCustomer($username, $password)
+    {
+        // get customer ID token
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH_CUSTOMER_TOKEN,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ]
+        ];
+        $requestData = ['username' => $username, 'password' => $password];
+        $this->token = $this->_webApiCall($serviceInfo, $requestData);
     }
 }

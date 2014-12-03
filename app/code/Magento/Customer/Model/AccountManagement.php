@@ -344,7 +344,27 @@ class AccountManagement implements AccountManagementInterface
     public function activate($email, $confirmationKey)
     {
         $customer = $this->customerRepository->get($email);
+        return $this->activateCustomer($customer, $confirmationKey);
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function activateById($customerId, $confirmationKey)
+    {
+        $customer = $this->customerRepository->getById($customerId);
+        return $this->activateCustomer($customer, $confirmationKey);
+    }
+
+    /**
+     * Activate a customer account using a key that was sent in a confirmation e-mail.
+     *
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
+     * @param string $confirmationKey
+     * @return \Magento\Customer\Api\Data\CustomerInterface
+     */
+    private function activateCustomer($customer, $confirmationKey)
+    {
         // check if customer is inactive
         if (!$customer->getConfirmation()) {
             throw new InvalidTransitionException('Account already active');
@@ -601,6 +621,32 @@ class AccountManagement implements AccountManagementInterface
         } catch (NoSuchEntityException $e) {
             throw new InvalidEmailOrPasswordException('Invalid login or password.');
         }
+        return $this->changePasswordForCustomer($customer, $currentPassword, $newPassword);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function changePasswordById($customerId, $currentPassword, $newPassword)
+    {
+        try {
+            $customer = $this->customerRepository->getById($customerId);
+        } catch (NoSuchEntityException $e) {
+            throw new InvalidEmailOrPasswordException('Invalid login or password.');
+        }
+        return $this->changePasswordForCustomer($customer, $currentPassword, $newPassword);
+    }
+
+    /**
+     * Change customer password.
+     *
+     * @param string $email
+     * @param string $currentPassword
+     * @param string $newPassword
+     * @return bool true on success
+     */
+    private function changePasswordForCustomer($customer, $currentPassword, $newPassword)
+    {
         $customerSecure = $this->customerRegistry->retrieveSecureData($customer->getId());
         $hash = $customerSecure->getPasswordHash();
         if (!$this->encryptor->validateHash($currentPassword, $hash)) {
