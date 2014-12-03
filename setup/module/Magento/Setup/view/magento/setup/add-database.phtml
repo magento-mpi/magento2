@@ -159,17 +159,15 @@
         </div>
     </div>
 
-    <div class="form-group" ng-show="database.submitted" >
+    <div class="form-group">
         <div class="col-sm-4">
             <input type="hidden"
-                   name="dbConnection"
-                   ng-model="db.connection"
-                   ng-required="!testConnection.result.success" />
+                   ng-model="testConn"
+                   ng-show="testConnection.result !== undefined && !testConnection.result.success"
+                   ng-bind="testConn"
+                   required />
         </div>
-        <div  class="col-sm-4">
-            <div ng-show="testConnection.result === undefined" class="animate-show text-success">
-                <span class="glyphicon text-success">&nbsp;Testing database connection......</span>
-            </div>
+        <div  class="col-sm-4" ng-show="database.submitted">
             <div ng-show="testConnection.result.success === false && testConnection.result !== undefined" class="error-container animate-show text-danger">
                 <span class="glyphicon glyphicon-remove-sign">&nbsp;{{testConnection.result.error}}</span>
             </div>
