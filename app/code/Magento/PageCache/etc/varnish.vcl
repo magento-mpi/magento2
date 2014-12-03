@@ -47,10 +47,6 @@ sub vcl_recv {
         return (pass);
     }
 
-    if (req.url ~ "\.(css|js|jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf|woff)(\?|$)") {
-         unset req.http.Cookie;
-    }
-
     set req.grace = 1m;
 
     return (lookup);
@@ -106,6 +102,10 @@ sub vcl_deliver {
         }
     } else {
         unset resp.http.Age;
+    }
+
+    if (req.url ~ "\.(css|js|jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf|woff)(\?|$)") {
+        unset resp.http.Cookie;
     }
     unset resp.http.X-Magento-Debug;
     unset resp.http.X-Magento-Tags;
