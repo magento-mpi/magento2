@@ -45,7 +45,7 @@ class TransportInterfaceFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento\Catalog\Model\Category
+     * @return \Magento\Framework\Mail\TransportInterface
      */
     public function create(array $data = array())
     {

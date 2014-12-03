@@ -89,7 +89,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $orderMock = $this->getMock(
             '\Magento\Sales\Model\Order',
             array(
-                'getBaseCustomerBalanceTotalRefunded',
+                'getBsCustomerBalTotalRefunded',
                 'getBaseTotalRefunded',
                 'getBaseTaxRefunded',
                 'getBaseShippingRefunded',
@@ -98,8 +98,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ),
             array(), '', false
         );
-        $orderMock->expects($this->any())->method('getBaseCustomerBalanceTotalRefunded')
-            ->will($this->returnValue($orderData['base_customer_balance_total_refunded']));
+        $orderMock->expects($this->any())->method('getBsCustomerBalTotalRefunded')
+            ->will($this->returnValue($orderData['bs_customer_bal_total_refunded']));
         $orderMock->expects($this->any())->method('getBaseTotalRefunded')
             ->will($this->returnValue($orderData['base_total_refunded']));
         $orderMock->expects($this->any())->method('getBaseTaxRefunded')
@@ -131,7 +131,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 'orderData' => array(
-                    'base_customer_balance_total_refunded' => 100,
+                    'bs_customer_bal_total_refunded' => 100,
                     'base_total_refunded' => 40,
                     'base_tax_refunded' => 10,
                     'base_shipping_refunded' => 10
@@ -141,7 +141,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 'orderData' => array(
-                    'base_customer_balance_total_refunded' => 10,
+                    'bs_customer_bal_total_refunded' => 10,
                     'base_total_refunded' => 40,
                     'base_tax_refunded' => 10,
                     'base_shipping_refunded' => 10
