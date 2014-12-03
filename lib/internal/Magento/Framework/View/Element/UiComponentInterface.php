@@ -7,6 +7,9 @@
  */
 namespace Magento\Framework\View\Element;
 
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use \Magento\Framework\View\Element\UiComponent\Context as RenderContext;
+
 /**
  * Class UiComponentInterface
  */
@@ -23,16 +26,17 @@ interface UiComponentInterface extends BlockInterface
     /**
      * Prepare component data
      *
-     * @return string
+     * @return void
      */
     public function prepare();
 
     /**
      * Render component
      *
+     * @param array $data
      * @return string
      */
-    public function render();
+    public function render(array $data = []);
 
     /**
      * Render label
@@ -70,7 +74,31 @@ interface UiComponentInterface extends BlockInterface
     public function getParentName();
 
     /**
-     * @return mixed
+     * Get render context
+     *
+     * @return RenderContext
      */
     public function getRenderContext();
+
+    /**
+     * Get elements
+     *
+     * @return UiComponentInterface[]
+     */
+    public function getElements();
+
+    /**
+     * Set elements
+     *
+     * @param array $elements
+     * @return mixed
+     */
+    public function setElements(array $elements);
+
+    /**
+     * Get configuration builder
+     *
+     * @return ConfigBuilderInterface
+     */
+    public function getConfigBuilder();
 }

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+use \Magento\Tools\Composer\Package\Package;
 
 require __DIR__ . '/../../../bootstrap.php';
 $generationDir = __DIR__ . '/_packages';
@@ -59,12 +59,11 @@ try {
     $noOfZips = 0;
 
     foreach ($reader->readMagentoPackages() as $package) {
-        $version = $package->get('version');
-        $fileName = str_replace('/', '_', $package->get('name')) . "-{$version}" . '.zip';
-        $sourceDir = str_replace('\\', '/', realpath(dirname($package->getFile())));
-        $noOfZips += Zipper::Zip($sourceDir, $generationDir . '/' . $fileName, []);
-        $logger->info(sprintf("Created zip archive for %-40s [%9s]", $fileName, $version));
+        $noOfZips += archivePackage($package, $generationDir, $logger);
     }
+
+    //archive root package
+    $noOfZips += archivePackage($reader->readFromDir(''), $generationDir, $logger, $reader->getExcludePaths());
 
     $logger->info(
         sprintf(
@@ -77,4 +76,25 @@ try {
     exit($e->getUsageMessage());
 } catch (\Exception $e) {
     exit($e->getMessage());
+}
+exit(0);
+
+/**
+ * Archive a package
+ *
+ * @param Package $package
+ * @param string $generationDir
+ * @param Zend_Log $logger
+ * @param array $excludes
+ * @return int
+ * @throws Exception
+ */
+function archivePackage($package, $generationDir, $logger, $excludes = [])
+{
+    $version = $package->get('version');
+    $fileName = str_replace('/', '_', $package->get('name')) . "-{$version}" . '.zip';
+    $sourceDir = str_replace('\\', '/', realpath(dirname($package->getFile())));
+    $noOfZips = Zipper::zip($sourceDir, $generationDir . '/' . $fileName, $excludes);
+    $logger->info(sprintf("Created zip archive for %-40s [%9s]", $fileName, $version));
+    return $noOfZips;
 }

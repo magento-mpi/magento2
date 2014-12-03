@@ -37,9 +37,9 @@ class Options extends \Magento\Framework\View\Element\Template
     protected $_checkoutCartFactory;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
-    protected $_productFactory;
+    protected $productRepository;
 
     /**
      * @var \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory
@@ -65,7 +65,7 @@ class Options extends \Magento\Framework\View\Element\Template
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Checkout\Model\CartFactory $checkoutCartFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param array $checkoutItems
      * @param array $data
      */
@@ -76,18 +76,18 @@ class Options extends \Magento\Framework\View\Element\Template
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Model\CartFactory $checkoutCartFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         array $checkoutItems,
         array $data = array()
     ) {
+        parent::__construct($context, $data);
         $this->_coreData = $coreData;
         $this->_giftWrappingData = $giftWrappingData;
         $this->_wrappingCollectionFactory = $wrappingCollectionFactory;
         $this->_checkoutSession = $checkoutSession;
         $this->_checkoutCartFactory = $checkoutCartFactory;
-        $this->_productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->checkoutItems = $checkoutItems;
-        parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
 
@@ -402,9 +402,8 @@ class Options extends \Magento\Framework\View\Element\Template
     public function canDisplayGiftWrapping()
     {
         $cartItems = $this->_checkoutCartFactory->create()->getItems();
-        $productModel = $this->_productFactory->create();
         foreach ($cartItems as $item) {
-            $product = $productModel->load($item->getProductId());
+            $product = $this->productRepository->getById($item->getProductId());
             if ($product->getGiftWrappingAvailable()) {
                 $this->_giftWrappingAvailable = true;
                 continue;

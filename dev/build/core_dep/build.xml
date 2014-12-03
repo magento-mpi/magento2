@@ -40,7 +40,7 @@
         </exec>
     </target>
 
-    <target name="_prepare_packages" depends="_server_info" description="Prepare repositories of the product and components packages">
+    <target name="_prepare_packages" depends="_server_info, _composer_install" description="Prepare repositories of the product and components packages">
         <fail message="Bamboo variable 'publication_target_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_publication_target_dir}" arg2="" trim="true"/></condition>
         </fail>
@@ -50,11 +50,11 @@
         <fail message="Bamboo variable 'target_satis_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_target_satis_dir}" arg2="" trim="true"/></condition>
         </fail>
-        <fail message="Bamboo variable 'target_skeleton_repository' must be defined.">
-            <condition><equals arg1="${env.bamboo_target_skeleton_repository}" arg2="" trim="true"/></condition>
+        <fail message="Bamboo variable 'target_product_repository' must be defined.">
+            <condition><equals arg1="${env.bamboo_target_product_repository}" arg2="" trim="true"/></condition>
         </fail>
-        <fail message="Bamboo variable 'target_skeleton_dir' must be defined.">
-            <condition><equals arg1="${env.bamboo_target_skeleton_dir}" arg2="" trim="true"/></condition>
+        <fail message="Bamboo variable 'target_product_dir' must be defined.">
+            <condition><equals arg1="${env.bamboo_target_product_dir}" arg2="" trim="true"/></condition>
         </fail>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/prepare_packages.php --
@@ -62,21 +62,21 @@
                 --changelog-file=CHANGELOG.md
                 --target-satis-repo=${env.bamboo_target_satis_repository}
                 --target-satis-dir=${env.bamboo_target_satis_dir}
-                --target-skeleton-repo=${env.bamboo_target_skeleton_repository}
-                --target-skeleton-dir=${env.bamboo_target_skeleton_dir}
+                --target-product-repo=${env.bamboo_target_product_repository}
+                --target-product-dir=${env.bamboo_target_product_dir}
                 "/>
         </exec>
     </target>
 
-    <target name="publication_ce" depends="prepare_publication_ce" description="Community Edition source code population to the public repository">
+    <target name="publication_ce" depends="prepare_publication_ce, _composer_install" description="Community Edition source code population to the public repository">
         <fail message="Bamboo variable 'target_satis_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_target_satis_dir}" arg2="" trim="true"/></condition>
         </fail>
         <fail message="Bamboo variable 'publication_target_dir' must be defined.">
             <condition><equals arg1="${env.bamboo_publication_target_dir}" arg2="" trim="true"/></condition>
         </fail>
-        <fail message="Bamboo variable 'target_skeleton_dir' must be defined.">
-            <condition><equals arg1="${env.bamboo_target_skeleton_dir}" arg2="" trim="true"/></condition>
+        <fail message="Bamboo variable 'target_product_dir' must be defined.">
+            <condition><equals arg1="${env.bamboo_target_product_dir}" arg2="" trim="true"/></condition>
         </fail>
         <condition property="env.bamboo_target_branch" value="master">
             <not><isset property="env.bamboo_target_branch"/></not>
@@ -87,8 +87,8 @@
         <exec dir="${env.bamboo_target_satis_dir}" executable="git" failonerror="true">
             <arg line="push origin master"/>
         </exec>
-        <!-- Push CE skeleton -->
-        <exec dir="${env.bamboo_target_skeleton_dir}" executable="git" failonerror="true">
+        <!-- Push CE product -->
+        <exec dir="${env.bamboo_target_product_dir}" executable="git" failonerror="true">
             <arg line="push origin master --tags"/>
         </exec>
         <!-- Push full CE -->

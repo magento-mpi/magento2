@@ -16,23 +16,23 @@ interface StockStatusCriteriaInterface extends \Magento\Framework\Api\CriteriaIn
      * Add Criteria object
      *
      * @param \Magento\CatalogInventory\Api\StockStatusCriteriaInterface $criteria
-     * @return void
+     * @return bool
      */
     public function addCriteria(\Magento\CatalogInventory\Api\StockStatusCriteriaInterface $criteria);
 
     /**
      * Filter by website(s)
      *
-     * @param int|object $website
-     * @return void
+     * @param int $website
+     * @return bool
      */
     public function setWebsiteFilter($website);
 
     /**
      * Add product(s) filter
      *
-     * @param array|int|object $products
-     * @return void
+     * @param int $products
+     * @return bool
      */
     public function setProductsFilter($products);
 
@@ -40,7 +40,7 @@ interface StockStatusCriteriaInterface extends \Magento\Framework\Api\CriteriaIn
      * Add filter by quantity
      *
      * @param float $qty
-     * @return void
+     * @return bool
      */
     public function setQtyFilter($qty);
 }

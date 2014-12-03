@@ -6,10 +6,16 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .bundle-actions {
-    &:extend(.abstract-box-tocart all);
+    &:extend(.abs-box-tocart all);
     .action.primary {
-        &:extend(.abstract-button-l all);
+        &:extend(.abs-button-l all);
     }
 }
 
@@ -26,15 +32,11 @@
     }
 
     .input-text.qty {
-        &:extend(.abstract-input-qty all);
+        &:extend(.abs-input-qty all);
     }
 
     .product-options-wrapper {
         margin-bottom: @indent-l-base;
-    }
-
-    .product-options-bottom {
-        clear: both;
     }
 
     .action.back {
@@ -49,13 +51,13 @@
     }
 
     .price-notice {
-        &:extend(.abstract-adjustment-incl-excl-tax all);
+        &:extend(.abs-adjustment-incl-excl-tax all);
     }
 
     .block-bundle-summary {
         padding: @indent-s-base @indent-base;
         background: @color-secondary;
-        &:extend(.abstract-add-box-sizing all);
+        &:extend(.abs-add-box-sizing all);
 
         > .title > strong {
             .heading(h2);
@@ -73,7 +75,7 @@
         }
 
         .bundle.items {
-            &:extend(.abstract-reset-list all);
+            &:extend(.abs-reset-list all);
             > li {
                 margin-bottom: @indent-s-base;
             }
@@ -84,12 +86,12 @@
                 margin-bottom: @indent-s-base;
             }
             .action.primary {
-                &:extend(.abstract-button-l all);
+                &:extend(.abs-button-l all);
             }
         }
         .product-addto-links {
             > .action {
-                &:extend(.abstract-action-addto-product all);
+                &:extend(.abs-action-addto-product all);
                 vertical-align: top;
             }
         }
@@ -99,19 +101,18 @@
     }
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .bundle-options-container {
         .legend.title {
-            &:extend(.abstract-reset-left-margin all);
+            &:extend(.abs-reset-left-margin all);
         }
-        .product-options-wrapper {
+        .bundle-options-wrapper {
             float: left;
-            width: 57%;
-        }
-        .product-options-bottom {
             width: 57%;
         }
         .block-bundle-summary {
@@ -119,8 +120,7 @@
             width: 40%;
             position: relative;
         }
-        .product-options-wrapper,
-        .product-options-bottom,
+        .bundle-options-wrapper,
         .block-bundle-summary {
             .page-layout-2columns-left &,
             .page-layout-2columns-right &,

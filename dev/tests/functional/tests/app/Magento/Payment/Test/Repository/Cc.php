@@ -31,6 +31,7 @@ class Cc extends AbstractRepository
         $this->_data['visa_direct'] = $this->_getVisaDirect();
         $this->_data['visa_authorizenet'] = $this->_getVisaAuthorizeNet();
         $this->_data['visa_3d_secure_valid'] = $this->_getVisa3dSecureValid();
+        $this->_data['visa_3d_secure_valid_second_card'] = $this->_getVisa3dSecureValidSecondCard();
         $this->_data['visa_3d_secure_invalid'] = $this->_getVisa3dSecureInvalid();
         $this->_data['visa_payflow'] = $this->_getVisaPayflow();
     }
@@ -166,14 +167,14 @@ class Cc extends AbstractRepository
                         'input' => 'select'
                     ],
                     'cc_number' => [
-                        'value' => '4000000000000002'
+                        'value' => '4000000000000010'
                     ],
                     'cc_exp_month' => [
                         'value' => '01 - January',
                         'input' => 'select'
                     ],
                     'cc_exp_year' => [
-                        'value' => date('Y') + 2,
+                        'value' => 2015,
                         'input' => 'select'
                     ],
                     'cc_cid' => [
@@ -197,10 +198,33 @@ class Cc extends AbstractRepository
                     'cc_number' => [
                         'value' => '4000000000000010'
                     ],
+                    'cc_exp_year' => [
+                        'value' => date('Y') + 2,
+                        'input' => 'select'
+                    ],
                 ],
             ]
         ];
 
         return array_replace_recursive($this->_getVisa3dSecureValid(), $invalidData);
+    }
+
+    protected function _getVisa3dSecureValidSecondCard()
+    {
+        $validData = [
+            'data' => [
+                'fields' => [
+                    'cc_number' => [
+                        'value' => '4000000000000002'
+                    ],
+                    'cc_exp_year' => [
+                        'value' => date('Y') + 2,
+                        'input' => 'select'
+                    ],
+                ],
+            ]
+        ];
+
+        return array_replace_recursive($this->_getVisa3dSecureValid(), $validData);
     }
 }

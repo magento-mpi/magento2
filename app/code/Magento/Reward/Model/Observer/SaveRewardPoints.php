@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -8,16 +7,19 @@
  */
 namespace Magento\Reward\Model\Observer;
 
-use Magento\Customer\Model\Converter;
+use Magento\Customer\Model\CustomerRegistry;
 
+/**
+ * Class SaveRewardPoints
+ */
 class SaveRewardPoints
 {
     /**
      * Customer converter
      *
-     * @var Converter
+     * @var CustomerRegistry
      */
-    protected $_customerConverter;
+    protected $customerRegistry;
 
     /**
      * Reward factory
@@ -44,18 +46,18 @@ class SaveRewardPoints
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
-     * @param Converter $customerConverter
+     * @param CustomerRegistry $customerRegistry
      */
     public function __construct(
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
-        Converter $customerConverter
+        CustomerRegistry $customerRegistry
     ) {
         $this->_rewardData = $rewardData;
         $this->_storeManager = $storeManager;
         $this->_rewardFactory = $rewardFactory;
-        $this->_customerConverter = $customerConverter;
+        $this->customerRegistry = $customerRegistry;
     }
 
     /**
@@ -73,7 +75,7 @@ class SaveRewardPoints
         $request = $observer->getEvent()->getRequest();
         $data = $request->getPost('reward');
         if ($data && !empty($data['points_delta'])) {
-            /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+            /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
             $customer = $observer->getEvent()->getCustomer();
 
             if (!isset($data['store_id'])) {
@@ -83,22 +85,19 @@ class SaveRewardPoints
                     $data['store_id'] = $customer->getStoreId();
                 }
             }
-            $customerModel = $this->_customerConverter->getCustomerModel($customer->getId());
+            $customerModel = $this->customerRegistry->retrieve($customer->getId());
             /** @var $reward \Magento\Reward\Model\Reward */
             $reward = $this->_rewardFactory->create();
-            $reward->setCustomer(
-                $customerModel
-            )->setWebsiteId(
-                $this->_storeManager->getStore($data['store_id'])->getWebsiteId()
-            )->loadByCustomer();
+            $reward->setCustomer($customerModel)
+                ->setWebsiteId($this->_storeManager->getStore($data['store_id'])->getWebsiteId())
+                ->loadByCustomer();
 
             $reward->addData($data);
-            $reward->setAction(
-                \Magento\Reward\Model\Reward::REWARD_ACTION_ADMIN
-            )->setActionEntity(
-                $customerModel
-            )->updateRewardPoints();
+            $reward->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_ADMIN)
+                ->setActionEntity($customerModel)
+                ->updateRewardPoints();
         }
+
         return $this;
     }
 }

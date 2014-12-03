@@ -14,7 +14,6 @@ class SaveNewTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
 
     public function testSaveNewAction()
     {
-        $dateTimeModelMock = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTime', [], [], '', false);
         $commentText = 'some comment';
         $visibleOnFront = true;
 

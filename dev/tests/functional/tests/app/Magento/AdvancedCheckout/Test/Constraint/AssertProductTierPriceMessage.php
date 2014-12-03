@@ -38,7 +38,7 @@ class AssertProductTierPriceMessage extends AbstractConstraint
             $tierPrices = $product->getTierPrice();
             $productPrice = $product->getPrice();
             \PHPUnit_Framework_Assert::assertTrue(
-                count($messages) !== count($tierPrices),
+                count($messages) === count($tierPrices),
                 'Wrong qty messages is displayed.'
             );
             foreach ($tierPrices as $key => $tierPrice) {

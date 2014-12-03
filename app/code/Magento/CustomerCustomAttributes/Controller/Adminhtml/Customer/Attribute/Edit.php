@@ -21,8 +21,6 @@ class Edit extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
         $attributeId = $this->getRequest()->getParam('attribute_id');
         $attributeObject = $this->_initAttribute()->setEntityTypeId($this->_getEntityType()->getId());
 
-        $this->_title->add(__('Customer Attributes'));
-
         if ($attributeId) {
             $attributeObject->load($attributeId);
             if (!$attributeObject->getId()) {
@@ -35,10 +33,6 @@ class Edit extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
                 $this->_redirect('adminhtml/*/');
                 return;
             }
-
-            $this->_title->add($attributeObject->getFrontendLabel());
-        } else {
-            $this->_title->add(__('New Customer Attribute'));
         }
 
         $attributeData = $this->_getSession()->getAttributeData(true);
@@ -50,6 +44,9 @@ class Edit extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
         $label = $attributeObject->getId() ? __('Edit Customer Attribute') : __('New Customer Attribute');
 
         $this->_initAction()->_addBreadcrumb($label, $label);
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customer Attributes'));
+        $attributeId ? $this->_view->getPage()->getConfig()->getTitle()->prepend($attributeObject->getFrontendLabel())
+            : $this->_view->getPage()->getConfig()->getTitle()->prepend(__('New Customer Attribute'));
         $this->_view->renderLayout();
     }
 }

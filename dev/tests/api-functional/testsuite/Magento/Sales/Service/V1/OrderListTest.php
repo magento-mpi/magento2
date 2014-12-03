@@ -18,7 +18,7 @@ class OrderListTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/orders';
 
-    const SERVICE_READ_NAME = 'salesOrderReadV1';
+    const SERVICE_READ_NAME = 'salesOrderRepositoryV1';
 
     const SERVICE_VERSION = 'V1';
 
@@ -57,7 +57,7 @@ class OrderListTest extends WebapiAbstract
         );
         $searchData = $searchCriteriaBuilder->create()->__toArray();
 
-        $requestData = ['searchCriteria' => $searchData];
+        $requestData = ['criteria' => $searchData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
@@ -66,7 +66,7 @@ class OrderListTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'search'
+                'operation' => self::SERVICE_READ_NAME . 'getList'
             ]
         ];
 

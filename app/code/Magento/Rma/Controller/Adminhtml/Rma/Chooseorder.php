@@ -18,9 +18,8 @@ class Chooseorder extends \Magento\Rma\Controller\Adminhtml\Rma
     public function execute()
     {
         $this->_initCreateModel();
-
         $this->_initAction();
-        $this->_title->add(__('New Return'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('New Return'));
         $this->_view->renderLayout();
     }
 }

@@ -8,6 +8,7 @@
 namespace Magento\Framework\ObjectManager\Factory;
 
 use Magento\Framework\ObjectManager\Config\Config;
+use Magento\Framework\ObjectManager\Factory\Dynamic\Developer;
 use Magento\Framework\ObjectManager\ObjectManager;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
@@ -36,7 +37,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->config = new Config();
-        $this->factory = new Factory($this->config);
+        $this->factory = new Developer($this->config);
         $this->objectManager = new ObjectManager($this->factory, $this->config);
         $this->factory->setObjectManager($this->objectManager);
     }
@@ -64,7 +65,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 'firstParam', 'string', true, 'default_val'
             ))));
 
-        $this->factory = new Factory(
+        $this->factory = new Developer(
             $configMock,
             null,
             $definitionsMock
@@ -141,7 +142,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             array('seven', null, false, null), array('eight', null, false, null), array('nine', null, false, null),
             array('ten', null, false, null),
         )));
-        $factory = new Factory($this->config, null, $definitions);
+        $factory = new Developer($this->config, null, $definitions);
         $result = $factory->create($type, array(
             'one' => 1, 'two' => 2, 'three' => 3, 'four' => 4, 'five' => 5,
             'six' => 6, 'seven' => 7, 'eight' => 8, 'nine' => 9, 'ten' => 10,

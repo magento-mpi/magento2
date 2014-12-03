@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-/**
- * Layer category filter
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Model\Layer\Filter;
 
 use Magento\Catalog\Model\Layer\Filter\DataProvider\CategoryFactory;
 use Magento\Catalog\Model\Layer\Filter\DataProvider\Category as CategoryDataProvider;
 
+/**
+ * Layer category filter
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
 
@@ -48,13 +48,6 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     protected $_coreRegistry;
 
     /**
-     * Category factory
-     *
-     * @var \Magento\Catalog\Model\CategoryFactory
-     */
-    protected $_categoryFactory;
-
-    /**
      * @var CategoryDataProvider
      */
     private $dataProvider;
@@ -77,10 +70,10 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Framework\Escaper $escaper,
         CategoryFactory $categoryDataProviderFactory,
-        array $data = []
+        array $data = array()
     ) {
-        $this->_escaper = $escaper;
         parent::__construct($filterItemFactory, $storeManager, $layer, $itemDataBuilder, $data);
+        $this->_escaper = $escaper;
         $this->_requestVar = 'cat';
         $this->dataProvider = $categoryDataProviderFactory->create(['layer' => $this->getLayer()]);
     }

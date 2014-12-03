@@ -51,7 +51,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      * @param \Magento\Framework\Search\Request\Builder $requestBuilder
      * @param \Magento\Search\Model\SearchEngine $searchEngine
      * @param \Zend_Db_Adapter_Abstract $connection
@@ -76,6 +76,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement,
         \Magento\Framework\Search\Request\Builder $requestBuilder,
         \Magento\Search\Model\SearchEngine $searchEngine,
         $connection = null
@@ -101,6 +102,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $localeDate,
             $customerSession,
             $dateTime,
+            $groupManagement,
             $connection
         );
     }
@@ -134,11 +136,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                         $attributeCode = $this->_eavConfig->getAttribute(Product::ENTITY, $attributeCode)
                             ->getAttributeCode();
                     }
-                    if (!empty($attributeValue['from']) || !empty($attributeValue['to'])) {
-                        if (!empty($attributeValue['from'])) {
+                    if (isset($attributeValue['from']) || isset($attributeValue['to'])) {
+                        if (isset($attributeValue['from']) && '' !== $attributeValue['from']) {
                             $this->requestBuilder->bind("{$attributeCode}.from", $attributeValue['from']);
                         }
-                        if (!empty($attributeValue['to'])) {
+                        if (isset($attributeValue['to']) && '' !== $attributeValue['to']) {
                             $this->requestBuilder->bind("{$attributeCode}.to", $attributeValue['to']);
                         }
                     } elseif (!is_array($attributeValue)) {

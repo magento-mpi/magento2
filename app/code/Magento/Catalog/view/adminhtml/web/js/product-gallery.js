@@ -10,8 +10,8 @@ define([
     "jquery/ui",
     "jquery/template"
 ], function($){
-
     "use strict";
+    
     /**
      * Product gallery widget
      */
@@ -371,5 +371,6 @@ define([
             });
         }
     });
-
+    
+    return $.mage.productGallery;
 });

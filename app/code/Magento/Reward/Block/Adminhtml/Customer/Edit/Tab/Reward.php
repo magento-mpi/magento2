@@ -14,7 +14,7 @@
  */
 namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab;
 
-class Reward extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Reward extends \Magento\Backend\Block\Template implements \Magento\Ui\Component\Layout\Tabs\TabInterface
 {
     /**
      * Core registry
@@ -88,6 +88,32 @@ class Reward extends \Magento\Backend\Block\Template implements \Magento\Backend
     public function isHidden()
     {
         return false;
+    }
+
+    /**
+     * Tab URL getter
+     *
+     * @return string
+     */
+    public function getTabUrl()
+    {
+        return '';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isAjaxLoaded()
+    {
+        return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTabClass()
+    {
+        return '';
     }
 
     /**
