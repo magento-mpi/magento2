@@ -44,7 +44,8 @@ class PhpExtensionsController extends AbstractActionController
         $current = $this->extensions->getCurrent();
 
         $responseType = ResponseTypeInterface::RESPONSE_TYPE_SUCCESS;
-        if (array_diff($required, $current)) {
+        $missing = array_values(array_diff($required, $current));
+        if ($missing) {
             $responseType = ResponseTypeInterface::RESPONSE_TYPE_ERROR;
         }
 
@@ -52,7 +53,7 @@ class PhpExtensionsController extends AbstractActionController
             'responseType' => $responseType,
             'data' => [
                 'required' => $required,
-                'current' => $current,
+                'missing' => $missing,
             ],
         ];
 
