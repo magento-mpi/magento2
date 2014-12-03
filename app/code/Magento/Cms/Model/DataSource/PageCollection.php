@@ -52,4 +52,15 @@ class PageCollection extends PageCriteria implements CollectionDataSourceInterfa
     {
         return $this->repository->getList($this);
     }
+
+    /**
+     * Add Criteria object
+     *
+     * @param \Magento\Cms\Model\Resource\PageCriteria $criteria
+     * @return void
+     */
+    public function addCriteria(\Magento\Cms\Model\Resource\PageCriteria $criteria)
+    {
+        $this->data[self::PART_CRITERIA_LIST]['list'][] = $criteria;
+    }
 }

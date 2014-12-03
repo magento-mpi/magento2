@@ -9,7 +9,6 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Customer\Model\Data\ValidationRule;
 use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
 
 class DateTest extends AbstractFormTestCase
