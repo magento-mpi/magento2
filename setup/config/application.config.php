@@ -21,7 +21,7 @@ return [
             __DIR__ . '/autoload/{,*.}{global,local}.php',
         ),
     ],
-    'listeners' => ['Magento\Setup\Mvc\Bootstrap\InitParamListener'],
+    'listeners' => ['Magento\Setup\Mvc\Bootstrap\InitParamListener', 'Magento\Setup\Mvc\Console\RouteListener',],
     'service_manager' => [
         'factories' => [
             InitParamListener::BOOTSTRAP_PARAM => 'Magento\Setup\Mvc\Bootstrap\InitParamListener',

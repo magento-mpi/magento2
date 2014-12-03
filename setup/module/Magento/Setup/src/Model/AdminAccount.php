@@ -86,6 +86,38 @@ class AdminAccount
     }
 
     /**
+     * Validate parameter values of admin user setup tool
+     *
+     * @param array $data
+     * @return bool
+     */
+    public static function validateAdmin(array $data)
+    {
+        $validationMessages = '';
+        if (isset($data[self::KEY_EMAIL]) && !self::validateEmail($data[self::KEY_EMAIL])) {
+            $validationMessages .= self::KEY_EMAIL . ': Please enter a valid email address. ' .
+                "Current: {$data[self::KEY_EMAIL]}" . PHP_EOL;
+        }
+        if (isset($data[self::KEY_PASSWORD]) && strlen($data[self::KEY_PASSWORD]) < 7) {
+            $validationMessages .= self::KEY_PASSWORD . ': Password must be at least 7 characters long.' . PHP_EOL;
+        }
+
+        return $validationMessages;
+    }
+
+    /**
+     * Validate email
+     *
+     * @param $email
+     * @return bool
+     */
+    private static function validateEmail($email)
+    {
+        $validator = new \Zend\Validator\EmailAddress();
+        return $validator->isValid($email);
+    }
+
+    /**
      * Uses the information in data[] to create the admin user.
      *
      * If the username already exists, it will update the record with information from data[]

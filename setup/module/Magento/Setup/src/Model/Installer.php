@@ -31,7 +31,6 @@ use Magento\Framework\App\DeploymentConfig\EncryptConfig;
 use Magento\Framework\App\DeploymentConfig\InstallConfig;
 use Magento\Framework\App\DeploymentConfig\SessionConfig;
 use Magento\Framework\App\DeploymentConfig\ResourceConfig;
-use Magento\Setup\Module\Setup\ConfigMapper;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -316,7 +315,8 @@ class Installer
     private function createBackendConfig($data)
     {
         $backendConfigData = array(
-            ConfigMapper::$paramMap[ConfigMapper::KEY_BACKEND_FRONTNAME] => $data[ConfigMapper::KEY_BACKEND_FRONTNAME]
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_BACKEND_FRONTNAME] =>
+                $data[DeploymentConfigMapper::KEY_BACKEND_FRONTNAME]
         );
         return new BackendConfig($backendConfigData);
     }
@@ -330,7 +330,8 @@ class Installer
     private function createEncryptConfig($data)
     {
         $cryptConfigData =
-            array(ConfigMapper::$paramMap[ConfigMapper::KEY_ENCRYPTION_KEY] => $data[ConfigMapper::KEY_ENCRYPTION_KEY]);
+            array(DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_ENCRYPTION_KEY] =>
+                $data[DeploymentConfigMapper::KEY_ENCRYPTION_KEY]);
         return new EncryptConfig($cryptConfigData);
     }
 
@@ -343,20 +344,25 @@ class Installer
     private function createDbConfig($data)
     {
         $defaultConnection = [
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_HOST] => $data[ConfigMapper::KEY_DB_HOST],
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_INIT_STATEMENTS] =>
-                isset($data[ConfigMapper::KEY_DB_INIT_STATEMENTS]) ? $data[ConfigMapper::KEY_DB_INIT_STATEMENTS] : null,
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_MODEL] => isset($data[ConfigMapper::KEY_DB_MODEL]) ?
-                $data[ConfigMapper::KEY_DB_MODEL] : null,
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_NAME] => $data[ConfigMapper::KEY_DB_NAME],
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_PASS] => isset($data[ConfigMapper::KEY_DB_PASS]) ?
-                $data[ConfigMapper::KEY_DB_PASS] : null,
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_USER] => $data[ConfigMapper::KEY_DB_USER],
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_HOST] =>
+                $data[DeploymentConfigMapper::KEY_DB_HOST],
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_INIT_STATEMENTS] =>
+                isset($data[DeploymentConfigMapper::KEY_DB_INIT_STATEMENTS]) ?
+                    $data[DeploymentConfigMapper::KEY_DB_INIT_STATEMENTS] : null,
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_MODEL] =>
+                isset($data[DeploymentConfigMapper::KEY_DB_MODEL]) ? $data[DeploymentConfigMapper::KEY_DB_MODEL] : null,
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_NAME] =>
+                $data[DeploymentConfigMapper::KEY_DB_NAME],
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_PASS] =>
+                isset($data[DeploymentConfigMapper::KEY_DB_PASS]) ? $data[DeploymentConfigMapper::KEY_DB_PASS] : null,
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_USER] =>
+                $data[DeploymentConfigMapper::KEY_DB_USER],
         ];
 
         $dbConfigData = array(
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_PREFIX] => isset($data[ConfigMapper::KEY_DB_PREFIX]) ?
-                    $data[ConfigMapper::KEY_DB_PREFIX] : null,
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_PREFIX] =>
+                isset($data[DeploymentConfigMapper::KEY_DB_PREFIX]) ?
+                    $data[DeploymentConfigMapper::KEY_DB_PREFIX] : null,
             'connection' => [
                 'default' => $defaultConnection,
             ]
@@ -372,8 +378,9 @@ class Installer
      */
     private function createSessionConfig($data)
     {
-        $sessionConfigData = array(ConfigMapper::$paramMap[ConfigMapper::KEY_SESSION_SAVE] =>
-            isset($data[ConfigMapper::KEY_SESSION_SAVE]) ? $data[ConfigMapper::KEY_SESSION_SAVE] : null);
+        $sessionConfigData = array(DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_SESSION_SAVE] =>
+            isset($data[DeploymentConfigMapper::KEY_SESSION_SAVE]) ?
+                $data[DeploymentConfigMapper::KEY_SESSION_SAVE] : null);
         return new SessionConfig($sessionConfigData);
     }
 
@@ -385,7 +392,8 @@ class Installer
      */
     private function createInstallConfig($data)
     {
-        $installConfigData = array(ConfigMapper::$paramMap[ConfigMapper::KEY_DATE] => $data[ConfigMapper::KEY_DATE]);
+        $installConfigData = array(DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DATE] =>
+            $data[DeploymentConfigMapper::KEY_DATE]);
         return new InstallConfig($installConfigData);
     }
 
@@ -705,6 +713,21 @@ class Installer
         return $this->installInfo;
     }
 
+
+    /**
+     * Validate install parameter values
+     *
+     * @param array $data
+     * @return string
+     */
+    public static function validateInstall(array $data)
+    {
+        $validationMessages = '';
+        $validationMessages .=  DeploymentConfigMapper::validateDeploymentConfig($data);
+        $validationMessages .= UserConfigurationDataMapper::validateUserConfig($data);
+        $validationMessages .= AdminAccount::validateAdmin($data);
+        return $validationMessages;
+    }
 
     /**
      * Deletes the database and creates it again
