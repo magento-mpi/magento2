@@ -7,16 +7,13 @@
  */
 namespace Magento\Framework;
 
-use Magento\Framework\App\Cache\State;
 use Magento\TestFramework\Helper\Bootstrap;
 
+/**
+ * @magentoCache all 0
+ */
 class TranslateTest extends \PHPUnit_Framework_TestCase
 {
-    public static function setUpBeforeClass()
-    {
-        Bootstrap::getInstance()->reinitialize([State::PARAM_BAN_CACHE => true]);
-    }
-
     protected function setUp()
     {
         /** @var \Magento\Framework\View\FileSystem $viewFileSystem */

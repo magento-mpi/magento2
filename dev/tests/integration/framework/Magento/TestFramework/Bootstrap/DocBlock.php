@@ -64,6 +64,7 @@ class DocBlock
                 )
             ),
             new \Magento\TestFramework\Annotation\AppArea($application),
+            new \Magento\TestFramework\Annotation\Cache($application),
             new \Magento\TestFramework\Annotation\ConfigFixture(),
             new \Magento\TestFramework\Annotation\AdminConfigFixture()
         );

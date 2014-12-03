@@ -10,8 +10,10 @@
 namespace Magento\Framework\Object\Copy\Config;
 
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Framework\App\Cache\State;
 
+/**
+ * @magentoCache all 0
+ */
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,11 +25,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $fileResolver;
-
-    public static function setUpBeforeClass()
-    {
-        Bootstrap::getInstance()->reinitialize([State::PARAM_BAN_CACHE => true]);
-    }
 
     public function setUp()
     {
