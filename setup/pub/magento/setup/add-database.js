@@ -7,11 +7,27 @@
 
 'use strict';
 angular.module('add-database', ['ngStorage'])
-    .controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', '$timeout', function ($scope, $state, $localStorage, $http, $timeout) {
+    .controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', '$timeout', 'Storage', '$interval', function ($scope, $state, $localStorage, $http, $timeout, Storage, $interval) {
         $scope.db = {
             useExistingDb: 1,
             useAccess: 1
         };
+
+        $scope.testConn = '';
+
+        var intervalPromise = $interval(function () {
+            $http.post('data/database', $scope.db)
+                .success(function (data) {
+                    $scope.testConnection.result = data;
+                    if (($scope.testConnection.result !== undefined) && (!$scope.testConnection.result.success)) {
+                        $scope.testConn = '';
+                    } else {
+                        $scope.testConn = 'mock';
+                    }
+                });
+        }, 500);
+
+        $scope.$on('$destroy', function () { $interval.cancel(intervalPromise); });
 
         if ($localStorage.db) {
             $scope.db = $localStorage.db;
@@ -26,7 +42,14 @@ angular.module('add-database', ['ngStorage'])
 
         $scope.$on('nextState', function () {
             $localStorage.db = $scope.db;
+            Storage.db = $scope.db;
+            $interval.cancel(intervalPromise);
         });
+
+        $scope.$on('previousState()', function () {
+            $interval.cancel(intervalPromise);
+        });
+
 
         // Listens on form validate event, dispatched by parent controller
         $scope.$on('validate-' + $state.current.id, function() {
@@ -35,7 +58,6 @@ angular.module('add-database', ['ngStorage'])
 
         // Dispatch 'validation-response' event to parent controller
         $scope.validate = function() {
-            $scope.testConnection();
             if ($scope.database.$valid) {
                 $scope.$emit('validation-response', true);
             } else {
@@ -50,24 +72,4 @@ angular.module('add-database', ['ngStorage'])
                 $scope.database.submitted = false;
             }
         });
-    }])
-    .directive('testHostname', function() {
-        return{
-            require: "ngModel",
-            link: function(scope, elm, attrs, ctrl){
-                var validator = function(value){
-                    scope.testConnection();
-                    var isValid;
-                    if (scope.testConnection.result.success === undefined) {
-                        isValid = false;
-                    } else {
-                        isValid = true;
-                    }
-                    ctrl.$setValidity('testHostname', isValid);
-                    return value;
-                };
-                ctrl.$parsers.unshift(validator);
-                ctrl.$formatters.unshift(validator);
-            }
-        };
-    });
+    }]);
