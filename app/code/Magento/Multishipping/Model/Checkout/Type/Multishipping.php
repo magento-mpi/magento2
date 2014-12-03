@@ -105,11 +105,6 @@ class Multishipping extends \Magento\Framework\Object
     protected $quoteRepository;
 
     /**
-     * @var array
-     */
-    protected $ordersToSend;
-
-    /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -655,8 +650,7 @@ class Multishipping extends \Magento\Framework\Object
                 $order->place();
                 $order->save();
                 if ($order->getCanSendNewEmailFlag()) {
-                    //postpone sending order notifications
-                    $this->ordersToSend[] = $order;
+                    $this->orderSender->send($order);
                 }
                 $orderIds[$order->getId()] = $order->getIncrementId();
             }
@@ -676,18 +670,6 @@ class Multishipping extends \Magento\Framework\Object
         } catch (\Exception $e) {
             $this->_eventManager->dispatch('checkout_multishipping_refund_all', array('orders' => $orders));
             throw $e;
-        }
-    }
-
-    /**
-     * Send postponed order notifications
-     *
-     * @return void
-     */
-    public function sendOrders()
-    {
-        foreach ($this->ordersToSend as $order) {
-            $this->orderSender->send($order);
         }
     }
 
