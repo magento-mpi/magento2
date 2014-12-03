@@ -22,6 +22,11 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
     protected $_scopeConfig;
 
     /**
+     * @var \Magento\Framework\Registry
+     */
+    private $coreRegistry;
+
+    /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
@@ -41,17 +46,17 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Catalog\Model\Layer\Filter\DataProvider\CategoryFactory $categoryFactory,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
+        $this->coreRegistry = $coreRegistry;
         parent::__construct(
             $filterItemFactory,
             $storeManager,
             $layer,
             $itemDataBuilder,
-            $categoryFactory,
             $escaper,
-            $coreRegistry,
+            $categoryFactory,
             $data
         );
     }

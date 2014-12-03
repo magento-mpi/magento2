@@ -56,6 +56,16 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     private $intervalFactory;
 
     /**
+     * @var \Magento\Framework\Registry
+     */
+    private $coreRegistry;
+
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
@@ -71,6 +81,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      * @param \Magento\Solr\Model\Resource\Solr\Engine $resourceEngine
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Solr\Model\Layer\Category\CacheStateTags $cacheStateTags
+     * @param IntervalFactory $intervalFactory
      * @param array $data
      */
     public function __construct(
@@ -103,13 +114,14 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $resource,
             $customerSession,
             $priceAlgorithm,
-            $coreRegistry,
-            $scopeConfig,
             $priceCurrency,
             $algorithmFactory,
+            $dataProviderFactory,
             $data
         );
         $this->intervalFactory = $intervalFactory;
+        $this->coreRegistry = $coreRegistry;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
