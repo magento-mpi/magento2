@@ -8,8 +8,28 @@
  */
 namespace Magento\AdvancedCheckout\Controller\Cart;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Framework\App\Action\Context;
+
 class UpdateFailedItemOptions extends \Magento\AdvancedCheckout\Controller\Cart
 {
+    /**
+     * @var ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
+     * @param Context $context
+     * @param ProductRepositoryInterface $productRepository
+     */
+    public function __construct(
+        Context $context,
+        ProductRepositoryInterface $productRepository
+    ) {
+        parent::__construct($context);
+        $this->productRepository = $productRepository;
+    }
+
     /**
      * Update failed items options data and add it to cart
      *
@@ -23,12 +43,10 @@ class UpdateFailedItemOptions extends \Magento\AdvancedCheckout\Controller\Cart
         try {
             $cart = $this->_getCart();
 
-            $product = $this->_objectManager->create(
-                'Magento\Catalog\Model\Product'
-            )->setStoreId(
+            $product = $this->productRepository->getById(
+                $id,
+                false,
                 $this->_objectManager->get('Magento\Store\Model\StoreManager')->getStore()->getId()
-            )->load(
-                $id
             );
 
             $cart->addProduct($product, $buyRequest)->save();

@@ -193,5 +193,6 @@ abstract class AbstractCentinelPaymentsTest extends Functional
 
         //Log Out
         $homePage->getLinksBlock()->openLink('Log Out');
+        $homePage->getCmsPageBlock()->waitUntilTextIsVisible('Home Page');
     }
 }

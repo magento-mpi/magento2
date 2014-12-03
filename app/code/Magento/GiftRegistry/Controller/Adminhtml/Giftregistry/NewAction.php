@@ -28,7 +28,7 @@ class NewAction extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry
         }
 
         $this->_initAction();
-        $this->_title->add(__('New Gift Registry Type'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('New Gift Registry Type'));
 
         $block = $this->_view->getLayout()->createBlock(
             'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit'

@@ -35,7 +35,9 @@ class RecurringPaymentTest extends Functional
             . "%s\nBilling Period\n"
             . "$billingCycle Month cycle.\n"
             . "Repeats until suspended or canceled.";
-        $actualProductOptions = $checkoutCart->getCartBlock()->getCartItem($product)->getOptions();
+        $checkoutCartOptions = $checkoutCart->getCartBlock()->getCartItem($product)->getOptions();
+        $actualProductOptions = $checkoutCartOptions[0]['title'] . "\n" . $checkoutCartOptions[0]['value']
+            . "\n" . $checkoutCartOptions[1]['title'] . "\n" . $checkoutCartOptions[1]['value'];
         $this->assertStringMatchesFormat($expectedProductOptions, $actualProductOptions);
     }
 }

@@ -18,13 +18,6 @@ use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsTy
 class CatalogCategoryLink extends WidgetOptionsForm
 {
     /**
-     * Backend abstract block
-     *
-     * @var string
-     */
-    protected $templateBlock = './ancestor::body';
-
-    /**
      * Category Link block
      *
      * @var string
@@ -58,18 +51,5 @@ class CatalogCategoryLink extends WidgetOptionsForm
             $catalogCategoryLinkForm->_fill($categoryFields, $elementNew);
             $this->getTemplateBlock()->waitLoader();
         }
-    }
-
-    /**
-     * Get backend abstract block
-     *
-     * @return \Magento\Backend\Test\Block\Template
-     */
-    protected function getTemplateBlock()
-    {
-        return $this->blockFactory->create(
-            'Magento\Backend\Test\Block\Template',
-            ['element' => $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)]
-        );
     }
 }

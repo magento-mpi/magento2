@@ -8,7 +8,6 @@
 namespace Magento\Sales\Model\Resource\Order;
 
 use Magento\Framework\App\Resource;
-use Magento\Framework\Stdlib\DateTime;
 use Magento\Sales\Model\Resource\Attribute;
 use Magento\Sales\Model\Spi\InvoiceResourceInterface;
 use Magento\Sales\Model\Increment as SalesIncrement;
@@ -39,19 +38,17 @@ class Invoice extends SalesResource implements InvoiceResourceInterface
 
     /**
      * @param Resource $resource
-     * @param DateTime $dateTime
      * @param Attribute $attribute
      * @param SalesIncrement $salesIncrement
      * @param InvoiceGrid $gridAggregator
      */
     public function __construct(
         Resource $resource,
-        DateTime $dateTime,
         Attribute $attribute,
         SalesIncrement $salesIncrement,
         InvoiceGrid $gridAggregator
     ) {
-        parent::__construct($resource, $dateTime, $attribute, $salesIncrement, $gridAggregator);
+        parent::__construct($resource, $attribute, $salesIncrement, $gridAggregator);
     }
 
     /**
@@ -96,6 +93,6 @@ class Invoice extends SalesResource implements InvoiceResourceInterface
                 $comment->save();
             }
         }
-        return parent::_beforeSave($object);
+        return parent::_afterSave($object);
     }
 }

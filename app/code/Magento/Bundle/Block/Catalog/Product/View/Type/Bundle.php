@@ -8,7 +8,7 @@
 namespace Magento\Bundle\Block\Catalog\Product\View\Type;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
+use Magento\Tax\Api\TaxCalculationInterface;
 
 /**
  * Catalog bundle product info block
@@ -30,9 +30,9 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
      * @var array
      */
     protected $mapping = [
-        TaxCalculationServiceInterface::CALC_UNIT_BASE => self::UNIT_ROUNDING,
-        TaxCalculationServiceInterface::CALC_ROW_BASE => self::ROW_ROUNDING,
-        TaxCalculationServiceInterface::CALC_TOTAL_BASE => self::TOTAL_ROUNDING,
+        TaxCalculationInterface::CALC_UNIT_BASE => self::UNIT_ROUNDING,
+        TaxCalculationInterface::CALC_ROW_BASE => self::ROW_ROUNDING,
+        TaxCalculationInterface::CALC_TOTAL_BASE => self::TOTAL_ROUNDING,
     ];
 
     /**

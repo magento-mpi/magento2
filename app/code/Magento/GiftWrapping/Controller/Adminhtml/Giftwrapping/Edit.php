@@ -23,7 +23,7 @@ class Edit extends \Magento\GiftWrapping\Controller\Adminhtml\Giftwrapping
         if ($formData) {
             $model->addData($formData);
         }
-        $this->_title->add(__('%1', $model->getDesign()));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('%1', $model->getDesign()));
         $this->_view->renderLayout();
     }
 }
