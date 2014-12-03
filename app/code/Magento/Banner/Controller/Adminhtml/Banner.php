@@ -36,8 +36,6 @@ class Banner extends \Magento\Backend\App\Action
      */
     protected function _initBanner($idFieldName = 'banner_id')
     {
-        $this->_title->add(__('Banners'));
-
         $bannerId = (int)$this->getRequest()->getParam($idFieldName);
         $model = $this->_objectManager->create('Magento\Banner\Model\Banner');
         if ($bannerId) {

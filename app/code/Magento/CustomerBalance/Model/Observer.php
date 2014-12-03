@@ -100,7 +100,7 @@ class Observer
         /* @var $request \Magento\Framework\App\RequestInterface */
         $request = $observer->getRequest();
         $data = $request->getPost('customerbalance');
-        /* @var $customer \Magento\Customer\Service\V1\Data\Customer */
+        /* @var $customer \Magento\Customer\Api\Data\CustomerInterface */
         $customer = $observer->getCustomer();
         $customerModel = $this->_customerConverter->getCustomerModel($customer->getId());
         if ($data) {
@@ -709,7 +709,7 @@ class Observer
 
         $rewardedAmountAfterRefund = $creditMemo->getRewardedAmountAfterRefund();
 
-        $customerBalanceTotalRefunded = $order->getBaseCustomerBalanceTotalRefunded();
+        $customerBalanceTotalRefunded = $order->getBsCustomerBalTotalRefunded();
         $rewardedAmountRefunded = $order->getBaseTotalRefunded() - $order->getBaseTaxRefunded()
             - $order->getBaseShippingRefunded();
         if ($customerBalanceTotalRefunded > $rewardedAmountRefunded) {

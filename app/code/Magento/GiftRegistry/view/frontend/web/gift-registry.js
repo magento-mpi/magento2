@@ -7,15 +7,15 @@
 /*jshint browser:true jquery:true*/
 define([
     "jquery",
-    "jquery/ui",
-    "Magento_Theme/js/row-builder"
-], function($){
+    "Magento_Theme/js/row-builder",
+    "jquery/ui"
+], function($, rowBuilder){
     "use strict";
 
     /**
      * Extending the rowBuilder widget and adding custom formProcessing for rendering recipients
      */
-    $.widget('mage.giftRegistry', $.mage.rowBuilder, {
+    $.widget('mage.giftRegistry', rowBuilder, {
 
         options: {
             rowIdPrefix: 'registrant:',
@@ -87,5 +87,6 @@ define([
             $(this.options.newShipAddrFormSelector).toggle(e.target.value === this.options.newAddrTypeVal);
         }
     });
-
+    
+    return $.mage.giftRegistry;
 });

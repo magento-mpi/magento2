@@ -7,19 +7,18 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract,
-    Magento\Webapi\Model\Rest\Config as RestConfig,
-    Magento\Sales\Service\V1\Data\OrderAddress;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\Sales\Api\Data\OrderAddressInterface as OrderAddress;
 
 /**
  * Class OrderAddressUpdateTest
- * @package Magento\Sales\Service\V1
  */
 class OrderAddressUpdateTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
 
-    const SERVICE_NAME = 'salesOrderWriteV1';
+    const SERVICE_NAME = 'salesOrderAddressRepositoryV1';
 
     /**
      * @magentoApiDataFixture Magento/Sales/_files/order.php
@@ -32,11 +31,11 @@ class OrderAddressUpdateTest extends WebapiAbstract
 
         $address = [
             OrderAddress::REGION => 'CA',
-            OrderAddress::POSTCODE => 'postcode',
+            OrderAddress::POSTCODE => '11111',
             OrderAddress::LASTNAME => 'lastname',
-            OrderAddress::STREET => 'street',
+            OrderAddress::STREET => ['street'],
             OrderAddress::CITY => 'city',
-            OrderAddress::EMAIL => 'email@emai.com',
+            OrderAddress::EMAIL => 'email@email.com',
             OrderAddress::COMPANY => 'company',
             OrderAddress::TELEPHONE => 't123456789',
             OrderAddress::COUNTRY_ID => 'US',
@@ -57,9 +56,8 @@ class OrderAddressUpdateTest extends WebapiAbstract
             OrderAddress::VAT_REQUEST_DATE => null,
             OrderAddress::VAT_REQUEST_ID => null,
             OrderAddress::VAT_REQUEST_SUCCESS => null,
-
         ];
-        $requestData = ['orderAddress' => $address];
+        $requestData = ['entity' => $address];
 
         $serviceInfo = [
             'rest' => [
@@ -69,22 +67,23 @@ class OrderAddressUpdateTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'addressUpdate'
+                'operation' => self::SERVICE_NAME . 'save'
             ]
         ];
         $result = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertTrue($result);
+        $this->assertGreaterThan(1, count($result));
+
         /** @var \Magento\Sales\Model\Order $actualOrder */
         $actualOrder = $objectManager->get('Magento\Sales\Model\Order')->load($order->getId());
         $billingAddress = $actualOrder->getBillingAddress();
 
         $validate = [
             OrderAddress::REGION => 'CA',
-            OrderAddress::POSTCODE => 'postcode',
+            OrderAddress::POSTCODE => '11111',
             OrderAddress::LASTNAME => 'lastname',
             OrderAddress::STREET => 'street',
             OrderAddress::CITY => 'city',
-            OrderAddress::EMAIL => 'email@emai.com',
+            OrderAddress::EMAIL => 'email@email.com',
             OrderAddress::COMPANY => 'company',
             OrderAddress::TELEPHONE => 't123456789',
             OrderAddress::COUNTRY_ID => 'US',

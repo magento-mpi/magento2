@@ -242,6 +242,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Address\Config $addressConfig
@@ -268,6 +269,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Address\Config $addressConfig,
@@ -308,6 +310,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         parent::__construct(
             $context,
             $registry,
+            $metadataService,
             $directoryData,
             $eavConfig,
             $addressConfig,
@@ -511,35 +514,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     }
 
     /**
-     * Import address data from order address
-     *
-     * @param   \Magento\Sales\Model\Order\Address $address
-     * @return $this
-     * @deprecated Use \Magento\Sales\Model\Quote\Address::importCustomerAddressData() instead
-     */
-    public function importOrderAddress(\Magento\Sales\Model\Order\Address $address)
-    {
-        $this->setAddressType(
-            $address->getAddressType()
-        )->setCustomerId(
-            $address->getCustomerId()
-        )->setCustomerAddressId(
-            $address->getCustomerAddressId()
-        )->setEmail(
-            $address->getEmail()
-        );
-
-        $this->_objectCopyService->copyFieldsetToTarget(
-            'sales_convert_order_address',
-            'to_quote_address',
-            $address,
-            $this
-        );
-
-        return $this;
-    }
-
-    /**
      * Convert object to array
      *
      * @param   array $arrAttributes
@@ -577,7 +551,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Get all available address items
      *
-     * @return array
+     * @return \Magento\Sales\Model\Quote\Address\Item[]
      */
     public function getAllItems()
     {

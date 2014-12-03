@@ -16,7 +16,7 @@ use Magento\Framework\Pricing\Adjustment\Calculator as CalculatorBase;
 use Magento\Bundle\Model\Product\Price;
 use Magento\Bundle\Pricing\Price\BundleOptionPrice;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
+use Magento\Tax\Api\TaxCalculationInterface;
 use Magento\Store\Model\Store;
 use Magento\Tax\Helper\Data as TaxHelper;
 

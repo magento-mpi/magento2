@@ -12,7 +12,7 @@ use Magento\Bundle\Model\Option;
 use Magento\Bundle\Service\V1\Product\Option\ReadService as OptionReadService;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Type as ProductType;
-use Magento\Catalog\Model\ProductRepository;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Service\V1\Product\ProductLoadProcessorInterface;
 
 /**
@@ -26,17 +26,17 @@ class BundleProductLoadProcessor implements ProductLoadProcessorInterface
     private $optionReadService;
 
     /**
-     * @var ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     private $productRepository;
 
     /**
      * @param OptionReadService $optionReadService
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      */
     public function __construct(
         OptionReadService $optionReadService,
-        ProductRepository $productRepository
+        ProductRepositoryInterface $productRepository
     ) {
         $this->optionReadService = $optionReadService;
         $this->productRepository = $productRepository;
