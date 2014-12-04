@@ -18,18 +18,21 @@ use Magento\Framework\View\Element\Template;
 class File extends \Magento\CustomAttributeManagement\Block\Form\Renderer\AbstractRenderer
 {
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Url\EncoderInterface
      */
-    protected $_coreData;
+    protected $urlEncoder;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param Template\Context $context
      * @param array $data
      */
-    public function __construct(Template\Context $context, \Magento\Core\Helper\Data $coreData, array $data = array())
-    {
-        $this->_coreData = $coreData;
+    public function __construct(
+        Template\Context $context,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
+        array $data = array()
+    ) {
+        $this->urlEncoder = $urlEncoder;
         parent::__construct($context, $data);
     }
 
@@ -41,7 +44,7 @@ class File extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
     public function getEscapedValue()
     {
         if ($this->getValue()) {
-            return $this->escapeHtml($this->_coreData->urlEncode($this->getValue()));
+            return $this->escapeHtml($this->urlEncoder->encode($this->getValue()));
         }
         return '';
     }

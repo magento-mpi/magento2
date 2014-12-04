@@ -37,21 +37,29 @@ class Config
     protected $_widgetFactory;
 
     /**
+     * @var \Magento\Framework\Url\EncoderInterface
+     */
+    protected $urlEncoder;
+
+    /**
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Widget\Model\WidgetFactory $widgetFactory
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      */
     public function __construct(
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\Framework\View\Asset\Repository $assetRepo,
-        \Magento\Widget\Model\WidgetFactory $widgetFactory
+        \Magento\Widget\Model\WidgetFactory $widgetFactory,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder
     ) {
         $this->_backendUrl = $backendUrl;
         $this->_coreHelper = $coreHelper;
         $this->_assetRepo = $assetRepo;
         $this->_widgetFactory = $widgetFactory;
+        $this->urlEncoder = $urlEncoder;
     }
 
     /**
@@ -111,7 +119,7 @@ class Config
     {
         $widgets = is_array($widgets) ? $widgets : array($widgets);
         $param = implode(',', $widgets);
-        return $this->_coreHelper->urlEncode($param);
+        return $this->urlEncoder->encode($param);
     }
 
     /**

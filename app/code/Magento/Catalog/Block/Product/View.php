@@ -29,9 +29,9 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Url\EncoderInterface
      */
-    protected $_coreData;
+    protected $urlEncoder;
 
     /**
      * @var \Magento\Catalog\Helper\Product
@@ -65,7 +65,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
 
     /**
      * @param Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Product $productHelper
@@ -78,7 +78,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Catalog\Helper\Product $productHelper,
@@ -90,7 +90,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         array $data = array()
     ) {
         $this->_productHelper = $productHelper;
-        $this->_coreData = $coreData;
+        $this->urlEncoder = $urlEncoder;
         $this->_jsonEncoder = $jsonEncoder;
         $this->productTypeConfig = $productTypeConfig;
         $this->string = $string;
@@ -201,7 +201,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
 
         $addUrlKey = \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED;
         $addUrlValue = $this->_urlBuilder->getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
-        $additional[$addUrlKey] = $this->_coreData->urlEncode($addUrlValue);
+        $additional[$addUrlKey] = $this->urlEncoder->encode($addUrlValue);
 
         return $this->_cartHelper->getAddUrl($product, $additional);
     }

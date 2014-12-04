@@ -2114,4 +2114,5 @@ return array(
     ['getProduct', 'Magento\Catalog\Helper\Product'],
     ['getCategoryModel', 'Magento\Catalog\Model\Resource\Url'],
     ['_escapeDefaultValue', 'Magento\Framework\Code\Generator\EntityAbstract'],
+    ['urlEncode', 'Magento\Framework\App\Helper\AbstractHelper::urlEncode'],
 );

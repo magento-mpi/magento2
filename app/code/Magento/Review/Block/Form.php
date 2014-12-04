@@ -55,11 +55,9 @@ class Form extends \Magento\Framework\View\Element\Template
     protected $_reviewSession;
 
     /**
-     * Core helper data
-     *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Url\EncoderInterface
      */
-    protected $_coreData;
+    protected $urlEncoder;
 
     /**
      * Message manager interface
@@ -80,7 +78,7 @@ class Form extends \Magento\Framework\View\Element\Template
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param \Magento\Framework\Session\Generic $reviewSession
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -93,7 +91,7 @@ class Form extends \Magento\Framework\View\Element\Template
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Framework\Session\Generic $reviewSession,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Customer\Model\Session $customerSession,
@@ -104,7 +102,7 @@ class Form extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Model\Url $customerUrl,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
+        $this->urlEncoder = $urlEncoder;
         $this->_reviewSession = $reviewSession;
         $this->_reviewData = $reviewData;
         $this->_customerSession = $customerSession;
@@ -141,7 +139,7 @@ class Form extends \Magento\Framework\View\Element\Template
             || $this->_reviewData->getIsGuestAllowToWrite()
         );
         if (!$this->getAllowWriteReviewFlag()) {
-            $queryParam = $this->_coreData->urlEncode(
+            $queryParam = $this->urlEncoder->encode(
                 $this->getUrl('*/*/*', array('_current' => true)) . '#review-form'
             );
             $this->setLoginLink(

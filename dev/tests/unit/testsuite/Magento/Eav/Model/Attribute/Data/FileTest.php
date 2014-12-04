@@ -15,9 +15,9 @@ class FileTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Url\EncoderInterface
      */
-    protected $coreDataMock;
+    protected $urlEncoder;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -29,7 +29,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $timezoneMock = $this->getMock('\Magento\Framework\Stdlib\DateTime\TimezoneInterface');
         $loggerMock = $this->getMock('\Magento\Framework\Logger', [], [], '', false);
         $localeResolverMock = $this->getMock('\Magento\Framework\Locale\ResolverInterface');
-        $this->coreDataMock = $this->getMock('\Magento\Core\Helper\Data', [], [], '', false);
+        $this->urlEncoder = $this->getMock('Magento\Framework\Url\EncoderInterface', [], [], '', false);
         $this->fileValidatorMock = $this->getMock(
             '\Magento\Core\Model\File\Validator\NotProtectedExtension', ['isValid', 'getMessages'], [], '', false
         );
@@ -37,7 +37,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
 
         $this->model = new File(
             $timezoneMock, $loggerMock, $localeResolverMock,
-            $this->coreDataMock, $this->fileValidatorMock, $filesystemMock
+            $this->urlEncoder, $this->fileValidatorMock, $filesystemMock
         );
     }
 
@@ -56,7 +56,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $entityMock->expects($this->once())->method('getData')->will($this->returnValue($value));
 
         $attributeMock = $this->getMock('\Magento\Eav\Model\Attribute', [], [], '', false);
-        $this->coreDataMock->expects($this->exactly($callTimes))->method('urlEncode')
+        $this->urlEncoder->expects($this->exactly($callTimes))
+            ->method('encode')
             ->will($this->returnValue('url_key'));
 
         $this->model->setEntity($entityMock);

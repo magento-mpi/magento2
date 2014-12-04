@@ -22,10 +22,16 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
     protected $_backendData = null;
 
     /**
+     * @var \Magento\Framework\Url\EncoderInterface
+     */
+    protected $urlEncoder;
+
+    /**
      * @param \Magento\Framework\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Backend\Helper\Data $backendData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param array $data
      */
     public function __construct(
@@ -33,9 +39,11 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
         \Magento\Backend\Helper\Data $backendData,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         $data = array()
     ) {
         $this->_backendData = $backendData;
+        $this->urlEncoder = $urlEncoder;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('file');
     }
@@ -159,7 +167,7 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
         }
         return $this->_backendData->getUrl(
             'adminhtml/rma/viewfile',
-            array('image' => $this->_backendData->urlEncode($this->getValue()))
+            array('image' => $this->urlEncoder->encode($this->getValue()))
         );
     }
 

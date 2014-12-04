@@ -39,6 +39,6 @@ class PostData extends \Magento\Framework\App\Helper\AbstractHelper
         if (!$url) {
             $url = $this->_urlBuilder->getCurrentUrl();
         }
-        return $this->urlEncode($url);
+        return $this->urlEncoder->encode($url);
     }
 }

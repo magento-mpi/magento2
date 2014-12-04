@@ -68,23 +68,31 @@ class Storage
     protected $mediaWriteDirectory;
 
     /**
+     * @var \Magento\Framework\Url\EncoderInterface
+     */
+    protected $urlEncoder;
+
+    /**
      * Initialize dependencies
      *
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Theme\Helper\Storage $helper
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Image\AdapterFactory $imageFactory
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      */
     public function __construct(
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Theme\Helper\Storage $helper,
         \Magento\Framework\ObjectManagerInterface $objectManager,
-        \Magento\Framework\Image\AdapterFactory $imageFactory
+        \Magento\Framework\Image\AdapterFactory $imageFactory,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder
     ) {
         $this->mediaWriteDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->_helper = $helper;
         $this->_objectManager = $objectManager;
         $this->_imageFactory = $imageFactory;
+        $this->urlEncoder = $urlEncoder;
     }
 
     /**
@@ -250,7 +258,7 @@ class Storage
                 continue;
             }
             $fileName = pathinfo($path, PATHINFO_BASENAME);
-            $file = array('text' => $fileName, 'id' => $this->_helper->urlEncode($fileName));
+            $file = array('text' => $fileName, 'id' => $this->urlEncoder->encode($fileName));
             if (self::TYPE_IMAGE == $storageType) {
                 $requestParams['file'] = $fileName;
                 $file['thumbnailParams'] = $requestParams;

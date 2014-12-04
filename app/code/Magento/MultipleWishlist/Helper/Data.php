@@ -37,7 +37,6 @@ class Data extends \Magento\Wishlist\Helper\Data
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
@@ -51,7 +50,6 @@ class Data extends \Magento\Wishlist\Helper\Data
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
@@ -67,7 +65,6 @@ class Data extends \Magento\Wishlist\Helper\Data
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
         parent::__construct(
             $context,
-            $coreData,
             $coreRegistry,
             $scopeConfig,
             $customerSession,

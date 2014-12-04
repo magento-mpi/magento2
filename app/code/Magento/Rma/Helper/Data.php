@@ -538,7 +538,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $key = 'rma_id';
         $method = 'getId';
         $param = array(
-            'hash' => $this->_coreData->urlEncode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
+            'hash' => $this->urlEncoder->encode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
         );
 
         $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -572,7 +572,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
         $param = array(
-            'hash' => $this->_coreData->urlEncode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
+            'hash' => $this->urlEncoder->encode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
         );
 
         $storeId = is_object($model) ? $model->getStoreId() : null;

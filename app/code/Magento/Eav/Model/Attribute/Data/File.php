@@ -25,11 +25,9 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
     protected $_validatorNotProtectedExtensions;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Url\EncoderInterface
      */
-    protected $_coreData = null;
+    protected $urlEncoder;
 
     /**
      * @var \Magento\Core\Model\File\Validator\NotProtectedExtension
@@ -45,7 +43,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator
      * @param \Magento\Framework\Filesystem $filesystem
      */
@@ -53,12 +51,12 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
         \Magento\Framework\Filesystem $filesystem
     ) {
         parent::__construct($localeDate, $logger, $localeResolver);
-        $this->_coreData = $coreData;
+        $this->urlEncoder = $urlEncoder;
         $this->_fileValidator = $fileValidator;
         $this->_directory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
     }
@@ -280,7 +278,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
         if ($value) {
             switch ($format) {
                 case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON:
-                    $output = array('value' => $value, 'url_key' => $this->_coreData->urlEncode($value));
+                    $output = array('value' => $value, 'url_key' => $this->urlEncoder->encode($value));
                     break;
             }
         }

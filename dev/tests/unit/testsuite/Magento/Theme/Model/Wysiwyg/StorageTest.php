@@ -48,6 +48,11 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     protected $directoryWrite;
 
+    /**
+     * @var \Magento\Framework\Url\EncoderInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $urlEncoder;
+
     protected function setUp()
     {
         $this->_filesystem = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
@@ -61,6 +66,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->urlEncoder = $this->getMock('Magento\Framework\Url\EncoderInterface', ['encode'], [], '', false);
 
         $this->_filesystem->expects(
             $this->once()
@@ -74,7 +80,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             $this->_filesystem,
             $this->_helperStorage,
             $this->_objectManager,
-            $this->_imageFactory
+            $this->_imageFactory,
+            $this->urlEncoder
         );
 
         $this->_storageRoot = '/root';

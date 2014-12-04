@@ -160,18 +160,6 @@ abstract class AbstractHelper
     }
 
     /**
-     * base64_encode() for URLs encoding
-     *
-     * @deprecated use \Magento\Framework\Url\EncoderInterface
-     * @param    string $url
-     * @return   string
-     */
-    public function urlEncode($url)
-    {
-        return $this->urlEncoder->encode($url);
-    }
-
-    /**
      *  base64_decode() for URLs decoding
      *
      * @deprecated use \Magento\Framework\Url\DecoderInterface

@@ -22,7 +22,6 @@ class Rss extends \Magento\Wishlist\Helper\Data
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
@@ -35,7 +34,6 @@ class Rss extends \Magento\Wishlist\Helper\Data
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
@@ -50,7 +48,6 @@ class Rss extends \Magento\Wishlist\Helper\Data
 
         parent::__construct(
             $context,
-            $coreData,
             $coreRegistry,
             $scopeConfig,
             $customerSession,
@@ -94,7 +91,7 @@ class Rss extends \Magento\Wishlist\Helper\Data
         if (is_null($this->_customer)) {
             $this->_customer = $this->_customerBuilder->create();
 
-            $params = $this->_coreData->urlDecode($this->_getRequest()->getParam('data'));
+            $params = $this->urlDecoder->decode($this->_getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $cId    = abs(intval($data[0]));
             if ($cId && ($cId == $this->_customerSession->getCustomerId())) {

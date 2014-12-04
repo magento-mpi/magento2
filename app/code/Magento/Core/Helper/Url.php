@@ -39,7 +39,7 @@ class Url extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getCurrentBase64Url()
     {
-        return $this->urlEncode($this->_urlBuilder->getCurrentUrl());
+        return $this->urlEncoder->encode($this->_urlBuilder->getCurrentUrl());
     }
 
     /**
@@ -51,7 +51,7 @@ class Url extends \Magento\Framework\App\Helper\AbstractHelper
         if (!$url) {
             $url = $this->_urlBuilder->getCurrentUrl();
         }
-        return $this->urlEncode($url);
+        return $this->urlEncoder->encode($url);
     }
 
     /**

@@ -115,7 +115,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
     public function convertPathToId($path)
     {
         $path = str_replace($this->getStorageRoot(), '', $path);
-        return $this->urlEncode($path);
+        return $this->urlEncoder->encode($path);
     }
 
     /**
