@@ -102,7 +102,7 @@ class Tooltip extends \Magento\Framework\View\Element\Template
      */
     public function renderLearnMoreLink($format = '<a href="%1$s">%2$s</a>', $anchorText = null)
     {
-        $anchorText = null === $anchorText ? __('Learn more...') : $anchorText;
+        $anchorText = null === $anchorText ? __('Learn more') : $anchorText;
         return sprintf($format, $this->getLandingPageUrl(), $anchorText);
     }
 

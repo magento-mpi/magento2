@@ -58,9 +58,24 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $stockConfiguration;
 
     /**
+     * @var \Magento\CatalogInventory\Api\StockItemRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockItemRepository;
+
+    /**
+     * @var \Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockItemBuilder;
+
+    /**
      * @var \Magento\CatalogInventory\Api\Data\StockItemInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $stockItem;
+
+    /**
+     * @var \Magento\CatalogInventory\Api\Data\StockStatusInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stockStatus;
 
     /**
      * @var \Magento\Framework\Event|\PHPUnit_Framework_MockObject_MockObject
@@ -105,21 +120,26 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->stockRegistry = $this->getMockForAbstractClass('\Magento\CatalogInventory\Api\StockRegistryInterface');
-        $this->stockRegistry->expects($this->any())->method('getStockItem')->willReturn($this->stockItem);
-        $this->stockManagement = $this->getMockForAbstractClass(
-            '\Magento\CatalogInventory\Api\StockManagementInterface',
-            [
-                'updateProductStockStatus',
-                'registerProductsSale',
-                'revertProductsSale',
-                'backItemQty',
-                'updateProductStockStatus'
-            ],
+        $this->stockRegistry = $this->getMockForAbstractClass(
+            '\Magento\CatalogInventory\Api\StockRegistryInterface',
+            ['getStockItem'],
             '',
             false
         );
-        $this->stockIndex = $this->getMockForAbstractClass('\Magento\CatalogInventory\Api\StockIndexInterface');
+        $this->stockRegistry->expects($this->any())->method('getStockItem')->willReturn($this->stockItem);
+        $this->stockManagement = $this->getMock(
+            'Magento\CatalogInventory\Model\StockManagement',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->stockIndex = $this->getMockForAbstractClass(
+            '\Magento\CatalogInventory\Api\StockIndexInterface',
+            ['rebuild'],
+            '',
+            false
+        );
         
         $this->stockHelper = $this->getMock(
             '\Magento\CatalogInventory\Helper\Stock',
@@ -133,13 +153,26 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->stockConfiguration = $this->getMockForAbstractClass(
-            '\Magento\CatalogInventory\Api\StockConfigurationInterface'
+            '\Magento\CatalogInventory\Api\StockConfigurationInterface',
+            [
+                'isAutoReturnEnabled',
+                'isDisplayProductStockStatus'
+            ],
+            '',
+            false
         );
-        $stockItemRepository = $this->getMockForAbstractClass(
-            '\Magento\CatalogInventory\Api\StockItemRepositoryInterface'
+        $this->stockItemRepository = $this->getMockForAbstractClass(
+            '\Magento\CatalogInventory\Api\StockItemRepositoryInterface',
+            ['save'],
+            '',
+            false
         );
-        $stockItemBuilder = $this->getMock(
-            '\Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder'
+        $this->stockItemBuilder = $this->getMock(
+            '\Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder',
+            ['mergeDataObjectWithArray'],
+            [],
+            '',
+            false
         );
         $this->priceIndexer = $this->getMockBuilder('Magento\Catalog\Model\Indexer\Product\Price\Processor')
             ->disableOriginalConstructor()
@@ -157,8 +190,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'stockIndex' => $this->stockIndex,
                 'stockHelper' => $this->stockHelper,
                 'stockConfiguration' => $this->stockConfiguration,
-                'stockItemRepository' => $stockItemRepository,
-                'stockItemBuilder' => $stockItemBuilder
+                'stockItemRepository' => $this->stockItemRepository,
+                'stockItemBuilder' => $this->stockItemBuilder
             ]
         );
 
