@@ -236,11 +236,7 @@
             "Magento\\TestFramework\\Inspection\\": "dev/tests/static/framework/Magento/TestFramework/Inspection/",
             "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/",
             "Magento\\ToolkitFramework\\": "dev/tools/performance-toolkit/framework/Magento/ToolkitFramework/",
-            "Magento\\Composer\\": "setup/module/Magento/Composer/src/",
-            "Magento\\Filesystem\\": "setup/module/Magento/Filesystem/src/",
-            "Magento\\Locale\\": "setup/module/Magento/Locale/src/",
-            "Magento\\Setup\\": "setup/module/Magento/Setup/src/",
-            "Magento\\Config\\": "setup/module/Magento/Config/src/"
+            "Magento\\Setup\\": "setup/module/Magento/Setup/src/"
         }
     }
 }
