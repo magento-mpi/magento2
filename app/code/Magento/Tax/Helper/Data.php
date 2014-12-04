@@ -20,6 +20,8 @@ use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Tax\Api\OrderTaxManagementInterface;
 use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Order\Creditmemo;
+use Magento\Tax\Api\Data\OrderTaxDetailsItemInterface;
+use Magento\Sales\Model\EntityInterface;
 
 /**
  * Catalog data helper
@@ -748,11 +750,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * )
      *
      * @param array $taxClassAmount
-     * @param object $itemTaxDetail
+     * @param OrderTaxDetailsItemInterface $itemTaxDetail
      * @param float $ratio
      * @return array
      */
-    private function _aggregateTaxes($taxClassAmount, $itemTaxDetail, $ratio)
+    private function _aggregateTaxes($taxClassAmount, OrderTaxDetailsItemInterface $itemTaxDetail, $ratio)
     {
         $itemAppliedTaxes = $itemTaxDetail->getAppliedTaxes();
         foreach ($itemAppliedTaxes as $itemAppliedTax) {
@@ -825,10 +827,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param object $current
+     * @param EntityInterface $current
      * @return array
      */
-    protected function calculateTaxForOrder($current)
+    protected function calculateTaxForOrder(EntityInterface $current)
     {
         $taxClassAmount = [];
 
@@ -845,11 +847,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param object $order
-     * @param object $salesItem
+     * @param EntityInterface $order
+     * @param EntityInterface $salesItem
      * @return array
      */
-    protected function calculateTaxForItems($order, $salesItem)
+    protected function calculateTaxForItems(EntityInterface $order, EntityInterface $salesItem)
     {
         $taxClassAmount = [];
 
