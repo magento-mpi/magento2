@@ -30,8 +30,8 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Helper\View|\PHPUnit_Framework_MockObject_MockObject */
     protected $customerViewHelper;
 
-    /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $customerAccount;
+    /** @var \Magento\Customer\Api\CustomerRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $customerRepository;
 
     protected function setUp()
     {
@@ -40,7 +40,12 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
 
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->customerViewHelper = $this->getMock('Magento\Customer\Helper\View', [], [], '', false);
-        $this->customerAccount = $this->getMock('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->customerRepository = $this->getMockForAbstractClass(
+            'Magento\Customer\Api\CustomerRepositoryInterface',
+            [],
+            '',
+            false
+        );
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->wishlist = $this->objectManagerHelper->getObject(
@@ -50,7 +55,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
                 'urlBuilder' => $this->urlInterface,
                 'scopeConfig' => $this->scopeConfig,
                 'customerViewHelper' => $this->customerViewHelper,
-                'customerAccountService' => $this->customerAccount
+                'customerRepository' => $this->customerRepository
             ]
         );
     }
@@ -65,7 +70,6 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
      */
     public function testAroundGetHeader($multipleEnabled, $customerId, $isDefault, $expectedResult)
     {
-
         $subject = $this->getMock('Magento\Wishlist\Model\Rss\Wishlist', [], [], '', false);
         $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', [
             'getId',
@@ -79,7 +83,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         $wishlist->expects($this->any())->method('getName')->will($this->returnValue('Wishlist1'));
         $wishlist->expects($this->any())->method('getSharingCode')->will($this->returnValue('code'));
 
-        $customer = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
+        $customer = $this->getMockForAbstractClass('Magento\Customer\Api\Data\CustomerInterface', [], '', false);
         $customer->expects($this->any())->method('getId')->will($this->returnValue($customerId));
         $customer->expects($this->any())->method('getEmail')->will($this->returnValue('test@example.com'));
 
@@ -94,14 +98,14 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
             ->with('wishlist/general/multiple_active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
         ->will($this->returnValue($multipleEnabled));
 
-        $this->customerViewHelper->expects($this->any())->method('getCustomerName')->with($customer)
-            ->will($this->returnValue('Customer1'));
-
-        $this->customerAccount
+        $this->customerRepository
             ->expects($this->any())
-            ->method('getCustomer')
+            ->method('getById')
             ->with(8)
             ->will($this->returnValue($customer));
+
+        $this->customerViewHelper->expects($this->any())->method('getCustomerName')->with($customer)
+            ->will($this->returnValue('Customer1'));
 
         $this->urlInterface
             ->expects($this->any())

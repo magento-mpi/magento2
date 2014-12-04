@@ -26,11 +26,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $requestMock;
 
     /**
-     * @var \Magento\Framework\App\Response\HttpInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $responseMock;
-
-    /**
      * @var \Magento\Framework\App\ViewInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $viewMock;
@@ -56,44 +51,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $registryMock;
 
     /**
-     * @var \Magento\Wishlist\Model\ItemFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $itemFactoryMock;
-
-    /**
-     * @var \Magento\MultipleWishlist\Model\SearchFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $searchFactoryMock;
-
-    /**
-     * @var \Magento\MultipleWishlist\Model\Search\Strategy\EmailFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $strategyEmailFactoryMock;
-
-    /**
-     * @var \Magento\MultipleWishlist\Model\Search\Strategy\NameFactory|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $strategyNameFactoryMock;
-
-    /**
-     * @var \Magento\Checkout\Model\Session|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $checkoutSessionMock;
-
-    /**
-     * @var \Magento\Checkout\Model\Cart|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $checkoutCartMock;
-
-    /**
      * @var \Magento\Customer\Model\Session|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerSessionMock;
-
-    /**
-     * @var \Magento\Framework\Locale\ResolverInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $localeResolverMock;
 
     /**
      * @var \Magento\Framework\View\Layout|\PHPUnit_Framework_MockObject_MockObject
@@ -121,39 +81,39 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->registryMock = $this->getMockBuilder('Magento\Framework\Registry')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->itemFactoryMock = $this->getMockBuilder('Magento\Wishlist\Model\ItemFactory')
+        $itemFactoryMock = $this->getMockBuilder('Magento\Wishlist\Model\ItemFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->searchFactoryMock = $this->getMockBuilder('Magento\MultipleWishlist\Model\SearchFactory')
+        $searchFactoryMock = $this->getMockBuilder('Magento\MultipleWishlist\Model\SearchFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->strategyEmailFactoryMock = $this->getMockBuilder(
+        $strategyEmailFactoryMock = $this->getMockBuilder(
             'Magento\MultipleWishlist\Model\Search\Strategy\EmailFactory'
         )
             ->disableOriginalConstructor()
             ->getMock();
-        $this->strategyNameFactoryMock = $this->getMockBuilder(
+        $strategyNameFactoryMock = $this->getMockBuilder(
             'Magento\MultipleWishlist\Model\Search\Strategy\NameFactory'
         )
             ->disableOriginalConstructor()
             ->getMock();
-        $this->checkoutSessionMock = $this->getMockBuilder('Magento\Checkout\Model\Session')
+        $checkoutSessionMock = $this->getMockBuilder('Magento\Checkout\Model\Session')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->checkoutCartMock = $this->getMockBuilder('Magento\Checkout\Model\Cart')
+        $checkoutCartMock = $this->getMockBuilder('Magento\Checkout\Model\Cart')
             ->disableOriginalConstructor()
             ->getMock();
         $this->customerSessionMock = $this->getMockBuilder('Magento\Customer\Model\Session')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->localeResolverMock = $this->getMockBuilder('Magento\Framework\Locale\ResolverInterface')
+        $localeResolverMock = $this->getMockBuilder('Magento\Framework\Locale\ResolverInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->requestMock = $this->getMockBuilder('Magento\Framework\App\RequestInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->responseMock = $this->getMockBuilder('Magento\Framework\App\Response\HttpInterface')
+        $responseMock = $this->getMockBuilder('Magento\Framework\App\Response\HttpInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->viewMock = $this->getMockBuilder('Magento\Framework\App\ViewInterface')
@@ -180,7 +140,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->requestMock));
         $this->contextMock->expects($this->any())
             ->method('getResponse')
-            ->will($this->returnValue($this->responseMock));
+            ->will($this->returnValue($responseMock));
         $this->contextMock->expects($this->any())
             ->method('getView')
             ->will($this->returnValue($this->viewMock));
@@ -191,15 +151,15 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->model = new View(
             $this->contextMock,
             $this->registryMock,
-            $this->itemFactoryMock,
+            $itemFactoryMock,
             $this->wishlistFactorytMock,
-            $this->searchFactoryMock,
-            $this->strategyEmailFactoryMock,
-            $this->strategyNameFactoryMock,
-            $this->checkoutSessionMock,
-            $this->checkoutCartMock,
+            $searchFactoryMock,
+            $strategyEmailFactoryMock,
+            $strategyNameFactoryMock,
+            $checkoutSessionMock,
+            $checkoutCartMock,
             $this->customerSessionMock,
-            $this->localeResolverMock
+            $localeResolverMock
         );
     }
 

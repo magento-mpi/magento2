@@ -1,14 +1,15 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Persistent\Model\Observer;
 
+/**
+ * Class UpdateCustomerCookiesTest
+ */
 class UpdateCustomerCookiesTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -24,7 +25,7 @@ class UpdateCustomerCookiesTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $accountServiceMock;
+    protected $customerRepository;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -51,14 +52,24 @@ class UpdateCustomerCookiesTest extends \PHPUnit_Framework_TestCase
         $eventMethods = ['getCustomerCookies', '__wakeUp'];
         $sessionMethods = ['getId', 'getGroupId', 'getCustomerId', '__wakeUp'];
         $this->sessionHelperMock = $this->getMock('Magento\Persistent\Helper\Session', [], [], '', false);
-        $this->accountServiceMock = $this->getMock('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->customerRepository = $this->getMockForAbstractClass(
+            '\Magento\Customer\Api\CustomerRepositoryInterface',
+            [],
+            '',
+            false
+        );
         $this->observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
         $this->eventManagerMock = $this->getMock('\Magento\Framework\Event', $eventMethods, [], '', false);
         $this->sessionMock = $this->getMock('Magento\Persistent\Model\Session', $sessionMethods, [], '', false);
-        $this->customerMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
+        $this->customerMock = $this->getMockForAbstractClass(
+            'Magento\Customer\Api\Data\CustomerInterface',
+            [],
+            '',
+            false
+        );
         $this->model = new \Magento\Persistent\Model\Observer\UpdateCustomerCookies(
           $this->sessionHelperMock,
-          $this->accountServiceMock
+          $this->customerRepository
         );
     }
 
@@ -91,9 +102,9 @@ class UpdateCustomerCookiesTest extends \PHPUnit_Framework_TestCase
             ->method('getSession')
             ->will($this->returnValue($this->sessionMock));
         $this->sessionMock->expects($this->once())->method('getCustomerId')->will($this->returnValue($customerId));
-        $this->accountServiceMock
+        $this->customerRepository
             ->expects($this->once())
-            ->method('getCustomer')
+            ->method('getById')
             ->will($this->returnValue($this->customerMock));
         $this->customerMock->expects($this->once())->method('getId')->will($this->returnValue($customerId));
         $this->customerMock->expects($this->once())->method('getGroupId')->will($this->returnValue($customerGroupId));

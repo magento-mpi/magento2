@@ -136,7 +136,7 @@ class ConfigurationStorageTest extends \PHPUnit_Framework_TestCase
     public function testAddGetDataCollection()
     {
         $key = 'myName';
-        $dataCollection = $this->getMock('\Magento\Framework\Data\Collection', [], [], '', false);
+        $dataCollection = $this->getMock('Magento\Framework\Data\CollectionDataSourceInterface', [], [], '', false);
         $this->configurationStorage->addDataCollection($key, $dataCollection);
 
         $this->assertEquals([$key => $dataCollection], $this->configurationStorage->getDataCollection(null));
@@ -147,7 +147,7 @@ class ConfigurationStorageTest extends \PHPUnit_Framework_TestCase
     public function testRemoveDataCollection()
     {
         $key = 'myName';
-        $dataCollection = $this->getMock('\Magento\Framework\Data\Collection', [], [], '', false);
+        $dataCollection = $this->getMock('Magento\Framework\Data\CollectionDataSourceInterface', [], [], '', false);
         $update = clone $dataCollection;
         $this->configurationStorage->addDataCollection($key, $dataCollection);
         $this->assertEquals($dataCollection, $this->configurationStorage->getDataCollection($key));

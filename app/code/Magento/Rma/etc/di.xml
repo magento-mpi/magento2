@@ -66,12 +66,12 @@
     </type>
     <virtualType name="Magento\Rma\Service\Config\RmaMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
         <arguments>
-            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
+            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Api\Data\AttributeMetadataDataBuilder</argument>
         </arguments>
     </virtualType>
     <type name="\Magento\Rma\Service\V1\RmaMetadataRead">
         <arguments>
-            <argument name="metadataConfig" xsi:type="object">Magento\Customer\Service\Config\CustomerMetadataConfig</argument>
+            <argument name="metadataConfig" xsi:type="object">Magento\Framework\Api\Config\MetadataConfig</argument>
         </arguments>
     </type>
     <type name="Magento\Rma\Model\RmaRepository">
