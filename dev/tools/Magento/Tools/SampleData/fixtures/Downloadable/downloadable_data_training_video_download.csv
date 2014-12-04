@@ -1,9 +1,9 @@
-product_sku,sample_item_title,sample_item_file,link_item_title,link_item_price,link_item_file,link_item_sample_file
-240-LV04,"Beginner's Yoga Sample","/l/u/luma_background_-_model_against_fence_4_sec_.mp4","Beginner's Yoga Link",6,"/l/u/luma_background_-_model_against_fence_4_sec_.mp4","/l/u/luma_background_-_model_against_fence_4_sec_.mp4"
-240-LV05,"LifeLong Fitness IV Sample","/l/u/luma_background_-_model_against_fence_4_sec_.mp4","LifeLong Fitness IV Link",14,"/l/u/luma_background_-_model_against_fence_4_sec_.mp4","/l/u/luma_background_-_model_against_fence_4_sec_.mp4"
-240-LV06,"Yoga Adventure Sample","/l/u/luma_background_-_model_against_fence_4_sec_.mp4","Yoga Adventure Link",22,"/l/u/luma_background_-_model_against_fence_4_sec_.mp4","/l/u/luma_background_-_model_against_fence_4_sec_.mp4"
-240-LV07,"Solo Power Circuit Sample","/l/u/luma_background_-_model_against_fence_4_sec_.mp4","Solo Power Circuit Link",14,"/l/u/luma_background_-_model_against_fence_4_sec_.mp4","/l/u/luma_background_-_model_against_fence_4_sec_.mp4"
-240-LV08,"Advanced Pilates & Yoga (Strength) Sample","/l/u/luma_background_-_model_against_fence_4_sec_.mp4","Advanced Pilates & Yoga (Strength) Link",18,"/l/u/luma_background_-_model_against_fence_4_sec_.mp4","/l/u/luma_background_-_model_against_fence_4_sec_.mp4"
-240-LV09,"Luma Yoga For Life Sample","/l/u/luma_background_-_model_against_fence_4_sec_.mp4","Episode 1",9,"/l/u/luma_background_-_model_against_fence_4_sec_.mp4","/l/u/luma_background_-_model_against_fence_4_sec_.mp4"
-240-LV09,,,"Episode 2",9,"/l/u/luma_background_-_model_against_fence_4_sec_.mp4","/l/u/luma_background_-_model_against_fence_4_sec_.mp4"
-240-LV09,,,"Episode 3",9,"/l/u/luma_background_-_model_against_fence_4_sec_.mp4","/l/u/luma_background_-_model_against_fence_4_sec_.mp4"
+product_sku,link_item_title,link_item_price,link_item_file
+240-LV04,Beginner's Yoga,6,/l/u/luma_background_-_model_against_fence_4_sec_.mp4
+240-LV05,LifeLong Fitness IV,14,/l/u/luma_background_-_model_against_fence_4_sec_.mp4
+240-LV06,Yoga Adventure,22,/l/u/luma_background_-_model_against_fence_4_sec_.mp4
+240-LV07,Solo Power Circuit,14,/l/u/luma_background_-_model_against_fence_4_sec_.mp4
+240-LV08,Advanced Pilates & Yoga (Strength),18,/l/u/luma_background_-_model_against_fence_4_sec_.mp4
+240-LV09,Episode 1,9,/l/u/luma_background_-_model_against_fence_4_sec_.mp4
+240-LV09,Episode 2,9,/l/u/luma_background_-_model_against_fence_4_sec_.mp4
+240-LV09,Episode 3,9,/l/u/luma_background_-_model_against_fence_4_sec_.mp4

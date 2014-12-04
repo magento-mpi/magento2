@@ -8,6 +8,7 @@
 namespace Magento\Tools\SampleData\Module\GiftRegistry\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Logger;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
@@ -74,17 +75,23 @@ class GiftRegistry implements SetupInterface
     protected $storeManager;
 
     /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * @param FixtureHelper $fixtureHelper
-     * @param CsvReaderFactory $csvReaderFactory,
-     * @param \Magento\Directory\Model\CountryFactory $countryFactory,
-     * @param \Magento\GiftRegistry\Model\EntityFactory $giftRegistryFactory,
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory,
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory,
-     * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory,
+     * @param CsvReaderFactory $csvReaderFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param \Magento\GiftRegistry\Model\EntityFactory $giftRegistryFactory
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source $productIndexer
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
+     * @param Logger $logger
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -98,7 +105,8 @@ class GiftRegistry implements SetupInterface
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source $productIndexer,
-        \Magento\Tools\SampleData\Helper\StoreManager $storeManager
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
+        Logger $logger
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
@@ -111,6 +119,7 @@ class GiftRegistry implements SetupInterface
         $this->itemFactory = $itemFactory;
         $this->productIndexer = $productIndexer;
         $this->storeManager = $storeManager;
+        $this->logger = $logger;
     }
 
     /**
@@ -118,7 +127,7 @@ class GiftRegistry implements SetupInterface
      */
     public function run()
     {
-        echo 'Installing Gift Registry' . PHP_EOL;
+        $this->logger->log('Installing Gift Registry' . PHP_EOL);
         $fixtureFile = 'GiftRegistry/gift_registry.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
@@ -155,9 +164,9 @@ class GiftRegistry implements SetupInterface
                         ->save();
                 }
             }
-            echo '.';
+            $this->logger->log('.');
         }
-        echo PHP_EOL;
+        $this->logger->log(PHP_EOL);
     }
 
     /**

@@ -13,6 +13,8 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Class Product
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Product implements SetupInterface
 {
@@ -81,6 +83,7 @@ class Product implements SetupInterface
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param array $fixtures
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,

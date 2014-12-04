@@ -102,6 +102,7 @@ class Customer implements SetupInterface
         $this->addressDataBuilder = $addressDataBuilder;
         $this->regionDataBuilder = $regionDataBuilder;
         $this->accountManagement = $accountManagement;
+        $this->storeManager = $storeManager;
         $this->fixtures = $fixtures;
         $this->logger = $logger;
     }

@@ -85,6 +85,7 @@ class Attribute implements SetupInterface
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param CsvReaderFactory $csvReaderFactory
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory,

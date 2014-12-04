@@ -8,6 +8,7 @@
 namespace Magento\Tools\SampleData\Module\OfflineShipping\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Logger;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
@@ -60,14 +61,20 @@ class Tablerate implements SetupInterface
     protected $storeManager;
 
     /**
-     * @param \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate $tablerate,
-     * @param \Magento\Tools\SampleData\Helper\Fixture $fixtureHelper
-     * @param \Magento\Tools\SampleData\Helper\Csv\ReaderFactory $csvReaderFactory
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
+     * @param \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate $tablerate
+     * @param FixtureHelper $fixtureHelper
+     * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
+     * @param Logger $logger
      */
     public function __construct(
         \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate $tablerate,
@@ -77,7 +84,8 @@ class Tablerate implements SetupInterface
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
-        \Magento\Tools\SampleData\Helper\StoreManager $storeManager
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
+        Logger $logger
     ) {
         $this->tablerate = $tablerate;
         $this->fixtureHelper = $fixtureHelper;
@@ -87,6 +95,7 @@ class Tablerate implements SetupInterface
         $this->cacheTypeList = $cacheTypeList;
         $this->configWriter = $configWriter;
         $this->storeManager = $storeManager;
+        $this->logger = $logger;
     }
 
     /**
@@ -94,7 +103,7 @@ class Tablerate implements SetupInterface
      */
     public function run()
     {
-        echo 'Installing Tablerate' . PHP_EOL;
+        $this->logger->log('Installing Tablerate' . PHP_EOL);
         /** @var \Magento\Framework\DB\Adapter\AdapterInterface $adapter */
         $adapter = $this->resource->getConnection('core_write');
         $fixtureFile = 'OfflineShipping/tablerate.csv';
@@ -119,12 +128,12 @@ class Tablerate implements SetupInterface
                     'cost' => 0,
                 ]
             );
-            echo '.';
+            $this->logger->log('.');
         }
         $this->configWriter->save('carriers/tablerate/active', 1);
         $this->configWriter->save('carriers/tablerate/condition_name', 'package_value');
         $this->cacheTypeList->cleanType('config');
-        echo PHP_EOL;
+        $this->logger->log(PHP_EOL);
     }
 
     /**
