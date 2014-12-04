@@ -42,8 +42,5 @@
             <block class="Magento\Backend\Block\Template" template="Magento_Rma::edit/mask.phtml"/>
             <block class="Magento\Rma\Block\Adminhtml\Rma\Edit\Js" template="edit/js.phtml" name="magento_rma_js_create"/>
         </referenceContainer>
-        <referenceBlock name="head.components">
-            <block class="Magento\Framework\View\Element\Js\Components" name="rma_page_head_components" template="Magento_Rma::edit/components.phtml"/>
-        </referenceBlock>
     </body>
 </page>

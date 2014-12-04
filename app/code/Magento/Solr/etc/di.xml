@@ -52,9 +52,9 @@
             <argument name="context" xsi:type="object">Magento\CatalogSearch\Model\Layer\Advanced\Context</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Model\Layer\Search\AvailabilityFlag">
-        <plugin name="search" type="Magento\Solr\Model\Layer\Search\AvailabilityFlag\Plugin" sortOrder="10"/>
-    </type>
+    <!--<type name="Magento\Catalog\Model\Layer\Search\AvailabilityFlag">-->
+        <!--<plugin name="search" type="Magento\Solr\Model\Layer\Search\AvailabilityFlag\Plugin" sortOrder="10"/>-->
+    <!--</type>-->
     <type name="Magento\Customer\Model\Resource\Group">
         <plugin name="catalogsearchFulltextIndexerCustomerGroup" type="Magento\Solr\Model\Indexer\Fulltext\Plugin\CustomerGroup"/>
     </type>
