@@ -139,7 +139,6 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
             }
             /** @var \Magento\Customer\Api\Data\AddressInterface $address */
             foreach ($addresses as $address) {
-                $arrayData = $this->mapper->toFlatArray($address);
                 $label = $this->_addressConfig
                     ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
                     ->getRenderer()
