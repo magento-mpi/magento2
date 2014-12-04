@@ -2584,6 +2584,8 @@ return array(
     ['Magento\Framework\View\Layout\File\Source\Theme', 'Magento\Framework\View\File\Collector\ThemeModular'],
     ['Magento\Framework\View\Layout\File\Factory', 'Magento\Framework\View\File\Factory'],
     ['Magento\Framework\View\Layout\File\FileList', 'Magento\Framework\View\File\FileList'],
+    ['Magento\Customer\Service\V1\CustomerAccountService'],
+    ['Magento\Customer\Service\V1\CustomerAccountServiceInterface'],
     ['Magento\Framework\View\Layout\File\SourceInterface', 'Magento\Framework\View\File\CollectorInterface'],
     ['Magento\Framework\View\Layout\File', 'Magento\Framework\View\File'],
     ['Magento\Framework\View\Url\Resolver', 'Magento\Framework\View\Asset\Repository'],

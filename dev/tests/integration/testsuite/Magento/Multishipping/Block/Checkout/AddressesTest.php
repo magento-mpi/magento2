@@ -29,8 +29,11 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = Bootstrap::getObjectManager();
-        $customerService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAccountService');
-        $customerData = $customerService->getCustomer(self::FIXTURE_CUSTOMER_ID);
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
+        );
+        $customerData = $customerRepository->getById(self::FIXTURE_CUSTOMER_ID);
 
         /** @var \Magento\Customer\Model\Session $customerSession */
         $customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');

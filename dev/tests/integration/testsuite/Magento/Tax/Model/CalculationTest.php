@@ -9,7 +9,7 @@ namespace Magento\Tax\Model;
 
 use Magento\Customer\Service\V1\CustomerAddressService;
 use Magento\Customer\Service\V1\CustomerGroupService;
-use Magento\Customer\Service\V1\CustomerAccountService;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 /**
  * Class CalculationTest
@@ -25,9 +25,9 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var CustomerAccountService
+     * @var CustomerRepositoryInterface
      */
-    protected $_customerAccountService;
+    protected $customerRepository;
 
     /**
      * @var CustomerAddressService
@@ -53,8 +53,8 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $this->_objectManager->create('Magento\Tax\Model\Calculation');
-        $this->_customerAccountService = $this->_objectManager->create(
-            'Magento\Customer\Service\V1\CustomerAccountService'
+        $this->customerRepository = $this->_objectManager->create(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
         $this->_addressService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressService');
         $this->_groupService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerGroupService');
@@ -68,7 +68,7 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDefaultRateRequest()
     {
-        $customerDataSet = $this->_customerAccountService->getCustomer(self::FIXTURE_CUSTOMER_ID);
+        $customerDataSet = $this->customerRepository->getById(self::FIXTURE_CUSTOMER_ID);
         $address = $this->_addressService->getAddress(self::FIXTURE_ADDRESS_ID);
 
         $rateRequest = $this->_model->getRateRequest(null, null, null, null, $customerDataSet->getId());

@@ -14,9 +14,9 @@ namespace Magento\Persistent\Model\Observer;
 class EmulateCustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    protected $_customerAccountService;
+    protected $customerRepository;
 
     /**
      * @var \Magento\Persistent\Helper\Session
@@ -44,15 +44,15 @@ class EmulateCustomerTest extends \PHPUnit_Framework_TestCase
 
         $this->_customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
 
-        $this->_customerAccountService = $this->_objectManager->create(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        $this->customerRepository = $this->_objectManager->create(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
         $this->_persistentSessionHelper = $this->_objectManager->create('Magento\Persistent\Helper\Session');
 
         $this->_observer = $this->_objectManager->create(
             'Magento\Persistent\Model\Observer\EmulateCustomer',
             [
-                'customerAccountService' => $this->_customerAccountService,
+                'customerRepository' => $this->customerRepository,
                 'persistentSession' => $this->_persistentSessionHelper
             ]
         );
@@ -77,7 +77,7 @@ class EmulateCustomerTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_observer->execute($observer);
-        $customer = $this->_customerAccountService->getCustomer(
+        $customer = $this->customerRepository->getById(
             $this->_persistentSessionHelper->getSession()->getCustomerId()
         );
         $this->assertEquals(

@@ -26,32 +26,32 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     protected $quoteMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \\Magento\Sales\Model\Service\Quote
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Sales\Model\Service\Quote
      */
     protected $serviceQuote;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \\Magento\Sales\Model\Service\QuoteFactory
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Sales\Model\Service\QuoteFactory
      */
     protected $quoteFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \\Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Api\AccountManagementInterface
      */
-    protected $customerAccountServiceMock;
+    protected $customerAccountManagementMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \\Magento\Customer\Service\V1\Data\AddressBuilderFactory
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Data\AddressBuilderFactory
      */
     protected $addressBuilderFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \\Magento\Framework\Object\Copy
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Object\Copy
      */
     protected $objectCopyServiceMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \\Magento\Customer\Model\Session
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session
      */
     protected $customerSessionMock;
 
@@ -83,7 +83,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->customerAccountServiceMock = $this->getMock(
+        $this->customerAccountManagementMock = $this->getMock(
             '\Magento\Customer\Model\AccountManagement',
             [],
             [],
@@ -118,7 +118,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
                     'config' => $paypalConfigMock,
                     'session' => $this->customerSessionMock
                 ],
-                'accountManagement' => $this->customerAccountServiceMock,
+                'accountManagement' => $this->customerAccountManagementMock,
                 'serviceQuoteFactory' => $this->quoteFactoryMock,
                 'addressBuilderFactory' => $this->addressBuilderFactoryMock,
                 'objectCopyService' => $this->objectCopyServiceMock,

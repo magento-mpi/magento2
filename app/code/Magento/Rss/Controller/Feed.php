@@ -18,9 +18,9 @@ class Feed extends \Magento\Framework\App\Action\Action
     protected $customerSession;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\AccountManagementInterface
      */
-    protected $customerAccountService;
+    protected $customerAccountManagement;
 
     /**
      * @var \Magento\Framework\HTTP\Authentication
@@ -53,7 +53,7 @@ class Feed extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Api\AccountManagementInterface $customerAccountManagement
      * @param \Magento\Framework\HTTP\Authentication $httpAuthentication
      * @param \Magento\Framework\Logger $logger
      */
@@ -63,7 +63,7 @@ class Feed extends \Magento\Framework\App\Action\Action
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Customer\Api\AccountManagementInterface $customerAccountManagement,
         \Magento\Framework\HTTP\Authentication $httpAuthentication,
         \Magento\Framework\Logger $logger
     ) {
@@ -71,7 +71,7 @@ class Feed extends \Magento\Framework\App\Action\Action
         $this->scopeConfig = $scopeConfig;
         $this->rssFactory = $rssFactory;
         $this->customerSession = $customerSession;
-        $this->customerAccountService = $customerAccountService;
+        $this->customerAccountManagement = $customerAccountManagement;
         $this->httpAuthentication = $httpAuthentication;
         $this->logger = $logger;
         parent::__construct($context);
@@ -85,7 +85,7 @@ class Feed extends \Magento\Framework\App\Action\Action
         if (!$this->customerSession->isLoggedIn()) {
             list($login, $password) = $this->httpAuthentication->getCredentials();
             try {
-                $customer = $this->customerAccountService->authenticate($login, $password);
+                $customer = $this->customerAccountManagement->authenticate($login, $password);
                 $this->customerSession->setCustomerDataAsLoggedIn($customer);
                 $this->customerSession->regenerateId();
             } catch (\Exception $e) {
