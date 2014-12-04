@@ -10,6 +10,7 @@
 ?>
 <?php $_product = $this->getProduct() ?>
 <?php if($_product->isSaleable()): ?>
+    <?php $jsonConfig = $this->getJsonConfig() ?>
     <script type="text/javascript">
 require([
     "jquery",
@@ -18,7 +19,7 @@ require([
     //<![CDATA[
         $(document).ready(function() {
             $('#product_addtocart_form').mage('bundleOption', {
-                "bundleConfig": <?php echo $this->getJsonConfig() ?>,
+                "bundleConfig": <?php echo $jsonConfig ?>,
                 "roundingMethod" : "<?php echo $this->getRoundingMethod() ?>",
                 "bundleOptionQtyPrefix": "#bundle-option-",
                 "bundleOptionQtySuffix": "-qty-input",
@@ -27,7 +28,8 @@ require([
                     "bundle-price": "#bundle-price-<?php echo $_product->getId()?>",
                     "price-including-tax": "#price-including-tax-product-price-<?php echo $_product->getId()?>",
                     "price-excluding-tax": "#price-excluding-tax-product-price-<?php echo $_product->getId()?>"
-                }
+                },
+                "optionConfig": <?php echo $jsonConfig ?>
             });
         });
     //]]>
