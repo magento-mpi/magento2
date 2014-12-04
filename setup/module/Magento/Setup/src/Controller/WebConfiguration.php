@@ -42,9 +42,9 @@ class WebConfiguration extends AbstractActionController
         $projectRoot = $this->dirList->getRoot();
         $docRoot = str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']);
         if ($setupInfo->isAvailable($this->dirList->getRoot())) {
-            $urlPath = '';
+            $urlPath = substr($projectRoot, strlen($docRoot));
         } else {
-            $urlPath = substr($docRoot, strlen($projectRoot));
+            $urlPath = '';
         }
         $view = new ViewModel(['autoBaseUrl' => 'http://' . $_SERVER['HTTP_HOST'] . $urlPath . '/']);
         $view->setTerminal(true);
