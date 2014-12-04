@@ -72,7 +72,7 @@ class EmulateCustomerTest extends \PHPUnit_Framework_TestCase
         $this->_customerSession->logout();
         $this->assertNull($this->_customerSession->getCustomerId());
         $this->assertEquals(
-            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+            \Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID,
             $this->_customerSession->getCustomerGroupId()
         );
 
