@@ -77,7 +77,7 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $status,
         $qty,
         $websiteId,
-        $stockId = 1
+        $stockId = Stock::DEFAULT_STOCK_ID
     ) {
         $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()->from($this->getMainTable())
