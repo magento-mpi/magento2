@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\SampleData\Module\Catalog\Setup\Product;
 
-use Magento\Framework\App\Filesystem;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use \Magento\Catalog\Model\ProductFactory;
