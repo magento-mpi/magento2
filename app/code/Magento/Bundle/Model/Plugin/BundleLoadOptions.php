@@ -56,10 +56,8 @@ class BundleLoadOptions
             ->setAttributeCode('bundle_product_options')
             ->setValue($this->productOptionList->getItems($product))
             ->create();
-        $product->setData(
-            'custom_attributes',
-            array_merge($product->getCustomAttributes(), [$customAttribute])
-        );
+        $attributes = array_merge($product->getCustomAttributes(), ['bundle_product_options' => $customAttribute]);
+        $product->setData('custom_attributes', $attributes);
         return $product;
     }
 }
