@@ -52,11 +52,8 @@ define([
                 if (this.element.val() === this.options.placeholder) {
                     this.element.val('');
                 }
-            }, this));
-
-            this.searchLabel.on('click', $.proxy(function() {
                 this.searchLabel.addClass('active');
-            }, this))
+            }, this));
 
             this.element.on('keydown', $.proxy(this._onKeyDown, this));
             this.element.on('input propertychange', $.proxy(this._onPropertyChange, this));
