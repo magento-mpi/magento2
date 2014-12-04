@@ -12,9 +12,7 @@ angular.module('add-database', ['ngStorage'])
             useExistingDb: 1,
             useAccess: 1
         };
-
-        $scope.testConn = '';
-
+        $scope.testConn = 'mock';
         var intervalPromise = $interval(function () {
             $http.post('data/database', $scope.db)
                 .success(function (data) {
@@ -47,6 +45,8 @@ angular.module('add-database', ['ngStorage'])
         });
 
         $scope.$on('previousState', function () {
+            $localStorage.db = $scope.db;
+            Storage.db = $scope.db;
             $interval.cancel(intervalPromise);
         });
 
