@@ -14,6 +14,7 @@ use Magento\TestFramework\CodingStandard\Tool\CopyPasteDetector;
 use Magento\Framework\Test\Utility;
 use PHP_PMD_TextUI_Command;
 use PHPUnit_Framework_TestCase;
+use Magento\Framework\Test\Utility\Files;
 
 /**
  * Set of tests for static code analysis, e.g. code style, code complexity, copy paste detecting, etc.
@@ -232,5 +233,106 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
             $copyPasteDetector->run(array(), $blackList),
             "PHP Copy/Paste Detector has found error(s): See detailed report in {$reportFile}"
         );
+    }
+
+    public function testDeadCode()
+    {
+        if (!class_exists('SebastianBergmann\PHPDCD\Analyser')) {
+            $this->markTestSkipped('PHP Dead Code Detector is not available.');
+        }
+        $analyser = new \SebastianBergmann\PHPDCD\Analyser();
+        $declared = [];
+        $called = [];
+        foreach (Files::init()->getPhpFiles() as $file) {
+            $file = array_pop($file);
+            $analyser->analyseFile($file);
+            foreach ($analyser->getFunctionDeclarations() as $function => $declaration) {
+                if (strpos($function, '::') === false) {
+                    $method = $function;
+                } else {
+                    list($class, $method) = explode('::', $function);
+                }
+                $declared[$method] = $function;
+            }
+            foreach ($analyser->getFunctionCalls() as $function => $usages) {
+                if (strpos($function, '::') === false) {
+                    $method = $function;
+                } else {
+                    list($class, $method) = explode('::', $function);
+                }
+                $called[$method] = 1;
+            }
+        }
+
+        foreach ($called as $method => $_) {
+            unset($declared[$method]);
+        }
+        $declared = $this->filterUsedObserverMethods($declared);
+        $declared = $this->filterUsedPersistentObserverMethods($declared);
+        $declared = $this->filterUsedCrontabObserverMethods($declared);
+        if ($declared) {
+            $this->fail('Dead code detected:' . PHP_EOL . implode(PHP_EOL, $declared));
+        }
+    }
+
+    /**
+     * @param string[] $methods
+     * @return string[]
+     * @throws \Exception
+     */
+    private function filterUsedObserverMethods($methods)
+    {
+        foreach (Files::init()->getConfigFiles('{*/events.xml,events.xml}') as $file) {
+            $file = array_pop($file);
+
+            $doc = new \DOMDocument();
+            $doc->load($file);
+            foreach ($doc->getElementsByTagName('observer') as $observer) {
+                /** @var \DOMElement $observer */
+                $method = $observer->getAttribute('method');
+                unset($methods[$method]);
+            }
+        }
+        return $methods;
+    }
+
+    /**
+     * @param string[] $methods
+     * @return string[]
+     * @throws \Exception
+     */
+    private function filterUsedPersistentObserverMethods($methods)
+    {
+        foreach (Files::init()->getConfigFiles('{*/persistent.xml,persistent.xml}') as $file) {
+            $file = array_pop($file);
+
+            $doc = new \DOMDocument();
+            $doc->load($file);
+            foreach ($doc->getElementsByTagName('method') as $method) {
+                /** @var \DOMElement $method */
+                unset($methods[$method->textContent]);
+            }
+        }
+        return $methods;
+    }
+
+    /**
+     * @param string[] $methods
+     * @return string[]
+     * @throws \Exception
+     */
+    private function filterUsedCrontabObserverMethods($methods)
+    {
+        foreach (Files::init()->getConfigFiles('{*/crontab.xml,crontab.xml}') as $file) {
+            $file = array_pop($file);
+
+            $doc = new \DOMDocument();
+            $doc->load($file);
+            foreach ($doc->getElementsByTagName('job') as $job) {
+                /** @var \DOMElement $job */
+                unset($methods[$job->getAttribute('method')]);
+            }
+        }
+        return $methods;
     }
 }
