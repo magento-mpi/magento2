@@ -8,6 +8,8 @@
 
 namespace Magento\Setup\Mvc\Console;
 
+use Magento\Setup\Controller\ConsoleController;
+
 /**
  * Validator for checking parameters in CLI
  */
@@ -79,13 +81,14 @@ class VerboseValidator
                 $validationMessages .= PHP_EOL;
             }
             if (empty($missingParams) && empty($extraParams) && empty($missingValues) && empty($extraValue)) {
-                $validationMessages .= 'Please make sure parameters start with --.' . PHP_EOL;
-                $validationMessages .= PHP_EOL;
+                $validationMessages .= 'Please make sure parameters are in correct format and are not repeated.';
+                $validationMessages .= PHP_EOL . PHP_EOL;
             }
 
             // add usage message
-            $validationMessages .= 'Usage:' . PHP_EOL;
-            $validationMessages .= $config[$userAction]['options']['route'] . PHP_EOL . PHP_EOL;
+            $usages = ConsoleController::getCommandUsage();
+            $validationMessages .= 'Usage:' . PHP_EOL . "{$userAction} ";
+            $validationMessages .= $usages[$userAction] . PHP_EOL . PHP_EOL;
 
         } else if (!is_null($userAction)) {
             $validationMessages .= PHP_EOL . "Unknown action name '{$userAction}'." . PHP_EOL . PHP_EOL;
@@ -137,6 +140,19 @@ class VerboseValidator
                 unset($missingParams[$key]);
             }
         }
+        // some parameters have alternative names, verify user input with theses alternative names
+        foreach ($missingParams as $key => $missingParam) {
+            foreach (array_keys($actualParams) as $actualParam) {
+                if (isset($expectedParams[$missingParam]['alternatives'])) {
+                    foreach ($expectedParams[$missingParam]['alternatives'] as $alternative) {
+                        if ($actualParam === $alternative) {
+                            unset($missingParams[$key]);
+                            break 2;
+                        }
+                    }
+                }
+            }
+        }
         return $missingParams;
     }
 
@@ -150,6 +166,19 @@ class VerboseValidator
     public function checkExtraParameter($expectedParams, $actualParams)
     {
         $extraParams = array_diff(array_keys($actualParams), array_keys($expectedParams));
+        // some parameters have alternative names, make sure $extraParams doesn't contain these alternatives names
+        foreach ($extraParams as $key => $extraParam) {
+            foreach ($expectedParams as $expectedParam) {
+                if (isset($expectedParam['alternatives'])) {
+                    foreach ($expectedParam['alternatives'] as $alternative) {
+                        if ($extraParam === $alternative) {
+                            unset($extraParams[$key]);
+                            break 2;
+                        }
+                    }
+                }
+            }
+        }
         return $extraParams;
     }
 
