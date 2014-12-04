@@ -41,7 +41,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     protected $customerAccountManagementMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Data\AddressBuilderFactory
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Api\Data\AddressDataBuilderFactory
      */
     protected $addressBuilderFactoryMock;
 
@@ -139,7 +139,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
 
     public function testSetCustomerWithAddressChange()
     {
-        /** @var \Magento\Customer\Service\V1\Data\Customer $customerDataMock */
+        /** @var \Magento\Customer\Api\Data\CustomerInterface $customerDataMock */
         $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         /** @var \Magento\Sales\Model\Quote\Address $customerDataMock */
         $quoteAddressMock = $this->getMock('Magento\Sales\Model\Quote\Address', [], [], '', false);
