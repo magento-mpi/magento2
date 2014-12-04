@@ -7,9 +7,9 @@
 
 'use strict';
 angular.module('success', ['ngStorage'])
-    .controller('successController', ['$scope', '$localStorage', 'Storage', function ($scope, $localStorage, Storage) {
-        $scope.db     = Storage.db;
-        $scope.admin  = Storage.admin;
-        $scope.config = Storage.config;
-        $scope.messages = Storage.messages;
+    .controller('successController', ['$scope', '$localStorage', function ($scope, $localStorage) {
+        $scope.db     = $localStorage.db;
+        $scope.admin  = $localStorage.admin;
+        $scope.config = $localStorage.config;
+        $scope.messages = $localStorage.messages;
     }]);

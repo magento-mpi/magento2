@@ -7,7 +7,7 @@
 
 'use strict';
 angular.module('add-database', ['ngStorage'])
-    .controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', '$timeout', 'Storage', '$interval', function ($scope, $state, $localStorage, $http, $timeout, Storage, $interval) {
+    .controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', '$timeout', '$interval', function ($scope, $state, $localStorage, $http, $timeout, $interval) {
         $scope.db = {
             useExistingDb: 1,
             useAccess: 1
@@ -40,13 +40,11 @@ angular.module('add-database', ['ngStorage'])
 
         $scope.$on('nextState', function () {
             $localStorage.db = $scope.db;
-            Storage.db = $scope.db;
             $interval.cancel(intervalPromise);
         });
 
         $scope.$on('previousState', function () {
             $localStorage.db = $scope.db;
-            Storage.db = $scope.db;
             $interval.cancel(intervalPromise);
         });
 

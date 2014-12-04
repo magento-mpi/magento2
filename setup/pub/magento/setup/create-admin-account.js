@@ -7,7 +7,7 @@
 
 'use strict';
 angular.module('create-admin-account', ['ngStorage'])
-    .controller('createAdminAccountController', ['$scope', '$state', '$localStorage', 'Storage', function ($scope, $state, $localStorage, Storage) {
+    .controller('createAdminAccountController', ['$scope', '$state', '$localStorage', function ($scope, $state, $localStorage) {
         $scope.admin = {
             'passwordStatus': {
                 class: 'none',
@@ -44,7 +44,6 @@ angular.module('create-admin-account', ['ngStorage'])
 
         $scope.$on('nextState', function () {
             $localStorage.admin = $scope.admin;
-            Storage.admin = $scope.admin;
         });
 
         // Listens on form validate event, dispatched by parent controller

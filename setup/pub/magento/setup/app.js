@@ -22,17 +22,6 @@ var app = angular.module(
         'success'
     ]);
 
-
-app.factory('Storage', function () {
-    return {
-        db: {},
-        admin: {},
-        store: {},
-        config: {},
-        messages: {}
-    };
-});
-
 app.config(function ($stateProvider) {
     app.stateProvider = $stateProvider;
 })
