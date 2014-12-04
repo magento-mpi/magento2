@@ -33,13 +33,10 @@
                 type="Magento\Framework\Api\SearchResults" />
     <preference for="Magento\Customer\Api\Data\AddressSearchResultsInterface"
                 type="Magento\Framework\Api\SearchResults" />
-    <preference for="Magento\Customer\Service\V1\CustomerAddressServiceInterface"
-                type="Magento\Customer\Service\V1\CustomerAddressService" />
     <preference for="Magento\Customer\Service\V1\CustomerGroupServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerGroupService" />
     <preference for="Magento\Customer\Api\AccountManagementInterface"
                 type="Magento\Customer\Model\AccountManagement" />
-
     <preference for="Magento\Customer\Service\V1\CustomerMetadataServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerMetadataServiceCached" />
     <preference for="Magento\Customer\Api\CustomerMetadataInterface"

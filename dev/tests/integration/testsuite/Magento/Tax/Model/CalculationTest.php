@@ -7,8 +7,8 @@
  */
 namespace Magento\Tax\Model;
 
-use Magento\Customer\Service\V1\CustomerAddressService;
-use Magento\Customer\Service\V1\CustomerGroupService;
+use Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Customer\Api\GroupRepositoryInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 
 /**
@@ -30,14 +30,14 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
     protected $customerRepository;
 
     /**
-     * @var CustomerAddressService
+     * @var AddressRepositoryInterface
      */
-    protected $_addressService;
+    protected $addressRepository;
 
     /**
-     * @var CustomerGroupService
+     * @var GroupRepositoryInterface
      */
-    protected $_groupService;
+    protected $groupRepository;
 
     const FIXTURE_CUSTOMER_ID = 1;
 
@@ -56,8 +56,8 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
         $this->customerRepository = $this->_objectManager->create(
             'Magento\Customer\Api\CustomerRepositoryInterface'
         );
-        $this->_addressService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressService');
-        $this->_groupService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerGroupService');
+        $this->addressRepository = $this->_objectManager->create('Magento\Customer\Api\AddressRepositoryInterface');
+        $this->groupRepository = $this->_objectManager->create('Magento\Customer\Api\GroupRepositoryInterface');
     }
 
     public function testDefaultCustomerTaxClass()
@@ -69,7 +69,7 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
     public function testGetDefaultRateRequest()
     {
         $customerDataSet = $this->customerRepository->getById(self::FIXTURE_CUSTOMER_ID);
-        $address = $this->_addressService->getAddress(self::FIXTURE_ADDRESS_ID);
+        $address = $this->addressRepository->getById(self::FIXTURE_ADDRESS_ID);
 
         $rateRequest = $this->_model->getRateRequest(null, null, null, null, $customerDataSet->getId());
 
@@ -78,7 +78,7 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($address->getRegion()->getRegionId(), $rateRequest->getRegionId());
         $this->assertEquals($address->getPostcode(), $rateRequest->getPostcode());
 
-        $customerTaxClassId = $this->_groupService->getGroup($customerDataSet->getGroupId())->getTaxClassId();
+        $customerTaxClassId = $this->groupRepository->getById($customerDataSet->getGroupId())->getTaxClassId();
         $this->assertEquals($customerTaxClassId, $rateRequest->getCustomerClassId());
     }
 }
