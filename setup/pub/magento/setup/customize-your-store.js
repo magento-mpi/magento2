@@ -7,7 +7,7 @@
 
 'use strict';
 angular.module('customize-your-store', ['ngStorage'])
-    .controller('customizeYourStoreController', ['$scope', '$localStorage', function ($scope, $localStorage) {
+    .controller('customizeYourStoreController', ['$scope', '$localStorage', 'Storage', function ($scope, $localStorage, Storage) {
         $scope.store = {
             timezone: 'America/Los_Angeles',
             currency: 'USD',
@@ -21,5 +21,6 @@ angular.module('customize-your-store', ['ngStorage'])
 
         $scope.$on('nextState', function () {
             $localStorage.store = $scope.store;
+            Storage.store = $scope.store;
         });
     }]);

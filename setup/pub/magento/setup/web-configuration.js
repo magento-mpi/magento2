@@ -7,7 +7,7 @@
 
 'use strict';
 angular.module('web-configuration', ['ngStorage'])
-    .controller('webConfigurationController', ['$scope', '$state', '$localStorage', function ($scope, $state, $localStorage) {
+    .controller('webConfigurationController', ['$scope', '$state', '$localStorage', 'Storage', function ($scope, $state, $localStorage, Storage) {
         $scope.config = {
             address: {
                 web: 'http://www.example.com/',
@@ -36,6 +36,7 @@ angular.module('web-configuration', ['ngStorage'])
 
         $scope.$on('nextState', function () {
             $localStorage.config = $scope.config;
+            Storage.config = $scope.config;
         });
 
         $scope.updateOnExpand = function(obj) {
