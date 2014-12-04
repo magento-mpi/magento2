@@ -225,7 +225,7 @@ define([
     $.widget('mage.opcheckout', $.mage.opcheckout, {
         options: {
             billing: {
-                addressDropdownSelector: '#billing-address-select',
+                addressDropdownSelector: '#billing\\:address-select',
                 newAddressFormSelector: '#billing-new-address-form',
                 continueSelector: '#billing-buttons-container .button',
                 form: '#co-billing-form'
