@@ -10,7 +10,7 @@ namespace Magento\Backend\Controller\Adminhtml\Dashboard;
 /**
  * Test for \Magento\Backend\Controller\Adminhtml\Dashboard\CustomersNewest
  */
-class CustomersNewestTest extends BaseAssertion
+class CustomersNewestTest extends AbstractTestCase
 {
     public function testExecute()
     {

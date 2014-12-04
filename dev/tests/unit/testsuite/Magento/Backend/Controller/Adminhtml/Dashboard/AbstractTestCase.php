@@ -8,10 +8,16 @@
 namespace Magento\Backend\Controller\Adminhtml\Dashboard;
 
 /**
- * Base assertion test method for CustomerMost,CustomerNewest,ProductsViewed test classes
+ * Abstract test class for CustomerMost,CustomerNewest,ProductsViewed test classes
  */
-class BaseAssertion extends \PHPUnit_Framework_TestCase
+class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Assertions for CustomerMost,CustomerNewest,ProductsViewed classes execute method
+     *
+     * @param $controllerName
+     * @param $blockName
+     */
     protected function assertExecute($controllerName, $blockName)
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -24,10 +30,12 @@ class BaseAssertion extends \PHPUnit_Framework_TestCase
             ['create'], [], '', false);
         $layoutFactoryMock = $this->getMock(
             'Magento\Framework\View\LayoutFactory',
-            ['create', 'createBlock', 'toHtml'], [], '', false);
-        $layoutFactoryMock->expects($this->once())->method('create')->will($this->returnSelf());
-        $layoutFactoryMock->expects($this->once())->method('createBlock')->with($blockName)->will($this->returnSelf());
-        $layoutFactoryMock->expects($this->once())->method('toHtml')->will($this->returnValue($outPut));
+            ['create'], [], '', false);
+        $layoutMock = $this->getMock('Magento\Framework\View\Layout',
+            ['createBlock', 'toHtml'], [], '', false);
+        $layoutFactoryMock->expects($this->once())->method('create')->will($this->returnValue($layoutMock));
+        $layoutMock->expects($this->once())->method('createBlock')->with($blockName)->will($this->returnSelf());
+        $layoutMock->expects($this->once())->method('toHtml')->will($this->returnValue($outPut));
         $resultRawFactoryMock->expects($this->once())->method('create')->will($this->returnValue($resultRawMock));
         $resultRawMock->expects($this->once())->method('setContents')->with($outPut)->will($this->returnSelf());
 
