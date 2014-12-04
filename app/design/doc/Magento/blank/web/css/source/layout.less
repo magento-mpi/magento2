@@ -27,21 +27,21 @@
     #layout-columns();
     .column.main {
         &:extend(.add-box-sizing all);
-        flex-grow: 1;
-        flex-basis: 100%;
+        .vendor-prefix-flex-grow(1);
+        .vendor-prefix-flex-basis(100%);
         .css(padding-bottom, @indent-xl-base);
         .vendor-prefix-order(1);
     }
     .sidebar-main {
         &:extend(.add-box-sizing all);
-        flex-grow: 1;
-        flex-basis: 100%;
+        .vendor-prefix-flex-grow(1);
+        .vendor-prefix-flex-basis(100%);
         .vendor-prefix-order(0);
     }
     .sidebar-additional {
         &:extend(.add-box-sizing all);
-        flex-grow: 1;
-        flex-basis: 100%;
+        .vendor-prefix-flex-grow(1);
+        .vendor-prefix-flex-basis(100%);
         .vendor-prefix-order(2);
     }
 }
@@ -50,7 +50,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .navigation,
     .breadcrumbs,
     .page-header .header.panel,

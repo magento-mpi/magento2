@@ -7,6 +7,12 @@
 //  */
 
 //
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+//
 //    Newsletter subscription
 //--------------------------------------
 .block.newsletter {
@@ -43,7 +49,7 @@
         display: none;
     }
     .label {
-        &:extend(.abstract-visually-hidden all);
+        &:extend(.abs-visually-hidden all);
     }
     .actions {
         display: table-cell;
@@ -57,10 +63,12 @@
     }
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .block.newsletter {
         width: 32%;
         .field {

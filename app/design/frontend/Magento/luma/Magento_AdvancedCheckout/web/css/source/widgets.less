@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .sidebar {
     .block-addbysku {
         .fieldset {
@@ -17,14 +23,14 @@
                     margin-bottom: @indent-s-base;
                     vertical-align: top;
                     &.sku {
-                        &:extend(.abstract-add-box-sizing all);
+                        &:extend(.abs-add-box-sizing all);
                         margin-right: -85px;
                         padding-right: 90px;
                         width: 100%;
                     }
                     &.qty {
                         .qty {
-                            &:extend(.abstract-input-qty all);
+                            &:extend(.abs-input-qty all);
                         }
                     }
                 }
@@ -81,4 +87,6 @@
             }
         }
     }
+}
+
 }

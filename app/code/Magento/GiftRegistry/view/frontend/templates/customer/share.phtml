@@ -14,15 +14,15 @@
     </div>
     <fieldset class="fieldset">
         <div class="field firstname required">
-            <label for="recipients-name${_index_}" class="label"><span><?php echo __('First Name:') ?></span></label>
+            <label for="recipients-name${_index_}" class="label"><span><?php echo __('First Name') ?></span></label>
             <div class="control">
-                <input name="recipients[${_index_}][name]" type="text" title="<?php echo __('Name:')?>" class="input-text" id="recipients-name${_index_}" data-validate="{required:true}"/>
+                <input name="recipients[${_index_}][name]" type="text" title="<?php echo __('Name')?>" class="input-text" id="recipients-name${_index_}" data-validate="{required:true}"/>
             </div>
         </div>
         <div class="field email required">
-            <label for="recipients-email${_index_}" class="label"><span><?php echo __('Email Address:') ?></span></label>
+            <label for="recipients-email${_index_}" class="label"><span><?php echo __('Email') ?></span></label>
             <div class="control">
-                <input name="recipients[${_index_}][email]" title="<?php echo __('Email Address:') ?>" id="recipients-email${_index_}" type="email" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
+                <input name="recipients[${_index_}][email]" title="<?php echo __('Email') ?>" id="recipients-email${_index_}" type="email" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
             </div>
         </div>
     </fieldset>
@@ -35,22 +35,22 @@
 <form action="<?php echo $this->getSendUrl() ?>" method="post" id="giftregistry-sharing-form" class="form form-giftregistry-share validation" data-hasrequired="<?php echo __('* Required Fields') ?>">
     <fieldset class="fieldset">
         <?php echo $this->getBlockHtml('formkey')?>
-        <legend class="legend"><span><?php echo __('Sender:') ?></span></legend>
+        <legend class="legend"><span><?php echo __('Sender') ?></span></legend>
         <br />
         <div class="field name required">
-            <label for="sender_name" class="label"><span><?php echo __('Name:') ?></span></label>
+            <label for="sender_name" class="label"><span><?php echo __('Name') ?></span></label>
             <div class="control">
                 <input name="sender_name" value="<?php if ($this->getFormData('sender_name')): ?><?php echo $this->getFormData('sender_name') ?><?php else:?><?php echo $this->getCustomerName() ?><?php endif;?>" title="<?php echo __('Name') ?>" id="sender_name" type="text" class="input-text" data-validate="{required:true}"/>
             </div>
         </div>
         <div class="field email required">
-            <label for="sender_email" class="label"><span><?php echo __('Email:') ?></span></label>
+            <label for="sender_email" class="label"><span><?php echo __('Email') ?></span></label>
             <div class="control">
                 <input name="sender_email" value="<?php if ($this->getFormData('sender_email')): ?><?php echo $this->getFormData('sender_email'); ?><?php else:?><?php echo $this->getCustomerEmail() ?><?php endif;?>" id="sender_email" type="text" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
             </div>
         </div>
         <div class="field message required">
-            <label for="sender_message" class="label"><span><?php echo __('Message:') ?></span></label>
+            <label for="sender_message" class="label"><span><?php echo __('Message') ?></span></label>
             <div class="control">
                 <textarea name="sender_message" class="input-text" id="sender_message" cols="3" rows="3" data-validate="{required:true}"><?php echo $this->getFormData('sender_message'); ?></textarea>
             </div>
@@ -58,11 +58,11 @@
     </fieldset>
 
     <fieldset class="fieldset recipients">
-        <legend class="legend"><span><?php echo __('Recipient:') ?></span></legend>
+        <legend class="legend"><span><?php echo __('Recipient') ?></span></legend>
         <br />
         <div id="recipients-options"></div>
         <?php if ($this->getRecipientsLimit()): ?>
-            <div id="max-recipient-message" style="display:none" class="message notice limit">
+            <div id="max-recipient-message" style="display: none" class="message notice limit">
                 <span><?php echo __('Maximum %1 email addresses.', $this->getRecipientsLimit()) ?></span>
             </div>
         <?php endif; ?>
