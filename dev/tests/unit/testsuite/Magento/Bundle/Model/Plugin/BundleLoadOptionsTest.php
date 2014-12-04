@@ -86,7 +86,7 @@ class BundleLoadOptionsTest extends \PHPUnit_Framework_TestCase
         $productMock->expects($this->once())->method('getCustomAttributes')->willReturn([$productAttributeMock]);
         $productMock->expects($this->once())
             ->method('setData')
-            ->with('custom_attributes', [$customAttributeMock, $productAttributeMock])
+            ->with('custom_attributes', ['bundle_product_options' => $customAttributeMock, $productAttributeMock])
             ->willReturnSelf();
 
         $this->assertEquals(
