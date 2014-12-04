@@ -402,7 +402,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $passwordHash = 'password hash';
         $this->requestMock->expects($this->any())->method('isAjax')->will($this->returnValue(false));
         $customerValidationResultMock = $this->getMock(
-            'Magento\Customer\Service\V1\Data\CustomerValidationResults', [], [], '', false
+            'Magento\Customer\Api\Data\ValidationResultsInterface', [], [], '', false
         );
         $customerValidationResultMock
             ->expects($this->any())

@@ -1943,7 +1943,7 @@ return array(
     array('Magento\Sales\Block\Recurring\Profile\View\Data', 'Magento\RecurringPayment\Block\Payment\View\Data'),
     array('Magento\Sales\Block\Recurring\Profile\View\Fees', 'Magento\RecurringPayment\Block\Payment\View\Fees'),
     array('Magento\Sales\Block\Recurring\Profile\View\Item', 'Magento\RecurringPayment\Block\Payment\View\Item'),
-    array('Magento\Customer\Service\V1\Data\AddressConverter', '\Magento\Customer\Model\Address\Mapper'),
+    array('Magento\Customer\Service\V1\Data\AddressConverter', 'Magento\Customer\Model\Address\Mapper'),
     array(
         'Magento\Sales\Block\Recurring\Profile\View\Reference',
         'Magento\RecurringPayment\Block\Payment\View\Reference'
@@ -2584,6 +2584,8 @@ return array(
     ['Magento\Framework\View\Layout\File\Source\Theme', 'Magento\Framework\View\File\Collector\ThemeModular'],
     ['Magento\Framework\View\Layout\File\Factory', 'Magento\Framework\View\File\Factory'],
     ['Magento\Framework\View\Layout\File\FileList', 'Magento\Framework\View\File\FileList'],
+    ['Magento\Customer\Service\V1\CustomerAccountService'],
+    ['Magento\Customer\Service\V1\CustomerAccountServiceInterface'],
     ['Magento\Framework\View\Layout\File\SourceInterface', 'Magento\Framework\View\File\CollectorInterface'],
     ['Magento\Framework\View\Layout\File', 'Magento\Framework\View\File'],
     ['Magento\Framework\View\Url\Resolver', 'Magento\Framework\View\Asset\Repository'],

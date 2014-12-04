@@ -8,7 +8,7 @@
 namespace Magento\Reward\Model\Observer;
 
 use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 class SaveRewardPointsTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,10 +28,10 @@ class SaveRewardPointsTest extends \PHPUnit_Framework_TestCase
         $customer = $objectManager->get('Magento\Framework\Registry')
             ->registry('_fixture/Magento_ImportExport_Customer');
 
-        /** @var CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = $objectManager->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        /** @var CustomerRepositoryInterface $customerRepository */
+        $customerRepository = $objectManager->get('Magento\Customer\Api\CustomerRepositoryInterface');
 
-        $this->_saveRewardPoints($customerAccountService->getCustomer($customer->getId()), $pointsDelta);
+        $this->_saveRewardPoints($customerRepository->getById($customer->getId()), $pointsDelta);
 
         /** @var $reward \Magento\Reward\Model\Reward */
         $reward = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Reward\Model\Reward');

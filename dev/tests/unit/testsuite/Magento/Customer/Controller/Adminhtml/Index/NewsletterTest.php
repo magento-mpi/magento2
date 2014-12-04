@@ -41,9 +41,9 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Api\AccountManagementInterface
      */
-    protected $_acctServiceMock;
+    protected $customerAccountManagement;
 
     /**
      * Session mock instance
@@ -211,11 +211,11 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
         $this->pageConfigMock = $this->getMockBuilder('Magento\Framework\View\Page\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_acctServiceMock = $this->getMockBuilder(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        $this->customerAccountManagement = $this->getMockBuilder(
+            'Magento\Customer\Api\AccountManagementInterface'
         )->getMock();
 
-        $args = array('context' => $contextMock, 'accountService' => $this->_acctServiceMock);
+        $args = array('context' => $contextMock, 'customerAccountManagement' => $this->customerAccountManagement);
 
         $this->viewInterfaceMock->expects($this->any())->method('getPage')->will(
             $this->returnValue($this->resultPageMock)
