@@ -7,6 +7,8 @@
  */
 namespace Magento\VersionsCms\Block\Cms;
 
+use Magento\Store\Model\ScopeInterface;
+
 /**
  * Cms page content block
  */
@@ -33,6 +35,8 @@ class Page extends \Magento\Cms\Block\Page
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Framework\View\Page\Config $pageConfig
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      */
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
@@ -56,22 +60,17 @@ class Page extends \Magento\Cms\Block\Page
      *
      * @param \Magento\Cms\Model\Page $page
      * @throws \Magento\Framework\Exception
+     * @return void
      */
     protected function _addBreadcrumbs(\Magento\Cms\Model\Page $page)
     {
         $breadcrumbs = array();
-        if ($this->_scopeConfig->getValue(
-                'web/default/show_cms_breadcrumbs',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            ) && ($breadcrumbsBlock = $this->getLayout()->getBlock(
-                'breadcrumbs'
-            )) && $page->getIdentifier() !== $this->_scopeConfig->getValue(
-                'web/default/cms_home_page',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            ) && $page->getIdentifier() !== $this->_scopeConfig->getValue(
-                'web/default/cms_no_route',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            )
+        if ($this->_scopeConfig->getValue('web/default/show_cms_breadcrumbs', ScopeInterface::SCOPE_STORE)
+            && ($breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs'))
+            && $page->getIdentifier() !== $this->_scopeConfig->getValue(
+                'web/default/cms_home_page', ScopeInterface::SCOPE_STORE)
+            && $page->getIdentifier() !== $this->_scopeConfig->getValue(
+                'web/default/cms_no_route', ScopeInterface::SCOPE_STORE)
         ) {
             $breadcrumbsBlock->addCrumb(
                 'home',

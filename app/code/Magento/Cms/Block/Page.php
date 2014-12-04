@@ -7,10 +7,13 @@
  */
 namespace Magento\Cms\Block;
 
+use Magento\Store\Model\ScopeInterface;
+
 /**
  * Cms page content block
  */
-class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Magento\Framework\View\Block\IdentityInterface
+class Page extends \Magento\Framework\View\Element\AbstractBlock
+    implements \Magento\Framework\View\Block\IdentityInterface
 {
     /**
      * @var \Magento\Cms\Model\Template\FilterProvider
@@ -118,21 +121,16 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Mag
      *
      * @param \Magento\Cms\Model\Page $page
      * @throws \Magento\Framework\Exception
+     * @return void
      */
     protected function _addBreadcrumbs(\Magento\Cms\Model\Page $page)
     {
-        if ($this->_scopeConfig->getValue(
-                'web/default/show_cms_breadcrumbs',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            ) && ($breadcrumbsBlock = $this->getLayout()->getBlock(
-                'breadcrumbs'
-            )) && $page->getIdentifier() !== $this->_scopeConfig->getValue(
-                'web/default/cms_home_page',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            ) && $page->getIdentifier() !== $this->_scopeConfig->getValue(
-                'web/default/cms_no_route',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            )
+        if ($this->_scopeConfig->getValue('web/default/show_cms_breadcrumbs', ScopeInterface::SCOPE_STORE)
+            && ($breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs'))
+            && $page->getIdentifier() !== $this->_scopeConfig->getValue(
+                'web/default/cms_home_page',ScopeInterface::SCOPE_STORE)
+            && $page->getIdentifier() !== $this->_scopeConfig->getValue(
+                'web/default/cms_no_route', ScopeInterface::SCOPE_STORE)
         ) {
             $breadcrumbsBlock->addCrumb(
                 'home',
