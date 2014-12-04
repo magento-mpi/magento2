@@ -251,21 +251,8 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
             'defaultTax' => $defaultTax,
             'currentTax' => $currentTax,
             'idSuffix' => '_clone',
-            'oldPlusDisposition' => 0,
-            'plusDisposition' => 0,
-            'plusDispositionTax' => 0,
-            'oldMinusDisposition' => 0,
-            'minusDisposition' => 0,
             'tierPrices' => $tierPrices
         );
-
-        $responseObject = new \Magento\Framework\Object();
-        $this->_eventManager->dispatch('catalog_product_view_config', array('response_object' => $responseObject));
-        if (is_array($responseObject->getAdditionalOptions())) {
-            foreach ($responseObject->getAdditionalOptions() as $option => $value) {
-                $config[$option] = $value;
-            }
-        }
 
         return $this->_jsonEncoder->encode($config);
     }

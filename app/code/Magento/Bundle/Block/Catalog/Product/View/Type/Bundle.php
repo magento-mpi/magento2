@@ -221,8 +221,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     'priceType' => $selectionItem->getSelectionPriceType(),
                     'tierPrice' => $tierPrices,
                     'name' => $selectionItem->getName(),
-                    'plusDisposition' => 0,
-                    'minusDisposition' => 0,
                     'canApplyMsrp' => false
                 );
 
@@ -230,14 +228,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     ? $selection['inclTaxPrice']
                     : $selection['exclTaxPrice'];
 
-                $responseObject = new \Magento\Framework\Object();
-                $args = array('response_object' => $responseObject, 'selection' => $selectionItem);
-                $this->_eventManager->dispatch('bundle_product_view_config', $args);
-                if (is_array($responseObject->getAdditionalOptions())) {
-                    foreach ($responseObject->getAdditionalOptions() as $index => $value) {
-                        $selection[$index] = $value;
-                    }
-                }
                 $option['selections'][$selectionId] = $selection;
 
                 if (($selectionItem->getIsDefault() || $selectionCount == 1 && $optionItem->getRequired())
