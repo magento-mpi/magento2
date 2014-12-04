@@ -62,7 +62,6 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
         $this->_multishipping = $multishipping;
         $this->customerRepository = $customerRepository;
         $this->_addressConfig = $addressConfig;
-        $this->mapper = $mapper;
         parent::__construct($context, $data);
         $this->addressMapper = $addressMapper;
         $this->_isScopePrivate = true;
@@ -138,7 +137,6 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
             }
             /** @var \Magento\Customer\Api\Data\AddressInterface $address */
             foreach ($addresses as $address) {
-                $arrayData = $this->mapper->toFlatArray($address);
                 $label = $this->_addressConfig
                     ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
                     ->getRenderer()
