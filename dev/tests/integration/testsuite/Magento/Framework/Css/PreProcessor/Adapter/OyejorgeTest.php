@@ -39,4 +39,17 @@ class OyejorgeTest extends \PHPUnit_Framework_TestCase
             : file_get_contents(__DIR__ . '/../_files/oyejorge.css');
         $this->assertEquals($expectedCss, $this->model->process($sourceFilePath));
     }
+
+    /**
+     *  Patch in MAGETWO-30317
+     */
+    public function testMinificatorProcess()
+    {
+        $sourceFilePath = realpath(__DIR__ . '/../_files/oyejorge.less');
+        $options = array('relativeUrls' => false, 'compress' => true);
+        $parser = new \Less_Parser($options);
+        $parser->parseFile($sourceFilePath, '');
+        $expectedCss = file_get_contents(__DIR__ . '/../_files/minificate.css');
+        $this->assertEquals($expectedCss, $parser->getCss());
+    }
 }
