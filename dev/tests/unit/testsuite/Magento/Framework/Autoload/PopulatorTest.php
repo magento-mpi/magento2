@@ -35,40 +35,21 @@ class PopulatorTest extends \PHPUnit_Framework_TestCase
             ->method('addPsr4')
             ->with('Magento\\', [DirectoryList::MODULES . '/Magento/', DirectoryList::GENERATION . '/Magento/'], true);
         $mockAutoloader->expects($this->at(1))
-            ->method('addPsr4')
-            ->with('Zend\\Soap\\', DirectoryList::MODULES . '/Zend/Soap/', true);
-        $mockAutoloader->expects($this->at(2))
-            ->method('addPsr4')
-            ->with('Zend\\', DirectoryList::LIB_INTERNAL . '/Zend/', true);
-
-        $mockAutoloader->expects($this->at(3))
             ->method('addPsr0')
             ->with('Apache_', DirectoryList::LIB_INTERNAL, true);
-        $mockAutoloader->expects($this->at(4))
+        $mockAutoloader->expects($this->at(2))
             ->method('addPsr0')
             ->with('Cm_', DirectoryList::LIB_INTERNAL, true);
-        $mockAutoloader->expects($this->at(5))
+        $mockAutoloader->expects($this->at(3))
             ->method('addPsr0')
             ->with('Credis_', DirectoryList::LIB_INTERNAL, true);
-        $mockAutoloader->expects($this->at(6))
+        $mockAutoloader->expects($this->at(4))
             ->method('addPsr0')
             ->with('Less_', DirectoryList::LIB_INTERNAL, true);
-        $mockAutoloader->expects($this->at(7))
+        $mockAutoloader->expects($this->at(5))
             ->method('addPsr0')
             ->with('Symfony\\', DirectoryList::LIB_INTERNAL, true);
-        $mockAutoloader->expects($this->at(8))
-            ->method('addPsr0')
-            ->with('Zend_Date', DirectoryList::MODULES, true);
-        $mockAutoloader->expects($this->at(9))
-            ->method('addPsr0')
-            ->with('Zend_Mime', DirectoryList::MODULES, true);
-        $mockAutoloader->expects($this->at(10))
-            ->method('addPsr0')
-            ->with('Zend_', DirectoryList::LIB_INTERNAL, true);
-        $mockAutoloader->expects($this->at(11))
-            ->method('addPsr0')
-            ->with('Zend\\', DirectoryList::LIB_INTERNAL, true);
-        $mockAutoloader->expects($this->at(12))
+        $mockAutoloader->expects($this->at(6))
             ->method('addPsr0')
             ->with('', [DirectoryList::MODULES, DirectoryList::GENERATION]);
 
