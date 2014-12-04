@@ -5,7 +5,11 @@
  * @license     {license_link}
  */
 /**************************** CONFIGURABLE PRODUCT **************************/
-define(["prototype"], function(){
+define([
+    'jquery',
+    'mage/translate',
+    'prototype'
+], function(jQuery){
 
 if (typeof Product == 'undefined') {
     window.Product = {};
@@ -14,6 +18,28 @@ if (typeof Product == 'undefined') {
 Product.Config = Class.create();
 Product.Config.prototype = {
     initialize: function(config){
+        // Magic preprocessing
+        // TODO: Need to rewrite to follow principle from Storefront
+        config.taxConfig = {
+            showBothPrices: false,
+            inclTaxTitle: jQuery.mage.__('Incl. Tax')
+        };
+        for(var ii in config.attributes) {
+            if( config.attributes.hasOwnProperty( ii ) ) {
+                var attribute = config.attributes[ii];
+                for(var jj in attribute.options) {
+                    if( attribute.options.hasOwnProperty( jj ) ) {
+                        var option = attribute.options[jj];
+                        option.price = +option.prices.finalPrice.amount;
+                        option.inclTaxPrice = +option.prices.finalPrice.amount;
+                        option.exclTaxPrice = +option.prices.basePrice.amount;
+                        config.taxConfig.showBothPrices = config.taxConfig.showBothPrices
+                            || (option.inclTaxPrice !== option.exclTaxPrice);
+                    }
+                }
+            }
+        }
+
         this.config     = config;
         this.taxConfig  = this.config.taxConfig;
         if (config.containerId) {
@@ -24,6 +50,7 @@ Product.Config.prototype = {
         this.state      = new Hash();
         this.priceTemplate = new Template(this.config.template);
         this.prices     = config.prices;
+        this.values     = {};
 
         // Set default values from config
         if (config.defaultValues) {
@@ -35,9 +62,6 @@ Product.Config.prototype = {
         if (separatorIndex != -1) {
             var paramsStr = window.location.href.substr(separatorIndex+1);
             var urlValues = paramsStr.toQueryParams();
-            if (!this.values) {
-                this.values = {};
-            }
             for (var i in urlValues) {
                 this.values[i] = urlValues[i];
             }
@@ -67,7 +91,7 @@ Product.Config.prototype = {
                 element.attributeId = attributeId;
                 this.state[attributeId] = false;
             }
-        }.bind(this))
+        }.bind(this));
 
         // Init settings dropdown
         var childSettings = [];
