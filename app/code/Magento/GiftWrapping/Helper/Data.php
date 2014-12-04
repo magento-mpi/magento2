@@ -10,7 +10,6 @@ namespace Magento\GiftWrapping\Helper;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\GiftWrapping\Model\System\Config\Source\Display\Type as DisplayType;
 use Magento\Tax\Api\TaxCalculationInterface;
-use Magento\Customer\Model\Address\Converter as AddressConverter;
 
 /**
  * Gift wrapping default helper
@@ -92,11 +91,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $taxCalculationService;
 
     /**
-     * @var \Magento\Customer\Model\Address\Converter
-     */
-    protected $addressConverter;
-
-    /**
      * @var PriceCurrencyInterface
      */
     protected $priceCurrency;
@@ -108,7 +102,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder
      * @param \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder
      * @param TaxCalculationInterface $taxCalculationService
-     * @param AddressConverter $addressConverter
      * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
@@ -118,7 +111,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder,
         \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder,
         TaxCalculationInterface $taxCalculationService,
-        AddressConverter $addressConverter,
         PriceCurrencyInterface $priceCurrency
     ) {
         $this->_scopeConfig = $scopeConfig;
@@ -126,7 +118,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->quoteDetailsBuilder = $quoteDetailsBuilder;
         $this->quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
         $this->taxCalculationService = $taxCalculationService;
-        $this->addressConverter = $addressConverter;
         $this->priceCurrency = $priceCurrency;
         parent::__construct($context);
     }
@@ -572,20 +563,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if ($taxClassId && $includeTax) {
             $shippingAddressDataObject = null;
             if ($shippingAddress instanceof \Magento\Customer\Model\Address\AbstractAddress) {
-                $shippingAddressDataObject = $this->addressConverter->createAddressFromModel(
-                    $shippingAddress,
-                    null,
-                    null
-                );
+                $shippingAddressDataObject = $shippingAddress->getDataModel();
             }
 
             $billingAddressDataObject = null;
             if ($billingAddress instanceof \Magento\Customer\Model\Address\AbstractAddress) {
-                $billingAddressDataObject = $this->addressConverter->createAddressFromModel(
-                    $billingAddress,
-                    null,
-                    null
-                );
+                $billingAddressDataObject = $billingAddress->getDataModel();
             }
 
             $taxableItem = $this->quoteDetailsItemBuilder->setQuantity(1)
