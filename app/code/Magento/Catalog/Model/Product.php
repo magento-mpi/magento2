@@ -13,6 +13,7 @@ use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Object\IdentityInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Framework\Convert\ConvertArray;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Catalog product model
@@ -244,6 +245,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
@@ -274,6 +276,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\StoreManagerInterface $storeManager,
         Product\Url $url,
         Product\Link $productLink,
@@ -321,6 +324,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $storeManager,
             $resource,
             $resourceCollection,
