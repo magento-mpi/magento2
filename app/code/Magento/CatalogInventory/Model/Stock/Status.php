@@ -16,8 +16,6 @@ use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * CatalogInventory Stock Status
- * @package Magento\CatalogInventory\Model\Stock
- * @data-api
  *
  * @method Status setProductId(int $value)
  * @method Status setWebsiteId(int $value)

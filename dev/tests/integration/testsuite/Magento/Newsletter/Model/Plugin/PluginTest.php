@@ -17,14 +17,23 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     /**
      * Customer Account Service
      *
+     * @var \Magento\Customer\Api\AccountManagementInterface
+     */
+    protected $accountManagement;
+
+    /**
      * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    private $customerRepository;
+    protected $customerRepository;
 
     public function setUp()
     {
-        $this->customerRepository = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Api\CustomerRepositoryInterface');
+        $this->accountManagement = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\AccountManagementInterface'
+        );
+        $this->customerRepository = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
+        );
     }
 
     public function tearDown()
@@ -55,11 +64,14 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $customerBuilder->setFirstname('Firstname')
             ->setLastname('Lastname')
             ->setEmail('customer_two@example.com');
-        $createdCustomer = $this->customerRepository->save($customerBuilder->create());
+        $createdCustomer = $this->customerRepository->save(
+            $customerBuilder->create(),
+            $this->accountManagement->getPasswordHash('password')
+        );
 
         $subscriber->loadByEmail('customer_two@example.com');
         $this->assertTrue($subscriber->isSubscribed());
-        $this->assertEquals($createdCustomer->getId(), (int)$subscriber->getCustomerId());
+        $this->assertEquals((int)$createdCustomer->getId(), (int)$subscriber->getCustomerId());
     }
 
 
@@ -77,7 +89,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $customerBuilder->setFirstname('Firstname')
             ->setLastname('Lastname')
             ->setEmail('customer@example.com');
-        $this->customerRepository->save($customerBuilder->create());
+        $this->accountManagement->createAccount($customerBuilder->create());
 
         $this->verifySubscriptionNotExist('customer@example.com');
     }

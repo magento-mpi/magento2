@@ -7,8 +7,7 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Address\Config as AddressConfig;
 
 /**
@@ -43,8 +42,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
-     * @param CustomerAccountService $customerAccountService
-     * @param CustomerAddressService $customerAddressService
+     * @param CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Customer\Model\Address\Mapper $addressMapper
@@ -59,8 +57,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        CustomerAccountService $customerAccountService,
-        CustomerAddressService $customerAddressService,
+        CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Address\Mapper $addressMapper,
@@ -76,8 +73,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
-            $customerAccountService,
-            $customerAddressService,
+            $customerRepository,
             $addressConfig,
             $httpContext,
             $addressMapper,
@@ -146,10 +142,10 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             if ($this->isCustomerLoggedIn()) {
                 $this->_address = $this->getQuote()->getBillingAddress();
                 if (!$this->_address->getFirstname()) {
-                    $this->_address->setFirstname($this->getQuote()->getCustomerData()->getFirstname());
+                    $this->_address->setFirstname($this->getQuote()->getCustomer()->getFirstname());
                 }
                 if (!$this->_address->getLastname()) {
-                    $this->_address->setLastname($this->getQuote()->getCustomerData()->getLastname());
+                    $this->_address->setLastname($this->getQuote()->getCustomer()->getLastname());
                 }
             } else {
                 $this->_address = $this->_addressFactory->create();

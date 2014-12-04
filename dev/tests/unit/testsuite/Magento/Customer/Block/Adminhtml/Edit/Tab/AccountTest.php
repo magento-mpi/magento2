@@ -13,6 +13,9 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\Api\AbstractExtensibleObject;
 use Magento\Framework\Api\AttributeValue;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class AccountTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ObjectManagerHelper */
@@ -88,6 +91,8 @@ class AccountTest extends \PHPUnit_Framework_TestCase
      * @param $customerData
      * @param $isSingleStoreMode
      * @param $canModifyCustomer
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     private function _setupStoreMode($customerData, $isSingleStoreMode, $canModifyCustomer)
     {

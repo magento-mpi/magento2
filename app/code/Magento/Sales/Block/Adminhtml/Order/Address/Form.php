@@ -39,8 +39,10 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Customer\Model\Options $options
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param \Magento\Framework\Registry $registry
      * @param array $data
@@ -57,13 +59,16 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Customer\Model\Options $options,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Helper\Address $addressHelper,
+        \Magento\Customer\Api\AddressRepositoryInterface $addressService,
+        \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Customer\Model\Address\Mapper $addressMapper,
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
+
         parent::__construct(
             $context,
             $sessionQuote,
@@ -75,8 +80,10 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
             $jsonEncoder,
             $customerFormFactory,
             $options,
-            $addressService,
             $addressHelper,
+            $addressService,
+            $criteriaBuilder,
+            $filterBuilder,
             $addressMapper,
             $data
         );
