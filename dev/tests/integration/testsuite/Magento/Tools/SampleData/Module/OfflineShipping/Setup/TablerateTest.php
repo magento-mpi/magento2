@@ -30,5 +30,6 @@ class TablerateTest  extends \PHPUnit_Framework_TestCase
         $rate->run();
         $result = ob_get_clean();
         $this->assertContains('Installing Tablerate', $result);
+        $this->assertContains('.........', $result);
     }
 }

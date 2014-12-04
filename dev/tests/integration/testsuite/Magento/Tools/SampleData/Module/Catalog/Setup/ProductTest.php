@@ -48,11 +48,20 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         ob_start();
         $attributes->run();
-        $categories->run();
-        $products->run();
         $result = ob_get_clean();
         $this->assertContains('Installing catalog attributes', $result);
+        $this->assertContains('................................', $result);
+
+        ob_start();
+        $categories->run();
+        $result = ob_get_clean();
         $this->assertContains('Installing categories', $result);
+        $this->assertContains('......................................', $result);
+
+        ob_start();
+        $products->run();
+        $result = ob_get_clean();
         $this->assertContains('Installing simple products', $result);
+        $this->assertContains('.', $result);
     }
 }

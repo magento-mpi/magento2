@@ -27,5 +27,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $tax->run();
         $result = ob_get_clean();
         $this->assertContains('Installing taxes', $result);
+        $this->assertContains('..', $result);
     }
 }

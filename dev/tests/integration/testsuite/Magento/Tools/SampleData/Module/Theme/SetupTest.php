@@ -27,5 +27,6 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $model->run();
         $result = ob_get_clean();
         $this->assertContains('Installing theme', $result);
+        $this->assertContains('.', $result);
     }
 }

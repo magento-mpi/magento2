@@ -27,5 +27,6 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $model->run();
         $result = ob_get_clean();
         $this->assertContains('Installing CMS pages', $result);
+        $this->assertContains('....', $result);
     }
 }

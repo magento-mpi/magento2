@@ -27,5 +27,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $customer->run();
         $result = ob_get_clean();
         $this->assertContains('Installing customers', $result);
+        $this->assertContains('.', $result);
     }
 }
