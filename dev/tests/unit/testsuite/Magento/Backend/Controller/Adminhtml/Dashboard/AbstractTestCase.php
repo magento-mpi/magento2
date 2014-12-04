@@ -8,12 +8,12 @@
 namespace Magento\Backend\Controller\Adminhtml\Dashboard;
 
 /**
- * Abstract test class for CustomerMost,CustomerNewest,ProductsViewed test classes
+ * Abstract test class
  */
 class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Assertions for CustomerMost,CustomerNewest,ProductsViewed classes execute method
+     * Assertions for controller execute method
      *
      * @param $controllerName
      * @param $blockName
