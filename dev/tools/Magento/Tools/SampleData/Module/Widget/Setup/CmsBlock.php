@@ -48,7 +48,7 @@ class CmsBlock implements SetupInterface
     protected $themeCollection;
 
     /**
-     * @var \Magento\Cms\Model\Resource\Block\Collection
+     * @var \Magento\Cms\Model\BlockFactory
      */
     protected $cmsBlockCollection;
 
@@ -62,7 +62,7 @@ class CmsBlock implements SetupInterface
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
-     * @param \Magento\Cms\Model\Resource\Block\Collection $cmsBlockCollection
+     * @param \Magento\Cms\Model\BlockFactory $cmsBlockCollection
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param array $fixtures
@@ -72,7 +72,7 @@ class CmsBlock implements SetupInterface
         CsvReaderFactory $csvReaderFactory,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Core\Model\Resource\Theme\Collection $themeCollection,
-        \Magento\Cms\Model\Resource\Block\Collection $cmsBlockCollection,
+        \Magento\Cms\Model\BlockFactory $cmsBlockCollection,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory,
         \Magento\Tools\SampleData\Logger $logger,
         $fixtures = array()
@@ -127,7 +127,8 @@ class CmsBlock implements SetupInterface
             $fileName = $this->fixtureHelper->getPath($file);
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
             foreach ($csvReader as $row) {
-                $block = $this->cmsBlockCollection->getItemByColumnValue('identifier', $row['block_identifier']);
+                //$block = $this->cmsBlockCollection->getItemByColumnValue('identifier', $row['block_identifier']);
+                $block = $this->cmsBlockCollection->create()->load($row['block_identifier'], 'identifier');
                 if (!$block) {
                     continue;
                 }

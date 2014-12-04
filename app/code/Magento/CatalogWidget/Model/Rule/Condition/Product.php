@@ -36,13 +36,14 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -50,6 +51,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Eav\Model\Config $config,
         \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
@@ -62,6 +64,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
             $backendData,
             $config,
             $productFactory,
+            $productRepository,
             $productResource,
             $attrSetCollection,
             $localeFormat,

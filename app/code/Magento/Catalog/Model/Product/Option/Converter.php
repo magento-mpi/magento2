@@ -12,15 +12,15 @@ namespace Magento\Catalog\Model\Product\Option;
 class Converter
 {
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
     /**
-     * @param \Magento\Catalog\Model\ProductRepository $productRepository
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      */
     public function __construct(
-        \Magento\Catalog\Model\ProductRepository $productRepository
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
     ) {
         $this->productRepository = $productRepository;
     }
@@ -28,10 +28,10 @@ class Converter
 
     /**
      * Convert option data to array
-     * @param \Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface $option
+     * @param \Magento\Catalog\Api\Data\ProductCustomOptionInterface $option
      * @return array
      */
-    public function toArray(\Magento\Catalog\Api\Data\ProductCustomOptionOptionInterface $option)
+    public function toArray(\Magento\Catalog\Api\Data\ProductCustomOptionInterface $option)
     {
         $optionData = $option->getData();
         $values = $option->getData('values');

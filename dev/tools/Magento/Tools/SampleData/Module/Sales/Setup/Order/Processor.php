@@ -30,9 +30,9 @@ class Processor
     protected $createOrderFactory;
 
     /**
-     * @var \Magento\Customer\Model\CustomerFactory
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    protected $customerFactory;
+    protected $customerRepository;
 
     /**
      * @var \Magento\Framework\DB\TransactionFactory
@@ -40,9 +40,14 @@ class Processor
     protected $transactionFactory;
 
     /**
-     * @var \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoaderFactory
+     * @var \Magento\Sales\Model\OrderFactory
      */
-    protected $invoiceLoaderFactory;
+    protected $orderFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Service\OrderFactory
+     */
+    protected $serviceOrderFactory;
 
     /**
      * @var \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoaderFactory
@@ -63,22 +68,25 @@ class Processor
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Phrase\Renderer\CompositeFactory $rendererCompositeFactory
      * @param \Magento\Sales\Model\AdminOrder\CreateFactory $createOrderFactory
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerFactory
      * @param \Magento\Backend\Model\Session\QuoteFactory $sessionQuoteFactory
      * @param \Magento\Framework\DB\TransactionFactory $transactionFactory
-     * @param \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoaderFactory $invoiceLoaderFactory
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory
      * @param \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoaderFactory $shipmentLoaderFactory
      * @param \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoaderFactory $creditmemoLoaderFactory
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Phrase\Renderer\CompositeFactory $rendererCompositeFactory,
         \Magento\Sales\Model\AdminOrder\CreateFactory $createOrderFactory,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerFactory,
         \Magento\Backend\Model\Session\QuoteFactory $sessionQuoteFactory,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
-        \Magento\Sales\Controller\Adminhtml\Order\InvoiceLoaderFactory $invoiceLoaderFactory,
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory,
         \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoaderFactory $shipmentLoaderFactory,
         \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoaderFactory $creditmemoLoaderFactory,
         \Magento\Tools\SampleData\Helper\StoreManager $storeManager
@@ -86,10 +94,11 @@ class Processor
         $this->coreRegistry = $coreRegistry;
         $this->rendererCompositeFactory = $rendererCompositeFactory;
         $this->createOrderFactory = $createOrderFactory;
-        $this->customerFactory = $customerFactory;
+        $this->customerRepository = $customerFactory;
         $this->sessionQuoteFactory = $sessionQuoteFactory;
         $this->transactionFactory = $transactionFactory;
-        $this->invoiceLoaderFactory = $invoiceLoaderFactory;
+        $this->orderFactory = $orderFactory;
+        $this->serviceOrderFactory = $serviceOrderFactory;
         $this->shipmentLoaderFactory = $shipmentLoaderFactory;
         $this->creditmemoLoaderFactory = $creditmemoLoaderFactory;
         $this->storeManager = $storeManager;
@@ -108,9 +117,10 @@ class Processor
                 $orderCreateModel->setPaymentData($orderData['payment']);
                 $orderCreateModel->getQuote()->getPayment()->addData($orderData['payment']);
             }
-            $customer = $this->customerFactory->create()
-                ->setWebsiteId($this->storeManager->getWebsiteId())
-                ->loadByEmail($orderData['order']['account']['email']);
+            $customer = $this->customerRepository->get(
+                $orderData['order']['account']['email'],
+                $this->storeManager->getWebsiteId()
+            );
             $orderCreateModel->getQuote()->setCustomer($customer);
             $orderCreateModel->getSession()->setCustomerId($customer->getId());
             $order = $orderCreateModel
@@ -181,9 +191,8 @@ class Processor
      */
     protected function invoiceOrder(\Magento\Sales\Model\Order\Item $orderItem)
     {
-        $invoiceLoader = $this->invoiceLoaderFactory->create();
         $invoiceData = [$orderItem->getId() => $orderItem->getQtyToInvoice()];
-        $invoice = $invoiceLoader->load($orderItem->getOrderId(), null, $invoiceData);
+        $invoice = $this->createInvoice($orderItem->getOrderId(), $invoiceData);
         if ($invoice) {
             $invoice->register();
             $invoice->getOrder()->setIsInProcess(true);
@@ -192,6 +201,22 @@ class Processor
                 ->addObject($invoice->getOrder());
             $invoiceTransaction->save();
         }
+    }
+
+    /**
+     * @param int $orderId
+     * @param array $invoiceData
+     * @return bool
+     */
+    protected function createInvoice($orderId, $invoiceData)
+    {
+        $order = $this->orderFactory->create()->load($orderId);
+        if (!$order) {
+            return false;
+        }
+        $invoice = $this->serviceOrderFactory->create(array('order' => $order))
+            ->prepareInvoice($invoiceData);
+        return $invoice;
     }
 
     /**

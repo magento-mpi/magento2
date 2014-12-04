@@ -74,6 +74,25 @@ class CustomerEmulatorTest extends \PHPUnit_Framework_TestCase
         $this->_persistentSessionHelper->setSession($sessionModel);
 
         $this->_model->emulate();
-        $this->assertEquals($this->_customerSession->getCustomerDataObject(), $this->_wishlistData->getCustomer());
+
+        $expectedCustomer = $this->_customerSession->getCustomerDataObject();
+        $actualCustomer = $this->_wishlistData->getCustomer();
+
+        $this->assertEquals($expectedCustomer->getId(), $actualCustomer->getId());
+        $this->assertEquals($expectedCustomer->getEmail(), $actualCustomer->getEmail());
+        $this->assertEquals($expectedCustomer->getWebsiteId(), $actualCustomer->getWebsiteId());
+        $this->assertEquals($expectedCustomer->getStoreId(), $actualCustomer->getStoreId());
+        $this->assertEquals($expectedCustomer->getGroupId(), $actualCustomer->getGroupId());
+        $this->assertEquals($expectedCustomer->getFirstname(), $actualCustomer->getFirstname());
+        $this->assertEquals($expectedCustomer->getLastname(), $actualCustomer->getLastname());
+        $this->assertEquals($expectedCustomer->getCreatedAt(), $actualCustomer->getCreatedAt());
+
+        $expectedCustomAttributes = $expectedCustomer->getCustomAttributes();
+        $actualCustomAttributes = $actualCustomer->getCustomAttributes();
+        $this->assertCount(count($expectedCustomAttributes), $actualCustomAttributes);
+        foreach ($expectedCustomAttributes as $key => $attribute) {
+            $this->assertArrayHasKey($key, $actualCustomAttributes);
+            $this->assertEquals($attribute->getValue(), $actualCustomAttributes[$key]->getValue());
+        }
     }
 }

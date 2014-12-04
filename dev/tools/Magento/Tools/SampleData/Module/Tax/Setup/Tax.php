@@ -19,22 +19,22 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 class Tax implements SetupInterface
 {
     /**
-     * @var \Magento\Tax\Service\V1\TaxRuleServiceInterface
+     * @var \Magento\Tax\Api\TaxRuleRepositoryInterface
      */
-    protected $ruleService;
+    protected $taxRuleRepository;
 
     /**
-     * @var \Magento\Tax\Service\V1\Data\TaxRuleBuilder
+     * @var \Magento\Tax\Api\Data\TaxRuleDataBuilder
      */
     protected $ruleBuilder;
 
     /**
-     * @var \Magento\Tax\Service\V1\TaxRateServiceInterface
+     * @var \Magento\Tax\Api\TaxRateRepositoryInterface
      */
-    protected $taxRateService;
+    protected $taxRateRepository;
 
     /**
-     * @var \Magento\Tax\Service\V1\Data\TaxRateBuilder
+     * @var \Magento\Tax\Api\Data\TaxRateDataBuilder
      */
     protected $taxRateBuilder;
 
@@ -59,28 +59,28 @@ class Tax implements SetupInterface
     protected $logger;
 
     /**
-     * @param \Magento\Tax\Service\V1\TaxRuleServiceInterface $ruleService
-     * @param \Magento\Tax\Service\V1\Data\TaxRuleBuilder $ruleBuilder
-     * @param \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService
-     * @param \Magento\Tax\Service\V1\Data\TaxRateBuilder $taxRateBuilder
+     * @param \Magento\Tax\Api\TaxRuleRepositoryInterface $taxRuleRepository
+     * @param \Magento\Tax\Api\Data\TaxRuleDataBuilder $ruleBuilder
+     * @param \Magento\Tax\Api\TaxRateRepositoryInterface $taxRateRepository
+     * @param \Magento\Tax\Api\Data\TaxRateDataBuilder $taxRateBuilder
      * @param \Magento\Tax\Model\Calculation\RateFactory $taxRateFactory
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Tools\SampleData\Logger $logger
      */
     public function __construct(
-        \Magento\Tax\Service\V1\TaxRuleServiceInterface $ruleService,
-        \Magento\Tax\Service\V1\Data\TaxRuleBuilder $ruleBuilder,
-        \Magento\Tax\Service\V1\TaxRateServiceInterface $taxRateService,
-        \Magento\Tax\Service\V1\Data\TaxRateBuilder $taxRateBuilder,
+        \Magento\Tax\Api\TaxRuleRepositoryInterface $taxRuleRepository,
+        \Magento\Tax\Api\Data\TaxRuleDataBuilder $ruleBuilder,
+        \Magento\Tax\Api\TaxRateRepositoryInterface $taxRateRepository,
+        \Magento\Tax\Api\Data\TaxRateDataBuilder $taxRateBuilder,
         \Magento\Tax\Model\Calculation\RateFactory $taxRateFactory,
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         \Magento\Tools\SampleData\Logger $logger
     ) {
-        $this->ruleService = $ruleService;
+        $this->taxRuleRepository = $taxRuleRepository;
         $this->ruleBuilder = $ruleBuilder;
-        $this->taxRateService = $taxRateService;
+        $this->taxRateRepository = $taxRateRepository;
         $this->taxRateBuilder = $taxRateBuilder;
         $this->taxRateFactory = $taxRateFactory;
         $this->fixtureHelper = $fixtureHelper;
@@ -100,12 +100,12 @@ class Tax implements SetupInterface
         $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
         foreach ($csvReader as $data) {
             $this->taxRateBuilder->setCode($data['code'])
-                ->setCountryId($data['tax_country_id'])
-                ->setRegionId($data['tax_region_id'])
-                ->setPostcode($data['tax_postcode'])
-                ->setPercentageRate($data['rate']);
+                ->setTaxCountryId($data['tax_country_id'])
+                ->setTaxRegionId($data['tax_region_id'])
+                ->setTaxPostcode($data['tax_postcode'])
+                ->setRate($data['rate']);
             $taxData = $this->taxRateBuilder->create();
-            $this->taxRateService->createTaxRate($taxData);
+            $this->taxRateRepository->save($taxData);
             $this->logger->log('.');
         }
 
@@ -121,9 +121,9 @@ class Tax implements SetupInterface
                 ->setProductTaxClassIds([$data['tax_product_class']])
                 ->setPriority($data['priority'])
                 ->setCalculateSubtotal($data['calculate_subtotal'])
-                ->setSortOrder($data['position']);
+                ->setPosition($data['position']);
             $taxRule = $this->ruleBuilder->create();
-            $this->ruleService->createTaxRule($taxRule);
+            $this->taxRuleRepository->save($taxRule);
             $this->logger->log('.');
         }
         $this->logger->log(PHP_EOL);

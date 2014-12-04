@@ -14,32 +14,5 @@
             <module name="Magento_Widget"/>
             <module name="Magento_User"/>
         </sequence>
-        <depends>
-            <module name="Magento_Cms"/>
-            <module name="Magento_Backend"/>
-            <module name="Magento_CatalogEvent"/>
-            <module name="Magento_CatalogPermissions"/>
-            <module name="Magento_CustomerSegment"/>
-            <module name="Magento_GiftCard"/>
-            <module name="Magento_GiftCardAccount"/>
-            <module name="Magento_GiftRegistry"/>
-            <module name="Magento_GiftWrapping"/>
-            <module name="Magento_PricePermissions"/>
-            <module name="Magento_PromotionPermissions"/>
-            <module name="Magento_SalesArchive"/>
-            <module name="Magento_TargetRule"/>
-            <module name="Magento_Rma"/>
-            <module name="Magento_Banner"/>
-            <module name="Magento_AdvancedCheckout"/>
-            <module name="Magento_VersionsCms"/>
-            <module name="Magento_CustomerCustomAttributes"/>
-            <module name="Magento_Invitation"/>
-            <module name="Magento_Logging"/>
-            <module name="Magento_Pci"/>
-            <module name="Magento_Reminder"/>
-            <module name="Magento_Reward"/>
-            <module name="Magento_MultipleWishlist"/>
-            <module name="Magento_ScheduledImportExport"/>
-        </depends>
     </module>
 </config>

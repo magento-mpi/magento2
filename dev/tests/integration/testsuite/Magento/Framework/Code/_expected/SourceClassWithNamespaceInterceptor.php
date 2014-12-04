@@ -68,11 +68,12 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
         $this->subjectType = get_parent_class($this);
     }
 
-    protected function ___call($method, array $arguments, array $pluginInfo)
+    protected function ___callPlugins($method, array $arguments, array $pluginInfo)
     {
         $capMethod = ucfirst($method);
         $result = null;
         if (isset($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_BEFORE])) {
+            // Call 'before' listeners
             foreach ($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_BEFORE] as $code) {
                 $beforeResult = call_user_func_array(
                     array($this->pluginList->getPlugin($this->subjectType, $code), 'before'. $capMethod), array_merge(array($this), $arguments)
@@ -83,6 +84,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
             }
         }
         if (isset($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_AROUND])) {
+            // Call 'around' listener
             $chain = $this->chain;
             $type = $this->subjectType;
             $subject = $this;
@@ -95,9 +97,11 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
                 array_merge(array($this, $next), $arguments)
             );
         } else {
+            // Call original method
             $result = call_user_func_array(array('parent', $method), $arguments);
         }
         if (isset($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_AFTER])) {
+            // Call 'after' listeners
             foreach ($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_AFTER] as $code) {
                 $result = $this->pluginList->getPlugin($this->subjectType, $code)
                     ->{'after' . $capMethod}($this, $result);
@@ -115,7 +119,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
         if (!$pluginInfo) {
             return parent::publicChildMethod($classGenerator, $param1, $param2, $param3, $array);
         } else {
-            return $this->___call('publicChildMethod', func_get_args(), $pluginInfo);
+            return $this->___callPlugins('publicChildMethod', func_get_args(), $pluginInfo);
         }
     }
 
@@ -128,7 +132,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
         if (!$pluginInfo) {
             return parent::publicMethodWithReference($classGenerator, $param1, $array);
         } else {
-            return $this->___call('publicMethodWithReference', func_get_args(), $pluginInfo);
+            return $this->___callPlugins('publicMethodWithReference', func_get_args(), $pluginInfo);
         }
     }
 
@@ -141,7 +145,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
         if (!$pluginInfo) {
             return parent::publicChildWithoutParameters();
         } else {
-            return $this->___call('publicChildWithoutParameters', func_get_args(), $pluginInfo);
+            return $this->___callPlugins('publicChildWithoutParameters', func_get_args(), $pluginInfo);
         }
     }
 
@@ -154,7 +158,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
         if (!$pluginInfo) {
             return parent::publicParentMethod($docBlockGenerator, $param1, $param2, $param3, $array);
         } else {
-            return $this->___call('publicParentMethod', func_get_args(), $pluginInfo);
+            return $this->___callPlugins('publicParentMethod', func_get_args(), $pluginInfo);
         }
     }
 
@@ -167,7 +171,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
         if (!$pluginInfo) {
             return parent::publicParentWithoutParameters();
         } else {
-            return $this->___call('publicParentWithoutParameters', func_get_args(), $pluginInfo);
+            return $this->___callPlugins('publicParentWithoutParameters', func_get_args(), $pluginInfo);
         }
     }
 }

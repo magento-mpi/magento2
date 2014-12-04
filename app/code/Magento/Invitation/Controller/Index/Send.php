@@ -69,7 +69,7 @@ class Send extends \Magento\Invitation\Controller\Index
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
         $this->_view->loadLayoutUpdates();
-        $this->_view->getPage()->getConfig()->setTitle(__('Send Invitations'));
+        $this->_view->getPage()->getConfig()->getTitle()->set(__('Send Invitations'));
         $this->_view->renderLayout();
     }
 }
