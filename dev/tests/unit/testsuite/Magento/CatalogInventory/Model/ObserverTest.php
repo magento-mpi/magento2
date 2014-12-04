@@ -8,7 +8,7 @@
 namespace Magento\CatalogInventory\Model;
 
 /**
- * Class ObserverTest
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
@@ -66,11 +66,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $stockItemBuilder;
-
-    /**
-     * @var \Magento\CatalogInventory\Api\Data\StockInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $stock;
 
     /**
      * @var \Magento\CatalogInventory\Api\Data\StockItemInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -132,15 +127,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->stockRegistry->expects($this->any())->method('getStockItem')->willReturn($this->stockItem);
-        $this->stockManagement = $this->getMockForAbstractClass(
-            '\Magento\CatalogInventory\Api\StockManagementInterface',
-            [
-                'updateProductStockStatus',
-                'registerProductsSale',
-                'revertProductsSale',
-                'backItemQty',
-                'updateProductStockStatus'
-            ],
+        $this->stockManagement = $this->getMock(
+            'Magento\CatalogInventory\Model\StockManagement',
+            [],
+            [],
             '',
             false
         );

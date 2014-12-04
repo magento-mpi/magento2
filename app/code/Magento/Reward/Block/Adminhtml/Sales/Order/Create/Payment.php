@@ -33,10 +33,22 @@ class Payment extends \Magento\Backend\Block\Template
     protected $_rewardFactory;
 
     /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $customerFactory;
+
+    /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      * @param array $data
      */
     public function __construct(
@@ -44,11 +56,15 @@ class Payment extends \Magento\Backend\Block\Template
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
         $this->_orderCreate = $orderCreate;
         $this->_rewardFactory = $rewardFactory;
+        $this->customerFactory = $customerFactory;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
         parent::__construct($context, $data);
     }
 
@@ -96,12 +112,16 @@ class Payment extends \Magento\Backend\Block\Template
     public function getReward()
     {
         if (!$this->_getData('reward')) {
+            $customerData = $this->getQuote()->getCustomer();
+                $customer = $this->customerFactory->create(
+                    [
+                        'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData)
+                    ]
+                );
             /* @var $reward \Magento\Reward\Model\Reward */
-            $reward = $this->_rewardFactory->create()->setCustomer(
-                $this->getQuote()->getCustomer()
-            )->setStore(
-                $this->getQuote()->getStore()
-            )->loadByCustomer();
+            $reward = $this->_rewardFactory->create()->setCustomer($customer);
+            $reward->setStore($this->getQuote()->getStore());
+            $reward ->loadByCustomer();
             $this->setData('reward', $reward);
         }
         return $this->_getData('reward');

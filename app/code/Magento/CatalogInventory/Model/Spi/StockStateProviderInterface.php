@@ -11,8 +11,6 @@ use Magento\CatalogInventory\Api\Data\StockItemInterface;
 
 /**
  * Interface StockStateProviderInterface
- * @package Magento\CatalogInventory\Model\Spi
- * @spi
  */
 interface StockStateProviderInterface
 {

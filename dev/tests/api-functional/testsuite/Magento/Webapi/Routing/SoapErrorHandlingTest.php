@@ -58,7 +58,10 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
                 $this->checkSoapFault(
                     $e,
                     'Non service exception',
-                    'env:Receiver'
+                    'env:Receiver',
+                    null,
+                    null,
+                    'Magento\TestModule3\Service\V1\Error->otherException()'
                 );
             } else {
                 $this->checkSoapFault(
@@ -157,7 +160,6 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
                 $expectedException->getRawMessage(),
                 'env:Sender',
                 $expectedException->getParameters(), // expected error parameters
-                false,
                 $expectedErrors                      // expected wrapped errors
             );
         }

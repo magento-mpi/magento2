@@ -65,7 +65,12 @@ class Widget extends AbstractRepository
                 'title' => 'anchor title',
             ],
             'page_id' => ['dataSet' => 'default'],
-            'theme_id' => 'Magento Blank'
+            'theme_id' => 'Magento Blank',
+            'widgetOptions' => [
+                '0' => [
+                    'type_id' => 'cmsPageLink'
+                ]
+            ]
         ];
     }
 }

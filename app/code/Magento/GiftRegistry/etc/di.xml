@@ -35,7 +35,4 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\Customer\Service\V1\CustomerAddressServiceInterface">
-        <plugin name="gift_registry_customer_address_service_plugin" type="\Magento\GiftRegistry\Service\V1\CustomerAddressServicePlugin"/>
-    </type>
 </config>

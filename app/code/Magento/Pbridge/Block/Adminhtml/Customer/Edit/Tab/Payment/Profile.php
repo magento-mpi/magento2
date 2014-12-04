@@ -48,9 +48,10 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements Ta
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
-     * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Api\AddressRepositoryInterface $addressRepository
+     * @param \Magento\Customer\Model\Address\Mapper $addressConverter
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      */
@@ -59,11 +60,12 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements Ta
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
-        \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
+        \Magento\Customer\Model\Address\Mapper $addressConverter,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct(
@@ -71,9 +73,10 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements Ta
             $customerSession,
             $checkoutSession,
             $pbridgeSession,
-            $regionFactory,
             $pbridgeData,
             $httpContext,
+            $addressRepository,
+            $addressConverter,
             $data
         );
     }
@@ -179,20 +182,20 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements Ta
         $helper = $this->_pbridgeData;
         $helper->setStoreId($this->_getCurrentStore()->getId());
         return $helper->getPaymentProfileUrl(
-            array(
+            [
                 'billing_address' => $this->_getAddressInfo(),
                 'css_url' => null,
                 'customer_id' => $this->getCustomerIdentifier(),
                 'customer_name' => $this->getCustomerName(),
                 'customer_email' => $this->getCustomerEmail()
-            )
+            ]
         );
     }
 
     /**
      * Get current customer object
      *
-     * @return null|\Magento\Customer\Model\Customer
+     * @return null|\Magento\Customer\Api\Data\CustomerInterface
      */
     protected function _getCurrentCustomer()
     {
