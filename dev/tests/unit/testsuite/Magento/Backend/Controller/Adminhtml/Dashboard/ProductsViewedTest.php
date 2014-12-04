@@ -10,7 +10,7 @@ namespace Magento\Backend\Controller\Adminhtml\Dashboard;
 /**
  * Test for \Magento\Backend\Controller\Adminhtml\Dashboard\ProductViewed
  */
-class ProductViewedTest extends BaseAssertion
+class ProductsViewedTest extends BaseAssertion
 {
     public function testExecute()
     {
