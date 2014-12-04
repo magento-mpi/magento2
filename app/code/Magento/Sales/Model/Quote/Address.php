@@ -239,11 +239,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $validator;
 
     /**
-     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
-     */
-    protected $dataObjectConverter;
-
-    /**
      * @var \Magento\Customer\Model\Address\Mapper
      */
     protected $addressMapper;

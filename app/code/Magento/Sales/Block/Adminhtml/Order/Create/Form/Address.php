@@ -77,6 +77,8 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     protected $addressMapper;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
@@ -89,6 +91,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Customer\Model\Options $options
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Customer\Model\Address\Mapper $addressMapper
@@ -110,6 +113,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Customer\Model\Options $options,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Api\AddressRepositoryInterface $addressService,
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Customer\Model\Address\Mapper $addressMapper,
@@ -121,6 +125,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $this->_customerFormFactory = $customerFormFactory;
         $this->_addressHelper = $addressHelper;
         $this->addressService = $addressService;
+        $this->addressMapper = $addressMapper;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->filterBuilder = $filterBuilder;
         $this->addressMapper = $addressMapper;

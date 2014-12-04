@@ -41,6 +41,8 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     protected $addressMapper;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Filter\Object\GridFactory $filterGridFactory
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
