@@ -9,6 +9,7 @@ namespace Magento\Sales\Model\Order\Status;
 
 use Magento\Sales\Api\Data\OrderStatusHistoryInterface;
 use Magento\Sales\Model\AbstractModel;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Order status history comments
@@ -51,6 +52,7 @@ class History extends AbstractModel implements OrderStatusHistoryInterface
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\StoreManagerInterface $storeManager
@@ -62,6 +64,7 @@ class History extends AbstractModel implements OrderStatusHistoryInterface
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\StoreManagerInterface $storeManager,
@@ -73,6 +76,7 @@ class History extends AbstractModel implements OrderStatusHistoryInterface
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $localeDate,
             $dateTime,
             $resource,
