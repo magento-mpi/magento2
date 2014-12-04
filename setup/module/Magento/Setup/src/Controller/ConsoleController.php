@@ -12,7 +12,6 @@ use Magento\Setup\Model\Lists;
 use Magento\Setup\Model\InstallerFactory;
 use Magento\Setup\Model\Installer;
 use Magento\Setup\Model\ConsoleLogger;
-use Magento\Setup\Model\UserConfigurationDataMapper;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -133,6 +132,20 @@ class ConsoleController extends AbstractActionController
         }
         foreach (self::$helpOptions as $type) {
             $result[] = '    ' . ConsoleController::CMD_HELP . ' ' . $type;
+        }
+        return $result;
+    }
+
+    /**
+     * Gets command usage
+     *
+     * @return array
+     */
+    public static function getCommandUsage()
+    {
+        $result = [];
+        foreach (self::getCliConfig() as $key => $cmd) {
+            $result[$key] = $cmd['usage'];
         }
         return $result;
     }
@@ -416,7 +429,7 @@ class ConsoleController extends AbstractActionController
     public function helpAction()
     {
         $type = $this->getRequest()->getParam('type');
-        $details = self::getCliConfig();
+        $usages = self::getCommandUsage();
         switch($type) {
             case UserConfig::KEY_LANGUAGE:
                 return $this->arrayToString($this->options->getLocaleList());
@@ -425,9 +438,9 @@ class ConsoleController extends AbstractActionController
             case UserConfig::KEY_TIMEZONE:
                 return $this->arrayToString($this->options->getTimezoneList());
             default:
-                if (isset($details[$type])) {
-                    if ($details[$type]['usage']) {
-                        $formatted = $this->formatCliUsage($details[$type]['usage']);
+                if (isset($usages[$type])) {
+                    if ($usages[$type]) {
+                        $formatted = $this->formatCliUsage($usages[$type]);
                         return "\nAvailable parameters:\n{$formatted}\n";
                     }
                     return "\nThis command has no parameters.\n";
