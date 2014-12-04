@@ -4,7 +4,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require([
-    "Magento_VersionsCms/cms",   
-    "jquery/file-uploader"
-]);
+
+var config = {
+    deps: [
+        'Magento_Rma/validation'
+    ]
+};
