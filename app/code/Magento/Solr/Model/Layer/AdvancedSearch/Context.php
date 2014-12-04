@@ -14,7 +14,7 @@ use Magento\CatalogSearch\Model\Layer\Advanced\ItemCollectionProvider as Catalog
 use Magento\CatalogSearch\Model\Layer\Search\StateKey;
 use Magento\Solr\Model\Layer\Search\ItemCollectionProvider as SearchCollectionProvider;
 
-class Context extends \Magento\CatalogSearch\Model\Layer\Advanced\Context
+class Context// extends \Magento\CatalogSearch\Model\Layer\Advanced\Context
 {
     /**
      * @var \Magento\Solr\Helper\Data
@@ -27,14 +27,13 @@ class Context extends \Magento\CatalogSearch\Model\Layer\Advanced\Context
     protected $searchProvider;
 
     /**
-     * @param CatalogCollectionProvider $collectionProvider
-     * @param \Magento\CatalogSearch\Model\Layer\Search\StateKey $stateKey
+     * @param StateKey $stateKey
      * @param CollectionFilter $collectionFilter
      * @param SearchCollectionProvider $searchProvider
      * @param \Magento\Solr\Helper\Data $helper
      */
     public function __construct(
-        CatalogCollectionProvider $collectionProvider,
+        //CatalogCollectionProvider $collectionProvider,
         StateKey $stateKey,
         CollectionFilter $collectionFilter,
         SearchCollectionProvider $searchProvider,
@@ -42,7 +41,7 @@ class Context extends \Magento\CatalogSearch\Model\Layer\Advanced\Context
     ) {
         $this->helper = $helper;
         $this->searchProvider = $searchProvider;
-        parent::__construct($collectionProvider, $stateKey, $collectionFilter);
+        //parent::__construct($collectionProvider, $stateKey, $collectionFilter);
     }
 
     /**
