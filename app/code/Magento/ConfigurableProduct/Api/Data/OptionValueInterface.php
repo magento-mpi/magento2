@@ -11,7 +11,7 @@ namespace Magento\ConfigurableProduct\Api\Data;
 /**
  * @see \Magento\ConfigurableProduct\Service\V1\Data\Option\Value
  */
-interface OptionValueInterface
+interface OptionValueInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**
      * @return float|null
@@ -21,7 +21,7 @@ interface OptionValueInterface
     /**
      * @return int|null
      */
-    public function isPercent();
+    public function getIsPercent();
 
     /**
      * @return int

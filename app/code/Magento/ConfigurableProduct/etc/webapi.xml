@@ -10,49 +10,49 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
     <route url="/V1/configurable-products/:productId/children" method="GET">
-        <service class="Magento\ConfigurableProduct\Service\V1\Product\Link\ReadServiceInterface" method="getChildren"/>
+        <service class="Magento\ConfigurableProduct\Api\LinkManagementInterface" method="getChildren"/>
         <resources>
             <resource ref="Magento_Catalog::products"/>
         </resources>
     </route>
     <route url="/V1/configurable-products/:productSku/child/:childSku" method="DELETE">
-        <service class="Magento\ConfigurableProduct\Service\V1\Product\Link\WriteServiceInterface" method="removeChild"/>
+        <service class="Magento\ConfigurableProduct\Api\LinkManagementInterface" method="removeChild"/>
         <resources>
             <resource ref="Magento_Catalog::products"/>
         </resources>
     </route>
     <route url="/V1/configurable-products/variation" method="PUT">
-        <service class="Magento\ConfigurableProduct\Service\V1\ReadServiceInterface" method="generateVariation" />
+        <service class="Magento\ConfigurableProduct\Api\ConfigurableProductManagementInterface" method="generateVariation"/>
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>
     </route>
     <route url="/V1/configurable-products/:productSku/child" method="POST">
-        <service class="Magento\ConfigurableProduct\Service\V1\Product\Link\WriteServiceInterface" method="addChild" />
+        <service class="Magento\ConfigurableProduct\Api\LinkManagementInterface" method="addChild"/>
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>
     </route>
     <route url="/V1/configurable-products/:productSku/options/:optionId" method="GET">
-        <service class="Magento\ConfigurableProduct\Service\V1\Product\Option\ReadServiceInterface" method="get"/>
+        <service class="Magento\ConfigurableProduct\Api\OptionRepositoryInterface" method="get"/>
         <resources>
             <resource ref="Magento_Catalog::products"/>
         </resources>
     </route>
     <route url="/V1/configurable-products/:productSku/options/all" method="GET">
-        <service class="Magento\ConfigurableProduct\Service\V1\Product\Option\ReadServiceInterface" method="getList"/>
+        <service class="Magento\ConfigurableProduct\Api\OptionRepositoryInterface" method="getList"/>
         <resources>
             <resource ref="Magento_Catalog::products"/>
         </resources>
     </route>
     <route url="/V1/configurable-products/options/types" method="GET">
-        <service class="Magento\ConfigurableProduct\Service\V1\Product\Option\ReadServiceInterface" method="getTypes" />
+        <service class="Magento\ConfigurableProduct\Api\OptionTypesListInterface" method="getItems" />
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>
     </route>
     <route url="/V1/configurable-products/:productSku/options" method="POST">
-        <service class="Magento\ConfigurableProduct\Service\V1\Product\Option\WriteServiceInterface" method="add" />
+        <service class="Magento\ConfigurableProduct\Api\OptionRepositoryInterface" method="save" />
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>
@@ -64,7 +64,7 @@
         </resources>
     </route>
     <route url="/V1/configurable-products/:productSku/options/:optionId" method="DELETE">
-        <service class="Magento\ConfigurableProduct\Service\V1\Product\Option\WriteServiceInterface" method="remove" />
+        <service class="Magento\ConfigurableProduct\Api\OptionRepositoryInterface" method="deleteById" />
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>

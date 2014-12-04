@@ -14,6 +14,12 @@
     <preference for="Magento\ConfigurableProduct\Service\V1\ReadServiceInterface" type="Magento\ConfigurableProduct\Service\V1\ReadService" />
     <preference for="Magento\ConfigurableProduct\Service\V1\Product\Option\ReadServiceInterface" type="Magento\ConfigurableProduct\Service\V1\Product\Option\ReadService" />
     <preference for="Magento\ConfigurableProduct\Service\V1\Product\Option\Type\ReadServiceInterface" type="Magento\ConfigurableProduct\Service\V1\Product\Option\Type\ReadService" />
+    <preference for="Magento\ConfigurableProduct\Api\OptionTypesListInterface" type="Magento\ConfigurableProduct\Model\OptionTypesList" />
+    <preference for="Magento\ConfigurableProduct\Api\ConfigurableProductManagementInterface" type="Magento\ConfigurableProduct\Model\ConfigurableProductManagement" />
+    <preference for="Magento\ConfigurableProduct\Api\LinkManagementInterface" type="Magento\ConfigurableProduct\Model\LinkManagement" />
+    <preference for="Magento\ConfigurableProduct\Api\OptionRepositoryInterface" type="Magento\ConfigurableProduct\Model\OptionRepository" />
+    <preference for="Magento\ConfigurableProduct\Api\Data\OptionInterface" type="Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute" />
+    <preference for="Magento\ConfigurableProduct\Api\Data\OptionValueInterface" type="Magento\ConfigurableProduct\Model\Product\Type\Configurable\OptionValue" />
     <type name="Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer\Option">
         <plugin name="configurable_product" type="Magento\ConfigurableProduct\Model\Quote\Item\QuantityValidator\Initializer\Option\Plugin\ConfigurableProduct" sortOrder="50" />
     </type>

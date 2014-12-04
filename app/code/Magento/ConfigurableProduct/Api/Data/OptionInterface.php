@@ -11,7 +11,7 @@ namespace Magento\ConfigurableProduct\Api\Data;
 /**
  * @see \Magento\ConfigurableProduct\Service\V1\Data\Option
  */
-interface OptionInterface
+interface OptionInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
     /**
      * @return int|null
@@ -41,7 +41,7 @@ interface OptionInterface
     /**
      * @return bool|null
      */
-    public function isUseDefault();
+    public function getIsUseDefault();
 
     /**
      * @return \Magento\ConfigurableProduct\Api\Data\OptionValueInterface[]|null
