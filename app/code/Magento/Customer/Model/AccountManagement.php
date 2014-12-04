@@ -80,15 +80,6 @@ class AccountManagement implements AccountManagementInterface
     // welcome email, when confirmation is enabled
     const NEW_ACCOUNT_EMAIL_CONFIRMATION = 'confirmation';
 
-    // email with confirmation link
-
-    // Constants for confirmation statuses
-    const ACCOUNT_CONFIRMED = 'account_confirmed';
-
-    const ACCOUNT_CONFIRMATION_REQUIRED = 'account_confirmation_required';
-
-    const ACCOUNT_CONFIRMATION_NOT_REQUIRED = 'account_confirmation_not_required';
-
     /**
      * Constants for types of emails to send out.
      * pdl:
@@ -114,7 +105,6 @@ class AccountManagement implements AccountManagementInterface
      * @var \Magento\Customer\Api\Data\ValidationResultsDataBuilder
      */
     private $validationResultsDataBuilder;
-
 
     /**
      * @var ManagerInterface
@@ -253,8 +243,8 @@ class AccountManagement implements AccountManagementInterface
      * @param \Magento\Framework\Registry $registry
      * @param CustomerViewHelper $customerViewHelper
      * @param DateTime $dateTime
-     * @param \Magento\Framework\ObjectFactory $objectFactory
      * @param CustomerModel $customerModel
+     * @param \Magento\Framework\ObjectFactory $objectFactory
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -283,8 +273,8 @@ class AccountManagement implements AccountManagementInterface
         \Magento\Framework\Registry $registry,
         CustomerViewHelper $customerViewHelper,
         DateTime $dateTime,
-        \Magento\Framework\ObjectFactory $objectFactory,
         CustomerModel $customerModel,
+        \Magento\Framework\ObjectFactory $objectFactory,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->customerFactory = $customerFactory;
@@ -310,9 +300,9 @@ class AccountManagement implements AccountManagementInterface
         $this->registry = $registry;
         $this->customerViewHelper = $customerViewHelper;
         $this->dateTime = $dateTime;
+        $this->customerModel = $customerModel;
         $this->objectFactory = $objectFactory;
         $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
-        $this->customerModel = $customerModel;
     }
 
     /**
@@ -1108,5 +1098,16 @@ class AccountManagement implements AccountManagementInterface
         $mergedCustomerData->addData($customerData);
         $mergedCustomerData->setData('name', $this->customerViewHelper->getCustomerName($customer));
         return $mergedCustomerData;
+    }
+
+    /**
+     * Return hashed password, which can be directly saved to database.
+     *
+     * @param string $password
+     * @return string
+     */
+    public function getPasswordHash($password)
+    {
+        return $this->encryptor->getHash($password);
     }
 }
