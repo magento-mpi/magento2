@@ -37,6 +37,7 @@ foreach ($iterator as $file) {
         copy($source, $destination);
     }
 }
+unset($iterator, $file);
 
 /* Bootstrap the application */
 $settings = new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, get_defined_constants());
