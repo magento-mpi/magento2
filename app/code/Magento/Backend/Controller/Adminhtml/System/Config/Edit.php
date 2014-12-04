@@ -48,8 +48,6 @@ class Edit extends AbstractScopeConfig
      */
     public function execute()
     {
-        $this->_title->add(__('Configuration'));
-
         $current = $this->getRequest()->getParam('section');
         $website = $this->getRequest()->getParam('website');
         $store = $this->getRequest()->getParam('store');
@@ -67,6 +65,7 @@ class Edit extends AbstractScopeConfig
         $resultPage->setActiveMenu('Magento_Backend::system_config');
         $resultPage->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo([$current]);
         $resultPage->addBreadcrumb(__('System'), __('System'), $this->getUrl('*\/system'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Configuration'));
         return $resultPage;
     }
 }

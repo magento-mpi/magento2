@@ -35,7 +35,7 @@ class GuestPayPalPayflowProValidCc extends AbstractCreditCard
                 'billing_address' => 'address_US_1',
                 'shipping_methods' => 'free_shipping',
                 'payment_method' => 'paypal_payflow_pro',
-                'credit_card' => 'visa_3d_secure_valid',
+                'credit_card' => 'visa_3d_secure_valid_second_card',
             ],
             'configuration' => [
                 'free_shipping',

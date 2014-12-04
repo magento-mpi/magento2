@@ -100,8 +100,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
             $context,
             $addressHelper,
             $this->customerMetadata,
-            $this->addressMetadata,
-            $this->_options
+            $this->_options,
+            $this->addressMetadata
         );
     }
 

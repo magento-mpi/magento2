@@ -8,7 +8,6 @@
 
 namespace Magento\CatalogRule\Test\TestCase;
 
-use Mtf\Fixture\FixtureFactory;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds;
@@ -18,61 +17,45 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds;
  *
  * Test Flow:
  * Preconditions:
- * 1. Simple product with category is created
- * 2. Catalog Price Rule is created
+ * 1. Catalog Price Rule is created
  * Steps:
  * 1. Login to backend
  * 2. Navigate to MARKETING > Catalog Price Rules
  * 3. Click Catalog Price Rule from grid
  * 4. Edit test value(s) according to dataSet
  * 5. Click 'Save'/ 'Apply' button
- * 6. Perform all asserts
+ * 6. Create simple product with category
+ * 7. Perform all asserts
  *
  * @group Catalog_Price_Rules_(MX)
  * @ZephyrId MAGETWO-25187
  */
-class UpdateCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
+class UpdateCatalogPriceRuleEntityTest extends AbstractCatalogRuleEntityTest
 {
-    /**
-     * Create simple product with category
-     *
-     * @param FixtureFactory $fixtureFactory
-     * @return array
-     */
-    public function __prepare(FixtureFactory $fixtureFactory)
-    {
-        $productSimple = $fixtureFactory->createByCode('catalogProductSimple', ['dataSet' => 'product_with_category']);
-        $productSimple->persist();
-
-        return ['product' => $productSimple];
-    }
-
     /**
      * Update catalog price rule
      *
      * @param CatalogRule $catalogPriceRule
      * @param CatalogRule $catalogPriceRuleOriginal
-     * @param CatalogProductSimple $product
      * @param string $saveAction
-     * @param array $price
-     * @return void
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return array
      */
     public function testUpdateCatalogPriceRule(
         CatalogRule $catalogPriceRule,
         CatalogRule $catalogPriceRuleOriginal,
-        CatalogProductSimple $product,
-        $saveAction,
-        array $price
+        $saveAction
     ) {
         // Preconditions
         $catalogPriceRuleOriginal->persist();
 
         //Prepare data
+        $productSimple = $this->fixtureFactory->createByCode(
+            'catalogProductSimple',
+            ['dataSet' => 'product_with_category']
+        );
         if ($saveAction == 'saveAndApply') {
             /** @var CategoryIds $sourceCategories */
-            $sourceCategories = $product->getDataFieldConfig('category_ids')['source'];
+            $sourceCategories = $productSimple->getDataFieldConfig('category_ids')['source'];
             $replace = [
                 'conditions' => [
                     'conditions' => [
@@ -94,7 +77,12 @@ class UpdateCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
         $this->catalogRuleNew->getEditForm()->fill($catalogPriceRule, null, $replace);
         $this->catalogRuleNew->getFormPageActions()->$saveAction();
 
+        // Create simple product with category
+        $productSimple->persist();
+
         // Prepare data for tear down
         $this->catalogRules[] = $catalogPriceRule;
+
+        return ['product' => $productSimple];
     }
 }

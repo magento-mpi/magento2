@@ -15,9 +15,6 @@ use Magento\Framework\StoreManagerInterface;
 
 /**
  * Class Configuration
- * @package Magento\CatalogInventory\Model
- * @api
- * @spi
  */
 class Configuration implements StockConfigurationInterface
 {

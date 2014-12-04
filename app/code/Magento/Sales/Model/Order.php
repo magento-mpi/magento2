@@ -20,6 +20,8 @@ use Magento\Sales\Model\Resource\Order\Shipment\Collection as ShipmentCollection
 use Magento\Sales\Model\Resource\Order\Shipment\Track\Collection as TrackCollection;
 use Magento\Sales\Model\Resource\Order\Creditmemo\Collection as CreditmemoCollection;
 use Magento\Sales\Model\Resource\Order\Status\History\Collection as HistoryCollection;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Order model
@@ -310,9 +312,14 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
     protected $_orderConfig;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
-    protected $_productFactory;
+    protected $productRepository;
+
+    /**
+     * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
+     */
+    protected $productListFactory;
 
     /**
      * @var \Magento\Sales\Model\Resource\Order\Item\CollectionFactory
@@ -383,11 +390,12 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Order\Config $orderConfig
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param Resource\Order\Item\CollectionFactory $orderItemCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param Service\OrderFactory $serviceOrderFactory
@@ -402,6 +410,7 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
      * @param Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory
      * @param Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory
      * @param PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -410,11 +419,12 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Config $orderConfig,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory,
@@ -429,13 +439,15 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
         \Magento\Sales\Model\Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory,
         PriceCurrencyInterface $priceCurrency,
+        \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_orderConfig = $orderConfig;
-        $this->_productFactory = $productFactory;
+        $this->productRepository = $productRepository;
+        $this->productListFactory = $productListFactory;
 
         $this->_orderItemCollectionFactory = $orderItemCollectionFactory;
         $this->_productVisibility = $productVisibility;
@@ -455,6 +467,7 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $localeDate,
             $dateTime,
             $resource,
@@ -865,10 +878,14 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
             */
 
             foreach ($products as $productId) {
-                $product = $this->_productFactory->create()->setStoreId($this->getStoreId())->load($productId);
-            }
-            if (!$product->getId() || !$ignoreSalable && !$product->isSalable()) {
-                return false;
+                try {
+                    $product = $this->productRepository->getById($productId, false, $this->getStoreId());
+                    if (!$ignoreSalable && !$product->isSalable()) {
+                        return false;
+                    }
+                } catch (NoSuchEntityException $noEntityException) {
+                    return false;
+                }
             }
         }
 
@@ -1365,18 +1382,6 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
     }
 
     /**
-     * Get random items collection with related children
-     *
-     * @deprecated
-     * @param int $limit
-     * @return ImportCollection
-     */
-    public function getItemsRandomCollection($limit = 1)
-    {
-        return $this->_getItemsRandomCollection($limit);
-    }
-
-    /**
      * Get random items collection without related children
      *
      * @param int $limit
@@ -1406,7 +1411,7 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
             $products[] = $item->getProductId();
         }
 
-        $productsCollection = $this->_productFactory->create()->getCollection()->addIdFilter(
+        $productsCollection = $this->productListFactory->create()->addIdFilter(
             $products
         )->setVisibility(
             $this->_productVisibility->getVisibleInSiteIds()

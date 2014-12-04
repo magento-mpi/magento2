@@ -23,7 +23,7 @@ class Totals extends Block
      *
      * @var string
      */
-    protected $grandTotal = '//tr[normalize-space(td)="Grand Total"]//span';
+    protected $grandTotal = '.grand.totals .price';
 
     /**
      * Grand total search mask
@@ -44,7 +44,7 @@ class Totals extends Block
      *
      * @var string
      */
-    protected $subtotal = '//tr[normalize-space(td)="Subtotal"]//span';
+    protected $subtotal = '.totals.sub .price';
 
     /**
      * Subtotal search mask
@@ -102,7 +102,7 @@ class Totals extends Block
      */
     public function getGrandTotal()
     {
-        $grandTotal = $this->_rootElement->find($this->grandTotal, Locator::SELECTOR_XPATH)->getText();
+        $grandTotal = $this->_rootElement->find($this->grandTotal)->getText();
         return $this->escapeCurrency($grandTotal);
     }
 
@@ -156,7 +156,7 @@ class Totals extends Block
      */
     public function getSubtotal()
     {
-        $subTotal = $this->_rootElement->find($this->subtotal, Locator::SELECTOR_XPATH)->getText();
+        $subTotal = $this->_rootElement->find($this->subtotal)->getText();
         return $this->escapeCurrency($subTotal);
     }
 

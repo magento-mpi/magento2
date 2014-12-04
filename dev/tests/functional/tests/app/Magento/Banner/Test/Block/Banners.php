@@ -17,7 +17,12 @@ use Mtf\Block\Block;
  */
 class Banners extends Block
 {
-    protected $bannerText = '.inner .banner';
+    /**
+     * Banner text css selector.
+     *
+     * @var string
+     */
+    protected $bannerText = '.banner-item';
 
     /**
      * Return Banner content

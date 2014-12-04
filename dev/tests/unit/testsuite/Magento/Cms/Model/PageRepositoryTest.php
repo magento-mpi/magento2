@@ -18,12 +18,12 @@ class PageRepositoryTest extends \PHPUnit_Framework_TestCase
     protected $resourceMock;
 
     /**
-     * @var \Magento\Cms\Api\Data\PageInterfaceFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cms\Model\PageFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $pageFactoryMock;
 
     /**
-     * @var \Magento\Cms\Api\Data\PageCollectionInterfaceFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cms\Model\Resource\Page\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $pageCollectionFactoryMock;
 
@@ -59,14 +59,14 @@ class PageRepositoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->pageFactoryMock = $this->getMock(
-            'Magento\Cms\Api\Data\PageInterfaceFactory',
+            'Magento\Cms\Model\PageFactory',
             ['create'],
             [],
             '',
             false
         );
         $this->pageCollectionFactoryMock = $this->getMock(
-            'Magento\Cms\Api\Data\PageCollectionInterfaceFactory',
+            'Magento\Cms\Model\Resource\Page\CollectionFactory',
             ['create'],
             [],
             '',
@@ -136,18 +136,18 @@ class PageRepositoryTest extends \PHPUnit_Framework_TestCase
             false,
             true,
             true,
-            ['getPageId']
+            ['getId']
         );
 
+        $pageMock->expects($this->atLeastOnce())
+            ->method('getId')
+            ->will($this->returnValue($id));
         $this->pageFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($pageMock));
         $this->resourceMock->expects($this->once())
             ->method('load')
             ->with($pageMock, $id);
-        $pageMock->expects($this->once())
-            ->method('getPageId')
-            ->will($this->returnValue($id));
 
         $this->assertEquals($pageMock, $this->pageRepository->get($id));
     }
@@ -159,8 +159,9 @@ class PageRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetList()
     {
-        $criteriaMock = $this->getMockForAbstractClass(
-            'Magento\Cms\Api\PageCriteriaInterface',
+        $criteriaMock = $this->getMock(
+            'Magento\Cms\Model\Resource\PageCriteria',
+            [],
             [],
             '',
             false
@@ -245,7 +246,7 @@ class PageRepositoryTest extends \PHPUnit_Framework_TestCase
             false,
             true,
             true,
-            ['getPageId']
+            ['getId']
         );
 
         $this->pageFactoryMock->expects($this->once())
@@ -255,7 +256,7 @@ class PageRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('load')
             ->with($pageMock, $id);
         $pageMock->expects($this->once())
-            ->method('getPageId')
+            ->method('getId')
             ->will($this->returnValue($id));
         $this->resourceMock->expects($this->once())
             ->method('delete')

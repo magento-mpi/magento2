@@ -8,9 +8,6 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
-    <head>
-        <link src="Magento_VersionsCms::js/bootstrap.js"/>
-    </head>
     <body>
         <referenceBlock name="cms_page_edit_tabs">
             <action method="removeTab">

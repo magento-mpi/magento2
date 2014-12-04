@@ -159,7 +159,6 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
         $this->accountManagement->authenticate('non_existing_user', 'password', true);
     }
 
-
     /**
      * @magentoAppArea frontend
      * @magentoDataFixture Magento/Customer/_files/customer.php
@@ -264,7 +263,6 @@ class AccountManagementTest extends \PHPUnit_Framework_TestCase
         // activate it one more time to produce an exception
         $this->accountManagement->activate($customerModel->getEmail(), $key);
     }
-
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php

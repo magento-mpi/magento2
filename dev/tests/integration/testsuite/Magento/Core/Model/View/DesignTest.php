@@ -66,7 +66,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $themePath
      */
-    protected function _emulateFixtureTheme($themePath = 'test_default')
+    protected function _emulateFixtureTheme($themePath = 'Test/default')
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
             array(

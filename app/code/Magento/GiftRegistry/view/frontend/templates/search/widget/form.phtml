@@ -9,7 +9,7 @@
 <?php if ($this->getEnabled() && $this->getTypesCollection()->getSize()) : ?>
     <div class="widget block block-giftregistry">
         <div class="block-title">
-            <strong><?php echo __('Gift Registry Search') ?></strong>
+            <strong role="heading" aria-level="2"><?php echo __('Gift Registry Search') ?></strong>
         </div>
         <div class="block-content">
             <fieldset class="fieldset">
@@ -46,7 +46,7 @@
                         <div class="actions-toolbar">
                             <div class="primary">
                                 <input type="hidden" name="params[search]" value="type">
-                                <button type="submit" title="<?php echo __('Find') ?>" class="action search"><span><?php echo __('Find') ?></span></button>
+                                <button type="submit" title="<?php echo $this->escapeHtml(__('Search')) ?>" class="action search"><span><?php echo __('Search') ?></span></button>
                             </div>
                         </div>
                     </form>
@@ -66,7 +66,7 @@
                         <div class="actions-toolbar">
                             <div class="primary">
                                 <input type="hidden" name="params[search]" value="email">
-                                <button type="submit" title="<?php echo __('Find') ?>" class="action search"><span><?php echo __('Find') ?></span></button>
+                                <button type="submit" title="<?php echo $this->escapeHtml(__('Search')) ?>" class="action search"><span><?php echo __('Search') ?></span></button>
                             </div>
                         </div>
                     </form>
@@ -86,7 +86,7 @@
                         <div class="actions-toolbar">
                             <div class="primary">
                                 <input type="hidden" name="params[search]" value="id" />
-                                <button type="submit" title="<?php echo __('Find') ?>" class="action search"><span><?php echo __('Find') ?></span></button>
+                                <button type="submit" title="<?php echo $this->escapeHtml(__('Search')) ?>" class="action search"><span><?php echo __('Search') ?></span></button>
                             </div>
                         </div>
                     </form>

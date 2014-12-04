@@ -38,7 +38,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     protected $contextMock;
 
     /**
-     * @var \Magento\Framework\App\Action\Title|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\Page\Title|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $titleMock;
 
@@ -48,7 +48,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     protected $requestMock;
 
     /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManagerMock;
 
@@ -124,13 +124,6 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $this->layoutFactoryMock = $this->getMock(
             'Magento\Framework\View\LayoutFactory',
             ['create'],
-            [],
-            '',
-            false
-        );
-        $this->titleMock = $this->getMock(
-            'Magento\Framework\App\Action\Title',
-            ['add'],
             [],
             '',
             false
@@ -385,9 +378,6 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $this->resultRedirectFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($resultRedirectMock));
-        $this->titleMock->expects($this->once())
-            ->method('add')
-            ->with(__('Categories'));
         $this->requestMock->expects($this->atLeastOnce())
             ->method('getParam')
             ->will(
