@@ -32,7 +32,10 @@ main.controller('navigationController', ['$scope', '$state', '$rootScope', 'navi
         };
 
         $scope.previousState = function () {
-            $state.go(navigationService.getPreviousState().id);
+            if ($scope.validate()) {
+                $scope.$broadcast('previousState', $state.$current);
+                $state.go(navigationService.getPreviousState().id);
+            }
         };
 
         // Flag indicating the validity of the form
