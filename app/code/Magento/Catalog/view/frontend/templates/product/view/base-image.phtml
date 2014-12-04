@@ -48,7 +48,7 @@ $thumbHeight =  $this->getVar("product_page_more_views:height") ? : $thumbWidth;
                 <?php foreach ($this->getGalleryImages() as $_image): ?>
                 <?php
                 $imageSmall = $this->getImageUrl($_image, 'thumbnail', $whiteBorders, $thumbWidth, $thumbHeight);
-                $imageMedium = $this->getImageUrl($_image, 'image', true, $_resizedWidth, $_resizedHeight);
+                $imageMedium = $this->getImageUrl($_image, 'image', $whiteBorders, $_resizedWidth, $_resizedHeight);
                 $imageLarge = $this->getImageUrl($_image, 'image');
                 ?>
                 <li class="item thumb">
