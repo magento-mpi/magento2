@@ -9,7 +9,6 @@ namespace Magento\Tools\SampleData\Module\ConfigurableProduct\Setup\Product;
 
 /**
  * Class Gallery
- * @package Magento\Tools\SampleData\Module\ConfigurableProduct\Setup\Product
  */
 class Gallery extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery
 {

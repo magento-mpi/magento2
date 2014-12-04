@@ -13,7 +13,6 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Class Product
- * @package Magento\Tools\SampleData\Module\Catalog\Setup
  */
 class Product implements SetupInterface
 {

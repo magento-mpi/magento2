@@ -13,7 +13,6 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Class Review
- * @package Magento\Tools\SampleData\Module\Review\Setup
  */
 class Review implements SetupInterface
 {

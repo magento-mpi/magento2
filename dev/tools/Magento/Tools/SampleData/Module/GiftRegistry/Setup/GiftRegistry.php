@@ -14,7 +14,7 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 /**
  * Class GiftRegistry
  *
- * @package Magento\Tools\SampleData\Module\GiftRegistry\Setup
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class GiftRegistry implements SetupInterface
 {

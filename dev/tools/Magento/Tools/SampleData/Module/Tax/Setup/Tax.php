@@ -13,8 +13,6 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Class Tax
- *
- * @package Magento\Tools\SampleData\Module\Tax\Setup
  */
 class Tax implements SetupInterface
 {

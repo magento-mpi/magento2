@@ -81,6 +81,7 @@ class Customer implements SetupInterface
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param array $fixtures
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         FixtureHelper $fixtureHelper,
@@ -92,9 +93,7 @@ class Customer implements SetupInterface
         \Magento\Customer\Api\AccountManagementInterface $accountManagement,
         \Magento\Tools\SampleData\Logger $logger,
         \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
-        $fixtures = [
-            'Customer/customer_profile.csv'
-        ]
+        $fixtures = ['Customer/customer_profile.csv']
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
