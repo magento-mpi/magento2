@@ -2,7 +2,6 @@ title,identifier,content
 "Footer Links Block",footer_links_block,"<ul class=""footer links"">
     <li class=""nav item""><a href=""{{store url=""about-us""}}"">About us</a></li>
     <li class=""nav item""><a href=""{{store url=""customer-service""}}"">Customer Service</a></li>
-    <li class=""nav item""><a href=""{{store url=""privacy-policy""}}"">Privacy Policy</a></li>
 </ul>
 "
 "Contact us info",contact-us-info,"<div class=""contact-info cms-content"">
