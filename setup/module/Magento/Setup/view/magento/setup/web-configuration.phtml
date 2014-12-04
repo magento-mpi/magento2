@@ -35,6 +35,7 @@ $hints = [
         <label class="col-md-3 control-label">Your Store Address&nbsp;<span class="required">*</span></label>
         <div class="col-md-4">
             <input ng-blur="addSlash()"
+                   ng-change="populateHttps()"
                    type="url"
                    name="web"
                    ng-model="config.address.web"

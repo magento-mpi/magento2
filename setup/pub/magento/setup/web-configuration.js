@@ -70,6 +70,11 @@ angular.module('web-configuration', ['ngStorage'])
             }
         };
 
+        $scope.populateHttps = function() {
+            $scope.config.https.text = $scope.config.address.web.replace('http', 'https');
+        };
+
+
         // Listens on form validate event, dispatched by parent controller
         $scope.$on('validate-' + $state.current.id, function() {
             $scope.validate();
