@@ -120,27 +120,30 @@ class Tabs extends \Magento\Backend\Block\Widget
             }
         } elseif (is_string($tab)) {
             $this->_addTabByName($tab, $tabId);
+            if (!$this->_tabs[$tabId] instanceof TabInterface) {
+                unset($this->_tabs[$tabId]);
+                return $this;
+            }
         } else {
             throw new \Exception(__('Please correct the tab configuration and try again.'));
         }
+            if (is_null($this->_tabs[$tabId]->getUrl())) {
+                $this->_tabs[$tabId]->setUrl('#');
+            }
 
-        if (is_null($this->_tabs[$tabId]->getUrl())) {
-            $this->_tabs[$tabId]->setUrl('#');
-        }
+            if (!$this->_tabs[$tabId]->getTitle()) {
+                $this->_tabs[$tabId]->setTitle($this->_tabs[$tabId]->getLabel());
+            }
 
-        if (!$this->_tabs[$tabId]->getTitle()) {
-            $this->_tabs[$tabId]->setTitle($this->_tabs[$tabId]->getLabel());
-        }
+            $this->_tabs[$tabId]->setId($tabId);
+            $this->_tabs[$tabId]->setTabId($tabId);
 
-        $this->_tabs[$tabId]->setId($tabId);
-        $this->_tabs[$tabId]->setTabId($tabId);
-
-        if (is_null($this->_activeTab)) {
-            $this->_activeTab = $tabId;
-        }
-        if (true === $this->_tabs[$tabId]->getActive()) {
-            $this->setActiveTab($tabId);
-        }
+            if (is_null($this->_activeTab)) {
+                $this->_activeTab = $tabId;
+            }
+            if (true === $this->_tabs[$tabId]->getActive()) {
+                $this->setActiveTab($tabId);
+            }
 
         return $this;
     }
@@ -163,7 +166,7 @@ class Tabs extends \Magento\Backend\Block\Widget
             $this->_tabs[$tabId] = null;
         }
 
-        if (!$this->_tabs[$tabId] instanceof TabInterface) {
+        if ($this->_tabs[$tabId] !== null && !$this->_tabs[$tabId] instanceof TabInterface) {
             throw new \Exception(__('Please correct the tab configuration and try again.'));
         }
     }
