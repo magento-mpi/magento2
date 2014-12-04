@@ -84,24 +84,24 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Customer\Service\Config\CustomerMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
+    <virtualType name="Magento\Customer\Api\Config\CustomerMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
         <arguments>
-            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
+            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Api\Data\AttributeMetadataDataBuilder</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\Customer\Service\V1\CustomerMetadataService">
+    <type name="Magento\Customer\Model\Metadata\CustomerMetadata">
         <arguments>
-            <argument name="metadataConfig" xsi:type="object">Magento\Customer\Service\Config\CustomerMetadataConfig</argument>
+            <argument name="metadataConfig" xsi:type="object">Magento\Customer\Api\Config\CustomerMetadataConfig</argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Customer\Service\Config\AddressMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
+    <virtualType name="Magento\Customer\Api\Config\AddressMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
         <arguments>
-            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder</argument>
+            <argument name="attributeMetadataBuilder" xsi:type="object">Magento\Customer\Api\Data\AttributeMetadataDataBuilder</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\Customer\Service\V1\AddressMetadataService">
+    <type name="Magento\Customer\Model\Metadata\AddressMetadata">
         <arguments>
-            <argument name="metadataConfig" xsi:type="object">Magento\Customer\Service\Config\AddressMetadataConfig</argument>
+            <argument name="metadataConfig" xsi:type="object">Magento\Customer\Api\Config\AddressMetadataConfig</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Model\ActionValidator\RemoveAction">
