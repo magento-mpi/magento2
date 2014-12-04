@@ -43,8 +43,8 @@ class Install extends InjectableFixture
         'backend_type' => 'virtual',
     ];
 
-    protected $dbName = [
-        'attribute_code' => 'dbName',
+    protected $dbname = [
+        'attribute_code' => 'dbname',
         'backend_type' => 'virtual',
     ];
 
@@ -75,6 +75,46 @@ class Install extends InjectableFixture
 
     protected $adminConfirm = [
         'attribute_code' => 'adminConfirm',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $apacheRewrites = [
+        'attribute_code' => 'apacheRewrites',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $dbTablePrefix = [
+        'attribute_code' => 'dbTablePrefix',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $keyOwn = [
+        'attribute_code' => 'keyOwn',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $httpsAdmin = [
+        'attribute_code' => 'httpsAdmin',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $httpsFront = [
+        'attribute_code' => 'httpsFront',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $keyValue = [
+        'attribute_code' => 'keyValue',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $language = [
+        'attribute_code' => 'language',
+        'backend_type' => 'virtual',
+    ];
+
+    protected $currency = [
+        'attribute_code' => 'language',
         'backend_type' => 'virtual',
     ];
 
@@ -126,5 +166,45 @@ class Install extends InjectableFixture
     public function getAdminConfirm()
     {
         return $this->getData('adminConfirm');
+    }
+
+    public function getCurrency()
+    {
+        return $this->getData('currency');
+    }
+
+    public function getApacheRewrites()
+    {
+        return $this->getData('apacheRewrites');
+    }
+
+    public function getKeyOwn()
+    {
+        return $this->getData('keyOwn');
+    }
+
+    public function getKeyValue()
+    {
+        return $this->getData('keyValue');
+    }
+
+    public function getLanguage()
+    {
+        return $this->getData('language');
+    }
+
+    public function getHttpsAdmin()
+    {
+        return $this->getData('httpsAdmin');
+    }
+
+    public function getHttpsFront()
+    {
+        return $this->getData('httpsFront');
+    }
+
+    public function getDbTablePrefix()
+    {
+        return $this->getData('dbTablePrefix');
     }
 }

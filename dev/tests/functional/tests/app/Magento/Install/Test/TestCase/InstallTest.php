@@ -14,11 +14,10 @@ use Magento\Install\Test\Fixture\Install as InstallConfig;
 use Magento\User\Test\Fixture\User;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
-use Mtf\ObjectManager;
+use Mtf\System\Config;
 use Magento\Install\Test\Constraint\AssertAgreementTextPresent;
 use Magento\Install\Test\Constraint\AssertSuccessfulReadinessCheck;
 use Magento\Install\Test\Constraint\AssertSuccessDbConnection;
-use Magento\Install\Test\Constraint\AssertSuccessInstall;
 
 /**
  * PLEASE ADD NECESSARY INFO BEFORE RUNNING TEST TO
@@ -26,10 +25,10 @@ use Magento\Install\Test\Constraint\AssertSuccessInstall;
  *
  * Test Flow:
  *
- * Preconditions
+ * Preconditions:
  * 1. Uninstall Magento.
  *
- * Steps
+ * Steps:
  * 1. Go setup landing page.
  * 2. Click on "Terms and agreements" button.
  * 3. Check license agreement text.
@@ -66,28 +65,18 @@ class InstallTest extends Injectable
     /**
      * Uninstall Magento before test.
      *
-     * @param FixtureFactory $fixtureFactory
-     * @param ObjectManager $objectManager
+     * @param Config $systemConfig
      * @return array
      */
-    public function __prepare(FixtureFactory $fixtureFactory, ObjectManager $objectManager)
+    public function __prepare(Config $systemConfig)
     {
-        $systemConfig = $objectManager->getInstance()->create('Mtf\System\Config');
-        // database
+        // Prepare config data
         $configData = $systemConfig->getConfigParam('install_data/db_credentials');
-        //url
         $urlConfig = $systemConfig->getConfigParam('install_data/url');
         $configData['web'] = $urlConfig['base_url'];
         $configData['admin'] = $urlConfig['backend_frontname'];
-        // admin user
-        $adminCredentials = $systemConfig->getConfigParam('application/backend_user_credentials');
-        $userData['username'] = $adminCredentials['login'];
-        $userData['password'] = $adminCredentials['password'];
-        $userData['password_confirmation'] = $adminCredentials['password'];
-        $user = $fixtureFactory->createByCode('user', ['dataSet' => 'default', 'data' => $userData]);
-        $installConfig = $fixtureFactory->createByCode('install', ['data' => $configData]);
 
-        return ['user' => $user, 'installConfig' => $installConfig];
+        return ['configData' => $configData];
     }
 
     /**
@@ -100,7 +89,7 @@ class InstallTest extends Injectable
     public function __inject(Install $installPage, CmsIndex $homePage)
     {
         $magentoBaseDir = dirname(dirname(dirname(MTF_BP)));
-        // Uninstall Magento
+        // Uninstall Magento.
         shell_exec("php -f $magentoBaseDir/setup/index.php uninstall");
         $this->installPage = $installPage;
         $this->homePage = $homePage;
@@ -110,47 +99,54 @@ class InstallTest extends Injectable
      * Install Magento via web interface.
      *
      * @param User $user
-     * @param InstallConfig $installConfig
+     * @param array $install
+     * @param array $configData
+     * @param FixtureFactory $fixtureFactory
      * @param AssertAgreementTextPresent $assertLicense
      * @param AssertSuccessfulReadinessCheck $assertReadiness
      * @param AssertSuccessDbConnection $assertDbConnection
-     * @param AssertSuccessInstall $assertInstall
-     * @return void
+     * @return array
      */
     public function test(
         User $user,
-        InstallConfig $installConfig,
+        array $install,
+        array $configData,
+        FixtureFactory $fixtureFactory,
         AssertAgreementTextPresent $assertLicense,
         AssertSuccessfulReadinessCheck $assertReadiness,
-        AssertSuccessDbConnection $assertDbConnection,
-        AssertSuccessInstall $assertInstall
+        AssertSuccessDbConnection $assertDbConnection
     ) {
+        $dataConfig = array_merge($install, $configData);
+        /** @var InstallConfig $installConfig */
+        $installConfig = $fixtureFactory->create('Magento\Install\Test\Fixture\Install', ['data' => $dataConfig]);
         // Steps
         $this->homePage->open();
-        // Verify license agreement
+        // Verify license agreement.
         $this->installPage->getLandingBlock()->clickTermsAndAgreement();
         $assertLicense->processAssert($this->installPage);
         $this->installPage->getLicenseBlock()->clickBack();
         $this->installPage->getLandingBlock()->clickAgreeAndSetup();
-        // Step 1: Readiness Check
+        // Step 1: Readiness Check.
         $this->installPage->getReadinessBlock()->clickReadinessCheck();
         $assertReadiness->processAssert($this->installPage);
         $this->installPage->getReadinessBlock()->clickNext();
-        // Step 2: Add a Database
+        // Step 2: Add a Database.
         $this->installPage->getDatabaseBlock()->fill($installConfig);
         $assertDbConnection->processAssert($this->installPage);
         $this->installPage->getDatabaseBlock()->clickNext();
-        // Step 3: Web Configuration
+        // Step 3: Web Configuration.
+        $this->installPage->getWebConfigBlock()->clickAdvancedOptions();
         $this->installPage->getWebConfigBlock()->fill($installConfig);
         $this->installPage->getWebConfigBlock()->clickNext();
         // Step 4: Customize Your Store
+        $this->installPage->getCustomizeStoreBlock()->fill($installConfig);
         $this->installPage->getCustomizeStoreBlock()->clickNext();
-        // Step 5: Create Admin Account
+        // Step 5: Create Admin Account.
         $this->installPage->getCreateAdminBlock()->fill($user);
         $this->installPage->getCreateAdminBlock()->clickNext();
-        // Step 6: Install
+        // Step 6: Install.
         $this->installPage->getInstallBlock()->clickInstallNow();
-        $assertInstall->processAssert($this->installPage, $installConfig, $user); //передавть инсталлКонфиг
-        $this->installPage->getInstallBlock()->clickLaunchAdmin();
+
+        return ['installConfig' => $installConfig];
     }
 }

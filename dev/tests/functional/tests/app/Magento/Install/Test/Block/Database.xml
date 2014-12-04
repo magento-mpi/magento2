@@ -7,11 +7,12 @@
  * @license     {license_link}
  */
 -->
-<mapping strict="1">
+<mapping strict="0">
     <fields>
         <dbHost />
         <dbUser />
         <dbPassword />
-        <dbName />
+        <dbname />
+        <dbTablePrefix />
     </fields>
 </mapping>

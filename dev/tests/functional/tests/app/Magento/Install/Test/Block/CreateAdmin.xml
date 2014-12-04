@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<mapping strict="1">
+<mapping strict="0">
     <fields>
         <username>
             <selector>[name='adminUsername']</selector>

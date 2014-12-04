@@ -8,13 +8,10 @@
 
 namespace Magento\Install\Test\Block;
 
-use Mtf\Block\Form;
-use Mtf\Client\Element\Locator;
-
 /**
  * Web configuration block.
  */
-class WebConfiguration extends Form
+class WebConfiguration extends ConfigurationForm
 {
     /**
      * 'Next' button.
@@ -24,12 +21,29 @@ class WebConfiguration extends Form
     protected $next = "[ng-click*='next']";
 
     /**
+     * 'Advanced Options' locator.
+     *
+     * @var string
+     */
+    protected $advancedOptions = "[ng-click*='advanced']";
+
+    /**
      * Click on 'Next' button.
      *
      * @return void
      */
     public function clickNext()
     {
-        $this->_rootElement->find($this->next, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->next)->click();
+    }
+
+    /**
+     * Click on 'Advanced Options' button.
+     *
+     * @return void
+     */
+    public function clickAdvancedOptions()
+    {
+        $this->_rootElement->find($this->advancedOptions)->click();
     }
 }

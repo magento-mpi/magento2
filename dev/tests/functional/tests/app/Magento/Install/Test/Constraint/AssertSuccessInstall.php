@@ -8,9 +8,10 @@
 
 namespace Magento\Install\Test\Constraint;
 
+use Magento\User\Test\Fixture\User;
 use Magento\Install\Test\Page\Install;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\User\Test\Fixture\User;
+use Magento\Install\Test\Fixture\Install as InstallConfig;
 
 /**
  * Check that Magento successfully installed.
@@ -42,19 +43,19 @@ class AssertSuccessInstall extends AbstractConstraint
      * @var array
      */
     protected $dbFieldsList = [
-        ['pageData' => 'database_name', 'fixture' => 'dbName'],
+        ['pageData' => 'database_name', 'fixture' => 'dbname'],
         ['pageData' => 'username', 'fixture' => 'dbUser']
     ];
 
     /**
      * Assert that Magento successfully installed.
      *
-     * @param $installConfig
+     * @param InstallConfig $installConfig
      * @param User $user
      * @param Install $installPage
      * @return void
      */
-    public function processAssert(Install $installPage, $installConfig, User $user)
+    public function processAssert(Install $installPage, InstallConfig $installConfig, User $user)
     {
         $adminData = $installPage->getInstallBlock()->getAdminInfo();
         $dbData = $installPage->getInstallBlock()->getDbInfo();
