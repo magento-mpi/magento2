@@ -215,7 +215,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
 
         foreach ($arrayKeys as $key) {
             if (!isset($currentArray[$key])) {
-              return false;
+                return false;
             }
             $currentArray = &$currentArray[$key];
         }
@@ -227,6 +227,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      *
      * @param array &$nestedArray
      * @param string[] $arrayKeys
+     * @param string $valueToSet
      * @return bool true if array value is set
      */
     protected function setNestedArrayValue(&$nestedArray, $arrayKeys, $valueToSet)
