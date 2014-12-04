@@ -8,6 +8,7 @@
 namespace Magento\Tools\SampleData\Module\Wishlist\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Logger;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
@@ -37,21 +38,29 @@ class Wishlist implements SetupInterface
     protected $wishlistHelper;
 
     /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param Wishlist\Helper $wishlistHelper
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param Logger $logger
      */
     public function __construct(
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         Wishlist\Helper $wishlistHelper,
-        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+        \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        Logger $logger
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
         $this->wishlistHelper = $wishlistHelper;
         $this->wishlistFactory = $wishlistFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -59,7 +68,7 @@ class Wishlist implements SetupInterface
      */
     public function run()
     {
-        echo 'Installing wishlists' . PHP_EOL;
+        $this->logger->log('Installing wishlists' . PHP_EOL);
 
         $fixtureFile = 'Wishlist/wishlist.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
@@ -80,8 +89,8 @@ class Wishlist implements SetupInterface
             }
             $productSkuList = explode("\n", $row['product_list']);
             $this->wishlistHelper->addProductsToWishlist($wishlist, $productSkuList);
-            echo ".";
+            $this->logger->log('.');
         }
-        echo "\n";
+        $this->logger->log(PHP_EOL);
     }
 }

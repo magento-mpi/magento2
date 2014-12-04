@@ -7,6 +7,7 @@
  */
 namespace Magento\Tools\SampleData\Module\SalesRule\Setup;
 
+use Magento\Tools\SampleData\Logger;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
@@ -44,24 +45,32 @@ class Rule implements SetupInterface
     protected $eavConfig;
 
     /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * @param CsvReaderFactory $csvReaderFactory
      * @param FixtureHelper $fixtureHelper
      * @param RuleFactory $ruleFactory
      * @param CatalogRule $catalogRule
      * @param \Magento\Eav\Model\Config $eavConfig
+     * @param Logger $logger
      */
     public function __construct(
         CsvReaderFactory $csvReaderFactory,
         FixtureHelper $fixtureHelper,
         RuleFactory $ruleFactory,
         CatalogRule $catalogRule,
-        \Magento\Eav\Model\Config $eavConfig
+        \Magento\Eav\Model\Config $eavConfig,
+        Logger $logger
     ) {
         $this->csvReaderFactory = $csvReaderFactory;
         $this->fixtureHelper = $fixtureHelper;
         $this->ruleFactory = $ruleFactory;
         $this->catalogRule = $catalogRule;
         $this->eavConfig = $eavConfig;
+        $this->logger = $logger;
     }
 
     /**
@@ -69,7 +78,7 @@ class Rule implements SetupInterface
      */
     public function run()
     {
-        echo "Installing sales rules\n";
+        $this->logger->log('Installing sales rules' . PHP_EOL);
         $file = 'SalesRule/sales_rules.csv';
         $fileName = $this->fixtureHelper->getPath($file);
         $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
@@ -85,8 +94,8 @@ class Rule implements SetupInterface
             $rule = $this->ruleFactory->create();
             $rule->loadPost($row);
             $rule->save();
-            echo '.';
+            $this->logger->log('.');
         }
-        echo "\n";
+        $this->logger->log(PHP_EOL);
     }
 }

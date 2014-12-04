@@ -8,6 +8,7 @@
 namespace Magento\Tools\SampleData\Module\MultipleWishlist\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Logger;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
@@ -57,6 +58,11 @@ class Wishlist implements SetupInterface
     protected $configCacheType;
 
     /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Tools\SampleData\Module\Wishlist\Setup\Wishlist\Helper $wishlistHelper
@@ -65,6 +71,7 @@ class Wishlist implements SetupInterface
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Framework\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
+     * @param Logger $logger
      */
     public function __construct(
         FixtureHelper $fixtureHelper,
@@ -74,7 +81,8 @@ class Wishlist implements SetupInterface
         \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistColFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
-        \Magento\Framework\App\Cache\Type\Config $configCacheType
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
+        Logger $logger
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
@@ -84,6 +92,7 @@ class Wishlist implements SetupInterface
         $this->config = $config;
         $this->configWriter = $configWriter;
         $this->configCacheType = $configCacheType;
+        $this->logger = $logger;
     }
 
     /**
@@ -91,7 +100,7 @@ class Wishlist implements SetupInterface
      */
     public function run()
     {
-        echo 'Installing multiple wishlists' . PHP_EOL;
+        $this->logger->log('Installing multiple wishlists' . PHP_EOL);
         $multipleEnabledConfig = 'wishlist/general/multiple_enabled';
         if (!$this->config->isSetFlag($multipleEnabledConfig)) {
             $this->configWriter->save($multipleEnabledConfig, 1);
@@ -124,9 +133,9 @@ class Wishlist implements SetupInterface
                 }
                 $productSkuList = explode("\n", $row['product_list']);
                 $this->wishlistHelper->addProductsToWishlist($wishlist, $productSkuList);
-                echo '.';
+                $this->logger->log('.');
             }
         }
-        echo "\n";
+        $this->logger->log(PHP_EOL);
     }
 }

@@ -7,6 +7,7 @@
  */
 namespace Magento\Tools\SampleData\Module\CatalogRule\Setup;
 
+use Magento\Tools\SampleData\Logger;
 use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
@@ -53,6 +54,11 @@ class Rule implements SetupInterface
     protected $websiteFactory;
 
     /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * @param CsvReaderFactory $csvReaderFactory
      * @param FixtureHelper $fixtureHelper
      * @param RuleFactory $ruleFactory
@@ -60,6 +66,7 @@ class Rule implements SetupInterface
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
+     * @param Logger $logger
      */
     public function __construct(
         CsvReaderFactory $csvReaderFactory,
@@ -68,7 +75,8 @@ class Rule implements SetupInterface
         \Magento\CatalogRule\Model\Rule\JobFactory $jobFactory,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
         \Magento\Customer\Model\GroupFactory $groupFactory,
-        \Magento\Store\Model\WebsiteFactory $websiteFactory
+        \Magento\Store\Model\WebsiteFactory $websiteFactory,
+        Logger $logger
     ) {
         $this->csvReaderFactory = $csvReaderFactory;
         $this->fixtureHelper = $fixtureHelper;
@@ -77,6 +85,7 @@ class Rule implements SetupInterface
         $this->categoryCollectionFactory = $categoryCollectionFactory;
         $this->groupFactory = $groupFactory;
         $this->websiteFactory = $websiteFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -84,7 +93,7 @@ class Rule implements SetupInterface
      */
     public function run()
     {
-        echo "Installing catalog rules\n";
+        $this->logger->log('Installing catalog rules' . PHP_EOL);
         $file = 'CatalogRule/catalog_rules.csv';
         $fileName = $this->fixtureHelper->getPath($file);
         $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
@@ -96,11 +105,11 @@ class Rule implements SetupInterface
             $ruleModel = $this->ruleFactory->create();
             $ruleModel->loadPost($row);
             $ruleModel->save();
-            echo '.';
+            $this->logger->log('.');
         }
         $ruleJob = $this->jobFactory->create();
         $ruleJob->applyAll();
-        echo "\n";
+        $this->logger->log(PHP_EOL);
     }
 
     /**
