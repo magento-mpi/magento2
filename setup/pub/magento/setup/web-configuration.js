@@ -10,13 +10,13 @@ angular.module('web-configuration', ['ngStorage'])
     .controller('webConfigurationController', ['$scope', '$state', '$localStorage', function ($scope, $state, $localStorage) {
         $scope.config = {
             address: {
-                web: '',
+                web: 'http://www.example.com/',
                 admin: 'admin'
             },
             https: {
                 front: false,
                 admin: false,
-                text: ''
+                text: 'https://www.example.com/'
             },
             rewrites: {
                 allowed: true
@@ -32,7 +32,6 @@ angular.module('web-configuration', ['ngStorage'])
 
         if ($localStorage.config) {
             $scope.config = $localStorage.config;
-            $scope.config.https.text = '';
         }
 
         $scope.$on('nextState', function () {
