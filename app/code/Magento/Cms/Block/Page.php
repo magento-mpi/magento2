@@ -128,9 +128,13 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock
         if ($this->_scopeConfig->getValue('web/default/show_cms_breadcrumbs', ScopeInterface::SCOPE_STORE)
             && ($breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs'))
             && $page->getIdentifier() !== $this->_scopeConfig->getValue(
-                'web/default/cms_home_page',ScopeInterface::SCOPE_STORE)
+                'web/default/cms_home_page',
+                ScopeInterface::SCOPE_STORE
+            )
             && $page->getIdentifier() !== $this->_scopeConfig->getValue(
-                'web/default/cms_no_route', ScopeInterface::SCOPE_STORE)
+                'web/default/cms_no_route',
+                ScopeInterface::SCOPE_STORE
+            )
         ) {
             $breadcrumbsBlock->addCrumb(
                 'home',
