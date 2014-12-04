@@ -151,4 +151,14 @@ class Exception extends \RuntimeException
     {
         return $this->_errors;
     }
+
+    /**
+     * Retrieve stack trace string.
+     *
+     * @return null|string
+     */
+    public function getStackTrace()
+    {
+        return $this->_stackTrace;
+    }
 }

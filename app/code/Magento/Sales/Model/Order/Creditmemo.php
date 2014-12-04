@@ -12,6 +12,7 @@ use Magento\Framework\Model\Exception;
 use Magento\Sales\Model\EntityInterface;
 use Magento\Sales\Api\Data\CreditmemoInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Order creditmemo model
@@ -152,6 +153,7 @@ class Creditmemo extends AbstractModel implements EntityInterface, CreditmemoInt
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param Creditmemo\Config $creditmemoConfig
@@ -170,6 +172,7 @@ class Creditmemo extends AbstractModel implements EntityInterface, CreditmemoInt
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Sales\Model\Order\Creditmemo\Config $creditmemoConfig,
@@ -196,6 +199,7 @@ class Creditmemo extends AbstractModel implements EntityInterface, CreditmemoInt
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $localeDate,
             $dateTime,
             $resource,
