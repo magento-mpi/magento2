@@ -18,7 +18,6 @@ use Magento\Framework\Math\Random;
 use Magento\Setup\Module\ConnectionFactory;
 use Magento\Framework\Shell;
 use Magento\Framework\Shell\CommandRenderer;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\MaintenanceMode;
 use Magento\Framework\Filesystem;
@@ -185,10 +184,21 @@ class Installer
     private $execParams;
 
     /**
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    private $objectManager;
+
+    /**
+     * @var \Magento\Framework\App\DeploymentConfig
+     */
+    private $deploymentConfig;
+
+    /**
      * Constructor
      *
      * @param FilePermissions $filePermissions
      * @param Writer $deploymentConfigWriter
+     * @param \Magento\Framework\App\DeploymentConfig $deploymentConfig
      * @param SetupFactory $setupFactory
      * @param ModuleListInterface $moduleList
      * @param ModuleLoader $moduleLoader
@@ -204,6 +214,7 @@ class Installer
     public function __construct(
         FilePermissions $filePermissions,
         Writer $deploymentConfigWriter,
+        \Magento\Framework\App\DeploymentConfig $deploymentConfig,
         SetupFactory $setupFactory,
         ModuleListInterface $moduleList,
         ModuleLoader $moduleLoader,
@@ -230,8 +241,9 @@ class Installer
         $this->shell = new Shell($this->shellRenderer);
         $this->maintenanceMode = $maintenanceMode;
         $this->filesystem = $filesystem;
-        $this->execParams = urldecode(http_build_query($serviceManager->get(InitParamListener::BOOTSTRAP_PARAM)));
+        $this->execParams = $serviceManager->get(InitParamListener::BOOTSTRAP_PARAM);
         $this->installInfo[self::INFO_MESSAGE] = array();
+        $this->deploymentConfig = $deploymentConfig;
     }
 
     /**
@@ -501,6 +513,7 @@ class Installer
      */
     public function installSchema()
     {
+        $this->assertDeploymentConfigExists();
         $moduleNames = $this->moduleList->getNames();
 
         $this->log->log('Schema creation/updates:');
@@ -527,8 +540,9 @@ class Installer
      */
     public function installDataFixtures()
     {
-        $params = [$this->directoryList->getRoot() . '/dev/shell/run_data_fixtures.php', $this->execParams];
-        $this->exec('-f %s -- --bootstrap=%s', $params);
+        /** @var \Magento\Framework\Module\Updater $updater */
+        $updater = $this->getObjectManager()->create('Magento\Framework\Module\Updater');
+        $updater->updateData();
     }
 
     /**
@@ -544,9 +558,14 @@ class Installer
         if (count($configData) === 0) {
             return;
         }
-        $data = urldecode(http_build_query($configData));
-        $params = [$this->directoryList->getRoot() . '/dev/shell/user_config_data.php', $data, $this->execParams];
-        $this->exec('-f %s -- --data=%s --bootstrap=%s', $params);
+
+        /** @var \Magento\Backend\Model\Config\Factory $configFactory */
+        $configFactory = $this->getObjectManager()->create('Magento\Backend\Model\Config\Factory');
+        foreach ($configData as $key => $val) {
+            $configModel = $configFactory->create();
+            $configModel->setDataByPath($key, $val);
+            $configModel->save();
+        }
     }
 
     /**
@@ -599,6 +618,7 @@ class Installer
      */
     public function installAdminUser($data)
     {
+        $this->assertDeploymentConfigExists();
         $setup = $this->setupFactory->createSetup($this->log);
         $adminAccount = $this->adminAccountFactory->create($setup, (array)$data);
         $adminAccount->save();
@@ -629,8 +649,14 @@ class Installer
      */
     private function enableCaches()
     {
-        $args = [$this->directoryList->getRoot() . '/dev/shell/cache.php', $this->execParams];
-        $this->exec('-f %s -- --set=1 --bootstrap=%s', $args);
+        /** @var \Magento\Framework\App\Cache\Manager $cacheManager */
+        $cacheManager = $this->getObjectManager()->create('Magento\Framework\App\Cache\Manager');
+        $types = $cacheManager->getAvailableTypes();
+        $enabledTypes = $cacheManager->setEnabled($types, true);
+        $cacheManager->clean($enabledTypes);
+
+        $this->log->log('Current status:');
+        $this->log->log(print_r($cacheManager->getStatus(), true));
     }
 
     /**
@@ -642,31 +668,6 @@ class Installer
     private function setMaintenanceMode($value)
     {
         $this->maintenanceMode->set($value);
-    }
-
-    /**
-     * Executes a command in CLI
-     *
-     * @param string $command
-     * @param array $args
-     * @return void
-     * @throws \Exception
-     */
-    private function exec($command, $args)
-    {
-        $phpFinder = new PhpExecutableFinder();
-        $phpPath = $phpFinder->find();
-        if (!$phpPath) {
-            throw new \Exception(
-                'Cannot find PHP executable path.'
-                . ' Please set $PATH environment variable to include the full path of the PHP executable'
-            );
-        }
-        $command = $phpPath . ' ' . $command;
-        $actualCommand = $this->shellRenderer->render($command, $args);
-        $this->log->log($actualCommand);
-        $output = $this->shell->execute($command, $args);
-        $this->log->log($output);
     }
 
     /**
@@ -785,6 +786,33 @@ class Installer
             $configDir->delete($file);
         } catch (FilesystemException $e) {
             $this->log->log($e->getMessage());
+        }
+    }
+
+    /**
+     * Get object manager for Magento application
+     *
+     * @return \Magento\Framework\ObjectManagerInterface
+     */
+    private function getObjectManager()
+    {
+        if (null === $this->objectManager) {
+            $this->assertDeploymentConfigExists();
+            $factory = \Magento\Framework\App\Bootstrap::createObjectManagerFactory(BP, $this->execParams);
+            $this->objectManager = $factory->create($this->execParams);
+        }
+        return $this->objectManager;
+    }
+
+    /**
+     * Validates that deployment configuration exists
+     *
+     * @throws \Magento\Setup\Exception
+     */
+    private function assertDeploymentConfigExists()
+    {
+        if (!$this->deploymentConfig->isAvailable()) {
+            throw new \Magento\Setup\Exception("Can't run this operation: deployment configuration is absent.");
         }
     }
 }

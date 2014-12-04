@@ -43,11 +43,8 @@ try {
     $params[Bootstrap::PARAM_REQUIRE_MAINTENANCE] = null;
     $bootstrap = Bootstrap::create(BP, $params);
     /** @var ManagerApp $app */
-    $app = $bootstrap->createApplication('Magento\Framework\App\Cache\ManagerApp', ['request' => $opt]);
+    $app = $bootstrap->createApplication('Magento\Framework\App\Cache\ManagerApp', ['requestArgs' => $opt]);
     $bootstrap->run($app);
-    echo "Current status:\n";
-    var_export($app->getStatusSummary());
-    echo "\n";
 } catch (\Exception $e) {
     echo $e;
     exit(1);

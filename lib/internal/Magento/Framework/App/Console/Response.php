@@ -24,6 +24,11 @@ class Response implements \Magento\Framework\App\ResponseInterface
     protected $code = 0;
 
     /**
+     * @var string
+     */
+    private $body;
+
+    /**
      * Set whether to terminate process on send or not
      *
      * @var bool
@@ -36,10 +41,30 @@ class Response implements \Magento\Framework\App\ResponseInterface
      */
     public function sendResponse()
     {
+        if (!empty($this->body)) {
+            echo $this->body;
+        }
         if ($this->terminateOnSend) {
             exit($this->code);
         }
         return $this->code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
+     * @param string $body
+     * @return void
+     */
+    public function setBody($body)
+    {
+        $this->body = $body;
     }
 
     /**

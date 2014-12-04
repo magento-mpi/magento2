@@ -27,20 +27,6 @@ class ManagerApp implements AppInterface
     /**#@- */
 
     /**
-     * Cache types list
-     *
-     * @var TypeListInterface
-     */
-    private $cacheTypeList;
-
-    /**
-     * Cache state service
-     *
-     * @var StateInterface
-     */
-    private $cacheState;
-
-    /**
      * Console response
      *
      * @var Response
@@ -48,40 +34,31 @@ class ManagerApp implements AppInterface
     private $response;
 
     /**
-     * Cache types pool
-     *
-     * @var Type\FrontendPool
-     */
-    private $pool;
-
-    /**
      * Requested changes
      *
      * @var array
      */
-    private $request;
+    private $requestArgs;
+    /**
+     * @var Manager
+     */
+    private $cacheManager;
 
     /**
      * Constructor
      *
-     * @param TypeListInterface $cacheTypeList
-     * @param StateInterface $cacheState
+     * @param Manager $cacheManager
      * @param Response $response
-     * @param Type\FrontendPool $pool
-     * @param array $request
+     * @param array $requestArgs
      */
     public function __construct(
-        TypeListInterface $cacheTypeList,
-        StateInterface $cacheState,
+        Manager $cacheManager,
         Response $response,
-        Type\FrontendPool $pool,
-        array $request
+        array $requestArgs
     ) {
-        $this->cacheTypeList = $cacheTypeList;
-        $this->cacheState = $cacheState;
+        $this->cacheManager = $cacheManager;
         $this->response = $response;
-        $this->pool = $pool;
-        $this->request = $request;
+        $this->requestArgs = $requestArgs;
     }
 
     /**
@@ -90,10 +67,28 @@ class ManagerApp implements AppInterface
      */
     public function launch()
     {
-        $this->response->terminateOnSend(false);
         $types = $this->getRequestedTypes();
-        $queue = $this->updateStatus($types);
-        $this->clean($queue, $types);
+
+        $enabledTypes = [];
+        if (isset($this->requestArgs[self::KEY_SET])) {
+            $isEnabled = (bool)(int)$this->requestArgs[self::KEY_SET];
+            $enabledTypes = $this->cacheManager->setEnabled($types, $isEnabled);
+        }
+        if (isset($this->requestArgs[self::KEY_FLUSH])) {
+            $this->cacheManager->flush($types);
+        } else {
+            // If flush is requested, both enabled and requested cache types have already been cleaned by flush
+            if (isset($this->requestArgs[self::KEY_CLEAN])) {
+                $this->cacheManager->clean($types);
+            } elseif (!empty($enabledTypes)) {
+                $this->cacheManager->clean($enabledTypes);
+            }
+        }
+        $output = "\nCurrent status:\n";
+        foreach ($this->cacheManager->getStatus() as $cache => $status) {
+            $output .= "$cache => " . ($status ? 'enabled' : 'disabled') . "\n";
+        }
+        $this->response->setBody($output);
         return $this->response;
     }
 
@@ -104,111 +99,24 @@ class ManagerApp implements AppInterface
      */
     private function getRequestedTypes()
     {
-        $requested = isset($this->request[self::KEY_TYPES]) ? explode(',', $this->request[self::KEY_TYPES]) : [];
-        $result = [];
-        foreach (array_keys($this->cacheTypeList->getTypes()) as $type) {
-            if (empty($requested) || in_array($type, $requested)) {
-                $result[] = $type;
-            }
+        $requestedTypes = [];
+        if (isset($this->requestArgs[self::KEY_TYPES])) {
+            $requestedTypes = explode(',', $this->requestArgs[self::KEY_TYPES]);
+            $requestedTypes = array_filter(array_map('trim', $requestedTypes), 'strlen');
         }
-        return $result;
-    }
-
-    /**
-     * Updates cache status for the requested types
-     *
-     * @param string[] $types
-     * @return string[] Queue of affected cache types that need cleanup
-     */
-    private function updateStatus($types)
-    {
-        if (!isset($this->request[self::KEY_SET])) {
-            return [];
-        }
-        $isEnabled = (bool)(int)$this->request[self::KEY_SET];
-        $isUpdated = false;
-        $cleanQueue = [];
-        foreach ($types as $type) {
-            if ($this->cacheState->isEnabled($type) === $isEnabled) { // no need to poke it, if is not going to change
-                continue;
-            }
-            $this->cacheState->setEnabled($type, $isEnabled);
-            $isUpdated = true;
-            if ($isEnabled) {
-                $cleanQueue[] = $type;
-            }
-        }
-        if ($isUpdated) {
-            $this->cacheState->persist();
-        }
-        return $cleanQueue;
-    }
-
-    /**
-     * Cleans up or flushes caches (depending on what was requested)
-     *
-     * Types listed at the "required" argument are mandatory to clean.
-     * But try flush first, as it is more efficient. So if something was requested or required and flushed, then there
-     * is no need to clean it anymore.
-     *
-     * @param string[] $required
-     * @param string[] $requested
-     * @return void
-     */
-    private function clean($required, $requested)
-    {
-        $flushed = $this->flush($requested);
-        if (isset($this->request[self::KEY_CLEAN])) {
-            $types = array_merge($requested, $required);
+        $availableTypes = $this->cacheManager->getAvailableTypes();
+        if (empty($requestedTypes)) {
+            return $availableTypes;
         } else {
-            $types = $required;
-        }
-        foreach ($types as $type) {
-            $frontend = $this->pool->get($type);
-            if (in_array($type, $flushed)) { // it was already flushed
-                continue;
+            $unsupportedTypes = array_diff($requestedTypes, $availableTypes);
+            if ($unsupportedTypes) {
+                throw new \InvalidArgumentException(
+                    "Following requested cache types are not supported: '" . join("', '", $unsupportedTypes) . "'.\n"
+                    . "Supported types: " . join(", ", $availableTypes) . ""
+                );
             }
-            $frontend->clean();
+            return array_values(array_intersect($availableTypes, $requestedTypes));
         }
-    }
-
-    /**
-     * Flushes specified cache storages
-     *
-     * Returns array of types which were flushed
-     *
-     * @param string[] $types
-     * @return string[]
-     */
-    private function flush($types)
-    {
-        $result = [];
-        if (isset($this->request[self::KEY_FLUSH])) {
-            foreach ($types as $type) {
-                $frontend = $this->pool->get($type);
-                $backend = $frontend->getBackend();
-                if (in_array($backend, $result, true)) { // it was already flushed from another frontend
-                    continue;
-                }
-                $backend->clean();
-                $result[$type] = $backend;
-            }
-        }
-        return array_keys($result);
-    }
-
-    /**
-     * Presents summary about cache status
-     *
-     * @return array
-     */
-    public function getStatusSummary()
-    {
-        $result = [];
-        foreach ($this->cacheTypeList->getTypes() as $type) {
-            $result[$type['id']] = $type['status'];
-        }
-        return $result;
     }
 
     /**
@@ -216,6 +124,9 @@ class ManagerApp implements AppInterface
      */
     public function catchException(App\Bootstrap $bootstrap, \Exception $exception)
     {
+        $this->response->setBody($exception->getMessage());
+        $this->response->terminateOnSend(false);
+        $this->response->sendResponse();
         return false;
     }
 }
