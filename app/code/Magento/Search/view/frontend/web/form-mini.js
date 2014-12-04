@@ -21,14 +21,15 @@ define([
             minSearchLength: 2,
             responseFieldElements: 'ul li',
             selectClass: 'selected',
-            template: '<li class="{{row_class}}" title="{{title}}">{{title}}<span class="amount">{{num_of_results}}</span></li>'
-
+            template: '<li class="{{row_class}}" title="{{title}}">{{title}}<span class="amount">{{num_of_results}}</span></li>',
+            searchLabel: '#search-label'
         },
 
         _create: function() {
             this.responseList = { indexList: null, selected: null };
             this.autoComplete = $(this.options.destinationSelector);
             this.searchForm = $(this.options.formSelector);
+            this.searchLabel = $(this.options.searchLabel);
 
             this.element.attr('autocomplete', this.options.autocomplete);
 
@@ -36,7 +37,11 @@ define([
                 if (this.element.val() === '') {
                     this.element.val(this.options.placeholder);
                 }
+
                 setTimeout($.proxy(function () {
+                    if (this.autoComplete.is(':hidden')) {
+                        this.searchLabel.removeClass('active');
+                    }
                     this.autoComplete.hide();
                 }, this), 250);
             }, this));
@@ -48,6 +53,10 @@ define([
                     this.element.val('');
                 }
             }, this));
+
+            this.searchLabel.on('click', $.proxy(function() {
+                this.searchLabel.addClass('active');
+            }, this))
 
             this.element.on('keydown', $.proxy(this._onKeyDown, this));
             this.element.on('input propertychange', $.proxy(this._onPropertyChange, this));
@@ -205,6 +214,6 @@ define([
             }
         }
     });
-    
+
     return $.mage.quickSearch;
 });

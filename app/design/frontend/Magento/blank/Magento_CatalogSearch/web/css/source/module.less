@@ -37,6 +37,13 @@
         );
         display: inline-block;
         float: right;
+        &.active {
+            + .control {
+                input {
+                    position: static;
+                }
+            }
+        }
     }
     .action.search {
         display: none;
@@ -52,9 +59,6 @@
         left: -300%;
         position: absolute;
         margin: 15px 0;
-        &:focus {
-            position: static;
-        }
     }
     .nested {
         display: none;
