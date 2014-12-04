@@ -33,16 +33,10 @@
                 type="Magento\Framework\Api\SearchResults" />
     <preference for="Magento\Customer\Api\Data\AddressSearchResultsInterface"
                 type="Magento\Framework\Api\SearchResults" />
-    <preference for="Magento\Customer\Service\V1\CustomerGroupServiceInterface"
-                type="Magento\Customer\Service\V1\CustomerGroupService" />
     <preference for="Magento\Customer\Api\AccountManagementInterface"
                 type="Magento\Customer\Model\AccountManagement" />
-    <preference for="Magento\Customer\Service\V1\CustomerMetadataServiceInterface"
-                type="Magento\Customer\Service\V1\CustomerMetadataServiceCached" />
     <preference for="Magento\Customer\Api\CustomerMetadataInterface"
                 type="Magento\Customer\Model\Metadata\CustomerCachedMetadata" />
-    <preference for="Magento\Customer\Service\V1\AddressMetadataServiceInterface"
-                type="Magento\Customer\Service\V1\AddressMetadataServiceCached" />
     <preference for="Magento\Customer\Api\AddressMetadataInterface"
                 type="Magento\Customer\Model\Metadata\AddressCachedMetadata" />
     <type name="Magento\Customer\Model\Session">
@@ -82,18 +76,7 @@
             <argument name="customerResource" xsi:type="object">Magento\Customer\Model\Resource\Customer\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Customer\Model\Customer">
-        <arguments>
-            <argument name="groupService" xsi:type="object">Magento\Customer\Service\V1\CustomerGroupServiceInterface\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Customer\Service\V1\Data\CustomerGroupBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder" shared="false" />
     <type name="Magento\Customer\Api\Data\OptionDataBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Data\AddressBuilder" shared="false" />
-    <type name="Magento\Customer\Service\V1\Data\RegionBuilder" shared="false" />
-    <!--<type name="Magento\Customer\Service\V1\Data\Response\CreateCustomerAccountResponseBuilder" shared="false" />-->
-    <type name="Magento\Customer\Service\V1\Data\SearchResultsBuilder" shared="false" />
     <type name="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite">
         <arguments>
             <argument name="propertyMappers" xsi:type="array">
