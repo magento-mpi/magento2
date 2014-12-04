@@ -13,6 +13,8 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Class Review
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Review implements SetupInterface
 {
