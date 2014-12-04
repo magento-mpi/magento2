@@ -82,7 +82,8 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()->from($this->getMainTable())
             ->where('product_id = :product_id')
-            ->where('website_id = :website_id');
+            ->where('website_id = :website_id')
+            ->where('stock_id = :stock_id');
         $bind = array(':product_id' => $productId, ':website_id' => $websiteId, ':stock_id' => $stockId);
         $row = $adapter->fetchRow($select, $bind);
         if ($row) {
@@ -112,6 +113,7 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
      *
      * @param int[] $productIds
      * @param int $websiteId
+     * @param int $stockId
      * @return array
      */
     public function getProductsStockStatuses($productIds, $websiteId, $stockId = Stock::DEFAULT_STOCK_ID)
