@@ -6,38 +6,31 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\ConfigurableProduct\Model;
 
 class ConfigurableProductManagement implements \Magento\ConfigurableProduct\Api\ConfigurableProductManagementInterface
 {
-    /**
-     * @var \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix
-     */
-    private $variationMatrix;
-
     /**
      * @var \Magento\Catalog\Api\ProductAttributeRepositoryInterface
      */
     private $attributeRepository;
 
     /**
-     * @var \Magento\Framework\Api\AttributeDataBuilder
+     * @var ProductVariationsBuilder
      */
-    private $customAttributeBuilder;
+    private $productVariationBuilder;
 
     /**
      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository
-     * @param Product\Type\VariationMatrix $variationMatrix
-     * @param \Magento\Framework\Api\AttributeDataBuilder $customAttributeBuilder
+     * @param ProductVariationsBuilder $productVariationBuilder
      */
     public function __construct(
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository,
-        \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix $variationMatrix,
-        \Magento\Framework\Api\AttributeDataBuilder $customAttributeBuilder
+        ProductVariationsBuilder $productVariationBuilder
     ) {
-        $this->variationMatrix = $variationMatrix;
         $this->attributeRepository = $attributeRepository;
-        $this->customAttributeBuilder = $customAttributeBuilder;
+        $this->productVariationBuilder = $productVariationBuilder;
     }
 
     /**
@@ -46,8 +39,7 @@ class ConfigurableProductManagement implements \Magento\ConfigurableProduct\Api\
     public function generateVariation(\Magento\Catalog\Api\Data\ProductInterface $product, $options)
     {
         $attributes = $this->getAttributesForMatrix($options);
-        $variations = $this->variationMatrix->getVariations($attributes);
-        $products = $this->populateProductVariation($product, $variations, $attributes);
+        $products = $this->productVariationBuilder->create($product, $attributes);
         return $products;
     }
 
@@ -74,51 +66,6 @@ class ConfigurableProductManagement implements \Magento\ConfigurableProduct\Api\
             $attributes[$option->getAttributeId()] = $configurable;
         }
         return $attributes;
-    }
-
-    /**
-     * Populate product with variation of attributes
-     *
-     * @param \Magento\Catalog\Api\Data\ProductInterface $product
-     * @param array $variations
-     * @param array $attributes
-     * @return array
-     */
-    private function populateProductVariation(
-        \Magento\Catalog\Api\Data\ProductInterface $product,
-        $variations,
-        $attributes
-    ) {
-        $products = [];
-        foreach ($variations as $variation) {
-            $price = $product->getPrice();
-            $suffix = '';
-            foreach ($variation as $attributeId => $valueInfo) {
-                $suffix .= '-' . $valueInfo['value'];
-
-                $customAttribute = $this->customAttributeBuilder
-                    ->setAttributeCode($attributes[$attributeId]['attribute_code'])
-                    ->setValue($valueInfo['value'])
-                    ->create();
-                $customAttributes = array_merge(
-                    $product->getCustomAttributes(),
-                    [
-                        $attributes[$attributeId]['attribute_code'] => $customAttribute
-                    ]
-                );
-                $product->setData('custom_attributes', $customAttributes);
-
-                $priceInfo = $valueInfo['price'];
-                $price += (!empty($priceInfo['is_percent']) ? $product->getPrice() / 100.0 : 1.0)
-                    * $priceInfo['pricing_value'];
-            }
-            $product->setPrice($price);
-            $product->setName($product->getName() . $suffix);
-            $product->setSku($product->getSku() . $suffix);
-            $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE);
-            $products[] = $product;
-        }
-        return $products;
     }
 
     /**
