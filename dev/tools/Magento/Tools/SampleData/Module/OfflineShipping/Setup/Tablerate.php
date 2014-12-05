@@ -116,7 +116,7 @@ class Tablerate implements SetupInterface
                 ? $regions[$data['country']][$data['region']]
                 : 0;
             $adapter->insert(
-                $adapter->getTableName('shipping_tablerate'),
+                $this->tablerate->getMainTable(),
                 [
                     'website_id' => $this->storeManager->getWebsiteId(),
                     'dest_country_id' => $data['country'],
