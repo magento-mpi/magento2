@@ -84,7 +84,7 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         );
         $this->collectionFactoryMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\CollectionFactory',
-            [],
+            ['create'],
             [],
             '',
             false
