@@ -58,7 +58,7 @@ class NotifyStockTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $this->productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create']);
+        $this->productFactory = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
         $this->productFactory->expects($this->any())->method('create')->will($this->returnValue($this->product));
 
         $this->stock = $this->getMock('Magento\CatalogInventory\Model\Resource\Stock', [], [], '', false);
