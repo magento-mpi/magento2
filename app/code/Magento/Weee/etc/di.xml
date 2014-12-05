@@ -46,4 +46,9 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Bundle\Pricing\Price\BundleSelectionPrice">
+        <arguments>
+            <argument name="excludeAdjustment" xsi:type="const">Magento\Weee\Pricing\Adjustment::ADJUSTMENT_CODE</argument>
+        </arguments>
+    </type>
 </config>
