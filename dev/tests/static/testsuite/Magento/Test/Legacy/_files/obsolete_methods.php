@@ -2113,4 +2113,7 @@ return array(
     ],
     ['getProduct', 'Magento\Catalog\Helper\Product'],
     ['getCategoryModel', 'Magento\Catalog\Model\Resource\Url'],
+    ['getTaxConfig', 'Magento\ConfigurableProduct\Pricing\Price\AttributePrice'],
+    ['prepareAdjustmentConfig', 'Magento\ConfigurableProduct\Pricing\Price\AttributePrice'],
+    ['_escapeDefaultValue', 'Magento\Framework\Code\Generator\EntityAbstract']
 );

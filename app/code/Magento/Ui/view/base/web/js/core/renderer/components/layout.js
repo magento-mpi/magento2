@@ -54,6 +54,36 @@ define([
         return _.pick(node, 'name', 'index', 'dataScope');
     }
 
+    function loadDeps(node){
+        var loaded = $.Deferred();
+
+        registry.get(node.deps, function(){
+            loaded.resolve(node);
+        });
+
+        return loaded.promise();
+    }
+
+    function loadSource(node){
+        var loaded = $.Deferred(),
+            source = node.component;
+
+        require([source], function(constr){
+            loaded.resolve(node, constr);
+        });
+
+        return loaded.promise();
+    }
+
+    function initComponent(node, constr){
+        var component = new constr(
+            node.config,
+            additional(node)
+        );
+
+        registry.set(node.name, component);
+    }
+
     function Layout(nodes, types){
         this.types      = types;
         this.registry   = registry.create();
@@ -117,22 +147,13 @@ define([
         },
 
         initComponent: function(node){
-            var source = node.component,
-                component;
-
-            if(source){
-
-                registry.get(node.deps, function(){
-
-                    require([source], function(constr){
-
-                        registry.set(node.name, new constr(
-                            node.config,
-                            additional(node)
-                        ));
-                    });
-                });
+            if(!node.component){
+                return this;
             }
+
+            loadDeps(node)
+                .then(loadSource)
+                .done(initComponent);
 
             return this;
         }

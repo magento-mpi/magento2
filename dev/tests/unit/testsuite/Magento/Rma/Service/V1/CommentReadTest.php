@@ -14,6 +14,8 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
  * Class CommentReadTest
  *
  * @package Magento\Rma\Service\V1
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CommentReadTest extends \PHPUnit_Framework_TestCase
 {
@@ -186,7 +188,7 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testCommentsList($id, $isCustomerContext)
+    public function testCommentsListCustomerContext($id, $isCustomerContext)
     {
         $this->permissionCheckerMock->expects($this->once())->method('checkRmaForCustomerContext');
 
@@ -246,47 +248,39 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
                 ->method('addFilter')
                 ->with($this->equalTo([$this->filterMock]));
         }
-
         $this->criteriaBuilderMock
             ->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->searchCriteriaMock));
-
         $this->historyRepositoryMock
             ->expects($this->once())
             ->method('find')
             ->with($this->searchCriteriaMock)
             ->will($this->returnValue([$this->commentMock]));
-
         $this->historyMapperMock
             ->expects($this->once())
             ->method('extractDto')
             ->with($this->commentMock)
             ->will($this->returnValue($this->dataObjectMock));
-
         $this->searchResultsBuilderMock
             ->expects($this->once())
             ->method('setItems')
             ->with([$this->dataObjectMock])
             ->willReturnSelf();
-
         $this->searchResultsBuilderMock
             ->expects($this->once())
             ->method('setTotalCount')
             ->with(1)
             ->willReturnSelf();
-
         $this->searchResultsBuilderMock
             ->expects($this->once())
             ->method('setSearchCriteria')
             ->with($this->equalTo($this->searchCriteriaMock))
             ->willReturnSelf();
-
         $this->searchResultsBuilderMock
             ->expects($this->once())
             ->method('create')
             ->willReturn($this->searchResultsMock);
-
         $this->assertEquals(
             $this->searchResultsMock,
             $this->rmaServiceCommentReadMock->commentsList($id)

@@ -13,12 +13,12 @@ namespace Magento\Cms\Model\DataSource;
 class PageCollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Cms\Api\PageCriteriaInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cms\Model\Resource\PageCriteria|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $criteriaMock;
 
     /**
-     * @var \Magento\Cms\Api\PageRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Cms\Model\PageRepository|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $repositoryMock;
 

@@ -13,6 +13,7 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
  * Product Test
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  *
  */
 class ProductTest extends \PHPUnit_Framework_TestCase
@@ -545,7 +546,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testFromArray()
     {
         $data = [
-            'stock_item' => 'stock-item-data'
+            'stock_item' => ['stock-item-data']
         ];
 
         $stockItemMock = $this->getMockForAbstractClass(
@@ -562,10 +563,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->method('isModuleEnabled')
             ->with('Magento_CatalogInventory')
             ->will($this->returnValue(true));
-        $this->stockItemBuilderMock->expects($this->once())
-            ->method('populateWithArray')
-            ->with($data['stock_item'])
-            ->will($this->returnSelf());
         $this->stockItemBuilderMock->expects($this->once())
             ->method('populateWithArray')
             ->with($data['stock_item'])

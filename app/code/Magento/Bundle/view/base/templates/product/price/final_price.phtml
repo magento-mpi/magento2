@@ -47,6 +47,7 @@ if ($hasSpecialPrice) {
             <?php echo $this->renderAmount($minimalPrice, [
                 'display_label'     => __('From'),
                 'price_id'          => $this->getPriceId('from-'),
+                'price_type'        => 'minPrice',
                 'include_container' => true
             ]); ?>
             <?php if ($hasSpecialPrice): ?>
@@ -64,6 +65,7 @@ if ($hasSpecialPrice) {
             <?php echo $this->renderAmount($maximalPrice, [
                 'display_label'     => __('To'),
                 'price_id'          => $this->getPriceId('to-'),
+                'price_type'        => 'maxPrice',
                 'include_container' => true
             ]); ?>
             <?php if ($hasSpecialPrice): ?>

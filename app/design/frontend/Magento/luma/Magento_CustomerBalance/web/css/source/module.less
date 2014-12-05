@@ -6,9 +6,15 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .block-balance {
     .balance-price-label {
-        &:extend(.abstract-visually-hidden all);
+        &:extend(.abs-visually-hidden all);
     }
     .price {
         .font-size(32);
@@ -18,13 +24,15 @@
     }
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .storecredit {
         .block {
-            &:extend(.abstract-blocks-2columns all);
+            &:extend(.abs-blocks-2columns all);
         }
         .block-balance-history {
             width: 100%;
@@ -36,16 +44,16 @@
         }
     }
     .table-wrapper.balance-history {
-        &:extend(.abstract-account-table-margin-desktop all);
+        &:extend(.abs-account-table-margin-desktop all);
     }
 }
 
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .table-wrapper.balance-history {
-        &:extend(.abstract-account-table-margin-mobile all);
-        &:extend(.abstract-no-border-top all);
+        &:extend(.abs-account-table-margin-mobile all);
+        &:extend(.abs-no-border-top all);
     }
 }

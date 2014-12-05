@@ -9,6 +9,7 @@ namespace Magento\Sales\Model\Order\Invoice;
 
 use Magento\Sales\Model\AbstractModel;
 use Magento\Sales\Api\Data\InvoiceCommentInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Invoice\Comment _getResource()
@@ -37,6 +38,7 @@ class Comment extends AbstractModel implements InvoiceCommentInterface
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\StoreManagerInterface $storeManager
@@ -48,6 +50,7 @@ class Comment extends AbstractModel implements InvoiceCommentInterface
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\StoreManagerInterface $storeManager,
@@ -59,6 +62,7 @@ class Comment extends AbstractModel implements InvoiceCommentInterface
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $localeDate,
             $dateTime,
             $resource,

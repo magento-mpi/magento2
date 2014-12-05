@@ -12,6 +12,7 @@ use Mtf\Client\Browser;
 use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
 use Magento\Reports\Test\Page\Adminhtml\ProductReportView;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
  * Test Creation for ViewedProductsReportEntity
@@ -56,6 +57,18 @@ class ViewedProductsReportEntityTest extends Injectable
     protected $browser;
 
     /**
+     * Delete all products
+     *
+     * @param CatalogProductIndex $catalogProductIndexPage
+     * @return void
+     */
+    public function __prepare(CatalogProductIndex $catalogProductIndexPage)
+    {
+        $catalogProductIndexPage->open();
+        $catalogProductIndexPage->getProductGrid()->massaction([], 'Delete', true, 'Select All');
+    }
+
+    /**
      * Inject pages
      *
      * @param ProductReportView $productReportView
@@ -83,7 +96,6 @@ class ViewedProductsReportEntityTest extends Injectable
      */
     public function test($products, array $viewsReport, $total)
     {
-        $this->markTestIncomplete('MAGETWO-15707');
         // Preconditions
         $productsList = $this->prepareProducts($products);
         $this->openProducts($productsList, $total);

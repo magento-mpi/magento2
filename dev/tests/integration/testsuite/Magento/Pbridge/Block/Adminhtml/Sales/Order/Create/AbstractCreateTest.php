@@ -41,6 +41,6 @@ class AbstractCreateTest extends \PHPUnit_Framework_TestCase
         $block = $objectManager->create('Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate');
 
         /** SUT execution and assertions */
-        $this->assertEquals('Firstname Lastname', $block->getCustomerName(), 'Customer name is invalid.');
+        $this->assertEquals('John Smith', $block->getCustomerName(), 'Customer name is invalid.');
     }
 }
