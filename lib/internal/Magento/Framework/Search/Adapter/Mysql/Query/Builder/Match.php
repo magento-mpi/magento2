@@ -16,6 +16,11 @@ use Magento\Framework\Search\Request\QueryInterface as RequestQueryInterface;
 class Match implements QueryInterface
 {
     /**
+     * @var string[]
+     */
+    private $replaceSymbols = ['-', '+', '~'];
+
+    /**
      * @var ResolverInterface
      */
     private $resolver;
@@ -38,13 +43,8 @@ class Match implements QueryInterface
         $conditionType
     ) {
         /** @var $query \Magento\Framework\Search\Request\Query\Match */
-        $queryValue = $query->getValue();
-        if ($conditionType === Bool::QUERY_CONDITION_MUST) {
-            $queryValue = '+' . $queryValue;
-        } elseif ($conditionType === Bool::QUERY_CONDITION_NOT) {
-            $queryValue = '-' . $queryValue;
-        }
-        
+        $queryValue = $this->prepareQuery($query->getValue(), $conditionType);
+
         $fieldList = [];
         foreach ($query->getMatches() as $match) {
             $fieldList[] = $match['field'];
@@ -59,5 +59,36 @@ class Match implements QueryInterface
         $select->match($resolvedFieldList, $queryValue, true, Select::FULLTEXT_MODE_BOOLEAN);
 
         return $select;
+    }
+
+    /**
+     * @param string $queryValue
+     * @param string $conditionType
+     * @return string
+     */
+    protected function prepareQuery($queryValue, $conditionType)
+    {
+        $queryValue = str_replace($this->replaceSymbols, ' ', $queryValue);
+
+        $stringPrefix = '';
+        if ($conditionType === Bool::QUERY_CONDITION_MUST) {
+            $stringPrefix = '+';
+        } elseif ($conditionType === Bool::QUERY_CONDITION_NOT) {
+            $stringPrefix = '-';
+        }
+
+        $queryValues = explode(' ', $queryValue);
+
+        foreach ($queryValues as $queryKey => $queryValue) {
+            if (empty($queryValue)) {
+                unset($queryValues[$queryKey]);
+            } else {
+                $queryValues[$queryKey] = $stringPrefix . $queryValue . '*';
+            }
+        }
+
+        $queryValue = implode(' ', $queryValues);
+
+        return $queryValue;
     }
 }
