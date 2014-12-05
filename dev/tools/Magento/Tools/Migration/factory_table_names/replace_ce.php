@@ -356,7 +356,7 @@ return array(
     'tax/tax_class' => 'tax_class',
     'tax/tax_order_aggregated_created' => 'tax_order_aggregated_created',
     'tax/tax_order_aggregated_updated' => 'tax_order_aggregated_updated',
-    'weee/discount' => 'weee_discount',
+    'weee/tax' => 'weee_tax',
     'widget/widget' => 'widget',
     'widget/widget_instance' => 'widget_instance',
     'widget/widget_instance_page' => 'widget_instance_page',
