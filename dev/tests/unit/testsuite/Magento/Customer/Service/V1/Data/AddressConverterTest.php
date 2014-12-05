@@ -18,6 +18,16 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
     /** @var AddressMetadataService */
     protected $addressMetadataService;
 
+    /**
+     * @var AddressConverter
+     */
+    protected $model;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $convertObject;
+
     protected function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -51,6 +61,19 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getCustomAttributesMetadata')
             ->will($this->returnValue($attributesMetadata));
+        $this->convertObject = $this->getMock(
+            'Magento\Framework\Api\ExtensibleDataObjectConverter',
+            ['toFlatArray'],
+            [],
+            '',
+            false
+        );
+        $this->model = $this->_objectManager->getObject(
+            'Magento\Customer\Service\V1\Data\AddressConverter',
+            [
+                'convertObject' => $this->convertObject,
+            ]
+        );
     }
 
     public function testToFlatArray()
@@ -69,8 +92,16 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
             'region_code' => 'TX'
         );
 
+        $convertedArray = $expected;
+        unset($convertedArray['street']);
+        array_push($convertedArray, $expected['street']);
+
         $addressData = $this->_sampleAddressDataObject();
-        $result = AddressConverter::toFlatArray($addressData);
+        $this->convertObject->expects($this->any())
+            ->method('toFlatArray')
+            ->with($addressData)
+            ->willReturn($convertedArray);
+        $result = $this->model->toFlatArray($addressData);
 
         $this->assertEquals($expected, $result);
     }
@@ -124,7 +155,15 @@ class AddressConverterTest extends \PHPUnit_Framework_TestCase
         $addressData = $addressDataBuilder->mergeDataObjectWithArray($addressData, $updatedAddressData)
             ->create();
 
-        $result = AddressConverter::toFlatArray($addressData);
+        $convertedArray = $expected;
+        unset($convertedArray['street']);
+        array_push($convertedArray, $expected['street']);
+        $this->convertObject->expects($this->any())
+            ->method('toFlatArray')
+            ->with($addressData)
+            ->willReturn($convertedArray);
+
+        $result = $this->model->toFlatArray($addressData);
         $this->assertEquals($expected, $result);
     }
 

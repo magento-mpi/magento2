@@ -59,6 +59,11 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     protected $_addressHelper;
 
     /**
+     * @var AddressConverter
+     */
+    protected $addressConverter;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
@@ -71,6 +76,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Customer\Model\Options $options
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param AddressConverter $addressConverter
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -88,6 +94,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Customer\Model\Options $options,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Helper\Address $addressHelper,
+        AddressConverter $addressConverter,
         array $data = array()
     ) {
         $this->options = $options;
@@ -96,6 +103,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $this->_customerFormFactory = $customerFormFactory;
         $this->_addressService = $addressService;
         $this->_addressHelper = $addressHelper;
+        $this->addressConverter = $addressConverter;
         parent::__construct(
             $context,
             $sessionQuote,
@@ -149,7 +157,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
             $addressForm = $this->_customerFormFactory->create(
                 'customer_address',
                 'adminhtml_customer_address',
-                AddressConverter::toFlatArray($addressData)
+                $this->addressConverter->toFlatArray($addressData)
             );
             $data[$addressData->getId()] = $addressForm->outputData(
                 \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
@@ -275,7 +283,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $formatTypeRenderer = $this->_addressHelper->getFormatTypeRenderer('oneline');
         $result = '';
         if ($formatTypeRenderer) {
-            $result = $formatTypeRenderer->renderArray(AddressConverter::toFlatArray($addressData));
+            $result = $formatTypeRenderer->renderArray($this->addressConverter->toFlatArray($addressData));
         }
         return $this->escapeHtml($result);
     }

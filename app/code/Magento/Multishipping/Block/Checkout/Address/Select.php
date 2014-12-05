@@ -28,12 +28,23 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     protected $_customerAddressHelper;
 
     /**
+     * @var AddressConverter
+     */
+    protected $addressConverter;
+
+    /**
+     * @var bool
+     */
+    protected $_isScopePrivate = true;
+
+    /**
      * Initialize dependencies.
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerAddressHelper $customerAddressHelper
+     * @param AddressConverter $addressConverter
      * @param array $data
      */
     public function __construct(
@@ -41,17 +52,14 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerAddressHelper $customerAddressHelper,
+        AddressConverter $addressConverter,
         array $data = array()
     ) {
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAddressHelper = $customerAddressHelper;
+        $this->addressConverter = $addressConverter;
         parent::__construct($context, $multishipping, $data);
     }
-
-    /**
-     * @var bool
-     */
-    protected $_isScopePrivate = true;
 
     /**
      * @return $this
@@ -96,7 +104,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         $formatTypeRenderer = $this->_customerAddressHelper->getFormatTypeRenderer('html');
         $result = '';
         if ($formatTypeRenderer) {
-            $result = $formatTypeRenderer->renderArray(AddressConverter::toFlatArray($addressData));
+            $result = $formatTypeRenderer->renderArray($this->addressConverter->toFlatArray($addressData));
         }
         return $result;
     }

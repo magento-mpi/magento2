@@ -2118,4 +2118,5 @@ return array(
     ['urlDecode', 'Magento\Framework\App\Helper\AbstractHelper', 'Magento\Framework\Url\DecoderInterface::decode'],
     ['isModuleEnabled', 'Magento\Framework\App\Helper\AbstractHelper', 'Magento\Framework\Module\Manager::isEnabled()'],
     ['isModuleOutputEnabled', 'Magento\Framework\App\Helper\AbstractHelper', 'Magento\Framework\Module\Manager::isOutputEnabled()'],
+    ['toFlatArrayStatic', 'Magento\Framework\Api\ExtensibleDataObjectConverter'],
 );

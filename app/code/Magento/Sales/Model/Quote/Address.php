@@ -289,6 +289,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         CustomerAddressBuilder $customerAddressBuilder,
         CustomerAddressServiceInterface $customerAddressService,
         Address\Validator $validator,
+        AddressConverter $addressConverter,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -307,6 +308,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_customerAddressBuilder = $customerAddressBuilder;
         $this->_customerAdressService = $customerAddressService;
         $this->validator = $validator;
+        $this->addressConverter = $addressConverter;
         parent::__construct(
             $context,
             $registry,
@@ -473,7 +475,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_address',
             'to_quote_address',
-            AddressConverter::toFlatArray($address),
+            $this->addressConverter->toFlatArray($address),
             $this
         );
         $region = $this->getRegion();

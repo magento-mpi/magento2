@@ -42,6 +42,11 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     protected $_localeCurrency;
 
     /**
+     * @var AddressConverter
+     */
+    protected $addressConverter;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
@@ -50,6 +55,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
+     * @param AddressConverter $addressConverter
      * @param array $data
      */
     public function __construct(
@@ -61,12 +67,14 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
+        AddressConverter $addressConverter,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_customerFormFactory = $customerFormFactory;
         $this->_addressService = $addressService;
         $this->_localeCurrency = $localeCurrency;
+        $this->addressConverter = $addressConverter;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $data);
     }
 
@@ -161,7 +169,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
                 $addressForm = $this->_customerFormFactory->create(
                     'customer_address',
                     'adminhtml_customer_address',
-                    AddressConverter::toFlatArray($addressData)
+                    $this->addressConverter->toFlatArray($addressData)
                 );
                 $data['addresses'][$addressData->getId()] = $addressForm->outputData(
                     \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
