@@ -10,12 +10,12 @@
 namespace Magento\Eav\Model\Entity\Setup\PropertyMapper;
 
 use Magento\Eav\Model\Entity\Setup\PropertyMapperInterface;
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManagerInterface;
 
 class Composite implements PropertyMapperInterface
 {
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -25,10 +25,10 @@ class Composite implements PropertyMapperInterface
     protected $propertyMappers;
 
     /**
-     * @param ObjectManager $objectManager
+     * @param ObjectManagerInterface $objectManager
      * @param array $propertyMappers
      */
-    public function __construct(ObjectManager $objectManager, array $propertyMappers = array())
+    public function __construct(ObjectManagerInterface $objectManager, array $propertyMappers = array())
     {
         $this->objectManager = $objectManager;
         $this->propertyMappers = $propertyMappers;

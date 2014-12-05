@@ -7,7 +7,9 @@
  */
 namespace Magento\AdvancedCheckout\Model;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\MessageInterface;
 use Magento\AdvancedCheckout\Helper\Data;
 
@@ -109,18 +111,11 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $messageFactory;
 
     /**
-     * Sales quote factory
+     * Sales quote repository
      *
-     * @var \Magento\Sales\Model\QuoteFactory
+     * @var \Magento\Sales\Model\QuoteRepository
      */
-    protected $_quoteFactory;
-
-    /**
-     * Catalog product factory
-     *
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
+    protected $quoteRepository;
 
     /**
      * Wishlist factory
@@ -172,9 +167,24 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected $customerSession;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
+
+    /**
+     * @var \Magento\CatalogInventory\Api\StockStateInterface
+     */
+    protected $stockState;
+
+    /**
+     * @var \Magento\CatalogInventory\Helper\Stock
+     */
+    protected $stockHelper;
+
+    /**
+     * @var ProductRepositoryInterface
+     */
+    protected $productRepository;
 
     /**
      * @param \Magento\Checkout\Model\Cart $cart
@@ -183,15 +193,17 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param \Magento\CatalogInventory\Api\StockStateInterface $stockState
+     * @param \Magento\CatalogInventory\Helper\Stock $stockHelper
+     * @param ProductRepositoryInterface $productRepository
      * @param string $itemFailedStatus
      * @param array $data
      */
@@ -202,15 +214,17 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         Data $checkoutData,
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Sales\Model\QuoteFactory $quoteFactory,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Magento\CatalogInventory\Api\StockStateInterface $stockState,
+        \Magento\CatalogInventory\Helper\Stock $stockHelper,
+        ProductRepositoryInterface $productRepository,
         $itemFailedStatus = Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
@@ -220,8 +234,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->_checkoutData = $checkoutData;
         $this->_optionFactory = $optionFactory;
         $this->_wishlistFactory = $wishlistFactory;
-        $this->_productFactory = $productFactory;
-        $this->_quoteFactory = $quoteFactory;
+        $this->quoteRepository = $quoteRepository;
         $this->_storeManager = $storeManager;
         $this->_localeFormat = $localeFormat;
         $this->_itemFailedStatus = $itemFailedStatus;
@@ -229,7 +242,10 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $this->productTypeConfig = $productTypeConfig;
         $this->productConfiguration = $productConfiguration;
         $this->customerSession = $customerSession;
-        $this->stockItemService = $stockItemService;
+        $this->stockRegistry = $stockRegistry;
+        $this->stockState = $stockState;
+        $this->stockHelper = $stockHelper;
+        $this->productRepository = $productRepository;
         parent::__construct($data);
     }
 
@@ -291,11 +307,17 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             return $this->_quote;
         }
 
-        $this->_quote = $this->_quoteFactory->create();
+        $this->_quote = $this->quoteRepository->create();
 
         if ($this->getCustomer() !== null) {
-            $this->_quote->setSharedStoreIds($this->getQuoteSharedStoreIds())
-                ->loadByCustomer($this->getCustomer()->getId());
+            try {
+                $this->_quote = $this->quoteRepository->getForCustomer(
+                    $this->getCustomer()->getId(),
+                    $this->getQuoteSharedStoreIds()
+                );
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+
+            }
         }
 
         return $this->_quote;
@@ -343,7 +365,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         if (!$this->getCustomer()) {
             return array();
         }
-        if ((bool) $this->getCustomer()->getSharingConfig()->isWebsiteScope()) {
+        if ((bool)$this->getCustomer()->getSharingConfig()->isWebsiteScope()) {
             return $this->_storeManager->getWebsite($this->getCustomer()->getWebsiteId())->getStoreIds();
         } else {
             return $this->getCustomer()->getSharedStoreIds();
@@ -358,7 +380,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     public function createQuote()
     {
         if (!$this->getQuote()->getId() && $this->getCustomer() !== null) {
-            $this->getQuote()->assignCustomer($this->getCustomer())->save();
+            $this->quoteRepository->save($this->getQuote()->assignCustomer($this->getCustomer()));
         }
         return $this->getQuote();
     }
@@ -377,7 +399,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         if ($recollect) {
             $this->getQuote()->collectTotals();
         }
-        $this->getQuote()->save();
+        $this->quoteRepository->save($this->getQuote());
         return $this;
     }
 
@@ -429,10 +451,10 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     {
         if (is_array($config) || $config instanceof \Magento\Framework\Object) {
             $config = is_array($config) ? new \Magento\Framework\Object($config) : $config;
-            $qty = (float) $config->getQty();
+            $qty = (float)$config->getQty();
             $separateSameProducts = true;
         } else {
-            $qty = (float) $config;
+            $qty = (float)$config;
             $config = new \Magento\Framework\Object();
             $config->setQty($qty);
             $separateSameProducts = false;
@@ -440,20 +462,21 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
 
         if (!$product instanceof Product) {
             $productId = $product;
-            $product = $this->_productFactory->create()->setStore($this->getStore())
-                ->setStoreId($this->getStore()->getId())
-                ->load($product);
-            if (!$product->getId()) {
+            try {
+                $product = $this->productRepository->getById($productId, false, $this->getStore()->getId());
+            } catch (NoSuchEntityException $e) {
                 throw new \Magento\Framework\Model\Exception(
-                    __('Failed to add a product to cart by id "%1".', $productId)
+                    __('Failed to add a product to cart by id "%1".', $productId),
+                    0,
+                    $e
                 );
             }
         }
 
-        $stockItemDo = $this->stockItemService->getStockItem($product->getId());
-        if ($stockItemDo->getStockId()) {
+        $stockItemDo = $this->stockRegistry->getStockItem($product->getId(), $this->getStore()->getWebsiteId());
+        if ($stockItemDo->getItemId()) {
             if (!$stockItemDo->getIsQtyDecimal()) {
-                $qty = (int) $qty;
+                $qty = (int)$qty;
             } else {
                 $product->setIsQtyDecimal(1);
             }
@@ -492,11 +515,10 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'));
         }
 
-        $product = $this->_productFactory->create()->setStoreId($this->getStore()->getId())
-            ->load($orderItem->getProductId());
-
-        if (!$product->getId()) {
-            throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'));
+        try {
+            $product = $this->productRepository->getById($orderItem->getProductId(), false, $this->getStore()->getId());
+        } catch (NoSuchEntityException $e) {
+            throw new \Magento\Framework\Model\Exception(__('Something went wrong reordering this product.'), 0, $e);
         }
         $info = $orderItem->getProductOptionByCode('info_buyRequest');
         $info = new \Magento\Framework\Object($info);
@@ -538,7 +560,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     public function addProducts(array $products)
     {
         foreach ($products as $productId => $config) {
-            $config['qty'] = isset($config['qty']) ? (float) $config['qty'] : 1;
+            $config['qty'] = isset($config['qty']) ? (float)$config['qty'] : 1;
             try {
                 $this->addProduct($productId, $config);
             } catch (\Magento\Framework\Model\Exception $e) {
@@ -566,16 +588,19 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         foreach ($data as $itemId => $info) {
             if (!empty($info['configured'])) {
                 $item = $this->getQuote()->updateItem($itemId, new \Magento\Framework\Object($info));
-                $itemQty = (float) $item->getQty();
+                $itemQty = (float)$item->getQty();
             } else {
                 $item = $this->getQuote()->getItemById($itemId);
-                $itemQty = (float) $info['qty'];
+                $itemQty = (float)$info['qty'];
             }
 
             if ($item) {
-                $stockItemDo = $this->stockItemService->getStockItem($item->getProduct()->getId());
-                if ($stockItemDo->getStockId() && !$stockItemDo->getIsQtyDecimal()) {
-                    $itemQty = (int) $itemQty;
+                $stockItemDo = $this->stockRegistry->getStockItem(
+                    $item->getProduct()->getId(),
+                    $this->getStore()->getWebsiteId()
+                );
+                if ($stockItemDo->getItemId() && !$stockItemDo->getIsQtyDecimal()) {
+                    $itemQty = (int)$itemQty;
                 } else {
                     $item->setIsQtyDecimal(1);
                 }
@@ -665,7 +690,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         $newQuote = clone $quote;
         $newQuote->setId(null);
         $newQuote->setIsActive($active ? 1 : 0);
-        $newQuote->save();
+        $this->quoteRepository->save($newQuote);
 
         // copy items with their options
         $newParentItemIds = array();
@@ -750,8 +775,8 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * Add single item to stack and return extended pushed item. For return format see _addAffectedItem()
      *
      * @param string $sku
-     * @param float  $qty
-     * @param array  $config Configuration data of the product (if has been configured)
+     * @param float $qty
+     * @param array $config Configuration data of the product (if has been configured)
      * @return array
      */
     public function prepareAddProductBySku($sku, $qty, $config = array())
@@ -818,26 +843,35 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
         Product $product,
         $requestedQty
     ) {
-        $result = $this->stockItemService->checkQuoteItemQty($product->getId(), $requestedQty, $requestedQty);
+        $result = $this->stockState->checkQuoteItemQty(
+            $product->getId(),
+            $requestedQty,
+            $requestedQty,
+            $requestedQty,
+            $this->getStore()->getWebsiteId()
+        );
         if ($result->getHasError()) {
-            $return = array();
-
+            $stockItem = $this->stockRegistry->getStockItem($product->getId(), $this->getStore()->getWebsiteId());
+            $return = [];
             switch ($result->getErrorCode()) {
                 case 'qty_increments':
                     $status = Data::ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS;
-                    $return['qty_increments'] = $this->stockItemService->getQtyIncrements($product->getId());
+                    $return['qty_increments'] = $stockItem->getQtyIncrements();
                     break;
                 case 'qty_min':
                     $status = Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
-                    $return['qty_min_allowed'] = $this->stockItemService->getMinSaleQty($product->getId());
+                    $return['qty_min_allowed'] = $stockItem->getMinSaleQty();
                     break;
                 case 'qty_max':
                     $status = Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART;
-                    $return['qty_max_allowed'] = $this->stockItemService->getMaxSaleQty($product->getId());
+                    $return['qty_max_allowed'] = $stockItem->getMaxSaleQty();
                     break;
                 default:
                     $status = Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED;
-                    $return['qty_max_allowed'] = $this->stockItemService->getStockQty($product->getId());
+                    $return['qty_max_allowed'] = $this->stockState->getStockQty(
+                        $product->getId(),
+                        $this->getStore()->getWebsiteId()
+                    );
                     break;
             }
 
@@ -856,8 +890,11 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     protected function _loadProductBySku($sku)
     {
-        /** @var $product Product */
-        $product = $this->_productFactory->create()->setStore($this->getCurrentStore())->loadByAttribute('sku', $sku);
+        try {
+            $product = $this->productRepository->get($sku, false, $this->getCurrentStore());
+        } catch (NoSuchEntityException $e) {
+            $product = false;
+        }
         return $product;
     }
 
@@ -909,7 +946,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
     protected function _loadProductWithOptionsBySku($sku, $config = array())
     {
         $product = $this->_loadProductBySku($sku);
-        if ($product && $product->getId()) {
+        if ($product) {
             return $product;
         }
 
@@ -935,10 +972,8 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             $option = $this->_optionFactory->create()->setAddRequiredFilter(true)->setAddRequiredFilterValue(true);
 
             foreach ($option->getProductOptionCollection($product) as $requiredOption) {
-                $missedRequiredOption = !$this->_processProductOption(
-                    $skuParts,
-                    $requiredOption
-                ) || $missedRequiredOption;
+                $missedRequiredOption = !$this->_processProductOption($skuParts, $requiredOption)
+                    || $missedRequiredOption;
             }
 
             $option->setAddRequiredFilterValue(false);
@@ -1039,8 +1074,8 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * Check item before adding by SKU
      *
      * @param string $sku
-     * @param float  $qty
-     * @param array  $config Configuration data of the product (if has been configured)
+     * @param float $qty
+     * @param array $config Configuration data of the product (if has been configured)
      * @return array
      */
     public function checkItem($sku, $qty, $config = array())
@@ -1181,15 +1216,20 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      */
     protected function _isProductOutOfStock($product)
     {
+        $stockItem = $this->stockRegistry->getStockItem($product->getId(), $this->getStore()->getWebsiteId());
         if ($product->isComposite()) {
-            if (!$this->stockItemService->getIsInStock($product->getId())) {
+            if (!$stockItem->getIsInStock()) {
                 return true;
             }
             $productsByGroups = $product->getTypeInstance()->getProductsToPurchaseByReqGroups($product);
             foreach ($productsByGroups as $productsInGroup) {
                 foreach ($productsInGroup as $childProduct) {
-                    if ($this->stockItemService->getStockQty($childProduct->getId()) > 0
-                        && $this->stockItemService->getIsInStock($childProduct->getId())
+                    $childStockItem = $this->stockRegistry->getStockItem(
+                        $childProduct->getId(),
+                        $this->getStore()->getWebsiteId()
+                    );
+                    if ($this->stockState->getStockQty($childProduct->getId(), $this->getStore()->getWebsiteId()) > 0
+                        && $childStockItem->getIsInStock()
                         && !$childProduct->isDisabled()
                     ) {
                         return false;
@@ -1199,7 +1239,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
             return true;
         }
 
-        return !$this->stockItemService->getIsInStock($product->getId());
+        return !$stockItem->getIsInStock();
     }
 
     /**
@@ -1235,7 +1275,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
      * Set config for specific item
      *
      * @param string $sku
-     * @param array  $config
+     * @param array $config
      * @return $this
      */
     public function setAffectedItemConfig($sku, $config)
@@ -1300,7 +1340,7 @@ class Cart extends \Magento\Framework\Object implements \Magento\Checkout\Model\
 
         // copy data to temporary quote
         /** @var $temporaryQuote \Magento\Sales\Model\Quote */
-        $temporaryQuote = $this->_quoteFactory->create();
+        $temporaryQuote = $this->quoteRepository->create();
         $temporaryQuote->setStore($quote->getStore())->setIsSuperMode($quote->getIsSuperMode());
         foreach ($quote->getAllItems() as $quoteItem) {
             $temporaryItem = clone $quoteItem;

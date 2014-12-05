@@ -14,19 +14,24 @@ class IndexTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
 
     public function testIndexAction()
     {
-        $layoutMock = $this->getMock(
-            'Magento\Framework\View\Layout',
-            ['renderLayout', 'getBlock'],
-            [],
-            '',
-            false
-        );
+        $layoutInterfaceMock = $this->getMockBuilder('Magento\Framework\View\LayoutInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $resultPageMock = $this->getMockBuilder('Magento\Framework\View\Result\Page')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $pageConfigMock = $this->getMockBuilder('Magento\Framework\View\Page\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
         $blockMock = $this->getMock('Magento\Backend\Block\Menu', ['setActive', 'getMenuModel'], [], '', false);
         $menuModelMock = $this->getMock('Magento\Backend\Model\Menu', [], [], '', false);
         $this->viewMock->expects($this->once())
             ->method('getLayout')
-            ->will($this->returnValue($layoutMock));
-        $layoutMock->expects($this->once())
+            ->will($this->returnValue($layoutInterfaceMock));
+        $this->viewMock->expects($this->once())->method('getPage')->will($this->returnValue($resultPageMock));
+        $resultPageMock->expects($this->once())->method('getConfig')->will($this->returnValue($pageConfigMock));
+        $pageConfigMock->expects($this->any())->method('getTitle')->will($this->returnValue($this->titleMock));
+        $layoutInterfaceMock->expects($this->once())
             ->method('getBlock')
             ->with('menu')
             ->will($this->returnValue($blockMock));
@@ -40,8 +45,8 @@ class IndexTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
             ->method('getParentItems')
             ->will($this->returnValue([]));
         $this->titleMock->expects($this->once())
-            ->method('add')
-            ->with(__('Returns'));
+            ->method('prepend')
+        ->with(__('Returns'));
         $this->viewMock->expects($this->once())
             ->method('renderLayout');
 

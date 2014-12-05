@@ -9,26 +9,26 @@
  */
 namespace Magento\Framework\Interception\Config;
 
-class Config implements \Magento\Framework\Interception\Config
+class Config implements \Magento\Framework\Interception\ConfigInterface
 {
     /**
      * Type configuration
      *
-     * @var \Magento\Framework\ObjectManager\Config
+     * @var \Magento\Framework\ObjectManager\ConfigInterface
      */
     protected $_omConfig;
 
     /**
      * Class relations info
      *
-     * @var \Magento\Framework\ObjectManager\Relations
+     * @var \Magento\Framework\ObjectManager\RelationsInterface
      */
     protected $_relations;
 
     /**
      * List of interceptable classes
      *
-     * @var \Magento\Framework\ObjectManager\Definition
+     * @var \Magento\Framework\ObjectManager\DefinitionInterface
      */
     protected $_classDefinitions;
 
@@ -68,21 +68,26 @@ class Config implements \Magento\Framework\Interception\Config
     protected $_serviceClassTypes = array('Proxy', 'Interceptor');
 
     /**
+     * @var \Magento\Framework\Config\ScopeListInterface
+     */
+    protected $_scopeList;
+
+    /**
      * @param \Magento\Framework\Config\ReaderInterface $reader
      * @param \Magento\Framework\Config\ScopeListInterface $scopeList
      * @param \Magento\Framework\Cache\FrontendInterface $cache
-     * @param \Magento\Framework\ObjectManager\Relations $relations
+     * @param \Magento\Framework\ObjectManager\RelationsInterface $relations
      * @param \Magento\Framework\Interception\ObjectManager\Config $omConfig
-     * @param \Magento\Framework\ObjectManager\Definition $classDefinitions
+     * @param \Magento\Framework\ObjectManager\DefinitionInterface $classDefinitions
      * @param string $cacheId
      */
     public function __construct(
         \Magento\Framework\Config\ReaderInterface $reader,
         \Magento\Framework\Config\ScopeListInterface $scopeList,
         \Magento\Framework\Cache\FrontendInterface $cache,
-        \Magento\Framework\ObjectManager\Relations $relations,
+        \Magento\Framework\ObjectManager\RelationsInterface $relations,
         \Magento\Framework\Interception\ObjectManager\Config $omConfig,
-        \Magento\Framework\ObjectManager\Definition $classDefinitions,
+        \Magento\Framework\ObjectManager\DefinitionInterface $classDefinitions,
         $cacheId = 'interception'
     ) {
         $this->_omConfig = $omConfig;
@@ -91,29 +96,40 @@ class Config implements \Magento\Framework\Interception\Config
         $this->_cache = $cache;
         $this->_cacheId = $cacheId;
         $this->_reader = $reader;
+        $this->_scopeList = $scopeList;
 
         $intercepted = $this->_cache->load($this->_cacheId);
         if ($intercepted !== false) {
             $this->_intercepted = unserialize($intercepted);
         } else {
-            $config = array();
-            foreach ($scopeList->getAllScopes() as $scope) {
-                $config = array_replace_recursive($config, $this->_reader->read($scope));
-            }
-            unset($config['preferences']);
-            foreach ($config as $typeName => $typeConfig) {
-                if (!empty($typeConfig['plugins'])) {
-                    $this->_intercepted[ltrim($typeName, '\\')] = true;
-                }
-            }
-            foreach ($config as $typeName => $typeConfig) {
-                $this->hasPlugins(ltrim($typeName, '\\'));
-            }
-            foreach ($classDefinitions->getClasses() as $class) {
-                $this->hasPlugins($class);
-            }
-            $this->_cache->save(serialize($this->_intercepted), $this->_cacheId);
+            $this->initialize();
         }
+    }
+
+    /**
+     * Initialize interception config
+     *
+     * @return void
+     */
+    protected function initialize()
+    {
+        $config = array();
+        foreach ($this->_scopeList->getAllScopes() as $scope) {
+            $config = array_replace_recursive($config, $this->_reader->read($scope));
+        }
+        unset($config['preferences']);
+        foreach ($config as $typeName => $typeConfig) {
+            if (!empty($typeConfig['plugins'])) {
+                $this->_intercepted[ltrim($typeName, '\\')] = true;
+            }
+        }
+        foreach ($config as $typeName => $typeConfig) {
+            $this->hasPlugins(ltrim($typeName, '\\'));
+        }
+        foreach ($this->_classDefinitions->getClasses() as $class) {
+            $this->hasPlugins($class);
+        }
+        $this->_cache->save(serialize($this->_intercepted), $this->_cacheId);
     }
 
     /**

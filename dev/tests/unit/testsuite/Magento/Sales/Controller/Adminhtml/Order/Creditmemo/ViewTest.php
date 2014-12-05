@@ -77,6 +77,21 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     protected $invoiceMock;
 
+    /**
+     * @var \Magento\Framework\View\Result\Page|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $resultPageMock;
+
+    /**
+     * @var \Magento\Framework\View\Page\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $pageConfigMock;
+
+    /**
+     * @var \Magento\Framework\View\Page\Title|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $pageTitleMock;
+
     public function setUp()
     {
         $this->invoiceMock = $this->getMockBuilder('Magento\Sales\Model\Order\Invoice')
@@ -99,10 +114,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
-        $this->objectManagerMock = $this->getMockBuilder('Magento\Framework\ObjectManager')
-            ->disableOriginalConstructor()
-            ->setMethods([])
-            ->getMock();
+        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->viewMock = $this->getMockBuilder('Magento\Backend\Model\View')
             ->disableOriginalConstructor()
             ->setMethods([])
@@ -158,11 +170,30 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
+        $this->resultPageMock = $this->getMockBuilder('Magento\Framework\View\Result\Page')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->pageConfigMock = $this->getMockBuilder('Magento\Framework\View\Page\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->pageTitleMock = $this->getMockBuilder('Magento\Framework\View\Page\Title')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->controller = new \Magento\Sales\Controller\Adminhtml\Order\Creditmemo\View(
             $this->contextMock,
             $this->loaderMock
         );
+
+        $this->viewMock->expects($this->any())
+            ->method('getPage')
+            ->willReturn($this->resultPageMock);
+        $this->resultPageMock->expects($this->any())
+            ->method('getConfig')
+            ->willReturn($this->pageConfigMock);
+        $this->pageConfigMock->expects($this->any())
+            ->method('getTitle')
+            ->willReturn($this->pageTitleMock);
     }
 
     public function testExecuteNoCreditMemo()

@@ -7,6 +7,9 @@
  */
 namespace Magento\Backend\Model\Session;
 
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\GroupManagementInterface;
+
 /**
  * Adminhtml quote session
  *
@@ -29,21 +32,21 @@ class Quote extends \Magento\Framework\Session\SessionManager
      *
      * @var \Magento\Sales\Model\Quote
      */
-    protected $_quote = null;
+    protected $_quote;
 
     /**
      * Store model object
      *
      * @var \Magento\Store\Model\Store
      */
-    protected $_store = null;
+    protected $_store;
 
     /**
      * Order model object
      *
      * @var \Magento\Sales\Model\Order
      */
-    protected $_order = null;
+    protected $_order;
 
     /**
      * @var \Magento\Sales\Model\OrderFactory
@@ -51,14 +54,16 @@ class Quote extends \Magento\Framework\Session\SessionManager
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var CustomerRepositoryInterface
      */
-    protected $_customerService;
+    protected $customerRepository;
 
     /**
-     * @var \Magento\Sales\Model\QuoteFactory
+     * Sales quote repository
+     *
+     * @var \Magento\Sales\Model\QuoteRepository
      */
-    protected $_quoteFactory;
+    protected $quoteRepository;
 
     /**
      * @var \Magento\Framework\StoreManagerInterface
@@ -66,9 +71,9 @@ class Quote extends \Magento\Framework\Session\SessionManager
     protected $_storeManager;
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var GroupManagementInterface
      */
-    protected $_scopeConfig;
+    protected $groupManagement;
 
     /**
      * @param \Magento\Framework\App\Request\Http $request
@@ -77,13 +82,13 @@ class Quote extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Framework\Session\ValidatorInterface $validator
      * @param \Magento\Framework\Session\StorageInterface $storage
-     * @param \Magento\Framework\Stdlib\CookieManager $cookieManager
+     * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
      * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
-     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param GroupManagementInterface $groupManagement
      */
     public function __construct(
         \Magento\Framework\App\Request\Http $request,
@@ -92,19 +97,19 @@ class Quote extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Session\SaveHandlerInterface $saveHandler,
         \Magento\Framework\Session\ValidatorInterface $validator,
         \Magento\Framework\Session\StorageInterface $storage,
-        \Magento\Framework\Stdlib\CookieManager $cookieManager,
+        \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
-        \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService,
+        CustomerRepositoryInterface $customerRepository,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        GroupManagementInterface $groupManagement
     ) {
-        $this->_quoteFactory = $quoteFactory;
-        $this->_customerService = $customerService;
+        $this->customerRepository = $customerRepository;
+        $this->quoteRepository = $quoteRepository;
         $this->_orderFactory = $orderFactory;
         $this->_storeManager = $storeManager;
-        $this->_scopeConfig = $scopeConfig;
+        $this->groupManagement = $groupManagement;
         parent::__construct(
             $request,
             $sidResolver,
@@ -128,31 +133,29 @@ class Quote extends \Magento\Framework\Session\SessionManager
      */
     public function getQuote()
     {
-        if (is_null($this->_quote)) {
-            $this->_quote = $this->_quoteFactory->create();
-            if ($this->getStoreId() && $this->getQuoteId()) {
-                $this->_quote->setStoreId($this->getStoreId())->load($this->getQuoteId());
-            } elseif ($this->getStoreId() && $this->hasCustomerId()) {
-                $customerGroupId = $this->_scopeConfig->getValue(
-                    \Magento\Customer\Service\V1\CustomerGroupServiceInterface::XML_PATH_DEFAULT_ID,
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                );
-                $this->_quote
-                    ->setStoreId($this->getStoreId())
-                    ->setCustomerGroupId($customerGroupId)
-                    ->setIsActive(false)
-                    ->save();
-                $this->setQuoteId($this->_quote->getId());
-                try {
-                    $customerData = $this->_customerService->getCustomer($this->getCustomerId());
-                    $this->_quote->assignCustomer($customerData);
-                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-                    /** Customer does not exist */
+        if ($this->_quote === null) {
+            $this->_quote = $this->quoteRepository->create();
+            if ($this->getStoreId()) {
+                if (!$this->getQuoteId()) {
+                    $this->_quote->setCustomerGroupId($this->groupManagement->getDefaultGroup()->getId())
+                        ->setIsActive(false)
+                        ->setStoreId($this->getStoreId());
+                    $this->quoteRepository->save($this->_quote);
+                    $this->setQuoteId($this->_quote->getId());
+                } else {
+                    $this->_quote = $this->quoteRepository->get($this->getQuoteId());
+                    $this->_quote->setStoreId($this->getStoreId());
+                }
+
+                if ($this->getCustomerId()) {
+                    $customer = $this->customerRepository->getById($this->getCustomerId());
+                    $this->_quote->assignCustomer($customer);
                 }
             }
             $this->_quote->setIgnoreOldQty(true);
             $this->_quote->setIsSuperMode(true);
         }
+
         return $this->_quote;
     }
 

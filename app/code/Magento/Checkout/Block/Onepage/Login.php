@@ -7,8 +7,7 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Address\Config as AddressConfig;
 use Magento\Framework\Message\Collection;
 
@@ -30,6 +29,16 @@ class Login extends AbstractOnepage
     protected $messageManager;
 
     /**
+     * @var \Magento\Customer\Model\Url
+     */
+    protected $customerUrl;
+
+    /**
+     * @var \Magento\Customer\Model\Registration
+     */
+    protected $registration;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -37,12 +46,14 @@ class Login extends AbstractOnepage
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
-     * @param CustomerAccountService $customerAccountService
-     * @param CustomerAddressService $customerAddressService
+     * @param CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Customer\Model\Url $customerUrl
+     * @param \Magento\Customer\Model\Registration $registration
+     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
      * @param array $data
      */
     public function __construct(
@@ -53,15 +64,18 @@ class Login extends AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
-        CustomerAccountService $customerAccountService,
-        CustomerAddressService $customerAddressService,
+        CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Customer\Model\Url $customerUrl,
+        \Magento\Customer\Model\Registration $registration,
         array $data = array()
     ) {
-
+        $this->registration = $registration;
+        $this->customerUrl = $customerUrl;
         $this->_checkoutData = $checkoutData;
         $this->messageManager = $messageManager;
         parent::__construct(
@@ -72,10 +86,10 @@ class Login extends AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
-            $customerAccountService,
-            $customerAddressService,
+            $customerRepository,
             $addressConfig,
             $httpContext,
+            $dataObjectConverter,
             $data
         );
         $this->_isScopePrivate = true;
@@ -90,6 +104,36 @@ class Login extends AbstractOnepage
             $this->getCheckout()->setStepData('login', array('label' => __('Checkout Method'), 'allow' => true));
         }
         parent::_construct();
+    }
+
+    /**
+     * Get customer registration
+     *
+     * @return \Magento\Customer\Model\Registration
+     */
+    public function getRegistration()
+    {
+        return $this->registration;
+    }
+
+    /**
+     * Return registration URL
+     *
+     * @return string
+     */
+    public function getRegisterUrl()
+    {
+        return $this->customerUrl->getRegisterUrl();
+    }
+
+    /**
+     * Return forgot password URL
+     *
+     * @return string
+     */
+    public function getForgotPasswordUrl()
+    {
+        return $this->customerUrl->getForgotPasswordUrl();
     }
 
     /**

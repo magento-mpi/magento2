@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Setup',
     array('resourceName' => 'catalog_setup')
 );
+
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */

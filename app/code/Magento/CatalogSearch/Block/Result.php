@@ -8,7 +8,7 @@
 namespace Magento\CatalogSearch\Block;
 
 use Magento\Catalog\Block\Product\ListProduct;
-use Magento\Catalog\Model\Layer\Search as ModelLayer;
+use Magento\Catalog\Model\Layer\Resolver as LayerResolver;
 use Magento\CatalogSearch\Helper\Data;
 use Magento\CatalogSearch\Model\Resource\Fulltext\Collection;
 use Magento\Framework\View\Element\Template;
@@ -37,7 +37,7 @@ class Result extends Template
     /**
      * Catalog layer
      *
-     * @var ModelLayer
+     * @var \Magento\Catalog\Model\Layer
      */
     protected $catalogLayer;
 
@@ -48,19 +48,19 @@ class Result extends Template
 
     /**
      * @param Context $context
-     * @param ModelLayer $catalogLayer
+     * @param LayerResolver $layerResolver
      * @param Data $catalogSearchData
      * @param QueryFactory $queryFactory
      * @param array $data
      */
     public function __construct(
         Context $context,
-        ModelLayer $catalogLayer,
+        LayerResolver $layerResolver,
         Data $catalogSearchData,
         QueryFactory $queryFactory,
         array $data = array()
     ) {
-        $this->catalogLayer = $catalogLayer;
+        $this->catalogLayer = $layerResolver->get();
         $this->catalogSearchData = $catalogSearchData;
         $this->queryFactory = $queryFactory;
         parent::__construct($context, $data);
@@ -84,7 +84,7 @@ class Result extends Template
     protected function _prepareLayout()
     {
         $title = $this->getSearchQueryText();
-        $this->pageConfig->setTitle($title);
+        $this->pageConfig->getTitle()->set($title);
         // add Home breadcrumb
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         if ($breadcrumbs) {

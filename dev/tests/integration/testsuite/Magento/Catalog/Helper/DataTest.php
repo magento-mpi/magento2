@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Helper;
 
 use Magento\Tax\Model\ClassModel;
-use Magento\Tax\Service\V1\TaxRuleFixtureFactory;
+use Magento\Tax\Model\TaxRuleFixtureFactory;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Tax\Model\Config;
 
@@ -24,7 +24,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * Object Manager
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     private $objectManager;
 

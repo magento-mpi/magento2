@@ -13,7 +13,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 {
     public function testRelocations()
     {
-        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker = new \Magento\Framework\Test\Utility\AggregateInvoker($this);
         $invoker(
             /**
              * Directories may re-appear again during merging, therefore ensure they were properly relocated
@@ -22,7 +22,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
              */
             function ($path) {
                 $this->assertFileNotExists(
-                    \Magento\TestFramework\Utility\Files::init()->getPathToSource() . '/' . $path
+                    \Magento\Framework\Test\Utility\Files::init()->getPathToSource() . '/' . $path
                 );
             },
             $this->relocationsDataProvider()
@@ -53,7 +53,9 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             'The "community" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array(
                 'app/code/community'
             ),
-            'Eliminated Magento/plushe theme' => ['app/design/frontend/Magento/plushe'],
+            'Eliminated Magento/luma theme' => ['app/design/frontend/Magento/luma'],
+            'Eliminated local.xml - use config.php instead' => ['app/etc/local.xml'],
+            'Eliminated app/etc/module.xml - use config.php instead' => ['app/etc/module.xml'],
         );
     }
 
@@ -61,7 +63,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     {
         $area = '*';
         $theme = '*';
-        $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
+        $root = \Magento\Framework\Test\Utility\Files::init()->getPathToSource();
         $dirs = glob("{$root}/app/design/{$area}/{$theme}/template", GLOB_ONLYDIR);
         $msg = array();
         if ($dirs) {

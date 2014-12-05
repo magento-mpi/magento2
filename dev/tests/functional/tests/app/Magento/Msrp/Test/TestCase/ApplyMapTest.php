@@ -154,7 +154,7 @@ class ApplyMapTest extends Functional
      *
      * @return void
      */
-    public static function tearDownAfterClass()
+    public function tearDown()
     {
         $config = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $config->switchData('disable_map_config');

@@ -8,6 +8,8 @@
 namespace Magento\Review\Block;
 
 use Magento\Catalog\Model\Product;
+use Magento\Customer\Model\Context;
+use Magento\Customer\Model\Url;
 use Magento\Review\Model\Resource\Rating\Collection as RatingCollection;
 
 /**
@@ -34,9 +36,9 @@ class Form extends \Magento\Framework\View\Element\Template
     /**
      * Catalog product model
      *
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
-    protected $_productFactory;
+    protected $productRepository;
 
     /**
      * Rating model
@@ -72,15 +74,21 @@ class Form extends \Magento\Framework\View\Element\Template
     protected $httpContext;
 
     /**
+     * @var \Magento\Customer\Model\Url
+     */
+    protected $customerUrl;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Session\Generic $reviewSession
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Model\Url $customerUrl
      * @param array $data
      */
     public function __construct(
@@ -89,20 +97,22 @@ class Form extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Session\Generic $reviewSession,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Model\Url $customerUrl,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_reviewSession = $reviewSession;
         $this->_reviewData = $reviewData;
         $this->_customerSession = $customerSession;
-        $this->_productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->_ratingFactory = $ratingFactory;
         $this->messageManager = $messageManager;
         $this->httpContext = $httpContext;
+        $this->customerUrl = $customerUrl;
         parent::__construct($context, $data);
     }
 
@@ -127,7 +137,7 @@ class Form extends \Magento\Framework\View\Element\Template
         }
 
         $this->setAllowWriteReviewFlag(
-            $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)
+            $this->httpContext->getValue(Context::CONTEXT_AUTH)
             || $this->_reviewData->getIsGuestAllowToWrite()
         );
         if (!$this->getAllowWriteReviewFlag()) {
@@ -137,7 +147,7 @@ class Form extends \Magento\Framework\View\Element\Template
             $this->setLoginLink(
                 $this->getUrl(
                     'customer/account/login/',
-                    array(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME => $queryParam)
+                    array(Url::REFERER_QUERY_PARAM_NAME => $queryParam)
                 )
             );
         }
@@ -150,11 +160,11 @@ class Form extends \Magento\Framework\View\Element\Template
      * Get product info
      *
      * @return Product
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getProductInfo()
     {
-        $product = $this->_productFactory->create();
-        return $product->load($this->getRequest()->getParam('id'));
+        return $this->productRepository->getById($this->getRequest()->getParam('id'));
     }
 
     /**
@@ -184,5 +194,15 @@ class Form extends \Magento\Framework\View\Element\Template
         )->setActiveFilter(
             true
         )->load()->addOptionToItems();
+    }
+
+    /**
+     * Return register URL
+     *
+     * @return string
+     */
+    public function getRegisterUrl()
+    {
+        return $this->customerUrl->getRegisterUrl();
     }
 }

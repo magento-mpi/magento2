@@ -33,7 +33,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
      * @param \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Framework\Math\Division $mathDivision
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Shipping\Model\Shipment\Request $request
      */
@@ -46,7 +46,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
         \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Framework\Math\Division $mathDivision,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Shipping\Model\Shipment\Request $request
     ) {
@@ -61,7 +61,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
             $shipmentRequestFactory,
             $regionFactory,
             $mathDivision,
-            $stockItemService
+            $stockRegistry
         );
     }
 
@@ -182,9 +182,9 @@ class Labels extends \Magento\Shipping\Model\Shipping
         $request->setRecipientContactCompanyName($address->getCompany());
         $request->setRecipientContactPhoneNumber($address->getTelephone());
         $request->setRecipientEmail($address->getEmail());
-        $request->setRecipientAddressStreet(trim($address->getStreet1() . ' ' . $address->getStreet2()));
-        $request->setRecipientAddressStreet1($address->getStreet1());
-        $request->setRecipientAddressStreet2($address->getStreet2());
+        $request->setRecipientAddressStreet(trim($address->getStreetLine(1) . ' ' . $address->getStreetLine(2)));
+        $request->setRecipientAddressStreet1($address->getStreetLine(1));
+        $request->setRecipientAddressStreet2($address->getStreetLine(2));
         $request->setRecipientAddressCity($address->getCity());
         $request->setRecipientAddressStateOrProvinceCode($address->getRegionCode());
         $request->setRecipientAddressRegionCode($recipientRegionCode);

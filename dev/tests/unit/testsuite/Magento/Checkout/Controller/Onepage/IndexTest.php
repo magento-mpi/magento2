@@ -89,11 +89,16 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     protected $pageConfigMock;
 
+    /**
+     * @var \Magento\Framework\View\Page\Title
+     */
+    protected $titleMock;
+
     public function setUp()
     {
         // mock objects
         $this->objectManager = new ObjectManager($this);
-        $this->objectManagerMock = $this->basicMock('\Magento\Framework\ObjectManager');
+        $this->objectManagerMock = $this->basicMock('\Magento\Framework\ObjectManagerInterface');
         $this->dataMock = $this->basicMock('Magento\Checkout\Helper\Data');
         $this->quoteMock = $this->basicMock('\Magento\Sales\Model\Quote');
         $this->contextMock = $this->basicMock('\Magento\Framework\App\Action\Context');
@@ -106,6 +111,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $this->redirectMock = $this->basicMock('\Magento\Framework\App\Response\RedirectInterface');
         $this->resultPageMock = $this->basicMock('\Magento\Framework\View\Result\Page');
         $this->pageConfigMock = $this->basicMock('\Magento\Framework\View\Page\Config');
+        $this->titleMock = $this->basicMock('\Magento\Framework\View\Page\Title');
 
         // stubs
         $this->basicStub($this->onepageMock, 'getQuote')->willReturn($this->quoteMock);
@@ -114,6 +120,8 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $this->basicStub($this->layoutMock, 'getBlock')
             ->willReturn($this->basicMock('Magento\Theme\Block\Html\Head'));
         $this->basicStub($this->resultPageMock, 'getConfig')->willReturn($this->pageConfigMock);
+        $this->basicStub($this->pageConfigMock, 'getTitle')->willReturn($this->titleMock);
+        $this->basicStub($this->titleMock, 'set')->willReturn($this->titleMock);
 
         // objectManagerMock
         $objectManagerReturns = [

@@ -24,12 +24,11 @@ class Details extends \Magento\Logging\Controller\Adminhtml\Logging
             $this->_redirect('adminhtml/*/');
             return;
         }
-        $this->_title->add(__("Log Entry #%1", $eventId));
-
         $this->_coreRegistry->register('current_event', $model);
 
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_events');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__("Log Entry #%1", $eventId));
         $this->_view->renderLayout();
     }
 }

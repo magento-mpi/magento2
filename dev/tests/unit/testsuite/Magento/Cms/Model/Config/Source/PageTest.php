@@ -8,75 +8,93 @@
 namespace Magento\Cms\Model\Config\Source;
 
 /**
- * @covers \Magento\Cms\Model\Config\Source\Page
+ * Class PageTest
  */
 class PageTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var \Magento\Cms\Model\PageRepository|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $pageRepositoryMock;
+
+    /**
+     * @var \Magento\Cms\Model\Resource\PageCriteria|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $pageCriteriaFactoryMock;
+
+    /**
      * @var \Magento\Cms\Model\Config\Source\Page
      */
-    protected $this;
+    protected $page;
 
     /**
-     * @var \Magento\Cms\Model\Resource\Page\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject
+     * Set up
+     *
+     * @return void
      */
-    protected $pageCollectionFactory;
-
-    /**
-     * @var \Magento\Cms\Model\Resource\Page\Collection|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $pageCollection;
-
     protected function setUp()
     {
-        $this->pageCollectionFactory = $this
-            ->getMockBuilder('Magento\Cms\Model\Resource\Page\CollectionFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(
-                [
-                    'create'
-                ]
-            )
-            ->getMock();
-        $this->pageCollection = $this
-            ->getMockBuilder('Magento\Cms\Model\Resource\Page\Collection')
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->this = $objectManager->getObject(
-            'Magento\Cms\Model\Config\Source\Page',
-            [
-                'pageCollectionFactory' => $this->pageCollectionFactory
-            ]
+
+        $this->pageRepositoryMock = $this->getMock(
+            'Magento\Cms\Model\PageRepository',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->pageCriteriaFactoryMock = $this->getMock(
+            'Magento\Cms\Model\Resource\PageCriteriaFactory',
+            ['create'],
+            [],
+            '',
+            false
         );
 
-        $reflection = new \ReflectionClass($this->this);
-        $mathRandomProperty = $reflection->getProperty('_options');
-        $mathRandomProperty->setAccessible(true);
-        $mathRandomProperty->setValue($this->this, null);
+        $this->page = $objectManager->getObject(
+            'Magento\Cms\Model\Config\Source\Page',
+            [
+                'pageRepository' => $this->pageRepositoryMock,
+                'pageCriteriaFactory' => $this->pageCriteriaFactoryMock
+            ]
+        );
     }
 
     /**
-     * @covers \Magento\Cms\Model\Config\Source\Page::toOptionArray
+     * Run test toOptionArray method
+     *
+     * @return void
      */
     public function testToOptionArray()
     {
-        $resultOptions = ['val1' => 'val2'];
+        $pageCollectionMock = $this->getMock(
+            'Magento\Cms\Model\Resource\Page\Collection',
+            [],
+            [],
+            '',
+            false
+        );
+        $pageCriteriaMock = $this->getMock(
+            'Magento\Cms\Model\Resource\PageCriteria',
+            [],
+            [],
+            '',
+            false
+        );
 
-        $this->pageCollectionFactory
-            ->expects($this->atLeastOnce())
+        $this->pageRepositoryMock->expects($this->once())
+            ->method('getList')
+            ->with($pageCriteriaMock)
+            ->will($this->returnValue($pageCollectionMock));
+
+        $this->pageCriteriaFactoryMock->expects($this->once())
             ->method('create')
-            ->willReturn($this->pageCollection);
-        $this->pageCollection
-            ->expects($this->atLeastOnce())
-            ->method('load')
-            ->willReturnSelf();
-        $this->pageCollection
-            ->expects($this->atLeastOnce())
-            ->method('toOptionIdArray')
-            ->willReturn($resultOptions);
+            ->will($this->returnValue($pageCriteriaMock));
 
-        $this->assertEquals($resultOptions, $this->this->toOptionArray());
+        $pageCollectionMock->expects($this->once())
+            ->method('toOptionIdArray')
+            ->will($this->returnValue('return-value'));
+
+        $this->assertEquals('return-value', $this->page->toOptionArray());
     }
 }

@@ -70,5 +70,6 @@ define([
             return false;
         }
     });
-
+    
+    return $.mage.rolesTree;
 });

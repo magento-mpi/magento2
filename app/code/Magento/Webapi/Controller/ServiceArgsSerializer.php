@@ -9,8 +9,6 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\Framework\ObjectManager;
-use Magento\Framework\ObjectManager\Config as ObjectManagerConfig;
 use Magento\Framework\Api\Config\Reader as ServiceConfigReader;
 use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Api\AttributeDataBuilder;
@@ -95,11 +93,7 @@ class ServiceArgsSerializer
                     ? $inputArray[$paramName]
                     : $inputArray[$snakeCaseParamName];
 
-                if ($this->_isArrayParam($param)) {
-                    $paramType = "{$param->getType()}[]";
-                } else {
-                    $paramType = $param->getType();
-                }
+                $paramType = $this->getParamType($param);
                 $inputData[] = $this->_convertValue($paramValue, $paramType);
             } else {
                 $inputData[] = $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null;
@@ -110,25 +104,24 @@ class ServiceArgsSerializer
     }
 
     /**
-     * Check if parameter is an array.
+     * Get the parameter type
      *
      * @param ParameterReflection $param
-     * @return bool
+     * @return string
      */
-    protected function _isArrayParam($param)
+    private function getParamType(ParameterReflection $param)
     {
-        $isArray = $param->isArray();
-        $docBlock = $param->getDeclaringFunction()->getDocBlock();
-        /** If array type is not set explicitly in the method interface, examine annotations */
-        if (!$isArray && $docBlock) {
-            /** This pattern will help to skip parameters declarations which precede to the current one */
-            $precedingParamsPattern = str_repeat('.*\@param.*', $param->getPosition());
-            $paramType = str_replace('\\', '\\\\', $param->getType());
-            if (preg_match("/.*{$precedingParamsPattern}\@param\s+({$paramType}\[\]).*/is", $docBlock->getContents())) {
-                $isArray = true;
+        $type = $param->getType();
+        if ($type == 'array') {
+            // try to determine class, if it's array of objects
+            $docBlock = $param->getDeclaringFunction()->getDocBlock();
+            $pattern = "/\@param\s+([\w\\\_]+\[\])\s+\\\${$param->getName()}\n/";
+            if (preg_match($pattern, $docBlock->getContents(), $matches)) {
+                return $matches[1];
             }
+            return "{$type}[]";
         }
-        return $isArray;
+        return $type;
     }
 
     /**

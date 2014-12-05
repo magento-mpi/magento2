@@ -29,7 +29,7 @@ class AdditionalTest extends \PHPUnit_Framework_TestCase
     protected $_customerSession;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -60,8 +60,10 @@ class AdditionalTest extends \PHPUnit_Framework_TestCase
         $customerViewHelper = $this->_objectManager->create(
             'Magento\Customer\Helper\View'
         );
-        $customerAccountService = $this->_objectManager->create(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = $this->_objectManager->create(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
         /** @var \Magento\Framework\Escaper $escaper */
         $escaper = $this->_objectManager->create(
@@ -69,7 +71,7 @@ class AdditionalTest extends \PHPUnit_Framework_TestCase
         );
         $persistentName = $escaper->escapeHtml(
             $customerViewHelper->getCustomerName(
-                $customerAccountService->getCustomer(
+                $customerRepository->getById(
                     $this->_persistentSessionHelper->getSession()->getCustomerId()
                 )
             )

@@ -24,7 +24,7 @@ use Magento\CatalogRule\Test\Fixture\CatalogRule;
  * @group Catalog_Price_Rules_(MX)
  * @ZephyrId MAGETWO-24341
  */
-class CreateCatalogPriceRuleEntityTest extends CatalogRuleEntityTest
+class CreateCatalogPriceRuleEntityTest extends AbstractCatalogRuleEntityTest
 {
     /**
      * Create Catalog Price Rule

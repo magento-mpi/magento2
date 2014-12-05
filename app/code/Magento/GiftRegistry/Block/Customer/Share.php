@@ -7,8 +7,8 @@
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 
 /**
  * Customer gift registry share block
@@ -38,8 +38,8 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param CustomerAccountServiceInterface $customerAccountService
-     * @param CustomerAddressServiceInterface $addressService
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param AccountManagementInterface $customerAccountManagement
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Customer\Helper\View $customerView
      * @param array $data
@@ -48,8 +48,8 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        CustomerAccountServiceInterface $customerAccountService,
-        CustomerAddressServiceInterface $addressService,
+        CustomerRepositoryInterface $customerRepository,
+        AccountManagementInterface $customerAccountManagement,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Customer\Helper\View $customerView,
         array $data = array()
@@ -60,8 +60,8 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
             $context,
             $customerSession,
             $subscriberFactory,
-            $customerAccountService,
-            $addressService,
+            $customerRepository,
+            $customerAccountManagement,
             $data
         );
     }
@@ -116,7 +116,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = $this->_customerSession->getData('sharing_form', true);
+            $this->_formData = $this->customerSession->getData('sharing_form', true);
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;

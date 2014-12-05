@@ -105,7 +105,7 @@ class SaveOrder extends \Magento\Checkout\Controller\Onepage
             $result['error'] = true;
             $result['error_messages'] = __('Something went wrong processing your order. Please try again later.');
         }
-        $this->getOnepage()->getQuote()->save();
+        $this->quoteRepository->save($this->getOnepage()->getQuote());
         /**
          * when there is redirect to third party, we don't want to save order yet.
          * we will save the order in return action.

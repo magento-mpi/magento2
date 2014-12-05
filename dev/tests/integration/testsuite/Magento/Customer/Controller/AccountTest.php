@@ -71,8 +71,8 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $customer = Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Customer')->load(1);
 
-        $token = Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
-            ->generateResetPasswordLinkToken();
+        $token = Bootstrap::getObjectManager()->get('Magento\Framework\Math\Random')
+            ->getUniqueHash();
         $customer->changeResetPasswordLinkToken($token);
 
         $this->getRequest()->setParam('token', $token);
@@ -92,8 +92,8 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $customer = Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Customer')->load(1);
 
-        $token = Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
-            ->generateResetPasswordLinkToken();
+        $token = Bootstrap::getObjectManager()->get('Magento\Framework\Math\Random')
+            ->getUniqueHash();
         $customer->changeResetPasswordLinkToken($token);
 
         $this->getRequest()->setParam('token', 'INVALIDTOKEN');
@@ -247,8 +247,8 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $customer = Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Customer')->load(1);
 
-        $token = Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
-            ->generateResetPasswordLinkToken();
+        $token = Bootstrap::getObjectManager()->get('Magento\Framework\Math\Random')
+            ->getUniqueHash();
         $customer->changeResetPasswordLinkToken($token);
 
         $this->getRequest()->setParam('token', $token);
@@ -422,12 +422,12 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testEditPostAction()
     {
-        /** @var $customerAccountService \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
-        $customerAccountService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        $customer = $customerAccountService->getCustomer(1);
-        $this->assertEquals('Firstname', $customer->getFirstname());
-        $this->assertEquals('Lastname', $customer->getLastname());
+        /** @var $customerRepository \Magento\Customer\Api\CustomerRepositoryInterface */
+        $customerRepository = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Api\CustomerRepositoryInterface');
+        $customer = $customerRepository->getById(1);
+        $this->assertEquals('John', $customer->getFirstname());
+        $this->assertEquals('Smith', $customer->getLastname());
         $this->assertEquals('customer@example.com', $customer->getEmail());
 
         $this->login(1);
@@ -448,7 +448,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             MessageInterface::TYPE_SUCCESS
         );
 
-        $customer = $customerAccountService->getCustomer(1);
+        $customer = $customerRepository->getById(1);
         $this->assertEquals('John', $customer->getFirstname());
         $this->assertEquals('Doe', $customer->getLastname());
         $this->assertEquals('johndoe@email.com', $customer->getEmail());
@@ -459,17 +459,14 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testChangePasswordEditPostAction()
     {
-        /** @var $customerAccountService \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
-        $customerAccountService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        $customer = $customerAccountService->getCustomer(1);
-        $this->assertEquals('Firstname', $customer->getFirstname());
-        $this->assertEquals('Lastname', $customer->getLastname());
+        /** @var $customerRepository \Magento\Customer\Api\CustomerRepositoryInterface */
+        $customerRepository = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Api\CustomerRepositoryInterface');
+        $customer = $customerRepository->getById(1);
+        $this->assertEquals('John', $customer->getFirstname());
+        $this->assertEquals('Smith', $customer->getLastname());
         $this->assertEquals('customer@example.com', $customer->getEmail());
 
-        /** @var $customerAccountService \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
-        $customerAccountService = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
 
         $this->login(1);
         $this->getRequest()
@@ -493,7 +490,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             MessageInterface::TYPE_SUCCESS
         );
 
-        $customer = $customerAccountService->getCustomer(1);
+        $customer = $customerRepository->getById(1);
         $this->assertEquals('John', $customer->getFirstname());
         $this->assertEquals('Doe', $customer->getLastname());
         $this->assertEquals('johndoe@email.com', $customer->getEmail());
@@ -545,6 +542,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('customer/account/editPost');
 
         $this->assertRedirect($this->stringEndsWith('customer/account/edit/'));
+        // Not sure if its the most secure message. Not changing the behavior for now in the new AccountManagement APIs.
         $this->assertSessionMessages(
             $this->equalTo(["Password doesn't match for this account."]),
             MessageInterface::TYPE_ERROR

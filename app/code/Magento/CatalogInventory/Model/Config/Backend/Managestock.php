@@ -20,10 +20,10 @@ class Managestock extends AbstractValue
      * After change Catalog Inventory Manage Stock value process
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if ($this->isValueChanged()) {
-            $this->_stockStatus->rebuild();
+            $this->stockIndex->rebuild();
             $this->_stockIndexerProcessor->markIndexerAsInvalid();
         }
         return $this;

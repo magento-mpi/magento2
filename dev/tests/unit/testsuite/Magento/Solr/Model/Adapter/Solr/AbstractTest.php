@@ -9,6 +9,11 @@ namespace Magento\Solr\Model\Adapter\Solr;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        $this->markTestSkipped('Solr module disabled');
+    }
+
     /**
      * Check Sku processing by getSearchEngineFieldName method with sort target
      */

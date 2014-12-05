@@ -23,7 +23,20 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     public function testClearCache()
     {
         $resource = new \stdClass();
-        $instanceConfig = new \Magento\TestFramework\ObjectManager\Config();
+
+        $configMock = $this->getMockBuilder('Magento\TestFramework\ObjectManager\Config')
+            ->disableOriginalConstructor()
+            ->setMethods(['getPreference', 'clean'])
+            ->getMock();
+
+        $configMock->expects($this->atLeastOnce())
+            ->method('getPreference')
+            ->will($this->returnCallback(
+                function ($className) {
+                    return $className;
+                }
+            ));
+
         $cache = $this->getMock('Magento\Framework\App\CacheInterface');
         $configLoader = $this->getMock('Magento\Framework\App\ObjectManager\ConfigLoader', array(), array(), '', false);
         $configCache = $this->getMock('Magento\Framework\App\ObjectManager\ConfigCache', array(), array(), '', false);
@@ -34,7 +47,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $factory = $this->getMock('\Magento\Framework\ObjectManager\Factory', array(), array(), '', false);
+        $factory = $this->getMock('Magento\Framework\ObjectManager\FactoryInterface');
         $factory->expects($this->exactly(2))->method('create')->will(
             $this->returnCallback(
                 function ($className) {
@@ -47,7 +60,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 
         $model = new \Magento\TestFramework\ObjectManager(
             $factory,
-            $instanceConfig,
+            $configMock,
             array(
                 'Magento\Framework\App\Cache\Type\Config' => $cache,
                 'Magento\Framework\App\ObjectManager\ConfigLoader' => $configLoader,
@@ -78,7 +91,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($instance1, $model->get('Magento\Framework\Object'));
         $this->assertSame($model, $model->clearCache());
-        $this->assertSame($model, $model->get('Magento\Framework\ObjectManager'));
+        $this->assertSame($model, $model->get('Magento\Framework\ObjectManagerInterface'));
         $this->assertSame($resource, $model->get('Magento\Framework\App\Resource'));
         $this->assertNotSame($instance1, $model->get('Magento\Framework\Object'));
     }

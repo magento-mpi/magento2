@@ -42,18 +42,18 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Catalog\Model\Layer\Category $layer
+     * @param \Magento\Catalog\Model\Layer\Resolver $layerResolver
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Catalog\Model\Layer\Category $layer,
+        \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         \Magento\Customer\Model\Session $session,
         \Magento\Framework\StoreManagerInterface $storeManager
     ) {
-        $this->layer = $layer;
+        $this->layer = $layerResolver->get();
         $this->session = $session;
         $this->storeManager = $storeManager;
         $this->_eventManager = $eventManager;
@@ -82,7 +82,7 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $rangeExpr = new \Zend_Db_Expr("FLOOR(({$priceExpression}) / {$range}) + 1");
 
         $select->columns(array('range' => $rangeExpr, 'count' => $countExpr));
-        $select->group($rangeExpr)->order("{$rangeExpr} ASC");
+        $select->group($rangeExpr)->order("({$rangeExpr}) ASC");
 
         return $this->_getReadAdapter()->fetchPairs($select);
     }
@@ -323,12 +323,12 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Apply price range filter to product collection
      *
-     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\FilterInterface $filter
+     * @param mixed $interval
      * @return $this
      */
-    public function applyPriceRange($filter)
+    public function applyPriceRange(\Magento\Catalog\Model\Layer\Filter\FilterInterface $filter, $interval)
     {
-        $interval = $filter->getInterval();
         if (!$interval) {
             return $this;
         }

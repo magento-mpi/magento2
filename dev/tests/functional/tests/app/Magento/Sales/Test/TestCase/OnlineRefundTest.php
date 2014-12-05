@@ -9,6 +9,7 @@
 namespace Magento\Sales\Test\TestCase;
 
 use Mtf\Factory\Factory;
+use Mtf\ObjectManager;
 use Magento\Sales\Test\Fixture\OrderCheckout;
 
 /**
@@ -92,5 +93,15 @@ class OnlineRefundTest extends RefundTest
             [Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()],
             [Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder()]
         ];
+    }
+
+    /**
+     * Delete all tax rules after test.
+     *
+     * @return void
+     */
+    public static function tearDownAfterClass()
+    {
+        ObjectManager::getInstance()->create('Magento\Tax\Test\TestStep\DeleteAllTaxRulesStep')->run();
     }
 }

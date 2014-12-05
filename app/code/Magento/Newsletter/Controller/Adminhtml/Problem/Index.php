@@ -17,17 +17,16 @@ class Index extends \Magento\Newsletter\Controller\Adminhtml\Problem
      */
     public function execute()
     {
-        $this->_title->add(__('Newsletter Problems Report'));
-
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
             return;
         }
 
-        $this->_view->getLayout()->getMessagesBlock()->setMessages($this->messageManager->getMessages(true));
         $this->_view->loadLayout();
+        $this->_view->getLayout()->getMessagesBlock()->setMessages($this->messageManager->getMessages(true));
 
         $this->_setActiveMenu('Magento_Newsletter::newsletter_problem');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Newsletter Problems Report'));
         $this->_addBreadcrumb(__('Newsletter Problem Reports'), __('Newsletter Problem Reports'));
 
         $this->_view->renderLayout();

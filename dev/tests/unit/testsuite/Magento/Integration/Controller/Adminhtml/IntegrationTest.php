@@ -24,7 +24,7 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\TestFramework\Helper\ObjectManager $objectManagerHelper */
     protected $_objectManagerHelper;
 
-    /** @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
     /** @var \Magento\Backend\Model\Layout\Filter\Acl|\PHPUnit_Framework_MockObject_MockObject */
@@ -79,6 +79,21 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
     protected $_layoutMock;
 
     /**
+     * @var \Magento\Framework\View\Result\Page|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $resultPageMock;
+
+    /**
+     * @var \Magento\Framework\View\Page\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $viewConfigMock;
+
+    /**
+     * @var \Magento\Framework\View\Page\Title|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $pageTitleMock;
+
+    /**
      * @var \Magento\Framework\Escaper|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_escaper;
@@ -93,9 +108,7 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\TestFramework\Helper\ObjectManager $objectManagerHelper */
         $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_objectManagerMock = $this->getMockBuilder(
-            'Magento\Framework\ObjectManager'
-        )->disableOriginalConstructor()->getMock();
+        $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         // Initialize mocks which are used in several test cases
         $this->_configMock = $this->getMockBuilder(
             'Magento\Framework\App\Config\ScopeConfigInterface'
@@ -141,6 +154,15 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
         )->setMethods(
             array('escapeHtml')
         )->disableOriginalConstructor()->getMock();
+        $this->resultPageMock = $this->getMockBuilder('Magento\Framework\View\Result\Page')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->viewConfigMock = $this->getMockBuilder('Magento\Framework\View\Page\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->pageTitleMock = $this->getMockBuilder('Magento\Framework\View\Page\Title')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**
@@ -150,7 +172,8 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
     protected function _createIntegrationController($actionName)
     {
         // Mock Layout passed into constructor
-        $this->_viewMock = $this->getMock('Magento\Framework\App\ViewInterface');
+        $this->_viewMock = $this->getMockBuilder('Magento\Framework\App\ViewInterface')
+            ->getMock();
         $this->_layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface');
         $this->_layoutMergeMock = $this->getMockBuilder(
             'Magento\Core\Model\Layout\Merge'
@@ -178,6 +201,15 @@ abstract class IntegrationTest extends \PHPUnit_Framework_TestCase
         $blockMock->expects($this->any())->method('getMenuModel')->will($this->returnValue($menuMock));
         $this->_layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMock));
         $this->_layoutMock->expects($this->any())->method('getBlock')->will($this->returnValue($blockMock));
+        $this->_viewMock->expects($this->any())
+            ->method('getPage')
+            ->willReturn($this->resultPageMock);
+        $this->resultPageMock->expects($this->any())
+            ->method('getConfig')
+            ->willReturn($this->viewConfigMock);
+        $this->viewConfigMock->expects($this->any())
+            ->method('getTitle')
+            ->willReturn($this->pageTitleMock);
         $this->_escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
 
         $contextParameters = array(

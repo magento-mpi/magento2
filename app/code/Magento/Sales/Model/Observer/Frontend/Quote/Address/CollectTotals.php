@@ -15,9 +15,9 @@ class CollectTotals
     protected $customerAddressHelper;
 
     /**
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Model\Vat
      */
-    protected $customerHelper;
+    protected $customerVat;
 
     /**
      * @var VatValidator
@@ -25,28 +25,38 @@ class CollectTotals
     protected $vatValidator;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
     protected $customerBuilder;
+
+    /**
+     * Group Management
+     *
+     * @var \Magento\Customer\Api\GroupManagementInterface
+     */
+    protected $groupManagement;
 
     /**
      * Initialize dependencies.
      *
      * @param \Magento\Customer\Helper\Address $customerAddressHelper
-     * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Model\Vat $customerVat
      * @param VatValidator $vatValidator
-     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddressHelper,
-        \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Model\Vat $customerVat,
         VatValidator $vatValidator,
-        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement
     ) {
-        $this->customerHelper = $customerHelper;
+        $this->customerVat = $customerVat;
         $this->customerAddressHelper = $customerAddressHelper;
         $this->vatValidator = $vatValidator;
         $this->customerBuilder = $customerBuilder;
+        $this->groupManagement = $groupManagement;
     }
 
     /**
@@ -59,13 +69,14 @@ class CollectTotals
     {
         /** @var \Magento\Sales\Model\Quote\Address $quoteAddress */
         $quoteAddress = $observer->getQuoteAddress();
+
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $quoteAddress->getQuote();
-        $customerData = $quote->getCustomerData();
-        $storeId = $customerData->getStoreId();
+        $customer = $quote->getCustomer();
+        $storeId = $customer->getStoreId();
 
-        if (($customerData->getCustomAttribute('disable_auto_group_change')
-                && $customerData->getCustomAttribute('disable_auto_group_change')->getValue())
+        if (($customer->getCustomAttribute('disable_auto_group_change')
+                && $customer->getCustomAttribute('disable_auto_group_change')->getValue())
             || false == $this->vatValidator->isEnabled($quoteAddress, $storeId)
         ) {
             return;
@@ -74,13 +85,13 @@ class CollectTotals
         $customerCountryCode = $quoteAddress->getCountryId();
         $customerVatNumber = $quoteAddress->getVatId();
         $groupId = null;
-        if (empty($customerVatNumber) || false == $this->customerHelper->isCountryInEU($customerCountryCode)) {
-            $groupId = $customerData->getId() ? $this->customerHelper->getDefaultCustomerGroupId(
+        if (empty($customerVatNumber) || false == $this->customerVat->isCountryInEU($customerCountryCode)) {
+            $groupId = $customer->getId() ? $this->groupManagement->getDefaultGroup(
                 $storeId
-            ) : \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
+            )->getId() : $this->groupManagement->getNotLoggedInGroup()->getId();
         } else {
             // Magento always has to emulate group even if customer uses default billing/shipping address
-            $groupId = $this->customerHelper->getCustomerGroupIdBasedOnVatNumber(
+            $groupId = $this->customerVat->getCustomerGroupIdBasedOnVatNumber(
                 $customerCountryCode,
                 $this->vatValidator->validate($quoteAddress, $storeId),
                 $storeId
@@ -90,11 +101,8 @@ class CollectTotals
         if ($groupId) {
             $quoteAddress->setPrevQuoteCustomerGroupId($quote->getCustomerGroupId());
             $quote->setCustomerGroupId($groupId);
-            $customerData = $this->customerBuilder->mergeDataObjectWithArray(
-                $customerData,
-                array('group_id' => $groupId)
-            )->create();
-            $quote->setCustomerData($customerData);
+            $customer = $this->customerBuilder->mergeDataObjectWithArray($customer, ['group_id' => $groupId])->create();
+            $quote->setCustomer($customer);
         }
     }
 }

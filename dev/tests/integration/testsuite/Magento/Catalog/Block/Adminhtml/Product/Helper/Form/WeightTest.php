@@ -10,7 +10,7 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 class WeightTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 

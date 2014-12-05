@@ -24,8 +24,6 @@ class Index extends \Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccoun
      */
     public function execute()
     {
-        $this->_title->add(__('Gift Card Accounts'));
-
         if ($this->_showCodePoolStatusMessage) {
             $usage = $this->_objectManager->create('Magento\GiftCardAccount\Model\Pool')->getPoolUsageInfo();
 
@@ -46,6 +44,7 @@ class Index extends \Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccoun
 
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_GiftCardAccount::customer_giftcardaccount');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Gift Card Accounts'));
         $this->_view->renderLayout();
     }
 

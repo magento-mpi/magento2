@@ -17,10 +17,9 @@ class Index extends \Magento\Banner\Controller\Adminhtml\Banner
      */
     public function execute()
     {
-        $this->_title->add(__('Banners'));
-
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Banner::cms_magento_banner');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Banners'));
         $this->_view->renderLayout();
     }
 }

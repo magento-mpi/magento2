@@ -30,7 +30,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     /**#@-*/
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected static $_objectManager;
 
@@ -74,7 +74,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         $config = new \Magento\Framework\ObjectManager\Config\Config();
-        $factory = new \Magento\Framework\ObjectManager\Factory\Factory($config);
+        $factory = new Factory\Dynamic\Developer($config);
 
         self::$_objectManager = new \Magento\Framework\ObjectManager\ObjectManager($factory, $config);
         self::$_objectManager->configure(

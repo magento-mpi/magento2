@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .form-add-invitations {
     .fieldset {
         margin: 0 0 @indent-s-base;
@@ -14,7 +20,7 @@
             .field {
                 margin: 0 0 @indent-s-base;
                 > .label {
-                    &:extend(.abstract-visually-hidden all);
+                    &:extend(.abs-visually-hidden all);
                 }
             }
             .actions-toolbar {
@@ -49,14 +55,12 @@
     }
 }
 
+}
 
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
-    .table-wrapper.invitations {
-        &:extend(.abstract-account-table-border all);
-    }
+.responsive-max-m(@break) when (@break = @screen-s) {
     .form-add-invitations {
         .fieldset {
             .fields {
@@ -87,7 +91,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .form-add-invitations {
         .action {
             &.remove {
@@ -99,7 +103,7 @@
     }
 }
 
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .table-invitations {
         .col {
             width: 50%;

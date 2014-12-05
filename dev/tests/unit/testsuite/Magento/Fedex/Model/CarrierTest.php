@@ -9,6 +9,11 @@ namespace Magento\Fedex\Model;
 
 use Magento\Framework\Object;
 
+/**
+ * Class CarrierTest
+ * @package Magento\Fedex\Model
+ * TODO refactor me
+ */
 class CarrierTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -26,13 +31,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $scopeConfig = $this->getMock(
-            'Magento\Framework\App\Config\ScopeConfigInterface',
-            ['isSetFlag', 'getValue'],
-            [],
-            '',
-            false
-        );
+        $scopeConfig = $this->getMockForAbstractClass('Magento\Framework\App\Config\ScopeConfigInterface');
         $scopeConfig->expects($this->any())->method('isSetFlag')->will($this->returnValue(true));
         $scopeConfig->expects($this->any())->method('getValue')->will($this->returnValue('ServiceType'));
         $country = $this->getMock(
@@ -51,27 +50,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $rateFactory->expects($this->any())->method('create')->will($this->returnValue($rate));
 
         $store = $this->getMock('Magento\Store\Model\Store', ['getBaseCurrencyCode', '__wakeup'], [], '', false);
-        $storeManager = $this->getMock(
-            'Magento\Framework\StoreManagerInterface',
-            [
-                'getStore',
-                'setIsSingleStoreModeAllowed',
-                'hasSingleStore',
-                'isSingleStoreMode',
-                'getStores',
-                'getWebsite',
-                'getWebsites',
-                'reinitStores',
-                'getDefaultStoreView',
-                'getGroup',
-                'getGroups',
-                'clearWebsiteCache',
-                'setCurrentStore'
-            ],
-            [],
-            '',
-            false
-        );
+        $storeManager = $this->getMockForAbstractClass('Magento\Framework\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
         $priceCurrency = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
         $priceCurrency->expects($this->once())
@@ -114,8 +93,8 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
                 'countryFactory' => $countryFactory,
                 'currencyFactory' => $this->getMock('Magento\Directory\Model\CurrencyFactory', [], [], '', false),
                 'directoryData' => $this->getMock('Magento\Directory\Helper\Data', [], [], '', false),
-                'stockItemService' =>
-                    $this->getMock('Magento\CatalogInventory\Service\V1\StockItemService', [], [], '', false),
+                'stockRegistry' =>
+                    $this->getMock('Magento\CatalogInventory\Model\StockRegistry', [], [], '', false),
                 'logger' => $this->getMock('Magento\Framework\Logger', [], [], '', false),
                 'storeManager' => $storeManager,
                 'configReader' => $this->getMock('Magento\Framework\Module\Dir\Reader', [], [], '', false),

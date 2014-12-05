@@ -9,8 +9,8 @@ namespace Magento\Checkout\Controller;
 
 use Magento\Framework\App\Action\NotFoundException;
 use Magento\Framework\App\RequestInterface;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadataService;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 
 class Onepage extends Action
 {
@@ -56,33 +56,41 @@ class Onepage extends Action
     protected $layoutFactory;
 
     /**
+     * @var \Magento\Sales\Model\QuoteRepository
+     */
+    protected $quoteRepository;
+
+    /**
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param CustomerAccountService $customerAccountService
-     * @param CustomerMetadataService $customerMetadataService
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param AccountManagementInterface $accountManagement
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Translate\InlineInterface $translateInline
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        CustomerAccountService $customerAccountService,
-        CustomerMetadataService $customerMetadataService,
+        CustomerRepositoryInterface $customerRepository,
+        AccountManagementInterface $accountManagement,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Translate\InlineInterface $translateInline,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\View\LayoutFactory $layoutFactory
+        \Magento\Framework\View\LayoutFactory $layoutFactory,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_translateInline = $translateInline;
         $this->_formKeyValidator = $formKeyValidator;
         $this->scopeConfig = $scopeConfig;
         $this->layoutFactory = $layoutFactory;
-        parent::__construct($context, $customerSession, $customerAccountService, $customerMetadataService);
+        $this->quoteRepository = $quoteRepository;
+        parent::__construct($context, $customerSession, $customerRepository, $accountManagement);
     }
 
     /**

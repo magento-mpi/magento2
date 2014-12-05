@@ -18,14 +18,14 @@ class OrderGetStatusTest extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/order/%d/status';
 
-    const SERVICE_READ_NAME = 'salesOrderReadV1';
+    const SERVICE_READ_NAME = 'salesOrderManagementV1';
 
     const SERVICE_VERSION = 'V1';
 
     const ORDER_INCREMENT_ID = '100000001';
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 

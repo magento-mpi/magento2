@@ -35,7 +35,7 @@ class Products extends \Magento\Framework\App\Action\Action
      */
     public function dispatch(RequestInterface $request)
     {
-        $loginUrl = $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl();
+        $loginUrl = $this->_objectManager->get('Magento\Customer\Model\Url')->getLoginUrl();
 
         if (!$this->_customerSession->authenticate($this, $loginUrl)) {
             $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
@@ -55,7 +55,7 @@ class Products extends \Magento\Framework\App\Action\Action
         if ($block = $this->_view->getLayout()->getBlock('downloadable_customer_products_list')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $this->_view->getPage()->getConfig()->setTitle(__('My Downloadable Products'));
+        $this->_view->getPage()->getConfig()->getTitle()->set(__('My Downloadable Products'));
         $this->_view->renderLayout();
     }
 }

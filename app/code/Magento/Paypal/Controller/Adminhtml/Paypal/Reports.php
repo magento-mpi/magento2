@@ -62,7 +62,6 @@ class Reports extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_title->add(__('PayPal Settlement Reports'));
         $this->_view->loadLayout();
         $this->_setActiveMenu(
             'Magento_Paypal::report_salesroot_paypal_settlement_reports'
@@ -76,6 +75,7 @@ class Reports extends \Magento\Backend\App\Action
             __('PayPal Settlement Reports'),
             __('PayPal Settlement Reports')
         );
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('PayPal Settlement Reports'));
         return $this;
     }
 

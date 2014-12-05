@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Block\Order;
 
+use Magento\Customer\Model\Context;
+
 /**
  * Sales order view block
  */
@@ -52,7 +54,7 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
      */
     protected function _prepareLayout()
     {
-        $this->pageConfig->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
+        $this->pageConfig->getTitle()->set(__('Order # %1', $this->getOrder()->getRealOrderId()));
         $infoBlock = $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment(), $this->getLayout());
         $this->setChild('payment_info', $infoBlock);
     }
@@ -82,7 +84,7 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
      */
     public function getBackUrl()
     {
-        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+        if ($this->httpContext->getValue(Context::CONTEXT_AUTH)) {
             return $this->getUrl('*/*/history');
         }
         return $this->getUrl('*/*/form');
@@ -95,7 +97,7 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
      */
     public function getBackTitle()
     {
-        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+        if ($this->httpContext->getValue(Context::CONTEXT_AUTH)) {
             return __('Back to My Orders');
         }
         return __('View Another Order');

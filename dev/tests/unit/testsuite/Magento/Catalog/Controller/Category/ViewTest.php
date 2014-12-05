@@ -32,7 +32,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $categoryHelper;
 
     /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManager;
 
@@ -67,9 +67,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $category;
 
     /**
-     * @var \Magento\Catalog\Model\CategoryFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Api\CategoryRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $categoryFactory;
+    protected $categoryRepository;
 
     /**
      * @var \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject
@@ -120,7 +120,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->response = $this->getMock('Magento\Framework\App\ResponseInterface');
 
         $this->categoryHelper = $this->getMock('Magento\Catalog\Helper\Category', [], [], '', false);
-        $this->objectManager = $this->getMock('Magento\Framework\ObjectManager', [], [], '', false);
+        $this->objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface');
 
         $this->update = $this->getMock('Magento\Framework\View\Layout\ProcessorInterface');
@@ -155,7 +155,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->resultFactory));
 
         $this->category = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
-        $this->categoryFactory = $this->getMock('Magento\Catalog\Model\CategoryFactory', ['create'], [], '', false);
+        $this->categoryRepository = $this->getMock('Magento\Catalog\Api\CategoryRepositoryInterface');
 
         $this->store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
@@ -170,12 +170,12 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $resultPageFactory->expects($this->atLeastOnce())
             ->method('create')
-            ->willReturn($this->page);
+            ->will($this->returnValue($this->page));
 
         $this->action = (new ObjectManager($this))->getObject('Magento\Catalog\Controller\Category\View', [
             'context' => $this->context,
             'catalogDesign' => $this->catalogDesign,
-            'categoryFactory' => $this->categoryFactory,
+            'categoryRepository' => $this->categoryRepository,
             'storeManager' => $this->storeManager,
             'resultPageFactory' => $resultPageFactory
         ]);
@@ -196,9 +196,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ['id', false, $categoryId],
         ]));
 
-        $this->categoryFactory->expects($this->any())->method('create')->will($this->returnValue($this->category));
-        $this->category->expects($this->any())->method('setStoreId')->will($this->returnSelf());
-        $this->category->expects($this->any())->method('load')->with($categoryId)->will($this->returnSelf());
+        $this->categoryRepository->expects($this->any())->method('get')->with($categoryId)
+            ->will($this->returnValue($this->category));
 
         $this->categoryHelper->expects($this->any())->method('canShow')->will($this->returnValue(true));
 
