@@ -64,8 +64,9 @@ class UserConfigurationDataMapper
     {
         $configData = [];
         if (!((isset($data[self::KEY_IS_SECURE]) && $data[self::KEY_IS_SECURE])
-            || (isset($data[self::KEY_IS_SECURE_ADMIN]) && $data[self::KEY_IS_SECURE_ADMIN]))) {
-            unset($data[self::KEY_BASE_URL_SECURE] );
+            || (isset($data[self::KEY_IS_SECURE_ADMIN]) && $data[self::KEY_IS_SECURE_ADMIN]))
+            && isset($data[self::KEY_BASE_URL_SECURE])) {
+            unset($data[self::KEY_BASE_URL_SECURE]);
         }
         foreach (self::$pathDataMap as $path => $key) {
             if (isset($data[$key])) {
