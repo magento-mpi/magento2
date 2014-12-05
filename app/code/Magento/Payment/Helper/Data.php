@@ -7,6 +7,7 @@
  */
 namespace Magento\Payment\Helper;
 
+use Magento\Payment\Model\Method\Substitution;
 use Magento\Sales\Model\Quote;
 use Magento\Store\Model\Store;
 use Magento\Payment\Block\Form;
@@ -104,7 +105,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Retrieve method model object
      *
      * @param string $code
-     * @return MethodInterface|false
+     *
+     * @throws \Magento\Framework\Model\Exception
+     * @return MethodInterface
      */
     public function getMethodInstance($code)
     {
@@ -112,7 +115,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $this->getMethodModelConfigName($code),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        return $class ? $this->_methodFactory->create($class) : false;
+
+        if (!$class) {
+            throw new \UnexpectedValueException('Payment model name is not provided in config!');
+        }
+
+        return $this->_methodFactory->create($class);
     }
 
     /**
@@ -270,9 +278,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             if (isset($data['title'])) {
                 $methods[$code] = $data['title'];
             } else {
-                if ($this->getMethodInstance($code)) {
-                    $methods[$code] = $this->getMethodInstance($code)->getConfigData('title', $store);
-                }
+                $methods[$code] = $this->getMethodInstance($code)->getConfigData('title', $store);
             }
             if ($asLabelValue && $withGroups && isset($data['group'])) {
                 $groupRelations[$code] = $data['group'];
