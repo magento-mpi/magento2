@@ -7,6 +7,8 @@
  */
 namespace Magento\Solr\Model\Layer\Category\Filter;
 
+use Magento\Framework\App\RequestInterface;
+
 /**
  * Layer decimal attribute filter
  *
@@ -46,10 +48,10 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
     /**
      * Apply decimal range filter to product collection
      *
-     * @param \Magento\Framework\App\RequestInterface $request
+     * @param RequestInterface $request
      * @return $this
      */
-    public function apply(\Magento\Framework\App\RequestInterface $request)
+    public function apply(RequestInterface $request)
     {
         /**
          * Filter must be string: $index, $range
@@ -73,7 +75,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
                 $this->_createItem($this->_renderItemLabel($range, $index), $filter)
             );
 
-            $this->_items = array();
+            $this->_items = [];
         }
 
         return $this;
@@ -89,10 +91,10 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
         $range = $this->getRange();
         $maxValue = $this->getMaxValue();
         if ($maxValue > 0) {
-            $facets = array();
+            $facets = [];
             $facetCount = ceil($maxValue / $range);
             for ($i = 0; $i < $facetCount; $i++) {
-                $facets[] = array('from' => $i * $range, 'to' => ($i + 1) * $range - 0.001);
+                $facets[] = ['from' => $i * $range, 'to' => ($i + 1) * $range - 0.001];
             }
 
             $attributeCode = $this->getAttributeModel()->getAttributeCode();
@@ -118,7 +120,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
         $attributeCode = $filter->getAttributeModel()->getAttributeCode();
         $field = 'attr_decimal_' . $attributeCode;
 
-        $value = array($field => array('from' => $range * ($index - 1), 'to' => $range * $index - 0.001));
+        $value = [$field => ['from' => $range * ($index - 1), 'to' => $range * $index - 0.001]];
 
         $productCollection->addFqFilter($value);
         return $this;
