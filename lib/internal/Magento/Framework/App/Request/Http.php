@@ -9,7 +9,9 @@
  */
 namespace Magento\Framework\App\Request;
 
-class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\App\Http\RequestInterface
+class Http extends \Zend_Controller_Request_Http implements
+    \Magento\Framework\App\RequestInterface,
+    \Magento\Framework\App\Http\RequestInterface
 {
     const DEFAULT_HTTP_PORT = 80;
 
@@ -622,9 +624,6 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\A
      */
     public function isSecure()
     {
-        // Check if the immediate request is secure
-        $directRequestSecure = parent::isSecure();
-
         // Check if a proxy sent a header indicating an initial secure request
         $offLoaderHeader = trim(
             (string)$this->_config->getValue(
@@ -633,6 +632,6 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\A
             )
         );
 
-        return !empty($offLoaderHeader) && !empty($_SERVER[$offLoaderHeader]) || $directRequestSecure;
+        return !empty($offLoaderHeader) && !empty($_SERVER[$offLoaderHeader]) || parent::isSecure();
     }
 }
