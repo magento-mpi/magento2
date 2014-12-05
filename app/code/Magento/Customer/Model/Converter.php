@@ -121,7 +121,10 @@ class Converter
     {
         $customer = $this->_customerFactory->create();
         if (!isset($websiteId)) {
-            $websiteId = $this->storeManager->getDefaultStoreView()->getWebsiteId();
+            $defaultStore = $this->storeManager->getDefaultStoreView();
+            if ($defaultStore) {
+                $websiteId = $defaultStore->getWebsiteId();
+            }
         }
         $customer->setWebsiteId($websiteId);
 

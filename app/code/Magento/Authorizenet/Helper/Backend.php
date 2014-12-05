@@ -84,7 +84,14 @@ class Backend extends Data
      */
     public function getRelyUrl($storeId = null)
     {
-        return $this->_storeManager->getDefaultStoreView()->getBaseUrl(
+        $defaultStore = $this->_storeManager->getDefaultStoreView();
+        if (!$defaultStore) {
+            $allStores = $this->_storeManager->getStores();
+            if (isset($allStores[0])) {
+                $defaultStore = $allStores[0];
+            }
+        }
+        return $defaultStore->getBaseUrl(
             \Magento\Framework\UrlInterface::URL_TYPE_LINK
         ) . 'authorizenet/directpost_payment/backendResponse';
     }
