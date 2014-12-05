@@ -14,7 +14,7 @@ namespace Magento\Widget\Model\Config;
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoCache config 0
+     * @magentoCache config disabled
      */
     public function testGet()
     {

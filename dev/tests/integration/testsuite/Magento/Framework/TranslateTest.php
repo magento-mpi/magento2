@@ -10,7 +10,7 @@ namespace Magento\Framework;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
- * @magentoCache all 0
+ * @magentoCache all disabled
  */
 class TranslateTest extends \PHPUnit_Framework_TestCase
 {

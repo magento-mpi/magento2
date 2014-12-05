@@ -67,17 +67,18 @@ class Cache
         $result = [];
         $typeList = self::getTypeList();
         foreach ($annotations as $subject) {
-            if (!preg_match('/^([a-z_]+)\s([01])$/', $subject, $matches)) {
+            if (!preg_match('/^([a-z_]+)\s(enabled|disabled)$/', $subject, $matches)) {
                 self::fail("Invalid @magentoCache declaration: '{$subject}'", $test);
             }
-            list(, $requestedType, $requestedEnabled) = $matches;
+            list(, $requestedType, $isEnabled) = $matches;
+            $isEnabled = $isEnabled == 'enabled' ? 1 : 0;
             if ('all' === $requestedType) {
                 $result = [];
-                foreach ($typeList->getTypes() as $type => $row) {
-                    $result[$type] = $row['status'];
+                foreach ($typeList->getTypes() as $type) {
+                    $result[$type['id']] = $isEnabled;
                 }
             } else {
-                $result[$requestedType] = $requestedEnabled;
+                $result[$requestedType] = $isEnabled;
             }
         }
         return $result;
@@ -115,7 +116,6 @@ class Cache
      */
     private static function getTypeList()
     {
-        /** @var \Magento\Framework\App\Cache\TypeListInterface $typeList */
         return Bootstrap::getInstance()->getObjectManager()->get('Magento\Framework\App\Cache\TypeListInterface');
     }
 

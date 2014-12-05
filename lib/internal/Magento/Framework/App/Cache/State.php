@@ -42,14 +42,18 @@ class State implements StateInterface
     private $statuses;
 
     /**
+     * Whether all cache types are forced to be disabled
+     *
      * @var bool
      */
     private $banAll;
 
     /**
+     * Constructor
+     *
      * @param DeploymentConfig $config
      * @param Writer $writer
-     * @param bool $banAll Whether all cache types are forced to be disabled
+     * @param bool $banAll
      */
     public function __construct(DeploymentConfig $config, Writer $writer, $banAll = false)
     {

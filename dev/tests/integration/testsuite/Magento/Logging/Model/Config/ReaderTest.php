@@ -9,9 +9,6 @@ namespace Magento\Logging\Model\Config;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
-/**
- * @magentoCache all 0
- */
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
