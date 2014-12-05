@@ -170,7 +170,7 @@ class Installer
     private $installInfo = array();
 
     /**
-     * A materialized string of initialization parameters to pass on any script that's run externally by this model
+     * Initialization parameters for Magento application bootstrap
      *
      * @var string
      */
