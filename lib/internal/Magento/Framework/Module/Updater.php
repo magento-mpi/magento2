@@ -27,26 +27,26 @@ class Updater
     protected $_setupFactory;
 
     /**
-     * @var \Magento\Framework\Module\Manager
+     * @var DbVersionDetector
      */
-    private $_moduleManager;
+    private $_dbVersionDetector;
 
     /**
      * @param Updater\SetupFactory $setupFactory
      * @param ModuleListInterface $moduleList
      * @param ResourceResolverInterface $resourceResolver
-     * @param Manager $moduleManager
+     * @param DbVersionDetector $dbVersionDetector
      */
     public function __construct(
         Updater\SetupFactory $setupFactory,
         ModuleListInterface $moduleList,
         ResourceResolverInterface $resourceResolver,
-        \Magento\Framework\Module\Manager $moduleManager
+        DbVersionDetector $dbVersionDetector
     ) {
         $this->_moduleList = $moduleList;
         $this->_resourceResolver = $resourceResolver;
         $this->_setupFactory = $setupFactory;
-        $this->_moduleManager = $moduleManager;
+        $this->_dbVersionDetector = $dbVersionDetector;
     }
 
     /**
@@ -58,7 +58,7 @@ class Updater
     {
         foreach (array_keys($this->_moduleList->getModules()) as $moduleName) {
             foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
-                if ($this->_moduleManager->getDbDataVersionError($moduleName, $resourceName)) {
+                if (!$this->_dbVersionDetector->isDbDataUpToDate($moduleName, $resourceName)) {
                     $this->_setupFactory->create($resourceName, $moduleName)->applyDataUpdates();
                 }
             }

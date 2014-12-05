@@ -10,54 +10,30 @@
 namespace Magento\Framework\Module\Plugin;
 
 use Magento\Framework\Cache\FrontendInterface;
+use Magento\Framework\Module\DbVersionDetector;
 
 class DbStatusValidator
 {
-    /**#@+
-     * Constants defined for keys of error array
-     */
-    const ERROR_KEY_MODULE = 'module';
-    const ERROR_KEY_TYPE = 'type';
-    const ERROR_KEY_CURRENT = 'current';
-    const ERROR_KEY_NEEDED = 'needed';
-    /**#@-*/
-
     /**
      * @var FrontendInterface
      */
     private $cache;
 
     /**
-     * @var \Magento\Framework\Module\ModuleListInterface
+     * @var DbVersionDetector
      */
-    private $moduleList;
-
-    /**
-     * @var \Magento\Framework\Module\ResourceResolverInterface
-     */
-    private $resourceResolver;
-
-    /**
-     * @var \Magento\Framework\Module\Manager
-     */
-    private $moduleManager;
+    private $dbVersionDetector;
 
     /**
      * @param FrontendInterface $cache
-     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
-     * @param \Magento\Framework\Module\ResourceResolverInterface $resourceResolver
-     * @param \Magento\Framework\Module\Manager $moduleManager
+     * @param DbVersionDetector $dbVersionDetector
      */
     public function __construct(
         FrontendInterface $cache,
-        \Magento\Framework\Module\ModuleListInterface $moduleList,
-        \Magento\Framework\Module\ResourceResolverInterface $resourceResolver,
-        \Magento\Framework\Module\Manager $moduleManager
+        DbVersionDetector $dbVersionDetector
     ) {
         $this->cache = $cache;
-        $this->moduleList = $moduleList;
-        $this->resourceResolver = $resourceResolver;
-        $this->moduleManager = $moduleManager;
+        $this->dbVersionDetector = $dbVersionDetector;
     }
 
     /**
@@ -75,7 +51,7 @@ class DbStatusValidator
         \Magento\Framework\App\RequestInterface $request
     ) {
         if (!$this->cache->load('db_is_up_to_date')) {
-            $errors  = $this->getOutOfDateDbErrors();
+            $errors = $this->dbVersionDetector->getDbVersionErrors();
             if ($errors) {
                 $formattedErrors = $this->formatErrors($errors);
                 throw new \Magento\Framework\Module\Exception(
@@ -100,40 +76,12 @@ class DbStatusValidator
     {
         $formattedErrors = [];
         foreach ($errorsData as $error) {
-            $formattedErrors[] = $error[self::ERROR_KEY_MODULE] . ' ' . $error[self::ERROR_KEY_TYPE] .
-                ': current version - ' . $error[self::ERROR_KEY_CURRENT ] .
-                ', latest version - ' . $error[self::ERROR_KEY_NEEDED];
+            $formattedErrors[] = $error[DbVersionDetector::ERROR_KEY_MODULE] .
+                ' ' . $error[DbVersionDetector::ERROR_KEY_TYPE] .
+                ': current version - ' . $error[DbVersionDetector::ERROR_KEY_CURRENT ] .
+                ', latest version - ' . $error[DbVersionDetector::ERROR_KEY_NEEDED];
         }
         return $formattedErrors;
     }
 
-    /**
-     * Get array of errors if DB is out of date, return [] if DB is current
-     *
-     * @return [] Array of errors, each error contains module name, current version, needed version,
-     *              and type (schema or data).  The array will be empty if all schema and data are current.
-     */
-    private function getOutOfDateDbErrors()
-    {
-        $errors = [];
-        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
-            foreach ($this->resourceResolver->getResourceList($moduleName) as $resourceName) {
-                $errorData = $this->moduleManager->getDbSchemaVersionError($moduleName, $resourceName);
-                if ($errorData) {
-                    $errors[] = array_merge(
-                        [self::ERROR_KEY_MODULE => $moduleName, '' . self::ERROR_KEY_TYPE . '' => 'schema'],
-                        $errorData
-                    );
-                }
-                $errorData = $this->moduleManager->getDbDataVersionError($moduleName, $resourceName);
-                if ($errorData) {
-                    $errors[] = array_merge(
-                        [self::ERROR_KEY_MODULE => $moduleName, self::ERROR_KEY_TYPE => 'data'],
-                        $errorData
-                    );
-                }
-            }
-        }
-        return $errors;
-    }
 }
