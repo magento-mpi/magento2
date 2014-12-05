@@ -144,21 +144,12 @@ class BundleTest extends \PHPUnit_Framework_TestCase
             ->method('encode')
             ->will($this->returnArgument(0));
 
-        $priceCurrencyMock = $this->getMockBuilder('Magento\Directory\Model\PriceCurrency')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $priceCurrencyMock->expects($this->never())
-            ->method('convert')
-            ->will($this->returnArgument(0));
-
-
         /** @var $bundleBlock BundleBlock */
         $bundleBlock = $objectHelper->getObject(
             'Magento\Bundle\Block\Catalog\Product\View\Type\Bundle',
             [
                 'context' => $context,
-                'jsonEncoder' => $jsonEncoderMock,
-                'priceCurrency' => $priceCurrencyMock,
+                'jsonEncoder' => $jsonEncoderMock
             ]
         );
 
@@ -231,20 +222,9 @@ class BundleTest extends \PHPUnit_Framework_TestCase
                     ),
             ]
         );
-        $specialPriceMock = $this->getPriceMock(
-            [
-                'getValue' => new MagentoObject(
-                        [
-                            'value' => 110,
-                            'base_amount' => 110,
-                        ]
-                    ),
-            ]
-        );
         $prices = [
             \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE => $finalPriceMock,
-            \Magento\Catalog\Pricing\Price\RegularPrice::PRICE_CODE => $regularPriceMock,
-            \Magento\Catalog\Pricing\Price\SpecialPrice::PRICE_CODE => $specialPriceMock,
+            \Magento\Catalog\Pricing\Price\RegularPrice::PRICE_CODE => $regularPriceMock
         ];
         $priceInfo = $this->getPriceInfoMock($prices);
 
@@ -254,9 +234,8 @@ class BundleTest extends \PHPUnit_Framework_TestCase
             \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED
         );
         $jsonConfig = $this->_bundleBlock->getJsonConfig();
-        $this->assertEquals(100, $jsonConfig['finalBasePriceInclTax']);
-        $this->assertEquals(100, $jsonConfig['finalBasePriceExclTax']);
-        $this->assertEquals(100, $jsonConfig['finalPrice']);
-        $this->assertEquals(110, $jsonConfig['basePrice']);
+        $this->assertEquals(110, $jsonConfig['prices']['oldPrice']['amount']);
+        $this->assertEquals(100, $jsonConfig['prices']['basePrice']['amount']);
+        $this->assertEquals(100, $jsonConfig['prices']['finalPrice']['amount']);
     }
 }

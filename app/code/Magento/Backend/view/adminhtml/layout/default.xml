@@ -23,7 +23,7 @@
         <css src="mage/calendar.css"/>
         <link src="requirejs/require.js"/>
         <link src="mage/requirejs/resolver.js"/>
-        <link src="jquery/jquery-1.8.2.js"/>
+        <link src="jquery/jquery.js"/>
         <link src="mage/jquery-no-conflict.js"/>
         <link src="app-config.js"/>
         <link src="extjs/ext-tree.js"/>
