@@ -59,10 +59,16 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
     protected $_checkoutCart;
 
     /**
+     * @var \Magento\Framework\Module\Manager
+     */
+    protected $moduleManager;
+
+    /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Checkout\Model\Resource\Cart $checkoutCart
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param array $data
      */
     public function __construct(
@@ -70,11 +76,13 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
         \Magento\Checkout\Model\Resource\Cart $checkoutCart,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Framework\Module\Manager $moduleManager,
         array $data = array()
     ) {
         $this->_checkoutCart = $checkoutCart;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_checkoutSession = $checkoutSession;
+        $this->moduleManager = $moduleManager;
         parent::__construct(
             $context,
             $data
@@ -89,7 +97,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
         $product = $this->_coreRegistry->registry('product');
         /* @var $product \Magento\Catalog\Model\Product */
         $this->_itemCollection = $product->getUpSellProductCollection()->setPositionOrder()->addStoreFilter();
-        if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
+        if ($this->moduleManager->isEnabled('Magento_Checkout')) {
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
         $this->_itemCollection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());

@@ -65,7 +65,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function isRewardPointsEnabled()
     {
-        if ($this->isModuleEnabled('Magento_Reward')) {
+        if ($this->_moduleManager->isEnabled('Magento_Reward')) {
             return $this->_rewardHelper->isEnabled();
         }
         return false;
@@ -78,7 +78,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function isCustomerBalanceEnabled()
     {
-        if ($this->isModuleEnabled('Magento_CustomerBalance')) {
+        if ($this->_moduleManager->isEnabled('Magento_CustomerBalance')) {
             return $this->_customerBalanceHelper->isEnabled();
         }
         return false;

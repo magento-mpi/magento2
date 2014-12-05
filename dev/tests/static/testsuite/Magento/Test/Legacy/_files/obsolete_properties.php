@@ -366,4 +366,5 @@ return array(
     ['_directoryData', 'Magento\Customer\Model\Attribute\Data\Postcode', 'Magento\Customer\Model\Attribute\Data\Postcode::directoryHelper'],
     ['_conditionModels', 'Magento\Rule\Model\Condition\Combine'],
     ['_lables', 'Magento\SalesRule\Model\Rule'],
+    ['_catalogData', 'Magento\Catalog\Block\Product\AbstractProduct'],
 );

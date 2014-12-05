@@ -133,21 +133,6 @@ abstract class AbstractHelper
     }
 
     /**
-     * Check is module exists and enabled in global config.
-     *
-     * @param string $moduleName the full module name, example Magento_Core
-     * @return boolean
-     * @deprecated use \Magento\Framework\Module\Manager::isEnabled()
-     */
-    public function isModuleEnabled($moduleName = null)
-    {
-        if ($moduleName === null) {
-            $moduleName = $this->_getModuleName();
-        }
-        return $this->_moduleManager->isEnabled($moduleName);
-    }
-
-    /**
      * Retrieve url
      *
      * @param   string $route

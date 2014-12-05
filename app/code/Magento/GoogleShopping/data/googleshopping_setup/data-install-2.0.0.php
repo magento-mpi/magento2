@@ -9,7 +9,7 @@
 /** @var $this \Magento\GoogleShopping\Model\Resource\Setup */
 $installer = $this;
 
-if ($installer->getGoogleShoppingData()->isModuleEnabled('Magento_GoogleBase')) {
+if ($installer->getModuleManager()->isEnabled('Magento_GoogleBase')) {
     $typesInsert = $installer->getConnection()->select()->from(
         $installer->getTable('googlebase_types'),
         ['type_id', 'attribute_set_id', 'target_country', 'category' => new \Zend_Db_Expr('NULL')]

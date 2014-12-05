@@ -18,11 +18,9 @@ use Magento\Store\Model\Store;
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
-     * Catalog data
-     *
-     * @var \Magento\Catalog\Helper\Data
+     * @var \Magento\Framework\Module\Manager
      */
-    protected $_catalogData = null;
+    protected $moduleManager;
 
     /**
      * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory]
@@ -63,7 +61,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Catalog\Model\Product\Type $type
      * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $status
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
-     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -77,7 +75,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Catalog\Model\Product\Type $type,
         \Magento\Catalog\Model\Product\Attribute\Source\Status $status,
         \Magento\Catalog\Model\Product\Visibility $visibility,
-        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Framework\Module\Manager $moduleManager,
         array $data = array()
     ) {
         $this->_websiteFactory = $websiteFactory;
@@ -86,7 +84,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_type = $type;
         $this->_status = $status;
         $this->_visibility = $visibility;
-        $this->_catalogData = $catalogData;
+        $this->moduleManager = $moduleManager;
         parent::__construct($context, $backendHelper, $data);
     }
 
@@ -131,7 +129,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             $store
         );
 
-        if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
+        if ($this->moduleManager->isEnabled('Magento_CatalogInventory')) {
             $collection->joinField(
                 'qty',
                 'cataloginventory_stock_item',
@@ -295,7 +293,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             )
         );
 
-        if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
+        if ($this->moduleManager->isEnabled('Magento_CatalogInventory')) {
             $this->addColumn(
                 'qty',
                 array(

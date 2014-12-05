@@ -24,11 +24,9 @@ class Rating extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_storeManager;
 
     /**
-     * Rating data
-     *
-     * @var \Magento\Review\Helper\Data
+     * @var \Magento\Framework\Module\Manager
      */
-    protected $_ratingData = null;
+    protected $moduleManager;
 
     /**
      * @var \Magento\Framework\Logger
@@ -38,18 +36,18 @@ class Rating extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Review\Helper\Data $ratingData
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Review\Model\Resource\Review\Summary $reviewSummary
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Logger $logger,
-        \Magento\Review\Helper\Data $ratingData,
+        \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Review\Model\Resource\Review\Summary $reviewSummary
     ) {
-        $this->_ratingData = $ratingData;
+        $this->moduleManager = $moduleManager;
         $this->_storeManager = $storeManager;
         $this->_logger = $logger;
         $this->_reviewSummary = $reviewSummary;
@@ -254,7 +252,7 @@ class Rating extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _afterDelete(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_afterDelete($object);
-        if (!$this->_ratingData->isModuleEnabled('Magento_Review')) {
+        if (!$this->moduleManager->isEnabled('Magento_Review')) {
             return $this;
         }
         $data = $this->_getEntitySummaryData($object);
