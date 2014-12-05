@@ -12,6 +12,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Bundle\Model\Product\Price;
 use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Pricing\Amount\AmountInterface;
 use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Pricing\Price\AbstractPrice;
 
@@ -43,25 +44,51 @@ class BundleSelectionPrice extends AbstractPrice
     protected $discountCalculator;
 
     /**
+     * @var bool
+     */
+    protected $useRegularPrice;
+
+    /**
+     * @var Product
+     */
+    protected $selection;
+
+    /**
+     * Code of parent adjustment to be skipped from calculation
+     *
+     * @var string
+     */
+    protected $excludeAdjustment = null;
+
+    /**
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param SaleableInterface $bundleProduct
      * @param ManagerInterface $eventManager
      * @param DiscountCalculator $discountCalculator
+     * @param bool $useRegularPrice
+     * @param string $excludeAdjustment
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         SaleableInterface $bundleProduct,
         ManagerInterface $eventManager,
-        DiscountCalculator $discountCalculator
+        DiscountCalculator $discountCalculator,
+        $useRegularPrice = false,
+        $excludeAdjustment = null
     ) {
-        parent::__construct($saleableItem, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator, $priceCurrency);
         $this->bundleProduct = $bundleProduct;
         $this->eventManager = $eventManager;
         $this->discountCalculator = $discountCalculator;
+        $this->useRegularPrice = $useRegularPrice;
+        $this->selection = $saleableItem;
+        $this->excludeAdjustment = $excludeAdjustment;
     }
 
     /**
@@ -75,9 +102,10 @@ class BundleSelectionPrice extends AbstractPrice
             return $this->value;
         }
 
+        $priceCode = $this->useRegularPrice ? BundleRegularPrice::PRICE_CODE : FinalPrice::PRICE_CODE;
         if ($this->bundleProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
             $value = $this->priceInfo
-                ->getPrice(FinalPrice::PRICE_CODE)
+                ->getPrice($priceCode)
                 ->getValue();
         } else {
             if ($this->product->getSelectionPriceType()) {
@@ -91,13 +119,46 @@ class BundleSelectionPrice extends AbstractPrice
                     'catalog_product_get_final_price',
                     array('product' => $product, 'qty' => $this->bundleProduct->getQty())
                 );
-                $value = $product->getData('final_price') * ($this->product->getSelectionPriceValue() / 100);
+                $value = $product->getData('final_price') * ($this->selection->getSelectionPriceValue() / 100);
             } else {
                 // calculate price for selection type fixed
-                $value = $this->product->getSelectionPriceValue() * $this->quantity;
+                $selectionPriceValue = $this->selection->getSelectionPriceValue();
+                $value = $this->priceCurrency->convertAndRound($selectionPriceValue) * $this->quantity;
             }
         }
-        $this->value = $this->discountCalculator->calculateDiscount($this->bundleProduct, $value);
+        if (!$this->useRegularPrice) {
+            $value = $this->discountCalculator->calculateDiscount($this->bundleProduct, $value);
+        }
+        $this->value = $value;
         return $this->value;
+    }
+
+    /**
+     * Get Price Amount object
+     *
+     * @return AmountInterface
+     */
+    public function getAmount()
+    {
+        if (null === $this->amount) {
+            $exclude = null;
+            if ($this->getProduct()->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+                $exclude = $this->excludeAdjustment;
+            }
+            $this->amount = $this->calculator->getAmount($this->getValue(), $this->getProduct(), $exclude);
+        }
+        return $this->amount;
+    }
+
+    /**
+     * @return SaleableInterface
+     */
+    public function getProduct()
+    {
+        if ($this->bundleProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
+            return parent::getProduct();
+        } else {
+            return $this->bundleProduct;
+        }
     }
 }

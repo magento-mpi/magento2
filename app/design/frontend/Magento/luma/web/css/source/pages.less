@@ -6,17 +6,17 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .pages {
     .pager();
-    .item {
-        padding: 0 5px;
-    }
-    .item.current {
-        background: #e5e5e5;
-    }
     .action {
         border-radius: 3px;
-        @_shadow: inset 0px 1px 0px 0px rgba(255,255,255,1), inset 0px -1px 0px 0px fade(@border-color-base, 30);
+        @_shadow: inset 0 1px 0 0 @color-white, inset 0 -1px 0 0 fade(@border-color-base, 30);
         .css(box-shadow, @_shadow);
         padding: 0 8px;
         &.previous {
@@ -28,10 +28,12 @@
     }
 }
 
+}
+
 //
 //    Small Screen
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .pages {
         & &-items {
             display: block;

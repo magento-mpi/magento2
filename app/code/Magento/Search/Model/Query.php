@@ -41,6 +41,7 @@ use Magento\Framework\StoreManagerInterface;
  * @method \Magento\Search\Model\Query setIsProcessed(int $value)
  * @method string getUpdatedAt()
  * @method \Magento\Search\Model\Query setUpdatedAt(string $value)
+ * @method \Magento\Search\Model\Query setIsQueryTextExceeded(bool $value)
  */
 class Query extends AbstractModel implements QueryInterface
 {
@@ -63,8 +64,6 @@ class Query extends AbstractModel implements QueryInterface
     const XML_PATH_MIN_QUERY_LENGTH = 'catalog/search/min_query_length';
 
     const XML_PATH_MAX_QUERY_LENGTH = 'catalog/search/max_query_length';
-
-    const XML_PATH_MAX_QUERY_WORDS = 'catalog/search/max_query_words';
 
     /**
      * Core store config
@@ -256,20 +255,6 @@ class Query extends AbstractModel implements QueryInterface
     {
         return $this->_scopeConfig->getValue(
             self::XML_PATH_MAX_QUERY_LENGTH,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $this->getStoreId()
-        );
-    }
-
-    /**
-     * Retrieve maximum query words for like search
-     *
-     * @return int
-     */
-    public function getMaxQueryWords()
-    {
-        return $this->_scopeConfig->getValue(
-            self::XML_PATH_MAX_QUERY_WORDS,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getStoreId()
         );

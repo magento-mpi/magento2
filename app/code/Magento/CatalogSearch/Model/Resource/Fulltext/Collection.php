@@ -8,12 +8,17 @@
 namespace Magento\CatalogSearch\Model\Resource\Fulltext;
 
 use Magento\Framework\DB\Select;
+use Magento\Framework\Search\Response\Aggregation\Value;
+use Magento\Framework\Search\Response\QueryResponse;
 
 /**
  * Fulltext Collection
  */
 class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
+    /** @var  QueryResponse */
+    protected $queryResponse;
+
     /**
      * Catalog search data
      *
@@ -38,8 +43,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     private $searchEngine;
 
-    /** @var  string */
+    /** @var string */
     private $queryText;
+
+    /** @var string|null */
+    private $order = null;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -60,6 +68,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      * @param \Magento\Search\Model\QueryFactory $catalogSearchData
      * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
      * @param \Magento\Framework\Search\Request\Builder $requestBuilder
@@ -86,6 +95,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Stdlib\DateTime $dateTime,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement,
         \Magento\Search\Model\QueryFactory $catalogSearchData,
         \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
         \Magento\Framework\Search\Request\Builder $requestBuilder,
@@ -113,10 +123,36 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $localeDate,
             $customerSession,
             $dateTime,
+            $groupManagement,
             $connection
         );
         $this->requestBuilder = $requestBuilder;
         $this->searchEngine = $searchEngine;
+    }
+
+    /**
+     * Apply attribute filter to facet collection
+     *
+     * @param string $field
+     * @param null $condition
+     * @return $this
+     */
+    public function addFieldToFilter($field, $condition = null)
+    {
+        if ($this->queryResponse !== null) {
+            throw new \RuntimeException('Illegal state');
+        }
+        if (!is_array($condition) || !in_array(key($condition), ['from', 'to'])) {
+            $this->requestBuilder->bind($field, $condition);
+        } else {
+            if (!empty($condition['from'])) {
+                $this->requestBuilder->bind("{$field}.from", $condition['from']);
+            }
+            if (!empty($condition['to'])) {
+                $this->requestBuilder->bind("{$field}.to", $condition['to']);
+            }
+        }
+        return $this;
     }
 
     /**
@@ -136,28 +172,51 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _renderFiltersBefore()
     {
+        $this->requestBuilder->bindDimension('scope', $this->getStoreId());
         if ($this->queryText) {
-            $this->requestBuilder->bindDimension('scope', $this->getStoreId());
             $this->requestBuilder->bind('search_term', $this->queryText);
-            $this->requestBuilder->setRequestName('quick_search_container');
-            $queryRequest = $this->requestBuilder->create();
+        }
 
-            $queryResponse = $this->searchEngine->search($queryRequest);
-            $ids = [0];
-            /** @var \Magento\Framework\Search\Document $document */
-            foreach ($queryResponse as $document) {
-                $ids[] = $document->getId();
-            }
-            $this->addIdFilter($ids);
+        $this->requestBuilder->bind(
+            'price_dynamic_algorithm',
+            $this->_scopeConfig ->getValue(
+                \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory::XML_PATH_RANGE_CALCULATION,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
+        );
 
-            $this->getSelect()
-                ->columns(
-                    [
-                        'relevance' => new \Zend_Db_Expr($this->_conn->quoteInto('FIELD(e.entity_id, ?)', $ids))
-                    ]
-                );
+        $this->requestBuilder->setRequestName('quick_search_container');
+        $queryRequest = $this->requestBuilder->create();
+
+        $this->queryResponse = $this->searchEngine->search($queryRequest);
+        $ids = [0];
+        /** @var \Magento\Framework\Search\Document $document */
+        foreach ($this->queryResponse as $document) {
+            $ids[] = $document->getId();
+        }
+        parent::addFieldToFilter('entity_id', ['in' => $ids]);
+        $this->_totalRecords = count($ids);
+
+        if ($this->order && $this->order['field'] == 'relevance') {
+            $this->getSelect()->order(
+                new \Zend_Db_Expr(
+                    $this->_conn->quoteInto(
+                        'FIELD(e.entity_id, ?) ' . $this->order['dir'],
+                        $ids
+                    )
+                )
+            );
         }
         return parent::_renderFiltersBefore();
+    }
+
+    /**
+     * @return $this
+     */
+    protected function _renderFilters()
+    {
+        $this->_filters = [];
+        return parent::_renderFilters();
     }
 
     /**
@@ -169,21 +228,63 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function setOrder($attribute, $dir = Select::SQL_DESC)
     {
-        if ($attribute == 'relevance') {
-            $this->getSelect()->order("relevance {$dir}");
-        } else {
+        $this->order = ['field' => $attribute, 'dir' => $dir];
+        if ($attribute != 'relevance') {
             parent::setOrder($attribute, $dir);
         }
         return $this;
     }
 
     /**
-     * Stub method for campatibility with other search engines
+     * Stub method for compatibility with other search engines
      *
      * @return $this
      */
     public function setGeneralDefaultQuery()
     {
         return $this;
+    }
+
+    /**
+     * Return field faceted data from faceted search result
+     *
+     * @param string $field
+     * @return array
+     */
+    public function getFacetedData($field)
+    {
+        $this->_renderFilters();
+        $aggregations = $this->queryResponse->getAggregations();
+        $values = $aggregations->getBucket($field . '_bucket')->getValues();
+        $result = [];
+        foreach ($values as $value) {
+            $metrics = $value->getMetrics();
+            $result[$metrics['value']] = $metrics;
+        }
+        return $result;
+    }
+
+    /**
+     * Specify category filter for product collection
+     *
+     * @param \Magento\Catalog\Model\Category $category
+     * @return $this
+     */
+    public function addCategoryFilter(\Magento\Catalog\Model\Category $category)
+    {
+        $this->addFieldToFilter('category_ids', $category->getId());
+        return parent::addCategoryFilter($category);
+    }
+
+    /**
+     * Set product visibility filter for enabled products
+     *
+     * @param array $visibility
+     * @return $this
+     */
+    public function setVisibility($visibility)
+    {
+        $this->addFieldToFilter('visibility', $visibility);
+        return parent::setVisibility($visibility);
     }
 }

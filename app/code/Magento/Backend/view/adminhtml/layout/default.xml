@@ -23,14 +23,13 @@
         <css src="mage/calendar.css"/>
         <link src="requirejs/require.js"/>
         <link src="mage/requirejs/resolver.js"/>
-        <link src="jquery/jquery-1.8.2.js"/>
+        <link src="jquery/jquery.js"/>
         <link src="mage/jquery-no-conflict.js"/>
         <link src="app-config.js"/>
         <link src="extjs/ext-tree.js"/>
         <link src="extjs/ext-tree-checkbox.js"/>
         <css src="extjs/resources/css/ext-all.css"/>
         <css src="extjs/resources/css/ytheme-magento.css"/>
-        <link src="Magento_Rule::rules.js"/>
     </head>
     <body>
         <attribute name="id" value="html-body"/>

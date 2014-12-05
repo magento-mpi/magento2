@@ -32,38 +32,14 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
     protected $_configClassName = 'Magento\TestFramework\ObjectManager\Config';
 
     /**
+     * @var string
+     */
+    protected $envFactoryClassName = 'Magento\TestFramework\ObjectManager\EnvironmentFactory';
+
+    /**
      * @var array
      */
     protected $_primaryConfigData = null;
-
-    /**
-     * Proxy over arguments instance, used by the application and all the DI stuff
-     *
-     * @var App\Arguments\Proxy
-     */
-    protected $appArgumentsProxy;
-
-    /**
-     * Override the parent method and return proxied instance instead, so that we can reset the actual app arguments
-     * instance for all its clients at any time
-     *
-     * @param \Magento\Framework\App\Filesystem\DirectoryList $directoryList
-     * @param array $arguments
-     * @return App\Arguments\Proxy
-     * @throws \Magento\Framework\Exception
-     */
-    protected function createAppArguments(
-        \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
-        array $arguments
-    ) {
-        if ($this->appArgumentsProxy) {
-            // Framework constraint: this is ambiguous situation, because it is not clear what to do with older instance
-            throw new \Magento\Framework\Exception('Only one creation of application arguments is supported');
-        }
-        $appArguments = parent::createAppArguments($directoryList, $arguments);
-        $this->appArgumentsProxy = new App\Arguments\Proxy($appArguments);
-        return $this->appArgumentsProxy;
-    }
 
     /**
      * Restore locator instance
@@ -80,12 +56,10 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
         $objectManager->configure($this->_primaryConfigData);
         $objectManager->addSharedInstance($this->directoryList, 'Magento\Framework\App\Filesystem\DirectoryList');
         $objectManager->addSharedInstance($this->directoryList, 'Magento\Framework\Filesystem\DirectoryList');
-        $appArguments = parent::createAppArguments($this->directoryList, $arguments);
-        $this->appArgumentsProxy->setSubject($appArguments);
-        $this->factory->setArguments($appArguments->get());
-        $objectManager->addSharedInstance($appArguments, 'Magento\Framework\App\Arguments');
-
-        $objectManager->get('Magento\Framework\Interception\PluginList')->reset();
+        $deploymentConfig = $this->createDeploymentConfig($directoryList, $arguments);
+        $this->factory->setArguments($arguments);
+        $objectManager->addSharedInstance($deploymentConfig, 'Magento\Framework\App\DeploymentConfig');
+        $objectManager->get('Magento\Framework\Interception\PluginListInterface')->reset();
         $objectManager->configure(
             $objectManager->get('Magento\Framework\App\ObjectManager\ConfigLoader')->load('global')
         );
@@ -114,7 +88,7 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
             $this->_primaryConfigData['preferences'] = array_replace(
                 $this->_primaryConfigData['preferences'],
                 [
-                    'Magento\Framework\Stdlib\CookieManager' => 'Magento\TestFramework\CookieManager',
+                    'Magento\Framework\Stdlib\CookieManagerInterface' => 'Magento\TestFramework\CookieManager',
                     'Magento\Framework\ObjectManager\DynamicConfigInterface' =>
                         '\Magento\TestFramework\ObjectManager\Configurator',
                     'Magento\Framework\Stdlib\Cookie' => 'Magento\TestFramework\Cookie',
@@ -122,11 +96,12 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
                     'Magento\Framework\App\Request\Http' => 'Magento\TestFramework\Request',
                     'Magento\Framework\App\ResponseInterface' => 'Magento\TestFramework\Response',
                     'Magento\Framework\App\Response\Http' => 'Magento\TestFramework\Response',
-                    'Magento\Framework\Interception\PluginList' => 'Magento\TestFramework\Interception\PluginList',
+                    'Magento\Framework\Interception\PluginListInterface'
+                        => 'Magento\TestFramework\Interception\PluginList',
                     'Magento\Framework\Interception\ObjectManager\Config' =>
                         'Magento\TestFramework\ObjectManager\Config',
                     'Magento\Framework\View\LayoutInterface' => 'Magento\TestFramework\View\Layout',
-                    'Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql' =>
+                    'Magento\Framework\App\Resource\ConnectionAdapterInterface' =>
                         'Magento\TestFramework\Db\ConnectionAdapter',
                 ]
             );

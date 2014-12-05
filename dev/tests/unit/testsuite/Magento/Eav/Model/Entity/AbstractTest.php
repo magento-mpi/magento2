@@ -96,12 +96,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             );
             $mock->setAttributeId($code);
 
-            $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
             /** @var $backendModel \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend */
             $backendModel = $this->getMock(
                 'Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
-                array('getBackend', 'getBackendTable'),
-                array($logger)
+                array('getBackend', 'getBackendTable')
             );
 
             $backendModel->setAttribute($mock);
@@ -215,7 +213,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $object = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getOrigData', '__wakeup'),
+            array('getOrigData', '__wakeup', 'beforeSave', 'afterSave', 'validateBeforeSave'),
             array(),
             '',
             false
@@ -233,7 +231,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $attribute = $this->_getAttributeMock($attributeCode, $attributeSetId);
 
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         /** @var $backendModel \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend */
         $backendModel = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
@@ -244,8 +241,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                 'isStatic',
                 'getEntityValueId',
                 'getEntityIdField'
-            ),
-            array($logger)
+            )
         );
 
         $backendModel->expects(
@@ -291,7 +287,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         /** @var $model \Magento\Framework\Model\AbstractModel|\PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMockBuilder('Magento\Eav\Model\Entity\AbstractEntity')
             ->setConstructorArgs($data)
-            ->setMethods(['_getValue'])
+            ->setMethods(['_getValue', 'beginTransaction', 'commit', 'rollback'])
             ->getMock();
 
         $model->expects($this->any())->method('_getValue')->will($this->returnValue($eavConfig));

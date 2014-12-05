@@ -8,12 +8,12 @@
 
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataConverter;
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataDataProvider;
+use Magento\Customer\Model\AttributeMetadataConverter;
+use Magento\Customer\Model\AttributeMetadataDataProvider;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+use Magento\Framework\Api\Config\MetadataConfig;
+use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Service\Config\MetadataConfig;
-use Magento\Framework\Service\SimpleDataObjectConverter;
 
 /**
  * Service to fetch customer related custom attributes
@@ -62,7 +62,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     {
         $attributes = [];
         $attributesFormCollection = $this->attributeMetadataDataProvider->loadAttributesCollection(
-            self::ENTITY_TYPE_CUSTOMER,
+            \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
             $formCode
         );
         foreach ($attributesFormCollection as $attribute) {
@@ -82,7 +82,10 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     public function getAttributeMetadata($attributeCode)
     {
         /** @var AbstractAttribute $attribute */
-        $attribute = $this->attributeMetadataDataProvider->getAttribute(self::ENTITY_TYPE_CUSTOMER, $attributeCode);
+        $attribute = $this->attributeMetadataDataProvider->getAttribute(
+            \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
+            $attributeCode
+        );
         if ($attribute && ($attributeCode === 'id' || !is_null($attribute->getId()))) {
             $attributeMetadata = $this->attributeMetadataConverter->createMetadataAttribute($attribute);
             return $attributeMetadata;
@@ -91,7 +94,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
                 NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
                 [
                     'fieldName' => 'entityType',
-                    'fieldValue' => self::ENTITY_TYPE_CUSTOMER,
+                    'fieldValue' => \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
                     'field2Name' => 'attributeCode',
                     'field2Value' => $attributeCode,
                 ]
@@ -106,8 +109,8 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     {
         /** @var AbstractAttribute[] $attribute */
         $attributeCodes = $this->attributeMetadataDataProvider->getAllAttributeCodes(
-            self::ENTITY_TYPE_CUSTOMER,
-            self::ATTRIBUTE_SET_ID_CUSTOMER
+            \Magento\Customer\Api\CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
+            \Magento\Customer\Api\CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER
         );
 
         $attributesMetadata = [];
@@ -132,7 +135,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         if (!$this->customerDataObjectMethods) {
             $dataObjectMethods = array_flip(get_class_methods($dataObjectClassName));
             $baseClassDataObjectMethods = array_flip(
-                get_class_methods('Magento\Framework\Service\Data\AbstractExtensibleObject')
+                get_class_methods('Magento\Framework\Api\AbstractExtensibleObject')
             );
             $this->customerDataObjectMethods = array_diff_key($dataObjectMethods, $baseClassDataObjectMethods);
         }

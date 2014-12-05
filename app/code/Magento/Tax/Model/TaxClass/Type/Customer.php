@@ -7,23 +7,26 @@
  */
 namespace Magento\Tax\Model\TaxClass\Type;
 
+use Magento\Customer\Api\GroupRepositoryInterface as CustomerGroupRepository;
+use Magento\Customer\Api\Data\GroupInterface as CustomerGroup;
+
 /**
  * Customer Tax Class
  */
 class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
 {
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var CustomerGroupRepository
      */
-    protected $groupService;
+    protected $customerGroupRepository;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\FilterBuilder
+     * @var \Magento\Framework\Api\FilterBuilder
      */
     protected $filterBuilder;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
      */
     protected $searchCriteriaBuilder;
 
@@ -36,20 +39,20 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
 
     /**
      * @param \Magento\Tax\Model\Calculation\Rule $calculationRule
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
-     * @param \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param CustomerGroupRepository $customerGroupRepository
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
      * @param array $data
      */
     public function __construct(
         \Magento\Tax\Model\Calculation\Rule $calculationRule,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
-        \Magento\Framework\Service\V1\Data\FilterBuilder $filterBuilder,
-        \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder $searchCriteriaBuilder,
+        CustomerGroupRepository $customerGroupRepository,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
         array $data = array()
     ) {
         parent::__construct($calculationRule, $data);
-        $this->groupService = $groupService;
+        $this->customerGroupRepository = $customerGroupRepository;
         $this->filterBuilder = $filterBuilder;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
@@ -59,11 +62,14 @@ class Customer extends \Magento\Tax\Model\TaxClass\AbstractType
      */
     public function isAssignedToObjects()
     {
-        $searchCriteria = $this->searchCriteriaBuilder->addFilter(
-            [$this->filterBuilder->setField('tax_class_id')->setValue($this->getId())->create()]
-        )->create();
-
-        $result = $this->groupService->searchGroups($searchCriteria);
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(
+                [
+                    $this->filterBuilder->setField(CustomerGroup::TAX_CLASS_ID)->setValue($this->getId())->create()
+                ]
+            )
+            ->create();
+        $result = $this->customerGroupRepository->getList($searchCriteria);
         $items = $result->getItems();
         return !empty($items);
     }

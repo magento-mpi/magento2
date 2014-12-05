@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .order-links {
     border-bottom: @border-width-base solid @border-color-base;
     margin-bottom: 10px;
@@ -32,7 +38,7 @@
         }
     }
     .items-qty {
-        &:extend(.abstract-reset-list all);
+        &:extend(.abs-reset-list all);
         .item {
             white-space: nowrap;
         }
@@ -48,11 +54,6 @@
         }
         tbody + tbody {
             border-top: @border-width-base solid @border-color-base;
-        }
-        .columns & {
-            tfoot {
-                &:extend(.abstract-account-summary all);
-            }
         }
     }
     .item-options {
@@ -87,7 +88,7 @@
 }
 
 .order-status {
-    &:extend(.abstract-status all);
+    &:extend(.abs-status all);
 }
 
 .page-title {
@@ -114,13 +115,25 @@
     }
 }
 
-.block.reorder {
-    .item {
+.block-reorder {
+    .block-title {
+        &:extend(.abs-block-title all);
+    }
+    .product-item {
         .checkbox {
             position: relative;
             top: 2px;
             vertical-align: baseline;
         }
+        .label {
+            &:extend(.abs-visually-hidden all);
+        }
+        .field.item {
+            display: inline-block;
+        }
+    }
+    .product-item-name {
+        display: inline-block;
     }
     .actions-toolbar {
         margin: 17px 0;
@@ -128,7 +141,7 @@
     }
     .sidebar-main & .subtitle,
     .sidebar-additional & .subtitle {
-        display: none;
+        &:extend(.abs-no-display all);
     }
 }
 
@@ -183,68 +196,26 @@
 .sales-guest-view {
     .column.main {
         .block:not(.widget) {
-            &:extend(.abstract-account-blocks all);
+            &:extend(.abs-account-blocks all);
         }
     }
+}
+
 }
 
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .account {
         .order-details-items {
             .table-order-items {
-                tr {
-                    display: block;
-                }
-                tbody,
-                tfoot {
-                    > tr > td {
-                        border: none;
-                    }
-                }
-                .col {
-                    &.price,
-                    &.subtotal {
-                        .price-including-tax,
-                        .price-excluding-tax,
-                        .weee {
-                            display: inline-block;
-                        }
-                    }
-                    &.name,
-                    &.sku,
-                    &.qty,
-                    &.price,
-                    &.subtotal {
-                        &:before {
-                            content: attr(data-th) ":";
-                            vertical-align: top;
-                        }
-                    }
-                }
-                .options-label,
-                .col.options:before  {
-                    display: none;
-                }
-                .options-label + .item-options-container,
-                .item-options-container + .item-options-container {
-                    &:before {
-                        content: attr(data-th) ":";
-                        display: block;
-                        font-weight: bold;
-                    }
-                    .col {
-                        .font-size(12);
-                        padding: 0;
-                        &:first-child {
-                            padding-top: 3px;
-                        }
-                        &:last-child {
-                            padding-bottom: 20px;
-                        }
-                    }
+                .product-item-name,
+                .price-including-tax,
+                .price-excluding-tax,
+                .items-qty {
+                    display: inline-block;
+                    vertical-align: top;
                 }
             }
             .action.print {
@@ -252,7 +223,7 @@
             }
         }
         .toolbar {
-            &:extend(.abstract-add-clearfix-desktop all);
+            &:extend(.abs-add-clearfix-desktop all);
             .pages {
                 float: right;
             }
@@ -266,16 +237,23 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .table-order-items {
-        .col {
-            &.subtotal {
-                text-align: right;
-            }
-        }
-        .mark,
+        .subtotal,
         .amount {
             text-align: right;
+        }
+        &.creditmemo {
+            .col {
+                &.qty,
+                &.discount,
+                &.subtotal {
+                    text-align: center;
+                }
+                &.total {
+                    text-align: right;
+                }
+            }
         }
     }
 
@@ -300,9 +278,9 @@
         .column.main {
             .block:not(.widget) {
                 .block-content {
-                    &:extend(.abstract-add-clearfix-desktop all);
+                    &:extend(.abs-add-clearfix-desktop all);
                     .box {
-                        &:extend(.abstract-blocks-2columns all);
+                        &:extend(.abs-blocks-2columns all);
                         margin-bottom: @indent-base;
                     }
                 }

@@ -7,8 +7,9 @@
  */
 namespace Magento\Rma\Block\Returns;
 
-use Magento\Rma\Model\Item;
+use Magento\Customer\Model\Context;
 use Magento\Rma\Model\Rma;
+use Magento\Rma\Model\Item;
 
 /**
  * Class View
@@ -22,7 +23,7 @@ class View extends \Magento\Rma\Block\Form
      *
      * @var array
      */
-    protected $_realValueAttributes = array();
+    protected $_realValueAttributes = [];
 
     /**
      * Rma data
@@ -79,12 +80,7 @@ class View extends \Magento\Rma\Block\Form
     protected $httpContext;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
-     */
-    protected $_customerAccountService;
-
-    /**
-     * @var \Magento\Customer\Service\V1\Data\Customer
+     * @var \Magento\Customer\Api\Data\CustomerInterface
      */
     protected $customerData;
 
@@ -92,13 +88,20 @@ class View extends \Magento\Rma\Block\Form
      * @var \Magento\Customer\Helper\Session\CurrentCustomer
      */
     protected $currentCustomer;
-    
+
     /**
      * Eav configuration model
      *
      * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
+
+    /**
+     * Customer repository
+     *
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     */
+    protected $customerRepository;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -110,13 +113,13 @@ class View extends \Magento\Rma\Block\Form
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param Item\FormFactory $itemFormFactory
      * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Helper\View $customerView
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -129,12 +132,12 @@ class View extends \Magento\Rma\Block\Form
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Helper\View $customerView,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
+        array $data = []
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_itemsFactory = $itemsFactory;
@@ -142,11 +145,11 @@ class View extends \Magento\Rma\Block\Form
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
         $this->currentCustomer = $currentCustomer;
-        $this->_customerAccountService = $customerAccountService;
         $this->_customerView = $customerView;
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;
         $this->httpContext = $httpContext;
+        $this->customerRepository = $customerRepository;
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
     }
 
@@ -188,7 +191,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getAttributeFilter()
     {
-        $array = array();
+        $array = [];
 
         /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
         $collection = $this->_itemsFactory->create();
@@ -227,9 +230,9 @@ class View extends \Magento\Rma\Block\Form
      * @param string[] $excludeAttr
      * @return array
      */
-    protected function _getAdditionalData(array $excludeAttr = array())
+    protected function _getAdditionalData(array $excludeAttr = [])
     {
-        $data = array();
+        $data = [];
 
         $items = $this->getItems();
 
@@ -245,11 +248,11 @@ class View extends \Magento\Rma\Block\Form
                 $code = $attribute->getAttributeCode();
                 if ($attribute->getIsVisible() && !in_array($code, $excludeAttr)) {
                     $value = $attribute->getFrontend()->getValue($item);
-                    $data[$item->getId()][$code] = array(
+                    $data[$item->getId()][$code] = [
                         'label' => $attribute->getStoreLabel(),
                         'value' => $value,
                         'html' => ''
-                    );
+                    ];
                     if ($attribute->getFrontendInput() == 'image') {
                         $data[$item->getId()][$code]['html'] = $this->setEntity($item)->getAttributeHtml($attribute);
                     }
@@ -338,7 +341,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getOrderUrl($rma)
     {
-        return $this->getUrl('sales/order/view/', array('order_id' => $rma->getOrderId()));
+        return $this->getUrl('sales/order/view/', ['order_id' => $rma->getOrderId()]);
     }
 
     /**
@@ -348,7 +351,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getBackUrl()
     {
-        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+        if ($this->httpContext->getValue(Context::CONTEXT_AUTH)) {
             return $this->getUrl('rma/returns/history');
         } else {
             return $this->getUrl('rma/guest/returns');
@@ -372,7 +375,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('*/*/addComment', array('entity_id' => (int)$this->getRequest()->getParam('entity_id')));
+        return $this->getUrl('*/*/addComment', ['entity_id' => (int)$this->getRequest()->getParam('entity_id')]);
     }
 
     /**
@@ -382,7 +385,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getCustomerName()
     {
-        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+        if ($this->httpContext->getValue(Context::CONTEXT_AUTH)) {
             return $this->_customerView->getCustomerName($this->getCustomerData());
         } else {
             $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
@@ -410,14 +413,14 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Data\Customer|null
+     * @return \Magento\Customer\Api\Data\CustomerInterface|null
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getCustomerData()
     {
         if (empty($this->customerData)) {
             $customerId = $this->currentCustomer->getCustomerId();
-            $this->customerData = $this->_customerAccountService->getCustomer($customerId);
+            $this->customerData = $this->customerRepository->get($customerId);
         }
         return $this->customerData;
     }
@@ -476,7 +479,7 @@ class View extends \Magento\Rma\Block\Form
         return $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Link'
         )->setData(
-            array('label' => __('Print Shipping Label'), 'onclick' => 'setLocation(\'' . $url . '\')')
+            ['label' => __('Print Shipping Label'), 'onclick' => 'setLocation(\'' . $url . '\')']
         )->setAnchorText(
             __('Print Shipping Label')
         )->toHtml();
@@ -492,7 +495,7 @@ class View extends \Magento\Rma\Block\Form
         return $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Link'
         )->setData(
-            array(
+            [
                 'href' => "javascript:void(0)",
                 'title' => __('Show Packages'),
                 'onclick' => "popWin(
@@ -503,7 +506,7 @@ class View extends \Magento\Rma\Block\Form
                 "',
                         'package',
                         'width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
-            )
+            ]
         )->setAnchorText(
             __('Show Packages')
         )->toHtml();
@@ -519,10 +522,10 @@ class View extends \Magento\Rma\Block\Form
         return $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Link'
         )->setData(
-            array(
+            [
                 'href' => $this->_rmaData->getPackagePopupUrlByRmaModel($this->getRma(), 'printlabel'),
                 'title' => __('Print Shipping Label')
-            )
+            ]
         )->setAnchorText(
             __('Print Shipping Label')
         )->toHtml();
@@ -545,7 +548,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getAddLabelUrl()
     {
-        return $this->getUrl('*/*/addLabel/', array('entity_id' => $this->getRma()->getEntityId()));
+        return $this->getUrl('*/*/addLabel/', ['entity_id' => $this->getRma()->getEntityId()]);
     }
 
     /**

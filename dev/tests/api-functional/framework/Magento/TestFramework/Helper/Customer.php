@@ -9,16 +9,16 @@ namespace Magento\TestFramework\Helper;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Customer\Service\V1\Data\CustomerDetails;
-use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
-use Magento\Customer\Service\V1\Data\Customer as CustomerService;
-use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Api\Data\AddressDataBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Customer\Model\Data\Customer as CustomerData;
+use Magento\Framework\Reflection\DataObjectProcessor;
 
 class Customer extends WebapiAbstract
 {
     const RESOURCE_PATH = '/V1/customers';
-    const SERVICE_NAME = 'customerCustomerAccountServiceV1';
+    const SERVICE_NAME = 'customerAccountManagementV1';
     const SERVICE_VERSION = 'V1';
 
     const CONFIRMATION = 'a4fg7h893e39d';
@@ -45,29 +45,29 @@ class Customer extends WebapiAbstract
     const ADDRESS_REGION_CODE1 = 'AL';
     const ADDRESS_REGION_CODE2 = 'AL';
 
-    /** @var AddressBuilder */
+    /** @var AddressDataBuilder */
     private $addressBuilder;
 
-    /** @var CustomerDetailsBuilder */
-    private $customerDetailsBuilder;
-
-    /** @var CustomerBuilder */
+    /** @var CustomerDataBuilder */
     private $customerBuilder;
+
+    /** @var DataObjectProcessor */
+    private $dataObjectProcessor;
 
     public function __construct($name = NULL, array $data = array(), $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
 
         $this->addressBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\AddressBuilder'
-        );
-
-        $this->customerDetailsBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\CustomerDetailsBuilder'
+            'Magento\Customer\Api\Data\AddressDataBuilder'
         );
 
         $this->customerBuilder = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\Data\CustomerBuilder'
+            'Magento\Customer\Api\Data\CustomerDataBuilder'
+        );
+
+        $this->dataObjectProcessor = Bootstrap::getObjectManager()->create(
+            'Magento\Framework\Reflection\DataObjectProcessor'
         );
     }
 
@@ -81,19 +81,24 @@ class Customer extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'CreateCustomer'
+                'operation' => self::SERVICE_NAME . 'CreateAccount'
             ]
         ];
-        $customerDetailsAsArray = $this->createSampleCustomerDetailsData()->__toArray();
-        $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => self::PASSWORD];
+        $customerDataArray = $this->dataObjectProcessor->buildOutputDataArray(
+            $this->createSampleCustomerDataObject(),
+            '\Magento\Customer\Api\Data\CustomerInterface'
+        );
+        $requestData = ['customer' => $customerDataArray, 'password' => self::PASSWORD];
         $customerData = $this->_webApiCall($serviceInfo, $requestData);
         return $customerData;
     }
 
     /**
-     * @return CustomerDetails
+     * Create customer using setters.
+     *
+     * @return CustomerInterface
      */
-    public function createSampleCustomerDetailsData()
+    public function createSampleCustomerDataObject()
     {
         $this->addressBuilder
             ->setCountryId('US')
@@ -101,7 +106,7 @@ class Customer extends WebapiAbstract
             ->setDefaultShipping(true)
             ->setPostcode('75477')
             ->setRegion(
-                Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\RegionBuilder')
+                Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\RegionDataBuilder')
                     ->setRegionCode(self::ADDRESS_REGION_CODE1)
                     ->setRegion('Alabama')
                     ->setRegionId(1)
@@ -112,7 +117,10 @@ class Customer extends WebapiAbstract
             ->setCity(self::ADDRESS_CITY1)
             ->setFirstname('John')
             ->setLastname('Smith');
-        $address1 = $this->addressBuilder->create();
+        $address1 = $this->dataObjectProcessor->buildOutputDataArray(
+            $this->addressBuilder->create(),
+            'Magento\Customer\Api\Data\AddressInterface'
+        );
 
         $this->addressBuilder
             ->setCountryId('US')
@@ -120,7 +128,7 @@ class Customer extends WebapiAbstract
             ->setDefaultShipping(false)
             ->setPostcode('47676')
             ->setRegion(
-                Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\Data\RegionBuilder')
+                Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\RegionDataBuilder')
                     ->setRegionCode(self::ADDRESS_REGION_CODE2)
                     ->setRegion('Alabama')
                     ->setRegionId(1)
@@ -131,40 +139,29 @@ class Customer extends WebapiAbstract
             ->setTelephone('3234676')
             ->setFirstname('John')
             ->setLastname('Smith');
+        $address2 = $this->dataObjectProcessor->buildOutputDataArray(
+            $this->addressBuilder->create(),
+            'Magento\Customer\Api\Data\AddressInterface'
+        );
 
-        $address2 = $this->addressBuilder->create();
-
-        $customerData = $this->createSampleCustomerDataObject();
-        $customerDetails = $this->customerDetailsBuilder->setAddresses([$address1, $address2])
-            ->setCustomer($customerData)
-            ->create();
-        return $customerDetails;
-    }
-
-    /**
-     * Create customer using setters.
-     *
-     * @return Customer
-     */
-    public function createSampleCustomerDataObject()
-    {
         $customerData = [
-            CustomerService::FIRSTNAME => self::FIRSTNAME,
-            CustomerService::LASTNAME => self::LASTNAME,
-            CustomerService::EMAIL => 'janedoe' . uniqid() . '@example.com',
-            CustomerService::CONFIRMATION => self::CONFIRMATION,
-            CustomerService::CREATED_AT => self::CREATED_AT,
-            CustomerService::CREATED_IN => self::STORE_NAME,
-            CustomerService::DOB => self::DOB,
-            CustomerService::GENDER => self::GENDER,
-            CustomerService::GROUP_ID => self::GROUP_ID,
-            CustomerService::MIDDLENAME => self::MIDDLENAME,
-            CustomerService::PREFIX => self::PREFIX,
-            CustomerService::STORE_ID => self::STORE_ID,
-            CustomerService::SUFFIX => self::SUFFIX,
-            CustomerService::TAXVAT => self::TAXVAT,
-            CustomerService::WEBSITE_ID => self::WEBSITE_ID,
-            CustomerService::CUSTOM_ATTRIBUTES_KEY => [
+            CustomerData::FIRSTNAME => self::FIRSTNAME,
+            CustomerData::LASTNAME => self::LASTNAME,
+            CustomerData::EMAIL => 'janedoe' . uniqid() . '@example.com',
+            CustomerData::CONFIRMATION => self::CONFIRMATION,
+            CustomerData::CREATED_AT => self::CREATED_AT,
+            CustomerData::CREATED_IN => self::STORE_NAME,
+            CustomerData::DOB => self::DOB,
+            CustomerData::GENDER => self::GENDER,
+            CustomerData::GROUP_ID => self::GROUP_ID,
+            CustomerData::MIDDLENAME => self::MIDDLENAME,
+            CustomerData::PREFIX => self::PREFIX,
+            CustomerData::STORE_ID => self::STORE_ID,
+            CustomerData::SUFFIX => self::SUFFIX,
+            CustomerData::TAXVAT => self::TAXVAT,
+            CustomerData::WEBSITE_ID => self::WEBSITE_ID,
+            CustomerData::KEY_ADDRESSES => [$address1, $address2],
+            'custom_attributes' => [
                 [
                     'attribute_code' => 'disable_auto_group_change',
                     'value' => '0'

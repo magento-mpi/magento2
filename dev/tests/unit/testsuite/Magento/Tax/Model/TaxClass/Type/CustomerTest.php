@@ -13,7 +13,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $searchResultsMock  = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchResults')
+        $searchResultsMock  = $this->getMockBuilder('Magento\Framework\Api\SearchResults')
             ->setMethods(['getItems'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -22,11 +22,11 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(['randomValue']));
 
         $filterBuilder = $objectManagerHelper
-            ->getObject('\Magento\Framework\Service\V1\Data\FilterBuilder');
+            ->getObject('\Magento\Framework\Api\FilterBuilder');
         $filterGroupBuilder = $objectManagerHelper
-            ->getObject('\Magento\Framework\Service\V1\Data\Search\FilterGroupBuilder');
+            ->getObject('\Magento\Framework\Api\Search\FilterGroupBuilder');
         $searchCriteriaBuilder = $objectManagerHelper->getObject(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder',
+            'Magento\Framework\Api\SearchCriteriaBuilder',
             [
                 'filterGroupBuilder' => $filterGroupBuilder
             ]
@@ -35,22 +35,22 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->addFilter([$filterBuilder->setField('tax_class_id')->setValue(5)->create()])
             ->create();
 
-        $customerGroupServiceMock = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerGroupService')
-            ->setMethods(['searchGroups'])
+        $customerGroupServiceMock = $this->getMockBuilder('Magento\Customer\Api\GroupRepositoryInterface')
+            ->setMethods(['getList'])
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMockForAbstractClass();
         $customerGroupServiceMock->expects($this->once())
-            ->method('searchGroups')
-            ->with($this->equalTo($expectedSearchCriteria))
-            ->will($this->returnValue($searchResultsMock));
+            ->method('getList')
+            ->with($expectedSearchCriteria)
+            ->willReturn($searchResultsMock);
 
         /** @var $model \Magento\Tax\Model\TaxClass\Type\Customer */
         $model = $objectManagerHelper->getObject(
             'Magento\Tax\Model\TaxClass\Type\Customer',
             [
-                'groupService' => $customerGroupServiceMock,
-                'filterBuilder' => $filterBuilder,
+                'customerGroupRepository' => $customerGroupServiceMock,
                 'searchCriteriaBuilder' => $searchCriteriaBuilder,
+                'filterBuilder' => $filterBuilder,
                 'data' => ['id' => 5]
             ]
         );

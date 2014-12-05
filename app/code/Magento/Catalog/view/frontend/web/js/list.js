@@ -5,7 +5,12 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true*/
-define(["jquery","jquery/ui"], function($){
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
+    "use strict";
+
     $.widget('mage.compareList', {
         _create: function() {
 
@@ -16,6 +21,7 @@ define(["jquery","jquery/ui"], function($){
                 var headings = $('<table/>')
                     .addClass('comparison headings data table')
                     .insertBefore(elem.closest('.container'));
+                    
                 elem.addClass('scroll');
 
                 $('th', elem).each(function(){
@@ -25,13 +31,8 @@ define(["jquery","jquery/ui"], function($){
                     th.animate({
                         top: '+=0'
                     }, 50, function(){
-                        var height;
-                        if ($.browser.mozilla && $.browser.version <= '11.0') {
-                            height = th.outerHeight();
-                        }
-                        else {
-                            height = th.height();
-                        }
+                        var height = th.height();
+                        
                         thCopy.css('height', height)
                             .appendTo(headings)
                             .wrap('<tr />');
@@ -53,4 +54,6 @@ define(["jquery","jquery/ui"], function($){
 
         }
     });
+
+    return $.mage.compareList;
 });

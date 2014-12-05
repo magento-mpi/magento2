@@ -6,21 +6,27 @@
 //  * @license     {license_link}
 //  */
 
-.login.container {
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
+.login-container {
     .block {
-        &.new {
+        &-new-customer {
             .actions-toolbar {
                 margin-top: 25px;
             }
         }
-        .title {
-            &:extend(.abstract-login-block-title all);
+        .block-title {
+            &:extend(.abs-login-block-title all);
+            .font-size(18);
         }
     }
     .fieldset {
         .form-hasrequired(bottom);
         &:after {
-            text-align: center;
             margin-top: 35px;
         }
     }
@@ -42,7 +48,7 @@
         display: none;
     }
     .actions-toolbar .action.primary {
-        &:extend(.abstract-button-l all);
+        &:extend(.abs-button-l all);
     }
 }
 
@@ -82,37 +88,53 @@
                 width: auto;
             }
         }
+        .limiter {
+            >.label {
+                &:extend(.abs-visually-hidden all);
+            }
+        }
         .block:not(.widget) {
-            &:extend(.abstract-account-blocks all);
+            &:extend(.abs-account-blocks all);
         }
     }
     .sidebar-additional {
         margin-top: 40px;
     }
     .table-wrapper {
-        margin-bottom: @indent-base;
         &:last-child {
             margin-bottom: 0;
         }
-        .data.table {
-            .table-striped(@_stripped-highlight: even);
-            .col.actions {
-                .action {
-                    margin-right: 15px;
-                    &:last-child {
-                        margin-left: 0;
-                    }
-                }
+        .action {
+            margin-right: 15px;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+    .table-return-items {
+        .qty {
+            .input-text {
+                &:extend(.abs-input-qty all);
             }
         }
     }
 }
 
+// checkout address (create shipping address)
+.field.street {
+    .field.additional {
+        .label {
+            &:extend(.abs-visually-hidden all);
+        }
+    }
+}
+
+
 //
 //    Blocks & Widgets
 //--------------------------------------
 .block {
-    &:extend(.abstract-margin-for-blocks-and-widgets all);
+    &:extend(.abs-margin-for-blocks-and-widgets all);
     .column.main & {
         &:last-child {
             margin-bottom: 0;
@@ -142,31 +164,16 @@
     }
 }
 
-.account {
-    .data.table-return-items {
-        .qty {
-            .input-text {
-                &:extend(.abstract-input-qty all);
-            }
-        }
-    }
 }
 
 //
 //    Mobile @screen-s
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .account {
-        .data.table {
-            &:extend(.abstract-table-vertical-mobile-s all);
-            td {
-                &:first-child {
-                    padding-top: 15px;
-                }
-                &:last-child {
-                    padding-bottom: 15px;
-                }
-            }
+        .column.main,
+        .sidebar-additional {
+            margin: 0;
         }
     }
 }
@@ -174,25 +181,20 @@
 //
 //    Mobile @screen-m
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
+    .login-container {
+        .fieldset {
+            &:after {
+                text-align: center;
+            }
+        }
+    }
     .account {
         .page.messages {
             margin-bottom: 40px;
         }
-        .block-collapsible-nav {
-            margin-top: -21px;
-        }
-        .data.table {
-            .col.actions {
-                padding-top: 9px;
-                padding-bottom: 15px;
-                &:before {
-                    &:extend(.abstract-visually-hidden-mobile all);
-                }
-            }
-        }
         .toolbar {
-            &:extend(.abstract-pager-toolbar-mobile all);
+            &:extend(.abs-pager-toolbar-mobile all);
         }
     }
     .control.captcha-image {
@@ -211,11 +213,11 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
-    .login.container {
-        &:extend(.abstract-add-clearfix-desktop all);
+.responsive-min-l(@break) when (@break = @screen-m) {
+    .login-container {
+        &:extend(.abs-add-clearfix-desktop all);
         .block {
-            &:extend(.abstract-blocks-2columns all);
+            &:extend(.abs-blocks-2columns all);
             &.login {
                 .actions-toolbar {
                     > .primary {
@@ -230,8 +232,7 @@
         }
         .fieldset {
             &:after {
-                &:extend(.abstract-margin-for-forms-desktop all);
-                text-align: left;
+                &:extend(.abs-margin-for-forms-desktop all);
             }
             > .field {
                 > .control {
@@ -264,30 +265,23 @@
         .column.main {
             .block:not(.widget) {
                 .block-content {
-                    &:extend(.abstract-add-clearfix-desktop all);
+                    &:extend(.abs-add-clearfix-desktop all);
                     .box {
-                        &:extend(.abstract-blocks-2columns all);
+                        &:extend(.abs-blocks-2columns all);
                     }
                 }
             }
         }
-        .data.table {
-            .table-bordered(
-                @_type: light,
-                @_border-width: 1px
-            );
-            margin-bottom: 0;
-        }
         .toolbar {
-            &:extend(.abstract-pager-toolbar all);
+            &:extend(.abs-pager-toolbar all);
         }
     }
 
     .block-addresses-list {
         .items.addresses {
-            &:extend(.abstract-add-clearfix-desktop all);
+            &:extend(.abs-add-clearfix-desktop all);
             > .item {
-                &:extend(.abstract-blocks-2columns all);
+                &:extend(.abs-blocks-2columns all);
                 margin-bottom: @indent-base;
                 &:nth-last-child(1),
                 &:nth-last-child(2) {
@@ -301,13 +295,12 @@
     //    Welcome block
     //--------------------------------------
     .dashboard-welcome-toggler {
-        &:extend(.abstract-visually-hidden-desktop all);
+        &:extend(.abs-visually-hidden-desktop all);
     }
 
     .control.captcha-image {
-        white-space: nowrap;
         .captcha-img {
-            margin: 0 10px 0 0;
+            margin: 0 @indent-s-base @indent-s-base 0;
         }
     }
 }

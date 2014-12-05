@@ -94,11 +94,7 @@ class CreateMultipleWishlistEntityTest extends AbstractMultipleWishlistEntityTes
     public static function tearDownAfterClass()
     {
         parent::tearDownAfterClass();
-        self::$browser->open(
-            $_ENV['app_backend_url'] . 'admin/widget_instance/edit/instance_id/'
-            . self::$wishlistId . '/code/wishlist_search/'
-        );
-        self::$widgetInstanceEdit->getPageActionsBlock()->delete();
+        ObjectManager::getInstance()->create('Magento\Widget\Test\TestStep\DeleteAllWidgetsStep')->run();
         self::$cachePage->open()->getActionsBlock()->flushMagentoCache();
     }
 }

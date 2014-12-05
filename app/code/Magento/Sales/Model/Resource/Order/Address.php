@@ -7,10 +7,13 @@
  */
 namespace Magento\Sales\Model\Resource\Order;
 
+use Magento\Sales\Model\Spi\OrderAddressResourceInterface;
+use \Magento\Sales\Model\Resource\Entity as SalesResource;
+
 /**
  * Flat sales order address resource
  */
-class Address extends \Magento\Sales\Model\Resource\Entity
+class Address extends SalesResource implements OrderAddressResourceInterface
 {
     /**
      * Event prefix
@@ -31,7 +34,6 @@ class Address extends \Magento\Sales\Model\Resource\Entity
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Sales\Model\Resource\Attribute $attribute
      * @param \Magento\Sales\Model\Increment $salesIncrement
      * @param \Magento\Sales\Model\Order\Address\Validator $validator
@@ -40,7 +42,6 @@ class Address extends \Magento\Sales\Model\Resource\Entity
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Sales\Model\Resource\Attribute $attribute,
         \Magento\Sales\Model\Increment $salesIncrement,
         \Magento\Sales\Model\Order\Address\Validator $validator,
@@ -49,7 +50,7 @@ class Address extends \Magento\Sales\Model\Resource\Entity
     ) {
         $this->_validator = $validator;
         $this->gridPool = $gridPool;
-        parent::__construct($resource, $dateTime, $attribute, $salesIncrement, $gridAggregator);
+        parent::__construct($resource, $attribute, $salesIncrement, $gridAggregator);
 
     }
 
@@ -60,7 +61,7 @@ class Address extends \Magento\Sales\Model\Resource\Entity
      */
     protected function _construct()
     {
-        $this->_init('sales_flat_order_address', 'entity_id');
+        $this->_init('sales_order_address', 'entity_id');
     }
 
     /**
@@ -70,7 +71,7 @@ class Address extends \Magento\Sales\Model\Resource\Entity
      */
     public function getAllAttributes()
     {
-        $attributes = array(
+        $attributes = [
             'city' => __('City'),
             'company' => __('Company'),
             'country_id' => __('Country'),
@@ -81,7 +82,7 @@ class Address extends \Magento\Sales\Model\Resource\Entity
             'street' => __('Street Address'),
             'telephone' => __('Phone Number'),
             'postcode' => __('Zip/Postal Code')
-        );
+        ];
         asort($attributes);
         return $attributes;
     }
@@ -96,6 +97,14 @@ class Address extends \Magento\Sales\Model\Resource\Entity
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_beforeSave($object);
+        if (!$object->getParentId() && $object->getOrder()) {
+            $object->setParentId($object->getOrder()->getId());
+        }
+        // Init customer address id if customer address is assigned
+        $customerData = $object->getCustomerAddressData();
+        if ($customerData) {
+            $object->setCustomerAddressId($customerData->getId());
+        }
         $warnings = $this->_validator->validate($object);
         if (!empty($warnings)) {
             throw new \Magento\Framework\Model\Exception(

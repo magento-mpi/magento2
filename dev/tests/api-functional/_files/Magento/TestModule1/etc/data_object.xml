@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/Service/etc/data_object.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/Api/etc/data_object.xsd">
     <custom_attributes for="Magento\TestModule1\Service\V1\Entity\Item">
         <attribute code="custom_attribute_data_object" type="Magento\TestModule1\Service\V1\Entity\CustomAttributeDataObject" />
         <attribute code="custom_attribute_string" type="string" />

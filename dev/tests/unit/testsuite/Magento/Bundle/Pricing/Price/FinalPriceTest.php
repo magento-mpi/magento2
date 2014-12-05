@@ -40,6 +40,11 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     protected $bundleOptionMock;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceCurrencyMock;
+
+    /**
      * @return void
      */
     protected function prepareMock()
@@ -69,11 +74,14 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getPriceInfo')
             ->will($this->returnValue($this->priceInfoMock));
 
+        $this->priceCurrencyMock = $this->getMock('\Magento\Framework\Pricing\PriceCurrencyInterface');
+
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->finalPrice = new \Magento\Bundle\Pricing\Price\FinalPrice(
             $this->saleableInterfaceMock,
             $this->quantity,
-            $this->bundleCalculatorMock
+            $this->bundleCalculatorMock,
+            $this->priceCurrencyMock
         );
     }
 
@@ -108,7 +116,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMaximalPrice($baseAmount)
     {
-        $result = rand(1, 10);
+        $result = 3;
         $this->baseAmount = $baseAmount;
         $this->prepareMock();
 
@@ -117,6 +125,8 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->baseAmount), $this->equalTo($this->saleableInterfaceMock))
             ->will($this->returnValue($result));
         $this->assertSame($result, $this->finalPrice->getMaximalPrice());
+        //The second call should use cached value
+        $this->assertSame($result, $this->finalPrice->getMaximalPrice());
     }
 
     /**
@@ -124,7 +134,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMinimalPrice($baseAmount)
     {
-        $result = rand(1, 10);
+        $result = 5;
         $this->baseAmount = $baseAmount;
         $this->prepareMock();
 
@@ -133,5 +143,20 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->baseAmount), $this->equalTo($this->saleableInterfaceMock))
             ->will($this->returnValue($result));
         $this->assertSame($result, $this->finalPrice->getMinimalPrice());
+        //The second call should use cached value
+        $this->assertSame($result, $this->finalPrice->getMinimalPrice());
+    }
+
+    public function testGetPriceWithoutOption()
+    {
+        $result = 5;
+        $this->prepareMock();
+        $this->bundleCalculatorMock->expects($this->once())
+            ->method('getAmountWithoutOption')
+            ->with($this->equalTo($this->baseAmount), $this->equalTo($this->saleableInterfaceMock))
+            ->will($this->returnValue($result));
+        $this->assertSame($result, $this->finalPrice->getPriceWithoutOption());
+        //The second call should use cached value
+        $this->assertSame($result, $this->finalPrice->getPriceWithoutOption());
     }
 }

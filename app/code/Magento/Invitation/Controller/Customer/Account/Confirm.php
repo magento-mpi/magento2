@@ -17,21 +17,21 @@ class Confirm extends \Magento\Customer\Controller\Account\Confirm implements Ac
      * Load customer by id (try/catch in case if it throws exceptions)
      *
      * @param int $customerId
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      * @throws \Exception
      */
     protected function _loadCustomerById($customerId)
     {
         try {
-            /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
-            return $this->customerAccountService->getCustomer($customerId);
+            /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
+            return $this->customerRepository->getById($customerId);
         } catch (NoSuchEntityException $e) {
             throw new \Exception(__('Wrong customer account specified.'));
         }
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Data\Customer $customer
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @param mixed $key
      * @return bool|null
      * @throws \Exception
@@ -42,7 +42,7 @@ class Confirm extends \Magento\Customer\Controller\Account\Confirm implements Ac
             if ($customer->getConfirmation() !== $key) {
                 throw new \Exception(__('Wrong confirmation key.'));
             }
-            $this->customerAccountService->activateCustomer($customer->getId(), $key);
+            $this->customerAccountManagement->activate($customer->getEmail(), $key);
 
             // log in and send greeting email, then die happy
             $this->_getSession()->setCustomerAsLoggedIn($customer);

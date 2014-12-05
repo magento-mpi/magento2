@@ -55,10 +55,26 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
      */
     protected $customerSessionMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $customerBuilderMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Model\Customer
+     */
+    protected $customerMock;
+
     protected function setUp()
     {
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
+        $this->customerMock = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
+        $this->quoteMock = $this->getMock('Magento\Sales\Model\Quote',
+            [
+                'getId', 'assignCustomer', 'assignCustomerWithAddressChange', 'getBillingAddress',
+                'getShippingAddress', 'isVirtual', 'addCustomerAddress', 'collectTotals', '__wakeup',
+                'save', 'getCustomerData'
+            ], [], '', false);
         $this->serviceQuote = $this->getMock('\Magento\Sales\Model\Service\Quote', [], [], '', false);
         $this->quoteFactoryMock = $this->getMock(
             '\Magento\Sales\Model\Service\QuoteFactory',
@@ -68,18 +84,25 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->customerAccountServiceMock = $this->getMock(
-            '\Magento\Customer\Service\V1\CustomerAccountServiceInterface',
+            '\Magento\Customer\Model\AccountManagement',
             [],
             [],
             '',
             false
         );
         $this->addressBuilderFactoryMock = $this->getMockBuilder(
-            '\Magento\Customer\Service\V1\Data\AddressBuilderFactory'
+            '\Magento\Customer\Api\Data\AddressDataBuilderFactory'
         )
-            ->setMethods(['create'])
+            ->setMethods(['create', 'populate'])
             ->disableOriginalConstructor()
             ->getMock();
+        $this->customerBuilderMock =  $this->getMock(
+            'Magento\Customer\Api\Data\CustomerDataBuilder',
+            [
+                'populateWithArray', 'setEmail', 'create', 'setPrefix', 'setFirstname', 'setMiddlename',
+                'setLastname', 'setSuffix'
+            ], [], '', false
+        );
         $this->objectCopyServiceMock = $this->getMockBuilder('\Magento\Framework\Object\Copy')
             ->disableOriginalConstructor()
             ->getMock();
@@ -91,14 +114,15 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
             'Magento\Paypal\Model\Express\Checkout',
             [
                 'params'                 => [
-                    'quote'   => $this->quoteMock,
-                    'config'  => $paypalConfigMock,
+                    'quote' => $this->quoteMock,
+                    'config' => $paypalConfigMock,
                     'session' => $this->customerSessionMock
                 ],
-                'customerAccountService' => $this->customerAccountServiceMock,
-                'serviceQuoteFactory'    => $this->quoteFactoryMock,
-                'addressBuilderFactory'  => $this->addressBuilderFactoryMock,
-                'objectCopyService'      => $this->objectCopyServiceMock
+                'accountManagement' => $this->customerAccountServiceMock,
+                'serviceQuoteFactory' => $this->quoteFactoryMock,
+                'addressBuilderFactory' => $this->addressBuilderFactoryMock,
+                'objectCopyService' => $this->objectCopyServiceMock,
+                'customerBuilder' => $this->customerBuilderMock
             ]
         );
         parent::setUp();
@@ -106,17 +130,17 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
 
     public function testSetCustomerData()
     {
-        /** @var \Magento\Customer\Service\V1\Data\Customer $customerDataMock */
-        $customerDataMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
+        $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         $this->quoteMock->expects($this->once())->method('assignCustomer')->with($customerDataMock);
-        $customerDataMock->expects($this->once())->method('getId');
+        $customerDataMock->expects($this->once())
+            ->method('getId');
         $this->checkoutModel->setCustomerData($customerDataMock);
     }
 
     public function testSetCustomerWithAddressChange()
     {
         /** @var \Magento\Customer\Service\V1\Data\Customer $customerDataMock */
-        $customerDataMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
+        $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         /** @var \Magento\Sales\Model\Quote\Address $customerDataMock */
         $quoteAddressMock = $this->getMock('Magento\Sales\Model\Quote\Address', [], [], '', false);
         $this->quoteMock
@@ -125,79 +149,5 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
             ->with($customerDataMock, $quoteAddressMock, $quoteAddressMock);
         $customerDataMock->expects($this->once())->method('getId');
         $this->checkoutModel->setCustomerWithAddressChange($customerDataMock, $quoteAddressMock, $quoteAddressMock);
-    }
-
-    public function testPrepareNewCustomerQuote()
-    {
-        $this->quoteMock->expects($this->any())
-            ->method('getCheckoutMethod')
-            ->willReturn(\Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER);
-        $this->quoteMock->expects($this->once())
-            ->method('setCustomerData')
-            ->willReturnSelf();
-
-        $this->quoteFactoryMock->expects($this->once())
-            ->method('create')
-            ->withAnyParameters()
-            ->willReturn($this->serviceQuote);
-
-        $this->objectCopyServiceMock->expects($this->once())
-            ->method('getDataFromFieldset')
-            ->withAnyParameters()
-            ->willReturn([]);
-
-        $this->customerSessionMock->expects($this->once())
-            ->method('regenerateId');
-        
-        $addressDataBuilderMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\AddressBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->addressBuilderFactoryMock->expects($this->any())
-            ->method('create')
-            ->willReturn($addressDataBuilderMock);
-        $addressDataBuilderMock->expects($this->any())
-            ->method('populate')
-            ->withAnyParameters()
-            ->willReturnSelf();
-        $addressDataBuilderMock->expects($this->any())
-            ->method('setDefaultShipping')
-            ->withAnyParameters()
-            ->willReturnSelf();
-        $addressDataBuilderMock->expects($this->any())
-            ->method('setDefaultBilling')
-            ->withAnyParameters()
-            ->willReturnSelf();
-
-        $addressDataMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Address')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $addressDataBuilderMock->expects($this->any())
-            ->method('create')
-            ->willReturn($addressDataMock);
-        
-        $addressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', [], [], '', false);
-        $this->quoteMock->expects($this->any())
-            ->method('getBillingAddress')
-            ->willReturn($addressMock);
-        $this->quoteMock->expects($this->any())
-            ->method('getShippingAddress')
-            ->willReturn($addressMock);
-        $addressMock->expects($this->any())
-            ->method('exportCustomerAddressData')
-            ->willReturn(
-                $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Address')->disableOriginalConstructor()
-                    ->getMock()
-            );
-
-        $customerDataMock = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
-        $this->customerAccountServiceMock->expects($this->any())
-            ->method('getCustomer')
-            ->willReturn($customerDataMock);
-        $this->quoteMock->expects($this->any())
-            ->method('getCustomerData')
-            ->willReturn($customerDataMock);
-
-        $this->checkoutModel->setCustomerData($customerDataMock);
-        $this->checkoutModel->place('token');
     }
 }

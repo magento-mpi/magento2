@@ -7,6 +7,8 @@
  */
 namespace Magento\AdminGws\Model;
 
+use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Model\Exception;
 
 /**
@@ -22,33 +24,31 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     protected $_adminGwsData = null;
 
     /**
-     * Catalog category factory
-     *
-     * @var \Magento\Catalog\Model\CategoryFactory
-     */
-    protected $_categoryFactory = null;
-
-    /**
      * @var \Magento\Framework\StoreManagerInterface
      */
     protected $_storeManager = null;
 
     /**
+     * @var CategoryRepositoryInterface
+     */
+    protected $categoryRepository;
+
+    /**
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\AdminGws\Helper\Data $adminGwsData
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param CategoryRepositoryInterface $categoryRepository
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Helper\Data $adminGwsData,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Framework\StoreManagerInterface $storeManager,
+        CategoryRepositoryInterface $categoryRepository
     ) {
         parent::__construct($role);
         $this->_adminGwsData = $adminGwsData;
-        $this->_categoryFactory = $categoryFactory;
         $this->_storeManager = $storeManager;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -221,7 +221,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     /**
      * Prevent loading disallowed queue
      *
-     * @param \Magento\Newsletter\Model\Queque $model
+     * @param \Magento\Newsletter\Model\Queue $model
      * @return void
      */
     public function newsletterQueueLoadAfter($model)
@@ -715,8 +715,9 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
      */
     public function catalogEventSaveBefore($model)
     {
-        $category = $this->_categoryFactory->create()->load($model->getCategoryId());
-        if (!$category->getId()) {
+        try {
+            $category = $this->categoryRepository->get($model->getCategoryId());
+        } catch (NoSuchEntityException $e) {
             $this->_throwSave();
         }
 
@@ -753,8 +754,9 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     public function catalogEventDeleteBefore($model)
     {
         // delete only in exclusive mode
-        $category = $this->_categoryFactory->create()->load($model->getCategoryId());
-        if (!$category->getId()) {
+        try {
+            $category = $this->categoryRepository->get($model->getCategoryId());
+        } catch (NoSuchEntityException $e) {
             $this->_throwDelete();
         }
         if (!$this->_role->hasExclusiveCategoryAccess($category->getPath())) {
@@ -770,7 +772,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
      */
     public function catalogEventLoadAfter($model)
     {
-        $category = $this->_categoryFactory->create()->load($model->getCategoryId());
+        $category = $this->categoryRepository->get($model->getCategoryId());
         if (!$this->_role->hasExclusiveCategoryAccess($category->getPath())) {
             $model->setIsReadonly(true);
             $model->setIsDeleteable(false);

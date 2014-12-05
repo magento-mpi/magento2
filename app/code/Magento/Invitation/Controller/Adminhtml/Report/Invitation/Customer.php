@@ -17,14 +17,13 @@ class Customer extends \Magento\Invitation\Controller\Adminhtml\Report\Invitatio
      */
     public function execute()
     {
-        $this->_title->add(__('Invited Customers Report'));
-
         $this->_initAction()->_setActiveMenu(
             'Magento_Invitation::report_magento_invitation_customer'
         )->_addBreadcrumb(
             __('Invitation Report by Customers'),
             __('Invitation Report by Customers')
         );
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Invited Customers Report'));
         $this->_view->renderLayout();
     }
 }

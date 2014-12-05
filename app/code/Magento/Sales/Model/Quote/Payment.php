@@ -7,6 +7,8 @@
  */
 namespace Magento\Sales\Model\Quote;
 
+use Magento\Framework\Api\AttributeDataBuilder;
+
 /**
  * Quote payment information
  *
@@ -70,6 +72,8 @@ class Payment extends \Magento\Payment\Model\Info
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
@@ -80,6 +84,8 @@ class Payment extends \Magento\Payment\Model\Info
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
@@ -88,7 +94,17 @@ class Payment extends \Magento\Payment\Model\Info
         array $data = array()
     ) {
         $this->methodSpecificationFactory = $methodSpecificationFactory;
-        parent::__construct($context, $registry, $paymentData, $encryptor, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $customAttributeBuilder,
+            $paymentData,
+            $encryptor,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
@@ -143,22 +159,16 @@ class Payment extends \Magento\Payment\Model\Info
 
         $this->setMethod($data->getMethod());
         $method = $this->getMethodInstance();
+        $quote = $this->getQuote();
 
         /**
          * Payment availability related with quote totals.
          * We have to recollect quote totals before checking
          */
-        $this->getQuote()->collectTotals();
+        $quote->collectTotals();
 
-        if (!$method->isAvailable(
-            $this->getQuote()
-        ) || !$this->methodSpecificationFactory->create(
-            $data->getChecks()
-        )->isApplicable(
-            $method,
-            $this->getQuote()
-        )
-        ) {
+        $methodSpecification = $this->methodSpecificationFactory->create($data->getChecks());
+        if (!$method->isAvailable($quote) || !$methodSpecification->isApplicable($method, $quote)) {
             throw new \Magento\Framework\Model\Exception(__('The requested Payment Method is not available.'));
         }
 
@@ -175,7 +185,7 @@ class Payment extends \Magento\Payment\Model\Info
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if ($this->getQuote()) {
             $this->setQuoteId($this->getQuote()->getId());
@@ -183,10 +193,10 @@ class Payment extends \Magento\Payment\Model\Info
         try {
             $method = $this->getMethodInstance();
         } catch (\Magento\Framework\Model\Exception $e) {
-            return parent::_beforeSave();
+            return parent::beforeSave();
         }
         $method->prepareSave();
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**

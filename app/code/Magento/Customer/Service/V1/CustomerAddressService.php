@@ -10,7 +10,6 @@ namespace Magento\Customer\Service\V1;
 use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\CustomerRegistry;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\InputException;
 
 /**
@@ -230,7 +229,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'lastname', 'index' => $index]);
         }
 
-        if (!\Zend_Validate::is($customerAddressModel->getStreet(1), 'NotEmpty')) {
+        if (!\Zend_Validate::is($customerAddressModel->getStreetLine(1), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => 'street', 'index' => $index]);
         }
 

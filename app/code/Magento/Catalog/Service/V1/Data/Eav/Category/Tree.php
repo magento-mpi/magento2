@@ -9,8 +9,10 @@ namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
 /**
  * @codeCoverageIgnore
+ * @see \Magento\Catalog\Api\Data\CategoryTreeInterface
+ * @deprecated
  */
-class Tree extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class Tree extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     const ID = 'id';
     const PARENT_ID = 'parent_id';

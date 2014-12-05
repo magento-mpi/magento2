@@ -62,7 +62,7 @@ class Manager
      */
     public function isEnabled($moduleName)
     {
-        return !!$this->_moduleList->getModule($moduleName);
+        return $this->_moduleList->has($moduleName);
     }
 
     /**

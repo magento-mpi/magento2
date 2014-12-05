@@ -7,12 +7,14 @@
  */
 namespace Magento\Sales\Model\Resource\Quote;
 
+use \Magento\Framework\Model\Resource\Db\AbstractDb;
+
 /**
  * Quote address resource model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Address extends \Magento\Sales\Model\Resource\AbstractResource
+class Address extends AbstractDb
 {
     /**
      * Main table and field initialization
@@ -21,6 +23,6 @@ class Address extends \Magento\Sales\Model\Resource\AbstractResource
      */
     protected function _construct()
     {
-        $this->_init('sales_flat_quote_address', 'address_id');
+        $this->_init('sales_quote_address', 'address_id');
     }
 }

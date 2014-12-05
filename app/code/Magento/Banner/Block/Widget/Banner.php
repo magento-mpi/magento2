@@ -7,6 +7,8 @@
  */
 namespace Magento\Banner\Block\Widget;
 
+use Magento\Customer\Model\Context;
+
 /**
  * Banner Widget Block
  *
@@ -219,7 +221,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
             case self::BANNER_WIDGET_DISPLAY_CATALOGRULE:
                 $bannerIds = $this->_bannerResource->getCatalogRuleRelatedBannerIds(
                     $this->_currentWebsiteId,
-                    $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP)
+                    $this->httpContext->getValue(Context::CONTEXT_GROUP)
                 );
                 $bannersContent = $this->_getBannersContent($bannerIds);
                 break;
@@ -324,7 +326,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
                         }
                     }
                     if ($bannersSequence === null) {
-                        $bannersSequence = $this->_session->_getData($this->getUniqueId());
+                        $bannersSequence = $this->_session->getData($this->getUniqueId());
                     }
 
                     // Check that we have suggested banner to render

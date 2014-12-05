@@ -8,7 +8,6 @@
 namespace Magento\AdvancedCheckout\Helper;
 
 use Magento\Sales\Model\Quote\Item;
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Enterprise Checkout Helper
@@ -95,10 +94,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var string[]
      */
-    protected $_failedTemplateStatusCodes = array(
+    protected $_failedTemplateStatusCodes = [
         self::ADD_ITEM_STATUS_FAILED_SKU,
         self::ADD_ITEM_STATUS_FAILED_PERMISSIONS
-    );
+    ];
 
     /**
      * @var \Magento\Catalog\Helper\Data
@@ -166,16 +165,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Catalog inventory stock item service
      *
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService = null;
+    protected $stockRegistry = null;
 
     /**
      * Catalog inventory stock status service
      *
-     * @var \Magento\CatalogInventory\Service\V1\StockStatusService
+     * @var \Magento\CatalogInventory\Helper\Stock
      */
-    protected $stockStatusService;
+    protected $stockHelper;
 
     /**
      * Advanced checkout import factory
@@ -194,8 +193,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $priceCurrency;
 
-    /** @var \Magento\Msrp\Helper\Data */
+    /**
+     * @var \Magento\Msrp\Helper\Data
+     */
     protected $msrpData;
+
+    /**
+     * @var \Magento\Customer\Api\GroupManagementInterface
+     */
+    protected $groupManagement;
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
@@ -209,14 +215,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\AdvancedCheckout\Model\ImportFactory $importFactory
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
-     * @param \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param \Magento\CatalogInventory\Helper\Stock $stockHelper
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Msrp\Helper\Data $msrpData
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -230,13 +236,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\AdvancedCheckout\Model\ImportFactory $importFactory,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
-        \Magento\CatalogInventory\Service\V1\StockStatusService $stockStatusService,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Magento\CatalogInventory\Helper\Stock $stockHelper,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        \Magento\Msrp\Helper\Data $msrpData
+        \Magento\Msrp\Helper\Data $msrpData,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_cart = $cart;
@@ -250,12 +257,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_scopeConfig = $scopeConfig;
         parent::__construct($context);
         $this->_importFactory = $importFactory;
-        $this->stockItemService = $stockItemService;
-        $this->stockStatusService = $stockStatusService;
+        $this->stockRegistry = $stockRegistry;
+        $this->stockHelper = $stockHelper;
         $this->_productFactory = $productFactory;
         $this->_quoteItemFactory = $quoteItemFactory;
         $this->messageManager = $messageManager;
         $this->msrpData = $msrpData;
+        $this->groupManagement = $groupManagement;
     }
 
     /**
@@ -369,10 +377,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
                 if ($this->_customerSession) {
                     $groupId = $this->_customerSession->getCustomerGroupId();
-                    $result = $groupId === CustomerGroupServiceInterface::NOT_LOGGED_IN_ID || in_array(
-                        $groupId,
-                        $this->getSkuCustomerGroups()
-                    );
+                    $result = $groupId === $this->groupManagement->getNotLoggedInGroup()->getId()
+                        || in_array($groupId, $this->getSkuCustomerGroups());
                 }
                 break;
         }
@@ -413,15 +419,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $collection = $this->_products->addMinimalPrice()->addFinalPrice()->addTaxPercents()->addAttributeToSelect(
                 $this->_catalogConfig->getProductAttributes()
             )->addUrlRewrite();
-            $itemsToLoad = array();
+            $itemsToLoad = [];
 
-            $quoteItemsCollection = is_null($this->_items) ? array() : $this->_items;
+            $quoteItemsCollection = is_null($this->_items) ? [] : $this->_items;
             $quote = $this->_checkoutSession->getQuote();
             foreach ($failedItems as $item) {
                 if (is_null($this->_items) && !in_array($item['code'], $this->_failedTemplateStatusCodes)) {
                     $id = $item['item']['id'];
                     if (!isset($itemsToLoad[$id])) {
-                        $itemsToLoad[$id] = array();
+                        $itemsToLoad[$id] = [];
                     }
                     $itemToLoad = $item['item'];
                     $itemToLoad['code'] = $item['code'];
@@ -454,7 +460,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                         $itemProduct = $index == $itemsCount - 1 ? $product : clone $product;
                         $itemProduct->addData($itemToLoad);
                         if (!$itemProduct->getOptionsByCode()) {
-                            $itemProduct->setOptionsByCode(array());
+                            $itemProduct->setOptionsByCode([]);
                         }
                         // Create a new quote item and import data to it
                         $quoteItem = clone $emptyQuoteItem;
@@ -483,8 +489,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                             $quoteItem->setCanApplyMsrp(false);
                         }
 
-                        $stockItemDo = $this->stockItemService->getStockItem($itemProduct->getId());
-                        $this->stockStatusService->assignProduct($itemProduct, $stockItemDo->getStockId());
+                        $this->stockHelper->assignStatusToProduct($itemProduct);
+                        $stockItemDo = $this->stockRegistry->getStockItem(
+                            $itemProduct->getId(),
+                            $quote->getStore()->getWebsiteId()
+                        );
                         $quoteItem->setStockItem($stockItemDo);
 
                         $quoteItemsCollection[] = $quoteItem;
@@ -514,23 +523,28 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Process SKU file uploading and get uploaded data
      *
-     * @return array|void
+     * @return array|null
      */
     public function processSkuFileUploading()
     {
+        $rows = null;
         $importModel = $this->_importFactory->create();
+
         try {
             $importModel->uploadFile();
             $rows = $importModel->getRows();
             if (empty($rows)) {
                 throw new \Magento\Framework\Model\Exception(__('The file is empty.'));
             }
+
             return $rows;
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, $this->getFileGeneralErrorText());
         }
+
+        return $rows;
     }
 
     /**

@@ -7,6 +7,8 @@
  */
 namespace Magento\Solr\Model\Layer\Category\Filter;
 
+use Magento\Framework\App\RequestInterface;
+
 /**
  * Layer decimal attribute filter
  *
@@ -25,32 +27,31 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
         $attribute_code = $this->getAttributeModel()->getAttributeCode();
         $facets = $this->getLayer()->getProductCollection()->getFacetedData('attr_decimal_' . $attribute_code);
 
-        $data = array();
         if (!empty($facets)) {
             foreach ($facets as $key => $count) {
                 preg_match('/TO ([\d\.]+)\]$/', $key, $rangeKey);
                 $rangeKey = $rangeKey[1] / $range;
                 if ($count > 0) {
                     $rangeKey = round($rangeKey);
-                    $data[] = array(
-                        'label' => $this->_renderItemLabel($range, $rangeKey),
-                        'value' => $rangeKey . ',' . $range,
-                        'count' => $count
+                    $this->itemDataBuilder->addItemData(
+                        $this->_renderItemLabel($range, $rangeKey),
+                        $rangeKey . ',' . $range,
+                        $count
                     );
                 }
             }
         }
 
-        return $data;
+        return $this->itemDataBuilder->build();
     }
 
     /**
      * Apply decimal range filter to product collection
      *
-     * @param \Zend_Controller_Request_Abstract $request
+     * @param RequestInterface $request
      * @return $this
      */
-    public function apply(\Zend_Controller_Request_Abstract $request)
+    public function apply(RequestInterface $request)
     {
         /**
          * Filter must be string: $index, $range
@@ -74,7 +75,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
                 $this->_createItem($this->_renderItemLabel($range, $index), $filter)
             );
 
-            $this->_items = array();
+            $this->_items = [];
         }
 
         return $this;
@@ -90,10 +91,10 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
         $range = $this->getRange();
         $maxValue = $this->getMaxValue();
         if ($maxValue > 0) {
-            $facets = array();
+            $facets = [];
             $facetCount = ceil($maxValue / $range);
             for ($i = 0; $i < $facetCount; $i++) {
-                $facets[] = array('from' => $i * $range, 'to' => ($i + 1) * $range - 0.001);
+                $facets[] = ['from' => $i * $range, 'to' => ($i + 1) * $range - 0.001];
             }
 
             $attributeCode = $this->getAttributeModel()->getAttributeCode();
@@ -119,7 +120,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
         $attributeCode = $filter->getAttributeModel()->getAttributeCode();
         $field = 'attr_decimal_' . $attributeCode;
 
-        $value = array($field => array('from' => $range * ($index - 1), 'to' => $range * $index - 0.001));
+        $value = [$field => ['from' => $range * ($index - 1), 'to' => $range * $index - 0.001]];
 
         $productCollection->addFqFilter($value);
         return $this;

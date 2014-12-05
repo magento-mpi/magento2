@@ -10,12 +10,12 @@ namespace Magento\SalesArchive\Service\V1;
 
 use Magento\SalesArchive\Model\Archive;
 use Magento\Framework\Stdlib\DateTime\DateTime;
-use Magento\Sales\Model\OrderRepository;
+use Magento\Sales\Api\Data\OrderSearchResultInterface;
 use Magento\SalesArchive\Service\V1\Data\ArchiveMapper;
 use Magento\SalesArchive\Service\V1\Data\ArchiveSearchResultsBuilder;
-use Magento\Framework\Service\V1\Data\SearchCriteriaBuilder;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\Framework\Service\V1\Data\FilterBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Api\FilterBuilder;
 
 class WriteService implements WriteServiceInterface
 {
@@ -35,9 +35,9 @@ class WriteService implements WriteServiceInterface
     protected $filterBuilder;
 
     /**
-     * @var OrderRepository
+     * @var OrderSearchResultInterface
      */
-    protected $orderRepository;
+    protected $orderSearchResult;
 
     /**
      * @var ArchiveMapper
@@ -63,7 +63,7 @@ class WriteService implements WriteServiceInterface
 
     /**
      * @param Archive $archive
-     * @param OrderRepository $orderRepository
+     * @param OrderSearchResultInterface $orderSearchResult
      * @param ArchiveMapper $archiveMapper
      * @param ArchiveSearchResultsBuilder $searchResultsBuilder
      * @param SearchCriteriaBuilder $criteriaBuilder
@@ -73,7 +73,7 @@ class WriteService implements WriteServiceInterface
      */
     public function __construct(
         Archive $archive,
-        OrderRepository $orderRepository,
+        OrderSearchResultInterface $orderSearchResult,
         ArchiveMapper $archiveMapper,
         ArchiveSearchResultsBuilder $searchResultsBuilder,
         SearchCriteriaBuilder $criteriaBuilder,
@@ -82,7 +82,7 @@ class WriteService implements WriteServiceInterface
         \Magento\Framework\Stdlib\DateTime $dateTime
     ) {
         $this->archive = $archive;
-        $this->orderRepository = $orderRepository;
+        $this->orderSearchResult = $orderSearchResult;
         $this->archiveMapper = $archiveMapper;
         $this->searchResultsBuilder = $searchResultsBuilder;
         $this->criteriaBuilder = $criteriaBuilder;
@@ -115,7 +115,7 @@ class WriteService implements WriteServiceInterface
     /**
      * Retrieve archived orders grid service
      *
-     * @param \Magento\Framework\Service\V1\Data\SearchCriteria $searchCriteria
+     * @param \Magento\Framework\Api\SearchCriteria $searchCriteria
      * @return \Magento\SalesArchive\Service\V1\Data\ArchiveSearchResults
      */
     public function getList(SearchCriteria $searchCriteria)
@@ -139,7 +139,7 @@ class WriteService implements WriteServiceInterface
         }
         $criteria = $this->criteriaBuilder->create();
         $orders = [];
-        foreach ($this->orderRepository->find($criteria) as $order) {
+        foreach ($this->orderSearchResult->getItems() as $order) {
             $orders[] = $this->archiveMapper->extractDto($order);
         }
         return $this->searchResultsBuilder->setItems($orders)

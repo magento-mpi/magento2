@@ -7,6 +7,9 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ConfigDataTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -48,6 +51,11 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\CatalogPermissions\Model\Indexer\Plugin\ConfigData
      */
     protected $configData;
+
+    /**
+     * @var \Magento\Indexer\Model\IndexerRegistry|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $indexerRegistryMock;
 
     protected function setUp()
     {
@@ -91,10 +99,12 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
             return $backendConfigMock;
         };
 
+        $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
+
         $this->configData = new ConfigData(
             $this->coreCacheMock,
             $this->appConfigMock,
-            $this->indexerMock,
+            $this->indexerRegistryMock,
             $this->configLoaderMock,
             $this->storeManagerMock
         );
@@ -119,6 +129,8 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(array('test' => 1))
         );
         $this->appConfigMock->expects($this->never())->method('isEnabled');
+
+        $this->indexerRegistryMock->expects($this->never())->method('get');
 
         $this->configData->aroundSave($this->backendConfigMock, $this->closureMock);
     }
@@ -172,9 +184,12 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
             array(\Magento\Catalog\Model\Category::CACHE_TAG)
         );
 
-        $this->indexerMock->expects($this->once())->method('getId')->will($this->returnValue(10));
-
         $this->indexerMock->expects($this->once())->method('invalidate');
+
+        $this->indexerRegistryMock->expects($this->once())
+            ->method('get')
+            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
+            ->will($this->returnValue($this->indexerMock));
 
         $this->configData->aroundSave($this->backendConfigMock, $this->closureMock);
     }

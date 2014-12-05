@@ -50,7 +50,7 @@ class StaticResource implements \Magento\Framework\AppInterface
     private $moduleList;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     private $objectManager;
 
@@ -66,7 +66,7 @@ class StaticResource implements \Magento\Framework\AppInterface
      * @param \Magento\Framework\App\View\Asset\Publisher $publisher
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\Module\ModuleList $moduleList
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param ObjectManager\ConfigLoader $configLoader
      */
     public function __construct(
@@ -76,7 +76,7 @@ class StaticResource implements \Magento\Framework\AppInterface
         View\Asset\Publisher $publisher,
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\Module\ModuleList $moduleList,
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         ObjectManager\ConfigLoader $configLoader
     ) {
         $this->state = $state;
@@ -146,7 +146,7 @@ class StaticResource implements \Magento\Framework\AppInterface
         $result['area'] = $parts[0];
         $result['theme'] = $parts[1] . '/' . $parts[2];
         $result['locale'] = $parts[3];
-        if (count($parts) >= 6 && $this->isModule($parts[4])) {
+        if (count($parts) >= 6 && $this->moduleList->has($parts[4])) {
             $result['module'] = $parts[4];
         } else {
             $result['module'] = '';
@@ -158,16 +158,5 @@ class StaticResource implements \Magento\Framework\AppInterface
         }
         $result['file'] = $parts[5];
         return $result;
-    }
-
-    /**
-     * Check if active module 'name' exists
-     *
-     * @param string $name
-     * @return bool
-     */
-    protected function isModule($name)
-    {
-        return null !== $this->moduleList->getModule($name);
     }
 }

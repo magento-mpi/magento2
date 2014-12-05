@@ -8,22 +8,11 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
-    <module name="Magento_Banner" schema_version="1.11.0.1" active="false">
+    <module name="Magento_Banner" schema_version="1.11.0.1">
         <sequence>
             <module name="Magento_CatalogRule"/>
             <module name="Magento_SalesRule"/>
             <module name="Magento_VersionsCms"/>
         </sequence>
-        <depends>
-            <module name="Magento_CatalogRule"/>
-            <module name="Magento_Eav"/>
-            <module name="Magento_SalesRule"/>
-            <module name="Magento_Backend"/>
-            <module name="Magento_Cms"/>
-            <module name="Magento_Widget"/>
-            <module name="Magento_Checkout"/>
-            <module name="Magento_Customer"/>
-            <module name="Magento_Sales"/>
-        </depends>
     </module>
 </config>

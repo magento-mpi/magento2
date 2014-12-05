@@ -38,21 +38,29 @@ class Preprocessor implements PreprocessorInterface
     private $resource;
 
     /**
+     * @var string
+     */
+    private $attributePrefix;
+
+    /**
      * @param ConditionManager $conditionManager
      * @param ScopeResolverInterface $scopeResolver
      * @param Config $config
      * @param Resource $resource
+     * @param string $attributePrefix
      */
     public function __construct(
         ConditionManager $conditionManager,
         ScopeResolverInterface $scopeResolver,
         Config $config,
-        Resource $resource
+        Resource $resource,
+        $attributePrefix
     ) {
         $this->conditionManager = $conditionManager;
         $this->scopeResolver = $scopeResolver;
         $this->config = $config;
         $this->resource = $resource;
+        $this->attributePrefix = $attributePrefix;
     }
 
     /**
@@ -60,7 +68,7 @@ class Preprocessor implements PreprocessorInterface
      */
     public function process(FilterInterface $filter, $isNegation, $query)
     {
-        return $resultQuery =  $this->processQueryWithField($filter, $isNegation, $query);
+        return $resultQuery = $this->processQueryWithField($filter, $isNegation, $query);
     }
 
     /**
@@ -68,6 +76,7 @@ class Preprocessor implements PreprocessorInterface
      * @param bool $isNegation
      * @param string $query
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     private function processQueryWithField(FilterInterface $filter, $isNegation, $query)
     {
@@ -80,12 +89,26 @@ class Preprocessor implements PreprocessorInterface
             $query = str_replace('price', 'min_price', $query);
             $select->from(['main_table' => $this->resource->getTableName('catalog_product_index_price')], 'entity_id')
                 ->where($query);
+        } elseif ($filter->getField() == 'category_ids') {
+            return 'category_index.category_id = ' . $filter->getValue();
         } else {
             if ($attribute->isStatic()) {
                 $select->from(['main_table' => $table], 'entity_id')
                     ->where($query);
             } else {
+                if ($filter->getType() == FilterInterface::TYPE_TERM) {
+                    $field = $filter->getField();
+                    $mapper = function ($value) use ($field, $isNegation) {
+                        return ($isNegation ? '-' : '') . $this->attributePrefix . $field . '_' . $value;
+                    };
+                    if (is_array($filter->getValue())) {
+                        $value = implode(' ', array_map($mapper, $filter->getValue()));
+                    } else {
+                        $value = $mapper($filter->getValue());
+                    }
 
+                    return 'MATCH (data_index) AGAINST (' . $this->getConnection()->quote($value) . ' IN BOOLEAN MODE)';
+                }
                 $ifNullCondition = $this->getConnection()->getIfNullSql('current_store.value', 'main_table.value');
 
                 $select->from(['main_table' => $table], 'entity_id')
@@ -105,9 +128,9 @@ class Preprocessor implements PreprocessorInterface
             }
         }
 
-        return 'product_id ' . ' IN (
-                select entity_id from  ' . $this->conditionManager->wrapBrackets($select) . '
-             as filter)';
+        return 'search_index.product_id IN (
+            select entity_id from  ' . $this->conditionManager->wrapBrackets($select) . ' as filter
+            )';
     }
 
     /**

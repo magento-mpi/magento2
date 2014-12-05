@@ -7,8 +7,8 @@
  */
 namespace Magento\Catalog\Block\Product;
 
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
-use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
 
 /**
  * Product View block
@@ -21,13 +21,6 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      * @var \Magento\Framework\Stdlib\String
      */
     protected $string;
-
-    /**
-     * Product factory
-     *
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
 
     /**
      * @var \Magento\Framework\Json\EncoderInterface
@@ -58,51 +51,58 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      * @var \Magento\Customer\Model\Session
      */
     protected $customerSession;
-
+    
     /**
-     * @var TaxCalculationServiceInterface
+     * @var ProductRepositoryInterface
      */
-    protected $taxCalculationService;
+    protected $productRepository;
 
     /**
      * @param Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param ProductRepositoryInterface $productRepository
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Customer\Model\Session $customerSession,
-        TaxCalculationServiceInterface $taxCalculationService,
+        ProductRepositoryInterface $productRepository,
         array $data = array()
     ) {
         $this->_productHelper = $productHelper;
         $this->_coreData = $coreData;
         $this->_jsonEncoder = $jsonEncoder;
-        $this->_productFactory = $productFactory;
         $this->productTypeConfig = $productTypeConfig;
         $this->string = $string;
         $this->_localeFormat = $localeFormat;
         $this->customerSession = $customerSession;
-        $this->taxCalculationService = $taxCalculationService;
+        $this->productRepository = $productRepository;
         parent::__construct(
             $context,
             $data
         );
+    }
+
+    /**
+     * Return wishlist widget options
+     *
+     * @return array
+     */
+    public function getWishlistOptions()
+    {
+        return ['productType' => $this->getProduct()->getTypeId()];
     }
 
     /**
@@ -120,7 +120,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
 
         $title = $product->getMetaTitle();
         if ($title) {
-            $this->pageConfig->setTitle($title);
+            $this->pageConfig->getTitle()->set($title);
         }
         $keyword = $product->getMetaKeyword();
         $currentCategory = $this->_coreRegistry->registry('current_category');
@@ -157,7 +157,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
     public function getProduct()
     {
         if (!$this->_coreRegistry->registry('product') && $this->getProductId()) {
-            $product = $this->_productFactory->create()->load($this->getProductId());
+            $product = $this->productRepository->getById($this->getProductId());
             $this->_coreRegistry->register('product', $product);
         }
         return $this->_coreRegistry->registry('product');
@@ -205,64 +205,53 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      */
     public function getJsonConfig()
     {
+        /* @var $product \Magento\Catalog\Model\Product */
+        $product = $this->getProduct();
+
         $config = array();
         if (!$this->hasOptions()) {
+            $config = [
+                'productId' => $product->getId(),
+                'priceFormat' => $this->_localeFormat->getPriceFormat()
+                ];
             return $this->_jsonEncoder->encode($config);
         }
 
-        $customerId = $this->getCustomerId();
-        /* @var $product \Magento\Catalog\Model\Product */
-        $product = $this->getProduct();
-        $defaultTax = $this->taxCalculationService->getDefaultCalculatedRate(
-            $product->getTaxClassId(),
-            $customerId
-        );
-        $currentTax = $this->taxCalculationService->getCalculatedRate(
-            $product->getTaxClassId(),
-            $customerId
-        );
-
-        $tierPrices = array();
-
+        $tierPrices = [];
         $tierPricesList = $product->getPriceInfo()->getPrice('tier_price')->getTierPriceList();
-
         foreach ($tierPricesList as $tierPrice) {
             $tierPrices[] = $this->_coreData->currency($tierPrice['price']->getValue(), false, false);
         }
         $config = array(
             'productId' => $product->getId(),
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
-            'includeTax' => $this->_taxData->priceIncludesTax() ? 'true' : 'false',
-            'showIncludeTax' => $this->_taxData->displayPriceIncludingTax(),
-            'showBothPrices' => $this->_taxData->displayBothPrices(),
-            'productPrice' => $this->_coreData->currency(
-                $product->getPriceInfo()->getPrice('final_price')->getValue(),
-                false,
-                false
-            ),
-            'productOldPrice' => $this->_coreData->currency(
-                $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue(),
-                false,
-                false
-            ),
-            'inclTaxPrice' => $this->_coreData->currency(
-                $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),
-                false,
-                false
-            ),
-            'exclTaxPrice' => $this->_coreData->currency(
-                $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount(),
-                false,
-                false
-            ),
-            'defaultTax' => $defaultTax,
-            'currentTax' => $currentTax,
+            'prices' => [
+                'oldPrice' => [
+                    'amount' => $this->_coreData->currency(
+                        $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue(),
+                        false,
+                        false
+                    ),
+                    'adjustments' => []
+                ],
+                'basePrice' => [
+                    'amount' => $this->_coreData->currency(
+                        $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount(),
+                        false,
+                        false
+                    ),
+                    'adjustments' => []
+                ],
+                'finalPrice' => [
+                    'amount' => $this->_coreData->currency(
+                        $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),
+                        false,
+                        false
+                    ),
+                    'adjustments' => []
+                ]
+            ],
             'idSuffix' => '_clone',
-            'oldPlusDisposition' => 0,
-            'plusDisposition' => 0,
-            'plusDispositionTax' => 0,
-            'oldMinusDisposition' => 0,
-            'minusDisposition' => 0,
             'tierPrices' => $tierPrices
         );
 

@@ -7,12 +7,15 @@
  */
 namespace Magento\Sales\Model\Resource\Order\Creditmemo;
 
+use Magento\Sales\Model\Resource\Entity;
+use Magento\Sales\Model\Spi\CreditmemoCommentResourceInterface;
+
 /**
  * Flat sales order creditmemo comment resource
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Comment extends \Magento\Sales\Model\Resource\Entity
+class Comment extends Entity implements CreditmemoCommentResourceInterface
 {
     /**
      * Event prefix
@@ -30,7 +33,6 @@ class Comment extends \Magento\Sales\Model\Resource\Entity
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Sales\Model\Resource\Attribute $attribute
      * @param \Magento\Sales\Model\Increment $salesIncrement
      * @param \Magento\Sales\Model\Order\Creditmemo\Comment\Validator $validator
@@ -38,14 +40,13 @@ class Comment extends \Magento\Sales\Model\Resource\Entity
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Sales\Model\Resource\Attribute $attribute,
         \Magento\Sales\Model\Increment $salesIncrement,
         \Magento\Sales\Model\Order\Creditmemo\Comment\Validator $validator,
         \Magento\Sales\Model\Resource\GridInterface $gridAggregator = null
     ) {
         $this->validator = $validator;
-        parent::__construct($resource, $dateTime, $attribute, $salesIncrement, $gridAggregator);
+        parent::__construct($resource, $attribute, $salesIncrement, $gridAggregator);
     }
 
     /**
@@ -55,7 +56,7 @@ class Comment extends \Magento\Sales\Model\Resource\Entity
      */
     protected function _construct()
     {
-        $this->_init('sales_flat_creditmemo_comment', 'entity_id');
+        $this->_init('sales_creditmemo_comment', 'entity_id');
     }
 
     /**
@@ -67,6 +68,11 @@ class Comment extends \Magento\Sales\Model\Resource\Entity
      */
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
+        /**@var $object \Magento\Sales\Model\Order\Creditmemo\Comment*/
+        if (!$object->getParentId() && $object->getCreditmemo()) {
+            $object->setParentId($object->getCreditmemo()->getId());
+        }
+
         parent::_beforeSave($object);
         $errors = $this->validator->validate($object);
         if (!empty($errors)) {
@@ -74,7 +80,6 @@ class Comment extends \Magento\Sales\Model\Resource\Entity
                 __("Cannot save comment") . ":\n" . implode("\n", $errors)
             );
         }
-
         return $this;
     }
 }

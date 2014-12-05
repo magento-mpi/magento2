@@ -9,8 +9,10 @@ namespace Magento\Catalog\Service\V1\Product;
 
 /**
  * Class Product MetadataServiceInterface
+ * @deprecated
+ * @see \Magento\Catalog\Api\Product\Attribute\MetadataRepositoryInterface
  */
-interface MetadataServiceInterface extends \Magento\Framework\Service\Data\MetadataServiceInterface
+interface MetadataServiceInterface extends \Magento\Framework\Api\MetadataServiceInterface
 {
     /**#@+
      * Predefined constants

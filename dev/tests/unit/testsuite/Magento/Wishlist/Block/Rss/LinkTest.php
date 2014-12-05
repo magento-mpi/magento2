@@ -29,22 +29,25 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', [], [], '', false);
+        $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', ['getId'], [], '', false);
         $wishlist->expects($this->any())->method('getId')->will($this->returnValue(5));
 
-        $customer = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
+        $customer = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         $customer->expects($this->any())->method('getId')->will($this->returnValue(8));
         $customer->expects($this->any())->method('getEmail')->will($this->returnValue('test@example.com'));
 
         $this->wishlistHelper = $this->getMock(
             'Magento\Wishlist\Helper\Data',
-            ['getWishlist', 'getCustomer'],
+            ['getWishlist', 'getCustomer', 'urlEncode'],
             [],
             '',
             false
         );
         $this->wishlistHelper->expects($this->any())->method('getWishlist')->will($this->returnValue($wishlist));
         $this->wishlistHelper->expects($this->any())->method('getCustomer')->will($this->returnValue($customer));
+        $this->wishlistHelper->expects($this->any())->method('urlEncode')->willReturnCallback(function ($url) {
+            return strtr(base64_encode($url), '+/=', '-_,');
+        });
 
         $this->urlBuilder = $this->getMock('Magento\Framework\App\Rss\UrlBuilderInterface');
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');

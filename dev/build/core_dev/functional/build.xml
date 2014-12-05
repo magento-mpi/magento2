@@ -15,24 +15,14 @@
     <target name="run-ee" depends="_server_info" description="Run functional tests on EE">
         <antcall>
             <target name="_enterprise_edition"/>
-            <target name="remove-unwanted-modules"/>
             <target name="run"/>
         </antcall>
     </target>
     <target name="run-ce" depends="_server_info" description="Run functional tests on CE">
         <antcall>
             <target name="_community_edition"/>
-            <target name="remove-unwanted-modules"/>
             <target name="run"/>
         </antcall>
-    </target>
-
-    <target name="remove-unwanted-modules"
-            if="env.bamboo_build_module_list_file"
-            description="Remove modules according to test profile">
-        <exec executable="php" dir="${basedir}/dev/build" failonerror="true">
-            <arg line="remove-unwanted-modules.php --included-module-list-file ${env.bamboo_build_module_list_file}"/>
-        </exec>
     </target>
 
     <target name="run" depends="_server_info" description="Deploy multiple Magento instances and run functional tests on each of them simultaneously">
@@ -104,18 +94,30 @@
         <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
         <delete dir="${dir.build_directory}"/>
 
+        <loadfile srcFile="${basedir}/dev/tests/functional/composer.json" property="composer_json"/>
         <copy file="${basedir}/${env.build_customization_dir}/composer.json" failonerror="true" overwrite="true"
               tofile="${basedir}/dev/tests/functional/composer.json"/>
 
         <condition property="env.bamboo_mtf_repository" value="git://github.scm.corp.ebay.com/mtf/mtf.git">
             <not><isset property="env.bamboo_mtf_repository"/></not>
         </condition>
-        <condition property="env.bamboo_mtf_branch" value="develop">
-            <not><isset property="env.bamboo_mtf_branch"/></not>
-        </condition>
+        <script language="javascript"><![CDATA[
+             if (project.getProperty('env.bamboo_mtf_version') == null
+                 || project.getProperty('env.bamboo_mtf_version') == ''
+             ) {
+                 var composer_json = project.getProperty("composer_json");
+                 var reg = /magento.mtf.*?(\d.*?).,/;
+                 var result = reg.exec(composer_json);
+                 if (result[1] != null){
+                     project.setProperty('env.bamboo_mtf_version', result[1]);
+                 } else {
+                     project.setProperty('env.bamboo_mtf_version', 'dev-develop');
+                 }
+             }
+        ]]></script>
         <replace file="${basedir}/dev/tests/functional/composer.json">
             <replacefilter token="{{mtf_repository}}" value="${env.bamboo_mtf_repository}"/>
-            <replacefilter token="{{mtf_branch}}" value="${env.bamboo_mtf_branch}"/>
+            <replacefilter token="{{mtf_version}}" value="${env.bamboo_mtf_version}"/>
         </replace>
 
         <antcall target="_composer_install">
@@ -154,12 +156,17 @@
             <not><isset property="env.bamboo_module_filter"/></not>
         </condition>
 
+        <condition property="env.bamboo_module_filter_strict" value="">
+            <not><isset property="env.bamboo_module_filter_strict"/></not>
+        </condition>
+
         <exec executable="vendor/phpunit/phpunit/phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
             <arg line="--log-junit ${basedir}/test-cases-report.xml
                 --bootstrap config/bootstrap.php
                  ${env.bamboo_executer_options}
                 "/>
             <env key="module_filter" value="${env.bamboo_module_filter}"/>
+            <env key="module_filter_strict" value="${env.bamboo_module_filter_strict}"/>
         </exec>
     </target>
 
@@ -217,7 +224,7 @@
             var currentInstance = project.getProperty('instanceIndex');
             if (currentInstance > 0) {
                 self.project.executeTarget('_import_mysql_dump');
-                self.project.executeTarget('_copy_local_xml');
+                self.project.executeTarget('_copy_config_php');
                 self.project.executeTarget('_update_db');
             }
         ]]></script>
@@ -261,8 +268,8 @@
             <arg line="utils/generate/factory.php"/>
         </exec>
 
-        <antcall target="_run_compiler">
-            <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}" />
+        <antcall target="_run_composer_dump_autoload">
+            <param name="target_composer_dir" value="${basedir}/dev/tests/functional"/>
         </antcall>
 
         <script language="javascript"><![CDATA[
@@ -271,17 +278,35 @@
                 self.project.executeTarget( '_install_standalone_application' );
             }
         ]]></script>
+
+        <condition property="env.bamboo_mtf_compiler_name" value="compiler">
+            <not><isset property="env.bamboo_mtf_compiler_name"/></not>
+        </condition>
+
+        <antcall target="_run_compiler">
+            <param name="product_root_dir" value="${dir.build_directory}/instance-${instanceIndex}" />
+            <param name="compiler_name" value="${env.bamboo_mtf_compiler_name}" />
+        </antcall>
     </target>
 
     <target name="_run_compiler" description="Run DI compiler tool">
         <exec executable="php" failonerror="true" >
-            <arg line='-f ${product_root_dir}/dev/tools/Magento/Tools/Di/compiler.php'/>
+            <arg line='-f ${product_root_dir}/dev/tools/Magento/Tools/Di/${compiler_name}.php'/>
+        </exec>
+    </target>
+
+    <target name="_run_composer_dump_autoload" if="env.COMPOSER_HOME">
+        <mkdir dir="${env.COMPOSER_HOME}"/>
+        <echo message="Run 'composer dump-autoload' for directory '${target_composer_dir}'"/>
+        <exec executable="/usr/local/bin/composer" dir="${target_composer_dir}" failonerror="true">
+            <env key="COMPOSER_PROCESS_TIMEOUT" value="600"/>
+            <arg line="dump-autoload"/>
         </exec>
     </target>
 
     <target name="_install_standalone_application">
-        <exec executable="php" dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/">
-            <arg line="-f standalone-installer.php"/>
+        <exec executable="php" failonerror="true" dir="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/">
+            <arg line="-f standalone-installer.php -- --module-list-file=${env.bamboo_build_module_list_file}"/>
         </exec>
     </target>
 
@@ -294,10 +319,10 @@
         </exec>
     </target>
 
-    <target name="_copy_local_xml">
-        <copy file="${dir.build_directory}/instance-0/app/etc/local.xml" failonerror="true" overwrite="true"
-              tofile="${dir.build_directory}/instance-${instanceIndex}/app/etc/local.xml"/>
-        <replace file="${dir.build_directory}/instance-${instanceIndex}/app/etc/local.xml">
+    <target name="_copy_config_php">
+        <copy file="${dir.build_directory}/instance-0/app/etc/config.php" failonerror="true" overwrite="true"
+              tofile="${dir.build_directory}/instance-${instanceIndex}/app/etc/config.php"/>
+        <replace file="${dir.build_directory}/instance-${instanceIndex}/app/etc/config.php">
             <replacefilter token="${env.db_name_prefix}0" value="${env.db_name_prefix}${instanceIndex}"/>
         </replace>
     </target>

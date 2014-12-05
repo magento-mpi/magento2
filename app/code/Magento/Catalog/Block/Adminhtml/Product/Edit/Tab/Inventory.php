@@ -42,14 +42,14 @@ class Inventory extends \Magento\Backend\Block\Widget
     protected $backorders;
 
     /**
-     * @var \Magento\CatalogInventory\Service\V1\StockItemService
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
      */
-    protected $stockItemService;
+    protected $stockRegistry;
 
     /**
-     * @var \Magento\Catalog\Helper\Product\Inventory
+     * @var \Magento\CatalogInventory\Api\StockConfigurationInterface
      */
-    protected $inventoryHelper;
+    protected $stockConfiguration;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -57,8 +57,8 @@ class Inventory extends \Magento\Backend\Block\Widget
      * @param \Magento\CatalogInventory\Model\Source\Stock $stock
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService
-     * @param \Magento\Catalog\Helper\Product\Inventory $inventoryHelper
+     * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration
      * @param array $data
      */
     public function __construct(
@@ -67,16 +67,16 @@ class Inventory extends \Magento\Backend\Block\Widget
         \Magento\CatalogInventory\Model\Source\Stock $stock,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\CatalogInventory\Service\V1\StockItemService $stockItemService,
-        \Magento\Catalog\Helper\Product\Inventory $inventoryHelper,
-        array $data = array()
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration,
+        array $data = []
     ) {
         $this->stock = $stock;
         $this->backorders = $backorders;
         $this->catalogData = $catalogData;
         $this->coreRegistry = $coreRegistry;
-        $this->stockItemService = $stockItemService;
-        $this->inventoryHelper = $inventoryHelper;
+        $this->stockRegistry = $stockRegistry;
+        $this->stockConfiguration = $stockConfiguration;
         parent::__construct($context, $data);
     }
 
@@ -89,7 +89,7 @@ class Inventory extends \Magento\Backend\Block\Widget
             return $this->backorders->toOptionArray();
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -103,7 +103,7 @@ class Inventory extends \Magento\Backend\Block\Widget
             return $this->stock->toOptionArray();
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -119,11 +119,14 @@ class Inventory extends \Magento\Backend\Block\Widget
     /**
      * Retrieve Catalog Inventory  Stock Item Model
      *
-     * @return \Magento\CatalogInventory\Service\V1\Data\StockItem
+     * @return \Magento\CatalogInventory\Api\Data\StockItemInterface
      */
-    public function getStockItemDo()
+    public function getStockItem()
     {
-        return $this->stockItemService->getStockItem($this->getProduct()->getId());
+        return $this->stockRegistry->getStockItem(
+            $this->getProduct()->getId(),
+            $this->getProduct()->getStore()->getWebsiteId()
+        );
     }
 
     /**
@@ -132,7 +135,14 @@ class Inventory extends \Magento\Backend\Block\Widget
      */
     public function getFieldValue($field)
     {
-        return $this->inventoryHelper->getFieldValue($field, $this->getStockItemDo());
+        $stockItem = $this->getStockItem();
+        if ($stockItem->getItemId()) {
+            $method = 'get' . \Magento\Framework\Api\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($field);
+            if (method_exists($stockItem, $method)) {
+                return $stockItem->{$method}();
+            }
+        }
+        return $this->stockConfiguration->getDefaultConfigValue($field);
     }
 
     /**
@@ -141,7 +151,16 @@ class Inventory extends \Magento\Backend\Block\Widget
      */
     public function getConfigFieldValue($field)
     {
-        return $this->inventoryHelper->getConfigFieldValue($field, $this->getStockItemDo());
+        $stockItem = $this->getStockItem();
+        if ($stockItem->getItemId()) {
+            $method = 'getUseConfig' . \Magento\Framework\Api\SimpleDataObjectConverter::snakeCaseToUpperCamelCase(
+                $field
+            );
+            if (method_exists($stockItem, $method)) {
+                return $stockItem->{$method}();
+            }
+        }
+        return $this->stockConfiguration->getDefaultConfigValue($field);
     }
 
     /**
@@ -150,7 +169,7 @@ class Inventory extends \Magento\Backend\Block\Widget
      */
     public function getDefaultConfigValue($field)
     {
-        return $this->inventoryHelper->getDefaultConfigValue($field);
+        return $this->stockConfiguration->getDefaultConfigValue($field);
     }
 
     /**

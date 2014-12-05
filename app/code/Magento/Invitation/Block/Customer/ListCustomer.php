@@ -7,8 +7,8 @@
  */
 namespace Magento\Invitation\Block\Customer;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 
 /**
  * Customer invitation list block
@@ -38,8 +38,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param CustomerAccountServiceInterface $customerAccountService
-     * @param CustomerAddressServiceInterface $addressService
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param AccountManagementInterface $customerAccountManagement
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
      * @param \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer
@@ -49,8 +49,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        CustomerAccountServiceInterface $customerAccountService,
-        CustomerAddressServiceInterface $addressService,
+        CustomerRepositoryInterface $customerRepository,
+        AccountManagementInterface $customerAccountManagement,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
@@ -62,8 +62,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
             $context,
             $customerSession,
             $subscriberFactory,
-            $customerAccountService,
-            $addressService,
+            $customerRepository,
+            $customerAccountManagement,
             $data
         );
         $this->_isScopePrivate = true;

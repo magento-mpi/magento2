@@ -15,11 +15,11 @@ namespace Magento\Customer\Model\Resource;
 class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
 {
     /**
-     * Customer data
+     * Group Management
      *
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Api\GroupManagementInterface
      */
-    protected $_customerData = null;
+    protected $_groupManagement;
 
     /**
      * @var \Magento\Customer\Model\Resource\Customer\CollectionFactory
@@ -28,15 +28,15 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customersFactory
+     * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
+     * @param Customer\CollectionFactory $customersFactory
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Customer\Api\GroupManagementInterface $groupManagement,
         \Magento\Customer\Model\Resource\Customer\CollectionFactory $customersFactory
     ) {
-        $this->_customerData = $customerData;
+        $this->_groupManagement = $groupManagement;
         $this->_customersFactory = $customersFactory;
         parent::__construct($resource);
     }
@@ -93,7 +93,7 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
         foreach ($customerCollection as $customer) {
             /** @var $customer \Magento\Customer\Model\Customer */
             $customer->load($customer->getId());
-            $defaultGroupId = $this->_customerData->getDefaultCustomerGroupId($customer->getStoreId());
+            $defaultGroupId = $this->_groupManagement->getDefaultGroup($customer->getStoreId())->getId();
             $customer->setGroupId($defaultGroupId);
             $customer->save();
         }
@@ -106,5 +106,18 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _createCustomersCollection()
     {
         return $this->_customersFactory->create();
+    }
+
+    /**
+     * Prepare data before save
+     *
+     * @param \Magento\Framework\Model\AbstractModel $group
+     * @return $this
+     */
+    protected function _beforeSave(\Magento\Framework\Model\AbstractModel $group)
+    {
+        /** @var \Magento\Customer\Model\Group $group */
+        $group->setCode(substr($group->getCode(), 0, $group::GROUP_CODE_MAX_LENGTH));
+        return parent::_beforeSave($group);
     }
 }

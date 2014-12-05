@@ -10,8 +10,6 @@ namespace Magento\Log\Model;
 /**
  * @method Resource\Visitor _getResource()
  * @method Resource\Visitor getResource()
- * @method string getSessionId()
- * @method Visitor setSessionId(string $value)
  * @method Visitor setFirstVisitAt(string $value)
  * @method Visitor setLastVisitAt(string $value)
  * @method Visitor setVisitorId(int $value)
@@ -234,11 +232,11 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
             return $this;
         }
         try {
-            $this->_validateBeforeSave();
-            $this->_beforeSave();
+            $this->validateBeforeSave();
+            $this->beforeSave();
             if ($this->_dataSaveAllowed) {
                 $this->_getResource()->save($this);
-                $this->_afterSave();
+                $this->afterSave();
             }
             $this->_hasDataChanges = false;
         } catch (\Exception $e) {

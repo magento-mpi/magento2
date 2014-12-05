@@ -6,15 +6,10 @@
 //  * @license     {license_link}
 //  */
 
-.debug() {
-    outline:2px dotted red;
-}
-
 .margin-top-rem(
     @value
 ) when not (@value = false) and not (@value = '') {
     @_value: unit(@value);
-    margin-top: @_value * 1px;
     margin-top: @_value * 1rem / @font-rem-ratio;
 }
 
@@ -22,7 +17,6 @@
     @value
 ) when not (@value = false) and not (@value = '') {
     @_value: unit(@value);
-    margin-bottom: @_value * 1px;
     margin-bottom: @_value * 1rem / @font-rem-ratio;
 }
 
@@ -35,7 +29,6 @@
     @value
 ) when not (@value = false) and not (@value = '') {
     @_value: unit(@value);
-    padding-top: @_value * 1px;
     padding-top: @_value * 1rem / @font-rem-ratio;
 }
 
@@ -43,13 +36,17 @@
     @value
 ) when not (@value = false) and not (@value = '') {
     @_value: unit(@value);
-    padding-bottom: @_value * 1px;
     padding-bottom: @_value * 1rem / @font-rem-ratio;
 }
 
 .padding-vertical-rem(@val-top, @val-bottom) {
     .padding-top-rem(@val-top);
     .padding-bottom-rem(@val-bottom);
+}
+
+.visibility-hidden() {
+    visibility: hidden;
+    height: 0;
 }
 
 .visually-hidden() {
@@ -168,51 +165,12 @@
 }
 
 //
-//    WebKit-style focus
-//--------------------------------------
-.tab-focus() {
-    // Default
-    outline: thin dotted;
-    // WebKit
-    outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px;
-}
-
-//
-//    Box-sizing
-//--------------------------------------
-.box-sizing(@type: border-box) {
-    -webkit-box-sizing: @type;
-    -moz-box-sizing: @type;
-    box-sizing: @type;
-}
-
-//
-//    Box-shadow
-//--------------------------------------
-.box-shadow(@shadow: 1px 1px 2px rgba(0,0,0,0.25)) {
-    -webkit-box-shadow: @shadow;
-    -moz-box-shadow: @shadow;
-    box-shadow: @shadow;
-}
-
-//
-//    Transition
-//--------------------------------------
-.transition(@transition) {
-    -webkit-transition: @transition;
-    -moz-transition: @transition;
-    transition: @transition;
-}
-
-//
 //    Rotate
 //--------------------------------------
-.rotate(@rotation) {
-    -webkit-transform: rotate(@rotation);
-    -moz-transform: rotate(@rotation);
-    -o-transform: rotate(@rotation);
-    transform: rotate(@rotation);
+.rotate(@_rotation) {
+    -webkit-transform: rotate(@_rotation); // Use in 8 Safari
+    -ms-transform: rotate(@_rotation); // Use in 9 IE
+    transform: rotate(@_rotation);
 }
 
 //
@@ -269,97 +227,6 @@
 }
 
 //
-//    Add padding when the variable is set
-//--------------------------------------
-.add-padding(@_add-padding) when not (@_add-padding = false) and not (@_add-padding = '') {
-    padding: @_add-padding;
-}
-
-//
-//    Add margin when the variable is set
-//--------------------------------------
-.add-margin(@_add-margin) when not (@_add-margin = false) and not (@_add-margin = '') {
-    margin: @_add-margin;
-}
-
-//
-//    Add width when the variable is set
-//--------------------------------------
-.add-width(@_add-width) when not (@_add-width = false) and not (@_add-width = '') {
-    width: @_add-width;
-}
-
-//
-//    Add height when the variable is set
-//--------------------------------------
-.add-height(@_add-height) when not (@_add-height = false) and not (@_add-height = '') {
-    height: @_add-height;
-}
-
-//
-//    Add border when the variable is set
-//--------------------------------------
-.add-border(@_add-border) when not (@_add-border = false) and not (@_add-border = '') {
-    border: @_add-border;
-}
-
-//
-//    Add background when the variable is set
-//--------------------------------------
-.add-background(@_add-background) when (iscolor(@_add-background)) {
-    background-color: @_add-background;
-}
-
-//
-//    Add color when the variable is set
-//--------------------------------------
-.add-color(@_add-color) when (iscolor(@_add-color)) {
-    color: @_add-color;
-}
-
-//
-//    Add display when the variable is set
-//--------------------------------------
-.add-display(@_add-display) when not (@_add-display = '') {
-    display: @_add-display;
-}
-
-//
-//    Add border-radius when the variable is set
-//--------------------------------------
-.add-border-radius(@_add-border-radius) when not (@_add-border-radius = '') {
-    border-radius: @_add-border-radius;
-}
-
-//
-//    Add font-family when the variable is set
-//--------------------------------------
-.add-font-family(@_font-family) when not (@_font-family = false) and not (@_font-family = '') {
-    font-family: @_font-family;
-}
-
-//
-//    Add font-weight when the variable is set
-//--------------------------------------
-.add-font-weight(@_font-weight) when not (@_font-weight = false) and not (@_font-weight = '') {
-    font-weight: @_font-weight;
-}
-
-//
-//    Add line-height when the variable is set
-//--------------------------------------
-.add-line-height(@_line-height) when not (@_line-height = false) and not (@_line-height = '') {
-    line-height: @_line-height;
-}
-
-//
-//    Add font-style when the variable is set
-//--------------------------------------
-.add-font-style(@_font-style) when not (@_font-style = false) and not (@_font-style = '') {
-    font-style: @_font-style;
-}
-
-//
 //    Arrow
 //--------------------------------------
 .arrow(@_position, @_size, @_color) {
@@ -408,34 +275,50 @@
 }
 
 //
-//    Flex layout
+// Flex layout
 //--------------------------------------
 
-.mix-flex(
-        @_display: flex,
-        @_flow: row wrap
+.vendor-prefix-display (
+    @_value: flex
 ) {
-    display: ~"-webkit-@{_display}";
-    display: ~"-ms-@{_display}";
-    display: @_display;
-
-    -webkit-flex-flow: @_flow;
-    -ms-flex-flow: @_flow;
-    flex-flow: @_flow;
-}
-.mix-flex-flex(
-    @_flex: 1,
-    @_basis: 100%
-) {
-    -webkit-flex: @_flex @_basis;
-    -ms-flex: @_flex @_basis;
-    flex: @_flex @_basis;
-}
-.mix-flex-order(
-    @_order: 1
-) {
-    -webkit-order: @_order;
-    -ms-order: @_order;
-    order: @_order;
+    display: ~"-webkit-@{_value}";
+    display: ~"-ms-@{_value}box";
+    display: @_value;
 }
 
+.vendor-prefix-flex-basis (
+    @_value: auto
+) {
+    -webkit-flex-basis: @_value;
+    flex-basis: @_value;
+}
+
+.vendor-prefix-flex-grow (
+    @_value: 0
+) {
+    -webkit-flex-grow: @_value;
+    flex-grow: @_value;
+}
+
+.vendor-prefix-flex-wrap (
+    @_value: wrap
+) {
+    -webkit-flex-wrap: @_value;
+            flex-wrap: @_value;
+}
+
+.vendor-prefix-flex-direction (
+    @_value: column
+) {
+    -webkit-flex-direction: @_value;
+        -ms-flex-direction: @_value;
+            flex-direction: @_value;
+}
+
+.vendor-prefix-order (
+    @_value: 0
+) {
+    -ms-flex-order: @_value;
+     -webkit-order: @_value;
+             order: @_value;
+}

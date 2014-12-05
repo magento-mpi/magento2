@@ -12,7 +12,7 @@
 @gallery-lightbox-offset: 20px;
 @gallery-lightbox-border-color: @border-color-base;
 @gallery-lightbox-border-width: 1px;
-@gallery-overlay-bg: rgba(204, 204, 204, 0.5);
+@gallery-overlay-bg: rgba(204, 204, 204, .5);
 @gallery-close-position-top: 20px;
 @gallery-close-position-right: 20px;
 @gallery-close-height: 13px;
@@ -62,7 +62,6 @@
     z-index: 9999;
     overflow: hidden;
     background: @page-bg-color;
-    outline: @gallery-lens-border-width solid @gallery-lens-border-color;
     .zoom.inner > img {
         position: absolute;
     }
@@ -78,9 +77,7 @@
     bottom: @gallery-lightbox-offset;
     border: @gallery-lightbox-border-width solid @gallery-lightbox-border-color;
     background-color: @page-bg-color;
-    .box-shadow(
-        @shadow: 0 5px 5px rgba(0,0,0,0.2)
-    );
+    box-shadow: 0 5px 5px rgba(0,0,0,.2);
     z-index: @loader-overlay-z-index;
 
     .img.photo.container img {
@@ -119,9 +116,9 @@
 
     .gallery.control {
         -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
+        -webkit-user-select: none; // use in 41 Chrome
+        -moz-user-select: none; // use in 36 Firefox
+        -ms-user-select: none; // use in 11 IE
         user-select: none;
         &.prev,
         &.next {
@@ -172,7 +169,7 @@
         background: @page-bg-color;
         position: absolute;
         bottom:0;
-        .box-sizing();
+        box-sizing: border-box;
         ul {
             .list-reset-styles();
             white-space: nowrap;
@@ -196,7 +193,6 @@
         a {
             border: @gallery-thumb-border-width solid transparent;
             display: block;
-            outline: none;
             &.active {
                 border-color: @gallery-thumb-border-color-active;
             }

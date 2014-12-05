@@ -8,6 +8,7 @@
 namespace Magento\Catalog\Model\Entity;
 
 use Magento\Catalog\Model\Attribute\LockValidatorInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Product attribute extension with event dispatching
@@ -34,15 +35,11 @@ use Magento\Catalog\Model\Attribute\LockValidatorInterface;
  * @method \Magento\Catalog\Model\Entity\Attribute setIsUsedForPriceRules(int $value)
  * @method int getIsFilterableInSearch()
  * @method \Magento\Catalog\Model\Entity\Attribute setIsFilterableInSearch(int $value)
- * @method int getUsedInProductListing()
  * @method \Magento\Catalog\Model\Entity\Attribute setUsedInProductListing(int $value)
- * @method int getUsedForSortBy()
  * @method \Magento\Catalog\Model\Entity\Attribute setUsedForSortBy(int $value)
- * @method string getApplyTo()
  * @method \Magento\Catalog\Model\Entity\Attribute setApplyTo(string $value)
  * @method int getIsVisibleInAdvancedSearch()
  * @method \Magento\Catalog\Model\Entity\Attribute setIsVisibleInAdvancedSearch(int $value)
- * @method int getPosition()
  * @method \Magento\Catalog\Model\Entity\Attribute setPosition(int $value)
  * @method int getIsWysiwygEnabled()
  * @method \Magento\Catalog\Model\Entity\Attribute setIsWysiwygEnabled(int $value)
@@ -75,12 +72,15 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
+     * @param \Magento\Eav\Api\Data\AttributeOptionDataBuilder $optionDataBuilder
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
@@ -92,12 +92,15 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
+        \Magento\Eav\Api\Data\AttributeOptionDataBuilder $optionDataBuilder,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Catalog\Model\Product\ReservedAttributeList $reservedAttributeList,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
@@ -110,12 +113,15 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         parent::__construct(
             $context,
             $registry,
+            $metadataService,
+            $customAttributeBuilder,
             $coreData,
             $eavConfig,
             $eavTypeFactory,
             $storeManager,
             $resourceHelper,
             $universalFactory,
+            $optionDataBuilder,
             $localeDate,
             $reservedAttributeList,
             $localeResolver,
@@ -131,7 +137,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @return \Magento\Framework\Model\AbstractModel
      * @throws \Magento\Eav\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         try {
             $this->attrLockValidator->validate($this);
@@ -140,7 +146,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         }
 
         $this->setData('modulePrefix', self::MODULE_NAME);
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -148,12 +154,12 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      *
      * @return \Magento\Framework\Model\AbstractModel
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         /**
          * Fix saving attribute in admin
          */
         $this->_eavConfig->clear();
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 }

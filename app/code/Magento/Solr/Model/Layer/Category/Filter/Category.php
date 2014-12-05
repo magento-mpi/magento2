@@ -7,6 +7,8 @@
  */
 namespace Magento\Solr\Model\Layer\Category\Filter;
 
+use Magento\Catalog\Api\CategoryRepositoryInterface;
+
 /**
  * Layer category filter
  *
@@ -25,9 +27,11 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Catalog\Model\Layer\Filter\DataProvider\CategoryFactory $categoryFactory
      * @param \Magento\Framework\Registry $coreRegistry
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      */
@@ -35,20 +39,22 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Framework\Escaper $escaper,
+        \Magento\Catalog\Model\Layer\Filter\DataProvider\CategoryFactory $categoryFactory,
         \Magento\Framework\Registry $coreRegistry,
+        CategoryRepositoryInterface $categoryRepository,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         parent::__construct(
             $filterItemFactory,
             $storeManager,
             $layer,
-            $categoryFactory,
+            $itemDataBuilder,
             $escaper,
-            $coreRegistry,
+            $categoryFactory,
             $data
         );
     }
@@ -67,7 +73,6 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         $productCollection = $this->getLayer()->getProductCollection();
         $facets = $productCollection->getFacetedData('category_ids');
 
-        $data = array();
         foreach ($categories as $category) {
             $categoryId = $category->getId();
             if (isset($facets[$categoryId])) {
@@ -77,15 +82,15 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
             }
 
             if ($category->getIsActive() && $category->getProductCount()) {
-                $data[] = array(
-                    'label' => $this->_escaper->escapeHtml($category->getName()),
-                    'value' => $categoryId,
-                    'count' => $category->getProductCount()
+                $this->itemDataBuilder->addItemData(
+                    $this->_escaper->escapeHtml($category->getName()),
+                    $categoryId,
+                    $category->getProductCount()
                 );
             }
         }
 
-        return $data;
+        return $this->itemDataBuilder->build();
     }
 
     /**

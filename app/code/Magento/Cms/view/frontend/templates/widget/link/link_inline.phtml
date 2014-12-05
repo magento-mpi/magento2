@@ -6,4 +6,8 @@
  * @license     {license_link}
  */
 ?>
-<span class="widget widget-cms-link-inline"><a <?php echo $this->getLinkAttributes() ?>><span><?php echo $this->escapeHtml($this->getLabel()) ?></span></a></span>
+<div class="widget block block-cms-link-inline">
+    <a <?php echo $this->getLinkAttributes() ?>>
+        <span><?php echo $this->escapeHtml($this->getLabel()) ?></span>
+    </a>
+</div>

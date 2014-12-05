@@ -40,7 +40,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_moduleList = $this->getMockForAbstractClass('Magento\Framework\Module\ModuleListInterface');
         $this->_moduleList->expects($this->any())
-            ->method('getModule')
+            ->method('getOne')
             ->will($this->returnValueMap([
                 ['Module_One', ['name' => 'One_Module', 'schema_version' => '1']],
                 ['Module_Two', ['name' => 'Two_Module', 'schema_version' => '2']],
@@ -58,14 +58,14 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testIsEnabledReturnsTrueForActiveModule()
+    public function testIsEnabled()
     {
-        $this->assertTrue($this->_model->isEnabled('Module_One'));
-    }
-
-    public function testIsEnabledReturnsFalseForInactiveModule()
-    {
-        $this->assertFalse($this->_model->isEnabled('Disabled_Module'));
+        $this->_moduleList->expects($this->exactly(2))->method('has')->will($this->returnValueMap([
+            ['Module_Exists', true],
+            ['Module_NotExists', false],
+        ]));
+        $this->assertTrue($this->_model->isEnabled('Module_Exists'));
+        $this->assertFalse($this->_model->isEnabled('Module_NotExists'));
     }
 
     public function testIsOutputEnabledReturnsFalseForDisabledModule()
@@ -81,6 +81,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsOutputEnabledGenericConfigPath($configValue, $expectedResult)
     {
+        $this->_moduleList->expects($this->once())->method('has')->will($this->returnValue(true));
         $this->_outputConfig->expects($this->once())
             ->method('isEnabled')
             ->with('Module_One')
@@ -101,6 +102,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsOutputEnabledCustomConfigPath($configValue, $expectedResult)
     {
+        $this->_moduleList->expects($this->once())->method('has')->will($this->returnValue(true));
         $this->_outputConfig->expects($this->at(0))
             ->method('isSetFlag')
             ->with(self::XML_PATH_OUTPUT_ENABLED)

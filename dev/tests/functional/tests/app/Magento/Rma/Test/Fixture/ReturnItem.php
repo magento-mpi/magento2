@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Rma\Test\Fixture;
 
 use Mtf\Factory\Factory;
@@ -13,7 +14,6 @@ use \Magento\Sales\Test\Fixture\PaypalExpressOrder;
 
 /**
  * Fixture with all necessary data for creating a return item on the frontend
- *
  */
 class ReturnItem extends DataFixture
 {
@@ -69,7 +69,7 @@ class ReturnItem extends DataFixture
      */
     public function getQuantity()
     {
-        return $this->getData('fields/quantity');
+        return $this->getData('fields/qty_requested');
     }
 
     /**

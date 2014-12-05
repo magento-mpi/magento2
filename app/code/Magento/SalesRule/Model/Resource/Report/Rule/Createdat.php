@@ -21,7 +21,7 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
      */
     protected function _construct()
     {
-        $this->_init('coupon_aggregated', 'id');
+        $this->_init('salesrule_coupon_aggregated', 'id');
     }
 
     /**
@@ -53,7 +53,7 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
         $this->_checkDates($from, $to);
 
         $table = $this->getMainTable();
-        $sourceTable = $this->getTable('sales_flat_order');
+        $sourceTable = $this->getTable('sales_order');
         $adapter = $this->_getWriteAdapter();
         $adapter->beginTransaction();
 
@@ -140,7 +140,6 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
             $select->group(array($periodExpr, 'store_id', 'status', 'coupon_code'));
 
             $select->having('COUNT(entity_id) > 0');
-            $select->insertFromSelect($table, array_keys($columns));
 
             $adapter->query($select->insertFromSelect($table, array_keys($columns)));
 

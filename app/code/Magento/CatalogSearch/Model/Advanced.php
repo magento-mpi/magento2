@@ -176,13 +176,17 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
             if ($attribute->getAttributeCode() == 'price') {
                 $rate = 1;
                 $store = $this->_storeManager->getStore();
-                $curency = $store->getCurrentCurrencyCode();
-                if ($curency != $store->getBaseCurrencyCode()) {
-                    $rate = $store->getBaseCurrency()->getRate($curency);
+                $currency = $store->getCurrentCurrencyCode();
+                if ($currency != $store->getBaseCurrencyCode()) {
+                    $rate = $store->getBaseCurrency()->getRate($currency);
                 }
 
-                $value['from'] = isset($value['from']) ? (float)$value['from'] / $rate : '';
-                $value['to'] = isset($value['to']) ? (float)$value['to'] / $rate : '';
+                $value['from'] = (isset($value['from']) && is_numeric($value['from']))
+                    ? (float)$value['from'] / $rate
+                    : '';
+                $value['to'] = (isset($value['to']) && is_numeric($value['to']))
+                    ? (float)$value['to'] / $rate
+                    : '';
             }
             $condition = $this->_getResource()->prepareCondition(
                 $attribute,
@@ -215,7 +219,7 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
     /**
      * Retrieve array of attributes used in advanced search
      *
-     * @return array
+     * @return array|\Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function getAttributes()
     {
@@ -341,8 +345,9 @@ class Advanced extends \Magento\Framework\Model\AbstractModel
                 ? __('Yes')
                 : __('No');
         }
-
-        $this->_searchCriterias[] = array('name' => $name, 'value' => $value);
+        if (!empty($value)) {
+            $this->_searchCriterias[] = array('name' => $name, 'value' => $value);
+        }
         return $this;
     }
 

@@ -31,9 +31,9 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
-    protected $productFactory;
+    protected $productRepository;
 
     /**
      * @var \Magento\GiftRegistry\Model\Item\OptionFactory
@@ -68,7 +68,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param Item\OptionFactory $optionFactory
      * @param \Magento\Catalog\Model\Resource\Url $resourceUrl
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
@@ -79,7 +79,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
         \Magento\Catalog\Model\Resource\Url $resourceUrl,
         \Magento\Framework\Message\ManagerInterface $messageManager,
@@ -88,7 +88,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->optionFactory = $optionFactory;
         $this->optionFactory = $optionFactory;
         $this->resourceUrl = $resourceUrl;
@@ -277,9 +277,14 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     protected function _getProduct()
     {
         if (!$this->_getData('product')) {
-            $product = $this->productFactory->create()->load($this->getProductId());
-            if (!$product->getId()) {
-                throw new \Magento\Framework\Model\Exception(__('Please correct the product for adding the item to the quote.'));
+            try {
+                $product = $this->productRepository->getById($this->getProductId());
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $noEntityException) {
+                throw new \Magento\Framework\Model\Exception(
+                    __('Please correct the product for adding the item to the quote.'),
+                    0,
+                    $noEntityException
+                );
             }
             $this->setProduct($product);
         }
@@ -315,10 +320,10 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        $this->_saveItemOptions();
-        return parent::_afterSave();
+        $this->saveItemOptions();
+        return parent::afterSave();
     }
 
     /**
@@ -326,7 +331,7 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
      *
      * @return $this
      */
-    protected function _saveItemOptions()
+    public function saveItemOptions()
     {
         foreach ($this->_options as $index => $option) {
             if ($option->isDeleted()) {
@@ -345,21 +350,24 @@ class Item extends \Magento\Framework\Model\AbstractModel implements
     }
 
     /**
-     * Save model plus its options
-     * Ensures saving options in case when resource model was not changed
+     * Mark option save requirement
      *
-     * @return $this
+     * @param bool $flag
+     * @return void
      */
-    public function save()
+    public function setIsOptionsSaved($flag)
     {
-        $hasDataChanges = $this->hasDataChanges();
-        $this->_flagOptionsSaved = false;
+        $this->_flagOptionsSaved = $flag;
+    }
 
-        parent::save();
-
-        if ($hasDataChanges && !$this->_flagOptionsSaved) {
-            $this->_saveItemOptions();
-        }
+    /**
+     * Were options saved?
+     *
+     * @return bool
+     */
+    public function isOptionsSaved()
+    {
+        return $this->_flagOptionsSaved;
     }
 
     /**

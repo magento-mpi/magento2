@@ -9,14 +9,22 @@ namespace Magento\Framework\Search\Adapter\Mysql\Aggregation;
 
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Request\BucketInterface;
-use Magento\Framework\Search\RequestInterface;
+use Magento\Framework\Search\Request\Dimension;
 
 interface DataProviderInterface
 {
     /**
      * @param BucketInterface $bucket
-     * @param RequestInterface $request
+     * @param Dimension[] $dimensions
      * @return Select
      */
-    public function getDataSet(BucketInterface $bucket, RequestInterface $request);
+    public function getDataSet(BucketInterface $bucket, array $dimensions);
+
+    /**
+     * Executes query and return raw response
+     *
+     * @param Select $select
+     * @return array
+     */
+    public function execute(Select $select);
 }

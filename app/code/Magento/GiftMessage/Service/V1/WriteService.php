@@ -46,32 +46,22 @@ class WriteService implements WriteServiceInterface
     protected $helper;
 
     /**
-     * Product loader.
-     *
-     * @var \Magento\Catalog\Service\V1\Product\ProductLoader
-     */
-    protected $productLoader;
-
-    /**
      * Constructs a gift message write service data object.
      *
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository Quote repository.
      * @param \Magento\Framework\StoreManagerInterface $storeManager Store manager.
      * @param \Magento\GiftMessage\Model\GiftMessageManager $giftMessageManager Gift message manager.
      * @param \Magento\GiftMessage\Helper\Message $helper Message helper.
-     * @param \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader Product loader.
      */
     public function __construct(
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\GiftMessage\Model\GiftMessageManager $giftMessageManager,
-        \Magento\GiftMessage\Helper\Message $helper,
-        \Magento\Catalog\Service\V1\Product\ProductLoader $productLoader
+        \Magento\GiftMessage\Helper\Message $helper
     ) {
         $this->quoteRepository = $quoteRepository;
         $this->giftMessageManager = $giftMessageManager;
         $this->storeManager = $storeManager;
-        $this->productLoader = $productLoader;
         $this->helper = $helper;
     }
 
@@ -92,7 +82,7 @@ class WriteService implements WriteServiceInterface
          *
          * @var \Magento\Sales\Model\Quote $quote
          */
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
 
         if (0 == $quote->getItemsCount()) {
             throw new InputException('Gift Messages is not applicable for empty cart');
@@ -120,7 +110,7 @@ class WriteService implements WriteServiceInterface
     public function setForItem($cartId, \Magento\GiftMessage\Service\V1\Data\Message $giftMessage, $itemId)
     {
         /** @var \Magento\Sales\Model\Quote $quote */
-        $quote = $this->quoteRepository->get($cartId);
+        $quote = $this->quoteRepository->getActive($cartId);
 
         if (!$item = $quote->getItemById($itemId)) {
             throw new NoSuchEntityException("There is no product with provided  itemId: $itemId in the cart");

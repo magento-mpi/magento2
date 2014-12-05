@@ -29,7 +29,7 @@ class Builder
     protected $_conditionOperatorMap = [
         '=='    => ':field = ?',
         '!='    => ':field <> ?',
-        '>='    => ':field => ?',
+        '>='    => ':field >= ?',
         '>'     => ':field > ?',
         '<='    => ':field <= ?',
         '<'     => ':field < ?',
@@ -103,7 +103,8 @@ class Builder
             /** @var $condition AbstractCondition */
             $collection->getSelect()->joinLeft(
                 [$alias => $collection->getResource()->getTable($joinTable['name'])],
-                $joinTable['condition']
+                $joinTable['condition'],
+                isset($joinTable['columns']) ? $joinTable['columns'] : '*'
             );
         }
         return $this;
@@ -158,7 +159,7 @@ class Builder
             } else {
                 $out .= $this->_getMappedSqlCondition($condition, $value);
             }
-            $out.=  ' ' . $con;
+            $out .=  $out ? (' ' . $con) : '';
         }
         return $this->_expressionFactory->create(['expression' => $out]);
     }

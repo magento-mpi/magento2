@@ -58,6 +58,11 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     protected $_productFactory;
 
     /**
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
      * @var \Magento\Catalog\Model\Resource\Product
      */
     protected $_productResource;
@@ -77,6 +82,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
@@ -87,6 +93,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Eav\Model\Config $config,
         \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
@@ -95,6 +102,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         $this->_backendData = $backendData;
         $this->_config = $config;
         $this->_productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->_productResource = $productResource;
         $this->_attrSetCollection = $attrSetCollection;
         $this->_localeFormat = $localeFormat;
@@ -222,7 +230,21 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
             }
         }
 
-        // Set new values only if we really got them
+        $this->_setSelectOptions($selectOptions, $selectReady, $hashedReady);
+
+        return $this;
+    }
+
+    /**
+     * Set new values only if we really got them
+     *
+     * @param array $selectOptions
+     * @param array $selectReady
+     * @param array $hashedReady
+     * @return $this
+     */
+    protected function _setSelectOptions($selectOptions, $selectReady, $hashedReady)
+    {
         if ($selectOptions !== null) {
             // Overwrite only not already existing values
             if (!$selectReady) {
@@ -239,7 +261,6 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
                 $this->setData('value_option', $hashedOptions);
             }
         }
-
         return $this;
     }
 
@@ -315,11 +336,11 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     {
         $attribute = $this->getAttribute();
         if ('category_ids' != $attribute) {
+            $productCollection->addAttributeToSelect($attribute, 'left');
             if ($this->getAttributeObject()->isScopeGlobal()) {
                 $attributes = $this->getRule()->getCollectedAttributes();
                 $attributes[$attribute] = true;
                 $this->getRule()->setCollectedAttributes($attributes);
-                $productCollection->addAttributeToSelect($attribute, 'left');
             } else {
                 $this->_entityAttributeValues = $productCollection->getAllAttributeValues($attribute);
             }
@@ -591,14 +612,20 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     }
 
     /**
-     * Get field by attribute
+     * Get mapped sql field
      *
      * @return string
      */
     public function getMappedSqlField()
     {
-
-        return ($this->getAttribute() == 'category_ids') ? 'e.entity_id' : parent::getMappedSqlField();
+        if (!$this->isAttributeSetOrCategory()) {
+            $mappedSqlField = $this->getEavAttributeTableAlias() . '.value';
+        } elseif ($this->getAttribute() == 'category_ids') {
+            $mappedSqlField = 'e.entity_id';
+        } else {
+            $mappedSqlField = parent::getMappedSqlField();
+        }
+        return $mappedSqlField;
     }
 
     /**
@@ -614,7 +641,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         } elseif ('attribute_set_id' == $this->getAttribute()) {
             $result = $this->validateAttribute($this->_getAttributeSetId($productId));
         } else {
-            $product = $this->_productFactory->create()->load($productId);
+            $product = $this->productRepository->getById($productId);
             $result = $this->validate($product);
             unset($product);
         }
@@ -685,5 +712,27 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         }
 
         return $operator;
+    }
+
+    /**
+     * Check is attribute set or category
+     *
+     * @return bool
+     */
+    protected function isAttributeSetOrCategory()
+    {
+        return in_array($this->getAttribute(), ['attribute_set_id', 'category_ids']);
+    }
+
+    /**
+     * Get eav attribute alias
+     *
+     * @return string
+     */
+    protected function getEavAttributeTableAlias()
+    {
+        $attribute = $this->getAttributeObject();
+
+        return 'at_' . $attribute->getAttributeCode();
     }
 }

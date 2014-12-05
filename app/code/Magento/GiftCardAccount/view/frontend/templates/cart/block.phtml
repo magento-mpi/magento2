@@ -12,8 +12,10 @@
  */
 ?>
 <div class="block giftcard" id="block-giftcard" data-mage-init='{"collapsible":{"openedState": "active", "saveState": false}}'>
-    <div data-role="title" class="title"><strong><?php echo __('Gift Cards') ?></strong></div>
-    <div data-role="content" class="content">
+    <div data-role="title" class="title">
+        <strong id="block-giftcard-heading" role="heading" aria-level="2"><?php echo __('Gift Cards') ?></strong>
+    </div>
+    <div data-role="content" class="content" aria-labelledby="block-giftcard-heading">
         <div id="giftcard-balance-lookup"></div>
         <span id="gc-please-wait" class="please-wait load indicator" style="display: none;" data-text="<?php echo __('Please wait, loading...') ?>">
             <span><?php echo __('Please wait, loading...') ?></span>
@@ -27,7 +29,7 @@
                 "giftCardSpinnerId": "#gc-please-wait",
                 "messages": ".page.messages .messages"
               }}'>
-            <fieldset class="fieldset">
+            <div class="fieldset">
                 <div class="field">
                     <label class="label" for="giftcard-code"><span><?php echo __('Enter the gift card code') ?></span></label>
                     <div class="control">
@@ -46,7 +48,7 @@
                         </button>
                     </div>
                 </div>
-            </fieldset>
+            </div>
         </form>
     </div>
 </div>

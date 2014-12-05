@@ -23,13 +23,13 @@ class ConditionFactoryTest extends \PHPUnit_Framework_TestCase
     protected $objectManagerHelper;
 
     /**
-     * @var \Magento\Framework\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\ObjectManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $objectManagerMock;
 
     protected function setUp()
     {
-        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManager');
+        $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->conditionFactory = $this->objectManagerHelper->getObject(
@@ -40,11 +40,29 @@ class ConditionFactoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCreate()
+    public function testExceptingToCallMethodCreateInObjectManager()
     {
-        $type = '1';
-        $data = ['data2', 'data3'];
-        $this->objectManagerMock->expects($this->once())->method('create')->with($type, $data);
-        $this->conditionFactory->create($type, $data);
+        $type = 'type';
+        $this->objectManagerMock
+            ->expects($this->once())
+            ->method('create')
+            ->with($type)
+            ->willReturn(new \stdClass());
+
+        $this->conditionFactory->create($type);
+    }
+
+    public function testExceptingClonedObject()
+    {
+        $origin = new \stdClass();
+
+        $this->objectManagerMock->expects($this->once())
+            ->method('create')
+            ->with('clone')
+            ->willReturn($origin);
+
+        $cloned = $this->conditionFactory->create('clone');
+
+        $this->assertNotSame($cloned, $origin);
     }
 }

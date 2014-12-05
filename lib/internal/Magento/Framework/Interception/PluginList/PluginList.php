@@ -13,12 +13,12 @@ use Magento\Framework\Config\ReaderInterface;
 use Magento\Framework\Config\ScopeInterface;
 use Magento\Framework\Config\CacheInterface;
 use Magento\Framework\Config\Data\Scoped;
-use Magento\Framework\Interception\Definition;
-use Magento\Framework\Interception\PluginList as InterceptionPluginList;
+use Magento\Framework\Interception\DefinitionInterface;
+use Magento\Framework\Interception\PluginListInterface as InterceptionPluginList;
 use Magento\Framework\Interception\ObjectManager\Config;
-use Magento\Framework\ObjectManager\Relations;
-use Magento\Framework\ObjectManager\Definition as ClassDefinitions;
-use Magento\Framework\ObjectManager;
+use Magento\Framework\ObjectManager\RelationsInterface;
+use Magento\Framework\ObjectManager\DefinitionInterface as ClassDefinitions;
+use Magento\Framework\ObjectManagerInterface;
 use Zend\Soap\Exception\InvalidArgumentException;
 
 class PluginList extends Scoped implements InterceptionPluginList
@@ -47,14 +47,14 @@ class PluginList extends Scoped implements InterceptionPluginList
     /**
      * Class relations information provider
      *
-     * @var Relations
+     * @var RelationsInterface
      */
     protected $_relations;
 
     /**
      * List of interception methods per plugin
      *
-     * @var Definition
+     * @var DefinitionInterface
      */
     protected $_definitions;
 
@@ -66,7 +66,7 @@ class PluginList extends Scoped implements InterceptionPluginList
     protected $_classDefinitions;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -79,10 +79,10 @@ class PluginList extends Scoped implements InterceptionPluginList
      * @param ReaderInterface $reader
      * @param ScopeInterface $configScope
      * @param CacheInterface $cache
-     * @param Relations $relations
+     * @param RelationsInterface $relations
      * @param Config $omConfig
-     * @param Definition $definitions
-     * @param ObjectManager $objectManager
+     * @param DefinitionInterface $definitions
+     * @param ObjectManagerInterface $objectManager
      * @param ClassDefinitions $classDefinitions
      * @param array $scopePriorityScheme
      * @param string $cacheId
@@ -91,10 +91,10 @@ class PluginList extends Scoped implements InterceptionPluginList
         ReaderInterface $reader,
         ScopeInterface $configScope,
         CacheInterface $cache,
-        Relations $relations,
+        RelationsInterface $relations,
         Config $omConfig,
-        Definition $definitions,
-        ObjectManager $objectManager,
+        DefinitionInterface $definitions,
+        ObjectManagerInterface $objectManager,
         ClassDefinitions $classDefinitions,
         array $scopePriorityScheme = array('global'),
         $cacheId = 'plugins'
@@ -162,15 +162,15 @@ class PluginList extends Scoped implements InterceptionPluginList
                     foreach ($this->_definitions->getMethodList($pluginType) as $pluginMethod => $methodTypes) {
                         $current = isset($lastPerMethod[$pluginMethod]) ? $lastPerMethod[$pluginMethod] : '__self';
                         $currentKey = $type . '_' . $pluginMethod . '_' . $current;
-                        if ($methodTypes & Definition::LISTENER_AROUND) {
-                            $this->_processed[$currentKey][Definition::LISTENER_AROUND] = $key;
+                        if ($methodTypes & DefinitionInterface::LISTENER_AROUND) {
+                            $this->_processed[$currentKey][DefinitionInterface::LISTENER_AROUND] = $key;
                             $lastPerMethod[$pluginMethod] = $key;
                         }
-                        if ($methodTypes & Definition::LISTENER_BEFORE) {
-                            $this->_processed[$currentKey][Definition::LISTENER_BEFORE][] = $key;
+                        if ($methodTypes & DefinitionInterface::LISTENER_BEFORE) {
+                            $this->_processed[$currentKey][DefinitionInterface::LISTENER_BEFORE][] = $key;
                         }
-                        if ($methodTypes & Definition::LISTENER_AFTER) {
-                            $this->_processed[$currentKey][Definition::LISTENER_AFTER][] = $key;
+                        if ($methodTypes & DefinitionInterface::LISTENER_AFTER) {
+                            $this->_processed[$currentKey][DefinitionInterface::LISTENER_AFTER][] = $key;
                         }
                     }
                 }
@@ -275,20 +275,41 @@ class PluginList extends Scoped implements InterceptionPluginList
                             }
                         }
                     }
-                    if ($scopeCode == $scope) {
+                    if ($this->isCurrentScope($scopeCode)) {
                         break;
                     }
                 }
                 foreach ($virtualTypes as $class) {
                     $this->_inheritPlugins(ltrim($class, '\\'));
                 }
-                foreach ($this->_classDefinitions->getClasses() as $class) {
+                foreach ($this->getClassDefinitions() as $class) {
                     $this->_inheritPlugins($class);
                 }
                 $this->_cache->save(serialize(array($this->_data, $this->_inherited, $this->_processed)), $cacheId);
             }
             $this->_pluginInstances = array();
         }
+    }
+
+    /**
+     * Whether scope code is current scope code
+     *
+     * @param string $scopeCode
+     * @return bool
+     */
+    protected function isCurrentScope($scopeCode)
+    {
+        return $this->_configScope->getCurrentScope() == $scopeCode;
+    }
+
+    /**
+     * Returns class definitions
+     *
+     * @return array
+     */
+    protected function getClassDefinitions()
+    {
+        return $this->_classDefinitions->getClasses();
     }
 
     /**

@@ -13,7 +13,7 @@ namespace Magento\CatalogEvent\Model\Resource\Event;
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\CatalogEvent\Model\Resource\Event\Collection
+     * @var Collection
      */
     protected $_collection;
 
@@ -21,6 +21,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\CatalogEvent\Model\Resource\Event\Collection'
+        )->addOrder(
+            'category_id',
+            Collection::SORT_ORDER_ASC
         );
     }
 
@@ -50,6 +53,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @return array
+     */
     public function loadDataProvider()
     {
         return array(

@@ -10,24 +10,31 @@ namespace Magento\Customer\Controller\Account;
 
 use Magento\Framework\App\Action\Context;
 use Magento\Customer\Model\Session;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 class ResetPasswordPost extends \Magento\Customer\Controller\Account
 {
-    /** @var CustomerAccountServiceInterface  */
-    protected $customerAccountService;
+    /** @var AccountManagementInterface */
+    protected $accountManagement;
+
+    /** @var CustomerRepositoryInterface */
+    protected $customerRepository;
 
     /**
      * @param Context $context
      * @param Session $customerSession
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param AccountManagementInterface $accountManagement
+     * @param CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         Context $context,
         Session $customerSession,
-        CustomerAccountServiceInterface $customerAccountService
+        AccountManagementInterface $accountManagement,
+        CustomerRepositoryInterface $customerRepository
     ) {
-        $this->customerAccountService = $customerAccountService;
+        $this->accountManagement = $accountManagement;
+        $this->customerRepository = $customerRepository;
         parent::__construct($context, $customerSession);
     }
 
@@ -43,7 +50,7 @@ class ResetPasswordPost extends \Magento\Customer\Controller\Account
         $resetPasswordToken = (string)$this->getRequest()->getQuery('token');
         $customerId = (int)$this->getRequest()->getQuery('id');
         $password = (string)$this->getRequest()->getPost('password');
-        $passwordConfirmation = (string)$this->getRequest()->getPost('confirmation');
+        $passwordConfirmation = (string)$this->getRequest()->getPost('password_confirmation');
 
         if ($password !== $passwordConfirmation) {
             $this->messageManager->addError(__("New Password and Confirm New Password values didn't match."));
@@ -56,7 +63,8 @@ class ResetPasswordPost extends \Magento\Customer\Controller\Account
         }
 
         try {
-            $this->customerAccountService->resetPassword($customerId, $resetPasswordToken, $password);
+            $customerEmail = $this->customerRepository->getById($customerId)->getEmail();
+            $this->accountManagement->resetPassword($customerEmail, $resetPasswordToken, $password);
             $this->messageManager->addSuccess(__('Your password has been updated.'));
             $this->_redirect('*/*/login');
             return;

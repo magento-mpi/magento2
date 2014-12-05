@@ -9,8 +9,7 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Customer\Service\V1\Data\Eav\ValidationRule;
-use Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder;
+use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
 
 class DateTest extends AbstractFormTestCase
 {
@@ -74,14 +73,32 @@ class DateTest extends AbstractFormTestCase
     public function testValidateValue($value, $validation, $required, $expected)
     {
         $validationRules = array();
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $ruleBuilder = $helper->getObject('\Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder');
-        $ruleBuilder->populateWithArray(array('name' => 'input_validation', 'value' => 'date'));
-        $validationRules[] = new ValidationRule($ruleBuilder);
+        $validationRule = $this->getMockBuilder('Magento\Customer\Api\Data\ValidationRuleInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(['getName', 'getValue'])
+            ->getMockForAbstractClass();
+        $validationRule->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue('input_validation'));
+        $validationRule->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValue('date'));
+
+        $validationRules[] = $validationRule;
         if (is_array($validation)) {
             foreach ($validation as $ruleName => $ruleValue) {
-                $ruleBuilder->populateWithArray(array('name' => $ruleName, 'value' => $ruleValue));
-                $validationRules[] = new ValidationRule($ruleBuilder);
+                $validationRule = $this->getMockBuilder('Magento\Customer\Api\Data\ValidationRuleInterface')
+                    ->disableOriginalConstructor()
+                    ->setMethods(['getName', 'getValue'])
+                    ->getMockForAbstractClass();
+                $validationRule->expects($this->any())
+                    ->method('getName')
+                    ->will($this->returnValue($ruleName));
+                $validationRule->expects($this->any())
+                    ->method('getValue')
+                    ->will($this->returnValue($ruleValue));
+
+                $validationRules[] = $validationRule;
             }
         }
 

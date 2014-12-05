@@ -60,7 +60,13 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->product = $this->getMock('Magento\Catalog\Model\Product', ['getPriceInfo', '__wakeup'], [], '', false);
+        $this->product = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            ['getPriceInfo', '__wakeup', 'getCanShowPrice'],
+            [],
+            '',
+            false
+        );
         $this->priceInfo = $this->getMock('Magento\Framework\Pricing\PriceInfo', ['getPrice'], [], '', false);
         $this->product->expects($this->any())
             ->method('getPriceInfo')
@@ -111,7 +117,8 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
                 'context' => $context,
                 'saleableItem' => $this->product,
                 'rendererPool' => $this->rendererPool,
-                'price' => $this->price
+                'price' => $this->price,
+                'data' => ['zone' => 'test_zone']
             )
         );
     }
@@ -162,15 +169,22 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             ->method('toHtml')
             ->will($this->returnValue('test'));
 
+        $arguments = [
+            'real_price_html' => '',
+            'zone' => 'test_zone',
+        ];
         $this->rendererPool->expects($this->once())
             ->method('createPriceRender')
-            ->with('msrp_price')
+            ->with('msrp_price', $this->product, $arguments)
             ->will($this->returnValue($priceBoxRender));
 
         $result = $this->object->toHtml();
 
         //assert price wrapper
-        $this->assertEquals('<div class="price-box price-final_price">test</div>', $result);
+        $this->assertEquals(
+            '<div class="price-box price-final_price" data-role="priceBox" data-product-id="">test</div>',
+            $result
+        );
     }
 
     public function testRenderMsrpNotRegisteredException()
@@ -200,8 +214,9 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $this->object->setData('price_id', $priceId);
 
         $arguments = [
-            'display_label'     => 'As low as',
-            'price_id'          => $priceId,
+            'zone' => 'test_zone',
+            'display_label' => 'As low as',
+            'price_id' => $priceId,
             'include_container' => false,
             'skip_adjustments' => true
         ];
@@ -309,5 +324,14 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($finalPriceType));
 
         $this->assertTrue($this->object->showMinimalPrice());
+    }
+
+    public function testHidePrice()
+    {
+        $this->product->expects($this->any())
+            ->method('getCanShowPrice')
+            ->will($this->returnValue(false));
+
+        $this->assertEmpty($this->object->toHtml());
     }
 }

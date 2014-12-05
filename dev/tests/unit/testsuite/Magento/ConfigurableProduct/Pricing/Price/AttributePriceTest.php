@@ -108,9 +108,9 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             $this->saleableItemMock,
             $qty,
             $this->calculatorMock,
+            $this->priceCurrency,
             $this->priceModifier,
-            $this->storeManagerMock,
-            $this->priceCurrency
+            $this->storeManagerMock
         );
     }
 
@@ -121,9 +121,9 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
             $this->saleableItemMock,
             $qty,
             $this->calculatorMock,
+            $this->priceCurrency,
             $this->priceModifier,
-            $this->storeManagerMock,
-            $this->priceCurrency
+            $this->storeManagerMock
         );
         $this->assertInstanceOf('Magento\ConfigurableProduct\Pricing\Price\AttributePrice', $object);
     }
@@ -139,6 +139,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         $modifiedValue = 140;
         $valueIndex = 2;
         $optionId = 1;
+
         $expected = [
             'priceOptions' =>
                 [
@@ -153,10 +154,17 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
                                         [
                                             'id' => $valueIndex,
                                             'label' => $attributeLabel,
-                                            'price' => $modifiedValue,
-                                            'oldPrice' => $modifiedValue,
-                                            'inclTaxPrice' => $modifiedValue,
-                                            'exclTaxPrice' => $pricingValue,
+                                            'prices' => [
+                                                'oldPrice' => [
+                                                    'amount' => $modifiedValue
+                                                ],
+                                                'basePrice' => [
+                                                    'amount' => $pricingValue
+                                                ],
+                                                'finalPrice' => [
+                                                    'amount' => $modifiedValue
+                                                ],
+                                            ],
                                             'products' => []
                                         ],
                                 ],
@@ -185,7 +193,6 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         $configuredValueMock->expects($this->any())
             ->method('getData')
             ->will($this->returnValue($optionId));
-
         $configurableProduct = $this->getMockBuilder('Magento\ConfigurableProduct\Model\Product\Type\Configurable')
             ->disableOriginalConstructor()
             ->getMock();
@@ -215,9 +222,9 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
         $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->priceCurrency->expects($this->once())
-            ->method('convert')
-            ->with($this->equalTo($modifiedValue))
+        // don't do any actual conversions; just return whatever was passed in
+        $this->priceCurrency->expects($this->any())
+            ->method('convertAndRound')
             ->will($this->returnArgument(0));
 
         $this->storeManagerMock->expects($this->any())
@@ -338,6 +345,9 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
                 [\Magento\Catalog\Pricing\Price\CustomOptionPriceInterface::CONFIGURATION_OPTION_FLAG => true]
             )
             ->will($this->returnValue(80.99));
+        $this->priceCurrency->expects($this->once())
+            ->method('convertAndRound')
+            ->will($this->returnArgument(0));
         $this->assertEquals(
             80.99,
             $this->attribute->getOptionValueModified(
@@ -347,40 +357,5 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
                 ]
             )
         );
-    }
-
-    /**
-     * test for method getTaxConfig
-     */
-    public function testGetTaxConfig()
-    {
-        $expectedTaxConfig = [
-            'includeTax' => false,
-            'showIncludeTax' => false,
-            'showBothPrices' => false,
-            'defaultTax' => 0,
-            'currentTax' => 0,
-            'inclTaxTitle' => __('Incl. Tax'),
-            'customerId' => 1
-        ];
-        $this->assertEquals($expectedTaxConfig, $this->attribute->getTaxConfig(1));
-    }
-
-    /**
-     *  test for method prepareAdjustmentConfig
-     */
-    public function testPrepareAdjustmentConfig()
-    {
-        $expectedAdjustmentConfig = [
-            'includeTax' => false,
-            'showIncludeTax' => false,
-            'showBothPrices' => false,
-            'defaultTax' => 0,
-            'currentTax' => 0,
-            'inclTaxTitle' => __('Incl. Tax'),
-            'product' => $this->saleableItemMock,
-            'customerId' => 1
-        ];
-        $this->assertEquals($expectedAdjustmentConfig, $this->attribute->prepareAdjustmentConfig(1));
     }
 }

@@ -235,13 +235,7 @@ class Observer extends \Magento\Framework\Model\AbstractModel
             return $this;
         }
 
-        $options['oldPlusDisposition'] = $this->_weeeData->getOriginalAmount($_product);
-        $options['plusDisposition'] = $this->_weeeData->getAmount($_product);
-
-        // Exclude Weee amount from excluding tax amount
-        if (!$this->_weeeData->typeOfDisplay(array(Tax::DISPLAY_INCL, Tax::DISPLAY_INCL_DESCR))) {
-            $options['exclDisposition'] = true;
-        }
+        // prepare correct template for options render
 
         $response->setAdditionalOptions($options);
 
@@ -257,32 +251,20 @@ class Observer extends \Magento\Framework\Model\AbstractModel
     public function updateBundleProductOptions(\Magento\Framework\Event\Observer $observer)
     {
         $response = $observer->getEvent()->getResponseObject();
-        $selection = $observer->getEvent()->getSelection();
         $options = $response->getAdditionalOptions();
 
         $_product = $this->_registry->registry('current_product');
-
-        $typeDynamic = \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Extend::DYNAMIC;
-        if (!$_product || $_product->getPriceType() != $typeDynamic) {
+        if (!$_product) {
             return $this;
         }
         if (!$this->_weeeData->isEnabled($_product->getStore())) {
             return $this;
         }
 
-        $amount = $this->_weeeData->getAmount($selection);
-        $attributes = $this->_weeeData->getProductWeeeAttributes($_product, null, null, null, $this->_weeeData->isTaxable());
-        $amountInclTaxes = $this->_weeeData->getAmountInclTaxes($attributes);
-        $taxes = $amountInclTaxes - $amount;
-        $options['plusDisposition'] = $amount;
-        $options['plusDispositionTax'] = $taxes < 0 ? 0 : $taxes;
-        // Exclude Weee amount from excluding tax amount
-        if (!$this->_weeeData->typeOfDisplay(array(0, 1, 4))) {
-            $options['exclDisposition'] = true;
-        }
+        $typeDynamic = \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Extend::DYNAMIC;
+        // prepare correct template for options render
 
         $response->setAdditionalOptions($options);
-
         return $this;
     }
 }

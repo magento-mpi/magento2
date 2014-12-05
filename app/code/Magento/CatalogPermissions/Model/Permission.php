@@ -71,9 +71,9 @@ class Permission extends \Magento\Framework\Model\AbstractModel
      *
      * @return Permission
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $this->preparePermission();
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 }

@@ -12,21 +12,21 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
     /**
      * Object Manager instance
      *
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $pluginLocator = null;
 
     /**
      * List of plugins
      *
-     * @var \Magento\Framework\Interception\PluginList
+     * @var \Magento\Framework\Interception\PluginListInterface
      */
     protected $pluginList = null;
 
     /**
      * Invocation chain
      *
-     * @var \Magento\Framework\Interception\Chain
+     * @var \Magento\Framework\Interception\ChainInterface
      */
     protected $chain = null;
 
@@ -37,7 +37,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
      */
     protected $subjectType = null;
 
-    public function __construct(\Magento\Framework\ObjectManager $pluginLocator, \Magento\Framework\Interception\PluginList $pluginList, \Magento\Framework\Interception\Chain $chain, $param1 = '', $param2 = '\\', $param3 = '\'')
+    public function __construct(\Magento\Framework\ObjectManagerInterface $pluginLocator, \Magento\Framework\Interception\PluginListInterface $pluginList, \Magento\Framework\Interception\ChainInterface $chain, $param1 = '', $param2 = '\\', $param3 = '\'')
     {
         $this->pluginLocator = $pluginLocator;
         $this->pluginList = $pluginList;
@@ -63,17 +63,18 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
     public function __wakeup()
     {
         $this->pluginLocator = \Magento\Framework\App\ObjectManager::getInstance();
-        $this->pluginList = $this->pluginLocator->get('Magento\Framework\Interception\PluginList');
-        $this->chain = $this->pluginLocator->get('Magento\Framework\Interception\Chain');
+        $this->pluginList = $this->pluginLocator->get('Magento\Framework\Interception\PluginListInterface');
+        $this->chain = $this->pluginLocator->get('Magento\Framework\Interception\ChainInterface');
         $this->subjectType = get_parent_class($this);
     }
 
-    protected function ___call($method, array $arguments, array $pluginInfo)
+    protected function ___callPlugins($method, array $arguments, array $pluginInfo)
     {
         $capMethod = ucfirst($method);
         $result = null;
-        if (isset($pluginInfo[\Magento\Framework\Interception\Definition::LISTENER_BEFORE])) {
-            foreach ($pluginInfo[\Magento\Framework\Interception\Definition::LISTENER_BEFORE] as $code) {
+        if (isset($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_BEFORE])) {
+            // Call 'before' listeners
+            foreach ($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_BEFORE] as $code) {
                 $beforeResult = call_user_func_array(
                     array($this->pluginList->getPlugin($this->subjectType, $code), 'before'. $capMethod), array_merge(array($this), $arguments)
                 );
@@ -82,11 +83,12 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
                 }
             }
         }
-        if (isset($pluginInfo[\Magento\Framework\Interception\Definition::LISTENER_AROUND])) {
+        if (isset($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_AROUND])) {
+            // Call 'around' listener
             $chain = $this->chain;
             $type = $this->subjectType;
             $subject = $this;
-            $code = $pluginInfo[\Magento\Framework\Interception\Definition::LISTENER_AROUND];
+            $code = $pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_AROUND];
             $next = function () use ($chain, $type, $method, $subject, $code) {
                 return $chain->invokeNext($type, $method, $subject, func_get_args(), $code);
             };
@@ -95,10 +97,12 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
                 array_merge(array($this, $next), $arguments)
             );
         } else {
+            // Call original method
             $result = call_user_func_array(array('parent', $method), $arguments);
         }
-        if (isset($pluginInfo[\Magento\Framework\Interception\Definition::LISTENER_AFTER])) {
-            foreach ($pluginInfo[\Magento\Framework\Interception\Definition::LISTENER_AFTER] as $code) {
+        if (isset($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_AFTER])) {
+            // Call 'after' listeners
+            foreach ($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_AFTER] as $code) {
                 $result = $this->pluginList->getPlugin($this->subjectType, $code)
                     ->{'after' . $capMethod}($this, $result);
             }
@@ -115,7 +119,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
         if (!$pluginInfo) {
             return parent::publicChildMethod($classGenerator, $param1, $param2, $param3, $array);
         } else {
-            return $this->___call('publicChildMethod', func_get_args(), $pluginInfo);
+            return $this->___callPlugins('publicChildMethod', func_get_args(), $pluginInfo);
         }
     }
 
@@ -128,7 +132,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
         if (!$pluginInfo) {
             return parent::publicMethodWithReference($classGenerator, $param1, $array);
         } else {
-            return $this->___call('publicMethodWithReference', func_get_args(), $pluginInfo);
+            return $this->___callPlugins('publicMethodWithReference', func_get_args(), $pluginInfo);
         }
     }
 
@@ -141,7 +145,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
         if (!$pluginInfo) {
             return parent::publicChildWithoutParameters();
         } else {
-            return $this->___call('publicChildWithoutParameters', func_get_args(), $pluginInfo);
+            return $this->___callPlugins('publicChildWithoutParameters', func_get_args(), $pluginInfo);
         }
     }
 
@@ -154,7 +158,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
         if (!$pluginInfo) {
             return parent::publicParentMethod($docBlockGenerator, $param1, $param2, $param3, $array);
         } else {
-            return $this->___call('publicParentMethod', func_get_args(), $pluginInfo);
+            return $this->___callPlugins('publicParentMethod', func_get_args(), $pluginInfo);
         }
     }
 
@@ -167,7 +171,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
         if (!$pluginInfo) {
             return parent::publicParentWithoutParameters();
         } else {
-            return $this->___call('publicParentWithoutParameters', func_get_args(), $pluginInfo);
+            return $this->___callPlugins('publicParentWithoutParameters', func_get_args(), $pluginInfo);
         }
     }
 }

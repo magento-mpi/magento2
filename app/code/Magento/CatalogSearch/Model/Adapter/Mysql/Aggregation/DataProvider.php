@@ -8,15 +8,16 @@
 namespace Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation;
 
 use Magento\Catalog\Model\Product;
+use Magento\Customer\Model\Session;
 use Magento\Eav\Model\Config;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Resource;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Request\BucketInterface;
-use Magento\Framework\Search\RequestInterface;
-use Magento\Framework\StoreManagerInterface;
 use Magento\Store\Model\Store;
+use Magento\Framework\App\ScopeResolverInterface;
 
 class DataProvider implements DataProviderInterface
 {
@@ -31,46 +32,75 @@ class DataProvider implements DataProviderInterface
     private $resource;
 
     /**
-     * @var StoreManagerInterface
+     * @var ScopeResolverInterface
      */
-    private $storeManager;
+    private $scopeResolver;
+
+    /**
+     * @var Session
+     */
+    private $customerSession;
 
     /**
      * @param Config $eavConfig
      * @param Resource $resource
-     * @param StoreManagerInterface $storeManager
+     * @param ScopeResolverInterface $scopeResolver
+     * @param Session $customerSession
      */
-    public function __construct(Config $eavConfig, Resource $resource, StoreManagerInterface $storeManager)
-    {
+    public function __construct(
+        Config $eavConfig,
+        Resource $resource,
+        ScopeResolverInterface $scopeResolver,
+        Session $customerSession
+    ) {
         $this->eavConfig = $eavConfig;
         $this->resource = $resource;
-        $this->storeManager = $storeManager;
+        $this->scopeResolver = $scopeResolver;
+        $this->customerSession = $customerSession;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getDataSet(BucketInterface $bucket, RequestInterface $request)
+    public function getDataSet(BucketInterface $bucket, array $dimensions)
     {
-        $currentStore = $request->getScopeDimension()->getValue();
-        $currentStoreId = $this->storeManager->getStore($currentStore)->getId();
+        $currentScope = $dimensions['scope']->getValue();
+
         $attribute = $this->eavConfig->getAttribute(Product::ENTITY, $bucket->getField());
-        $table = $attribute->getBackendTable();
 
-        $ifNullCondition = $this->getConnection()->getIfNullSql('current_store.value', 'main_table.value');
+        if ($attribute->getAttributeCode() == 'price') {
+            /** @var \Magento\Store\Model\Store $store */
+            $store = $this->scopeResolver->getScope($currentScope);
+            if (!$store instanceof \Magento\Store\Model\Store) {
+                throw new \RuntimeException('Illegal scope resolved');
+            }
+            $table = $this->resource->getTableName('catalog_product_index_price');
+            $select = $this->getSelect();
+            $select->from(['main_table' => $table], null)
+                ->columns([BucketInterface::FIELD_VALUE => 'main_table.min_price'])
+                ->where('main_table.customer_group_id = ?', $this->customerSession->getCustomerGroupId())
+                ->where('main_table.website_id = ?', $store->getWebsiteId());
 
-        $select = $this->getSelect();
-        $select->from(['main_table' => $table], null)
-            ->joinLeft(
-                ['current_store' => $table],
-                'current_store.attribute_id = main_table.attribute_id AND current_store.store_id = ' . $currentStoreId,
-                null
-            )
-            ->columns([BucketInterface::FIELD_VALUE => $ifNullCondition])
-            ->where('main_table.attribute_id = ?', $attribute->getAttributeId())
-            ->where('main_table.store_id = ?', Store::DEFAULT_STORE_ID);
+        } else {
+            $currentScopeId = $this->scopeResolver->getScope($currentScope)
+                ->getId();
+            $select = $this->getSelect();
+            $table = $this->resource->getTableName('catalog_product_index_eav');
+            $select->from(['main_table' => $table], ['value'])
+                ->where('main_table.attribute_id = ?', $attribute->getAttributeId())
+                ->where('main_table.store_id = ? ', $currentScopeId);
+        }
 
         return $select;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute(Select $select)
+    {
+        return $this->getConnection()
+            ->fetchAssoc($select);
     }
 
     /**
@@ -78,7 +108,8 @@ class DataProvider implements DataProviderInterface
      */
     private function getSelect()
     {
-        return $this->getConnection()->select();
+        return $this->getConnection()
+            ->select();
     }
 
     /**

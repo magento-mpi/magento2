@@ -104,6 +104,11 @@ class Instance extends \Magento\Framework\Model\AbstractModel
     protected $_directory;
 
     /**
+     * @var \Magento\Widget\Helper\Conditions
+     */
+    protected $conditionsHelper;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Escaper $escaper
@@ -115,9 +120,10 @@ class Instance extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Widget\Model\NamespaceResolver $namespaceResolver
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Filesystem $filesystem
+     * @param \Magento\Widget\Helper\Conditions $conditionsHelper
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
-     * @param string[] $relatedCacheTypes
+     * @param array $relatedCacheTypes
      * @param array $data
      */
     public function __construct(
@@ -132,6 +138,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
         \Magento\Widget\Model\NamespaceResolver $namespaceResolver,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Filesystem $filesystem,
+        \Magento\Widget\Helper\Conditions $conditionsHelper,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $relatedCacheTypes = array(),
@@ -145,6 +152,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
         $this->_reader = $reader;
         $this->_widgetModel = $widgetModel;
         $this->mathRandom = $mathRandom;
+        $this->conditionsHelper = $conditionsHelper;
         $this->_directory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
         $this->_namespaceResolver = $namespaceResolver;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -182,7 +190,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         $pageGroupIds = array();
         $tmpPageGroups = array();
@@ -237,7 +245,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
         $this->setData('page_groups', $tmpPageGroups);
         $this->setData('page_group_ids', $pageGroupIds);
 
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**
@@ -541,7 +549,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
             return '';
         }
         $parameters = $this->getWidgetParameters();
-        $xml = '<referenceContainer name="' . $container . '">';
+        $xml = '<body><referenceContainer name="' . $container . '">';
         $template = '';
         if (isset($parameters['template'])) {
             unset($parameters['template']);
@@ -553,7 +561,10 @@ class Instance extends \Magento\Framework\Model\AbstractModel
         $hash = $this->mathRandom->getUniqueHash();
         $xml .= '<block class="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
-            if (is_array($value)) {
+            if ($name == 'conditions') {
+                $name = 'conditions_encoded';
+                $value = $this->conditionsHelper->encode($value);
+            } elseif (is_array($value)) {
                 $value = implode(',', $value);
             }
             if ($name && strlen((string)$value)) {
@@ -567,7 +578,7 @@ class Instance extends \Magento\Framework\Model\AbstractModel
                     ) . '</argument>' . '</action>';
             }
         }
-        $xml .= '</block></referenceContainer>';
+        $xml .= '</block></referenceContainer></body>';
 
         return $xml;
     }
@@ -590,12 +601,12 @@ class Instance extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if ($this->dataHasChangedFor('page_groups') || $this->dataHasChangedFor('widget_parameters')) {
             $this->_invalidateCache();
         }
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -603,11 +614,11 @@ class Instance extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function _beforeDelete()
+    public function beforeDelete()
     {
         if ($this->getPageGroups()) {
             $this->_invalidateCache();
         }
-        return parent::_beforeDelete();
+        return parent::beforeDelete();
     }
 }

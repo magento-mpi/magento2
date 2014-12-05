@@ -14,9 +14,9 @@
         <legend class="legend"><span><?php echo __('Account Information') ?></span></legend><br>
         <?php echo $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($this->getCustomer())->toHtml() ?>
         <div class="field email required">
-            <label class="label" for="email"><span><?php echo __('Email Address') ?></span></label>
+            <label class="label" for="email"><span><?php echo __('Email') ?></span></label>
             <div class="control">
-                <input type="email" name="email" id="email" value="<?php echo $this->escapeHtml($this->getCustomer()->getEmail()) ?>" title="<?php echo __('Email Address') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}">
+                <input type="email" name="email" id="email" value="<?php echo $this->escapeHtml($this->getCustomer()->getEmail()) ?>" title="<?php echo __('Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}">
             </div>
         </div>
         <?php $_dob = $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob') ?>
@@ -52,9 +52,9 @@
             </div>
         </div>
         <div class="field confirm password required">
-            <label class="label" for="confirmation"><span><?php echo __('Confirm New Password') ?></span></label>
+            <label class="label" for="password-confirmation"><span><?php echo __('Confirm New Password') ?></span></label>
             <div class="control">
-                <input type="password" class="input-text" name="confirmation" id="confirmation">
+                <input type="password" class="input-text" name="password_confirmation" id="password-confirmation">
             </div>
         </div>
     </fieldset>
@@ -76,7 +76,7 @@
         $('#change-password').mage('setPassword', {
             'currentPasswordId': '#current-password',
             'passwordId': '#password',
-            'confirmationId': '#confirmation',
+            'confirmationId': '#password-confirmation',
             'passwordContainer': 'fieldset.fieldset.password',
             'showOnDefault': <?php echo $this->getChangePassword() ? 'true' : 'false' ?>
         });

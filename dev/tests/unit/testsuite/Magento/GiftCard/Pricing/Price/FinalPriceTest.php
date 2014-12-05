@@ -16,11 +16,6 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Framework\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $priceInfoMock;
-
-    /**
      * @var \Magento\Catalog\Pricing\Price\BasePrice|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $basePriceMock;
@@ -40,6 +35,11 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
     protected $saleableItemMock;
 
     /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceCurrencyMock;
+
+    /**
      * Set up function
      */
     public function setUp()
@@ -56,14 +56,6 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->priceInfoMock = $this->getMock(
-            'Magento\Framework\Pricing\PriceInfo\Base',
-            [],
-            [],
-            '',
-            false
-        );
-
         $this->basePriceMock = $this->getMock(
             'Magento\Catalog\Pricing\Price\BasePrice',
             [],
@@ -71,11 +63,6 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
-        $this->priceInfoMock->expects($this->once())
-            ->method('getPrice')
-            ->with($this->equalTo(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_CODE))
-            ->will($this->returnValue($this->basePriceMock));
 
         $this->calculatorMock = $this->getMock(
             'Magento\Framework\Pricing\Adjustment\Calculator',
@@ -85,11 +72,23 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->saleableMock->expects($this->once())
-            ->method('getPriceInfo')
-            ->will($this->returnValue($this->priceInfoMock));
+        $this->priceCurrencyMock = $this->getMock('\Magento\Framework\Pricing\PriceCurrencyInterface');
+        $this->priceCurrencyMock->expects($this->any())
+            ->method('convertAndRound')
+            ->will($this->returnCallback(
+                    function ($arg) {
+                        return round(0.5 * $arg, 2);
+                    }
+                )
+            );
 
-        $this->model = new \Magento\GiftCard\Pricing\Price\FinalPrice($this->saleableMock, 1, $this->calculatorMock);
+
+        $this->model = new \Magento\GiftCard\Pricing\Price\FinalPrice(
+            $this->saleableMock,
+            1,
+            $this->calculatorMock,
+            $this->priceCurrencyMock
+        );
     }
 
     /**
@@ -117,14 +116,14 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
                 'amounts' => [
                     ['website_value' => 10.],
                 ],
-                'expected' => [10.],
+                'expected' => [5.],
             ],
             'two_amount' => [
                 'amounts' => [
                     ['website_value' => 10.],
                     ['website_value' => 20.],
                 ],
-                'expected' => [10., 20.]
+                'expected' => [5., 10.]
             ],
             'zero_amount' => [
                 'amounts' => [],
@@ -144,7 +143,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->model->getAmounts();
 
-        $this->assertEquals([5], $this->model->getAmounts());
+        $this->assertEquals([2.5], $this->model->getAmounts());
     }
 
     /**
@@ -172,14 +171,14 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
                 'amounts' => [
                     ['website_value' => 10.],
                 ],
-                'expected' => 10.,
+                'expected' => 5.,
             ],
             'two_amount' => [
                 'amounts' => [
                     ['website_value' => 10.],
                     ['website_value' => 20.],
                 ],
-                'expected' => 10.,
+                'expected' => 5.,
             ],
             'zero_amount' => [
                 'amounts' => [],

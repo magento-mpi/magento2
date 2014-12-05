@@ -28,15 +28,7 @@ abstract class ProductTest extends \PHPUnit_Framework_TestCase
     protected function initContext()
     {
         $productActionMock = $this->getMock('Magento\Catalog\Model\Product\Action', array(), array(), '', false);
-        $objectManagerMock = $this->getMockForAbstractClass(
-            '\Magento\Framework\ObjectManager',
-            array(),
-            '',
-            true,
-            true,
-            true,
-            array('get')
-        );
+        $objectManagerMock = $this->getMockForAbstractClass('Magento\Framework\ObjectManagerInterface');
         $objectManagerMock->expects($this->any())->method('get')->will($this->returnValue($productActionMock));
 
         $block = $this->getMockBuilder('\Magento\Framework\View\Element\AbstractBlock')
@@ -51,7 +43,7 @@ abstract class ProductTest extends \PHPUnit_Framework_TestCase
         $eventManager->expects($this->any())->method('dispatch')->will($this->returnSelf());
         $title = $this->getMockBuilder('\Magento\Framework\App\Action\Title')
             ->setMethods(['add'])->disableOriginalConstructor()->getMock();
-        $title->expects($this->any())->method('add')->withAnyParameters()->will($this->returnSelf());
+        $title->expects($this->any())->method('prepend')->withAnyParameters()->will($this->returnSelf());
         $requestInterfaceMock = $this->getMockBuilder('Magento\Framework\App\Request\Http')->setMethods(
             array('getParam', 'getFullActionName')
         )->disableOriginalConstructor()->getMock();

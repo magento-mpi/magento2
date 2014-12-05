@@ -25,21 +25,17 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
     /**
      * @var BasePrice
      */
-    protected $basePrice;
+    private $basePrice;
 
     /**
-     * @param Product $saleableItem
-     * @param float $quantity
-     * @param CalculatorInterface $calculator
+     * @var \Magento\Framework\Pricing\Amount\AmountInterface
      */
-    public function __construct(
-        Product $saleableItem,
-        $quantity,
-        CalculatorInterface $calculator
-    ) {
-        parent::__construct($saleableItem, $quantity, $calculator);
-        $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_CODE);
-    }
+    protected $minimalPrice;
+
+    /**
+     * @var \Magento\Framework\Pricing\Amount\AmountInterface
+     */
+    protected $maximalPrice;
 
     /**
      * Get Value
@@ -48,7 +44,7 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
      */
     public function getValue()
     {
-        return max(0, $this->basePrice->getValue());
+        return max(0, $this->getBasePrice()->getValue());
     }
 
     /**
@@ -58,11 +54,16 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
      */
     public function getMinimalPrice()
     {
-        $minimalPrice = $this->product->getMinimalPrice();
-        if ($minimalPrice === null) {
-            $minimalPrice = $this->getValue();
+        if (!$this->minimalPrice) {
+            $minimalPrice = $this->product->getMinimalPrice();
+            if ($minimalPrice === null) {
+                $minimalPrice = $this->getValue();
+            } else {
+                $minimalPrice = $this->priceCurrency->convertAndRound($minimalPrice);
+            }
+            $this->minimalPrice = $this->calculator->getAmount($minimalPrice, $this->product);
         }
-        return $this->calculator->getAmount($minimalPrice, $this->product);
+        return $this->minimalPrice;
     }
 
     /**
@@ -72,6 +73,22 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
      */
     public function getMaximalPrice()
     {
-        return $this->calculator->getAmount($this->getValue(), $this->product);
+        if (!$this->maximalPrice) {
+            $this->maximalPrice = $this->calculator->getAmount($this->getValue(), $this->product);
+        }
+        return $this->maximalPrice;
+    }
+
+    /**
+     * Retrieve base price instance lazily
+     *
+     * @return BasePrice|\Magento\Framework\Pricing\Price\PriceInterface
+     */
+    protected function getBasePrice()
+    {
+        if (!$this->basePrice) {
+            $this->basePrice = $this->priceInfo->getPrice(BasePrice::PRICE_CODE);
+        }
+        return $this->basePrice;
     }
 }

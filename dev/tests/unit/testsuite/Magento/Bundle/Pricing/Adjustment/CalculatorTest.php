@@ -10,6 +10,7 @@ namespace Magento\Bundle\Pricing\Adjustment;
 use Magento\Bundle\Model\Product\Price as ProductPrice;
 use Magento\Bundle\Pricing\Price;
 use Magento\TestFramework\Helper\ObjectManager;
+use Magento\Bundle\Pricing\Adjustment\Calculator;
 
 /**
  * Test for \Magento\Bundle\Pricing\Adjustment\Calculator
@@ -494,6 +495,132 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
                 'fullAmount' => 8.,
                 'adjustments' => ['tax' => 8]
             ]
+        ];
+    }
+
+    public function testGetAmountWithoutOption()
+    {
+        $amount = 1;
+        $result = 5;
+
+        /** @var $calculatorMock Calculator|PHPUnit_Framework_MockObject_MockObject */
+        $calculatorMock = $this->getMockBuilder('Magento\Bundle\Pricing\Adjustment\Calculator')
+            ->disableOriginalConstructor()
+            ->setMethods(['calculateBundleAmount'])
+            ->getMock();
+
+        $calculatorMock->expects($this->once())
+            ->method('calculateBundleAmount')
+            ->with($amount, $this->saleableItem, [])
+            ->will($this->returnValue($result));
+
+        $this->assertEquals($result, $calculatorMock->getAmountWithoutOption($amount, $this->saleableItem));
+    }
+
+    public function testGetMinRegularAmount()
+    {
+        $amount = 1;
+        $expectedResult = 5;
+
+        $exclude = 'false';
+
+        /** @var $calculatorMock Calculator|PHPUnit_Framework_MockObject_MockObject */
+        $calculatorMock = $this->getMockBuilder('Magento\Bundle\Pricing\Adjustment\Calculator')
+            ->disableOriginalConstructor()
+            ->setMethods(['getOptionsAmount'])
+            ->getMock();
+
+        $calculatorMock->expects($this->once())
+            ->method('getOptionsAmount')
+            ->with($this->saleableItem, $exclude, true, $amount, true)
+            ->will($this->returnValue($expectedResult));
+
+        $result = $calculatorMock->getMinRegularAmount($amount, $this->saleableItem, $exclude);
+
+        $this->assertEquals($expectedResult, $result, 'Incorrect result');
+    }
+
+    public function testGetMaxRegularAmount()
+    {
+        $amount = 1;
+        $expectedResult = 5;
+
+        $exclude = 'false';
+
+        /** @var $calculatorMock Calculator|PHPUnit_Framework_MockObject_MockObject */
+        $calculatorMock = $this->getMockBuilder('Magento\Bundle\Pricing\Adjustment\Calculator')
+            ->disableOriginalConstructor()
+            ->setMethods(['getOptionsAmount'])
+            ->getMock();
+
+        $calculatorMock->expects($this->once())
+            ->method('getOptionsAmount')
+            ->with($this->saleableItem, $exclude, false, $amount, true)
+            ->will($this->returnValue($expectedResult));
+
+        $result = $calculatorMock->getMaxRegularAmount($amount, $this->saleableItem, $exclude);
+
+        $this->assertEquals($expectedResult, $result, 'Incorrect result');
+    }
+
+    /**
+     * @dataProvider getOptionsAmountDataProvider
+     */
+    public function testGetOptionsAmount($searchMin, $useRegularPrice)
+    {
+        $amount = 1;
+        $expectedResult = 5;
+
+        $exclude = 'false';
+
+        /** @var $calculatorMock Calculator|PHPUnit_Framework_MockObject_MockObject */
+        $calculatorMock = $this->getMockBuilder('Magento\Bundle\Pricing\Adjustment\Calculator')
+            ->disableOriginalConstructor()
+            ->setMethods(['calculateBundleAmount', 'getSelectionAmounts'])
+            ->getMock();
+
+        $selections[] = $this->getMockBuilder('\Magento\Bundle\Pricing\Price\BundleSelectionPrice')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $calculatorMock->expects($this->once())
+            ->method('getSelectionAmounts')
+            ->with($this->saleableItem, $searchMin, $useRegularPrice)
+            ->will($this->returnValue($selections));
+
+        $calculatorMock->expects($this->once())
+            ->method('calculateBundleAmount')
+            ->with($amount, $this->saleableItem, $selections, $exclude)
+            ->will($this->returnValue($expectedResult));
+
+        $result = $calculatorMock->getOptionsAmount(
+            $this->saleableItem,
+            $exclude, $searchMin,
+            $amount,
+            $useRegularPrice
+        );
+
+        $this->assertEquals($expectedResult, $result, 'Incorrect result');
+    }
+
+    public function getOptionsAmountDataProvider()
+    {
+        return [
+            'true, true' => [
+                'searchMin' => true,
+                'useRegularPrice' => true,
+            ],
+            'true, false' => [
+                'searchMin' => true,
+                'useRegularPrice' => false,
+            ],
+            'false, true' => [
+                'searchMin' => false,
+                'useRegularPrice' => true,
+            ],
+            'false, false' => [
+                'searchMin' => false,
+                'useRegularPrice' => false,
+            ],
         ];
     }
 }

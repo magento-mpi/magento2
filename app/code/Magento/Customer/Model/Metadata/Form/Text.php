@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Framework\Service\ArrayObjectSearch;
+use Magento\Framework\Api\ArrayObjectSearch;
 
 class Text extends AbstractData
 {
@@ -21,7 +21,7 @@ class Text extends AbstractData
     /**
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
+     * @param \Magento\Customer\Api\Data\AttributeMetadataInterface $attribute
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param string $value
      * @param string $entityTypeCode
@@ -31,7 +31,7 @@ class Text extends AbstractData
     public function __construct(
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Logger $logger,
-        \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute,
+        \Magento\Customer\Api\Data\AttributeMetadataInterface $attribute,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         $value,
         $entityTypeCode,

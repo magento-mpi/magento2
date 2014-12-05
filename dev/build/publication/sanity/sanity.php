@@ -6,11 +6,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-require __DIR__ . '/../../../../app/autoload.php';
-(new \Magento\Framework\Autoload\IncludePath())->addIncludePath(array(
-    __DIR__,
-    realpath(__DIR__ . '/../../../tests/static/framework')
-));
+require_once realpath(__DIR__ . '/../../../../app/autoload.php');
 
 define(
     'USAGE',

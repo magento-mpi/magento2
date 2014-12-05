@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/** @var \Magento\Checkout\Block\Onepage\Billing $this */
 ?>
 <form class="form billing" id="co-billing-form" data-hasrequired="<?php echo __('* Required Fields') ?>">
 
@@ -19,13 +20,13 @@
     <fieldset class="fieldset address" id="billing-new-address-form"<?php if ($this->customerHasAddresses()): ?> style="display:none;"<?php endif; ?>>
         <input type="hidden" name="billing[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="billing:address_id" />
 
-        <?php echo $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getQuote()->getCustomerData())->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+        <?php echo $this->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getQuote()->getCustomer())->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
 
         <?php if (!$this->isCustomerLoggedIn()): ?>
                 <div class="field required email">
-                    <label class="label" for="billing:email"><span><?php echo __('Email Address') ?></span></label>
+                    <label class="label" for="billing:email"><span><?php echo __('Email') ?></span></label>
                     <div class="control">
-                        <input type="email" name="billing[email]" id="billing:email" value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>" title="<?php echo __('Email Address') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
+                        <input type="email" name="billing[email]" id="billing:email" value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>" title="<?php echo __('Email') ?>" class="input-text" data-validate="{required:true, 'validate-email':true}"/>
                     </div>
                 </div>
         <?php endif; ?>
@@ -50,13 +51,16 @@
         <div class="field street required">
             <label class="label" for="billing:street1"><span><?php echo __('Address') ?></span></label>
             <div class="control">
-                <input type="text" title="<?php echo __('Street Address') ?>" name="billing[street][]" id="billing:street1" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet(1)) ?>" class="input-text <?php echo $_streetValidationClass ?>" />
+                <input type="text" title="<?php echo __('Street Address') ?>" name="billing[street][]" id="billing:street1" value="<?php echo $this->escapeHtml($this->getAddress()->getStreetLine(1)) ?>" class="input-text <?php echo $_streetValidationClass ?>" />
                 <div class="nested">
                     <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
                     <?php for ($_i = 2, $_n = $this->helper('Magento\Customer\Helper\Address')->getStreetLines(); $_i <= $_n; $_i++): ?>
-                        <div class="field additional no-label">
+                        <div class="field additional">
+                            <label class="label" for="billing:street<?php echo $_i ?>">
+                                <span><?php echo __('Address') ?></span>
+                            </label>
                             <div class="control">
-                                <input type="text" title="<?php echo __('Street Address %1', $_i) ?>" name="billing[street][]" id="billing:street<?php echo $_i ?>" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet($_i)) ?>" class="input-text <?php echo $_streetValidationClass ?>" />
+                                <input type="text" title="<?php echo __('Street Address %1', $_i) ?>" name="billing[street][]" id="billing:street<?php echo $_i ?>" value="<?php echo $this->escapeHtml($this->getAddress()->getStreetLine($_i)) ?>" class="input-text <?php echo $_streetValidationClass ?>" />
                             </div>
                         </div>
                     <?php endfor; ?>

@@ -35,6 +35,9 @@ class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\W
 
     public function testMultiServiceWsdl()
     {
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->markTestIncomplete('MAGETWO-31016: incompatible with ZF 1.12.9');
+        }
         $wsdlUrl = $this->_getBaseWsdlUrl() . 'testModule5AllSoapAndRestV1,testModule5AllSoapAndRestV2';
         $wsdlContent = $this->_convertXmlToString($this->_getWsdlContent($wsdlUrl));
 
@@ -315,7 +318,7 @@ RESPONSE_TYPE;
                 </xsd:appinfo>
             </xsd:annotation>
         </xsd:element>
-        <xsd:element name="customAttributes" type="tns:ArrayOfFrameworkDataAttributeValue" minOccurs="0">
+        <xsd:element name="customAttributes" type="tns:ArrayOfFrameworkAttributeInterface" minOccurs="0">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
                 <xsd:appinfo xmlns:inf="{$this->_soapUrl}">

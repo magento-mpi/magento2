@@ -8,8 +8,12 @@
 namespace Magento\Webapi\Helper;
 
 use Magento\Integration\Controller\Adminhtml\Integration as IntegrationController;
-use Magento\Framework\Service\Data\AbstractExtensibleObject;
+use Magento\Framework\Api\AbstractExtensibleObject;
 
+/**
+ * Class Data
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     /** @var \Magento\Framework\Registry */
@@ -76,10 +80,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getServiceNameParts($className, $preserveVersion = false)
     {
-        if (preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $className, $matches)) {
+        if (!preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $className, $matches)) {
+            $apiClassPattern = "#^(.+?)\\\\(.+?)\\\\Api\\\\(.+?)(Interface)?$#";
+            preg_match($apiClassPattern, $className, $matches);
+        }
+
+        if (!empty($matches)) {
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
             $moduleNamespace = ($moduleNamespace == 'Magento') ? '' : $moduleNamespace;
+            if ($matches[4] === 'Interface') {
+                $matches[4] = $matches[3];
+                $matches[3] = 'V1';
+            }
             $serviceNameParts = explode('\\', trim($matches[4], '\\'));
             if ($moduleName == $serviceNameParts[0]) {
                 /** Avoid duplication of words in service name */
@@ -92,7 +105,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $serviceNameParts[] = $serviceVersion;
             }
             return $serviceNameParts;
+        } elseif (preg_match(\Magento\Webapi\Model\Config::API_PATTERN, $className, $matches)) {
+            $moduleNamespace = $matches[1];
+            $moduleName = $matches[2];
+            $moduleNamespace = ($moduleNamespace == 'Magento') ? '' : $moduleNamespace;
+            $serviceNameParts = explode('\\', trim($matches[3], '\\'));
+            if ($moduleName == $serviceNameParts[0]) {
+                /** Avoid duplication of words in service name */
+                $moduleName = '';
+            }
+            $parentServiceName = $moduleNamespace . $moduleName . array_shift($serviceNameParts);
+            array_unshift($serviceNameParts, $parentServiceName);
+            //Add temporary dummy version
+            $serviceNameParts[] = 'V1';
+            return $serviceNameParts;
         }
+
         throw new \InvalidArgumentException(sprintf('The service interface name "%s" is invalid.', $className));
     }
 }

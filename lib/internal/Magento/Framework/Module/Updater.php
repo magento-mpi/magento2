@@ -56,7 +56,7 @@ class Updater
      */
     public function updateData()
     {
-        foreach (array_keys($this->_moduleList->getModules()) as $moduleName) {
+        foreach ($this->_moduleList->getNames() as $moduleName) {
             foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
                 if (!$this->_dbVersionDetector->isDbDataUpToDate($moduleName, $resourceName)) {
                     $this->_setupFactory->create($resourceName, $moduleName)->applyDataUpdates();

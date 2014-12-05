@@ -17,9 +17,9 @@ class NewAction extends \Magento\GiftWrapping\Controller\Adminhtml\Giftwrapping
      */
     public function execute()
     {
-        $model = $this->_initModel();
+        $this->_initModel();
         $this->_initAction();
-        $this->_title->add(__('New Gift Wrapping'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('New Gift Wrapping'));
         $this->_view->renderLayout();
     }
 }

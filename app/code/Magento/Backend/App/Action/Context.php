@@ -38,11 +38,6 @@ class Context extends \Magento\Framework\App\Action\Context
     protected $_formKeyValidator;
 
     /**
-     * @var \Magento\Framework\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * @var bool
      */
     protected $_canUseBaseUrl;
@@ -60,7 +55,7 @@ class Context extends \Magento\Framework\App\Action\Context
     /**
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Framework\App\ResponseInterface $response
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\UrlInterface $url
      * @param \Magento\Framework\App\Response\RedirectInterface $redirect
@@ -73,14 +68,13 @@ class Context extends \Magento\Framework\App\Action\Context
      * @param \Magento\Backend\Helper\Data $helper
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\Framework\App\Action\Title $title
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param bool $canUseBaseUrl
      */
     public function __construct(
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\App\ResponseInterface $response,
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\UrlInterface $url,
         \Magento\Framework\App\Response\RedirectInterface $redirect,
@@ -93,7 +87,6 @@ class Context extends \Magento\Framework\App\Action\Context
         \Magento\Backend\Helper\Data $helper,
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Framework\App\Action\Title $title,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         $canUseBaseUrl = false
     ) {
@@ -115,7 +108,6 @@ class Context extends \Magento\Framework\App\Action\Context
         $this->_helper = $helper;
         $this->_backendUrl = $backendUrl;
         $this->_formKeyValidator = $formKeyValidator;
-        $this->_title = $title;
         $this->_localeResolver = $localeResolver;
         $this->_canUseBaseUrl = $canUseBaseUrl;
     }
@@ -174,14 +166,6 @@ class Context extends \Magento\Framework\App\Action\Context
     public function getLocaleResolver()
     {
         return $this->_localeResolver;
-    }
-
-    /**
-     * @return \Magento\Framework\App\Action\Title
-     */
-    public function getTitle()
-    {
-        return $this->_title;
     }
 
     /**

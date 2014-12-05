@@ -14,6 +14,8 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
  * Class CommentReadTest
  *
  * @package Magento\Rma\Service\V1
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CommentReadTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,17 +25,17 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
     protected $rmaServiceCommentReadMock;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $criteriaBuilderMock;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\FilterBuilder | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Api\FilterBuilder | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $filterBuilderMock;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\Filter | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Api\Filter | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $filterMock;
 
@@ -53,7 +55,7 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
     protected $searchResultsBuilderMock;
 
     /**
-     * @var \Magento\Framework\Service\V1\Data\SearchCriteria | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Api\SearchCriteria | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchCriteriaMock;
 
@@ -95,22 +97,22 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
     {
         $this->rmaRepositoryMock = $this->getMock('Magento\Rma\Model\RmaRepository', ['get'], [], '', false);
 
-        $this->criteriaBuilderMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\SearchCriteriaBuilder')
+        $this->criteriaBuilderMock = $this->getMockBuilder('Magento\Framework\Api\SearchCriteriaBuilder')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
 
-        $this->filterBuilderMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\FilterBuilder')
+        $this->filterBuilderMock = $this->getMockBuilder('Magento\Framework\Api\FilterBuilder')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
 
-        $this->filterMock = $this->getMockBuilder('Magento\Framework\Service\V1\Data\Filter')
+        $this->filterMock = $this->getMockBuilder('Magento\Framework\Api\Filter')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
 
-        $this->searchCriteriaMock = $this->getMockBuilder('\Magento\Framework\Service\V1\Data\SearchCriteria')
+        $this->searchCriteriaMock = $this->getMockBuilder('\Magento\Framework\Api\SearchCriteria')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMock();
@@ -186,7 +188,7 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testCommentsList($id, $isCustomerContext)
+    public function testCommentsListCustomerContext($id, $isCustomerContext)
     {
         $this->permissionCheckerMock->expects($this->once())->method('checkRmaForCustomerContext');
 
@@ -246,47 +248,39 @@ class CommentReadTest extends \PHPUnit_Framework_TestCase
                 ->method('addFilter')
                 ->with($this->equalTo([$this->filterMock]));
         }
-
         $this->criteriaBuilderMock
             ->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->searchCriteriaMock));
-
         $this->historyRepositoryMock
             ->expects($this->once())
             ->method('find')
             ->with($this->searchCriteriaMock)
             ->will($this->returnValue([$this->commentMock]));
-
         $this->historyMapperMock
             ->expects($this->once())
             ->method('extractDto')
             ->with($this->commentMock)
             ->will($this->returnValue($this->dataObjectMock));
-
         $this->searchResultsBuilderMock
             ->expects($this->once())
             ->method('setItems')
             ->with([$this->dataObjectMock])
             ->willReturnSelf();
-
         $this->searchResultsBuilderMock
             ->expects($this->once())
             ->method('setTotalCount')
             ->with(1)
             ->willReturnSelf();
-
         $this->searchResultsBuilderMock
             ->expects($this->once())
             ->method('setSearchCriteria')
             ->with($this->equalTo($this->searchCriteriaMock))
             ->willReturnSelf();
-
         $this->searchResultsBuilderMock
             ->expects($this->once())
             ->method('create')
             ->willReturn($this->searchResultsMock);
-
         $this->assertEquals(
             $this->searchResultsMock,
             $this->rmaServiceCommentReadMock->commentsList($id)

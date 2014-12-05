@@ -41,8 +41,7 @@ class NamespaceResolver
     {
         if (null === $this->_moduleNamespaces) {
             $this->_moduleNamespaces = array();
-            foreach ($this->_moduleList->getModules() as $module) {
-                $moduleName = $module['name'];
+            foreach ($this->_moduleList->getNames() as $moduleName) {
                 $module = strtolower($moduleName);
                 $this->_moduleNamespaces[substr($module, 0, strpos($module, '_'))][$module] = $moduleName;
             }
@@ -50,8 +49,8 @@ class NamespaceResolver
 
         $explodeString = strpos(
             $name,
-            \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR
-        ) === false ? '_' : \Magento\Framework\Autoload\IncludePath::NS_SEPARATOR;
+            '\\'
+        ) === false ? '_' : '\\';
         $name = explode($explodeString, strtolower($name));
 
         $partsNum = count($name);

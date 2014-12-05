@@ -7,12 +7,14 @@
  */
 namespace Magento\Sales\Model\Resource\Quote\Address;
 
+use \Magento\Framework\Model\Resource\Db\AbstractDb;
+
 /**
  * Quote address shipping rate resource model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Rate extends \Magento\Sales\Model\Resource\AbstractResource
+class Rate extends AbstractDb
 {
     /**
      * Main table and field initialization
@@ -21,6 +23,6 @@ class Rate extends \Magento\Sales\Model\Resource\AbstractResource
      */
     protected function _construct()
     {
-        $this->_init('sales_flat_quote_shipping_rate', 'rate_id');
+        $this->_init('sales_quote_shipping_rate', 'rate_id');
     }
 }

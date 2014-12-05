@@ -24,7 +24,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $productLoaderMock;
+    protected $productRepositoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -50,15 +50,15 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->quoteRepositoryMock =
             $this->getMock('\Magento\Sales\Model\QuoteRepository', [], [], '', false);
-        $this->productLoaderMock =
-            $this->getMock('\Magento\Catalog\Service\V1\Product\ProductLoader', [], [], '', false);
+        $this->productRepositoryMock =
+            $this->getMock('Magento\Catalog\Api\ProductRepositoryInterface', [], [], '', false);
         $this->dataMock = $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\Item', [], [], '', false);
         $this->quoteMock = $this->getMock('\Magento\Sales\Model\Quote', [], [], '', false);
         $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $this->quoteItemMock =
             $this->getMock('\Magento\Sales\Model\Quote\Item', ['getId', 'setData', '__wakeUp'], [], '', false);
 
-        $this->service = new WriteService($this->quoteRepositoryMock, $this->productLoaderMock);
+        $this->service = new WriteService($this->quoteRepositoryMock, $this->productRepositoryMock);
     }
 
     /**
@@ -96,16 +96,19 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     {
         $cartId = 13;
         $this->dataMock->expects($this->once())->method('getQty')->will($this->returnValue(12));
-        $this->quoteRepositoryMock->expects($this->once())->method('get')
+        $this->quoteRepositoryMock->expects($this->once())->method('getActive')
             ->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->dataMock->expects($this->once())->method('getSku')->will($this->returnValue('product_sku'));
-        $this->productLoaderMock->expects($this->once())
-            ->method('load')->with('product_sku')->will($this->returnValue($this->productMock));
+        $this->productRepositoryMock->expects($this->once())
+            ->method('get')->with('product_sku')->will($this->returnValue($this->productMock));
         $this->quoteMock->expects($this->once())->method('addProduct')->with($this->productMock, 12);
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
         $exceptionMessage = 'Could not add item to quote';
         $exception = new \Magento\Framework\Exception\CouldNotSaveException($exceptionMessage);
-        $this->quoteMock->expects($this->once())->method('save')->will($this->throwException($exception));
+        $this->quoteRepositoryMock->expects($this->once())
+            ->method('save')
+            ->with($this->quoteMock)
+            ->willThrowException($exception);
 
         $this->service->addItem($cartId, $this->dataMock);
     }
@@ -115,12 +118,14 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 13;
         $this->dataMock->expects($this->once())->method('getQty')->will($this->returnValue(12));
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
-        $this->productLoaderMock->expects($this->once())->method('load')->will($this->returnValue($this->productMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
+        $this->productRepositoryMock->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue($this->productMock));
         $this->dataMock->expects($this->once())->method('getSku');
         $this->quoteMock->expects($this->once())->method('addProduct')->with($this->productMock, 12);
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('save');
+        $this->quoteRepositoryMock->expects($this->once())->method('save')->with($this->quoteMock);
         $this->quoteMock
             ->expects($this->once())
             ->method('getItemByProduct')
@@ -167,7 +172,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $itemId = 5;
         $this->dataMock->expects($this->once())->method('getQty')->will($this->returnValue(12));
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('getItemById')->with($itemId)->will($this->returnValue(false));
         $this->quoteItemMock->expects($this->never())->method('setData');
@@ -185,14 +190,17 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $itemId = 5;
         $this->dataMock->expects($this->once())->method('getQty')->will($this->returnValue(12));
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('getItemById')->with($itemId)->will($this->returnValue($this->quoteItemMock));
         $this->quoteItemMock->expects($this->once())->method('setData')->with('qty', 12);
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
         $exceptionMessage = 'Could not update quote item';
         $exception = new \Magento\Framework\Exception\CouldNotSaveException($exceptionMessage);
-        $this->quoteMock->expects($this->once())->method('save')->will($this->throwException($exception));
+        $this->quoteRepositoryMock->expects($this->once())
+            ->method('save')
+            ->with($this->quoteMock)
+            ->willThrowException($exception);
 
         $this->service->updateItem($cartId, $itemId, $this->dataMock);
     }
@@ -203,12 +211,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $itemId = 5;
         $this->dataMock->expects($this->once())->method('getQty')->will($this->returnValue(12));
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('getItemById')->with($itemId)->will($this->returnValue($this->quoteItemMock));
         $this->quoteItemMock->expects($this->once())->method('setData')->with('qty', 12);
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('save')->will($this->returnValue($this->quoteMock));
+        $this->quoteRepositoryMock->expects($this->once())->method('save')->with($this->quoteMock);
 
         $this->assertTrue($this->service->updateItem($cartId, $itemId, $this->dataMock));
     }
@@ -222,7 +230,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 11;
         $itemId = 5;
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('getItemById')->with($itemId)->will($this->returnValue(false));
         $this->quoteMock->expects($this->never())->method('removeItem');
@@ -239,7 +247,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 11;
         $itemId = 5;
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('getItemById')->with($itemId)->will($this->returnValue($this->quoteItemMock));
         $this->quoteMock->expects($this->once())
@@ -247,7 +255,10 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
         $exceptionMessage = 'Could not remove item from quote';
         $exception = new \Magento\Framework\Exception\CouldNotSaveException($exceptionMessage);
-        $this->quoteMock->expects($this->once())->method('save')->will($this->throwException($exception));
+        $this->quoteRepositoryMock->expects($this->once())
+            ->method('save')
+            ->with($this->quoteMock)
+            ->willThrowException($exception);
 
         $this->service->removeItem($cartId, $itemId, $this->dataMock);
     }
@@ -257,12 +268,12 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $cartId = 11;
         $itemId = 5;
         $this->quoteRepositoryMock->expects($this->once())
-            ->method('get')->with($cartId)->will($this->returnValue($this->quoteMock));
+            ->method('getActive')->with($cartId)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('getItemById')->with($itemId)->will($this->returnValue($this->quoteItemMock));
         $this->quoteMock->expects($this->once())->method('removeItem');
         $this->quoteMock->expects($this->once())->method('collectTotals')->will($this->returnValue($this->quoteMock));
-        $this->quoteMock->expects($this->once())->method('save')->will($this->returnValue($this->quoteMock));
+        $this->quoteRepositoryMock->expects($this->once())->method('save')->with($this->quoteMock);
 
         $this->assertTrue($this->service->removeItem($cartId, $itemId, $this->dataMock));
     }

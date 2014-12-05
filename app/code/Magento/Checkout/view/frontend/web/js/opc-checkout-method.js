@@ -26,6 +26,8 @@ define([
                 loginFormSelector: 'form[data-role=login]',
                 continueSelector: '#opc-login [data-role=opc-continue]',
                 registerCustomerPasswordSelector: '#co-billing-form .field.password,#co-billing-form .field.confirm',
+                captchaGuestCheckoutSelector: '#co-billing-form [role="guest_checkout"]',
+                registerDuringCheckoutSelector: '#co-billing-form [role="register_during_checkout"]',
                 suggestRegistration: false
             },
             pageMessages: '#maincontent .messages .message',
@@ -70,8 +72,12 @@ define([
                     }, 300);
                 }
             };
+
+            $(document).on({
+                'ajaxError': this._ajaxError.bind(this)
+            });
+
             $.extend(events, {
-                ajaxError: '_ajaxError',
                 showAjaxLoader: '_ajaxSend',
                 hideAjaxLoader: '_ajaxComplete',
                 gotoSection: function(e, section) {
@@ -157,7 +163,7 @@ define([
                 guestChecked    = $( checkout.loginGuestSelector ).is( ':checked' ),
                 registerChecked = $( checkout.loginRegisterSelector ).is( ':checked' ),
                 method          = 'register',
-                action          = 'show';
+                isRegistration  = true;
 
             //Remove page messages
             $(this.options.pageMessages).remove();
@@ -172,7 +178,7 @@ define([
 
                 if( guestChecked ){
                     method = 'guest';
-                    action = 'hide';
+                    isRegistration = false;
                 }
 
                 this._ajaxContinue(
@@ -181,7 +187,9 @@ define([
                     this.options.billingSection
                 );
 
-                this.element.find( checkout.registerCustomerPasswordSelector )[action]();
+                this.element.find(checkout.registerCustomerPasswordSelector).toggle(isRegistration);
+                this.element.find(checkout.captchaGuestCheckoutSelector).toggle(!isRegistration);
+                this.element.find(checkout.registerDuringCheckoutSelector).toggle(isRegistration);
             }
             else if( json.registrationUrl ){
                 window.location = json.registrationUrl;
@@ -213,19 +221,36 @@ define([
                     }
                     if ($.type(response) === 'object' && !$.isEmptyObject(response)) {
                         if (response.error) {
-                            var msg = response.message || response.error_messages;
+                            var msg = response.message || response.error_messages || response.error,
+                                billingEmailId,
+                                hasBillingEmail;
+
                             if (msg) {
-                                if ($.type(msg) === 'array') {
-                                    msg = msg.join("\n");
+                                if (Array.isArray(msg)) {
+                                    msg = msg.reduce(function (str, chunk) {
+                                        str += '\n' + $.mage.__(chunk);
+                                        return str;
+                                    }, '');
+                                } else {
+                                    msg = $.mage.__(msg);
                                 }
+
                                 $(this.options.countrySelector).trigger('change');
-                                var emailAddress = {};
-                                emailAddress[this.options.billing.emailAddressName] = msg;
-                                var billingFormValidator = $(this.options.billing.form).validate();
-                                billingFormValidator.showErrors(emailAddress);
-                            } else {
-                                alert($.mage.__(response.error));
+
+                                billingEmailId = this.options.billing.emailAddressName;
+                                hasBillingEmail = $('[name="' + billingEmailId + '"]').length;
+
+                                if (hasBillingEmail) {
+                                    var emailAddress = {};
+                                    emailAddress[billingEmailId] = msg;
+
+                                    var billingFormValidator = $(this.options.billing.form).validate();
+                                    billingFormValidator.showErrors(emailAddress);
+                                }
+
+                                alert(msg);
                             }
+
                             return;
                         }
                         if (response.redirect) {
@@ -260,4 +285,6 @@ define([
             });
         }
     });
+    
+    return $.mage.opcCheckoutMethod;
 });

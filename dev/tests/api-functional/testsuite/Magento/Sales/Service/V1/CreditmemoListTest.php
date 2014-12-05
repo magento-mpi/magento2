@@ -24,7 +24,7 @@ class CreditmemoListTest extends WebapiAbstract
     /**
      * Service read name
      */
-    const SERVICE_READ_NAME = 'salesCreditmemoReadV1';
+    const SERVICE_READ_NAME = 'salesCreditmemoRepositoryV1';
 
     /**
      * Service version
@@ -32,7 +32,7 @@ class CreditmemoListTest extends WebapiAbstract
     const SERVICE_VERSION = 'V1';
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -51,14 +51,14 @@ class CreditmemoListTest extends WebapiAbstract
      */
     public function testCreditmemoList()
     {
-        /** @var $searchCriteriaBuilder  \Magento\Framework\Service\V1\Data\SearchCriteriaBuilder */
+        /** @var $searchCriteriaBuilder  \Magento\Framework\Api\SearchCriteriaBuilder */
         $searchCriteriaBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\SearchCriteriaBuilder'
+            'Magento\Framework\Api\SearchCriteriaBuilder'
         );
 
-        /** @var $filterBuilder  \Magento\Framework\Service\V1\Data\FilterBuilder */
+        /** @var $filterBuilder  \Magento\Framework\Api\FilterBuilder */
         $filterBuilder = $this->objectManager->create(
-            'Magento\Framework\Service\V1\Data\FilterBuilder'
+            'Magento\Framework\Api\FilterBuilder'
         );
 
         $searchCriteriaBuilder->addFilter(
@@ -71,7 +71,7 @@ class CreditmemoListTest extends WebapiAbstract
         );
         $searchData = $searchCriteriaBuilder->create()->__toArray();
 
-        $requestData = ['searchCriteria' => $searchData];
+        $requestData = ['criteria' => $searchData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
@@ -80,11 +80,12 @@ class CreditmemoListTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'search'
+                'operation' => self::SERVICE_READ_NAME . 'getList'
             ]
         ];
 
         $result = $this->_webApiCall($serviceInfo, $requestData);
+        // TODO Test fails, due to the inability of the framework API to handle data collection
         $this->assertArrayHasKey('items', $result);
         $this->assertCount(1, $result['items']);
     }

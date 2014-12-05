@@ -470,6 +470,10 @@ class Observer
      */
     public function catalogProductSaveBefore(EventObserver $observer)
     {
+        /** @var $helper \Magento\PricePermissions\Helper\Data */
+        $helper = $this->_pricePermData;
+        $this->_canEditProductStatus = $helper->getCanAdminEditProductStatus();
+
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getDataObject();
         if ($product->isObjectNew() && !$this->_canEditProductStatus) {

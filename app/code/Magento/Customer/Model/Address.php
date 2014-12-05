@@ -7,6 +7,12 @@
  */
 namespace Magento\Customer\Model;
 
+use Magento\Customer\Api\Data\AddressInterface;
+use Magento\Customer\Api\AddressMetadataInterface;
+use Magento\Customer\Api\Data\AddressDataBuilder;
+use Magento\Customer\Api\Data\RegionDataBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
+
 /**
  * Customer address model
  *
@@ -28,14 +34,25 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_customerFactory;
 
     /**
+     * @var \Magento\Framework\Reflection\DataObjectProcessor
+     */
+    protected $dataProcessor;
+
+    /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Customer\Model\Address\Config $addressConfig
+     * @param Address\Config $addressConfig
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param AddressMetadataInterface $addressMetadataService
+     * @param AddressDataBuilder $addressBuilder
+     * @param RegionDataBuilder $regionBuilder
      * @param CustomerFactory $customerFactory
+     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -43,25 +60,37 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
+        \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Address\Config $addressConfig,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
+        AddressMetadataInterface $addressMetadataService,
+        AddressDataBuilder $addressBuilder,
+        RegionDataBuilder $regionBuilder,
         CustomerFactory $customerFactory,
+        \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->dataProcessor = $dataProcessor;
         $this->_customerFactory = $customerFactory;
         parent::__construct(
             $context,
             $registry,
+            $metadataService,
+            $customAttributeBuilder,
             $directoryData,
             $eavConfig,
             $addressConfig,
             $regionFactory,
             $countryFactory,
+            $addressMetadataService,
+            $addressBuilder,
+            $regionBuilder,
             $resource,
             $resourceCollection,
             $data
@@ -74,6 +103,55 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected function _construct()
     {
         $this->_init('Magento\Customer\Model\Resource\Address');
+    }
+
+    /**
+     * Update Model with the data from Data Interface
+     *
+     * @param AddressInterface $address
+     * @return $this
+     * @deprecated Use Api/RepositoryInterface for the operations in the Data Interfaces. Don't rely on Address Model
+     */
+    public function updateData(AddressInterface $address)
+    {
+        // Set all attributes
+        $attributes = $this->dataProcessor
+            ->buildOutputDataArray($address, '\Magento\Customer\Api\Data\AddressInterface');
+
+        foreach ($attributes as $attributeCode => $attributeData) {
+            if (AddressInterface::REGION === $attributeCode) {
+                $this->setRegion($address->getRegion()->getRegion());
+                $this->setRegionCode($address->getRegion()->getRegionCode());
+                $this->setRegionId($address->getRegion()->getRegionId());
+            } else {
+                $this->setDataUsingMethod($attributeCode, $attributeData);
+            }
+        }
+        // Need to explicitly set this due to discrepancy in the keys between model and data object
+        $this->setIsDefaultBilling($address->isDefaultBilling());
+        $this->setIsDefaultShipping($address->isDefaultShipping());
+
+        // Need to use attribute set or future updates can cause data loss
+        if (!$this->getAttributeSetId()) {
+            $this->setAttributeSetId(AddressMetadataInterface::ATTRIBUTE_SET_ID_ADDRESS);
+        }
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDataModel($defaultBillingAddressId = null, $defaultShippingAddressId = null)
+    {
+        if ($this->getCustomerId() || $this->getParentId()) {
+            if ($this->getCustomer()->getDefaultBillingAddress()) {
+                $defaultBillingAddressId = $this->getCustomer()->getDefaultBillingAddress()->getId();
+            }
+            if ($this->getCustomer()->getDefaultShippingAddress()) {
+                $defaultShippingAddressId = $this->getCustomer()->getDefaultShippingAddress()->getId();
+            }
+        }
+        return parent::getDataModel($defaultBillingAddressId, $defaultShippingAddressId);
     }
 
     /**
@@ -125,18 +203,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     {
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
-        return $this;
-    }
-
-    /**
-     * Delete customer address
-     *
-     * @return $this
-     */
-    public function delete()
-    {
-        parent::delete();
-        $this->setData(array());
         return $this;
     }
 

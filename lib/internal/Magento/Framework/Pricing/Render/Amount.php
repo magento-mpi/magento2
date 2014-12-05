@@ -137,6 +137,14 @@ class Amount extends Template implements AmountRenderInterface
     }
 
     /**
+     * @return string
+     */
+    public function getDisplayCurrencyCode()
+    {
+        return $this->priceCurrency->getCurrency()->getCurrencyCode();
+    }
+
+    /**
      * @return bool
      */
     public function hasAdjustmentsHtml()
@@ -202,19 +210,19 @@ class Amount extends Template implements AmountRenderInterface
     }
 
     /**
-     * Convert and format price value
+     * Format price value
      *
      * @param float $amount
      * @param bool $includeContainer
      * @param int $precision
      * @return float
      */
-    public function convertAndFormatCurrency(
+    public function formatCurrency(
         $amount,
         $includeContainer = true,
         $precision = PriceCurrencyInterface::DEFAULT_PRECISION
     ) {
-        return $this->priceCurrency->convertAndFormat($amount, $includeContainer, $precision);
+        return $this->priceCurrency->format($amount, $includeContainer, $precision);
     }
 
     /**

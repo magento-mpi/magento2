@@ -32,7 +32,7 @@ class Http implements \Magento\Framework\AppInterface
     /**#@-*/
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -72,24 +72,31 @@ class Http implements \Magento\Framework\AppInterface
     protected $_response;
 
     /**
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @var \Magento\Framework\Registry
+     */
+    protected $registry;
+
+    /**
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param Event\Manager $eventManager
      * @param AreaList $areaList
      * @param RequestHttp $request
      * @param ResponseHttp $response
      * @param ConfigLoader $configLoader
      * @param State $state
-     * @param Filesystem $filesystem
+     * @param Filesystem $filesystem,
+     * @param \Magento\Framework\Registry $registry
      */
     public function __construct(
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         Event\Manager $eventManager,
         AreaList $areaList,
         RequestHttp $request,
         ResponseHttp $response,
         ConfigLoader $configLoader,
         State $state,
-        Filesystem $filesystem
+        Filesystem $filesystem,
+        \Magento\Framework\Registry $registry
     ) {
         $this->_objectManager = $objectManager;
         $this->_eventManager = $eventManager;
@@ -99,6 +106,7 @@ class Http implements \Magento\Framework\AppInterface
         $this->_configLoader = $configLoader;
         $this->_state = $state;
         $this->_filesystem = $filesystem;
+        $this->registry = $registry;
     }
 
     /**
@@ -117,6 +125,7 @@ class Http implements \Magento\Framework\AppInterface
         $result = $frontController->dispatch($this->_request);
         // TODO: Temporary solution till all controllers are returned not ResultInterface (MAGETWO-28359)
         if ($result instanceof ResultInterface) {
+            $this->registry->register('use_page_cache_plugin', true, true);
             $result->renderResult($this->_response);
         } elseif ($result instanceof HttpInterface) {
             $this->_response = $result;

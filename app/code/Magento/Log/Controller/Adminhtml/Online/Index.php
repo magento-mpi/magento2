@@ -23,8 +23,6 @@ class Index extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $this->_title->add(__('Customers Now Online'));
-
         if ($this->getRequest()->getParam('ajax')) {
             $this->_forward('grid');
             return;
@@ -33,6 +31,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_view->loadLayout();
 
         $this->_setActiveMenu('Magento_Customer::customer_online');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Customers Now Online'));
 
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Online Customers'), __('Online Customers'));

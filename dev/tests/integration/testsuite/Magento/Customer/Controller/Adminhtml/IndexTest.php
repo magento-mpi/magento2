@@ -8,8 +8,9 @@
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Newsletter\Model\Subscriber;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -25,21 +26,27 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     protected $_baseControllerUrl;
 
-    /** @var CustomerAccountServiceInterface */
-    protected $customerAccountService;
+    /** @var CustomerRepositoryInterface */
+    protected $customerRepository;
 
-    /** @var CustomerAddressServiceInterface */
-    protected $customerAddressService;
+    /** @var AddressRepositoryInterface */
+    protected $addressRepository;
+
+    /** @var AccountManagementInterface */
+    protected $accountManagement;
 
     protected function setUp()
     {
         parent::setUp();
         $this->_baseControllerUrl = 'http://localhost/index.php/backend/customer/index/';
-        $this->customerAccountService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        $this->customerRepository = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
-        $this->customerAddressService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
+        $this->addressRepository = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\AddressRepositoryInterface'
+        );
+        $this->accountManagement = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\AccountManagementInterface'
         );
     }
 
@@ -104,9 +111,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
                 'email' => 'example@domain.com',
-                'default_billing' => '_item1'
-            ),
-            'address' => array('_item1' => array())
+                'default_billing' => '_item1',
+                'customer_address' => array('_item1' => array())
+            )
         );
         $this->getRequest()->setPost($post);
         $this->dispatch('backend/customer/index/save');
@@ -144,17 +151,18 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'lastname' => 'test lastname',
                 'email' => 'example@domain.com',
                 'default_billing' => '_item1',
-                'password' => 'auto'
-            ),
-            'address' => array(
-                '_item1' => array(
-                    'firstname' => 'test firstname',
-                    'lastname' => 'test lastname',
-                    'street' => array('test street'),
-                    'city' => 'test city',
-                    'country_id' => 'US',
-                    'postcode' => '01001',
-                    'telephone' => '+7000000001'
+                'password' => 'password',
+                'customer_address' => array(
+                    '_item1' => array(
+                        'firstname' => 'test firstname',
+                        'lastname' => 'test lastname',
+                        'street' => array('test street'),
+                        'city' => 'test city',
+                        'country_id' => 'US',
+                        'postcode' => '01001',
+                        'telephone' => '+7000000001',
+                        'default_billing' => 'true'
+                    )
                 )
             )
         );
@@ -188,12 +196,12 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          */
         $registry = $objectManager->get('Magento\Framework\Registry');
         $customerId = $registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        $customer = $this->customerAccountService->getCustomer($customerId);
+        $customer = $this->customerRepository->getById($customerId);
         $this->assertEquals('test firstname', $customer->getFirstname());
-        $addresses = $this->customerAddressService->getAddresses($customerId);
+        $addresses = $customer->getAddresses();
         $this->assertEquals(1, count($addresses));
-        $this->assertNotEquals(0, $customer->getDefaultBilling());
-        $this->assertNull($customer->getDefaultShipping());
+        $this->assertNotEquals(0, $this->accountManagement->getDefaultBillingAddress($customerId));
+        $this->assertNull($this->accountManagement->getDefaultShippingAddress($customerId));
 
         $this->assertRedirect(
             $this->stringStartsWith($this->_baseControllerUrl . 'edit/id/' . $customerId . '/back/1')
@@ -220,44 +228,49 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
                 'email' => 'customer@example.com',
-                'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
-                'sendemail' => '1'
-            ),
-            'address' => array(
-                '1' => array(
-                    'firstname' => 'update firstname',
-                    'lastname' => 'update lastname',
-                    'street' => array('update street'),
-                    'city' => 'update city',
-                    'country_id' => 'US',
-                    'postcode' => '01001',
-                    'telephone' => '+7000000001'
+                'sendemail' => '1',
+                'created_at' => '2000-01-01 00:00:00',
+                'default_shipping' => '_item1',
+                'default_billing' => 1,
+                'customer_address' => array(
+                    '1' => array(
+                        'firstname' => 'update firstname',
+                        'lastname' => 'update lastname',
+                        'street' => array('update street'),
+                        'city' => 'update city',
+                        'country_id' => 'US',
+                        'postcode' => '01001',
+                        'telephone' => '+7000000001',
+                        'default_billing' => 'true'
+                    ),
+                    '_item1' => array(
+                        'firstname' => 'new firstname',
+                        'lastname' => 'new lastname',
+                        'street' => array('new street'),
+                        'city' => 'new city',
+                        'country_id' => 'US',
+                        'postcode' => '01001',
+                        'telephone' => '+7000000001',
+                        'default_shipping' => 'true'
+                    ),
+                    '_template_' => array(
+                        'firstname' => '',
+                        'lastname' => '',
+                        'street' => array(),
+                        'city' => '',
+                        'country_id' => 'US',
+                        'postcode' => '',
+                        'telephone' => ''
+                    )
                 ),
-                '_item1' => array(
-                    'firstname' => 'new firstname',
-                    'lastname' => 'new lastname',
-                    'street' => array('new street'),
-                    'city' => 'new city',
-                    'country_id' => 'US',
-                    'postcode' => '01001',
-                    'telephone' => '+7000000001'
-                ),
-                '_template_' => array(
-                    'firstname' => '',
-                    'lastname' => '',
-                    'street' => array(),
-                    'city' => '',
-                    'country_id' => 'US',
-                    'postcode' => '',
-                    'telephone' => ''
-                )
             ),
+
             'subscription' => ''
         );
         $this->getRequest()->setPost($post);
-        $this->getRequest()->setParam('customer_id', 1);
+        $this->getRequest()->setParam('id', 1);
         $this->dispatch('backend/customer/index/save');
         /**
          * Check that success message is set
@@ -275,7 +288,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          */
         $registry = $objectManager->get('Magento\Framework\Registry');
         $customerId = $registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
-        $customer = $this->customerAccountService->getCustomer($customerId);
+        $customer = $this->customerRepository->getById($customerId);
         $this->assertEquals('test firstname', $customer->getFirstname());
 
         /**
@@ -285,11 +298,11 @@ class IndexTest extends \Magento\Backend\Utility\Controller
          * addressThree - removed
          * _item1 - new address
          */
-        $addresses = $this->customerAddressService->getAddresses($customerId);
+        $addresses = $customer->getAddresses();
         $this->assertEquals(2, count($addresses));
-        $updatedAddress = $this->customerAddressService->getAddress(1);
+        $updatedAddress = $this->addressRepository->getById(1);
         $this->assertEquals('update firstname', $updatedAddress->getFirstname());
-        $newAddress = $this->customerAddressService->getDefaultShippingAddress($customerId);
+        $newAddress = $this->accountManagement->getDefaultShippingAddress($customerId);
         $this->assertEquals('new firstname', $newAddress->getFirstname());
 
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
@@ -322,7 +335,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             'customer_id' => $customerId,
         );
         $this->getRequest()->setPost($post);
-        $this->getRequest()->setParam('customer_id', 1);
+        $this->getRequest()->setParam('id', 1);
         $this->dispatch('backend/customer/index/save');
 
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
@@ -340,8 +353,6 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
 
-
-
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'index/key/'));
     }
 
@@ -358,7 +369,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'firstname' => 'test firstname',
                 'lastname' => 'test lastname',
                 'email' => 'customer@example.com',
-                'password' => 'auto'
+                'password' => 'password',
             )
         );
         $this->getRequest()->setPost($post);
@@ -394,35 +405,36 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
-                'sendemail' => '1'
-            ),
-            'address' => array(
-                '1' => array(
-                    'firstname' => 'update firstname',
-                    'lastname' => 'update lastname',
-                    'street' => array('update street'),
-                    'city' => 'update city',
-                    'country_id' => 'US',
-                    'postcode' => '01001',
-                    'telephone' => '+7000000001'
-                ),
-                '_item1' => array(
-                    'firstname' => 'default firstname',
-                    'lastname' => 'default lastname',
-                    'street' => array('default street'),
-                    'city' => 'default city',
-                    'country_id' => 'US',
-                    'postcode' => '01001',
-                    'telephone' => '+7000000001'
-                ),
-                '_template_' => array(
-                    'firstname' => '',
-                    'lastname' => '',
-                    'street' => array(),
-                    'city' => '',
-                    'country_id' => 'US',
-                    'postcode' => '',
-                    'telephone' => ''
+                'sendemail' => '1',
+                'created_at' => '2000-01-01 00:00:00',
+                'customer_address' => array(
+                    '1' => array(
+                        'firstname' => 'update firstname',
+                        'lastname' => 'update lastname',
+                        'street' => array('update street'),
+                        'city' => 'update city',
+                        'country_id' => 'US',
+                        'postcode' => '01001',
+                        'telephone' => '+7000000001'
+                    ),
+                    '_item1' => array(
+                        'firstname' => 'default firstname',
+                        'lastname' => 'default lastname',
+                        'street' => array('default street'),
+                        'city' => 'default city',
+                        'country_id' => 'US',
+                        'postcode' => '01001',
+                        'telephone' => '+7000000001'
+                    ),
+                    '_template_' => array(
+                        'firstname' => '',
+                        'lastname' => '',
+                        'street' => array(),
+                        'city' => '',
+                        'country_id' => 'US',
+                        'postcode' => '',
+                        'telephone' => ''
+                    )
                 )
             )
         );
@@ -436,18 +448,6 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
         // verify
         $this->assertContains('<h1 class="title">new firstname new lastname</h1>', $body);
-
-        $accountStr = 'data-ui-id="adminhtml-edit-tab-account-0-fieldset-element-text-account-';
-        $this->assertNotContains($accountStr . 'firstname"  value="test firstname"', $body);
-        $this->assertContains($accountStr . 'firstname"  value="new firstname"', $body);
-
-        $addressStr = 'data-ui-id="adminhtml-edit-tab-addresses-0-fieldset-element-text-address-';
-        $this->assertNotContains($addressStr . '1-firstname"  value="test firstname"', $body);
-        $this->assertContains($addressStr . '1-firstname"  value="update firstname"', $body);
-        $this->assertContains($addressStr . '2-firstname"  value="test firstname"', $body);
-        $this->assertContains($addressStr . '3-firstname"  value="removed firstname"', $body);
-        $this->assertContains($addressStr . 'item1-firstname"  value="default firstname"', $body);
-        $this->assertContains($addressStr . 'template-firstname"  value=""', $body);
     }
 
     /**
@@ -461,16 +461,6 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
         // verify
         $this->assertContains('<h1 class="title">test firstname test lastname</h1>', $body);
-
-        $accountStr = 'data-ui-id="adminhtml-edit-tab-account-0-fieldset-element-text-account-';
-        $this->assertContains($accountStr . 'firstname"  value="test firstname"', $body);
-
-        $addressStr = 'data-ui-id="adminhtml-edit-tab-addresses-0-fieldset-element-text-address-';
-        $this->assertContains($addressStr . '1-firstname"  value="test firstname"', $body);
-        $this->assertContains($addressStr . '2-firstname"  value="test firstname"', $body);
-        $this->assertContains($addressStr . '3-firstname"  value="removed firstname"', $body);
-        $this->assertNotContains($addressStr . 'item1-firstname"', $body);
-        $this->assertContains($addressStr . 'template-firstname"  value=""', $body);
     }
 
     public function testNewAction()
@@ -480,16 +470,6 @@ class IndexTest extends \Magento\Backend\Utility\Controller
 
         // verify
         $this->assertContains('<h1 class="title">New Customer</h1>', $body);
-
-        $accountStr = 'data-ui-id="adminhtml-edit-tab-account-0-fieldset-element-text-account-';
-        $this->assertContains($accountStr . 'firstname"  value=""', $body);
-
-        $addressStr = 'data-ui-id="adminhtml-edit-tab-addresses-0-fieldset-element-text-address-';
-        $this->assertNotContains($addressStr . '1-firstname"', $body);
-        $this->assertNotContains($addressStr . '2-firstname"', $body);
-        $this->assertNotContains($addressStr . '3-firstname"', $body);
-        $this->assertNotContains($addressStr . 'item1-firstname"', $body);
-        $this->assertContains($addressStr . 'template-firstname"  value=""', $body);
     }
 
     /**
@@ -506,9 +486,9 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'firstname' => false,
                 'group_id' => false,
                 'lastname' => false,
-                'website_id' => false
-            ),
-            'address' => array()
+                'website_id' => false,
+                'customer_address' => array()
+            )
         );
         $context = Bootstrap::getObjectManager()->get('Magento\Backend\Block\Template\Context');
         $context->getBackendSession()->setCustomerData($customerData);
@@ -740,7 +720,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     public function testMassAssignGroupAction()
     {
-        $customer = $this->customerAccountService->getCustomer(1);
+        $customer = $this->customerRepository->getById(1);
         $this->assertEquals(1, $customer->getGroupId());
 
         $this->getRequest()->setParam('group', 0)->setPost('customer', array(1));
@@ -751,7 +731,7 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
         $this->assertRedirect($this->stringContains('customer/index'));
 
-        $customer = $this->customerAccountService->getCustomer(1);
+        $customer = $this->customerRepository->getById(1);
         $this->assertEquals(0, $customer->getGroupId());
     }
 
@@ -788,8 +768,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     public function testMassAssignGroupActionPartialUpdate()
     {
-        $this->assertEquals(1, $this->customerAccountService->getCustomer(1)->getGroupId());
-        $this->assertEquals(1, $this->customerAccountService->getCustomer(2)->getGroupId());
+        $this->assertEquals(1, $this->customerRepository->getById(1)->getGroupId());
+        $this->assertEquals(1, $this->customerRepository->getById(2)->getGroupId());
 
         $this->getRequest()->setParam('group', 0)->setPost('customer', array(1, 4200, 2));
         $this->dispatch('backend/customer/index/massAssignGroup');
@@ -802,8 +782,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
 
-        $this->assertEquals(0, $this->customerAccountService->getCustomer(1)->getGroupId());
-        $this->assertEquals(0, $this->customerAccountService->getCustomer(2)->getGroupId());
+        $this->assertEquals(0, $this->customerRepository->getById(1)->getGroupId());
+        $this->assertEquals(0, $this->customerRepository->getById(2)->getGroupId());
     }
 
     /**
@@ -970,30 +950,30 @@ class IndexTest extends \Magento\Backend\Utility\Controller
                 'middlename' => 'new middlename',
                 'group_id' => 1,
                 'website_id' => 1,
-                'firstname' => 'new firstname',
-                'lastname' => 'new lastname',
+                'firstname' => '',
+                'lastname' => '',
                 'email' => '*',
                 'default_shipping' => '_item1',
                 'new_password' => 'auto',
                 'sendemail_store_id' => '1',
-                'sendemail' => '1'
-            ),
-            'address' => array(
-                '1' => array(
-                    'firstname' => '',
-                    'lastname' => '',
-                    'street' => array('update street'),
-                    'city' => 'update city',
-                    'postcode' => '01001',
-                    'telephone' => ''
-                ),
-                '_template_' => array(
-                    'lastname' => '',
-                    'street' => array(),
-                    'city' => '',
-                    'country_id' => 'US',
-                    'postcode' => '',
-                    'telephone' => ''
+                'sendemail' => '1',
+                'customer_address' => array(
+                    '1' => array(
+                        'firstname' => '',
+                        'lastname' => '',
+                        'street' => array('update street'),
+                        'city' => 'update city',
+                        'postcode' => '01001',
+                        'telephone' => ''
+                    ),
+                    '_template_' => array(
+                        'lastname' => '',
+                        'street' => array(),
+                        'city' => '',
+                        'country_id' => 'US',
+                        'postcode' => '',
+                        'telephone' => ''
+                    )
                 )
             )
         );
@@ -1045,14 +1025,5 @@ class IndexTest extends \Magento\Backend\Utility\Controller
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'edit'));
-    }
-
-    public function testIndexActionCorrectTabsQty()
-    {
-        $this->dispatch('backend/customer/index/new/');
-        $html = $this->getResponse()->getBody();
-        $this->assertSelectCount('.tab-item-link', 2, $html);
-        $this->assertSelectCount('[title="Account Information"]', 1, $html);
-        $this->assertSelectCount('[title="Addresses"]', 1, $html);
     }
 }

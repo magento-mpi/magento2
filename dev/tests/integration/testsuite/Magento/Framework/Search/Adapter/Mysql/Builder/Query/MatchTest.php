@@ -14,7 +14,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 class MatchTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     private $objectManager;
 
@@ -30,10 +30,10 @@ class MatchTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuildQuery($conditionType, $expectedSuffix)
     {
-        $expectedScoreCondition = "(MATCH (data_index) AGAINST ('{$expectedSuffix}someValue' " .
+        $expectedScoreCondition = "(MATCH (data_index) AGAINST ('{$expectedSuffix}someValue*' " .
             "IN BOOLEAN MODE) * 3.14) AS global_score";
         $expectedSql = "SELECT `someTable`.* FROM `someTable` WHERE (MATCH (data_index) " .
-            "AGAINST ('{$expectedSuffix}someValue' IN BOOLEAN MODE))";
+            "AGAINST ('{$expectedSuffix}someValue*' IN BOOLEAN MODE))";
 
         /** @var \Magento\Framework\Search\Adapter\Mysql\ScoreBuilder $scoreBuilder */
         $scoreBuilder = $this->objectManager->create('Magento\Framework\Search\Adapter\Mysql\ScoreBuilder');

@@ -41,7 +41,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     /** @var RestResponse */
     protected $_response;
 
-    /** @var \Magento\Framework\ObjectManager */
+    /** @var \Magento\Framework\ObjectManagerInterface */
     protected $_objectManager;
 
     /** @var \Magento\Framework\App\State */
@@ -90,7 +90,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
      * @param RestRequest $request
      * @param RestResponse $response
      * @param Router $router
-     * @param \Magento\Framework\ObjectManager $objectManager
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\App\State $appState
      * @param AuthorizationInterface $authorization
      * @param ServiceArgsSerializer $serializer
@@ -108,7 +108,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
         RestRequest $request,
         RestResponse $response,
         Router $router,
-        \Magento\Framework\ObjectManager $objectManager,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\App\State $appState,
         AuthorizationInterface $authorization,
         ServiceArgsSerializer $serializer,
@@ -159,7 +159,7 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
             $inputData = $this->overrideParams($inputData, $route->getParameters());
             $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
             $service = $this->_objectManager->get($serviceClassName);
-            /** @var \Magento\Framework\Service\Data\AbstractExtensibleObject $outputData */
+            /** @var \Magento\Framework\Api\AbstractExtensibleObject $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
             $outputData = $this->dataObjectConverter->processServiceOutput(
                 $outputData,
@@ -187,7 +187,8 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
     protected function overrideParams(array $inputData, array $parameters)
     {
         foreach ($parameters as $name => $paramData) {
-            if ($paramData[Converter::KEY_FORCE] || !isset($inputData[$name])) {
+            $arrayKeys = explode('.', $name);
+            if ($paramData[Converter::KEY_FORCE] || !$this->isNestedArrayValueSet($inputData, $arrayKeys)) {
                 if ($paramData[Converter::KEY_VALUE] == '%customer_id%'
                     && $this->userContext->getUserType() === UserContextInterface::USER_TYPE_CUSTOMER
                 ) {
@@ -195,10 +196,53 @@ class Rest implements \Magento\Framework\App\FrontControllerInterface
                 } else {
                     $value = $paramData[Converter::KEY_VALUE];
                 }
-                $inputData[$name] = $value;
+                $this->setNestedArrayValue($inputData, $arrayKeys, $value);
             }
         }
         return $inputData;
+    }
+
+    /**
+     * Determine if a nested array value is set.
+     *
+     * @param array &$nestedArray
+     * @param string[] $arrayKeys
+     * @return bool true if array value is set
+     */
+    protected function isNestedArrayValueSet(&$nestedArray, $arrayKeys)
+    {
+        $currentArray = &$nestedArray;
+
+        foreach ($arrayKeys as $key) {
+            if (!isset($currentArray[$key])) {
+                return false;
+            }
+            $currentArray = &$currentArray[$key];
+        }
+        return true;
+    }
+
+    /**
+     * Set a nested array value.
+     *
+     * @param array &$nestedArray
+     * @param string[] $arrayKeys
+     * @param string $valueToSet
+     * @return bool true if array value is set
+     */
+    protected function setNestedArrayValue(&$nestedArray, $arrayKeys, $valueToSet)
+    {
+        $currentArray = &$nestedArray;
+        $lastKey = array_pop($arrayKeys);
+
+        foreach ($arrayKeys as $key) {
+            if (!isset($currentArray[$key])) {
+                $currentArray[$key] = [];
+            }
+            $currentArray = &$currentArray[$key];
+        }
+
+        $currentArray[$lastKey] = $valueToSet;
     }
 
     /**

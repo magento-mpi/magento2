@@ -7,12 +7,10 @@
  */
 namespace Magento\Checkout\Block\Cart\Item;
 
-use Magento\Checkout\Block\Cart\Item\Renderer;
-
 class RendererTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Helper\Image|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_imageHelper;
 
@@ -22,13 +20,12 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     protected $_renderer;
 
     /**
-     * @var \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
 
     protected function setUp()
     {
-        parent::setUp();
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_imageHelper = $this->getMock('Magento\Catalog\Helper\Image', array(), array(), '', false);
@@ -43,7 +40,10 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $this->_renderer = $objectManagerHelper->getObject(
             'Magento\Checkout\Block\Cart\Item\Renderer',
-            array('imageHelper' => $this->_imageHelper, 'context' => $context)
+            [
+                'imageHelper' => $this->_imageHelper,
+                'context' => $context
+            ]
         );
     }
 

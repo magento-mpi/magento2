@@ -48,7 +48,8 @@ class FinalPriceBox extends BasePriceBox
                 MsrpPrice::PRICE_CODE,
                 $this->getSaleableItem(),
                 [
-                    'real_price_html' => $result
+                    'real_price_html' => $result,
+                    'zone' => $this->getZone(),
                 ]
             );
             $result = $msrpBlock->toHtml();
@@ -65,7 +66,10 @@ class FinalPriceBox extends BasePriceBox
      */
     protected function wrapResult($html)
     {
-        return '<div class="price-box ' . $this->getData('css_classes') . '">' . $html . '</div>';
+        return '<div class="price-box ' . $this->getData('css_classes') . '" ' .
+            'data-role="priceBox" ' .
+            'data-product-id="' . $this->getSaleableItem()->getId() . '"' .
+            '>' . $html . '</div>';
     }
 
     /**

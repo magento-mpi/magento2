@@ -8,14 +8,13 @@
  */
 namespace Magento\Customer\Model\Address;
 
+use Magento\Customer\Api\AddressMetadataInterface;
+use Magento\Customer\Model\Address as AddressModel;
 use Magento\Customer\Model\AddressFactory;
 use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
-use Magento\Customer\Model\Address as AddressModel;
-use Magento\Customer\Model\Address\AbstractAddress;
 use Magento\Customer\Service\V1\Data\Region;
-use Magento\Customer\Service\V1\Data\AddressConverter;
 
 /**
  * Customer Address Model converter.
@@ -45,18 +44,26 @@ class Converter
     protected $_addressMetadataService;
 
     /**
+     * @var Mapper
+     */
+    protected $addressMapper;
+
+    /**
      * @param AddressBuilder $addressBuilder
      * @param AddressFactory $addressFactory
      * @param AddressMetadataServiceInterface $addressMetadataService
+     * @param Mapper $addressMapper
      */
     public function __construct(
         AddressBuilder $addressBuilder,
         AddressFactory $addressFactory,
-        AddressMetadataServiceInterface $addressMetadataService
+        AddressMetadataServiceInterface $addressMetadataService,
+        Mapper $addressMapper
     ) {
         $this->_addressBuilder = $addressBuilder;
         $this->_addressFactory = $addressFactory;
         $this->_addressMetadataService = $addressMetadataService;
+        $this->addressMapper = $addressMapper;
     }
 
     /**
@@ -83,7 +90,7 @@ class Converter
     public function updateAddressModel(AddressModel $addressModel, Address $address)
     {
         // Set all attributes
-        $attributes = AddressConverter::toFlatArray($address);
+        $attributes = $this->addressMapper->toFlatArray($address);
         foreach ($attributes as $attributeCode => $attributeData) {
             if (Address::KEY_REGION === $attributeCode && $address->getRegion() instanceof Region) {
                 $addressModel->setDataUsingMethod(Region::KEY_REGION, $address->getRegion()->getRegion());
@@ -94,12 +101,13 @@ class Converter
             }
         }
         // Set customer related data
-        $isBilling = $address->isDefaultBilling();
+        $isBilling = (bool)$address->isDefaultBilling();
         $addressModel->setIsDefaultBilling($isBilling);
-        $addressModel->setIsDefaultShipping($address->isDefaultShipping());
+        $isShipping = (bool)$address->isDefaultShipping();
+        $addressModel->setIsDefaultShipping($isShipping);
         // Need to use attribute set or future updates can cause data loss
         if (!$addressModel->getAttributeSetId()) {
-            $addressModel->setAttributeSetId(AddressMetadataServiceInterface::ATTRIBUTE_SET_ID_ADDRESS);
+            $addressModel->setAttributeSetId(AddressMetadataInterface::ATTRIBUTE_SET_ID_ADDRESS);
         }
     }
 

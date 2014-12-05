@@ -45,22 +45,22 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param PriceModifierInterface $modifier
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         Product $saleableItem,
         $quantity,
         CalculatorInterface $calculator,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         PriceModifierInterface $modifier,
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        PriceCurrencyInterface $priceCurrency
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->priceModifier = $modifier;
         $this->storeManager = $storeManager;
-        parent::__construct($saleableItem, $quantity, $calculator);
+        parent::__construct($saleableItem, $quantity, $calculator, $priceCurrency);
     }
 
     /**
@@ -111,17 +111,27 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
         }
 
         foreach ($prices as $value) {
-            $optionValueModified = $this->getOptionValueModified($value);
             $optionValueAmount = $this->getOptionValueAmount($value);
+            $oldPrice = $optionValueAmount->getValue();
 
-            $price = $this->convertPrice($optionValueAmount->getValue());
+            $optionValueModified = $this->getOptionValueModified($value);
+            $basePrice = $optionValueModified->getBaseAmount();
+            $finalPrice = $optionValueModified->getValue();
+
             $optionPrices[] = [
                 'id' => $value['value_index'],
                 'label' => $value['label'],
-                'price' => $this->convertDot($optionValueModified->getValue()),
-                'oldPrice' => $this->convertDot($price),
-                'inclTaxPrice' => $this->convertDot($optionValueModified->getValue()),
-                'exclTaxPrice' => $this->convertDot($optionValueModified->getBaseAmount()),
+                'prices' => [
+                    'oldPrice' => [
+                        'amount' => $this->convertDot($oldPrice)
+                    ],
+                    'basePrice' => [
+                        'amount' => $this->convertDot($basePrice)
+                    ],
+                    'finalPrice' => [
+                        'amount' => $this->convertDot($finalPrice),
+                    ],
+                ],
                 'products' => $this->getProductsIndex($attributeId, $options, $value)
             ];
         }
@@ -138,7 +148,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     public function getOptionValueModified(
         array $value = []
     ) {
-        $pricingValue = $this->getPricingValue($value);
+        $pricingValue = $this->getPricingValue($value, \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE);
         $this->product->setParentId(true);
         $amount = $this->priceModifier->modifyPrice($pricingValue, $this->product);
 
@@ -155,7 +165,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     public function getOptionValueAmount(
         array $value = []
     ) {
-        $amount = $this->getPricingValue($value);
+        $amount = $this->getPricingValue($value, \Magento\Catalog\Pricing\Price\RegularPrice::PRICE_CODE);
 
         $context = [CustomOptionPriceInterface::CONFIGURATION_OPTION_FLAG => true];
         return $this->calculator->getAmount(floatval($amount), $this->product, null, $context);
@@ -165,13 +175,14 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * Prepare percent price value
      *
      * @param array $value
+     * @param string $priceCode
      * @return float
      */
-    protected function preparePrice(array $value = [])
+    protected function preparePrice(array $value, $priceCode)
     {
         return $this->product
             ->getPriceInfo()
-            ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
+            ->getPrice($priceCode)
             ->getValue() * $value['pricing_value'] / 100;
     }
 
@@ -179,14 +190,15 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
      * Get value from array
      *
      * @param array $value
+     * @param string $priceCode
      * @return float
      */
-    protected function getPricingValue(array $value = [])
+    protected function getPricingValue(array $value, $priceCode)
     {
         if ($value['is_percent'] && !empty($value['pricing_value'])) {
-            return $this->preparePrice($value);
+            return $this->preparePrice($value, $priceCode);
         } else {
-            return $value['pricing_value'];
+            return $this->priceCurrency->convertAndRound($value['pricing_value']);
         }
     }
 
@@ -241,62 +253,6 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
     protected function convertDot($price)
     {
         return str_replace(',', '.', $price);
-    }
-
-
-    /**
-     * Convert price from default currency to current currency
-     *
-     * @param float $price
-     * @param bool $round
-     * @return float
-     */
-    protected function convertPrice($price, $round = false)
-    {
-        if (empty($price)) {
-            return 0;
-        }
-
-        $price = $this->priceCurrency->convert($price);
-        if ($round) {
-            $price = $this->priceCurrency->round($price);
-        }
-
-        return $price;
-    }
-
-    /**
-     * Returns tax config for Configurable options
-     *
-     * @param int|null $customerId
-     * @return array
-     */
-    public function getTaxConfig($customerId)
-    {
-        $config = $this->prepareAdjustmentConfig($customerId);
-        unset($config['product']);
-        return $config;
-    }
-
-    /**
-     * Default values for configurable options
-     *
-     * @param int|null $customerId
-     * @return array
-     */
-    public function prepareAdjustmentConfig($customerId)
-    {
-        //pass customer
-        return [
-            'includeTax' => false,
-            'showIncludeTax' => false,
-            'showBothPrices' => false,
-            'defaultTax' => 0,
-            'currentTax' => 0,
-            'inclTaxTitle' => __('Incl. Tax'),
-            'product' => $this->product,
-            'customerId' => $customerId
-        ];
     }
 
     /**

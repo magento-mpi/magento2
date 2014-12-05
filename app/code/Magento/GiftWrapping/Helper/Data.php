@@ -9,9 +9,7 @@ namespace Magento\GiftWrapping\Helper;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\GiftWrapping\Model\System\Config\Source\Display\Type as DisplayType;
-use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
-use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
-use Magento\Tax\Service\V1\TaxCalculationServiceInterface;
+use Magento\Tax\Api\TaxCalculationInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 
 /**
@@ -79,17 +77,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @var \Magento\Tax\Service\V1\Data\QuoteDetailsBuilder
+     * @var \Magento\Tax\Api\Data\QuoteDetailsDataBuilder
      */
     protected $quoteDetailsBuilder;
 
     /**
-     * @var \Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder
+     * @var \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder
      */
     protected $quoteDetailsItemBuilder;
 
     /**
-     * @var \Magento\Tax\Service\V1\TaxCalculationServiceInterface
+     * @var \Magento\Tax\Api\TaxCalculationInterface
      */
     protected $taxCalculationService;
 
@@ -107,9 +105,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param QuoteDetailsBuilder $quoteDetailsBuilder
-     * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
-     * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder
+     * @param \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder
+     * @param TaxCalculationInterface $taxCalculationService
      * @param AddressConverter $addressConverter
      * @param PriceCurrencyInterface $priceCurrency
      */
@@ -117,9 +115,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        QuoteDetailsBuilder $quoteDetailsBuilder,
-        QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
-        TaxCalculationServiceInterface $taxCalculationService,
+        \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder,
+        \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder,
+        TaxCalculationInterface $taxCalculationService,
         AddressConverter $addressConverter,
         PriceCurrencyInterface $priceCurrency
     ) {
@@ -555,6 +553,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param null|\Magento\Customer\Model\Address $billingAddress
      * @param null|int $ctc
      * @param mixed $store
+     * @param bool $roundPrice
      * @return float
      */
     public function getPrice(
@@ -564,7 +563,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $shippingAddress = null,
         $billingAddress = null,
         $ctc = null,
-        $store = null
+        $store = null,
+        $roundPrice = true
     ) {
         if (!$price) {
             return $price;
@@ -608,7 +608,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             if ($store) {
                 $storeId = $store->getId();
             }
-            $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
+            $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId, $roundPrice);
             $taxDetailsItems = $taxDetails->getItems();
             $taxDetailsItem = array_pop($taxDetailsItems);
             return $taxDetailsItem->getPriceInclTax();

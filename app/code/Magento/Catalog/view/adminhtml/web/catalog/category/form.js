@@ -8,8 +8,8 @@
 /*global Ajax:true alert:true*/
 define([
     "jquery",
-    "jquery/ui",
     "mage/backend/form",
+    "jquery/ui",
     "prototype"
 ], function($){
     "use strict";
@@ -67,5 +67,6 @@ define([
             }
         }
     });
-
+    
+    return $.mage.categoryForm;
 });

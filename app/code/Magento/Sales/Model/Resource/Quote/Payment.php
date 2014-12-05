@@ -7,10 +7,12 @@
  */
 namespace Magento\Sales\Model\Resource\Quote;
 
+use \Magento\Framework\Model\Resource\Db\AbstractDb;
+
 /**
  * Quote payment resource model
  */
-class Payment extends \Magento\Sales\Model\Resource\AbstractResource
+class Payment extends AbstractDb
 {
     /**
      * Serializeable field: additional_information
@@ -21,13 +23,11 @@ class Payment extends \Magento\Sales\Model\Resource\AbstractResource
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\Stdlib\DateTime $dateTime
+        \Magento\Framework\App\Resource $resource
     ) {
-        parent::__construct($resource, $dateTime);
+        parent::__construct($resource);
     }
 
     /**
@@ -37,6 +37,6 @@ class Payment extends \Magento\Sales\Model\Resource\AbstractResource
      */
     protected function _construct()
     {
-        $this->_init('sales_flat_quote_payment', 'payment_id');
+        $this->_init('sales_quote_payment', 'payment_id');
     }
 }

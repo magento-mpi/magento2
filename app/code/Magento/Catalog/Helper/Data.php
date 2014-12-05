@@ -7,10 +7,11 @@
  */
 namespace Magento\Catalog\Helper;
 
+use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Tax\Service\V1\Data\QuoteDetailsBuilder;
-use Magento\Tax\Service\V1\Data\QuoteDetails\ItemBuilder as QuoteDetailsItemBuilder;
-use Magento\Tax\Service\V1\Data\TaxClassKey;
+use Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Tax\Model\Config;
@@ -103,20 +104,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * Product factory
-     *
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
-     * Category factory
-     *
-     * @var \Magento\Catalog\Model\CategoryFactory
-     */
-    protected $_categoryFactory;
-
-    /**
      * Template filter factory
      *
      * @var \Magento\Catalog\Model\Template\Filter\Factory
@@ -126,7 +113,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Tax class key builder
      *
-     * @var \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder
+     * @var \Magento\Tax\Api\Data\TaxClassKeyDataBuilder
      */
     protected $_taxClassKeyBuilder;
 
@@ -140,14 +127,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Quote details builder
      *
-     * @var QuoteDetailsBuilder
+     * @var \Magento\Tax\Api\Data\QuoteDetailsDataBuilder
      */
     protected $_quoteDetailsBuilder;
 
     /**
      * Quote details item builder
      *
-     * @var QuoteDetailsItemBuilder
+     * @var \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder
      */
     protected $_quoteDetailsItemBuilder;
 
@@ -166,7 +153,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Tax calculation service interface
      *
-     * @var \Magento\Tax\Service\V1\TaxCalculationServiceInterface
+     * @var \Magento\Tax\Api\TaxCalculationInterface
      */
     protected $_taxCalculationService;
 
@@ -178,9 +165,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $priceCurrency;
 
     /**
+     * @var ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
+     * @var CategoryRepositoryInterface
+     */
+    protected $categoryRepository;
+
+    /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Framework\Stdlib\String $string
@@ -190,19 +185,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
      * @param string $templateFilterModel
-     * @param TaxClassKeyBuilder $taxClassKeyBuilder
+     * @param \Magento\Tax\Api\Data\TaxClassKeyDataBuilder $taxClassKeyBuilder
      * @param Config $taxConfig
-     * @param QuoteDetailsBuilder $quoteDetailsBuilder
-     * @param QuoteDetailsItemBuilder $quoteDetailsItemBuilder
-     * @param TaxCalculationServiceInterface $taxCalculationService
+     * @param \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder
+     * @param \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder
+     * @param \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService
      * @param CustomerSession $customerSession
      * @param AddressConverter $addressConverter
      * @param PriceCurrencyInterface $priceCurrency
+     * @param ProductRepositoryInterface $productRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\Stdlib\String $string,
@@ -212,17 +207,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory,
         $templateFilterModel,
-        \Magento\Tax\Service\V1\Data\TaxClassKeyBuilder $taxClassKeyBuilder,
+        \Magento\Tax\Api\Data\TaxClassKeyDataBuilder $taxClassKeyBuilder,
         \Magento\Tax\Model\Config $taxConfig,
-        QuoteDetailsBuilder $quoteDetailsBuilder,
-        QuoteDetailsItemBuilder $quoteDetailsItemBuilder,
-        \Magento\Tax\Service\V1\TaxCalculationServiceInterface $taxCalculationService,
+        \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder,
+        \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder,
+        \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService,
         CustomerSession $customerSession,
         AddressConverter $addressConverter,
-        PriceCurrencyInterface $priceCurrency
+        PriceCurrencyInterface $priceCurrency,
+        ProductRepositoryInterface $productRepository,
+        CategoryRepositoryInterface $categoryRepository
     ) {
-        $this->_categoryFactory = $categoryFactory;
-        $this->_productFactory = $productFactory;
         $this->_storeManager = $storeManager;
         $this->_catalogSession = $catalogSession;
         $this->_templateFilterFactory = $templateFilterFactory;
@@ -240,6 +235,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_customerSession = $customerSession;
         $this->_addressConverter = $addressConverter;
         $this->priceCurrency = $priceCurrency;
+        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
         parent::__construct($context);
     }
 
@@ -339,7 +336,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $productId = $this->_catalogSession->getLastViewedProductId();
         if ($productId) {
-            $product = $this->_productFactory->create()->load($productId);
+            try {
+                $product = $this->productRepository->getById($productId);
+            } catch (NoSuchEntityException $e) {
+                return '';
+            }
             /* @var $product \Magento\Catalog\Model\Product */
             if ($this->_catalogProduct->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
@@ -347,7 +348,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
         $categoryId = $this->_catalogSession->getLastViewedCategoryId();
         if ($categoryId) {
-            $category = $this->_categoryFactory->create()->load($categoryId);
+            try {
+                $category = $this->categoryRepository->get($categoryId);
+            } catch (NoSuchEntityException $e) {
+                return '';
+            }
             /* @var $category \Magento\Catalog\Model\Category */
             if (!$this->_catalogCategory->canShow($category)) {
                 return '';
@@ -496,28 +501,21 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
             $shippingAddressDataObject = null;
             if ($shippingAddress instanceof \Magento\Customer\Model\Address\AbstractAddress) {
-                $shippingAddressDataObject = $this->_addressConverter->createAddressFromModel(
-                    $shippingAddress,
-                    null,
-                    null
-                );
+                $shippingAddressDataObject = $shippingAddress->getDataModel();
             }
 
             $billingAddressDataObject = null;
             if ($billingAddress instanceof \Magento\Customer\Model\Address\AbstractAddress) {
-                $billingAddressDataObject = $this->_addressConverter->createAddressFromModel(
-                    $billingAddress,
-                    null,
-                    null
-                );
+                $billingAddressDataObject = $billingAddress->getDataModel();
             }
 
             $item = $this->_quoteDetailsItemBuilder->setQuantity(1)
                 ->setCode($product->getSku())
                 ->setShortDescription($product->getShortDescription())
                 ->setTaxClassKey(
-                    $this->_taxClassKeyBuilder->setType(TaxClassKey::TYPE_ID)
-                        ->setValue($product->getTaxClassId())->create()
+                    $this->_taxClassKeyBuilder->setType(TaxClassKeyInterface::TYPE_ID)
+                        ->setValue($product->getTaxClassId())
+                        ->create()
                 )->setTaxIncluded($priceIncludesTax)
                 ->setType('product')
                 ->setUnitPrice($price)
@@ -526,8 +524,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 ->setShippingAddress($shippingAddressDataObject)
                 ->setBillingAddress($billingAddressDataObject)
                 ->setCustomerTaxClassKey(
-                    $this->_taxClassKeyBuilder->setType(TaxClassKey::TYPE_ID)
-                        ->setValue($ctc)->create()
+                    $this->_taxClassKeyBuilder->setType(TaxClassKeyInterface::TYPE_ID)
+                        ->setValue($ctc)
+                        ->create()
                 )->setItems([$item])
                 ->setCustomerId($this->_customerSession->getCustomerId())
                 ->create();
@@ -536,7 +535,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             if ($store) {
                 $storeId = $store->getId();
             }
-            $taxDetails = $this->_taxCalculationService->calculateTax($quoteDetails, $storeId);
+            $taxDetails = $this->_taxCalculationService->calculateTax($quoteDetails, $storeId, $roundPrice);
             $items = $taxDetails->getItems();
             $taxDetailsItem = array_shift($items);
 

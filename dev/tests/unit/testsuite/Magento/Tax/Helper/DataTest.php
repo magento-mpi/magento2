@@ -5,462 +5,240 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Helper;
 
-use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Tax\Service\V1\Data\OrderTaxDetails\AppliedTax;
-use Magento\Tax\Service\V1\Data\OrderTaxDetails\Item;
-use Magento\Tax\Service\V1\Data\OrderTaxDetails;
+use Magento\Sales\Model\Quote\Address;
+
 /**
- * Test tax helper
+ * Class DataTest
  */
 class DataTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Tax\Helper\Data */
-    private $taxHelper;
+    /**
+     * @var \Magento\Tax\Helper\Data
+     */
+    protected $helper;
 
-    /** @var  \Magento\Tax\Service\V1\Data\OrderTaxDetailsBuilder */
-    private $orderTaxDetailsBuilder;
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
+    protected $orderTaxManagementMock;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Tax\Service\V1\OrderTaxService */
-    private $orderTaxService;
-
-    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Pricing\PriceCurrencyInterface */
-    private $priceCurrency;
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
+    protected $priceCurrencyMock;
 
     public function setUp()
     {
-        $objectManager = new ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->orderTaxService = $this->getMockBuilder('\Magento\Tax\Service\V1\OrderTaxService')
+        $this->orderTaxManagementMock = $this->getMockBuilder('Magento\Tax\Api\OrderTaxManagementInterface')
             ->disableOriginalConstructor()
-            ->setMethods(['getOrderTaxDetails'])
             ->getMock();
-
-        $this->priceCurrency = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
-        $this->priceCurrency->expects($this->any())
-            ->method('round')
-            ->will($this->returnCallback(
-                function ($argument) {
-                    return round($argument, 2);
-                }
-            ));
-
-        $this->taxHelper = $objectManager->getObject(
+        $this->priceCurrencyMock = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->helper = $objectManager->getObject(
             'Magento\Tax\Helper\Data',
             [
-                'orderTaxService' => $this->orderTaxService,
-                'priceCurrency' => $this->priceCurrency,
+                'orderTaxManagement' => $this->orderTaxManagementMock,
+                'priceCurrency' => $this->priceCurrencyMock
             ]
         );
-
-        $this->orderTaxDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\OrderTaxDetailsBuilder');
     }
 
-    /**
-     * @param \Magento\Framework\Object $source
-     * @param OrderTaxDetails $orderTaxDetails
-     * @param array $expectedResults
-     * @dataProvider getCalculatedTaxesOrderDataProvider
-     */
-    public function testGetCalculatedTaxesOrder($source, $orderTaxDetails, $expectedResults)
+    public function testGetCalculatedTaxesEmptySource()
     {
-        $this->orderTaxService->expects($this->any())
-            ->method('getOrderTaxDetails')
-            ->will($this->returnValue($orderTaxDetails));
-
-        $orderTaxDetails = $this->taxHelper->getCalculatedTaxes($source);
-        $this->assertEquals($expectedResults, $orderTaxDetails);
+        $source = null;
+        $this->assertEquals([], $this->helper->getCalculatedTaxes($source));
     }
 
-    public function getCalculatedTaxesOrderDataProvider()
+    public function testGetCalculatedTaxesForOrder()
     {
-        /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Store */
-        $store = $this->getMockBuilder('\Magento\Store\Model\Store')
+        $orderId = 1;
+        $itemCode = 'test_code';
+        $itemAmount = 2;
+        $itemBaseAmount = 3;
+        $itemTitle = 'Test title';
+        $itemPercent = 0.1;
+
+        $expectedAmount = $itemAmount + 1;
+        $expectedBaseAmount = $itemBaseAmount + 1;
+
+        $orderDetailsItem = $this->getMockBuilder('Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxInterface')
             ->disableOriginalConstructor()
             ->getMock();
+        $orderDetailsItem->expects($this->once())
+            ->method('getCode')
+            ->willReturn($itemCode);
+        $orderDetailsItem->expects($this->once())
+            ->method('getAmount')
+            ->willReturn($itemAmount);
+        $orderDetailsItem->expects($this->once())
+            ->method('getBaseAmount')
+            ->willReturn($itemBaseAmount);
+        $orderDetailsItem->expects($this->once())
+            ->method('getTitle')
+            ->willReturn($itemTitle);
+        $orderDetailsItem->expects($this->once())
+            ->method('getPercent')
+            ->willReturn($itemPercent);
 
-        $objectManager = new ObjectManager($this);
-        $this->orderTaxDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\OrderTaxDetailsBuilder');
-        $data = [
-            '4_tax_rates_with_weee' => [
-                'source' => new \Magento\Framework\Object(
-                        [
-                            'id' => '19',
-                            'store' => $store,
-                        ]
-                    ),
-                'orderTaxDetails' => $this->orderTaxDetailsBuilder->populateWithArray(
-                        [
-                            OrderTaxDetails::KEY_APPLIED_TAXES => [
-                                [
-                                    AppliedTax::KEY_CODE => 'US-CA-*-Rate 1',
-                                    AppliedTax::KEY_TITLE => 'US-CA-*-Rate 1',
-                                    AppliedTax::KEY_PERCENT => '8.25',
-                                    AppliedTax::KEY_AMOUNT => '19.7999',
-                                    AppliedTax::KEY_BASE_AMOUNT => '39.6',
-                                ],
-                                [
-                                    AppliedTax::KEY_CODE => 'SanJose City Tax',
-                                    AppliedTax::KEY_TITLE => 'SanJose City Tax',
-                                    AppliedTax::KEY_PERCENT => '6',
-                                    AppliedTax::KEY_AMOUNT => '14.4001',
-                                    AppliedTax::KEY_BASE_AMOUNT => '28.8',
-                                ],
-                                [
-                                    AppliedTax::KEY_CODE => 'SST',
-                                    AppliedTax::KEY_TITLE => 'SST',
-                                    AppliedTax::KEY_PERCENT => '5.7125',
-                                    AppliedTax::KEY_AMOUNT => '13.71',
-                                    AppliedTax::KEY_BASE_AMOUNT => '27.42',
-                                ],
-                                [
-                                    AppliedTax::KEY_CODE => 'Shipping',
-                                    AppliedTax::KEY_TITLE => 'Shipping',
-                                    AppliedTax::KEY_PERCENT => '21',
-                                    AppliedTax::KEY_AMOUNT => '2.6',
-                                    AppliedTax::KEY_BASE_AMOUNT => '5.21',
-                                ],
-                            ],
-                        ]
-                    )->create(),
-                'expectedResults' => [
-                    [
-                        'tax_amount' => '19.80',
-                        'base_tax_amount' => '39.6',
-                        'title' => 'US-CA-*-Rate 1',
-                        'percent' => '8.25',
-                    ],
-                    [
-                        'tax_amount' => '14.40',
-                        'base_tax_amount' => '28.8',
-                        'title' => 'SanJose City Tax',
-                        'percent' => '6',
-                    ],
-                    [
-                        'tax_amount' => '13.71',
-                        'base_tax_amount' => '27.42',
-                        'title' => 'SST',
-                        'percent' => '5.7125',
-                    ],
-                    [
-                        'tax_amount' => '2.6',
-                        'base_tax_amount' => '5.21',
-                        'title' => 'Shipping',
-                        'percent' => '21',
-                    ]
-                ],
-            ],
-            'empty_source' => [
-                'source' => null,
-                'orderTaxDetails' => $this->orderTaxDetailsBuilder->populateWithArray([])
-                                        ->create(),
-                'expectedResults' => [
-
-                ],
-            ]
+        $roundValues = [
+            [$itemAmount, $expectedAmount],
+            [$itemBaseAmount, $expectedBaseAmount]
         ];
-        return $data;
+        $this->priceCurrencyMock->expects($this->exactly(2))
+            ->method('round')
+            ->will($this->returnValueMap($roundValues));
+
+        $appliedTaxes = [$orderDetailsItem];
+
+        $orderDetails = $this->getMockBuilder('Magento\Tax\Api\Data\OrderTaxDetailsInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $orderDetails->expects($this->once())
+            ->method('getAppliedTaxes')
+            ->willReturn($appliedTaxes);
+        $this->orderTaxManagementMock->expects($this->once())
+            ->method('getOrderTaxDetails')
+            ->with($orderId)
+            ->willReturn($orderDetails);
+
+        $orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $orderMock->expects($this->once())
+            ->method('getId')
+            ->willReturn($orderId);
+
+        $result = $this->helper->getCalculatedTaxes($orderMock);
+        $this->assertCount(1, $result);
+        $this->assertEquals($expectedAmount, $result[0]['tax_amount']);
+        $this->assertEquals($expectedBaseAmount, $result[0]['base_tax_amount']);
+        $this->assertEquals($itemTitle, $result[0]['title']);
+        $this->assertEquals($itemPercent, $result[0]['percent']);
     }
 
-    /**
-     * @param \Magento\Framework\Object $source
-     * @param string $mockClassName
-     * @param \Magento\Framework\Object $invoiceOrCreditData
-     * @param OrderTaxDetails $orderTaxDetails
-     * @param array $expectedResults
-     */
-    protected function commonTestGetCalculatedTaxesInvoiceCreditmemo(
-        $source,
-        $mockClassName,
-        $invoiceOrCreditData,
-        $orderTaxDetails,
-        $expectedResults
-    ) {
-        $this->orderTaxService->expects($this->once())
-            ->method('getOrderTaxDetails')
-            ->with($source->getId())
-            ->will($this->returnValue($orderTaxDetails));
+    public function testGetCalculatedTaxesForOrderItems()
+    {
+        $orderId = 1;
+        $itemShippingTaxAmount = 1;
+        $orderShippingTaxAmount = 1;
+        $itemCode = 'test_code';
+        $itemAmount = 1;
+        $itemBaseAmount = 2;
+        $itemTitle = 'Test title';
+        $itemPercent = 0.1;
+        $failedTaxAmount = "0.00000";
 
-        $invoiceOrCreditMock = $this->getMockBuilder($mockClassName)
+        $expectedAmount = 2;
+        $expectedBaseAmount = 4;
+
+        $orderDetailsItemNormal = $this->getMockBuilder('Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxInterface')
             ->disableOriginalConstructor()
-            ->setMethods(
-                ['getOrder', 'getShippingTaxAmount', 'getBaseShippingTaxAmount', 'getItemsCollection', '__wakeup']
-            )
             ->getMock();
-        $invoiceOrCreditMock->expects($this->once())
-            ->method('getOrder')
-            ->will($this->returnValue($source));
-        $invoiceOrCreditMock->expects($this->any())
+        $orderDetailsItemNormal->expects($this->once())
+            ->method('getCode')
+            ->willReturn($itemCode);
+        $orderDetailsItemNormal->expects($this->once())
+            ->method('getAmount')
+            ->willReturn($itemAmount);
+        $orderDetailsItemNormal->expects($this->once())
+            ->method('getBaseAmount')
+            ->willReturn($itemBaseAmount);
+        $orderDetailsItemNormal->expects($this->once())
+            ->method('getTitle')
+            ->willReturn($itemTitle);
+        $orderDetailsItemNormal->expects($this->once())
+            ->method('getPercent')
+            ->willReturn($itemPercent);
+
+        $orderDetailsItemZeroAmount = $this->getMockBuilder('Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $orderDetailsItemZeroAmount->expects($this->once())
+            ->method('getAmount')
+            ->willReturn(0);
+        $orderDetailsItemZeroAmount->expects($this->once())
+            ->method('getBaseAmount')
+            ->willReturn(0);
+
+        $appliedTaxes = [$orderDetailsItemNormal, $orderDetailsItemZeroAmount];
+
+        $orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $orderMock->expects($this->once())
+            ->method('getId')
+            ->willReturn($orderId);
+        $orderMock->expects($this->once())
             ->method('getShippingTaxAmount')
-            ->will($this->returnValue($invoiceOrCreditData->getShippingTaxAmount()));
-        $invoiceOrCreditMock->expects($this->any())
-            ->method('getBaseShippingTaxAmount')
-            ->will($this->returnValue($invoiceOrCreditData->getBaseShippingTaxAmount()));
+            ->willReturn($orderShippingTaxAmount);
 
-        $invoiceOrCreditMock->expects($this->any())
-            ->method('getItemsCollection')
-            ->will($this->returnValue($invoiceOrCreditData->getItemsCollection()));
-
-        $result = $this->taxHelper->getCalculatedTaxes($invoiceOrCreditMock);
-        $this->assertEquals($expectedResults, $result);
-    }
-
-    /**
-     * @param \Magento\Framework\Object $source
-     * @param \Magento\Framework\Object $invoiceData
-     * @param OrderTaxDetails $orderTaxDetails
-     * @param array $expectedResults
-     * @dataProvider testGetCalculatedTaxesInvoiceCreditMemoDataProvider
-     */
-    public function testGetCalculatedTaxesInvoice($source, $invoiceData, $orderTaxDetails, $expectedResults)
-    {
-        $className = 'Magento\Sales\Model\Order\Invoice';
-        $this->commonTestGetCalculatedTaxesInvoiceCreditmemo(
-            $source,
-            $className,
-            $invoiceData,
-            $orderTaxDetails,
-            $expectedResults
-        );
-    }
-
-    /**
-     * @param \Magento\Framework\Object $source
-     * @param \Magento\Framework\Object $creditMemoData
-     * @param OrderTaxDetails $orderTaxDetails
-     * @param array $expectedResults
-     * @dataProvider testGetCalculatedTaxesInvoiceCreditmemoDataProvider
-     */
-    public function testGetCalculatedTaxesCreditmemo($source, $creditMemoData, $orderTaxDetails, $expectedResults)
-    {
-        $className = 'Magento\Sales\Model\Order\Creditmemo';
-        $this->commonTestGetCalculatedTaxesInvoiceCreditmemo(
-            $source,
-            $className,
-            $creditMemoData,
-            $orderTaxDetails,
-            $expectedResults
-        );
-    }
-
-    /**
-     * @return array
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     */
-    public function testGetCalculatedTaxesInvoiceCreditmemoDataProvider()
-    {
-        /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Store */
-        $store = $this->getMockBuilder('\Magento\Store\Model\Store')
+        $taxDetailsData = $this->getMockBuilder('Magento\Tax\Api\Data\OrderTaxDetailsItemInterface')
             ->disableOriginalConstructor()
             ->getMock();
+        $taxDetailsData->expects($this->once())
+            ->method('getType')
+            ->willReturn(Address::TYPE_SHIPPING);
+        $taxDetailsData->expects($this->once())
+            ->method('getAppliedTaxes')
+            ->willReturn($appliedTaxes);
 
-        $objectManager = new ObjectManager($this);
-        $this->orderTaxDetailsBuilder = $objectManager->getObject('Magento\Tax\Service\V1\Data\OrderTaxDetailsBuilder');
-        $orderTaxDetails = $this->orderTaxDetailsBuilder->populateWithArray(
-            [
-                OrderTaxDetails::KEY_ITEMS => [
-                    [
-                        Item::KEY_TYPE => 'product',
-                        Item::KEY_ITEM_ID => 53,
-                        Item::KEY_ASSOCIATED_ITEM_ID => null,
-                        Item::KEY_APPLIED_TAXES => [
-                            'US-CA-*-Rate 1' => [
-                                AppliedTax::KEY_CODE => 'US-CA-*-Rate 1',
-                                AppliedTax::KEY_TITLE => 'US-CA-*-Rate 1',
-                                AppliedTax::KEY_PERCENT => '8.25',
-                                AppliedTax::KEY_AMOUNT => '6.1889',
-                                AppliedTax::KEY_BASE_AMOUNT => '12.3779',
-                            ],
-                            'SanJose City Tax' => [
-                                AppliedTax::KEY_CODE => 'SanJose City Tax',
-                                AppliedTax::KEY_TITLE => 'SanJose City Tax',
-                                AppliedTax::KEY_PERCENT => '6',
-                                AppliedTax::KEY_AMOUNT => '4.5011',
-                                AppliedTax::KEY_BASE_AMOUNT => '9.0021',
-                            ],
-                            'SST' => [
-                                AppliedTax::KEY_CODE => 'SST',
-                                AppliedTax::KEY_TITLE => 'SST',
-                                AppliedTax::KEY_PERCENT => '5.7125',
-                                AppliedTax::KEY_AMOUNT => '4.28',
-                                AppliedTax::KEY_BASE_AMOUNT => '8.57',
-                            ],
-                        ]
-                    ],
-                    [
-                        Item::KEY_TYPE => 'product',
-                        Item::KEY_ITEM_ID => 54,
-                        Item::KEY_ASSOCIATED_ITEM_ID => null,
-                        Item::KEY_APPLIED_TAXES => [
-                            'US-CA-*-Rate 1' => [
-                                AppliedTax::KEY_CODE => 'US-CA-*-Rate 1',
-                                AppliedTax::KEY_TITLE => 'US-CA-*-Rate 1',
-                                AppliedTax::KEY_PERCENT => '8.25',
-                                AppliedTax::KEY_AMOUNT => '12.3721',
-                                AppliedTax::KEY_BASE_AMOUNT => '24.7500',
-                            ],
-                            'SanJose City Tax' => [
-                                AppliedTax::KEY_CODE => 'SanJose City Tax',
-                                AppliedTax::KEY_TITLE => 'SanJose City Tax',
-                                AppliedTax::KEY_PERCENT => '6',
-                                AppliedTax::KEY_AMOUNT => '8.9979',
-                                AppliedTax::KEY_BASE_AMOUNT => '18',
-                            ],
-                            'SST' => [
-                                AppliedTax::KEY_CODE => 'SST',
-                                AppliedTax::KEY_TITLE => 'SST',
-                                AppliedTax::KEY_PERCENT => '5.7125',
-                                AppliedTax::KEY_AMOUNT => '8.57',
-                                AppliedTax::KEY_BASE_AMOUNT => '17.14',
-                            ],
-                        ]
-                    ],
-                    [
-                        Item::KEY_TYPE => 'weee',
-                        Item::KEY_ITEM_ID => null,
-                        Item::KEY_ASSOCIATED_ITEM_ID => 54,
-                        Item::KEY_APPLIED_TAXES => [
-                            'US-CA-*-Rate 1' => [
-                                AppliedTax::KEY_CODE => 'US-CA-*-Rate 1',
-                                AppliedTax::KEY_TITLE => 'US-CA-*-Rate 1',
-                                AppliedTax::KEY_PERCENT => '8.25',
-                                AppliedTax::KEY_AMOUNT => '1.2389',
-                                AppliedTax::KEY_BASE_AMOUNT => '2.4721',
-                            ],
-                            'SanJose City Tax' => [
-                                AppliedTax::KEY_CODE => 'SanJose City Tax',
-                                AppliedTax::KEY_TITLE => 'SanJose City Tax',
-                                AppliedTax::KEY_PERCENT => '6',
-                                AppliedTax::KEY_AMOUNT => '0.9011',
-                                AppliedTax::KEY_BASE_AMOUNT => '1.7979',
-                            ],
-                            'SST' => [
-                                AppliedTax::KEY_CODE => 'SST',
-                                AppliedTax::KEY_TITLE => 'SST',
-                                AppliedTax::KEY_PERCENT => '5.7125',
-                                AppliedTax::KEY_AMOUNT => '0.86',
-                                AppliedTax::KEY_BASE_AMOUNT => '1.71',
-                            ],
-                        ]
-                    ],
-                    [
-                        Item::KEY_TYPE => 'shipping',
-                        Item::KEY_ITEM_ID => null,
-                        Item::KEY_ASSOCIATED_ITEM_ID => null,
-                        Item::KEY_APPLIED_TAXES => [
-                            'Shipping' => [
-                                AppliedTax::KEY_CODE => 'Shipping',
-                                AppliedTax::KEY_TITLE => 'Shipping',
-                                AppliedTax::KEY_PERCENT => '21',
-                                AppliedTax::KEY_AMOUNT => '2.6',
-                                AppliedTax::KEY_BASE_AMOUNT => '5.21',
-                            ],
-                        ]
-                    ],
-                ],
-                OrderTaxDetails::KEY_APPLIED_TAXES => [
-                    [
-                        AppliedTax::KEY_CODE => 'US-CA-*-Rate 1',
-                        AppliedTax::KEY_TITLE => 'US-CA-*-Rate 1',
-                        AppliedTax::KEY_PERCENT => '8.25',
-                        AppliedTax::KEY_AMOUNT => '19.7999',
-                        AppliedTax::KEY_BASE_AMOUNT => '39.6',
-                    ],
-                    [
-                        AppliedTax::KEY_CODE => 'SanJose City Tax',
-                        AppliedTax::KEY_TITLE => 'SanJose City Tax',
-                        AppliedTax::KEY_PERCENT => '6',
-                        AppliedTax::KEY_AMOUNT => '14.4001',
-                        AppliedTax::KEY_BASE_AMOUNT => '28.8',
-                    ],
-                    [
-                        AppliedTax::KEY_CODE => 'SST',
-                        AppliedTax::KEY_TITLE => 'SST',
-                        AppliedTax::KEY_PERCENT => '5.7125',
-                        AppliedTax::KEY_AMOUNT => '13.71',
-                        AppliedTax::KEY_BASE_AMOUNT => '27.42',
-                    ],
-                    [
-                        AppliedTax::KEY_CODE => 'Shipping',
-                        AppliedTax::KEY_TITLE => 'Shipping',
-                        AppliedTax::KEY_PERCENT => '21',
-                        AppliedTax::KEY_AMOUNT => '2.6',
-                        AppliedTax::KEY_BASE_AMOUNT => '5.21',
-                    ],
-                ],
-            ]
-        )->create();
+        $orderDetails = $this->getMockBuilder('Magento\Tax\Api\Data\OrderTaxDetailsInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $orderDetails->expects($this->once())
+            ->method('getItems')
+            ->willReturn([$taxDetailsData]);
 
-        $data = [
-            'qty_not_changed' => [
-                'source' => new \Magento\Framework\Object(
-                        [
-                            'shipping_tax_amount' => '2.6',
-                            'id' => '19',
-                            'store' => $store,
-                        ]
-                    ),
-                'current' => new \Magento\Framework\Object(
-                        [
-                            'shipping_tax_amount' => '2.6',
-                            'base_shipping_tax_amount' => '5.21',
-                            'items_collection' => [
-                                '53' => new \Magento\Framework\Object(
-                                        [
-                                            'order_item' => new \Magento\Framework\Object(
-                                                    [
-                                                        'id' => 53,
-                                                        'tax_amount' => 14.97,
-                                                    ]
-                                                ),
-                                            'tax_amount' => 14.97,
-                                        ]
-                                    ),
-                                '54' => new \Magento\Framework\Object(
-                                        [
-                                            'order_item' => new \Magento\Framework\Object(
-                                                    [
-                                                        'id' => 54,
-                                                        'tax_amount' => 29.94,
-                                                    ]
-                                                ),
-                                            'tax_amount' => 29.94,
-                                        ]
-                                    ),
-                            ]
-                        ]
-                    ),
-                'orderTaxDetails' => $orderTaxDetails,
-                'expectedResults' => [
-                    [
-                        'tax_amount' => '2.6',
-                        'base_tax_amount' => '5.21',
-                        'title' => 'Shipping',
-                        'percent' => '21',
-                    ],
-                    [
-                        'title' => 'US-CA-*-Rate 1',
-                        'percent' => '8.25',
-                        'tax_amount' => '19.80',
-                        'base_tax_amount' => '39.6',
-                    ],
-                    [
-                        'title' => 'SanJose City Tax',
-                        'percent' => '6',
-                        'tax_amount' => '14.40',
-                        'base_tax_amount' => '28.8',
-                    ],
-                    [
-                        'title' => 'SST',
-                        'percent' => '5.7125',
-                        'tax_amount' => '13.71',
-                        'base_tax_amount' => '27.42',
-                    ],
-                ],
-            ],
+        $this->orderTaxManagementMock->expects($this->once())
+            ->method('getOrderTaxDetails')
+            ->with($orderId)
+            ->willReturn($orderDetails);
+
+        $orderItemMock = $this->getMockBuilder('Magento\Sales\Model\Order\Item')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $orderItemMock->expects($this->once())
+            ->method('getTaxAmount')
+            ->willReturn($failedTaxAmount);
+
+        $invoiceItemFailed = $this->getMockBuilder('Magento\Sales\Model\Order\Invoice\Item')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $invoiceItemFailed->expects($this->once())
+            ->method('getOrderItem')
+            ->willReturn($orderItemMock);
+        $invoiceItemFailed->expects($this->once())
+            ->method('getTaxAmount')
+            ->willReturn(1);
+
+        $source = $this->getMockBuilder('Magento\Sales\Model\Order\Creditmemo')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $source->expects($this->once())
+            ->method('getOrder')
+            ->willReturn($orderMock);
+        $source->expects($this->once())
+            ->method('getShippingTaxAmount')
+            ->willReturn($itemShippingTaxAmount);
+        $source->expects($this->once())
+            ->method('getItemsCollection')
+            ->willReturn([$invoiceItemFailed]);
+
+        $roundValues = [
+            [$itemAmount, $expectedAmount],
+            [$itemBaseAmount, $expectedBaseAmount]
         ];
-        return $data;
+        $this->priceCurrencyMock->expects($this->exactly(2))
+            ->method('round')
+            ->will($this->returnValueMap($roundValues));
+
+        $result = $this->helper->getCalculatedTaxes($source);
+        $this->assertCount(1, $result);
+        $this->assertEquals($expectedAmount, $result[0]['tax_amount']);
+        $this->assertEquals($expectedBaseAmount, $result[0]['base_tax_amount']);
+        $this->assertEquals($itemTitle, $result[0]['title']);
+        $this->assertEquals($itemPercent, $result[0]['percent']);
+
     }
 }

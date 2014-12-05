@@ -698,7 +698,6 @@ return array(
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
     array('Magento\CatalogSearch\Model\Layer', 'Magento\Catalog\Model\Layer'),
-    array('Magento\CatalogSearch\Model\Layer\Filter\Attribute'),
     array('Magento\Solr\Block\Catalog\Layer\View', 'Magento\LayeredNavigation\Block\Navigation'),
     array(
         'Magento\Solr\Block\Catalog\Layer\Filter\Attribute',
@@ -1736,7 +1735,7 @@ return array(
     array('Magento\Adminhtml\Block\Report\Sales\Shipping', 'Magento\Reports\Block\Adminhtml\Sales\Shipping'),
     array('Magento\Adminhtml\Block\Report\Sales\Tax\Grid', 'Magento\Reports\Block\Adminhtml\Sales\Tax\Grid'),
     array('Magento\Adminhtml\Block\Report\Sales\Tax', 'Magento\Reports\Block\Adminhtml\Sales\Tax'),
-    array('Magento\Adminhtml\Block\Report\Search', 'Magento\Reports\Block\Adminhtml\Search'),
+    array('Magento\Adminhtml\Block\Report\Search', 'Magento\Search\Block\Adminhtml\Reports\Search'),
     array(
         'Magento\Adminhtml\Block\Report\Shopcart\Abandoned\Grid',
         'Magento\Reports\Block\Adminhtml\Shopcart\Abandoned\Grid'
@@ -1944,6 +1943,7 @@ return array(
     array('Magento\Sales\Block\Recurring\Profile\View\Data', 'Magento\RecurringPayment\Block\Payment\View\Data'),
     array('Magento\Sales\Block\Recurring\Profile\View\Fees', 'Magento\RecurringPayment\Block\Payment\View\Fees'),
     array('Magento\Sales\Block\Recurring\Profile\View\Item', 'Magento\RecurringPayment\Block\Payment\View\Item'),
+    array('Magento\Customer\Service\V1\Data\AddressConverter', '\Magento\Customer\Model\Address\Mapper'),
     array(
         'Magento\Sales\Block\Recurring\Profile\View\Reference',
         'Magento\RecurringPayment\Block\Payment\View\Reference'
@@ -2434,7 +2434,7 @@ return array(
     ['Magento\EventFactory', 'Magento\Framework\EventFactory'],
     ['Magento\Exception', 'Magento\Framework\Exception'],
     ['Magento\Filesystem', 'Magento\Framework\Filesystem'],
-    ['Magento\ObjectManager', 'Magento\Framework\ObjectManager'],
+    ['Magento\ObjectManager', 'Magento\Framework\ObjectManagerInterface'],
     ['Magento\Translate', 'Magento\Framework\Translate'],
     ['Magento\TranslateInterface', 'Magento\Framework\TranslateInterface'],
     ['Magento\Locale', 'Magento\Framework\Locale'],
@@ -2740,7 +2740,7 @@ return array(
     ],
     ['Magento\Tax\Model\Rate\CsvImportHandler', 'Magento\TaxImportExport\Model\Rate\CsvImportHandler'],
     ['\Magento\Theme\Helper\Layout'],
-    ['Magento\Framework\Stdlib\Cookie', 'Magento\Framework\Stdlib\CookieManager'],
+    ['Magento\Framework\Stdlib\Cookie', 'Magento\Framework\Stdlib\CookieManagerInterface'],
     ['Magento\Framework\View\Design\Theme\Provider'],
     ['Magento\Install\Controller\Index'],
     ['Magento\Install\Controller\Wizard'],
@@ -2777,15 +2777,15 @@ return array(
     ['Magento\Framework\Error\HandlerInterface', 'Magento\Framework\App\ErrorHandler'],
     ['Magento\Index'],
     ['Magento\Catalog\Model\Resource\Product\Indexer\Eav'],
-    ['\Magento\Framework\Service\Data\Eav\AbstractObject', 'Magento\Framework\Service\Data\AbstractExtensibleObject'],
-    ['\Magento\Framework\Service\Data\AbstractObject', 'Magento\Framework\Service\Data\AbstractSimpleObject'],
+    ['\Magento\Framework\Api\Eav\AbstractObject', 'Magento\Framework\Api\AbstractExtensibleObject'],
+    ['\Magento\Framework\Api\AbstractObject', 'Magento\Framework\Api\AbstractSimpleObject'],
     [
-        '\Magento\Framework\Service\Data\Eav\AbstractObjectBuilder',
-        'Magento\Framework\Service\Data\AbstractExtensibleObjectBuilder'
+        '\Magento\Framework\Api\Eav\AbstractObjectBuilder',
+        'Magento\Framework\Api\ExtensibleObjectBuilder'
     ],
     [
-        '\Magento\Framework\Service\Data\AbstractObjectBuilder',
-        'Magento\Framework\Service\Data\AbstractSimpleObjectBuilder'
+        '\Magento\Framework\Api\AbstractObjectBuilder',
+        'Magento\Framework\Api\AbstractSimpleObjectBuilder'
     ],
     ['Magento\Catalog\Block\Product'],
     ['\Magento\Sales\Model\Observer'],
@@ -2817,6 +2817,7 @@ return array(
     ['Magento\Wishlist\Block\Rss'],
     ['Magento\Wishlist\Controller\Index\Rss'],
     ['Magento\Checkout\Controller\Onepage\Progress'],
+    ['Magento\Checkout\Controller\Onepage\GetAdditional'],
     ['Magento\Framework\App\Filesystem', 'Magento\Framework\Filesystem'],
     ['Magento\TestFramework\App\Filesystem\DirectoryList'],
     ['Magento\Framework\App\Filesystem\DirectoryList\Configuration'],
@@ -2826,4 +2827,96 @@ return array(
     ['Magento\Framework\Filesystem\WrapperInterface'],
     ['Magento\Install'],
     ['Magento\Install\Model\Resource\Resource', 'Magento\Framework\Module\Resource'],
+    ['Magento\Framework\App\View\Deployment\Version\Generator\Timestamp', 'Magento\Framework\Stdlib\DateTime'],
+    ['Magento\Framework\App\View\Deployment\Version\GeneratorInterface'],
+    ['Magento\Framework\Authorization\RoleLocator', 'Magento\Framework\Authorization\RoleLocatorInterface'],
+    ['Magento\Framework\Authorization\Policy', 'Magento\Framework\Authorization\PolicyInterface'],
+    ['Magento\Framework\Stdlib\CookieManager', 'Magento\Framework\Stdlib\CookieManagerInterface'],
+    ['Magento\Framework\Interception\PluginList', 'Magento\Framework\Interception\PluginListInterface'],
+    ['Magento\Framework\Interception\Config', 'Magento\Framework\Interception\ConfigInterface'],
+    ['Magento\Framework\Interception\Chain', 'Magento\Framework\Interception\ChainInterface'],
+    ['Magento\Framework\Interception\Definition', 'Magento\Framework\Interception\DefinitionInterface'],
+    ['Magento\Framework\ObjectManager\Factory', 'Magento\Framework\ObjectManager\FactoryInterface'],
+    ['Magento\Framework\ObjectManager\Config', 'Magento\Framework\ObjectManager\ConfigInterface'],
+    ['Magento\Framework\ObjectManager\Relations', 'Magento\Framework\ObjectManager\RelationsInterface'],
+    ['Magento\Framework\ObjectManager\ConfigCache', 'Magento\Framework\ObjectManager\ConfigCacheInterface'],
+    ['Magento\Framework\ObjectManager\Definition', 'Magento\Framework\ObjectManager\DefinitionInterface'],
+    ['Magento\Framework\ObjectManager', 'Magento\Framework\ObjectManagerInterface'],
+    ['Magento\Framework\HTTP\IClient', 'Magento\Framework\HTTP\ClientInterface'],
+    ['Magento\Tax\Service\V1\TaxCalculationServiceInterface', 'Magento\Tax\Api\TaxCalculationInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxRule', 'Magento\Tax\Api\Data\TaxRuleInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxRuleSearchResults', 'Magento\Tax\Model\TaxRuleSearchResults'],
+    ['Magento\Tax\Service\V1\Data\TaxRuleBuilder'],
+    ['Magento\Tax\Service\V1\Data\TaxRuleSearchResultsBuilder'],
+    ['Magento\Tax\Service\V1\Collection\TaxRuleCollection', 'Magento\Tax\Model\TaxRuleCollection'],
+    ['Magento\Tax\Service\V1\TaxRateServiceInterface', 'Magento\Tax\Api\TaxRateRepositoryInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxRateTitle', 'Magento\Tax\Api\Data\TaxRateTitleInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxRate', 'Magento\Tax\Api\Data\TaxRateInterface'],
+    ['Magento\Tax\Service\V1\Data\ZipRange'],
+    ['Magento\Tax\Service\V1\Data\ZipRangeBuilder'],
+    ['Magento\Tax\Service\V1\Data\TaxRateTitleBuilder', 'Magento\Tax\Api\Data\TaxRateTitleDataBuilder'],
+    [
+        'Magento\Tax\Service\V1\Data\TaxRateSearchResultsBuilder',
+        'Magento\Tax\Api\Data\TaxRateSearchResultsDataBuilder'
+    ],
+    ['Magento\Tax\Service\V1\Data\TaxRateSearchResults', 'Magento\Tax\Api\Data\TaxRateSearchResultsInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxRateBuilder', 'Magento\Tax\Api\Data\TaxRateDataBuilder'],
+    ['Magento\Tax\Service\V1\Collection\TaxRateCollection', 'Magento\Tax\Model\TaxRateCollection'],
+    ['Magento\Tax\Service\V1\Data\TaxClassKey', 'Magento\Tax\Api\Data\TaxClassKeyInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxClassSearchResults', 'Magento\Tax\Api\Data\TaxClassSearchResultsInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxClass', 'Magento\Tax\Api\Data\TaxClassInterface'],
+    ['Magento\Tax\Service\V1\TaxClassServiceInterface', 'Magento\Tax\Api\TaxClassRepositoryInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxClassSearchResultsBuilder'],
+    ['Magento\Tax\Service\V1\Data\TaxClassKeyBuilder'],
+    ['Magento\Tax\Service\V1\Data\TaxClassBuilder'],
+    ['Magento\Tax\Service\V1\Data\OrderTaxDetails', 'Magento\Tax\Api\Data\OrderTaxDetailsInterface'],
+    [
+        'Magento\Tax\Service\V1\Data\OrderTaxDetails\AppliedTax',
+        'Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxInterface'
+    ],
+    ['Magento\Tax\Service\V1\Data\OrderTaxDetails\Item', 'Magento\Tax\Api\Data\OrderTaxDetailsItemInterface'],
+    ['Magento\Tax\Service\V1\Data\QuoteDetails', 'Magento\Tax\Api\Data\QuoteDetailsInterface'],
+    ['Magento\Tax\Service\V1\Data\QuoteDetails\Item', 'Magento\Tax\Api\Data\QuoteDetailsItemInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxDetails', 'Magento\Tax\Api\Data\TaxDetailsInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxDetails\AppliedTax', 'Magento\Tax\Api\Data\AppliedTaxInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxDetails\AppliedTaxRate', 'Magento\Tax\Api\Data\AppliedTaxRateInterface'],
+    ['Magento\Tax\Service\V1\Data\TaxDetails\Item', 'Magento\Tax\Api\Data\TaxDetailsItemInterface'],
+    ['Magento\Tax\Service\V1\OrderTaxServiceInterface', 'Magento\Tax\Api\OrderTaxManagementInterface'],
+    ['Magento\Tools\I18n\Code', 'Magento\Tools\I18n'],
+    ['Magento\TestFramework\Utility\AggregateInvoker', 'Magento\Framework\Test\Utility\AggregateInvoker'],
+    ['Magento\TestFramework\Utility\Classes', 'Magento\Framework\Test\Utility\Classes'],
+    ['Magento\TestFramework\Utility\Files', 'Magento\Framework\Test\Utility\Files'],
+    ['Magento\Framework\Module\Declaration\Reader\Filesystem', 'Magento\Framework\Module\ModuleList\Loader'],
+    ['Magento\Framework\Module\Declaration\FileIterator'],
+    ['Magento\Framework\Module\Declaration\FileIteratorFactory'],
+    ['Magento\Framework\Module\Declaration\FileResolver', 'Magento\Framework\Module\ModuleList\Loader'],
+    ['Magento\Framework\Module\Declaration\SchemaLocator'],
+    ['Magento\Framework\Module\DependencyManager'],
+    ['Magento\Framework\Module\DependencyManagerInterface'],
+    ['Magento\Framework\App\Arguments\Loader'],
+    ['Magento\Framework\App\Arguments', 'Magento\Framework\App\DeploymentConfig'],
+    ['Magento\Bundle\Service\V1\Data\Product\Link', 'Magento\Bundle\Api\Data\LinkInterface'],
+    ['Magento\Bundle\Service\V1\Data\Product\Option', 'Magento\Bundle\Api\Data\OptionInterface'],
+    [
+        'Magento\Bundle\Service\V1\Product\Link\ReadServiceInterface',
+        'Magento\Bundle\Api\ProductLinkManagementInterface'
+    ],
+    [
+        'Magento\Bundle\Service\V1\Product\Link\WriteServiceInterface',
+        'Magento\Bundle\Api\ProductLinkManagementInterface'
+    ],
+    [
+        'Magento\Bundle\Service\V1\Product\Option\ReadServiceInterface',
+        'Magento\Bundle\Api\ProductOptionRepositoryInterface'
+    ],
+    [
+        'Magento\Bundle\Service\V1\Product\Option\WriteServiceInterface',
+        'Magento\Bundle\Api\ProductOptionRepositoryInterface'
+    ],
+    [
+        'Magento\Bundle\Service\V1\Product\Option\Type\ReadServiceInterface',
+        'Magento\Bundle\Api\ProductOptionTypeListInterface'
+    ],
+    ['Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader'],
+    ['Magento\Sales\Model\Resource\AbstractResource', 'Magento\Framework\Model\Resource\Db\AbstractDb'],
 );

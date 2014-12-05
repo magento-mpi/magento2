@@ -25,6 +25,9 @@
             </gift_options>
         </sales>
         <tax>
+            <classes>
+                <wrapping_tax_class>0</wrapping_tax_class>
+            </classes>
             <cart_display>
                 <gift_wrapping>1</gift_wrapping>
                 <printed_card>1</printed_card>

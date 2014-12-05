@@ -7,7 +7,7 @@
  */
 namespace Magento\TestModule4\Service\V1\Entity;
 
-class NestedDataObjectRequest extends \Magento\Framework\Service\Data\AbstractExtensibleObject
+class NestedDataObjectRequest extends \Magento\Framework\Api\AbstractExtensibleObject
 {
     /**
      * @return \Magento\TestModule4\Service\V1\Entity\DataObjectRequest

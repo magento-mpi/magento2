@@ -184,20 +184,25 @@ define([
                         .css(clonePosition)
                         .show()
                         .find(this.options.responseFieldElements + ':visible');
+
                     this._resetResponseList(false);
-                    this.responseList.indexList.on('click', $.proxy(function (e) {
-                        this.responseList.selected = $(e.target);
-                        this.searchForm.trigger('submit');
-                    }, this)).on('hover', $.proxy(function (e) {
-                        this.responseList.indexList.removeClass(this.options.selectClass);
-                        $(e.target).addClass(this.options.selectClass);
-                        this.responseList.selected = $(e.target);
-                    }, this)).on('mouseout', $.proxy(function (e) {
-                        if (!this._getLastElement() && this._getLastElement().hasClass(this.options.selectClass)) {
-                            $(e.target).removeClass(this.options.selectClass);
-                            this._resetResponseList(false);
-                        }
-                    }, this));
+                    
+                    this.responseList.indexList
+                        .on('click', function (e) {
+                            this.responseList.selected = $(e.target);
+                            this.searchForm.trigger('submit');
+                        }.bind(this))
+                        .on('mouseenter mouseleave', function (e) {
+                            this.responseList.indexList.removeClass(this.options.selectClass);
+                            $(e.target).addClass(this.options.selectClass);
+                            this.responseList.selected = $(e.target);
+                        }.bind(this))
+                        .on('mouseout', function (e) {
+                            if (!this._getLastElement() && this._getLastElement().hasClass(this.options.selectClass)) {
+                                $(e.target).removeClass(this.options.selectClass);
+                                this._resetResponseList(false);
+                            }
+                        }.bind(this));
                 }, this));
             } else {
                 this._resetResponseList(true);
@@ -205,5 +210,6 @@ define([
             }
         }
     });
-
+    
+    return $.mage.quickSearch;
 });

@@ -28,28 +28,18 @@ class Io
     private $_generationDirectory;
 
     /**
-     * Autoloader instance
-     *
-     * @var \Magento\Framework\Autoload\IncludePath
-     */
-    private $_autoloader;
-
-    /**
      * @var \Magento\Framework\Filesystem\Driver\File
      */
     private $filesystemDriver;
 
     /**
-     * @param \Magento\Framework\Filesystem\Driver\File   $filesystemDriver
-     * @param \Magento\Framework\Autoload\IncludePath     $autoLoader
-     * @param null $generationDirectory
+     * @param \Magento\Framework\Filesystem\Driver\File $filesystemDriver
+     * @param null|string $generationDirectory
      */
     public function __construct(
         \Magento\Framework\Filesystem\Driver\File $filesystemDriver,
-        \Magento\Framework\Autoload\IncludePath $autoLoader = null,
         $generationDirectory = null
     ) {
-        $this->_autoloader = $autoLoader ?: new \Magento\Framework\Autoload\IncludePath();
         $this->filesystemDriver = $filesystemDriver;
         $this->initGeneratorDirectory($generationDirectory);
     }
@@ -88,9 +78,7 @@ class Io
      */
     public function getResultFileName($className)
     {
-        $autoloader = $this->_autoloader;
-        $resultFileName = $autoloader->getFilePath($className);
-        return $this->_generationDirectory . $resultFileName;
+        return $this->_generationDirectory . ltrim(str_replace(['\\', '_'], '/', $className), '/') . '.php';
     }
 
     /**

@@ -8,6 +8,8 @@
 
 namespace Magento\Persistent\Model;
 
+use Magento\Customer\Model\Context;
+
 /**
  * @magentoDataFixture Magento/Persistent/_files/persistent.php
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -25,9 +27,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_escaper;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    protected $_customerAccountService;
+    protected $customerRepository;
 
     /**
      * @var \Magento\Persistent\Helper\Session
@@ -35,7 +37,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_persistentSessionHelper;
 
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
 
@@ -66,8 +68,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_escaper = $this->_objectManager->create(
             'Magento\Framework\Escaper'
         );
-        $this->_customerAccountService = $this->_objectManager->create(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+
+        $this->customerRepository = $this->_objectManager->create(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
 
         $this->_checkoutSession = $this->getMockBuilder(
@@ -81,7 +84,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             [
                 'escaper' => $this->_escaper,
                 'customerViewHelper' => $this->_customerViewHelper,
-                'customerAccountService' => $this->_customerAccountService,
+                'customerRepository' => $this->customerRepository,
                 'checkoutSession' => $this->_checkoutSession
             ]
         );
@@ -99,7 +102,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_customerSession->loginById(1);
 
         $httpContext = new \Magento\Framework\App\Http\Context();
-        $httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, 1, 1);
+        $httpContext->setValue(Context::CONTEXT_AUTH, 1, 1);
         $block = $this->_objectManager->create(
             'Magento\Sales\Block\Reorder\Sidebar',
             [
@@ -109,7 +112,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_observer->emulateWelcomeBlock($block);
         $customerName = $this->_escaper->escapeHtml(
             $this->_customerViewHelper->getCustomerName(
-                $this->_customerAccountService->getCustomer(
+                $this->customerRepository->getById(
                     $this->_persistentSessionHelper->getSession()->getCustomerId()
                 )
             )

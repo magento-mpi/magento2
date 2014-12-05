@@ -14,15 +14,15 @@ use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\GroupRegistry;
 use Magento\Customer\Model\Resource\Group\Collection;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
-use Magento\Framework\Service\V1\Data\Search\FilterGroup;
+use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
 use Magento\Framework\Exception\State\InvalidTransitionException;
-use Magento\Framework\Service\V1\Data\SearchCriteria;
-use Magento\Tax\Service\V1\Data\TaxClass;
-use Magento\Tax\Service\V1\TaxClassServiceInterface;
-use Magento\Framework\Service\V1\Data\SortOrder;
+use Magento\Framework\Api\SearchCriteria;
+use Magento\Tax\Api\TaxClassManagementInterface;
+use \Magento\Tax\Api\TaxClassRepositoryInterface;
+use Magento\Framework\Api\SortOrder;
 
 /**
  * Customer service is responsible for customer business workflow encapsulation
@@ -60,9 +60,9 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_customerGroupBuilder;
 
     /**
-     * @var TaxClassServiceInterface
+     * @var TaxClassRepositoryInterface
      */
-    private $_taxClassService;
+    private $taxClassRepository;
 
     /**
      * @var GroupRegistry
@@ -80,7 +80,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
-     * @param TaxClassServiceInterface $taxClassService
+     * @param TaxClassRepositoryInterface $taxClassRepository
      * @param GroupRegistry $groupRegistry
      */
     public function __construct(
@@ -89,7 +89,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         StoreManagerInterface $storeManager,
         Data\SearchResultsBuilder $searchResultsBuilder,
         Data\CustomerGroupBuilder $customerGroupBuilder,
-        TaxClassServiceInterface $taxClassService,
+        TaxClassRepositoryInterface $taxClassRepository,
         GroupRegistry $groupRegistry
     ) {
         $this->_groupFactory = $groupFactory;
@@ -98,7 +98,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $this->_searchResultsBuilder = $searchResultsBuilder;
         $this->_customerGroupBuilder = $customerGroupBuilder;
         $this->_groupRegistry = $groupRegistry;
-        $this->_taxClassService = $taxClassService;
+        $this->taxClassRepository = $taxClassRepository;
     }
 
     /**
@@ -348,11 +348,11 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     {
         try {
             /* @var TaxClass $taxClassData */
-            $taxClassData = $this->_taxClassService->getTaxClass($taxClassId);
+            $taxClassData = $this->taxClassRepository->get($taxClassId);
         } catch (NoSuchEntityException $e) {
             throw InputException::invalidFieldValue('taxClassId', $group->getTaxClassId());
         }
-        if ($taxClassData->getClassType() !== TaxClassServiceInterface::TYPE_CUSTOMER) {
+        if ($taxClassData->getClassType() !== TaxClassManagementInterface::TYPE_CUSTOMER) {
             throw InputException::invalidFieldValue('taxClassId', $group->getTaxClassId());
         }
     }
