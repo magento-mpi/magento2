@@ -61,7 +61,7 @@ class AssertSecureUrlEnabled extends AbstractConstraint
         $browser->getUrl();
         \PHPUnit_Framework_Assert::assertTrue(
             strpos($browser->getUrl(), 'https://') !== false,
-            'Secure Urls not displayed on backend.'
+            'Secure Urls are not displayed on backend.'
         );
 
         $productSimple->persist();
@@ -72,9 +72,10 @@ class AssertSecureUrlEnabled extends AbstractConstraint
         $stepFactory->create('Magento\Catalog\Test\TestStep\ProceedToCheckoutStep')->run();
         \PHPUnit_Framework_Assert::assertTrue(
             strpos($browser->getUrl(), 'https://') !== false,
-            'Secure Urls not displayed on frontend.'
+            'Secure Urls are not displayed on frontend.'
         );
     }
+
     /**
      * Returns a string representation of the object.
      *
