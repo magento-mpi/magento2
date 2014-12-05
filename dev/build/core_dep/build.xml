@@ -82,7 +82,7 @@
             <not><isset property="env.bamboo_target_branch"/></not>
         </condition>
         <exec dir="${env.bamboo_publication_target_dir}" executable="git" failonerror="true">
-            <arg line="push origin ${env.bamboo_target_branch}"/>
+            <arg line="push origin ${env.bamboo_target_branch} --tags"/>
         </exec>
     </target>
 
