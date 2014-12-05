@@ -101,7 +101,7 @@ class Data extends \Magento\Wishlist\Helper\Data
      */
     public function isMultipleEnabled()
     {
-        return $this->isModuleOutputEnabled() && $this->_scopeConfig->getValue(
+        return $this->_moduleManager->isOutputEnabled($this->_getModuleName()) && $this->_scopeConfig->getValue(
             'wishlist/general/active',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) && $this->_scopeConfig->getValue(
