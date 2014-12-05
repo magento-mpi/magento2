@@ -36,7 +36,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->requestMock = $this->getMock('\Magento\Framework\App\RequestInterface', [
+        $this->requestMock = $this->getMock('\Magento\Framework\App\Request\Http', [
             'getRequestString',
             'getModuleName',
             'setModuleName',
@@ -46,6 +46,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'getQuery',
             'getCookie',
             'getDistroBaseUrl',
+            'isSecure',
         ], [], '', false);
         $this->cookieManagerMock = $this->getMock('Magento\Framework\Stdlib\CookieManagerInterface');
         $this->cookieMetadataFactoryMock = $this->getMock(
@@ -392,7 +393,10 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
         $currencyFactory = $this->getMock(
             '\Magento\Directory\Model\CurrencyFactory',
-            ['create', 'load']
+            ['create'],
+            [],
+            '',
+            false
         );
         $currencyFactory->expects($this->any())->method('create')->will($this->returnValue($currency));
 
