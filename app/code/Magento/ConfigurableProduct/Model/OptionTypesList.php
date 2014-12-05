@@ -6,6 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\ConfigurableProduct\Model;
 
 class OptionTypesList implements \Magento\ConfigurableProduct\Api\OptionTypesListInterface

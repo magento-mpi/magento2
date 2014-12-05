@@ -106,6 +106,7 @@ class Attribute extends \Magento\Framework\Model\AbstractExtensibleModel
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function getAttributeId()
     {
@@ -114,6 +115,7 @@ class Attribute extends \Magento\Framework\Model\AbstractExtensibleModel
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function getType()
     {
@@ -122,6 +124,7 @@ class Attribute extends \Magento\Framework\Model\AbstractExtensibleModel
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function getPosition()
     {
@@ -130,6 +133,7 @@ class Attribute extends \Magento\Framework\Model\AbstractExtensibleModel
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function getIsUseDefault()
     {
@@ -138,6 +142,7 @@ class Attribute extends \Magento\Framework\Model\AbstractExtensibleModel
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function getValues()
     {

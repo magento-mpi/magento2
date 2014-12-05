@@ -81,7 +81,7 @@ class LinkManagement implements \Magento\ConfigurableProduct\Api\LinkManagementI
      */
     public function addChild($productSku, $childSku)
     {
-        $product = $this->productRepository->get('conf');
+        $product = $this->productRepository->get($productSku);
         $child = $this->productRepository->get($childSku);
 
         $childrenIds = array_values($this->configurableType->getChildrenIds($product->getId())[0]);

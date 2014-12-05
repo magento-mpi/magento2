@@ -6,13 +6,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
-class OptionValue extends \Magento\Framework\Model\AbstractExtensibleModel
-    implements \Magento\ConfigurableProduct\Api\Data\OptionValueInterface
+class OptionValue extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\ConfigurableProduct\Api\Data\OptionValueInterface
 {
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function getPrice()
     {
@@ -21,6 +23,7 @@ class OptionValue extends \Magento\Framework\Model\AbstractExtensibleModel
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function getIsPercent()
     {
@@ -29,6 +32,7 @@ class OptionValue extends \Magento\Framework\Model\AbstractExtensibleModel
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnore
      */
     public function getIndex()
     {
