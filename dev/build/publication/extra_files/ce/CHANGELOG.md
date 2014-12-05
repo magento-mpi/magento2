@@ -16,14 +16,14 @@
     * Fixed an issue where customer group did not change when invalid VAT number was specified
     * Fixed integration tests coverage
     * Fixed an issue where a customer was not redirected to the configurable product page after clicking Add to Card on the My Wish list page for a product which required configuration
-    * Fixed an issue where an error message was displayed when a customer tried to use checkout using Express Checkout
+    * Fixed an issue where an error message was displayed when a customer tried to use checkout using PayPal Express Checkout
     * Fixed an issue where it was impossible to place an order using Authorize Direct Post
     * Fixed an issue where the page cache in Varnish mode didn’t perform caching as required the cache
-    * Fixed an issue where it was impossible to specify layout container when creating or editing a Widget
+    * Fixed an issue where it was impossible to specify layout container when creating or editing a widget
     * Fixed an issue where a widget set to be displayed on certain type of product page was not displayed
-    * Fixed an issue where it was impossible to create a Widget to be displayed in a sidebar
+    * Fixed an issue where it was impossible to create a widget to be displayed in a sidebar
     * Fixed an issue where a fatal error was thrown when trying to open a not existing page after disabling the 404 Not Found CMS page
-    * Fixed an issue where it's was impossible to refresh CAPTCHA in the Admin panel
+    * Fixed an issue where it was impossible to refresh CAPTCHA in the Admin panel
     * Fixed an issue where two CAPTCHAs were displayed during guest Checkout
     * Fixed an issued where clicking the Preview button on revision preview page did not open the Preview page
     * Fixed an issue where the Magento\Framework\View\Element\AbstractBlockTest::testFormatTime failed randomly
@@ -66,12 +66,12 @@
     * Code review changes for Service Contracts for the CatalogInventory module
     * Stabilized code after refactoring the Sales module to use new Customer service
     * Stabilized code after refactoring the Checkout module to use new Customer service
-    * Deleted old customer account service tests
+    * Deleted old CustomerAccount service tests
     * Fixed base service object class to populate custom attributes correctly
     * Fixed processing of array parameters in service interface for consolidated builder
     * Fixed trace information for service exceptions in dev mode
     * Implemented Bundle product API
-* Accessibility improvement:
+* Accessibility improvements:
     * Heading2-Heading6 hierarchy of content structure
 * UI improvements:
     * Style independent Error page in pub/errors styles
