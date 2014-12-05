@@ -84,6 +84,7 @@
         <exec dir="${env.bamboo_publication_target_dir}" executable="git" failonerror="true">
             <arg line="push origin ${env.bamboo_target_branch} --tags"/>
         </exec>
+        <echo message="push origin ${env.bamboo_target_branch} --tags"/>
     </target>
 
 </project>
