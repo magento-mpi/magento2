@@ -81,10 +81,20 @@
         <condition property="env.bamboo_target_branch" value="master">
             <not><isset property="env.bamboo_target_branch"/></not>
         </condition>
+        <!-- Prepare CE packages -->
+        <antcall target="_prepare_packages" inheritAll="true"/>
+        <!-- Push components to Satis repo -->
+        <exec dir="${env.bamboo_target_satis_dir}" executable="git" failonerror="true">
+            <arg line="push origin master"/>
+        </exec>
+        <!-- Push CE product -->
+        <exec dir="${env.bamboo_target_product_dir}" executable="git" failonerror="true">
+            <arg line="push origin master --tags"/>
+        </exec>
+        <!-- Push full CE -->
         <exec dir="${env.bamboo_publication_target_dir}" executable="git" failonerror="true">
             <arg line="push origin ${env.bamboo_target_branch} --tags"/>
         </exec>
-        <echo message="push origin ${env.bamboo_target_branch} --tags"/>
     </target>
 
 </project>
