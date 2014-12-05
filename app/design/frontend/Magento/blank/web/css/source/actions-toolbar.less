@@ -6,12 +6,18 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .actions-toolbar {
     > .primary,
     > .secondary {
         text-align: center;
         .action {
-            &:extend(.abstract-button-responsive all);
+            &:extend(.abs-button-responsive all);
             margin-bottom: @indent-s-base;
             &:last-child {
                 margin-bottom: 0;
@@ -24,10 +30,12 @@
     }
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .actions-toolbar {
         .actions-toolbar();
         > .primary,
@@ -43,7 +51,7 @@
         .actions-toolbar {
             .column:not(.sidebar-main) &,
             .column:not(.sidebar-additional) & {
-                &:extend(.abstract-margin-for-forms-desktop all);
+                &:extend(.abs-margin-for-forms-desktop all);
             }
         }
     }

@@ -26,7 +26,6 @@ $cmsPages = array(
 <div class="content">
 <h1>Welcome to our Exclusive Online Store</h1>
 <p>If you are a registered member, please <a href="{{store url="customer/account/login"}}">log in here</a>.</p>
-<p class="description">Magento is the leading hub for exclusive specialty items for all your home, apparel and entertainment needs!</p>
 </div>
 </div>
 </div>',

@@ -43,7 +43,7 @@ class SuggestedAttributeListTest extends \PHPUnit_Framework_TestCase
     {
         $this->attributeFactoryMock = $this->getMock(
             'Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory',
-            array('create')
+            array('create'), array(), '', false
         );
         $this->resourceHelperMock = $this->getMock(
             'Magento\Catalog\Model\Resource\Helper',
