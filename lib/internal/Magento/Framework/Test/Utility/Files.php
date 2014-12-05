@@ -122,7 +122,8 @@ class Files
                     $files,
                     glob($this->_path . '/*.php', GLOB_NOSORT),
                     glob($this->_path . '/pub/*.php', GLOB_NOSORT),
-                    self::getFiles(array("{$this->_path}/lib/internal/Magento"), '*.php')
+                    self::getFiles(array("{$this->_path}/lib/internal/Magento"), '*.php'),
+                    self::getFiles(array("{$this->_path}/dev/tools/Magento/Tools/SampleData"), '*.php')
                 );
             }
             if ($templates) {
