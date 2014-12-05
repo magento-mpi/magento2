@@ -23,9 +23,14 @@ interface TaxCalculationInterface
      *
      * @param \Magento\Tax\Api\Data\QuoteDetailsInterface $quoteDetails
      * @param null|int $storeId
+     * @param bool $round
      * @return \Magento\Tax\Api\Data\TaxDetailsInterface
      */
-    public function calculateTax(\Magento\Tax\Api\Data\QuoteDetailsInterface $quoteDetails, $storeId = null);
+    public function calculateTax(
+        \Magento\Tax\Api\Data\QuoteDetailsInterface $quoteDetails,
+        $storeId = null,
+        $round = true
+    );
 
     /**
      * Get default rate request
