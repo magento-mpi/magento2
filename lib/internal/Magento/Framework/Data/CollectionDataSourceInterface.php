@@ -10,10 +10,6 @@ namespace Magento\Framework\Data;
 /**
  * Interface CollectionDataSourceInterface
  */
-interface CollectionDataSourceInterface extends DataSourceInterface
+interface CollectionDataSourceInterface
 {
-    /**
-     * @return SearchResultInterface
-     */
-    public function getResultCollection();
 }

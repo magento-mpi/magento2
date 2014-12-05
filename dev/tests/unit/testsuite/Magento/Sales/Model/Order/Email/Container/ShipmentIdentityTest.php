@@ -33,12 +33,8 @@ class ShipmentIdentityTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->scopeConfigInterfaceMock = $this->getMock(
-            '\Magento\Sales\Model\Order\Email\Container\Stub\ScopeConfigInterfaceMock',
-            [],
-            [],
-            '',
-            false
+        $this->scopeConfigInterfaceMock = $this->getMockForAbstractClass(
+            '\Magento\Framework\App\Config\ScopeConfigInterface'
         );
         $this->storeManagerMock = $this->getMock(
             '\Magento\Store\Model\Storage\DefaultStorage',

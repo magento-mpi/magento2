@@ -19,13 +19,6 @@ use Magento\VersionsCms\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOpti
 class HierarchyNodeLink extends WidgetOptionsForm
 {
     /**
-     * Backend abstract block
-     *
-     * @var string
-     */
-    protected $templateBlock = './ancestor::body';
-
-    /**
      * Hierarchy Node Link block
      *
      * @var string
@@ -60,18 +53,5 @@ class HierarchyNodeLink extends WidgetOptionsForm
             $hierarchyNodeLinkForm->_fill($hierarchyFields, $elementNew);
             $this->getTemplateBlock()->waitLoader();
         }
-    }
-
-    /**
-     * Get backend abstract block
-     *
-     * @return \Magento\Backend\Test\Block\Template
-     */
-    protected function getTemplateBlock()
-    {
-        return $this->blockFactory->create(
-            'Magento\Backend\Test\Block\Template',
-            ['element' => $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)]
-        );
     }
 }

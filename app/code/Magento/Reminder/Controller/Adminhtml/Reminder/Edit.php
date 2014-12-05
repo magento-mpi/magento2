@@ -34,8 +34,6 @@ class Edit extends \Magento\Reminder\Controller\Adminhtml\Reminder
      */
     public function execute()
     {
-        $this->_title->add(__('Email Reminders'));
-
         try {
             $model = $this->_initRule();
         } catch (\Magento\Framework\Model\Exception $e) {
@@ -44,7 +42,6 @@ class Edit extends \Magento\Reminder\Controller\Adminhtml\Reminder
             return;
         }
 
-        $this->_title->add($model->getId() ? $model->getName() : __('New Reminder Rule'));
 
         // set entered data if was error when we do save
         $data = $this->_getSession()->getPageData(true);
@@ -55,6 +52,10 @@ class Edit extends \Magento\Reminder\Controller\Adminhtml\Reminder
         $model->getConditions()->setJsFormObject('rule_conditions_fieldset');
 
         $this->_initAction();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Email Reminders'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(
+            $model->getId() ? $model->getName() : __('New Reminder Rule')
+        );
 
         $this->_view->getLayout()->getBlock(
             'adminhtml_reminder_edit'

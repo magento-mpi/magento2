@@ -8,7 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/Event/etc/events.xsd">
-    <event name="controller_action_layout_generate_blocks_before">
+    <event name="layout_generate_blocks_before">
         <observer name="magento_advancedcheckout" instance="Magento\AdvancedCheckout\Model\Observer\CollectTotalsFailedItems" method="execute" />
     </event>
     <event name="view_block_abstract_to_html_before">

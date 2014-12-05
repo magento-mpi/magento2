@@ -5,7 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
+
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+/** @var $repository \Magento\Customer\Api\CustomerRepositoryInterface */
+$repository = $objectManager->create('\Magento\Customer\Api\CustomerRepositoryInterface');
+$customer = $objectManager->create('Magento\Customer\Model\Customer');
+
 /** @var Magento\Customer\Model\Customer $customer */
 $customer->setWebsiteId(1)
     ->setId(1)
@@ -16,8 +21,8 @@ $customer->setWebsiteId(1)
     ->setGroupId(1)
     ->setStoreId(1)
     ->setIsActive(1)
-    ->setFirstname('Firstname')
-    ->setLastname('Lastname')
+    ->setFirstname('John')
+    ->setLastname('Smith')
     ->setDefaultBilling(1)
     ->setDefaultShipping(1);
 $customer->isObjectNew(true);
