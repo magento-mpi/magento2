@@ -44,7 +44,7 @@ class PhpExtensions
     /**
      * Retrieve list of required extensions
      *
-     * Collect required extensions from Magento modules composer.json files
+     * Collect required extensions from composer.lock file
      *
      * @return array
      */
