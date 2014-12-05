@@ -880,46 +880,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     }
 
     /**
-     * Send email to when password is resetting
-     *
-     * @return $this
-     * @deprecated Moved to \Magento\Customer\Model\AccountManagement::sendPasswordResetNotificationEmail. Will be
-     * deleted once the Customer/Services/V1 are removed.
-     */
-    public function sendPasswordResetNotificationEmail()
-    {
-        $storeId = $this->getStoreId();
-        if (!$storeId) {
-            $storeId = $this->_getWebsiteStoreId();
-        }
-
-        /** @var \Magento\Framework\Mail\TransportInterface $transport */
-        $transport = $this->_transportBuilder->setTemplateIdentifier(
-            $this->_scopeConfig->getValue(
-                self::XML_PATH_RESET_PASSWORD_TEMPLATE,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            )
-        )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
-        )->setTemplateVars(
-            array('customer' => $this, 'store' => $this->getStore())
-        )->setFrom(
-            $this->_scopeConfig->getValue(
-                self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            )
-        )->addTo(
-            $this->getEmail(),
-            $this->getName()
-        )->getTransport();
-        $transport->sendMessage();
-
-        return $this;
-    }
-
-    /**
      * Retrieve customer group identifier
      *
      * @return int

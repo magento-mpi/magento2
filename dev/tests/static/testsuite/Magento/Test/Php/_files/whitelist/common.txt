@@ -57,7 +57,6 @@ app/code/Magento/Customer/Model/Visitor.php
 app/code/Magento/Customer/Model/Resource/Visitor.php
 app/code/Magento/Customer/Model/Address/Config
 app/code/Magento/Customer/Model/Address/Config.php
-app/code/Magento/Customer/Service
 app/code/Magento/CustomerImportExport/Model/Import/CustomerComposite.php
 app/code/Magento/CustomerImportExport/Model/Resource/Import/Customer/Storage.php
 app/code/Magento/CustomerImportExport/Model/Resource/Import/CustomerComposite/Data.php
