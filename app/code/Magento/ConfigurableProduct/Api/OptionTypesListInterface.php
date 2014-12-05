@@ -16,7 +16,6 @@ interface OptionTypesListInterface
      * @return string[]
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Webapi\Exception
-     * @see \Magento\ConfigurableProduct\Service\V1\Product\Option\ReadServiceInterface::getTypes
      */
     public function getItems();
 }
