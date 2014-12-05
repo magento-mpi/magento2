@@ -39,7 +39,10 @@ class ManagerApp implements AppInterface
      * @var array
      */
     private $requestArgs;
+
     /**
+     * Cache manager
+     *
      * @var Manager
      */
     private $cacheManager;
@@ -67,28 +70,40 @@ class ManagerApp implements AppInterface
      */
     public function launch()
     {
+        $output = [];
         $types = $this->getRequestedTypes();
 
         $enabledTypes = [];
         if (isset($this->requestArgs[self::KEY_SET])) {
             $isEnabled = (bool)(int)$this->requestArgs[self::KEY_SET];
-            $enabledTypes = $this->cacheManager->setEnabled($types, $isEnabled);
+            $changedTypes = $this->cacheManager->setEnabled($types, $isEnabled);
+            if ($isEnabled) {
+                $enabledTypes = $changedTypes;
+            }
+            if ($changedTypes) {
+                $output[] = 'Changed cache status:';
+                foreach ($changedTypes as $type) {
+                    $output[] = sprintf('%30s: %d -> %d', $type, !$isEnabled, $isEnabled);
+                }
+            } else {
+                $output[] = 'There is nothing to change in cache status';
+            }
         }
         if (isset($this->requestArgs[self::KEY_FLUSH])) {
             $this->cacheManager->flush($types);
-        } else {
-            // If flush is requested, both enabled and requested cache types have already been cleaned by flush
-            if (isset($this->requestArgs[self::KEY_CLEAN])) {
-                $this->cacheManager->clean($types);
-            } elseif (!empty($enabledTypes)) {
-                $this->cacheManager->clean($enabledTypes);
-            }
+            $output[] = 'Flushed cache types: ' . join(', ', $types);
+        } elseif (isset($this->requestArgs[self::KEY_CLEAN])) {
+            $this->cacheManager->clean($types);
+            $output[] = 'Cleaned cache types: ' . join(', ', $types);
+        } elseif (!empty($enabledTypes)) {
+            $this->cacheManager->clean($enabledTypes);
+            $output[] = 'Cleaned cache types: ' . join(', ', $enabledTypes);
         }
-        $output = "\nCurrent status:\n";
+        $output[] = 'Current status:';
         foreach ($this->cacheManager->getStatus() as $cache => $status) {
-            $output .= "$cache => " . ($status ? 'enabled' : 'disabled') . "\n";
+            $output[] = sprintf('%30s: %d', $cache, $status);
         }
-        $this->response->setBody($output);
+        $this->response->setBody(join("\n", $output));
         return $this->response;
     }
 
@@ -96,6 +111,7 @@ class ManagerApp implements AppInterface
      * Maps requested type from request into the current registry of types
      *
      * @return string[]
+     * @throws \InvalidArgumentException
      */
     private function getRequestedTypes()
     {
@@ -111,8 +127,8 @@ class ManagerApp implements AppInterface
             $unsupportedTypes = array_diff($requestedTypes, $availableTypes);
             if ($unsupportedTypes) {
                 throw new \InvalidArgumentException(
-                    "Following requested cache types are not supported: '" . join("', '", $unsupportedTypes) . "'.\n"
-                    . "Supported types: " . join(", ", $availableTypes) . ""
+                    "The following requested cache types are not supported: '" . join("', '", $unsupportedTypes)
+                    . "'.\nSupported types: " . join(", ", $availableTypes) . ""
                 );
             }
             return array_values(array_intersect($availableTypes, $requestedTypes));

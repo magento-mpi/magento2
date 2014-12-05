@@ -58,11 +58,11 @@ class Manager
      *
      * @param string[] $types
      * @param bool $isEnabled
-     * @return array
+     * @return array List of types with changed status
      */
     public function setEnabled(array $types, $isEnabled)
     {
-        $enabledTypes = [];
+        $changedStatusTypes = [];
         $isUpdated = false;
         foreach ($types as $type) {
             if ($this->cacheState->isEnabled($type) === $isEnabled) { // no need to poke it, if is not going to change
@@ -70,14 +70,12 @@ class Manager
             }
             $this->cacheState->setEnabled($type, $isEnabled);
             $isUpdated = true;
-            if ($isEnabled) {
-                $enabledTypes[] = $type;
-            }
+            $changedStatusTypes[] = $type;
         }
         if ($isUpdated) {
             $this->cacheState->persist();
         }
-        return $enabledTypes;
+        return $changedStatusTypes;
     }
 
     /**

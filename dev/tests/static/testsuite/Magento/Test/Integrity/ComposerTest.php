@@ -303,14 +303,13 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      * Make sure requirements of components are reflected in root composer.json
      *
      * @param \StdClass $json
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     private function assertRequireInSync(\StdClass $json)
     {
         $name = $json->name;
         if (isset($json->require)) {
             $errors = [];
-            foreach ($json->require as $depName => $depVersion) {
+            foreach (array_keys($json->require) as $depName) {
                 if ($depName == 'magento/magento-composer-installer') {
                     // Magento Composer Installer is not needed for already existing components
                     continue;

@@ -37,7 +37,7 @@ class ManagerAppTest extends \PHPUnit_Framework_TestCase
         $this->response->expects($this->once())
             ->method('setBody')
             ->with(
-                $this->matches("%aCurrent status:%afoo => enabled%abar => enabled%abaz => disabled%a")
+                $this->matches("Current status:%afoo: 1%abar: 1%abaz: 0")
             );
 
         $model = new ManagerApp($this->cacheManager, $this->response, []);
@@ -57,6 +57,33 @@ class ManagerAppTest extends \PHPUnit_Framework_TestCase
         $this->cacheManager->expects($this->once())
             ->method('clean')
             ->with(['baz']);
+        $this->response->expects($this->once())
+            ->method('setBody')
+            ->with(
+                $this->matches("Changed cache status:%abaz: 0 -> 1%aCleaned cache types: baz%a")
+            );
+
+        $model = new ManagerApp($this->cacheManager, $this->response, $requestArgs);
+        $model->launch();
+    }
+
+    public function testLaunchDisable()
+    {
+        $requestArgs = [
+            ManagerApp::KEY_SET => false,
+            ManagerApp::KEY_TYPES => 'foo,,bar, baz,',
+        ];
+        $this->cacheManager->expects($this->once())
+            ->method('setEnabled')
+            ->with(['foo', 'bar', 'baz'], false)
+            ->will($this->returnValue(['baz']));
+        $this->cacheManager->expects($this->never())
+            ->method('clean');
+        $this->response->expects($this->once())
+            ->method('setBody')
+            ->with(
+                $this->matches("Changed cache status:%abaz: 1 -> 0%a%a")
+            );
 
         $model = new ManagerApp($this->cacheManager, $this->response, $requestArgs);
         $model->launch();
@@ -75,6 +102,11 @@ class ManagerAppTest extends \PHPUnit_Framework_TestCase
             ->with(['foo', 'bar']);
         $this->cacheManager->expects($this->never())
             ->method('clean');
+        $this->response->expects($this->once())
+            ->method('setBody')
+            ->with(
+                $this->matches("Flushed cache types: foo, bar%a")
+            );
 
         $model = new ManagerApp($this->cacheManager, $this->response, $requestArgs);
         $model->launch();
@@ -93,6 +125,11 @@ class ManagerAppTest extends \PHPUnit_Framework_TestCase
         $this->cacheManager->expects($this->once())
             ->method('clean')
             ->with(['foo', 'bar']);
+        $this->response->expects($this->once())
+            ->method('setBody')
+            ->with(
+                $this->matches("Cleaned cache types: foo, bar%a")
+            );
 
         $model = new ManagerApp($this->cacheManager, $this->response, $requestArgs);
         $model->launch();
@@ -107,12 +144,18 @@ class ManagerAppTest extends \PHPUnit_Framework_TestCase
         ];
         $this->cacheManager->expects($this->once())
             ->method('setEnabled')
-            ->with(['foo', 'bar'], true);
+            ->with(['foo', 'bar'], true)
+            ->will($this->returnValue(['foo']));
         $this->cacheManager->expects($this->never())
             ->method('flush');
         $this->cacheManager->expects($this->once())
             ->method('clean')
             ->with(['foo', 'bar']);
+        $this->response->expects($this->once())
+            ->method('setBody')
+            ->with(
+                $this->matches("Changed cache status:%afoo: 0 -> 1%aCleaned cache types: foo, bar%a")
+            );
 
         $model = new ManagerApp($this->cacheManager, $this->response, $requestArgs);
         $model->launch();
@@ -124,16 +167,22 @@ class ManagerAppTest extends \PHPUnit_Framework_TestCase
             ManagerApp::KEY_SET => true,
             ManagerApp::KEY_FLUSH => true,
             ManagerApp::KEY_CLEAN => true,
-            ManagerApp::KEY_TYPES => 'foo,bar',
+            ManagerApp::KEY_TYPES => 'foo,baz',
         ];
         $this->cacheManager->expects($this->once())
             ->method('setEnabled')
-            ->with(['foo', 'bar'], true);
+            ->with(['foo', 'baz'], true)
+            ->will($this->returnValue(['baz']));
         $this->cacheManager->expects($this->once())
             ->method('flush')
-            ->with(['foo', 'bar']);
+            ->with(['foo', 'baz']);
         $this->cacheManager->expects($this->never())
             ->method('clean');
+        $this->response->expects($this->once())
+            ->method('setBody')
+            ->with(
+                $this->matches("Changed cache status:%abaz: 0 -> 1%aFlushed cache types: foo, baz%a")
+            );
 
         $model = new ManagerApp($this->cacheManager, $this->response, $requestArgs);
         $model->launch();
@@ -141,7 +190,7 @@ class ManagerAppTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Following requested cache types are not supported: 'unsupported', 'wrong'
+     * @expectedExceptionMessage The following requested cache types are not supported: 'unsupported', 'wrong'
      */
     public function testLaunchWithUnsupportedCacheTypes()
     {

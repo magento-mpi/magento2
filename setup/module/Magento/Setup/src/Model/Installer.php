@@ -135,13 +135,6 @@ class Installer
     private $connectionFactory;
 
     /**
-     * Shell executor
-     *
-     * @var Shell
-     */
-    private $shell;
-
-    /**
      * Shell command renderer
      *
      * @var CommandRenderer
@@ -181,7 +174,7 @@ class Installer
      *
      * @var string
      */
-    private $execParams;
+    private $initParams;
 
     /**
      * @var \Magento\Framework\ObjectManagerInterface
@@ -238,10 +231,9 @@ class Installer
         $this->random = $random;
         $this->connectionFactory = $connectionFactory;
         $this->shellRenderer = new CommandRenderer;
-        $this->shell = new Shell($this->shellRenderer);
         $this->maintenanceMode = $maintenanceMode;
         $this->filesystem = $filesystem;
-        $this->execParams = $serviceManager->get(InitParamListener::BOOTSTRAP_PARAM);
+        $this->initParams = $serviceManager->get(InitParamListener::BOOTSTRAP_PARAM);
         $this->installInfo[self::INFO_MESSAGE] = array();
         $this->deploymentConfig = $deploymentConfig;
     }
@@ -263,7 +255,7 @@ class Installer
         }
         $script[] = ['Installing database schema:', 'installSchema', []];
         $script[] = ['Installing user configuration...', 'installUserConfig', [$request]];
-        $script[] = ['Installing data fixtures:', 'installDataFixtures', []];
+        $script[] = ['Installing data fixtures...', 'installDataFixtures', []];
         if (!empty($request[self::SALES_ORDER_INCREMENT_PREFIX])) {
             $script[] = [
                 'Creating sales order increment prefix...',
@@ -798,8 +790,8 @@ class Installer
     {
         if (null === $this->objectManager) {
             $this->assertDeploymentConfigExists();
-            $factory = \Magento\Framework\App\Bootstrap::createObjectManagerFactory(BP, $this->execParams);
-            $this->objectManager = $factory->create($this->execParams);
+            $factory = \Magento\Framework\App\Bootstrap::createObjectManagerFactory(BP, $this->initParams);
+            $this->objectManager = $factory->create($this->initParams);
         }
         return $this->objectManager;
     }

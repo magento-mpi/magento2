@@ -24,6 +24,8 @@ class Response implements \Magento\Framework\App\ResponseInterface
     protected $code = 0;
 
     /**
+     * Text to output on send response
+     *
      * @var string
      */
     private $body;
@@ -37,6 +39,7 @@ class Response implements \Magento\Framework\App\ResponseInterface
 
     /**
      * Send response to client
+     *
      * @return int
      */
     public function sendResponse()
@@ -51,6 +54,8 @@ class Response implements \Magento\Framework\App\ResponseInterface
     }
 
     /**
+     * Get body
+     *
      * @return string
      */
     public function getBody()
@@ -59,6 +64,8 @@ class Response implements \Magento\Framework\App\ResponseInterface
     }
 
     /**
+     * Set body
+     *
      * @param string $body
      * @return void
      */
@@ -68,6 +75,8 @@ class Response implements \Magento\Framework\App\ResponseInterface
     }
 
     /**
+     * Set exit code
+     *
      * @param int $code
      * @return void
      */
