@@ -90,7 +90,7 @@ class ConfigurableProductManagement implements \Magento\ConfigurableProduct\Api\
         $attributes
     ) {
         $products = [];
-        foreach ($variations as $attributeId => $variation) {
+        foreach ($variations as $variation) {
             $price = $product->getPrice();
             $suffix = '';
             foreach ($variation as $attributeId => $valueInfo) {
