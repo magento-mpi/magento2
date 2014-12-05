@@ -31,7 +31,6 @@ var config = {
         }
     },
     deps: [
-        'Magento_Backend/system/validation-rules',
         "js/theme",
         "mage/dropdown_old",
         "mage/backend/bootstrap"

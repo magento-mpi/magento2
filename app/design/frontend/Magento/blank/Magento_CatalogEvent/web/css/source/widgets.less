@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .block-event {
     .columns & {
         position: relative;
@@ -21,7 +27,7 @@
             z-index: 3;
             &.backward,
             &.forward  {
-                opacity: 0.5;
+                opacity: .5;
                 overflow: hidden;
                 width: 20px;
                 .icon-font(
@@ -55,7 +61,7 @@
         overflow: hidden;
         z-index: 2;
         .slider {
-            &:extend(.abstract-reset-list all);
+            &:extend(.abs-reset-list all);
             white-space: nowrap;
             .item {
                 background: @catalog-event-bg;
@@ -125,7 +131,7 @@
                 }
                 .action {
                     &.show {
-                        &:extend(.abstract-add-box-sizing all);
+                        &:extend(.abs-add-box-sizing all);
                         display: block;
                         padding: 0;
                         .category.name {
@@ -138,7 +144,7 @@
                     }
                     &.event {
                         .button-primary();
-                        &:extend(.abstract-action-link-button all);
+                        &:extend(.abs-action-link-button all);
                         margin-top: 15px;
                         &:hover {
                             text-decoration: none;
@@ -148,4 +154,6 @@
             }
         }
     }
+}
+
 }

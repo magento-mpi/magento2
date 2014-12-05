@@ -135,6 +135,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      * Run test toOptionIdArray method
      *
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testToOptionIdArray()
     {
@@ -153,24 +155,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $criteriaMock = $this->getMockForAbstractClass(
-            'Magento\Framework\Api\CriteriaInterface',
-            [],
-            '',
-            false,
-            true,
-            true,
-            ['getPart']
-        );
-        $connectionMock = $this->getMockForAbstractClass(
-            'Magento\Framework\DB\Adapter\AdapterInterface',
-            [],
-            '',
-            false,
-            true,
-            true,
-            ['fetchPairs', 'select']
-        );
+        $criteriaMock = $this->getMockForAbstractClass('Magento\Framework\Api\CriteriaInterface');
+        $connectionMock = $this->getMockForAbstractClass('Magento\Framework\DB\Adapter\AdapterInterface');
         $resourceMock = $this->getMockForAbstractClass(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
             [],
