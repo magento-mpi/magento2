@@ -327,18 +327,6 @@ define([
         }
     });
 
-    var switcherForIe8 = function() {
-        /* Switcher for IE8 */
-        if ($.browser.msie && $.browser.version == '8.0') {
-            $('.switcher input')
-                .on('change.toggleSwitcher', function() {
-                    $(this)
-                        .closest('.switcher')
-                        .toggleClass('checked', $(this).prop('checked'));
-                })
-                .trigger('change');
-        }
-    };
     var updateColorPickerValues = function() {
         $('.element-color-picker').each(function(){
             var _this = $(this);
@@ -417,14 +405,11 @@ define([
                     .find('.farbtastic').show();
                 toggleColorPickerPosition();
             });
-        switcherForIe8();
-
         keyboardHandler.apply();
     });
 
     $(document).on('ajaxComplete', function() {
         $('details').details();
-        switcherForIe8();
     });
 
     return {

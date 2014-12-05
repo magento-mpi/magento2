@@ -1449,7 +1449,7 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
     public function getAllVisibleItems()
     {
         $items = [];
-        foreach ($this->getItemsCollection() as $item) {
+        foreach ($this->getItems() as $item) {
             if (!$item->isDeleted() && !$item->getParentItemId()) {
                 $items[] = $item;
             }
@@ -1472,7 +1472,7 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
      */
     public function getItemByQuoteItemId($quoteItemId)
     {
-        foreach ($this->getItemsCollection() as $item) {
+        foreach ($this->getItems() as $item) {
             if ($item->getQuoteItemId() == $quoteItemId) {
                 return $item;
             }

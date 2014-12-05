@@ -19,7 +19,6 @@
         */ -->
         <script src="jquery/jquery.js"/>
         <script src="app-config.js"/>
-        <script src="mage/jquery-no-conflict.js"/>
     </head>
     <body>
         <referenceContainer name="after.body.start">
