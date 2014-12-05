@@ -6,20 +6,24 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
 @toolbar-mode-icon-font-size: 24px;
 @toolbar-element-background: @panel-bg;
+
+.responsive-common() {
 
 .page-products .columns {
     position: relative;
     z-index: 1;
-    padding-top: 38px;
 }
 
 .toolbar {
-    &:extend(.abstract-add-clearfix all);
+    &:extend(.abs-add-clearfix all);
     &-amount {
         display: block;
-        float: left;
         line-height: @toolbar-mode-icon-font-size+2;
         padding: 8px 0 0;
         margin: 0;
@@ -32,7 +36,7 @@
         margin-bottom: @indent-xl-base;
         text-align: center;
         padding: 0 @indent-s-base;
-        &:extend(.abstract-add-clearfix all);
+        &:extend(.abs-add-clearfix all);
         .pages {
             display: none;
             .products.wrapper ~ & {
@@ -49,22 +53,24 @@
 }
 
 .sorter {
-    float: right;
     padding: 4px 0 0;
     .products.wrapper ~ .toolbar & {
         display: none;
     }
     &-options {
-        margin: 0 5px 0 7px;
+        margin: 0 0 0 7px;
         width: auto;
     }
     &-action {
+        vertical-align: top;
         .icon-font(
-            @icon-arrow-down,
-            @_icon-font-size: 24px,
-            @_icon-font-color: @text-color-muted
+            @icon-arrow-up,
+            @_icon-font-size: 28px,
+            @_icon-font-line-height: 32px,
+            @_icon-font-color: @header-icons-color,
+            @_icon-font-color-hover: @header-icons-color-hover,
+            @_icon-font-text-hide: true
         );
-        .icon-text-hide();
         &.sort-desc:before {
             content: @icon-arrow-down;
         }
@@ -88,7 +94,13 @@
     }
 }
 
-.responsive(@break) when (@break = @screen-s) {
+}
+
+//
+//    Mobile
+//--------------------------------------
+
+.responsive-min-m(@break) when (@break = @screen-s) {
     .page-products .columns {
         position: relative;
         z-index: 1;
@@ -98,6 +110,12 @@
         .products.wrapper ~ & .pages {
             float: left;
         }
+        &-amount {
+            float: left;
+        }
+    }
+    .sorter {
+        float: right;
     }
     .modes {
         float: left;
@@ -108,7 +126,7 @@
             display: none;
         }
         &-label {
-            &:extend(.abstract-visually-hidden-desktop-s all);
+            &:extend(.abs-visually-hidden-desktop-s all);
         }
         &-mode {
             float: left;

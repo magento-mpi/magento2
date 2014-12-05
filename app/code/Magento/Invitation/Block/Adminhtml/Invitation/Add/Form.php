@@ -8,6 +8,8 @@
 
 namespace Magento\Invitation\Block\Adminhtml\Invitation\Add;
 
+use Magento\Customer\Api\GroupManagementInterface as CustomerGroupManagement;
+
 /**
  * Invitation create form
  *
@@ -22,9 +24,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_store;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var CustomerGroupManagement
      */
-    protected $_customerGroupService;
+    protected $customerGroupManagement;
 
     /**
      * @var \Magento\Framework\Convert\Object
@@ -36,7 +38,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Store\Model\System\Store $store
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param CustomerGroupManagement $customerGroupManagement
      * @param \Magento\Framework\Convert\Object $objectConverter
      * @param array $data
      */
@@ -45,13 +47,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $store,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
+        CustomerGroupManagement $customerGroupManagement,
         \Magento\Framework\Convert\Object $objectConverter,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->_store = $store;
-        $this->_customerGroupService = $customerGroupService;
+        $this->customerGroupManagement = $customerGroupManagement;
         $this->_objectConverter = $objectConverter;
     }
 
@@ -113,7 +115,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         $groups = $this->_objectConverter->toOptionHash(
-            $this->_customerGroupService->getGroups(false),
+            $this->customerGroupManagement->getLoggedInGroups(),
             'id',
             'code'
         );

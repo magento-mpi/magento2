@@ -7,10 +7,11 @@
  */
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
-use Magento\Store\Model\Store;
 use Magento\Sales\Model\Quote\Address;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\Tax\Model\Calculation;
+use Magento\Customer\Api\Data\AddressDataBuilder as CustomerAddressBuilder;
+use Magento\Customer\Api\Data\RegionDataBuilder as CustomerAddressRegionBuilder;
 
 /**
  * Tax totals calculation model
@@ -53,7 +54,8 @@ class Tax extends CommonTaxCollector
      * @param \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder
      * @param \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder
      * @param \Magento\Tax\Api\Data\TaxClassKeyDataBuilder $taxClassKeyBuilder
-     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
+     * @param CustomerAddressBuilder $customerAddressBuilder
+     * @param CustomerAddressRegionBuilder $customerAddressRegionBuilder
      * @param \Magento\Tax\Helper\Data $taxData
      */
     public function __construct(
@@ -62,7 +64,8 @@ class Tax extends CommonTaxCollector
         \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder,
         \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder,
         \Magento\Tax\Api\Data\TaxClassKeyDataBuilder $taxClassKeyBuilder,
-        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
+        CustomerAddressBuilder $customerAddressBuilder,
+        CustomerAddressRegionBuilder $customerAddressRegionBuilder,
         \Magento\Tax\Helper\Data $taxData
     ) {
         $this->setCode('tax');
@@ -73,7 +76,8 @@ class Tax extends CommonTaxCollector
             $quoteDetailsBuilder,
             $quoteDetailsItemBuilder,
             $taxClassKeyBuilder,
-            $addressBuilder
+            $customerAddressBuilder,
+            $customerAddressRegionBuilder
         );
     }
 

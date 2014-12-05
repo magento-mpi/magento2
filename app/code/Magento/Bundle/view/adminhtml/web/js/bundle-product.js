@@ -12,6 +12,7 @@ define([
     "jquery",
     "jquery/ui",
     "mage/translate",
+    "Magento_Theme/js/sortable",
     "prototype"
 ], function($){
     'use strict';

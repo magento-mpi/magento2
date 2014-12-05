@@ -6,8 +6,14 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .form-create-return {
-    &:extend(.abstract-add-fields all);
+    &:extend(.abs-add-fields all);
     .field {
         &.id,
         &.name,
@@ -56,7 +62,7 @@
 }
 
 .return-status {
-    &:extend(.abstract-status all);
+    &:extend(.abs-status all);
 }
 
 .magento-rma-returns-returns,
@@ -75,19 +81,21 @@
 .magento-rma-guest-returns {
     .column.main {
         .block:not(.widget) {
-            &:extend(.abstract-account-blocks all);
+            &:extend(.abs-account-blocks all);
         }
     }
+}
+
 }
 
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .form-create-return {
         .fieldset {
             > .actions-toolbar {
-                &:extend(.abstract-add-clearfix-mobile-m all);
+                &:extend(.abs-add-clearfix-mobile-m all);
             }
         }
     }
@@ -111,9 +119,9 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .form-create-return {
-        &:extend(.abstract-add-fields-desktop all);
+        &:extend(.abs-add-fields-desktop all);
         .additional {
             .field:last-child {
                 margin-top: @form-field-vertical-indent-desktop;
@@ -127,9 +135,9 @@
         .column.main {
             .block:not(.widget) {
                 .block-content {
-                    &:extend(.abstract-add-clearfix-desktop all);
+                    &:extend(.abs-add-clearfix-desktop all);
                     .box {
-                        &:extend(.abstract-blocks-2columns all);
+                        &:extend(.abs-blocks-2columns all);
                         margin-bottom: @indent-base;
                     }
                 }
