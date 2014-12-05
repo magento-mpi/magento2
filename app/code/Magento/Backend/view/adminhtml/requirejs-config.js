@@ -32,6 +32,7 @@ var config = {
     },
     deps: [
         "js/theme",
+        'jquery/jquery-migrate',
         "mage/dropdown_old",
         "mage/backend/bootstrap"
     ],

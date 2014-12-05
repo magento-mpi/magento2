@@ -41,6 +41,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      * @param \Magento\Customer\Model\Options $options
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Api\AddressRepositoryInterface $addressService
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param \Magento\Customer\Model\Address\Mapper $mapper
@@ -61,9 +62,9 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Customer\Model\Options $options,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Api\AddressRepositoryInterface $addressService,
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
-        \Magento\Customer\Model\Address\Mapper $mapper,
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
@@ -82,9 +83,9 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
             $options,
             $addressHelper,
             $addressService,
+            $addressMapper,
             $criteriaBuilder,
             $filterBuilder,
-            $mapper,
             $data
         );
     }

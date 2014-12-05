@@ -6,15 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Service\V1;
+namespace Magento\Customer\Api;
 
-use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Api\Data\CustomerInterface as Customer;
+use Magento\Customer\Model\Data\AttributeMetadata;
 use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 
-class CustomerMetadataServiceTest extends WebapiAbstract
+/**
+ * Class CustomerMetadataTest
+ */
+class CustomerMetadataTest extends WebapiAbstract
 {
-    const SERVICE_NAME = "customerCustomerMetadataServiceV1";
+    const SERVICE_NAME = "customerCustomerMetadataV1";
     const SERVICE_VERSION = "V1";
     const RESOURCE_PATH = "/V1/attributeMetadata/customer";
 
@@ -35,12 +38,12 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetAttributeMetadata'
+                'operation' => self::SERVICE_NAME . 'GetAttributeMetadata'
             ]
         ];
 
         $requestData = [
-            "attributeCode" => $attributeCode
+            'attributeCode' => $attributeCode
         ];
 
         $attributeMetadata = $this->_webapiCall($serviceInfo, $requestData);
@@ -125,7 +128,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetAllAttributesMetadata'
+                'operation' => self::SERVICE_NAME . 'GetAllAttributesMetadata'
             ]
         ];
 
@@ -152,7 +155,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetCustomAttributesMetadata'
+                'operation' => self::SERVICE_NAME . 'GetCustomAttributesMetadata'
             ]
         ];
 
@@ -161,6 +164,44 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         //Default custom attribute code 'disable_auto_group_change'
         $this->assertCount(1, $attributeMetadata);
         $this->assertEquals('disable_auto_group_change', $attributeMetadata[0]['attribute_code']);
+    }
+
+    /**
+     * Test retrieval of attributes
+     *
+     * @param string $formCode Form code
+     * @param array $expectedMetadata The expected attribute metadata
+     * @dataProvider getAttributesDataProvider
+     */
+    public function testGetAttributes($formCode, $expectedMetadata)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . "/form/$formCode",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetAttributes'
+            ]
+        ];
+
+        $requestData = [
+            'formCode' => $formCode
+        ];
+
+        $attributeMetadataList = $this->_webApiCall($serviceInfo, $requestData);
+        foreach ($attributeMetadataList as $attributeMetadata) {
+            if(isset($attributeMetadata['attribute_code'])
+                && $attributeMetadata['attribute_code'] == $expectedMetadata['attribute_code']) {
+
+                $validationResult = $this->checkValidationRules($expectedMetadata, $attributeMetadata);
+                list($expectedMetadata, $attributeMetadata) = $validationResult;
+                $this->assertEquals($expectedMetadata, $attributeMetadata);
+                break;
+            }
+        }
     }
 
     /**
@@ -181,45 +222,6 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                 $attributeMetadata[Customer::GENDER][1]
             ]
         ];
-    }
-
-    /**
-     * Test retrieval of attributes
-     *
-     * @param string $formCode Form code
-     * @param array $expectedMetadata The expected attribute metadata
-     * @dataProvider getAttributesDataProvider
-     */
-    public function testGetAttributes($formCode, $expectedMetadata)
-    {
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/form/$formCode",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'customerCustomerMetadataServiceV1GetAttributes'
-            ]
-        ];
-
-        $requestData = [];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $requestData['formCode']   = $formCode;
-        }
-
-        $attributeMetadataList = $this->_webApiCall($serviceInfo, $requestData);
-        foreach ($attributeMetadataList as $attributeMetadata) {
-            if(isset($attributeMetadata['attribute_code'])
-                && $attributeMetadata['attribute_code'] == $expectedMetadata['attribute_code']) {
-
-                $validationResult = $this->checkValidationRules($expectedMetadata, $attributeMetadata);
-                list($expectedMetadata, $attributeMetadata) = $validationResult;
-                $this->assertEquals($expectedMetadata, $attributeMetadata);
-                break;
-            }
-        }
     }
 
     /**
@@ -279,7 +281,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                 foreach($actualResultSet as $actualAttributeKey => $actualAttribute) {
                     if (isset($actualAttribute[AttributeMetadata::ATTRIBUTE_CODE])
                         && $expectedResult[AttributeMetadata::ATTRIBUTE_CODE]
-                            == $actualAttribute[AttributeMetadata::ATTRIBUTE_CODE]
+                        == $actualAttribute[AttributeMetadata::ATTRIBUTE_CODE]
                     ) {
                         $this->checkValidationRules($expectedResult, $actualAttribute);
                         unset($actualResultSet[$actualAttributeKey][AttributeMetadata::VALIDATION_RULES]);
