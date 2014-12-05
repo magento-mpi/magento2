@@ -52,7 +52,7 @@
 .product-actions .switcher {
     display: inline-block;
     vertical-align: top;
-    margin: 6px 0 6px 6px;
+    margin: 3px 0 6px 6px;
 }
 
 /* Image Management */
@@ -209,6 +209,10 @@
 
 .image .draggable-handle:before {
     content: '';
+}
+
+.gallery .image .action-make-base {
+    width: 70%;
 }
 
 .gallery .image .action-delete {

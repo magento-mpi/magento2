@@ -17,6 +17,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_systemStore;
 
     /**
+     * @var string
+     */
+    protected $_template = 'rating/form.phtml';
+
+    /**
      * Session
      *
      * @var \Magento\Framework\Session\SessionManagerInterface
@@ -185,20 +190,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _toHtml()
     {
-        return $this->_getWarningHtml() . parent::_toHtml();
-    }
-
-    /**
-     * @return string
-     */
-    protected function _getWarningHtml()
-    {
-        return '
-    <div class="message info">
-        <div>' .
-        __(
-            'Please specify a rating title for a store, or we\'ll just use the default value.'
-        ) . '</div>
-    </div>';
+        return parent::_toHtml();
     }
 }

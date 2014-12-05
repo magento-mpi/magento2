@@ -78,7 +78,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $fieldset = $form->addFieldset(
             'version_fieldset',
-            array('legend' => __('Version Information'), 'class' => 'fieldset-wide')
+            array('legend' => __('Version Information'))
         );
 
         $fieldset->addField('version_id', 'hidden', array('name' => 'version_id'));

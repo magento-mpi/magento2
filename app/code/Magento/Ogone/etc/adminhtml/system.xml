@@ -16,10 +16,10 @@
                     <![CDATA[<br />
                     <div class="custom-options">
                     <div class="box">
-                    <p class="grand-total"><br /><b>Signing up with Ogone</b></p>
-                    <p>Please enter the correct post back url and offline processiong url in Ogone configuration</p>
-                    <p>post back url example: http://myMagentoStore.com/ogone/api/postBack</p>
-                    <p>offline processing url example: http://myMagentoStore.com/ogone/api/offlineProcess</p>
+                        <p class="grand-total"><br /><b>Signing up with Ogone</b></p>
+                        <p>Please enter the correct post back url and offline processiong url in Ogone configuration</p>
+                        <p>Post back url example: http://myMagentoStore.com/ogone/api/postBack</p>
+                        <p>Offline processing url example: http://myMagentoStore.com/ogone/api/offlineProcess</p>
                     </div>
                     </div>
                     ]]>

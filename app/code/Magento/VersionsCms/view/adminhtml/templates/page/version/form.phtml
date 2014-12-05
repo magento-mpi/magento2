@@ -11,14 +11,15 @@
 /* @var $this \Magento\Cms\Block\Adminhtml\Page\Edit\Form */
 ?>
 
-<div class="entry-edit">
+<div class="form-inline">
     <?php echo $this->getFormHtml() ?>
 </div>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo __('Version Revisions') ?></h4>
+
+<div id="version_fieldset" class="fieldset-wrapper version-fieldset">
+    <div class="fieldset-wrapper-title">
+        <span class="title">
+            <?php echo __('Version Revisions') ?>
+        </span>
     </div>
-    <div id="version_fieldset" class="fieldset fieldset-wide">
-        <?php echo $this->getParentBlock()->getChildHtml('cms_page_version_edit_revisions_grid') ?>
-    </div>
+    <?php echo $this->getParentBlock()->getChildHtml('cms_page_version_edit_revisions_grid') ?>
 </div>
