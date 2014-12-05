@@ -184,12 +184,4 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             }
         }
     }
-
-    /**
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        return parent::_toHtml();
-    }
 }
