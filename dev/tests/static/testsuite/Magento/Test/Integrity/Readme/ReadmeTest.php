@@ -7,7 +7,7 @@
  */
 
 /**
- * Tests to ensure that all license blocks are represented by placeholders
+ * Test to ensure that readme file present in specified directories
  */
 namespace Magento\Test\Integrity;
 
@@ -16,7 +16,9 @@ use Magento\Framework\Test\Utility\Files;
 class ReadmeTest extends \PHPUnit_Framework_TestCase
 {
     const README_FILENAME = 'README.md';
+
     const BLACKLIST_FILES_PATTERN = '_files/blacklist/*.txt';
+
     const SCAN_LIST_FILE = '_files/scan_list.txt';
 
     /** @var array Blacklisted files and directories */
@@ -37,13 +39,12 @@ class ReadmeTest extends \PHPUnit_Framework_TestCase
         $this->scanList = $this->getScanListFromFile();
     }
 
-    public function testModuleDescriptionFiles()
+    public function testReadmeFiles()
     {
         $invoker = new \Magento\Framework\Test\Utility\AggregateInvoker($this);
         $invoker(
         /**
          * @param string $dir
-         * @param string $packageType
          */
             function ($dir) {
                 $file = $dir . DIRECTORY_SEPARATOR . self::README_FILENAME;
@@ -79,14 +80,13 @@ class ReadmeTest extends \PHPUnit_Framework_TestCase
      */
     private function getBlacklistFromFile()
     {
-        $result = [];
+        $blacklist = [];
         foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . self::BLACKLIST_FILES_PATTERN) as $file) {
-            $blacklist = file($file);
-            foreach ($blacklist as $path) {
-                $result[] = $this->root . trim(($path[0] === '/' ? $path : '/' . $path));
+            foreach (file($file) as $path) {
+                $blacklist[] = $this->root . trim(($path[0] === '/' ? $path : '/' . $path));
             }
         }
-        return $result;
+        return $blacklist;
     }
 
     /**
@@ -108,13 +108,6 @@ class ReadmeTest extends \PHPUnit_Framework_TestCase
      */
     private function isInBlacklist($path)
     {
-        $isBlacklisted = false;
-        foreach ($this->blacklist as $blacklistedItem) {
-            if ($blacklistedItem === $path) {
-                $isBlacklisted = true;
-                break;
-            }
-        }
-        return $isBlacklisted;
+        return in_array($path, $this->blacklist);
     }
 }
