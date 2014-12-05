@@ -285,6 +285,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function setVisibility($visibility)
     {
         $this->addFieldToFilter('visibility', $visibility);
-        return $this;
+        return parent::setVisibility($visibility);
     }
 }
