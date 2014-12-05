@@ -277,7 +277,7 @@ define([
             };
             events['change ' + this.options.shipping.addressDropdownSelector] = function(e) {
                 $(this.options.shipping.newAddressFormSelector).toggle(!$(e.target).val());
-                onInputPropChange();
+                onInputPropChange.call(this);
             };
             // for guest checkout
             events['input ' + this.options.shipping.form + ' :input[name]'] = onInputPropChange;
