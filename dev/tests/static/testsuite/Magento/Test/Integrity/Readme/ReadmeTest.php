@@ -9,7 +9,7 @@
 /**
  * Test to ensure that readme file present in specified directories
  */
-namespace Magento\Test\Integrity;
+namespace Magento\Test\Integrity\Readme;
 
 use Magento\Framework\Test\Utility\Files;
 
