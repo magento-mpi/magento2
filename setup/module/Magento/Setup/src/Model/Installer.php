@@ -51,6 +51,11 @@ class Installer
     /**#@- */
 
     /**
+     * Parameter indicating command whether to install Sample Data
+     */
+    const USE_SAMPLE_DATA = 'use_sample_data';
+
+    /**
      * Parameter to specify an order_increment_prefix
      */
     const SALES_ORDER_INCREMENT_PREFIX = 'sales_order_increment_prefix';
@@ -187,6 +192,11 @@ class Installer
     private $deploymentConfig;
 
     /**
+     * @var SampleData
+     */
+    private $sampleData;
+
+    /**
      * Constructor
      *
      * @param FilePermissions $filePermissions
@@ -203,6 +213,7 @@ class Installer
      * @param MaintenanceMode $maintenanceMode
      * @param Filesystem $filesystem
      * @param ServiceLocatorInterface $serviceManager
+     * @param SampleData $sampleData
      */
     public function __construct(
         FilePermissions $filePermissions,
@@ -218,7 +229,8 @@ class Installer
         ConnectionFactory $connectionFactory,
         MaintenanceMode $maintenanceMode,
         Filesystem $filesystem,
-        ServiceLocatorInterface $serviceManager
+        ServiceLocatorInterface $serviceManager,
+        SampleData $sampleData
     ) {
         $this->filePermissions = $filePermissions;
         $this->deploymentConfigWriter = $deploymentConfigWriter;
@@ -234,6 +246,7 @@ class Installer
         $this->maintenanceMode = $maintenanceMode;
         $this->filesystem = $filesystem;
         $this->initParams = $serviceManager->get(InitParamListener::BOOTSTRAP_PARAM);
+        $this->sampleData = $sampleData;
         $this->installInfo[self::INFO_MESSAGE] = array();
         $this->deploymentConfig = $deploymentConfig;
     }
@@ -267,6 +280,9 @@ class Installer
         $script[] = ['Enabling caches:', 'enableCaches', []];
         $script[] = ['Disabling Maintenance Mode:', 'setMaintenanceMode', [0]];
         $script[] = ['Post installation file permissions check...', 'checkApplicationFilePermissions', []];
+        if (!empty($request[Installer::USE_SAMPLE_DATA]) && $this->sampleData->isDeployed()) {
+            $script[] = ['Installing Sample Data...', 'installSampleData', [$request]];
+        }
 
         $estimatedModules = $this->createModulesConfig($request);
         $total = count($script) + count(array_filter($estimatedModules->getData()));
@@ -806,5 +822,15 @@ class Installer
         if (!$this->deploymentConfig->isAvailable()) {
             throw new \Magento\Setup\Exception("Can't run this operation: deployment configuration is absent.");
         }
+    }
+
+    /**
+     * Run installation process for Sample Data
+     *
+     * @param array $request
+     */
+    private function installSampleData($request)
+    {
+        $this->exec($this->sampleData->getRunCommand($request), [$this->execParams]);
     }
 }

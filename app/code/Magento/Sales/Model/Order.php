@@ -21,6 +21,7 @@ use Magento\Sales\Model\Resource\Order\Shipment\Track\Collection as TrackCollect
 use Magento\Sales\Model\Resource\Order\Creditmemo\Collection as CreditmemoCollection;
 use Magento\Sales\Model\Resource\Order\Status\History\Collection as HistoryCollection;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Order model
@@ -389,6 +390,7 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\StoreManagerInterface $storeManager
@@ -417,6 +419,7 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\StoreManagerInterface $storeManager,
@@ -464,6 +467,7 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $localeDate,
             $dateTime,
             $resource,
@@ -1445,7 +1449,7 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
     public function getAllVisibleItems()
     {
         $items = [];
-        foreach ($this->getItemsCollection() as $item) {
+        foreach ($this->getItems() as $item) {
             if (!$item->isDeleted() && !$item->getParentItemId()) {
                 $items[] = $item;
             }
@@ -1468,7 +1472,7 @@ class Order extends AbstractModel implements EntityInterface, ApiOrderInterface
      */
     public function getItemByQuoteItemId($quoteItemId)
     {
-        foreach ($this->getItemsCollection() as $item) {
+        foreach ($this->getItems() as $item) {
             if ($item->getQuoteItemId() == $quoteItemId) {
                 return $item;
             }

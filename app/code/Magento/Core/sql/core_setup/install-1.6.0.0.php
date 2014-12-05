@@ -501,28 +501,6 @@ $table = $installer->getConnection()->newTable(
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core_cache_option'
- */
-$table = $installer->getConnection()->newTable(
-    $installer->getTable('core_cache_option')
-)->addColumn(
-    'code',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    32,
-    array('nullable' => false, 'primary' => true),
-    'Code'
-)->addColumn(
-    'value',
-    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-    null,
-    array(),
-    'Value'
-)->setComment(
-    'Cache Options'
-);
-$installer->getConnection()->createTable($table);
-
-/**
  * Create table 'core_flag'
  */
 $table = $installer->getConnection()->newTable(

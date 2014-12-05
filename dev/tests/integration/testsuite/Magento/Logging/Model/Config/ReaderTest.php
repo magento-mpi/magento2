@@ -7,9 +7,8 @@
  */
 namespace Magento\Logging\Model\Config;
 
-/**
- * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_disabled.php
- */
+use Magento\TestFramework\Helper\Bootstrap;
+
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,7 +24,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fileResolver = $this->getMockForAbstractClass('Magento\Framework\Config\FileResolverInterface');
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = Bootstrap::getObjectManager();
         $this->model = $objectManager->create(
             'Magento\Logging\Model\Config\Reader',
             ['fileResolver' => $this->fileResolver]
