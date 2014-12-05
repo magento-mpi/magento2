@@ -197,9 +197,11 @@ class Calculator implements BundleCalculatorInterface
             $selectionPriceList = $this->createSelectionPriceList($option, $bundleProduct, $useRegularPrice);
             $selectionPriceList = $this->processOptions($option, $selectionPriceList, $searchMin);
 
-            $lastValue = end($selectionPriceList)->getAmount()->getValue();
+            $lastSelectionPrice = end($selectionPriceList);
+            $lastValue = $lastSelectionPrice->getAmount()->getValue() * $lastSelectionPrice->getQuantity();
             if ($shouldFindMinOption
-                && (!$currentPrice || $lastValue < $currentPrice->getAmount()->getValue())
+                && (!$currentPrice ||
+                    $lastValue < ($currentPrice->getAmount()->getValue() * $currentPrice->getQuantity()))
             ) {
                 $currentPrice = end($selectionPriceList);
             } elseif (!$shouldFindMinOption) {
@@ -388,18 +390,23 @@ class Calculator implements BundleCalculatorInterface
     {
         $result = [];
         foreach ($selectionPriceList as $current) {
-            $currentValue = $current->getAmount()->getValue();
+            $qty = $current->getQuantity();
+            $currentValue = $current->getAmount()->getValue() * $qty;
             if (empty($result)) {
                 $result = [$current];
-            } elseif ($searchMin && end($result)->getAmount()->getValue() > $currentValue) {
-                $result = [$current];
-            } elseif (!$searchMin && $option->isMultiSelection()) {
-                $result[] = $current;
-            } elseif (!$searchMin
-                && !$option->isMultiSelection()
-                && end($result)->getAmount()->getValue() < $currentValue
-            ) {
-                $result = [$current];
+            } else {
+                $lastSelectionPrice = end($result);
+                $lastValue = $lastSelectionPrice->getAmount()->getValue() * $lastSelectionPrice->getQuantity();
+                if ($searchMin && $lastValue > $currentValue) {
+                    $result = [$current];
+                } elseif (!$searchMin && $option->isMultiSelection()) {
+                    $result[] = $current;
+                } elseif (!$searchMin
+                    && !$option->isMultiSelection()
+                    && $lastValue < $currentValue
+                ) {
+                    $result = [$current];
+                }
             }
         }
         return $result;
