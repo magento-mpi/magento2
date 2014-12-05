@@ -2,7 +2,7 @@ db_credentials:
     dbHost: '127.0.0.1'
     dbUser: 'root'
     dbPassword: '123123q'
-    dbname: 'pr'
+    dbName: 'pr'
 url:
-    base_url: 'http://192.168.56.101/pr/'
+    base_url: 'http://127.0.0.1/magento2/'
     backend_frontname: 'backend'

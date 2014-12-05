@@ -29,9 +29,6 @@
     <assertCurrencySelected module="Magento_Install">
         <severeness>low</severeness>
     </assertCurrencySelected>
-    <assertTablePrefixCreated module="Magento_Install">
-        <severeness>low</severeness>
-    </assertTablePrefixCreated>
     <assertRewritesEnabled module="Magento_Install">
         <severeness>low</severeness>
     </assertRewritesEnabled>

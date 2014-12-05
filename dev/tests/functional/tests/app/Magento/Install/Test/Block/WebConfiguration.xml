@@ -12,7 +12,7 @@
         <web />
         <admin />
         <keyOwn>
-            <selector>[value="%s"]</selector>
+            <selector>[value="user"]</selector>
             <input>checkbox</input>
         </keyOwn>
         <keyValue>

@@ -16,19 +16,19 @@ use Mtf\Block\Block;
 class Main extends Block
 {
     /**
-     * Selector for prices.
+     * Selector for Revenue prices.
      *
      * @var string
      */
-    protected $priceBlock = '.price';
+    protected $revenuePriceBlock = '.dashboard-totals-list li:first-child .price';
 
     /**
-     * Get price block.
+     * Get Revenue price block.
      *
      * @return string
      */
-    public function getPrice()
+    public function getRevenuePrice()
     {
-        return $this->_rootElement->find($this->priceBlock)->getText();
+        return $this->_rootElement->find($this->revenuePriceBlock)->getText();
     }
 }

@@ -25,6 +25,7 @@
 namespace Magento\Install\Test\Constraint;
 
 use Mtf\Client\Browser;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\TestStep\TestStepFactory;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
@@ -49,12 +50,18 @@ class AssertSecureUrlEnabled extends AbstractConstraint
      * @param Browser $browser
      * @return void
      */
-    public function processAssert(CatalogProductSimple $productSimple, TestStepFactory $stepFactory, Browser $browser)
-    {
+    public function processAssert(
+        CatalogProductSimple $productSimple,
+        TestStepFactory $stepFactory,
+        Browser $browser,
+        FixtureFactory $fixtureFactory
+    ) {
+        $config = $fixtureFactory->createByCode('configData', ['dataSet' => 'secure_url']);
+        $config->persist();
         $browser->getUrl();
         \PHPUnit_Framework_Assert::assertTrue(
             strpos($browser->getUrl(), 'https://') !== false,
-            'Assert that Secure Urls not displayed on backend.'
+            'Secure Urls not displayed on backend.'
         );
 
         $productSimple->persist();
@@ -65,10 +72,9 @@ class AssertSecureUrlEnabled extends AbstractConstraint
         $stepFactory->create('Magento\Catalog\Test\TestStep\ProceedToCheckoutStep')->run();
         \PHPUnit_Framework_Assert::assertTrue(
             strpos($browser->getUrl(), 'https://') !== false,
-            'Assert that Secure Urls not displayed on frontend.'
+            'Secure Urls not displayed on frontend.'
         );
     }
-
     /**
      * Returns a string representation of the object.
      *

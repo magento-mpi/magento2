@@ -12,7 +12,9 @@
         <dbHost />
         <dbUser />
         <dbPassword />
-        <dbname />
+        <dbName>
+            <selector>[name="dbname"]</selector>
+        </dbName>
         <dbTablePrefix />
     </fields>
 </mapping>

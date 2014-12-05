@@ -43,7 +43,7 @@ class AssertSuccessInstall extends AbstractConstraint
      * @var array
      */
     protected $dbFieldsList = [
-        ['pageData' => 'database_name', 'fixture' => 'dbname'],
+        ['pageData' => 'database_name', 'fixture' => 'dbName'],
         ['pageData' => 'username', 'fixture' => 'dbUser']
     ];
 

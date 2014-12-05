@@ -52,12 +52,12 @@ class AssertRewritesEnabled extends AbstractConstraint
         \PHPUnit_Framework_Assert::assertEquals(
             $frontUrl,
             $browser->getUrl(),
-            'Apache redirect on front page not work.'
+            'Apache redirect on front page does not work.'
         );
 
         $browser->open($frontUrl . 'index.php/backend/');
         $isRedirect = strpos($browser->getUrl(), 'index.php') !== false;
-        \PHPUnit_Framework_Assert::assertTrue($isRedirect, 'Apache redirect on backend not work.');
+        \PHPUnit_Framework_Assert::assertTrue($isRedirect, 'Apache redirect on backend does not work.');
     }
 
     /**
@@ -67,6 +67,6 @@ class AssertRewritesEnabled extends AbstractConstraint
      */
     public function toString()
     {
-        return 'Apache redirect correct work.';
+        return 'Apache redirect works correct.';
     }
 }

@@ -28,10 +28,10 @@
             <attribute_code>dbPassword</attribute_code>
             <backend_type>virtual</backend_type>
         </dbPassword>
-        <dbname>
+        <dbName>
             <attribute_code>dbname</attribute_code>
             <backend_type>virtual</backend_type>
-        </dbname>
+        </dbName>
         <web>
             <attribute_code>web</attribute_code>
             <backend_type>virtual</backend_type>

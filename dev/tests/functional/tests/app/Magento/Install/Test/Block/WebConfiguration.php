@@ -8,10 +8,12 @@
 
 namespace Magento\Install\Test\Block;
 
+use Mtf\Block\Form;
+
 /**
  * Web configuration block.
  */
-class WebConfiguration extends ConfigurationForm
+class WebConfiguration extends Form
 {
     /**
      * 'Next' button.

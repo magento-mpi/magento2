@@ -43,8 +43,8 @@ use Magento\Install\Test\Constraint\AssertSuccessDbConnection;
  * 12. Click "Next" and on the "Step 6: Install" page click "Install Now" button.
  * 13. Perform assertions.
  *
- * @group Installer and Upgrade/Downgrade (PS)
- * @ZephyrId MAGETWO-15081
+ * @group Installer_and_Upgrade/Downgrade_(PS)
+ * @ZephyrId MAGETWO-31431
  */
 class InstallTest extends Injectable
 {
