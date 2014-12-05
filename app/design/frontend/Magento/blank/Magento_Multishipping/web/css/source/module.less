@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .multicheckout {
     .title {
         margin-bottom: 30px;
@@ -24,11 +30,11 @@
             .qty {
                 display: inline-block;
                 .input-text {
-                    &:extend(.abstract-input-qty all);
+                    &:extend(.abs-input-qty all);
                 }
             }
             .label {
-                &:extend(.abstract-visually-hidden all);
+                &:extend(.abs-visually-hidden all);
             }
             &.item {
                 .action.edit {
@@ -38,10 +44,10 @@
             }
         }
         .cart-price {
-            &:extend(.abstract-checkout-cart-price all);
+            &:extend(.abs-checkout-cart-price all);
         }
         .product-item-name {
-            &:extend(.abstract-checkout-product-name all);
+            &:extend(.abs-checkout-product-name all);
         }
     }
 
@@ -74,28 +80,28 @@
     }
 
     .action.primary {
-        &:extend(.abstract-button-l all);
+        &:extend(.abs-button-l all);
     }
 
     .item-options {
         margin: 10px 0 0;
-        &:extend(.abstract-product-options-list all);
-        &:extend(.abstract-add-clearfix all);
+        &:extend(.abs-product-options-list all);
+        &:extend(.abs-add-clearfix all);
     }
     
-    &:extend(.abstract-account-blocks all);
+    &:extend(.abs-account-blocks all);
 
     .block {
-        &:extend(.abstract-add-clearfix all);
+        &:extend(.abs-add-clearfix all);
 
         .methods-shipping {
             .item-content {
                 .fieldset {
                     > .legend {
-                        &:extend(.abstract-visually-hidden all);
+                        &:extend(.abs-visually-hidden all);
                     }
                     > .legend + br {
-                        &:extend(.abstract-no-display all);
+                        &:extend(.abs-no-display all);
                     }
                     > .field {
                         &:before {
@@ -112,7 +118,7 @@
 
     .block-title,
     .block-content .title {
-        &:extend(.abstract-account-title all);
+        &:extend(.abs-account-title all);
         border-bottom: @border-width-base solid @border-color-base;
         padding-bottom: 10px;
         strong {
@@ -124,7 +130,7 @@
     }
 
     .block-content {
-        &:extend(.abstract-add-clearfix all);
+        &:extend(.abs-add-clearfix all);
         .title {
             border-bottom: none;
             padding-bottom: 0;
@@ -167,7 +173,7 @@
     }
 
     .hidden {
-        &:extend(.abstract-no-display all);
+        &:extend(.abs-no-display all);
     }
 
     .checkout-review .grand.totals {
@@ -182,17 +188,19 @@
 [class^="multishipping-"] {
     .nav-sections,
     .nav-toggle {
-        &:extend(.abstract-no-display all);
+        &:extend(.abs-no-display all);
     }
     .logo {
         margin-left: 0;
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-s) {
+.responsive-max-m(@break) when (@break = @screen-s) {
     .multicheckout {
         .data.table {
             .address {
@@ -219,22 +227,21 @@
 
         &.order-review {
             .box-items {
-                .data.table thead {
-                    .col.item {
+                .data.table {
+                    thead {
                         display: block;
-                        padding: 0;
+                        tr {
+                            display: block;
+                        }
+                        .col.item {
+                            display: block;
+                            padding: 0;
+                        }
                     }
                 }
             }
             .data.table {
-                .col {
-                    &.qty {
-                        text-align: left;
-                    }
-                    &.actions:before {
-                        &:extend(.abstract-no-display-s all);
-                    }
-                }
+                &:extend(.abs-checkout-order-review all);
             }
         }
 
@@ -250,14 +257,11 @@
     }
 }
 
-//
-//    Desktop
-//--------------------------------------
-.responsive(@break) when (@break = @screen-s) {
+.responsive-min-m(@break) when (@break = @screen-s) {
     .multicheckout {
         .actions-toolbar {
             .column:not(.sidebar-main) & {
-                &:extend(.abstract-reset-left-margin-desktop-s all);
+                &:extend(.abs-reset-left-margin-desktop-s all);
             }
             .secondary {
                 float: none;
@@ -283,7 +287,7 @@
 
         .block-shipping {
             .box {
-                &:extend(.abstract-add-box-sizing-desktop-s all);
+                &:extend(.abs-add-box-sizing-desktop-s all);
                 float: left;
                 width: 25%;
             }
@@ -295,14 +299,14 @@
         }
 
         .block-billing {
-            &:extend(.abstract-add-clearfix-desktop-s all);
+            &:extend(.abs-add-clearfix-desktop-s all);
             .box-billing-address {
-                &:extend(.abstract-add-box-sizing-desktop-s all);
+                &:extend(.abs-add-box-sizing-desktop-s all);
                 float: left;
                 width: 25%;
             }
             .box-billing-method {
-                &:extend(.abstract-add-box-sizing-desktop-s all);
+                &:extend(.abs-add-box-sizing-desktop-s all);
                 float: left;
                 padding-left: @indent-m-base;
                 width: 50%;

@@ -133,7 +133,7 @@ class Curl extends AbstractCurl implements CustomerInjectableInterface
     protected function addAddress(array $data)
     {
         $curlData = [];
-        $url = $_ENV['app_backend_url'] . 'customer/index/save';
+        $url = $_ENV['app_backend_url'] . 'customer/index/save/id/' . $data['customer_id'];
         foreach ($data as $key => $value) {
             foreach ($this->curlMapping as $prefix => $prefixValues) {
                 if (in_array($key, $prefixValues)) {
@@ -176,18 +176,18 @@ class Curl extends AbstractCurl implements CustomerInjectableInterface
                 $curlData['address'][$key]['street'] = [];
                 $curlData['address'][$key]['street'][] = $street;
             }
-            $newKey = '_item' . ($key + 1);
-            if ($curlData['address'][$key]['default_billing'] === 'Yes') {
-                unset($curlData['address'][$key]['default_billing']);
-                $curlData['account']['default_billing'] = $newKey;
+            $newKey = 'new_' . ($key);
+            if (isset($curlData['address'][$key]['default_billing'])) {
+                $value = $curlData['address'][$key]['default_billing'] === 'Yes' ? 'true' : 'false';
+                $curlData['address'][$key]['default_billing'] = $value;
             }
-            if ($curlData['address'][$key]['default_shipping'] === 'Yes') {
-                unset($curlData['address'][$key]['default_shipping']);
-                $curlData['account']['default_shipping'] = $newKey;
+            if (isset($curlData['address'][$key]['default_shipping'])) {
+                $value = $curlData['address'][$key]['default_shipping'] === 'Yes' ? 'true' : 'false';
+                $curlData['address'][$key]['default_shipping'] = $value;
             }
-            $curlData['address'][$newKey] = $curlData['address'][$key];
-            unset($curlData['address'][$key]);
+            $curlData['account']['customer_address'][$newKey] = $curlData['address'][$key];
         }
+        unset($curlData['address']);
 
         return $curlData;
     }

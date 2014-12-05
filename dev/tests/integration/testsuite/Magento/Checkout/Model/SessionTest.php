@@ -31,13 +31,11 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQuoteNotInitializedCustomerSet()
     {
-        /** Preconditions */
-        $customerIdFromFixture = 1;
-        /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService */
-        $customerService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
-        );
-        $customer = $customerService->getCustomer($customerIdFromFixture);
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = $objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
+        $customer = $customerRepository->getById(1);
         $this->_checkoutSession->setCustomerData($customer);
 
         /** Execute SUT */
@@ -55,13 +53,11 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQuoteNotInitializedCustomerLoggedIn()
     {
-        /** Preconditions */
-        $customerIdFromFixture = 1;
-        /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService */
-        $customerService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
-        );
-        $customer = $customerService->getCustomer($customerIdFromFixture);
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = $objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
+        $customer = $customerRepository->getById(1);
         /** @var \Magento\Customer\Model\Session $customerSession */
         $customerSession = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
         $customerSession->setCustomerDataObject($customer);
@@ -86,17 +82,15 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadCustomerQuoteCustomerWithoutQuote()
     {
-        /** Preconditions */
-        $customerIdFromFixture = 1;
         $quote = $this->_checkoutSession->getQuote();
         $this->assertEmpty($quote->getCustomerId(), 'Precondition failed: Customer data must not be set to quote');
         $this->assertEmpty($quote->getCustomerEmail(), 'Precondition failed: Customer data must not be set to quote');
 
-        /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService */
-        $customerService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
-        );
-        $customer = $customerService->getCustomer($customerIdFromFixture);
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = $objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
+        $customer = $customerRepository->getById(1);
         /** @var \Magento\Customer\Model\Session $customerSession */
         $customerSession = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
         $customerSession->setCustomerDataObject($customer);
@@ -120,7 +114,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $customerIdFromFixture = 1;
         $customerEmailFromFixture = 'customer@example.com';
-        $customerFirstNameFromFixture = 'Firstname';
+        $customerFirstNameFromFixture = 'John';
         $this->assertEquals(
             $customerEmailFromFixture,
             $quote->getCustomerEmail(),

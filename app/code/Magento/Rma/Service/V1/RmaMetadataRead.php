@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
 namespace Magento\Rma\Service\V1;
 
 use Magento\Customer\Model\AttributeMetadataConverter;
@@ -14,6 +13,9 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Api\Config\MetadataConfig;
 use Magento\Framework\Api\SimpleDataObjectConverter;
 
+/**
+ * Class RmaMetadataRead
+ */
 class RmaMetadataRead implements RmaMetadataReadInterface
 {
     /**
@@ -143,7 +145,7 @@ class RmaMetadataRead implements RmaMetadataReadInterface
                 $customAttributes[] = $attributeMetadata;
             }
         }
-        return array_merge($customAttributes, $this->metadataConfig->getCustomAttributesMetadata($dataObjectClassName));
 
+        return array_merge($customAttributes, $this->metadataConfig->getCustomAttributesMetadata($dataObjectClassName));
     }
 }

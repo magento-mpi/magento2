@@ -17,16 +17,16 @@ class View extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice\V
      */
     public function execute()
     {
-        $this->_title->add(__('Invoices'));
         $invoice = $this->getInvoice();
         if (!$invoice) {
             $this->_forward('noroute');
             return;
         }
-        $this->_title->add(sprintf("#%s", $invoice->getIncrementId()));
 
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Sales::sales_order');
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Invoices'));
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(sprintf("#%s", $invoice->getIncrementId()));
         $this->_view->getLayout()->getBlock(
             'sales_invoice_view'
         )->updateBackButtonUrl(

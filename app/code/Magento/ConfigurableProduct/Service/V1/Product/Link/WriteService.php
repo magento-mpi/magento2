@@ -7,7 +7,7 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Product\Link;
 
-use \Magento\Catalog\Model\ProductRepository;
+use \Magento\Catalog\Api\ProductRepositoryInterface;
 use \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable;
 use Magento\Framework\Exception\StateException;
 use Magento\Catalog\Model\Product;
@@ -17,7 +17,7 @@ use Magento\Webapi\Exception;
 class WriteService implements WriteServiceInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductRepository
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
      */
     protected $productRepository;
 
@@ -27,12 +27,12 @@ class WriteService implements WriteServiceInterface
     protected $configurableType;
 
     /**
-     * @param ProductRepository $productRepository
+     * @param ProductRepositoryInterface $productRepository
      * @param Configurable $configurableType
      * @internal param ConfigurableFactory $typeConfigurableFactory
      */
     public function __construct(
-        ProductRepository $productRepository,
+        ProductRepositoryInterface $productRepository,
         Configurable $configurableType
     ) {
         $this->productRepository = $productRepository;
