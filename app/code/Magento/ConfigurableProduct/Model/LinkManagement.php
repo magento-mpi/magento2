@@ -47,10 +47,10 @@ class LinkManagement implements \Magento\ConfigurableProduct\Api\LinkManagementI
     /**
      * {@inheritdoc}
      */
-    public function getChildren($productId)
+    public function getChildren($productSku)
     {
         /** @var \Magento\Catalog\Model\Product $product */
-        $product = $this->productRepository->get($productId);
+        $product = $this->productRepository->get($productSku);
         if ($product->getTypeId() != \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
             return [];
         }

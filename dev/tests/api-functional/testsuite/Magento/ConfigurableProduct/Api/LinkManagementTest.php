@@ -114,6 +114,6 @@ class LinkManagementTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'GetChildren'
             ]
         ];
-        return $this->_webApiCall($serviceInfo, ['productId' => $productSku]);
+        return $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
     }
 }

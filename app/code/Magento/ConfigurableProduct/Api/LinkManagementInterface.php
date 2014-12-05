@@ -13,10 +13,10 @@ interface LinkManagementInterface
     /**
      * Get all children for Bundle product
      *
-     * @param string $productId
+     * @param string $productSku
      * @return \Magento\Catalog\Api\Data\ProductInterface[]
      */
-    public function getChildren($productId);
+    public function getChildren($productSku);
 
     /**
      * @param  string $productSku
