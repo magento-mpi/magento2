@@ -87,7 +87,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     /**
      * @var \Magento\Customer\Model\Address\Mapper
      */
-    protected $dataObjectConverter;
+    protected $addressMapper;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -100,7 +100,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
      * @param CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param array $data
      */
     public function __construct(
@@ -114,10 +114,9 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
         array $data = array()
     ) {
-        $this->dataObjectConverter = $dataObjectConverter;
         $this->_coreData = $coreData;
         $this->_configCacheType = $configCacheType;
         $this->_customerSession = $customerSession;
@@ -129,6 +128,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         $this->_isScopePrivate = true;
         $this->customerRepository = $customerRepository;
         $this->_addressConfig = $addressConfig;
+        $this->addressMapper = $addressMapper;
     }
 
     /**
@@ -238,11 +238,11 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
             }
 
             foreach ($addresses as $address) {
-                $builtOutputAddressData = $this->dataObjectConverter->toFlatArray($address);
-                $label = $this->_addressConfig
-                    ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
-                    ->getRenderer()
-                    ->renderArray($builtOutputAddressData);
+                $label = $this->_addressConfig->getFormatByCode(
+                    AddressConfig::DEFAULT_ADDRESS_FORMAT
+                )->getRenderer()->renderArray(
+                    $this->addressMapper->toFlatArray($address)
+                );
 
                 $options[] = ['value' => $address->getId(), 'label' => $label];
             }

@@ -34,7 +34,6 @@ class Option extends AbstractExtensibleModel implements AttributeOptionInterface
     }
 
     /**
-     * @codeCoverageIgnoreStart
      * {@inheritdoc}
      * @codeCoverageIgnoreStart
      */
