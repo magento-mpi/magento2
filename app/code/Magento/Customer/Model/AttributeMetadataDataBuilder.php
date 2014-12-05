@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Api\Data;
+namespace Magento\Customer\Model;
 
 use Magento\Framework\Api\AttributeMetadataBuilderInterface;
 
