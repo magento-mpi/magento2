@@ -6,6 +6,12 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .giftcard-account {
     .please-wait {
         display: none;
@@ -15,7 +21,7 @@
             margin-bottom: @indent-l-base;
         }
         .fieldset {
-            &:extend(.abstract-forms-margin-small all);
+            &:extend(.abs-forms-margin-small all);
         }
     }
 }
@@ -27,16 +33,18 @@
     }
 }
 
+}
+
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .form-giftcard-redeem {
-        &:extend(.abstract-forms-general-desktop all);
+        &:extend(.abs-forms-general-desktop all);
     }
     .block-balance-giftcard {
         .block-content {
-            &:extend(.abstract-account-block-font-size all);
+            &:extend(.abs-account-block-font-size all);
         }
     }
 }
