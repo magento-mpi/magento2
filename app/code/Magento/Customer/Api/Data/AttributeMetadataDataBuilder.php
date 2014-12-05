@@ -8,11 +8,12 @@
 
 namespace Magento\Customer\Api\Data;
 
+use Magento\Framework\Api\AttributeMetadataBuilderInterface;
+
 /**
  * DataBuilder class for \Magento\Customer\Api\Data\AttributeMetadataInterface
  */
-class AttributeMetadataDataBuilder extends \Magento\Framework\Api\Builder
-    implements \Magento\Framework\Api\AttributeMetadataBuilderInterface
+class AttributeMetadataDataBuilder extends \Magento\Framework\Api\Builder implements AttributeMetadataBuilderInterface
 {
     /**
      * @param string $attributeCode
