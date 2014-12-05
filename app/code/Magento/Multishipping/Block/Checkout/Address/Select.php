@@ -22,7 +22,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     protected $_customerAddressHelper;
 
     /**
-     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     * @var \Magento\Customer\Model\Address\Mapper
      */
     protected $addressMapper;
 
@@ -93,8 +93,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         $formatTypeRenderer = $this->_customerAddressHelper->getFormatTypeRenderer('html');
         $result = '';
         if ($formatTypeRenderer) {
-            $arrayData = $this->addressMapper->toFlatArray($address);
-            $result = $formatTypeRenderer->renderArray($arrayData);
+            $result = $formatTypeRenderer->renderArray($this->addressMapper->toFlatArray($address));
         }
         return $result;
     }
