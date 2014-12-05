@@ -10,6 +10,7 @@
 
 namespace Magento\Tools\Composer\Package;
 
+require __DIR__ . '/../../../bootstrap.php';
 require __DIR__ . '/Package/Reader.php';
 require __DIR__ . '/Package/Package.php';
 require __DIR__ . '/Package/Collection.php';
