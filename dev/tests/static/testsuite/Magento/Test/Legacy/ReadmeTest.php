@@ -13,19 +13,17 @@ namespace Magento\Test\Legacy;
 
 use Magento\Framework\Test\Utility\Files;
 
-class ModuleDescriptionTest extends \PHPUnit_Framework_TestCase
+class ReadmeTest extends \PHPUnit_Framework_TestCase
 {
     const README_FILENAME = 'README.md';
-    const BLACKLIST_PATTERN = '_files/blacklist/module_description/*.txt';
+    const BLACKLIST_FILES_PATTERN = '_files/readme/blacklist/*.txt';
+    const PATTERNS_FILE = '_files/readme/patterns.txt';
+
     /** @var array Blacklisted files and directories */
     private $blacklist = [];
 
     /** @var array */
-    private $patterns = [
-        'app/code/Magento/*',
-        'lib/internal/Magento/*/*',
-        'lib/internal/Magento/*',
-    ];
+    private $patterns = [];
 
     /**
      * @var string Path to project root
@@ -36,6 +34,7 @@ class ModuleDescriptionTest extends \PHPUnit_Framework_TestCase
     {
         $this->root = Files::init()->getPathToSource();
         $this->blacklist = $this->getBlacklist();
+        $this->patterns = $this->getPatterns();
     }
 
     public function testModuleDescriptionFiles()
@@ -60,7 +59,7 @@ class ModuleDescriptionTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function getModuleDirectories()
+    private function getModuleDirectories()
     {
         $root = $this->root;
         $result = [];
@@ -85,14 +84,29 @@ class ModuleDescriptionTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    protected function getBlacklist()
+    private function getBlacklist()
     {
         if (empty($this->blacklist)) {
-            foreach (glob(__DIR__ . DIRECTORY_SEPARATOR. self::BLACKLIST_PATTERN) as $file) {
+            foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . self::BLACKLIST_FILES_PATTERN) as $file) {
                 $blacklist = file($file);
                 foreach ($blacklist as $path) {
                     $this->blacklist[] = $this->root . trim(($path[0] === '/' ? $path : '/' . $path));
                 }
+            }
+        }
+        return $this->blacklist;
+    }
+
+    /**
+     * @return array
+     */
+    private function getPatterns()
+    {
+        if (empty($this->patterns)) {
+            $filename = __DIR__ . DIRECTORY_SEPARATOR . self::PATTERNS_FILE;
+            $patterns = file($filename);
+            foreach ($patterns as $pattern) {
+                $this->blacklist[] = trim($pattern);
             }
         }
         return $this->blacklist;

@@ -35,6 +35,7 @@ app/code/Magento/Translation
 app/code/Magento/Ui
 app/code/Magento/UrlRewrite
 lib/internal/Magento/
+lib/internal/Magento/Framework
 lib/internal/Magento/Framework/Acl
 lib/internal/Magento/Framework/Api
 lib/internal/Magento/Framework/Authorization
