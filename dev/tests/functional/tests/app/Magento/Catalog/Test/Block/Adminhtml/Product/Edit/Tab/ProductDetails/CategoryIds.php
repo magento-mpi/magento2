@@ -46,6 +46,7 @@ class CategoryIds extends MultisuggestElement
      */
     public function setValue($values)
     {
+        $this->find($this->top, Locator::SELECTOR_XPATH)->click();
         $this->waitInitElement();
         parent::setValue($values);
     }
