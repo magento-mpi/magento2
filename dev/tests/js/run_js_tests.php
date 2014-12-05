@@ -143,7 +143,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 
         DISPLAY_NUM=99
         ps -ef | egrep "[X]vfb.*:$DISPLAY_NUM"
-        if [ $? -ne 0 ] ; then
+        if [ $? -eq 0 ] ; then
             pkill Xvfb
         fi
 
