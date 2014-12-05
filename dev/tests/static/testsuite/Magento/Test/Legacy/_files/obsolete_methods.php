@@ -2119,4 +2119,6 @@ return array(
     ['isModuleEnabled', 'Magento\Framework\App\Helper\AbstractHelper', 'Magento\Framework\Module\Manager::isEnabled()'],
     ['isModuleOutputEnabled', 'Magento\Framework\App\Helper\AbstractHelper', 'Magento\Framework\Module\Manager::isOutputEnabled()'],
     ['toFlatArrayStatic', 'Magento\Framework\Api\ExtensibleDataObjectConverter'],
+    ['_packToTar', 'Magento\Framework\Archive\Tar'],
+    ['_parseHeader', 'Magento\Framework\Archive\Tar'],
 );
