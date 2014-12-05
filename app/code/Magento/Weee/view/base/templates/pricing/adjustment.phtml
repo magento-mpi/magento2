@@ -17,11 +17,13 @@ $closeBrace = ')';
 <?php if ($this->showInclDescr()): // incl. + weee ?>
     <?php foreach ($this->getWeeeTaxAttributes() as $weeeTaxAttribute): ?>
         <span class="weee"
+              data-price-type="weee"
               data-label="<?php echo $this->renderWeeeTaxAttributeName($weeeTaxAttribute); ?>"><?php echo $this->renderWeeeTaxAttribute($weeeTaxAttribute); ?></span>
     <?php endforeach; ?>
 <?php elseif ($this->showExclDescrIncl()): // excl. + weee + final ?>
     <?php foreach ($this->getWeeeTaxAttributes() as $weeeTaxAttribute): ?>
         <span class="weee"
+              data-price-type="weee"
               data-label="<?php echo $this->renderWeeeTaxAttributeName($weeeTaxAttribute); ?>"><?php echo $this->renderWeeeTaxAttribute($weeeTaxAttribute); ?></span>
     <?php endforeach; ?>
 <?php endif; ?>
