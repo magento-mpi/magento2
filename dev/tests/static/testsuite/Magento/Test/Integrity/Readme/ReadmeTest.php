@@ -1,0 +1,120 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Tests to ensure that all license blocks are represented by placeholders
+ */
+namespace Magento\Test\Integrity;
+
+use Magento\Framework\Test\Utility\Files;
+
+class ReadmeTest extends \PHPUnit_Framework_TestCase
+{
+    const README_FILENAME = 'README.md';
+    const BLACKLIST_FILES_PATTERN = '_files/blacklist/*.txt';
+    const SCAN_LIST_FILE = '_files/scan_list.txt';
+
+    /** @var array Blacklisted files and directories */
+    private $blacklist = [];
+
+    /** @var array */
+    private $scanList = [];
+
+    /**
+     * @var string Path to project root
+     */
+    private $root;
+
+    protected function setUp()
+    {
+        $this->root = Files::init()->getPathToSource();
+        $this->blacklist = $this->getBlacklistFromFile();
+        $this->scanList = $this->getScanListFromFile();
+    }
+
+    public function testModuleDescriptionFiles()
+    {
+        $invoker = new \Magento\Framework\Test\Utility\AggregateInvoker($this);
+        $invoker(
+        /**
+         * @param string $dir
+         * @param string $packageType
+         */
+            function ($dir) {
+                $file = $dir . DIRECTORY_SEPARATOR . self::README_FILENAME;
+                $this->assertFileExists(
+                    $file,
+                    sprintf('File %s not found in %s', self::README_FILENAME, $dir)
+                );
+            },
+            $this->getDirectories()
+        );
+    }
+
+    /**
+     * @return array
+     */
+    private function getDirectories()
+    {
+        $root = $this->root;
+        $directories = [];
+        foreach ($this->scanList as $pattern) {
+            foreach (glob("{$root}/{$pattern}", GLOB_ONLYDIR) as $dir) {
+                if (!$this->isInBlacklist($dir)) {
+                    $directories[][$dir] = $dir;
+                }
+            }
+        }
+
+        return $directories;
+    }
+
+    /**
+     * @return array
+     */
+    private function getBlacklistFromFile()
+    {
+        $result = [];
+        foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . self::BLACKLIST_FILES_PATTERN) as $file) {
+            $blacklist = file($file);
+            foreach ($blacklist as $path) {
+                $result[] = $this->root . trim(($path[0] === '/' ? $path : '/' . $path));
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    private function getScanListFromFile()
+    {
+        $patterns = [];
+        $filename = __DIR__ . DIRECTORY_SEPARATOR . self::SCAN_LIST_FILE;
+        foreach (file($filename) as $pattern) {
+            $patterns[] = trim($pattern);
+        }
+        return $patterns;
+    }
+
+    /**
+     * @param $path
+     * @return bool
+     */
+    private function isInBlacklist($path)
+    {
+        $isBlacklisted = false;
+        foreach ($this->blacklist as $blacklistedItem) {
+            if ($blacklistedItem === $path) {
+                $isBlacklisted = true;
+                break;
+            }
+        }
+        return $isBlacklisted;
+    }
+}
