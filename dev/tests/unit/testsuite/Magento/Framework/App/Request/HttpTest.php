@@ -9,6 +9,7 @@
 namespace Magento\Framework\App\Request;
 
 use Magento\Framework\App\Request\Http as Request;
+use Magento\Framework\App\ScopeInterface;
 
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,6 +38,16 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManager;
 
+    /**
+     * @var \Magento\Framework\App\Config\ReinitableConfigInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $configMock;
+
+    /**
+     * @var array
+     */
+    private $serverArray;
+
     protected function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -51,6 +62,15 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->_infoProcessorMock = $this->getMock('Magento\Framework\App\Request\PathInfoProcessorInterface');
         $this->_infoProcessorMock->expects($this->any())->method('process')->will($this->returnArgument(1));
         $this->_cookieManagerMock = $this->getMock('Magento\Framework\Stdlib\CookieManagerInterface');
+        $this->configMock = $this->getMock('\Magento\Framework\App\Config\ReinitableConfigInterface');
+
+        // Stash the $_SERVER array to protect it from modification in test
+        $this->serverArray = $_SERVER;
+    }
+
+    public function tearDown()
+    {
+        $_SERVER = $this->serverArray;
     }
 
     public function testGetOriginalPathInfoWithTestUri()
@@ -69,7 +89,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
                 'pathInfoProcessor' => $this->_infoProcessorMock,
                 'routeConfig' => $this->_routerListMock,
                 'cookieManager' => $this->_cookieManagerMock,
-                'uri' => $uri
+                'uri' => $uri,
+                'config' => $this->configMock
             ]
         );
     }
@@ -499,5 +520,48 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         return $returnValue;
     }
 
+    /**
+     * @dataProvider isSecureDataProvider
+     * @param string $serverHttps value of $_SERVER['HTTPS']
+     * @param string $headerHttps value of $_SERVER[<Name-Of-Offloader-Header>]
+     * @param bool $isSecure expected output of isSecure method
+     * @param int $configCall number of times config->getValue is expected to be called
+     */
+    public function testIsSecure($serverHttps, $headerHttps, $isSecure, $configCall)
+    {
+        $this->_model = $this->getModel();
+        $offLoaderHeader = 'Header-From-Proxy';
+        $this->configMock->expects($this->exactly($configCall))
+            ->method('getValue')
+            ->with(Request::XML_PATH_OFFLOADER_HEADER, ScopeInterface::SCOPE_DEFAULT)
+            ->willReturn($offLoaderHeader);
+        $_SERVER[$offLoaderHeader] = $headerHttps;
+        $_SERVER['HTTPS'] = $serverHttps;
 
+        $this->assertSame($isSecure, $this->_model->isSecure());
+    }
+
+    public function isSecureDataProvider()
+    {
+        /**
+         * Data structure:
+         * 'Test #' => [
+         *      value of $_SERVER['HTTPS'],
+         *      value of $_SERVER[<Name-Of-Offloader-Header>]
+         *      expected output of isSecure method
+         *      number of times config->getValue is expected to be called
+         *  ]
+         */
+        return [
+            'Test 1' => ['on', 'https', true, 0],
+            'Test 2' => ['off', 'https', true, 1],
+            'Test 3' => ['any-string', 'https', true, 0],
+            'Test 4' => ['on', 'http', true, 0],
+            'Test 5' => ['off', 'http', false, 1],
+            'Test 6' => ['any-string', 'http', true, 0],
+            'Test 7' => ['on', 'any-string', true, 0],
+            'Test 8' => ['off', 'any-string', false, 1],
+            'Test 9' => ['any-string', 'any-string', true, 0],
+        ];
+    }
 }
