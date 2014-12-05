@@ -624,6 +624,9 @@ class Http extends \Zend_Controller_Request_Http implements
      */
     public function isSecure()
     {
+        if (parent::isSecure()) {
+            return true;
+        }
         // Check if a proxy sent a header indicating an initial secure request
         $offLoaderHeader = trim(
             (string)$this->_config->getValue(
@@ -632,6 +635,6 @@ class Http extends \Zend_Controller_Request_Http implements
             )
         );
 
-        return !empty($offLoaderHeader) && !empty($_SERVER[$offLoaderHeader]) || parent::isSecure();
+        return !empty($offLoaderHeader) && !empty($_SERVER[$offLoaderHeader]);
     }
 }
