@@ -2115,4 +2115,5 @@ return array(
     ['getCategoryModel', 'Magento\Catalog\Model\Resource\Url'],
     ['_escapeDefaultValue', 'Magento\Framework\Code\Generator\EntityAbstract'],
     ['urlEncode', 'Magento\Framework\App\Helper\AbstractHelper::urlEncode'],
+    ['urlDecode', 'Magento\Framework\App\Helper\AbstractHelper::urlEncode'],
 );

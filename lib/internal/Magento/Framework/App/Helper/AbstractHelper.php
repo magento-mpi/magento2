@@ -158,16 +158,4 @@ abstract class AbstractHelper
     {
         return $this->_urlBuilder->getUrl($route, $params);
     }
-
-    /**
-     *  base64_decode() for URLs decoding
-     *
-     * @deprecated use \Magento\Framework\Url\DecoderInterface
-     * @param    string $url
-     * @return   string
-     */
-    public function urlDecode($url)
-    {
-        return $this->urlDecoder->decode($url);
-    }
 }

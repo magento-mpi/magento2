@@ -65,7 +65,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function decodeTrackingHash($hash)
     {
-        $hash = explode(':', $this->_coreData->urlDecode($hash));
+        $hash = explode(':', $this->urlDecoder->decode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
             return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
         }

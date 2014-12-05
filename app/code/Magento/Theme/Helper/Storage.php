@@ -126,7 +126,7 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function convertIdToPath($value)
     {
-        $path = $this->urlDecode($value);
+        $path = $this->urlDecoder->decode($value);
         if (!strstr($path, $this->getStorageRoot())) {
             $path = $this->getStorageRoot() . $path;
         }
@@ -206,11 +206,11 @@ class Storage extends \Magento\Framework\App\Helper\AbstractHelper
         $pathPieces = array('..', $this->getStorageType());
         $node = $this->_getRequest()->getParam(self::PARAM_NODE);
         if ($node !== self::NODE_ROOT) {
-            $node = $this->urlDecode($node);
+            $node = $this->urlDecoder->decode($node);
             $nodes = explode('/', trim($node, '/'));
             $pathPieces = array_merge($pathPieces, $nodes);
         }
-        $pathPieces[] = $this->urlDecode($this->_getRequest()->getParam(self::PARAM_FILENAME));
+        $pathPieces[] = $this->urlDecoder->decode($this->_getRequest()->getParam(self::PARAM_FILENAME));
         return implode('/', $pathPieces);
     }
 

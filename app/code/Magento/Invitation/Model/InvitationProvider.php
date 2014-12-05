@@ -23,23 +23,23 @@ class InvitationProvider
     protected $invitationFactory;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Url\DecoderInterface
      */
-    protected $helper;
+    protected $urlDecoder;
 
     /**
      * @param \Magento\Framework\Registry $registry
      * @param InvitationFactory $invitationFactory
-     * @param \Magento\Core\Helper\Data $helper
+     * @param \Magento\Framework\Url\DecoderInterface $urlDecoder
      */
     public function __construct(
         \Magento\Framework\Registry $registry,
         InvitationFactory $invitationFactory,
-        \Magento\Core\Helper\Data $helper
+        \Magento\Framework\Url\DecoderInterface $urlDecoder
     ) {
         $this->registry = $registry;
         $this->invitationFactory = $invitationFactory;
-        $this->helper = $helper;
+        $this->urlDecoder = $urlDecoder;
     }
 
     /**
@@ -51,9 +51,10 @@ class InvitationProvider
     public function get(RequestInterface $request)
     {
         if (!$this->registry->registry('current_invitation')) {
+            /** @var Invitation $invitation */
             $invitation = $this->invitationFactory->create();
             $invitation->loadByInvitationCode(
-                $this->helper->urlDecode(
+                $this->urlDecoder->decode(
                     $request->getParam('invitation', false)
                 )
             )->makeSureCanBeAccepted();

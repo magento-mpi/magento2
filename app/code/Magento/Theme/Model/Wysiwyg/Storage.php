@@ -73,6 +73,11 @@ class Storage
     protected $urlEncoder;
 
     /**
+     * @var \Magento\Framework\Url\DecoderInterface
+     */
+    protected $urlDecoder;
+
+    /**
      * Initialize dependencies
      *
      * @param \Magento\Framework\Filesystem $filesystem
@@ -80,19 +85,22 @@ class Storage
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Image\AdapterFactory $imageFactory
      * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
+     * @param \Magento\Framework\Url\DecoderInterface $urlDecoder
      */
     public function __construct(
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Theme\Helper\Storage $helper,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Image\AdapterFactory $imageFactory,
-        \Magento\Framework\Url\EncoderInterface $urlEncoder
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
+        \Magento\Framework\Url\DecoderInterface $urlDecoder
     ) {
         $this->mediaWriteDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->_helper = $helper;
         $this->_objectManager = $objectManager;
         $this->_imageFactory = $imageFactory;
         $this->urlEncoder = $urlEncoder;
+        $this->urlDecoder = $urlDecoder;
     }
 
     /**
@@ -207,7 +215,7 @@ class Storage
      */
     public function deleteFile($file)
     {
-        $file = $this->_helper->urlDecode($file);
+        $file = $this->urlDecoder->decode($file);
         $path = $this->mediaWriteDirectory->getRelativePath($this->_helper->getCurrentPath());
 
         $filePath = $this->mediaWriteDirectory->getRelativePath($path . '/' . $file);
