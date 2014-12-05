@@ -1,11 +1,3 @@
 app/code/Magento/Solr
-app/code/Magento/CatalogEvent
-app/code/Magento/CatalogPermissions
-app/code/Magento/CustomAttributeManagement
-app/code/Magento/GiftCard
 app/code/Magento/Pbridge
 app/code/Magento/PbridgePaypal
-app/code/Magento/PricePermissions
-app/code/Magento/Reminder
-app/code/Magento/ScheduledImportExport
-app/code/Magento/TargetRule
