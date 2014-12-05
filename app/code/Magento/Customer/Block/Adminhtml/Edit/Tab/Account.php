@@ -8,7 +8,7 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Api\Data\AttributeMetadataInterface;
-use Magento\Customer\Model\AccountManagement;
+use Magento\Customer\Api\AccountManagementInterface;
 
 /**
  * Customer account form block
@@ -362,7 +362,7 @@ class Account extends GenericMetadata
         // Prepare customer confirmation control (only for existing customers)
         $confirmationStatus = $this->_accountManagement->getConfirmationStatus($customerData->getId());
         $confirmationKey = $customerData->getConfirmation();
-        if ($confirmationStatus != AccountManagement::ACCOUNT_CONFIRMED) {
+        if ($confirmationStatus != AccountManagementInterface::ACCOUNT_CONFIRMED) {
             $confirmationAttr = $this->_customerMetadata->getAttributeMetadata('confirmation');
             if (!$confirmationKey) {
                 $confirmationKey = $this->_getRandomConfirmationKey();

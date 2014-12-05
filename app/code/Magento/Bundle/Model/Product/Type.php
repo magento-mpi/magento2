@@ -489,10 +489,11 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function getOptionsCollection($product)
     {
         if (!$product->hasData($this->_keyOptionsCollection)) {
-            $optionsCollection = $this->_bundleOption->create()
-                ->getResourceCollection()
-                ->setProductIdFilter($product->getId())
-                ->setPositionOrder();
+            /** @var \Magento\Bundle\Model\Resource\Option\Collection $optionsCollection */
+            $optionsCollection = $this->_bundleOption->create()->getResourceCollection();
+            $optionsCollection->setProductIdFilter($product->getId());
+            $this->setStoreFilter($product->getStoreId(), $product);
+            $optionsCollection->setPositionOrder();
             $storeId = $this->getStoreFilter($product);
             if ($storeId instanceof \Magento\Store\Model\Store) {
                 $storeId = $storeId->getId();

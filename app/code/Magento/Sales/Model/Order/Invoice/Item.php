@@ -9,6 +9,7 @@ namespace Magento\Sales\Model\Order\Invoice;
 
 use Magento\Sales\Api\Data\InvoiceItemInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Invoice\Item _getResource()
@@ -85,6 +86,7 @@ class Item extends AbstractExtensibleModel implements InvoiceItemInterface
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Sales\Model\Order\ItemFactory $orderItemFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -94,12 +96,21 @@ class Item extends AbstractExtensibleModel implements InvoiceItemInterface
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Sales\Model\Order\ItemFactory $orderItemFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
     ) {
-        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $customAttributeBuilder,
+            $resource,
+            $resourceCollection,
+            $data
+        );
         $this->_orderItemFactory = $orderItemFactory;
     }
 

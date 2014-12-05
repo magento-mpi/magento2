@@ -35,6 +35,7 @@ $targetRepository = $options['target'];
 $sourcePoint = $options['source-point'];
 $targetBranch = isset($options['target-branch']) ? $options['target-branch'] : 'master';
 $targetDir = (isset($options['target-dir']) ? $options['target-dir'] : __DIR__ . '/target');
+$targetComposerJson = $targetDir . '/composer.json';
 $changelogFile = $options['changelog-file'];
 
 $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$targetDir/.git"), escapeshellarg($targetDir));
@@ -79,6 +80,12 @@ try {
         throw new Exception("Aborting attempt to publish with old changelog. '$logFile' is not updated.");
     }
 
+    // check if root composer.json exists
+    if (!file_exists($targetComposerJson)) {
+        throw new Exception("Composer file '{$targetComposerJson}' does not exist.");
+    }
+    $rootJson = json_decode(file_get_contents($targetComposerJson));
+
     echo 'Parsing top section of CHANGELOG.md:' . PHP_EOL;
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
     echo $commitMsg . PHP_EOL;
@@ -97,6 +104,7 @@ try {
     execVerbose("$gitCmd config user.name " . getGitUsername());
     execVerbose("$gitCmd config user.email " . getGitEmail());
     execVerbose("$gitCmd commit --message=%s", $commitMsg);
+    execVerbose("$gitCmd tag %s", $rootJson->version);
 
 } catch (Exception $exception) {
     echo $exception->getMessage() . PHP_EOL;
