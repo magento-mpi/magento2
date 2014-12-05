@@ -49,8 +49,8 @@ class ConfigurableProductManagementTest extends \Magento\TestFramework\TestCase\
                     'attribute_id' => 'test_configurable',
                     'values' => [
                         [
-                            'index' => $attributeOptionValue,
-                            'price' => 100.0
+                            'value_index' => $attributeOptionValue,
+                            'pricing_value' => 100.0
                         ]
                     ]
                 ]

@@ -63,18 +63,6 @@ class ConfigurableProductManagement implements \Magento\ConfigurableProduct\Api\
         /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute $option */
         foreach ($options as $option) {
             $configurable = $this->objectToArray($option);
-
-            if (isset($configurable['values']) && is_array($configurable['values'])) {
-                $newValues = [];
-                foreach ($configurable['values'] as $value) {
-                    $newValues[] = [
-                        'value_index' => isset($value['index']) ? $value['index'] : null,
-                        'is_percent' => isset($value['is_percent']) ? $value['is_percent'] : null,
-                        'pricing_value' => isset($value['price']) ? $value['price'] : null,
-                    ];
-                }
-                $configurable['values'] = $newValues;
-            }
             /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attribute */
             $attribute = $this->attributeRepository->get($option->getAttributeId());
             $attributeOptions = !is_null($attribute->getOptions()) ? $attribute->getOptions() : [];
@@ -107,14 +95,19 @@ class ConfigurableProductManagement implements \Magento\ConfigurableProduct\Api\
             $suffix = '';
             foreach ($variation as $attributeId => $valueInfo) {
                 $suffix .= '-' . $valueInfo['value'];
+
                 $customAttribute = $this->customAttributeBuilder
                     ->setAttributeCode($attributes[$attributeId]['attribute_code'])
                     ->setValue($valueInfo['value'])
                     ->create();
-                $product->setData(
-                    'custom_attributes',
-                    array_merge($product->getCustomAttributes(), [$customAttribute])
+                $customAttributes = array_merge(
+                    $product->getCustomAttributes(),
+                    [
+                        $attributes[$attributeId]['attribute_code'] => $customAttribute
+                    ]
                 );
+                $product->setData('custom_attributes', $customAttributes);
+
                 $priceInfo = $valueInfo['price'];
                 $price += (!empty($priceInfo['is_percent']) ? $product->getPrice() / 100.0 : 1.0)
                     * $priceInfo['pricing_value'];

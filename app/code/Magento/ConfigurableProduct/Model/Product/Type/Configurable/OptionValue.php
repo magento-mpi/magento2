@@ -16,9 +16,9 @@ class OptionValue extends \Magento\Framework\Model\AbstractExtensibleModel imple
      * {@inheritdoc}
      * @codeCoverageIgnore
      */
-    public function getPrice()
+    public function getPricingValue()
     {
-        return $this->getData('price');
+        return $this->getData('pricing_value');
     }
 
     /**
@@ -34,8 +34,8 @@ class OptionValue extends \Magento\Framework\Model\AbstractExtensibleModel imple
      * {@inheritdoc}
      * @codeCoverageIgnore
      */
-    public function getIndex()
+    public function getValueIndex()
     {
-        return $this->getData('index');
+        return $this->getData('value_index');
     }
 }

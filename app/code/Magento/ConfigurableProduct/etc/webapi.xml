@@ -57,8 +57,8 @@
             <resource ref="Magento_Catalog::products" />
         </resources>
     </route>
-    <route url="/V1/configurable-products/:productSku/options/:optionId" method="PUT">
-        <service class="Magento\ConfigurableProduct\Service\V1\Product\Option\WriteServiceInterface" method="update" />
+    <route url="/V1/configurable-products/:productSku/options/:id" method="PUT">
+        <service class="Magento\ConfigurableProduct\Api\OptionRepositoryInterface" method="save" />
         <resources>
             <resource ref="Magento_Catalog::products" />
         </resources>

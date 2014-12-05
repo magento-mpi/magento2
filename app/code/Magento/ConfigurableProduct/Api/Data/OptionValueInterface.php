@@ -16,7 +16,7 @@ interface OptionValueInterface extends \Magento\Framework\Api\ExtensibleDataInte
     /**
      * @return float|null
      */
-    public function getPrice();
+    public function getPricingValue();
 
     /**
      * @return int|null
@@ -26,5 +26,5 @@ interface OptionValueInterface extends \Magento\Framework\Api\ExtensibleDataInte
     /**
      * @return int
      */
-    public function getIndex();
+    public function getValueIndex();
 }

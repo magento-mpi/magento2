@@ -12,7 +12,7 @@ use Magento\Webapi\Model\Rest\Config;
 
 class OptionRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-    const SERVICE_NAME = 'configurableProductProductOptionReadServiceV1';
+    const SERVICE_NAME = 'configurableProductOptionRepositoryV1';
     const SERVICE_VERSION = 'V1';
     const RESOURCE_PATH = '/V1/configurable-products';
 
@@ -160,8 +160,8 @@ class OptionRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstrac
             'label' => 'Test',
             'values' => [
                 [
-                    'index' => 1,
-                    'price' => '3',
+                    'value_index' => 1,
+                    'pricing_value' => '3',
                     'is_percent' => 0
                 ]
             ],
@@ -169,6 +169,62 @@ class OptionRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstrac
         /** @var int $result */
         $result = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'option' => $option]);
         $this->assertGreaterThan(0, $result);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
+     */
+    public function testUpdate()
+    {
+        $productSku = 'configurable';
+        $configurableAttribute = $this->getConfigurableAttribute($productSku);
+        $optionId = $configurableAttribute[0]['id'];
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/options' . '/' . $optionId,
+                'httpMethod' => Config::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Save'
+            ]
+        ];
+
+        $option = [
+            'label' => 'Update Test Configurable'
+        ];
+
+        $requestBody = ['option' => $option];
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $requestBody['productSku'] = $productSku;
+            $requestBody['optionId'] = $optionId;
+        }
+
+        $result = $this->_webApiCall($serviceInfo, $requestBody);
+        $this->assertGreaterThan(0, $result);
+        $configurableAttribute = $this->getConfigurableAttribute($productSku);
+        $this->assertEquals($option['label'], $configurableAttribute[0]['label']);
+    }
+
+    /**
+     * @param string $productSku
+     * @return array
+     */
+    protected function getConfigurableAttribute($productSku)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/options/all',
+                'httpMethod' => Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetList'
+            ]
+        ];
+        return $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
     }
 
     /**
