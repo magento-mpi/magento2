@@ -1,3 +1,85 @@
+0.1.0-alpha107
+=============
+* Various improvements:
+    * Removed deprecated code from Sales and SalesRule modules (MAGETWO-31114)
+    * Stabilized functional tests for the Centinel module (MTA-605)
+    * Stabilized functional tests for the Core module (MTA-610)
+    * Stabilized functional tests for the RecurringPayment module (MTA-632)
+    * Stabilized functional tests for the Sales module (MTA-637)
+    * Stabilized functional tests for the Multishipping module (MTA-629)
+    * Stabilized functional tests for the Newsletter module (MTA-630)
+    * Stabilized functional tests for the Widget module (MTA-648)
+    * Product can't be found in customer wishlist grid by name (MAGETWO-27949)
+    * Invalid email template for Product Price Alert (MAGETWO-9259)
+    * Customer group isn't changed if invalid VAT number has been specified (MAGETWO-30630)
+    * Integration tests coverage is broken (MAGETWO-31205)
+    * Not redirect to configurable product page (for unconfigured product) after click "Add to Card" button on "My Wish list" page (MAGETWO-30097)
+* Fixed bugs:
+    * [MAGETWO-30090] Error message ''We can't initialize Express Checkout.'' appears on checkout
+    * [MAGETWO-19350] Authorize Direct Post: can't place the order
+    * [MAGETWO-30273] Page cache in varnish mode always misses the cache
+    * [MAGETWO-30155] It's unable to specify layout container while creating or editing the Widget
+    * [MAGETWO-28836] Widget with layout = {Type of Product} does not work
+    * [MAGETWO-30829] It's impossible to create Widget to be displayed in sidebar
+    * [MAGETWO-30107] Fatal error displays after opening not existed page after disabling 404 Not Found page
+    * [MAGETWO-28890] It's impossible to refresh CAPTCHA on backend pages
+    * [MAGETWO-26725] 2 CAPTCHAs are shown during Checkout as a Guest.
+    * [MAGETWO-26717] Unable to reload Captcha on backend pages.
+    * Preview button on revision preview page doesn't open Preview page (MAGETWO-28602)
+    * Integration test Magento\Framework\View\Element\AbstractBlockTest::testFormatTime randomly fails (MAGETWO-29506)
+    * Fix logic duplication and the conflicting implementation of the title API in admin (MAGETWO-28527)
+    * Fixed JS validation to see filled by selenium fields on "Create Customer" backend form implemented in new Form Component (MAGETWO-31121)
+    * Fatal error after products "Stock Availability" mass attribute update(MAGETWO-30860)
+    * Integration test Magento\SalesRule\Model\Resource\Report\CollectionTest::testPeriod CollectionTest::testPeriod randomly fails(MAGETWO-30458)
+    * Expandable frontend elements (MAGETWO-30853)
+    * Blank & Luma Themes UI bugs (MAGETWO-30870, MAGETWO-30871)
+    * Show Packages Pop-up with Signature Confirmation looks incorrectly (MAGETWO-17267)
+    * Admin path becomes hidden when store address is too long (MAGETWO-29504)
+    * Proper styling for variations without base image (MAGETWO-29719)
+    * Back link on customer edit page opens home page (MAGETWO-31317)
+    * Cannot save system config on page Advanced->System (MAGETWO-31222)
+    * Impossible to save Return on Backend (MAGETWO-31240)
+    * [JS]Can't expand nested categories if responsive (MAGETWO-31245)
+    * Unable to place order within Authorize.net Direct Post from backend (MAGETWO-31244)
+* Framework improvements:
+    * Declaration of Components: XML VS composer.json (MAGETWO-25343)
+    * Added compiler for single-tenant mode (MAGETWO-30007)
+    * Both ZF1 and ZF2 libraries are declares as Composer dependencies as "1.12.9" and "2.3.1" respectively (MAGETWO-30244)
+    * ZF1 library is represented by 'magento/zendframework1', which is based on original "1.12.9" version and includes fixes for compatibility with Magento 2 application (MAGETWO-29960)
+* Layout improvements:
+    * Refactoring of layout building (MAGETWO-29679)
+* Performance improvements:
+    * Load product/category instances via repositories (MAGETWO-28006)
+    * Mobile and Desktop CSS styles separation between 2 files (MAGETWO-30799)
+* Service Contracts:
+    * Refactor the list Modules to use new Customer service interfaces:
+        * Checkout (MAGETWO-29476)
+        * Sales (MAGETWO-29477)
+        * Multishipping (MAGETWO-29487)
+        * GoogleShopping (MAGETWO-29481)
+        * Persistent (MAGETWO-29491)
+        * SalesRule (MAGETWO-29498)
+        * Paypal (MAGETWO-29489)
+        * Invitation (MAGETWO-29484)
+        * Tax (MAGETWO-29499)
+        * Newsletter (MAGETWO-29488)
+    * Incorporate feedback for Service Contracts for CatalogInventory Module (MAGETWO-30611)
+    * Stabilize code after refactoring Sales module to use new Customer service (MAGETWO-30038)
+    * Stabilize code after refactoring Checkout module to use new Customer service (MAGETWO-30039)
+    * Deleted old customer account service tests (MAGETWO-30671)
+    * Fixed base service object class to populate custom attributes correctly (MAGETWO-30502)
+    * Fixed processing of array parameters in service interface for consolidated builder (MAGETWO-30274)
+    * Fixed trace information for service exceptions in dev mode (MAGETWO-29963)
+    * Implemented Bundle Product API (MAGETWO-30985)
+* Accessibility improvement:
+    * H2-H6 hierarchy of content structure (MAGETWO-18171)
+* UI improvements:
+    * pub/errors styles (MAGETWO-31169)
+    * CMS Pages in Magento Installation (MAGETWO-30603)
+* GitHub requests:
+    * [#691](https://github.com/magento/magento2/issues/691) -- Readonly inputs and after element html in the backend (MAGETWO-29786)
+    * [#694](https://github.com/magento/magento2/issues/694) -- missing git tags in repo (MAGETWO-30345)
+
 0.1.0-alpha106
 =============
 * Various improvements:
