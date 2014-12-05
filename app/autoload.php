@@ -17,8 +17,14 @@ define('BP', dirname(__DIR__));
 
 $vendorDir = require BP . '/app/etc/vendor_path.php';
 $vendorAutoload = BP . "/{$vendorDir}/autoload.php";
+
+/* 'composer install' validation */
 if (file_exists($vendorAutoload)) {
     $composerAutoloader = include $vendorAutoload;
+} else {
+    throw new \Exception(
+        'Vendor autoload is not found. Please run \'composer install\' under application root directory.'
+    );
 }
 
 AutoloaderRegistry::registerAutoloader(new ClassLoaderWrapper($composerAutoloader));
