@@ -69,16 +69,6 @@ class Editor extends Textarea
             </script>';
 
         if ($this->isEnabled()) {
-            // add Firebug notice translations
-            $warn = 'Firebug is known to make the WYSIWYG editor slow unless it is turned off or configured properly.';
-            $this->getConfig()->addData(
-                array(
-                    'firebug_warning_title' => $this->translate('Warning'),
-                    'firebug_warning_text' => $this->translate($warn),
-                    'firebug_warning_anchor' => $this->translate('Hide')
-                )
-            );
-
             $translatedString = array(
                 'Insert Image...' => $this->translate('Insert Image...'),
                 'Insert Media...' => $this->translate('Insert Media...'),
@@ -154,22 +144,10 @@ class Editor extends Textarea
                 $jsSetupObject .
                 '));
                     varienGlobalEvents.attachEventHandler("formSubmit", editorFormValidationHandler);
-                    varienGlobalEvents.attachEventHandler("tinymceBeforeSetContent", ' .
-                $jsSetupObject .
-                '.beforeSetContent.bind(' .
-                $jsSetupObject .
-                '));
-                    varienGlobalEvents.attachEventHandler("tinymceSaveContent", ' .
-                $jsSetupObject .
-                '.saveContent.bind(' .
-                $jsSetupObject .
-                '));
                     varienGlobalEvents.clearEventHandlers("open_browser_callback");
                     varienGlobalEvents.attachEventHandler("open_browser_callback", ' .
                 $jsSetupObject .
-                '.openFileBrowser.bind(' .
-                $jsSetupObject .
-                '));
+                '.openFileBrowser);
                 //]]>
                 });
                 </script>';

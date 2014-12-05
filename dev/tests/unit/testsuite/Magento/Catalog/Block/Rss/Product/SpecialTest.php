@@ -38,7 +38,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Catalog\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $catalogHelper;
+    protected $msrpHelper;
 
     /**
      * @var \Magento\Framework\Pricing\PriceCurrencyInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -87,7 +87,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
 
         $this->imageHelper = $this->getMock('Magento\Catalog\Helper\Image', [], [], '', false);
         $this->outputHelper = $this->getMock('Magento\Catalog\Helper\Output', ['productAttribute'], [], '', false);
-        $this->catalogHelper = $this->getMock('Magento\Catalog\Helper\Data', ['canApplyMsrp'], [], '', false);
+        $this->msrpHelper = $this->getMock('Magento\Msrp\Helper\Data', ['canApplyMsrp'], [], '', false);
         $this->priceCurrency = $this->getMock('Magento\Framework\Pricing\PriceCurrencyInterface');
         $this->rssModel = $this->getMock('Magento\Catalog\Model\Rss\Product\Special', [], [], '', false);
         $this->rssUrlBuilder = $this->getMock('Magento\Framework\App\Rss\UrlBuilderInterface');
@@ -112,7 +112,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
                 'httpContext' => $this->httpContext,
                 'imageHelper' => $this->imageHelper,
                 'outputHelper' => $this->outputHelper,
-                'catalogHelper' => $this->catalogHelper,
+                'msrpHelper' => $this->msrpHelper,
                 'priceCurrency' => $this->priceCurrency,
                 'rssModel' => $this->rssModel,
                 'rssUrlBuilder' => $this->rssUrlBuilder,
@@ -131,7 +131,7 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
         $item = $this->getItemMock();
         $this->rssModel->expects($this->once())->method('getProductsCollection')
             ->will($this->returnValue(array($item)));
-        $this->catalogHelper->expects($this->once())->method('canApplyMsrp')->will($this->returnValue(false));
+        $this->msrpHelper->expects($this->once())->method('canApplyMsrp')->will($this->returnValue(false));
         $this->localeDate->expects($this->once())->method('formatDate')->will($this->returnValue(date('Y-m-d')));
 
         $this->priceCurrency->expects($this->any())->method('convertAndFormat')->will($this->returnArgument(0));
