@@ -207,8 +207,7 @@ class AbstractCriteriaTest extends \PHPUnit_Framework_TestCase
                     ],
                     'criteria_list' => [
                         'list' => []
-                    ],
-                    'limit' => [1, 0]
+                    ]
                 ]
             ]
         ];
