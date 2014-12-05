@@ -15,7 +15,7 @@ interface AlgorithmInterface
      * @param BucketInterface $bucket
      * @param array $dimensions
      * @param int[] $entityIds
-     * @return mixed
+     * @return array
      */
     public function getItems(BucketInterface $bucket, array $dimensions, array $entityIds);
 }

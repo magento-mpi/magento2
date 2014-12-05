@@ -134,6 +134,7 @@ class PreprocessorTest extends \PHPUnit_Framework_TestCase
                 'scopeResolver' => $this->scopeResolver,
                 'config' => $this->config,
                 'resource' => $resource,
+                'attributePrefix' => 'attr_'
             ]
         );
     }

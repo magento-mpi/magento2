@@ -8,7 +8,6 @@
 namespace Magento\Solr\Model\Layer\Category\Filter;
 
 use Magento\Catalog\Api\CategoryRepositoryInterface;
-use Magento\Catalog\Model\Layer\Filter\DataProvider\CategoryFactory;
 
 /**
  * Layer category filter
@@ -30,7 +29,9 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Framework\Escaper $escaper
-     * @param CategoryFactory $categoryDataProviderFactory
+     * @param \Magento\Catalog\Model\Layer\Filter\DataProvider\CategoryFactory $categoryFactory
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      */
@@ -40,17 +41,20 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Framework\Escaper $escaper,
-        CategoryFactory $categoryDataProviderFactory,
+        \Magento\Catalog\Model\Layer\Filter\DataProvider\CategoryFactory $categoryFactory,
+        \Magento\Framework\Registry $coreRegistry,
+        CategoryRepositoryInterface $categoryRepository,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        array $data = array()
+        array $data = []
     ) {
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct(
             $filterItemFactory,
             $storeManager,
             $layer,
             $itemDataBuilder,
             $escaper,
-            $categoryDataProviderFactory,
+            $categoryFactory,
             $data
         );
     }

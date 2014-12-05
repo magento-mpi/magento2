@@ -53,9 +53,13 @@ class ConsoleLogger implements LoggerInterface
     /**
      * {@inheritdoc}
      */
-    public function log($message)
+    public function log($message, $addEol = true)
     {
-        $this->console->writeLine($message, ColorInterface::LIGHT_BLUE);
+        if ($addEol) {
+            $this->console->writeLine($message, ColorInterface::LIGHT_BLUE);
+        } else {
+            $this->console->write($message, ColorInterface::LIGHT_BLUE);
+        }
     }
 
     /**

@@ -19,10 +19,14 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\Layout',
             array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
         );
+        $authorization = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Framework\AuthorizationInterface',
+            array('aclPolicy' =>  new \Magento\Framework\Authorization\Policy\DefaultPolicy())
+        );
 
         $block = $objectManager->create(
             'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category',
-            array('layout' => $layout)
+            array('layout' => $layout, 'authorization' => $authorization)
         );
 
         /** @var $formFactory \Magento\Framework\Data\FormFactory */

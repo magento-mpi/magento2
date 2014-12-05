@@ -20,7 +20,13 @@ $coreHelper = $this->helper('Magento\Core\Helper\Data');
     <div id="<?php echo $this->getFieldPrefix() ?>_attribute_container"></div>
 
     <script type="text/javascript">
-require(['jquery', 'js/theme', 'Magento_GiftRegistry/edit/validation-rules', 'prototype'], function(jQuery){
+require([
+    'jquery',
+    'js/theme',
+    'mage/adminhtml/form',
+    'Magento_GiftRegistry/edit/validation-rules',
+    'prototype'
+], function(jQuery){
 
     //<![CDATA[
     var attributeTemplate =
