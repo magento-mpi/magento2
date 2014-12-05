@@ -17,6 +17,9 @@ use \Magento\ConfigurableProduct\Model\Product\Type\Configurable as Configurable
 use \Magento\Catalog\Model\Product\Type as ProductType;
 use \Magento\Store\Model\Store;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class OptionRepository implements \Magento\ConfigurableProduct\Api\OptionRepositoryInterface
 {
     /**
@@ -104,7 +107,7 @@ class OptionRepository implements \Magento\ConfigurableProduct\Api\OptionReposit
                     ->create();
             }
         }
-        $configurableAttribute->setValues($prices);
+        $configurableAttribute->setValues($values);
         return $configurableAttribute;
     }
 
@@ -165,6 +168,7 @@ class OptionRepository implements \Magento\ConfigurableProduct\Api\OptionReposit
 
     /**
      * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function save($productSku, \Magento\ConfigurableProduct\Api\Data\OptionInterface $option)
     {
