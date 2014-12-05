@@ -22,7 +22,7 @@ define([
             responseFieldElements: 'ul li',
             selectClass: 'selected',
             template: '<li class="{{row_class}}" title="{{title}}">{{title}}<span class="amount">{{num_of_results}}</span></li>',
-            searchLabel: '#search-label'
+            searchLabel: '[data-role=minisearch-label]'
         },
 
         _create: function() {
