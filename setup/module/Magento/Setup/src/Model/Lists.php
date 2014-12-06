@@ -36,10 +36,10 @@ class Lists
      */
     public function getTimezoneList()
     {
-        $timeZone  = $this->zendLocale->getTranslationList('WindowsToTimezone');
+        $timeZone  = $this->zendLocale->getTranslationList('TimezoneToWindows');
         $list = [];
-        foreach ($timeZone as $code => $value) {
-            $list[$code] = $value . ' (' . $code . ')';
+        foreach ($timeZone as $windows => $iso) {
+            $list[$iso] = $windows . ' (' . $iso . ')';
         }
         asort($list);
         return $list;

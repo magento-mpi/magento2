@@ -17,7 +17,17 @@ require([
     'jquery/validate'
 ], function(jQuery){
 
-    allowedStorages = [];
+    allowedStorages = [],
+    getConnectionName = function (storageType, connection) {
+        if (storageType == 0) {
+            return storageType;
+        } else if (connection != '') {
+            return storageType + '_' + connection;
+        }
+
+        return '';
+    };
+
     addAllowedStorage(
         $('system_media_storage_configuration_media_storage').value,
         $('system_media_storage_configuration_media_database').value
@@ -30,16 +40,6 @@ require([
     defaultValues['system_media_storage_configuration_media_storage']   = $('system_media_storage_configuration_media_storage').value;
     defaultValues['system_media_storage_configuration_media_database']  = $('system_media_storage_configuration_media_database').value;
 
-    function getConnectionName(storageType, connection)
-    {
-        if (storageType == 0) {
-            return storageType;
-        } else if (connection != '') {
-            return storageType + '_' + connection;
-        }
-
-        return '';
-    }
 
     function addAllowedStorage(storageType, connection)
     {
