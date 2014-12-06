@@ -8,7 +8,7 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\GroupRegistry;
@@ -45,7 +45,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_scopeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $_storeManager;
 
@@ -77,7 +77,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * @param GroupFactory $groupFactory
      * @param ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
      * @param TaxClassRepositoryInterface $taxClassRepository

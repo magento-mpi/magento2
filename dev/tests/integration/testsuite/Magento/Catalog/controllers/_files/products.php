@@ -30,7 +30,7 @@ $productOne->setId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array($obectManager->get('Magento\Framework\StoreManagerInterface')->getStore()->getWebsiteId())
+    array($obectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId())
 )->setSku(
     'simple_product_1'
 )->setName(
@@ -71,7 +71,7 @@ $productTwo->setId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array($obectManager->get('Magento\Framework\StoreManagerInterface')->getStore()->getWebsiteId())
+    array($obectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId())
 )->setSku(
     'simple_product_2'
 )->setName(

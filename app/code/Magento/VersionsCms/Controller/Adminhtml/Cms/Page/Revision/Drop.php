@@ -32,7 +32,7 @@ class Drop extends \Magento\Backend\App\Action implements RevisionInterface
     protected $_design;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -41,14 +41,14 @@ class Drop extends \Magento\Backend\App\Action implements RevisionInterface
      * @param \Magento\Cms\Model\Page $page
      * @param RevisionProvider $revisionProvider
      * @param \Magento\Framework\App\DesignInterface $design
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         Action\Context $context,
         \Magento\Cms\Model\Page $page,
         RevisionProvider $revisionProvider,
         \Magento\Framework\App\DesignInterface $design,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_cmsPage = $page;
         $this->revisionProvider = $revisionProvider;

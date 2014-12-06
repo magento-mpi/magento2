@@ -35,7 +35,7 @@ use Magento\Framework\Logger;
 use Magento\Framework\Mail\Exception as MailException;
 use Magento\Framework\Math\Random;
 use Magento\Framework\Stdlib\String as StringHelper;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\UrlInterface;
 
 /**
@@ -73,7 +73,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $eventManager;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $storeManager;
 
@@ -145,7 +145,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * @param CustomerFactory $customerFactory
      * @param ManagerInterface $eventManager
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Random $mathRandom
      * @param Converter $converter
      * @param Validator $validator

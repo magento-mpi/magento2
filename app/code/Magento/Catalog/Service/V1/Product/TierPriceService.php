@@ -30,7 +30,7 @@ class TierPriceService implements TierPriceServiceInterface
     protected $priceBuilder;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -57,7 +57,7 @@ class TierPriceService implements TierPriceServiceInterface
     /**
      * @param ProductRepositoryInterface $productRepository
      * @param Product\TierPriceBuilder $priceBuilder
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\PriceModifier $priceModifier
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Customer\Api\GroupRepositoryInterface $groupRepository
@@ -66,7 +66,7 @@ class TierPriceService implements TierPriceServiceInterface
     public function __construct(
         ProductRepositoryInterface $productRepository,
         Product\TierPriceBuilder $priceBuilder,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\PriceModifier $priceModifier,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Customer\Api\GroupRepositoryInterface $groupRepository,

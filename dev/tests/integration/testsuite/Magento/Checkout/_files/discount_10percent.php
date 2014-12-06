@@ -16,7 +16,7 @@ $data = array(
     'is_active' => true,
     'website_ids' => array(
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getStore()->getWebsiteId()
     ),
     'customer_group_ids' => array(\Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID),

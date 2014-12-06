@@ -31,7 +31,7 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
     private $objectManager;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $storeManagerMock;
 
@@ -64,7 +64,7 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $storeMock->expects($this->once())->method('getBaseUrl')->will($this->returnValue('/'));
-        $this->storeManagerMock = $this->getMockForAbstractClass('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMockForAbstractClass('\Magento\Store\Model\StoreManagerInterface');
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
 
         $this->filesystemMock = $this->getMock('\Magento\Framework\Filesystem', [], [], '', false);

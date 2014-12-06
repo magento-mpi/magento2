@@ -109,7 +109,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWebsite($websiteId, $website)
     {
-        $storeManager = $this->getMockForAbstractClass('\Magento\Framework\StoreManagerInterface');
+        $storeManager = $this->getMockForAbstractClass('\Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->any())
             ->method('getWebsite')
             ->with($websiteId)
@@ -145,7 +145,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('test/route'), $this->equalTo($params))
             ->will($this->returnValue('http://test/url'));
 
-        $storeManager = $this->getMockForAbstractClass('\Magento\Framework\StoreManagerInterface');
+        $storeManager = $this->getMockForAbstractClass('\Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($defaultStore));
@@ -332,7 +332,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $urlMock->expects($this->any())->method('getUrl')
             ->will($this->returnValue($url));
 
-        $storeManager = $this->getMockForAbstractClass('\Magento\Framework\StoreManagerInterface');
+        $storeManager = $this->getMockForAbstractClass('\Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($defaultStore));
