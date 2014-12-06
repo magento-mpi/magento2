@@ -1,0 +1,24 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Framework\Stdlib\Cookie;
+
+class PhpCookieReader implements CookieReaderInterface
+{
+    /**
+     * Retrieve a value from a cookie.
+     *
+     * @param string $name
+     * @param string|null $default The default value to return if no value could be found for the given $name.
+     * @return string|null
+     */
+    public function getCookie($name, $default = null)
+    {
+        return (isset($_COOKIE[$name])) ? $_COOKIE[$name] : $default;
+    }
+}

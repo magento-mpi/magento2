@@ -88,9 +88,9 @@ class Http extends \Zend_Controller_Request_Http implements
     private $_pathInfoProcessor;
 
     /**
-     * @var \Magento\Framework\Stdlib\CookieManagerInterface
+     * @var \Magento\Framework\Stdlib\Cookie\CookieReaderInterface
      */
-    protected $_cookieManager;
+    protected $cookieReader;
 
     /**
      * @var \Magento\Framework\App\Config\ReinitableConfigInterface
@@ -100,7 +100,7 @@ class Http extends \Zend_Controller_Request_Http implements
     /**
      * @param \Magento\Framework\App\Route\ConfigInterface\Proxy $routeConfig
      * @param PathInfoProcessorInterface $pathInfoProcessor
-     * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
+     * @param \Magento\Framework\Stdlib\Cookie\CookieReaderInterface $cookieReader
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
      * @param string|null $uri
      * @param array $directFrontNames
@@ -108,7 +108,7 @@ class Http extends \Zend_Controller_Request_Http implements
     public function __construct(
         \Magento\Framework\App\Route\ConfigInterface\Proxy $routeConfig,
         PathInfoProcessorInterface $pathInfoProcessor,
-        \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
+        \Magento\Framework\Stdlib\Cookie\CookieReaderInterface $cookieReader,
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
         $uri = null,
         $directFrontNames = array()
@@ -118,7 +118,7 @@ class Http extends \Zend_Controller_Request_Http implements
         $this->_directFrontNames = $directFrontNames;
         parent::__construct($uri);
         $this->_pathInfoProcessor = $pathInfoProcessor;
-        $this->_cookieManager = $cookieManager;
+        $this->cookieReader = $cookieReader;
     }
 
     /**
@@ -614,7 +614,7 @@ class Http extends \Zend_Controller_Request_Http implements
      */
     public function getCookie($name = null, $default = null)
     {
-        return $this->_cookieManager->getCookie($name, $default);
+        return $this->cookieReader->getCookie($name, $default);
     }
 
     /**
