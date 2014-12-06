@@ -8,6 +8,9 @@
 
 namespace Magento\Framework\Stdlib\Cookie;
 
+/**
+ * PhpCookieReader is an implementation of CookieReaderInterface that reads cookie data from the php $_COOKIE array.
+ */
 class PhpCookieReader implements CookieReaderInterface
 {
     /**
