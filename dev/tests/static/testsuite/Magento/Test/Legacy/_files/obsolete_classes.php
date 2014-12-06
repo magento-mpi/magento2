@@ -2319,7 +2319,6 @@ return array(
     ['Magento\Core\Model\Store\Storage\DefaultStorage', 'Magento\Store\Model\Storage\DefaultStorage'],
     ['Magento\Core\Model\Store\StorageFactory', 'Magento\Store\Model\StorageFactory'],
     ['Magento\Core\Model\StoreManager', 'Magento\Store\Model\StoreManager'],
-    ['Magento\Store\Model\StoreManagerInterface', 'Magento\Store\Model\StoreManagerInterface'],
     ['Magento\Core\Model\System\Store', 'Magento\Store\Model\System\Store'],
     ['Magento\Core\Model\Website', 'Magento\Store\Model\Website'],
     ['Magento\Core\Model\Website\Factory', 'Magento\Store\Model\WebsiteFactory'],
