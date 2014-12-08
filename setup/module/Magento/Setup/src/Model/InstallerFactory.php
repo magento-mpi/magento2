@@ -50,7 +50,8 @@ class InstallerFactory
             $this->serviceLocator->get('Magento\Setup\Module\ConnectionFactory'),
             $this->serviceLocator->get('Magento\Framework\App\MaintenanceMode'),
             $this->serviceLocator->get('Magento\Framework\Filesystem'),
-            $this->serviceLocator
+            $this->serviceLocator,
+            $this->serviceLocator->get('Magento\Setup\Model\SampleData')
         );
     }
 }

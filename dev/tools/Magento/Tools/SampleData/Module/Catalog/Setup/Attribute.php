@@ -65,6 +65,16 @@ class Attribute implements SetupInterface
     protected $entityTypeId;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
@@ -72,7 +82,10 @@ class Attribute implements SetupInterface
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      * @param FixtureHelper $fixtureHelper
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param CsvReaderFactory $csvReaderFactory
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $attributeFactory,
@@ -82,6 +95,8 @@ class Attribute implements SetupInterface
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         FixtureHelper $fixtureHelper,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
+        \Magento\Tools\SampleData\Logger $logger,
         CsvReaderFactory $csvReaderFactory
     ) {
         $this->attributeFactory = $attributeFactory;
@@ -92,6 +107,8 @@ class Attribute implements SetupInterface
         $this->moduleList = $moduleList;
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
+        $this->storeManager = $storeManager;
+        $this->logger = $logger;
     }
 
     /**
@@ -99,10 +116,10 @@ class Attribute implements SetupInterface
      */
     public function run()
     {
-        echo "Installing catalog attributes\n";
+        $this->logger->log('Installing catalog attributes' . PHP_EOL);
         $attributeCount = 0;
 
-        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
+        foreach ($this->moduleList->getNames() as $moduleName) {
             $fileName = substr($moduleName, strpos($moduleName, "_") + 1) . '/attributes.csv';
             $fileName = $this->fixtureHelper->getPath($fileName);
             if (!$fileName) {
@@ -118,6 +135,12 @@ class Attribute implements SetupInterface
                     $attribute = $this->attributeFactory->create();
                 }
 
+                $frontendLabel = explode("\n", $data['frontend_label']);
+                if (count($frontendLabel) > 1) {
+                    $data['frontend_label'] = [];
+                    $data['frontend_label'][\Magento\Store\Model\Store::DEFAULT_STORE_ID] = $frontendLabel[0];
+                    $data['frontend_label'][$this->storeManager->getStoreId()] = $frontendLabel[1];
+                }
                 $data['option'] = $this->getOption($attribute, $data);
                 $data['source_model'] = $this->productHelper->getAttributeSourceModelByInputType(
                     $data['frontend_input']
@@ -131,6 +154,7 @@ class Attribute implements SetupInterface
                 $attribute->addData($data);
                 $attribute->setIsUserDefined(1);
 
+                $attribute->setEntityTypeId($this->getEntityTypeId());
                 $attribute->save();
                 $attributeId = $attribute->getId();
 
@@ -152,10 +176,10 @@ class Attribute implements SetupInterface
                     }
                 }
 
-                echo '.';
+                $this->logger->log('.');
             }
         }
-        echo "\n";
+        $this->logger->log(PHP_EOL);
 
         $this->eavConfig->clear();
     }
