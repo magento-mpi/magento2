@@ -191,11 +191,10 @@ abstract class AbstractGroup extends Widget implements RendererInterface
             if (!$this->_catalogData->isModuleEnabled('Magento_Customer')) {
                 return array();
             }
+            $this->_customerGroups = $this->_getInitialCustomerGroups();
             /** @var \Magento\Customer\Api\Data\GroupInterface[] $groups */
             $groups = $this->_groupRepository->getList($this->_searchCriteriaDataBuilder->create());
-            $this->_customerGroups = $this->_getInitialCustomerGroups();
-
-            foreach ($groups as $group) {
+            foreach ($groups->getItems() as $group) {
                 $this->_customerGroups[$group->getId()] = $group->getCode();
             }
         }
