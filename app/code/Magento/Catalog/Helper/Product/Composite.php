@@ -80,7 +80,6 @@ class Composite extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogProduct = $catalogProduct;
         $this->_view = $view;
-        $this->_converter = $converter;
         $this->productRepository = $productRepository;
         $this->customerRepository = $customerRepository;
         parent::__construct($context);
