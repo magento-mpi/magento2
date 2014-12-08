@@ -41,8 +41,12 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getTitle', 'getType'])
             ->disableOriginalConstructor()
             ->getMock();
-        $option->expects($this->once())->method('getTitle')->willReturn($title);
-        $option->expects($this->once())->method('getType')->willReturn($type);
+        $option->expects($this->once())
+            ->method('getTitle')
+            ->willReturn($title);
+        $option->expects($this->once())
+            ->method('getType')
+            ->willReturn($type);
 
         $this->assertEquals($isValid, $this->validator->isValid($option));
         $this->assertEquals($expectedMessages, $this->validator->getMessages());
@@ -61,4 +65,3 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         ];
     }
 }
- 
