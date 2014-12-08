@@ -8,6 +8,7 @@
 namespace Magento\Catalog\Model\Resource\Eav;
 
 use Magento\Catalog\Model\Attribute\LockValidatorInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Catalog attribute model
@@ -96,6 +97,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
@@ -118,6 +120,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
@@ -144,6 +147,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $coreData,
             $eavConfig,
             $eavTypeFactory,
@@ -486,6 +490,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * {@inheritdoc}
      */
     public function getIsWysiwygEnabled()
@@ -596,6 +601,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
     {
         return $this->getData(self::IS_VISIBLE);
     }
+    //@codeCoverageIgnoreEnd
 
     /**
      * {@inheritdoc}

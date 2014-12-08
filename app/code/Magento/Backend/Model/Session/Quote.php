@@ -76,8 +76,6 @@ class Quote extends \Magento\Framework\Session\SessionManager
     protected $groupManagement;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Framework\App\Request\Http $request
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\Session\Config\ConfigInterface $sessionConfig
@@ -86,8 +84,8 @@ class Quote extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Session\StorageInterface $storage
      * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
      * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
-     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param CustomerRepositoryInterface $customerRepository
+     * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param GroupManagementInterface $groupManagement
@@ -101,14 +99,14 @@ class Quote extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Session\StorageInterface $storage,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
-        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         CustomerRepositoryInterface $customerRepository,
+        \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\StoreManagerInterface $storeManager,
         GroupManagementInterface $groupManagement
     ) {
-        $this->quoteRepository = $quoteRepository;
         $this->customerRepository = $customerRepository;
+        $this->quoteRepository = $quoteRepository;
         $this->_orderFactory = $orderFactory;
         $this->_storeManager = $storeManager;
         $this->groupManagement = $groupManagement;
@@ -139,8 +137,7 @@ class Quote extends \Magento\Framework\Session\SessionManager
             $this->_quote = $this->quoteRepository->create();
             if ($this->getStoreId()) {
                 if (!$this->getQuoteId()) {
-                    $customerGroupId = $this->groupManagement->getDefaultGroup()->getId();
-                    $this->_quote->setCustomerGroupId($customerGroupId)
+                    $this->_quote->setCustomerGroupId($this->groupManagement->getDefaultGroup()->getId())
                         ->setIsActive(false)
                         ->setStoreId($this->getStoreId());
                     $this->quoteRepository->save($this->_quote);
@@ -151,7 +148,8 @@ class Quote extends \Magento\Framework\Session\SessionManager
                 }
 
                 if ($this->getCustomerId()) {
-                    $this->_quote->assignCustomer($this->customerRepository->getById($this->getCustomerId()));
+                    $customer = $this->customerRepository->getById($this->getCustomerId());
+                    $this->_quote->assignCustomer($customer);
                 }
             }
             $this->_quote->setIgnoreOldQty(true);

@@ -1,12 +1,10 @@
 <?php
 /**
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
@@ -57,14 +55,14 @@ interface CustomerInterface extends ExtensibleDataInterface
     /**
      * Get default billing address id
      *
-     * @return int|null
+     * @return string|null
      */
     public function getDefaultBilling();
 
     /**
      * Get default shipping address id
      *
-     * @return int|null
+     * @return string|null
      */
     public function getDefaultShipping();
 

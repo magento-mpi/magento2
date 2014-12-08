@@ -37,18 +37,35 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     protected $priceCurrency;
 
     /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $customerFactory;
+
+    /**
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+
+    /**
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      */
     public function __construct(
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
-        PriceCurrencyInterface $priceCurrency
+        PriceCurrencyInterface $priceCurrency,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_rewardData = $rewardData;
         $this->_rewardFactory = $rewardFactory;
+        $this->customerFactory = $customerFactory;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
         $this->setCode('reward');
     }
 
@@ -76,13 +93,16 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             /* @var $reward \Magento\Reward\Model\Reward */
             $reward = $quote->getRewardInstance();
             if (!$reward || !$reward->getId()) {
-                $reward = $this->_rewardFactory->create()->setCustomer(
-                    $quote->getCustomer()
-                )->setCustomerId(
-                    $quote->getCustomer()->getId()
-                )->setWebsiteId(
-                    $quote->getStore()->getWebsiteId()
-                )->loadByCustomer();
+                $customerData = $quote->getCustomer();
+                $customer = $this->customerFactory->create(
+                    [
+                        'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData)
+                    ]
+                );
+                $reward = $this->_rewardFactory->create()->setCustomer($customer);
+                $reward->setCustomerId($quote->getCustomer()->getId());
+                $reward->setWebsiteId($quote->getStore()->getWebsiteId());
+                $reward->loadByCustomer();
             }
             $pointsLeft = $reward->getPointsBalance() - $quote->getRewardPointsBalance();
             $rewardCurrencyAmountLeft = $this->priceCurrency->convert(

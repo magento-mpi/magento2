@@ -7,8 +7,6 @@
  */
 namespace Magento\Cms\Model\Resource\Page;
 
-use Magento\Cms\Api\Data\PageCollectionInterface;
-use Magento\Cms\Api\Data\PageInterface;
 use Magento\Framework\Data\AbstractSearchResult;
 use Magento\Framework\Data\Collection\EntityFactoryInterface;
 use Magento\Framework\Data\SearchResultIteratorFactory;
@@ -17,6 +15,8 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\Data\SearchResultProcessorFactory;
 use Magento\Framework\Data\SearchResultProcessor;
+use Magento\Cms\Api\Data\PageCollectionInterface;
+use Magento\Cms\Model\Resource\AbstractCollection;
 
 /**
  * CMS page collection
@@ -61,6 +61,8 @@ class Collection extends AbstractSearchResult implements PageCollectionInterface
     {
         $this->setDataInterfaceName('Magento\Cms\Api\Data\PageInterface');
         $this->query->addCountSqlSkipPart(\Zend_Db_Select::GROUP, true);
+        $this->storeTableName = 'cms_page_store';
+        $this->linkFieldName = 'page_id';
     }
 
     /**

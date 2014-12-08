@@ -7,11 +7,12 @@
  */
 namespace Magento\CatalogInventory\Model\Adminhtml\Stock;
 
+use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\CatalogInventory\Api\StockConfigurationInterface as StockConfigurationInterface;
 use Magento\CatalogInventory\Api\StockItemRepositoryInterface as StockItemRepositoryInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
-use Magento\Customer\Api\GroupManagementInterface;
 
 /**
  * Catalog Inventory Stock Model for adminhtml area
@@ -27,12 +28,13 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param StockConfigurationInterface $stockConfiguration
      * @param StockRegistryInterface $stockRegistry
      * @param StockItemRepositoryInterface $stockItemRepository
-     * @param GroupManagementInterface $groupManagement,
+     * @param GroupManagementInterface $groupManagement
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -41,6 +43,7 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\StoreManagerInterface $storeManager,
         StockConfigurationInterface $stockConfiguration,
@@ -55,6 +58,7 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $customerSession,
             $storeManager,
             $stockConfiguration,
