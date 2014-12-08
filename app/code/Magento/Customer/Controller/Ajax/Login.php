@@ -64,20 +64,20 @@ class Login extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-        $login = null;
+        $credentials = null;
         try {
-            $login = $this->helper->jsonDecode($this->getRequest()->getRawBody());
+            $credentials = $this->helper->jsonDecode($this->getRequest()->getRawBody());
         } catch (Exception $e) {
             $this->getResponse()->setHttpResponseCode($e->getCode());
             return;
         }
-        if (!$login || $this->getRequest()->getMethod() !== \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST) {
+        if (!$credentials || $this->getRequest()->getMethod() !== \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST) {
             $this->getResponse()->setHttpResponseCode(HttpException::HTTP_BAD_REQUEST);
             return;
         }
         $responseText = null;
         try {
-            $customer = $this->accountManagement->authenticate($login['username'], $login['password']);
+            $customer = $this->accountManagement->authenticate($credentials['username'], $credentials['password']);
             $this->customerSession->setCustomerDataAsLoggedIn($customer);
             $this->customerSession->regenerateId();
         } catch (EmailNotConfirmedException $e) {
