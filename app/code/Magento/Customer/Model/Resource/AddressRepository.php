@@ -11,7 +11,6 @@ namespace Magento\Customer\Model\Resource;
 
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Api\Search\FilterGroup;
-use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\SortOrder;
 use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Customer\Model\Resource\Address\Collection;
@@ -56,6 +55,11 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
     protected $addressCollectionFactory;
 
     /**
+     * @var \Magento\Customer\Model\Address\Mapper
+     */
+    protected $addressMapper;
+
+    /**
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\AddressRegistry $addressRegistry
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
@@ -63,6 +67,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Customer\Api\Data\AddressSearchResultsDataBuilder $addressSearchResultsBuilder
      * @param \Magento\Customer\Model\Resource\Address\CollectionFactory $addressCollectionFactory
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      */
     public function __construct(
         \Magento\Customer\Model\AddressFactory $addressFactory,
@@ -71,7 +76,8 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         \Magento\Customer\Model\Resource\Address $addressResourceModel,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Customer\Api\Data\AddressSearchResultsDataBuilder $addressSearchResultsBuilder,
-        \Magento\Customer\Model\Resource\Address\CollectionFactory $addressCollectionFactory
+        \Magento\Customer\Model\Resource\Address\CollectionFactory $addressCollectionFactory,
+        \Magento\Customer\Model\Address\Mapper $addressMapper
     ) {
         $this->addressFactory = $addressFactory;
         $this->addressRegistry = $addressRegistry;
@@ -80,6 +86,7 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         $this->directoryData = $directoryData;
         $this->addressSearchResultsBuilder = $addressSearchResultsBuilder;
         $this->addressCollectionFactory = $addressCollectionFactory;
+        $this->addressMapper = $addressMapper;
     }
 
     /**
@@ -94,16 +101,13 @@ class AddressRepository implements \Magento\Customer\Api\AddressRepositoryInterf
         $addressModel = null;
         $customerModel = $this->customerRegistry->retrieve($address->getCustomerId());
         if ($address->getId()) {
+            // let the registry throw an exception if the specified address Id does not exist.
             $addressModel = $this->addressRegistry->retrieve($address->getId());
         }
 
-        if (is_null($addressModel)) {
-            $addressModel = $this->addressFactory->create();
-            $addressModel->updateData($address);
-            $addressModel->setCustomer($customerModel);
-        } else {
-            $addressModel->updateData($address);
-        }
+        $addressData = $this->addressMapper->toFlatArray($address);
+        $addressModel = $this->addressFactory->create(['data' => $addressData]);
+        $addressModel->setCustomer($customerModel);
 
         $inputException = $this->_validate($addressModel);
         if ($inputException->wasErrorAdded()) {
