@@ -10,7 +10,7 @@ namespace Magento\Pci\Model;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Pci\Model\Encryption|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Encryption\Encryptor|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $encryptorMock;
 
@@ -27,7 +27,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->encryptorMock = $this->getMockBuilder(
-            '\Magento\Pci\Model\Encryption'
+            '\Magento\Framework\Encryption\Encryptor'
         )->disableOriginalConstructor()->getMock();
         $this->encryptorMock->expects($this->any())->method('validateHashByVersion')->will(
             $this->returnCallback(

@@ -24,6 +24,7 @@ use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\FilesystemException;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Magento\Setup\Mvc\Bootstrap\InitParamListener;
+use Magento\Framework\App\DeploymentConfig as Config;
 use Magento\Framework\App\DeploymentConfig\BackendConfig;
 use Magento\Framework\App\DeploymentConfig\DbConfig;
 use Magento\Framework\App\DeploymentConfig\EncryptConfig;
@@ -31,6 +32,7 @@ use Magento\Framework\App\DeploymentConfig\InstallConfig;
 use Magento\Framework\App\DeploymentConfig\SessionConfig;
 use Magento\Framework\App\DeploymentConfig\ResourceConfig;
 use Magento\Setup\Module\Setup\ConfigMapper;
+use Magento\Framework\App\DeploymentConfig\Reader;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -327,14 +329,30 @@ class Installer
 
     /**
      * Creates encrypt deployment configuration segment
+     * No new encryption key will be added if there is an existing deployment config file unless user provides one.
+     * Old encryption keys will persist.
+     * A new encryption key will be generated if there is no existing deployment config file.
      *
      * @param \ArrayObject|array $data
      * @return \Magento\Framework\App\DeploymentConfig\SegmentInterface
      */
     private function createEncryptConfig($data)
     {
+        $key = $data[ConfigMapper::KEY_ENCRYPTION_KEY];
+        // retrieve old encryption keys
+        $reader = new Reader($this->directoryList);
+        $deploymentConfig = new Config($reader);
+        if ($deploymentConfig->isAvailable()) {
+            $encryptInfo = $deploymentConfig->getSegment(EncryptConfig::CONFIG_KEY);
+            $oldKeys = $encryptInfo[EncryptConfig::KEY_ENCRYPTION_KEY];
+            $key = empty($key) ? $oldKeys : $oldKeys . "\n" . $key;
+        } else if (empty($key)) {
+            $key = md5($this->random->getRandomString(10));
+        }
         $cryptConfigData =
-            array(ConfigMapper::$paramMap[ConfigMapper::KEY_ENCRYPTION_KEY] => $data[ConfigMapper::KEY_ENCRYPTION_KEY]);
+            array(ConfigMapper::$paramMap[ConfigMapper::KEY_ENCRYPTION_KEY] => $key);
+
+        $this->installInfo[EncryptConfig::KEY_ENCRYPTION_KEY] = array_pop(explode("\n", $key));
         return new EncryptConfig($cryptConfigData);
     }
 
@@ -481,10 +499,6 @@ class Installer
     public function installDeploymentConfig($data)
     {
         $data[InstallConfig::KEY_DATE] = date('r');
-        if (empty($data[EncryptConfig::KEY_ENCRYPTION_KEY])) {
-            $data[EncryptConfig::KEY_ENCRYPTION_KEY] = md5($this->random->getRandomString(10));
-        }
-        $this->installInfo[EncryptConfig::KEY_ENCRYPTION_KEY] = $data[EncryptConfig::KEY_ENCRYPTION_KEY];
 
         $configs = [
             $this->createBackendConfig($data),

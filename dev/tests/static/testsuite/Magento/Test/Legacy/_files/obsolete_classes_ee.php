@@ -142,4 +142,5 @@ return array(
     ['Magento\Reward\Model\Observer'],
     ['Magento\WebsiteRestriction\Model\Observer'],
     ['Magento\MultipleWishlist\Block\Rss'],
+    ['Magento\Pci\Model\Encryption', 'Magento\Framework\Encryption\Encryptor'],
 );

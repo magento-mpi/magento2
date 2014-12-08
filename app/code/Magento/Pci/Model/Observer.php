@@ -19,14 +19,14 @@ class Observer
     /**
      * Pci encryption model
      *
-     * @var \Magento\Pci\Model\Encryption
+     * @var \Magento\Framework\Encryption\EncryptorInterface
      */
     protected $_encryptor;
 
     /**
-     * @param \Magento\Pci\Model\Encryption $encryptor
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
      */
-    public function __construct(\Magento\Pci\Model\Encryption $encryptor)
+    public function __construct(\Magento\Framework\Encryption\EncryptorInterface $encryptor)
     {
         $this->_encryptor = $encryptor;
     }
