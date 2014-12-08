@@ -25,10 +25,10 @@ Product.Config.prototype = {
             inclTaxTitle: jQuery.mage.__('Incl. Tax')
         };
         for(var ii in config.attributes) {
-            if( config.attributes.hasOwnProperty( ii ) ) {
+            if(config.attributes.hasOwnProperty(ii)) {
                 var attribute = config.attributes[ii];
                 for(var jj in attribute.options) {
-                    if( attribute.options.hasOwnProperty( jj ) ) {
+                    if(attribute.options.hasOwnProperty(jj)) {
                         var option = attribute.options[jj];
                         option.price = +option.prices.finalPrice.amount;
                         option.inclTaxPrice = +option.prices.finalPrice.amount;
