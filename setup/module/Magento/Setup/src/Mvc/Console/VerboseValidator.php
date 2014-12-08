@@ -53,7 +53,7 @@ class VerboseValidator
             $validationMessages = PHP_EOL;
 
             if (!empty($missingParams)) {
-                $validationMessages .= 'Missing parameters:' . PHP_EOL;
+                $validationMessages .= 'Missing required parameters:' . PHP_EOL;
                 foreach ($missingParams as $missingParam) {
                     $validationMessages .= $missingParam . PHP_EOL;
                 }
