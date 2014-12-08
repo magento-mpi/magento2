@@ -16,15 +16,15 @@ require([
     "jquery",
     "prototype",
     "mage/translate"
-], function(jQuery){
-    jQuery("body").on("adminConfigDefined", function() {
-        $$(".with-button button.button").each(function(configureButton) {
+], function(jQuery) {
+    jQuery("body").on("adminConfigDefined", function () {
+        $$(".with-button button.button").each(function (configureButton) {
             togglePaypalSolutionConfigureButton(configureButton, true);
         });
         var paypalConflictsObject = {
             "isConflict": false,
             "ecMissed": false,
-            sharePayflowEnabling: function(enabler, isEvent) {
+            sharePayflowEnabling: function (enabler, isEvent) {
 
                 var isPayflowLinkEnabled = !!$$(".paypal-payflowlink")[0],
                     isPayflowAdvancedEnabled = !!$$(".paypal-payflow-advanced")[0];
@@ -76,19 +76,19 @@ require([
                     }
                 }
             },
-            onChangeEnabler: function(event) {
+            onChangeEnabler: function (event) {
                 paypalConflictsObject.checkPaymentConflicts($(Event.element(event)), "change");
             },
-            onClickEnablerScope: function(event) {
+            onClickEnablerScope: function (event) {
                 paypalConflictsObject.checkPaymentConflicts(
                     $(adminSystemConfig.getUpTr($(Event.element(event))).select(".paypal-enabler")[0]),
                     "click"
                 );
             },
-            getSharedElements: function(element) {
+            getSharedElements: function (element) {
                 var sharedElements = [];
-                adminSystemConfig.mapClasses(element, true, function(elementClassName) {
-                    $$("." + elementClassName).each(function(sharedElement) {
+                adminSystemConfig.mapClasses(element, true, function (elementClassName) {
+                    $$("." + elementClassName).each(function (sharedElement) {
                         if (sharedElements.indexOf(sharedElement) == -1) {
                             sharedElements.push(sharedElement);
                         }
@@ -99,12 +99,12 @@ require([
                 }
                 return sharedElements;
             },
-            checklessEventAction: function(element, isChange) {
+            checklessEventAction: function (element, isChange) {
                 var action = isChange ? "change" : "click";
                 var handler = isChange
                     ? paypalConflictsObject.onChangeEnabler
                     : paypalConflictsObject.onClickEnablerScope;
-                paypalConflictsObject.getSharedElements(element).each(function(sharedElement) {
+                paypalConflictsObject.getSharedElements(element).each(function (sharedElement) {
                     Event.stopObserving(sharedElement, action, handler);
                     if (isChange) {
                         sharedElement.value = element.value;
@@ -118,17 +118,17 @@ require([
                 } else {
                     $(element).click();
                 }
-                paypalConflictsObject.getSharedElements(element).each(function(sharedElement) {
+                paypalConflictsObject.getSharedElements(element).each(function (sharedElement) {
                     Event.observe(sharedElement, action, handler);
                 });
             },
-            ecCheckAvailability: function() {
-                $$(".pp-method-express button.button").each(function(ecButton){
+            ecCheckAvailability: function () {
+                $$(".pp-method-express button.button").each(function (ecButton) {
                     if (typeof ecButton == "undefined") {
                         return;
                     }
                     var couldBeConfigured = true;
-                    $$(".paypal-enabler").each(function(enabler) {
+                    $$(".paypal-enabler").each(function (enabler) {
                         if (enabler.enablerObject.ecEnabler || enabler.enablerObject.ecConflicts
                             || enabler.enablerObject.ecSeparate
                         ) {
@@ -146,7 +146,7 @@ require([
                 });
             },
             // type could be "initial", "change", "click"
-            checkPaymentConflicts: function(enabler, type) {
+            checkPaymentConflicts: function (enabler, type) {
                 if (!enabler.enablerObject) {
                     return;
                 }
@@ -171,7 +171,7 @@ require([
                 var confirmationApproved = isEvent;
                 var confirmationShowed = false;
                 // check other solutions
-                $$(".paypal-enabler").each(function(anotherEnabler) {
+                $$(".paypal-enabler").each(function (anotherEnabler) {
                     var anotherEnablerScopeElement = adminSystemConfig.getScopeElement(anotherEnabler);
                     if (!confirmationApproved && isEvent || $(anotherEnabler) == enabler
                         || anotherEnabler.value == 0
@@ -227,7 +227,7 @@ require([
                 paypalConflictsObject.ecCheckAvailability();
                 paypalConflictsObject.sharePayflowEnabling(enabler, isEvent);
             },
-            handleBmlEnabler: function(event) {
+            handleBmlEnabler: function (event) {
                 required = Event.element(event);
                 var bml = $(required).bmlEnabler;
                 if (required.value == "1") {
@@ -236,7 +236,7 @@ require([
                 paypalConflictsObject.toggleBmlEnabler(required);
             },
 
-            toggleBmlEnabler: function(required) {
+            toggleBmlEnabler: function (required) {
                 var bml = $(required).bmlEnabler;
                 if (!bml) {
                     return;
@@ -250,7 +250,7 @@ require([
         };
 
         // fill enablers with conflict data
-        $$(".paypal-enabler").each(function(enablerElement) {
+        $$(".paypal-enabler").each(function (enablerElement) {
             var enablerObj = {
                 ecIndependent: false,
                 ecConflicts: false,
@@ -258,7 +258,7 @@ require([
                 ecSeparate: false,
                 ecPayflow: false
             };
-            $(enablerElement).classNames().each(function(className) {
+            $(enablerElement).classNames().each(function (className) {
                 switch (className) {
                     case "paypal-ec-conflicts":
                         enablerObj.ecConflicts = true;
@@ -302,8 +302,8 @@ require([
                 $(ecPayflowScopeElement).click();
             }
         }
-        $$(".paypal-bml").each(function(bmlEnabler) {
-            $(bmlEnabler).classNames().each(function(className) {
+        $$(".paypal-bml").each(function (bmlEnabler) {
+            $(bmlEnabler).classNames().each(function (className) {
                 if (className.indexOf("requires-") !== -1) {
                     var required = $(className.replace("requires-", ""));
                     required.bmlEnabler = bmlEnabler;
@@ -312,7 +312,7 @@ require([
             });
         });
 
-        $$(".paypal-enabler").each(function(enablerElement) {
+        $$(".paypal-enabler").each(function (enablerElement) {
             paypalConflictsObject.checkPaymentConflicts(enablerElement, "initial");
             paypalConflictsObject.toggleBmlEnabler(enablerElement);
         });
@@ -325,40 +325,42 @@ require([
                 notification += "\\n  " + $.mage.__('PayPal Express Checkout is not enabled.');
             }
             notification += "\\n" + $.mage.__('Please re-enable the previously enabled payment solutions.');
-            setTimeout(function() {
+            setTimeout(function () {
                 alert(notification);
             }, 1);
         }
 
-        $$(".requires").each(function(dependent) {
+        $$(".requires").each(function (dependent) {
             var $dependent = $(dependent);
             if ($dependent.hasClassName("paypal-ec-enabler") || $dependent.hasClassName("paypal-ec-payflow-enabler")) {
-                $dependent.requiresObj.callback = function(required) {
+                $dependent.requiresObj.callback = function (required) {
                     if ($(required).hasClassName("paypal-enabler") && required.value == 0) {
                         $dependent.disable();
                     }
                 }
-                $dependent.requiresObj.requires.each(function(required) {
+                $dependent.requiresObj.requires.each(function (required) {
                     $dependent.requiresObj.callback(required);
                 });
             }
         });
 
-        configForm.on(\'afterValidate\', function() {
-        var isPayflowLinkEnabled = !!$$(".paypal-payflowlink")[0],
-            isPayflowAdvancedEnabled = !!$$(".paypal-payflow-advanced")[0];
-        var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[+isPayflowLinkEnabled];
-        if (typeof ecPayflowEnabler == "undefined") {
-            return;
-        }
-        var ecPayflowScopeElement = adminSystemConfig.getScopeElement(ecPayflowEnabler);
-        if ((typeof ecPayflowScopeElement == "undefined" || !ecPayflowScopeElement.checked)
-            && ecPayflowEnabler.value == 1
-        ) {
-            $$(".paypal-ec-enabler").each(function(ecEnabler) {
-                ecEnabler.value = 0;
-            });
-        }
+        configForm.on('afterValidate', function () {
+            var isPayflowLinkEnabled = !!$$(".paypal-payflowlink")[0],
+                isPayflowAdvancedEnabled = !!$$(".paypal-payflow-advanced")[0];
+            var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[+isPayflowLinkEnabled];
+            if (typeof ecPayflowEnabler == "undefined") {
+                return;
+            }
+            var ecPayflowScopeElement = adminSystemConfig.getScopeElement(ecPayflowEnabler);
+            if ((typeof ecPayflowScopeElement == "undefined" || !ecPayflowScopeElement.checked)
+                && ecPayflowEnabler.value == 1
+            ) {
+                $$(".paypal-ec-enabler").each(function (ecEnabler) {
+                    ecEnabler.value = 0;
+                });
+            }
+        });
     });
 });
+
 </script>

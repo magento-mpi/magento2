@@ -18,5 +18,4 @@ class Expanded extends \Magento\Backend\Block\System\Config\Form\Fieldset
      * @var bool
      */
     protected $isCollapsedDefault = true;
-
 }
