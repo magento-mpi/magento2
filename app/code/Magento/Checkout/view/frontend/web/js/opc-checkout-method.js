@@ -72,8 +72,12 @@ define([
                     }, 300);
                 }
             };
+
+            $(document).on({
+                'ajaxError': this._ajaxError.bind(this)
+            });
+
             $.extend(events, {
-                ajaxError: '_ajaxError',
                 showAjaxLoader: '_ajaxSend',
                 hideAjaxLoader: '_ajaxComplete',
                 gotoSection: function(e, section) {
@@ -217,19 +221,36 @@ define([
                     }
                     if ($.type(response) === 'object' && !$.isEmptyObject(response)) {
                         if (response.error) {
-                            var msg = response.message || response.error_messages;
+                            var msg = response.message || response.error_messages || response.error,
+                                billingEmailId,
+                                hasBillingEmail;
+
                             if (msg) {
-                                if ($.type(msg) === 'array') {
-                                    msg = msg.join("\n");
+                                if (Array.isArray(msg)) {
+                                    msg = msg.reduce(function (str, chunk) {
+                                        str += '\n' + $.mage.__(chunk);
+                                        return str;
+                                    }, '');
+                                } else {
+                                    msg = $.mage.__(msg);
                                 }
+
                                 $(this.options.countrySelector).trigger('change');
-                                var emailAddress = {};
-                                emailAddress[this.options.billing.emailAddressName] = msg;
-                                var billingFormValidator = $(this.options.billing.form).validate();
-                                billingFormValidator.showErrors(emailAddress);
-                            } else {
-                                alert($.mage.__(response.error));
+
+                                billingEmailId = this.options.billing.emailAddressName;
+                                hasBillingEmail = $('[name="' + billingEmailId + '"]').length;
+
+                                if (hasBillingEmail) {
+                                    var emailAddress = {};
+                                    emailAddress[billingEmailId] = msg;
+
+                                    var billingFormValidator = $(this.options.billing.form).validate();
+                                    billingFormValidator.showErrors(emailAddress);
+                                }
+
+                                alert(msg);
                             }
+
                             return;
                         }
                         if (response.redirect) {

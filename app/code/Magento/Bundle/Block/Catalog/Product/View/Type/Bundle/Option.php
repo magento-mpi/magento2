@@ -327,6 +327,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     public function setOption(\Magento\Bundle\Model\Option $option)
     {
         $this->_selectedOptions = null;
+        $this->_showSingle = null;
         return parent::setOption($option);
     }
 

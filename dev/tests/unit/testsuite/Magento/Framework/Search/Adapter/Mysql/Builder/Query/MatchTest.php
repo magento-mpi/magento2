@@ -58,12 +58,12 @@ class MatchTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $select->expects($this->once())->method('getMatchQuery')
-            ->with($this->equalTo(['some_field']), $this->equalTo('-some_value'))
+            ->with($this->equalTo(['some_field']), $this->equalTo('-some_value*'))
             ->will($this->returnValue('matchedQuery'));
         $select->expects($this->once())->method('match')
             ->with(
                 $this->equalTo(['some_field']),
-                $this->equalTo('-some_value'),
+                $this->equalTo('-some_value*'),
                 $this->equalTo(true),
                 $this->equalTo(Select::FULLTEXT_MODE_BOOLEAN)
             );
@@ -75,7 +75,7 @@ class MatchTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getMatches', 'getValue', 'getBoost'])
             ->disableOriginalConstructor()
             ->getMock();
-        $query->expects($this->once())->method('getValue')->willReturn('some_value');
+        $query->expects($this->once())->method('getValue')->willReturn('some_value ');
         $query->expects($this->once())->method('getBoost')->willReturn($boost);
         $query->expects($this->once())->method('getMatches')->willReturn([['field' => 'some_field']]);
 
