@@ -163,8 +163,7 @@ class ConsoleController extends AbstractActionController
             . ' [--' . UserConfig::KEY_IS_SECURE . '=]'
             . ' [--' . UserConfig::KEY_BASE_URL_SECURE . '=]'
             . ' [--' . UserConfig::KEY_IS_SECURE_ADMIN . '=]'
-            . ' [--' . UserConfig::KEY_ADMIN_USE_SECURITY_KEY . '=]'
-            . ' [--' . Installer::USE_SAMPLE_DATA . ']';
+            . ' [--' . UserConfig::KEY_ADMIN_USE_SECURITY_KEY . '=]';
         $adminUser = '--' . AdminAccount::KEY_USERNAME . '='
             . ' --' . AdminAccount::KEY_PASSWORD . '='
             . ' --' . AdminAccount::KEY_EMAIL . '='
@@ -175,7 +174,8 @@ class ConsoleController extends AbstractActionController
             self::CMD_INSTALL => [
                 'route' => self::CMD_INSTALL
                     . " {$deployConfig} {$userConfig} {$adminUser} {$salesConfig}"
-                    . ' [--' . Installer::CLEANUP_DB . ']',
+                    . ' [--' . Installer::CLEANUP_DB . ']'
+                    . ' [--' . Installer::USE_SAMPLE_DATA . '=]',
                 'usage' => "{$deployConfig} {$userConfig} {$adminUser} {$salesConfig}"
                     . ' [--' . Installer::CLEANUP_DB . ']',
                 'usage_short' => self::CMD_INSTALL . ' <options>',

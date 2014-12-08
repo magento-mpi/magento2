@@ -70,7 +70,7 @@ class Page implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing CMS pages' . PHP_EOL);
+        $this->logger->log('Installing CMS pages:');
 
         foreach ($this->fixtures as $file) {
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
@@ -82,9 +82,8 @@ class Page implements SetupInterface
                     ->addData($row)
                     ->setStores(array(\Magento\Store\Model\Store::DEFAULT_STORE_ID))
                     ->save();
-                $this->logger->log('.');
+                $this->logger->logInline('.');
             }
         }
-        $this->logger->log(PHP_EOL);
     }
 }

@@ -95,7 +95,7 @@ class CmsBlock implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing Widgets' . PHP_EOL);
+        $this->logger->log('Installing Widgets:');
         $pageGroupConfig = array(
             'pages' => array(
                 'block' => '',
@@ -153,10 +153,9 @@ class CmsBlock implements SetupInterface
                     ->setWidgetParameters(array('block_id' => $block->getId()))
                     ->setPageGroups(array($pageGroup));
                 $widgetInstance->save();
-                $this->logger->log('.');
+                $this->logger->logInline('.');
             }
         }
-        $this->logger->log(PHP_EOL);
     }
 
     /**

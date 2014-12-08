@@ -93,7 +93,7 @@ class Rule implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing catalog rules' . PHP_EOL);
+        $this->logger->log('Installing catalog rules:');
         $file = 'CatalogRule/catalog_rules.csv';
         $fileName = $this->fixtureHelper->getPath($file);
         $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
@@ -105,11 +105,10 @@ class Rule implements SetupInterface
             $ruleModel = $this->ruleFactory->create();
             $ruleModel->loadPost($row);
             $ruleModel->save();
-            $this->logger->log('.');
+            $this->logger->logInline('.');
         }
         $ruleJob = $this->jobFactory->create();
         $ruleJob->applyAll();
-        $this->logger->log(PHP_EOL);
     }
 
     /**

@@ -75,7 +75,7 @@ class ProductLink implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing product links' . PHP_EOL);
+        $this->logger->log('Installing product links:');
         $entityFileAssociation = [
             'related',
             'upsell',
@@ -108,10 +108,9 @@ class ProductLink implements SetupInterface
                     }
                     $this->linksInitializer->initializeLinks($product, $links);
                     $product->getLinkInstance()->saveProductRelations($product);
-                    $this->logger->log('.');
+                    $this->logger->logInline('.');
                 }
             }
         }
-        $this->logger->log(PHP_EOL);
     }
 }

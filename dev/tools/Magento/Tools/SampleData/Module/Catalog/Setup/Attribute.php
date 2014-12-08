@@ -116,7 +116,7 @@ class Attribute implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing catalog attributes' . PHP_EOL);
+        $this->logger->log('Installing catalog attributes:');
         $attributeCount = 0;
 
         foreach ($this->moduleList->getNames() as $moduleName) {
@@ -176,10 +176,9 @@ class Attribute implements SetupInterface
                     }
                 }
 
-                $this->logger->log('.');
+                $this->logger->logInline('.');
             }
         }
-        $this->logger->log(PHP_EOL);
 
         $this->eavConfig->clear();
     }

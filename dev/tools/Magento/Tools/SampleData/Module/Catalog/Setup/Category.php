@@ -88,7 +88,7 @@ class Category implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing categories' . PHP_EOL);
+        $this->logger->log('Installing categories:');
 
         foreach ($this->moduleList->getNames() as $moduleName) {
             $fileName = substr($moduleName, strpos($moduleName, "_") + 1) . '/categories.csv';
@@ -117,10 +117,9 @@ class Category implements SetupInterface
                     $this->setAdditionalData($row, $category);
                     $category->save();
                 }
-                $this->logger->log('.');
+                $this->logger->logInline('.');
             }
         }
-        $this->logger->log(PHP_EOL);
     }
 
     /**

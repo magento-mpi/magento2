@@ -268,7 +268,7 @@ class Installer
         }
         $script[] = ['Installing database schema:', 'installSchema', []];
         $script[] = ['Installing user configuration...', 'installUserConfig', [$request]];
-        $script[] = ['Installing data fixtures...', 'installDataFixtures', []];
+        $script[] = ['Installing data...', 'installDataFixtures', []];
         if (!empty($request[self::SALES_ORDER_INCREMENT_PREFIX])) {
             $script[] = [
                 'Creating sales order increment prefix...',
@@ -278,11 +278,11 @@ class Installer
         }
         $script[] = ['Installing admin user...', 'installAdminUser', [$request]];
         $script[] = ['Enabling caches:', 'enableCaches', []];
+        if (!empty($request[Installer::USE_SAMPLE_DATA]) && $this->sampleData->isDeployed()) {
+            $script[] = ['Installing Luma sample data:', 'installSampleData', [$request]];
+        }
         $script[] = ['Disabling Maintenance Mode:', 'setMaintenanceMode', [0]];
         $script[] = ['Post installation file permissions check...', 'checkApplicationFilePermissions', []];
-        if (!empty($request[Installer::USE_SAMPLE_DATA]) && $this->sampleData->isDeployed()) {
-            $script[] = ['Installing Sample Data...', 'installSampleData', [$request]];
-        }
 
         $estimatedModules = $this->createModulesConfig($request);
         $total = count($script) + count(array_filter($estimatedModules->getData()));
@@ -828,9 +828,11 @@ class Installer
      * Run installation process for Sample Data
      *
      * @param array $request
+     * @return void
      */
     private function installSampleData($request)
     {
-        $this->exec($this->sampleData->getRunCommand($request), [$this->execParams]);
+        $userName = isset($request[AdminAccount::KEY_USERNAME]) ? $request[AdminAccount::KEY_USERNAME] : '';
+        $this->sampleData->install($this->getObjectManager(), $this->log, $userName);
     }
 }

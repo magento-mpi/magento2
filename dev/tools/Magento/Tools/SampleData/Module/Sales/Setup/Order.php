@@ -70,16 +70,15 @@ class Order implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing orders' . PHP_EOL);
+        $this->logger->log('Installing orders:');
         foreach ($this->fixtures as $file) {
             $fileName = $this->fixtureHelper->getPath($file);
             $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
             foreach ($csvReader as $row) {
                 $orderData = $this->converter->convertRow($row);
                 $this->orderProcessor->createOrder($orderData);
-                $this->logger->log('.');
+                $this->logger->logInline('.');
             }
         }
-        $this->logger->log(PHP_EOL);
     }
 }

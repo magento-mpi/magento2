@@ -117,7 +117,7 @@ class Rule implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing related product rules' . PHP_EOL);
+        $this->logger->log('Installing related product rules:');
         $this->postInstaller->removeSetupResourceType('Magento\Tools\SampleData\Module\Catalog\Setup\ProductLink');
         $entityFileAssociation = [
             \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS => 'related',
@@ -162,10 +162,9 @@ class Rule implements SetupInterface
                     ->setPositionsLimit(empty($row['limit']) ? 0 : $row['limit']);
                 $rule->loadPost($ruleConditions);
                 $rule->save();
-                $this->logger->log('.');
+                $this->logger->logInline('.');
             }
         }
-        $this->logger->log(PHP_EOL);
     }
 
     /**

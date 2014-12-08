@@ -115,10 +115,9 @@ class Setup implements SetupInterface
      */
     public function run()
     {
-        $this->logger->log('Installing theme' . PHP_EOL);
+        $this->logger->log('Installing theme...');
         $this->assignTheme();
         $this->addHeadInclude();
-        $this->logger->log('.' . PHP_EOL);
     }
 
     /**
