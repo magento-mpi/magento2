@@ -92,6 +92,9 @@ $table = $installer->getConnection()->newTable(
 );
 $installer->getConnection()->createTable($table);
 
+$adminTable = $installer->getTable('admin_user');
+$customerTable = $installer->getTable('customer_entity');
+
 /**
  * Create table 'oauth_token'
  */
@@ -107,8 +110,8 @@ $table = $installer->getConnection()->newTable(
     'consumer_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false),
-    'Consumer ID'
+    array('unsigned' => true, 'nullable' => true),
+    'Oauth Consumer ID'
 )->addColumn(
     'admin_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -163,6 +166,12 @@ $table = $installer->getConnection()->newTable(
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => 0),
     'Is Token authorized'
+)->addColumn(
+    'user_type',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array(),
+    'User type'
 )->addColumn(
     'created_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
@@ -307,6 +316,18 @@ $table = $installer->getConnection()->newTable(
     null,
     array('nullable' => false),
     'Update Time'
+)->addColumn(
+    'setup_type',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    'Integration type - manual or config file'
+)->addColumn(
+    'identity_link_url',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    255,
+    array(),
+    'Identity linking Url'
 )->addIndex(
     $installer->getIdxName(
         $installer->getTable('integration'),
