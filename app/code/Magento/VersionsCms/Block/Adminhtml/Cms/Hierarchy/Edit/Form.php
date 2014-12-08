@@ -65,11 +65,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_menuLayout;
 
     /**
-     * @var \Magento\VersionsCms\Model\Hierarchy\Lock
-     */
-    protected $_hierarchyLock;
-
-    /**
      * @var \Magento\Framework\Json\EncoderInterface
      */
     protected $_jsonEncoder;
@@ -86,7 +81,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Chapter $menuChapter
      * @param \Magento\VersionsCms\Model\Source\Hierarchy\Visibility $hierarchyVisibility
      * @param \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Layout $menuLayout
-     * @param \Magento\VersionsCms\Model\Hierarchy\Lock $hierarchyLock
      * @param array $data
      */
     public function __construct(
@@ -101,7 +95,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Chapter $menuChapter,
         \Magento\VersionsCms\Model\Source\Hierarchy\Visibility $hierarchyVisibility,
         \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Layout $menuLayout,
-        \Magento\VersionsCms\Model\Hierarchy\Lock $hierarchyLock,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -117,7 +110,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_menuChapter = $menuChapter;
         $this->_hierarchyVisibility = $hierarchyVisibility;
         $this->_menuLayout = $menuLayout;
-        $this->_hierarchyLock = $hierarchyLock;
         $this->_nodePreviewStoreId = $this->_storeManager->isSingleStoreMode() ?
             $this->_storeManager->getStore(true)->getId() :
             $this->_currentStore;
@@ -753,56 +745,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
 
         return $this->_jsonEncoder->encode($result);
-    }
-
-    /**
-     * Check whether current user can drag nodes
-     *
-     * @deprecated since 1.12.0.0
-     * @return bool
-     */
-    public function canDragNodes()
-    {
-        return !$this->isLockedByOther();
-    }
-
-    /**
-     * Check whether page is locked by other user
-     *
-     * @deprecated since 1.12.0.0
-     * @return bool
-     */
-    public function isLockedByOther()
-    {
-        if (!$this->hasData('locked_by_other')) {
-            $this->setData('locked_by_other', $this->_hierarchyLock->isLockedByOther());
-        }
-        return $this->_getData('locked_by_other');
-    }
-
-    /**
-     * Check whether page is locked by editor
-     *
-     * @deprecated since 1.12.0.0
-     * @return bool
-     */
-    public function isLockedByMe()
-    {
-        if (!$this->hasData('locked_by_me')) {
-            $this->setData('locked_by_me', $this->_hierarchyLock->isLockedByMe());
-        }
-        return $this->_getData('locked_by_me');
-    }
-
-    /**
-     * Retrieve lock lifetime
-     *
-     * @deprecated since 1.12.0.0
-     * @return int
-     */
-    public function getLockLifetime()
-    {
-        return $this->_hierarchyLock->getLockLifeTime();
     }
 
     /**

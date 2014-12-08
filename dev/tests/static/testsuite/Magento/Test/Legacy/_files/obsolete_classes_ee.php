@@ -142,4 +142,6 @@ return array(
     ['Magento\Reward\Model\Observer'],
     ['Magento\WebsiteRestriction\Model\Observer'],
     ['Magento\MultipleWishlist\Block\Rss'],
+    ['Magento\VersionsCms\Model\Resource\Hierarchy\Lock'],
+    ['Magento\VersionsCms\Model\Hierarchy\Lock']
 );

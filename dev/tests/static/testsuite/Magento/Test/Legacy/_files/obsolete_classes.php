@@ -2899,4 +2899,6 @@ return array(
     ['Magento\Backend\Block\Widget\Grid\Massaction\Extended'],
     ['Magento\Backend\Block\System\Config\Switcher'],
     ['Magento\VersionsCms\Block\Adminhtml\Scope\Switcher'],
+    ['Magento\Backend\Block\Widget\View\Container'],
+    ['Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Store'],
 );
