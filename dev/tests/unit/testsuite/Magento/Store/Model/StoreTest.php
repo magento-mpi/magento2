@@ -7,6 +7,8 @@
  */
 namespace Magento\Store\Model;
 
+use Magento\Framework\App\Config\ReinitableConfigInterface;
+
 /**
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  * @SuppressWarnings(PHPMD.UnusedLocalVariable)
@@ -504,5 +506,60 @@ class StoreTest extends \PHPUnit_Framework_TestCase
                 'cookieMetadataFactory' => $this->cookieMetadataFactoryMock,
             ]);
         $model->deleteCookie();
+    }
+
+    /**
+     * @dataProvider isCurrentlySecureDataProvider
+     *
+     * @param bool $expected
+     * @param array $serverValues
+     * @param string|null $secureBaseUrl
+     */
+    public function testIsCurrentlySecure($expected, $serverValues, $secureBaseUrl = 'https://example.com:80')
+    {
+        /* @var ReinitableConfigInterface|PHPUnit_Framework_MockObject_MockObject $configMock */
+        $configMock = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ReinitableConfigInterface');
+        $configMock->expects($this->any())
+            ->method('getValue')
+            ->will($this->returnValueMap([
+                        [
+                            Store::XML_PATH_OFFLOADER_HEADER,
+                            \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT,
+                            null,
+                            'SSL_OFFLOADED'
+                        ],
+                        [
+                            Store::XML_PATH_SECURE_BASE_URL,
+                            ScopeInterface::SCOPE_STORE,
+                            null,
+                            $secureBaseUrl
+                        ],
+                    ]));
+
+        /** @var \Magento\Store\Model\Store $model */
+        $model = $this->objectManagerHelper->getObject(
+            'Magento\Store\Model\Store',
+            ['config' => $configMock]
+        );
+
+        $server = $_SERVER;
+        foreach ($serverValues as $key => $value) {
+            $_SERVER[$key] = $value;
+        }
+
+        $this->assertEquals($expected, $model->isCurrentlySecure());
+        $_SERVER = $server;
+    }
+
+    public function isCurrentlySecureDataProvider()
+    {
+        return [
+            [true, ['HTTPS' => 'on']],
+            [true, ['SSL_OFFLOADED' => 'on']],
+            [true, ['HTTP_SSL_OFFLOADED' => 'on']],
+            [true, ['SERVER_PORT' => 80]],
+            [false, ['SERVER_PORT' => 80], null],
+            [false, []],
+        ];
     }
 }

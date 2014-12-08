@@ -49,6 +49,7 @@ class Login extends AbstractOnepage
      * @param CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Customer\Model\Url $customerUrl
@@ -67,7 +68,7 @@ class Login extends AbstractOnepage
         CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Customer\Model\Url $customerUrl,
@@ -89,7 +90,7 @@ class Login extends AbstractOnepage
             $customerRepository,
             $addressConfig,
             $httpContext,
-            $dataObjectConverter,
+            $addressMapper,
             $data
         );
         $this->_isScopePrivate = true;

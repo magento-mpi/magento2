@@ -20,7 +20,7 @@
                 <queryReference clause="must" ref="price"/>
                 <queryReference clause="must" ref="visibility"/>
             </query>
-            <query xsi:type="matchQuery" value="$search_term$*" name="search">
+            <query xsi:type="matchQuery" value="$search_term$" name="search">
                 <match field="name" boost="1"/>
             </query>
             <query xsi:type="filteredQuery" name="category">

@@ -14,8 +14,16 @@ class RowBaseCalculator extends AbstractAggregateCalculator
     /**
      * {@inheritdoc}
      */
-    protected function roundAmount($amount, $rate = null, $direction = null, $type = self::KEY_REGULAR_DELTA_ROUNDING)
-    {
-        return $this->calculationTool->round($amount);
+    protected function roundAmount(
+        $amount,
+        $rate = null,
+        $direction = null,
+        $type = self::KEY_REGULAR_DELTA_ROUNDING,
+        $round = true
+    ) {
+        if ($round) {
+            $amount = $this->calculationTool->round($amount);
+        }
+        return $amount;
     }
 }
