@@ -7,7 +7,6 @@
  */
 namespace Magento\Cms\Model\Resource\Block;
 
-use Magento\Cms\Api\Data\BlockCollectionInterface;
 use Magento\Cms\Model\Resource\AbstractCollection;
 
 /**
@@ -15,14 +14,14 @@ use Magento\Cms\Model\Resource\AbstractCollection;
  *
  * Class Collection
  */
-class Collection extends AbstractCollection implements BlockCollectionInterface
+class Collection extends AbstractCollection
 {
     /**
      * @return void
      */
     protected function init()
     {
-        $this->setDataInterfaceName('Magento\Cms\Api\Data\BlockInterface');
+        $this->setDataInterfaceName('Magento\Cms\Model\Block');
         $this->storeTableName = 'cms_block_store';
         $this->linkFieldName = 'block_id';
         parent::init();

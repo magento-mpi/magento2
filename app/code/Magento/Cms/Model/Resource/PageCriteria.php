@@ -7,7 +7,7 @@
  */
 namespace Magento\Cms\Model\Resource;
 
-use Magento\Cms\Api\PageCriteriaInterface;
+use Magento\Cms\Model\PageCriteriaInterface;
 
 /**
  * Class PageCriteria
