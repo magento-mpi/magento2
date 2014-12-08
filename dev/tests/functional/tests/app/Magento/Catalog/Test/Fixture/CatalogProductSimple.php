@@ -618,6 +618,7 @@ class CatalogProductSimple extends InjectableFixture
     protected $is_virtual = [
         'attribute_code' => 'is_virtual',
         'backend_type' => 'virtual',
+        'group' => 'product-details',
     ];
 
     protected $attributes = [
