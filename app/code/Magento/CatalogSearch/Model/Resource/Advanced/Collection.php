@@ -136,11 +136,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                         $attributeCode = $this->_eavConfig->getAttribute(Product::ENTITY, $attributeCode)
                             ->getAttributeCode();
                     }
-                    if (!empty($attributeValue['from']) || !empty($attributeValue['to'])) {
-                        if (!empty($attributeValue['from'])) {
+                    if (isset($attributeValue['from']) || isset($attributeValue['to'])) {
+                        if (isset($attributeValue['from']) && '' !== $attributeValue['from']) {
                             $this->requestBuilder->bind("{$attributeCode}.from", $attributeValue['from']);
                         }
-                        if (!empty($attributeValue['to'])) {
+                        if (isset($attributeValue['to']) && '' !== $attributeValue['to']) {
                             $this->requestBuilder->bind("{$attributeCode}.to", $attributeValue['to']);
                         }
                     } elseif (!is_array($attributeValue)) {

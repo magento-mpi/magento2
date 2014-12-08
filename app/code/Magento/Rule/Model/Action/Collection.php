@@ -117,7 +117,7 @@ class Collection extends AbstractAction
             'action:' . $this->getId() . ':new_child',
             'select',
             array(
-                'name' => 'rule[actions][' . $this->getId() . '][new_child]',
+                'name' => $this->elementName . '[actions][' . $this->getId() . '][new_child]',
                 'values' => $this->getNewChildSelectOptions(),
                 'value_name' => $this->getNewChildName()
             )
