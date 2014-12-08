@@ -229,17 +229,3 @@ $privacyPageData = array(
 );
 
 $this->createPage()->setData($privacyPageData)->save();
-
-$footerLinksBlock = $this->createPage()->load('footer_links', 'identifier');
-
-if ($footerLinksBlock->getId()) {
-    $content = $footerLinksBlock->getContent();
-    if (preg_match('/<ul>(.*?)<\\/ul>/ims', $content, $matches)) {
-        $content = preg_replace('/<li class="last">/ims', '<li>', $content);
-        $replacment = '<li class="last privacy">' .
-            "<a href=\"{{store direct_url=\"privacy-policy-cookie-restriction-mode\"}}\">" .
-            "Privacy and Cookie Policy</a></li>\r\n</ul>";
-        $content = preg_replace('/<\\/ul>/ims', $replacment, $content);
-        $footerLinksBlock->setContent($content)->save();
-    }
-}
