@@ -177,7 +177,8 @@ class ConsoleController extends AbstractActionController
                     . ' [--' . Installer::CLEANUP_DB . ']'
                     . ' [--' . Installer::USE_SAMPLE_DATA . '=]',
                 'usage' => "{$deployConfig} {$userConfig} {$adminUser} {$salesConfig}"
-                    . ' [--' . Installer::CLEANUP_DB . ']',
+                    . ' [--' . Installer::CLEANUP_DB . ']'
+                    . ' [--' . Installer::USE_SAMPLE_DATA . '=]',
                 'usage_short' => self::CMD_INSTALL . ' <options>',
                 'usage_desc' => 'Install Magento application',
             ],
