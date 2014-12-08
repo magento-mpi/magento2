@@ -58,46 +58,6 @@ class Converter
     }
 
     /**
-     * Convert a customer model to a customer entity
-     *
-     * @param Customer $customerModel
-     * @return CustomerDataObject
-     */
-    public function createCustomerFromModel(Customer $customerModel)
-    {
-        $customerBuilder = $this->_populateBuilderWithAttributes($customerModel);
-        $customerBuilder->setId($customerModel->getId());
-        $customerBuilder->setFirstname($customerModel->getFirstname());
-        $customerBuilder->setLastname($customerModel->getLastname());
-        $customerBuilder->setEmail($customerModel->getEmail());
-        return $customerBuilder->create();
-    }
-
-    /**
-     * Retrieve customer model by his ID.
-     *
-     * @param int $customerId
-     * @return Customer
-     * @throws NoSuchEntityException If customer with customerId is not found.
-     */
-    public function getCustomerModel($customerId)
-    {
-        $customer = $this->_customerFactory->create()->load($customerId);
-        if (!$customer->getId()) {
-            // customer does not exist
-            throw new NoSuchEntityException(
-                NoSuchEntityException::MESSAGE_SINGLE_FIELD,
-                [
-                    'fieldName' => 'customerId',
-                    'fieldValue' => $customerId
-                ]
-            );
-        } else {
-            return $customer;
-        }
-    }
-
-    /**
      * Retrieve customer model by his ID if possible, or return an empty model otherwise.
      *
      * @param int $customerId

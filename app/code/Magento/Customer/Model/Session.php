@@ -225,7 +225,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     public function getCustomerDataObject()
     {
         /* TODO refactor this after all usages of the setCustomer is refactored */
-        return $this->_converter->createCustomerFromModel($this->getCustomer());
+        return $this->getCustomer()->getDataModel();
     }
 
     /**
