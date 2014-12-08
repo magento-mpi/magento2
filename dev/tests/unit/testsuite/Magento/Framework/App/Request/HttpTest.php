@@ -522,20 +522,22 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider isSecureDataProvider
-     * @param string $serverHttps value of $_SERVER['HTTPS']
-     * @param string $headerHttps value of $_SERVER[<Name-Of-Offloader-Header>]
+     *
      * @param bool $isSecure expected output of isSecure method
+     * @param string $serverHttps value of $_SERVER['HTTPS']
+     * @param string $headerOffloadKey <Name-Of-Offload-Header>
+     * @param string $headerOffloadValue value of $_SERVER[<Name-Of-Offload-Header>]
      * @param int $configCall number of times config->getValue is expected to be called
      */
-    public function testIsSecure($serverHttps, $headerHttps, $isSecure, $configCall)
+    public function testIsSecure($isSecure, $serverHttps, $headerOffloadKey, $headerOffloadValue, $configCall)
     {
         $this->_model = $this->getModel();
-        $offLoaderHeader = 'Header-From-Proxy';
+        $configOffloadHeader = 'Header-From-Proxy';
         $this->configMock->expects($this->exactly($configCall))
             ->method('getValue')
             ->with(Request::XML_PATH_OFFLOADER_HEADER, ScopeInterface::SCOPE_DEFAULT)
-            ->willReturn($offLoaderHeader);
-        $_SERVER[$offLoaderHeader] = $headerHttps;
+            ->willReturn($configOffloadHeader);
+        $_SERVER[$headerOffloadKey] = $headerOffloadValue;
         $_SERVER['HTTPS'] = $serverHttps;
 
         $this->assertSame($isSecure, $this->_model->isSecure());
@@ -546,22 +548,26 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         /**
          * Data structure:
          * 'Test #' => [
-         *      value of $_SERVER['HTTPS'],
-         *      value of $_SERVER[<Name-Of-Offloader-Header>]
          *      expected output of isSecure method
+         *      value of $_SERVER['HTTPS'],
+         *      <Name-Of-Offload-Header>,
+         *      value of $_SERVER[<Name-Of-Offload-Header>]
          *      number of times config->getValue is expected to be called
          *  ]
          */
         return [
-            'Test 1' => ['on', 'https', true, 0],
-            'Test 2' => ['off', 'https', true, 1],
-            'Test 3' => ['any-string', 'https', true, 0],
-            'Test 4' => ['on', 'http', true, 0],
-            'Test 5' => ['off', 'http', false, 1],
-            'Test 6' => ['any-string', 'http', true, 0],
-            'Test 7' => ['on', 'any-string', true, 0],
-            'Test 8' => ['off', 'any-string', false, 1],
-            'Test 9' => ['any-string', 'any-string', true, 0],
+            'Test 1' => [true, 'on', 'Header-From-Proxy', 'https', 0],
+            'Test 2' => [true, 'off', 'Header-From-Proxy', 'https', 1],
+            'Test 3' => [true, 'any-string', 'Header-From-Proxy', 'https', 0],
+            'Test 4' => [true, 'on', 'Header-From-Proxy', 'http', 0],
+            'Test 5' => [false, 'off', 'Header-From-Proxy', 'http', 1],
+            'Test 6' => [true, 'any-string', 'Header-From-Proxy', 'http', 0],
+            'Test 7' => [true, 'on', 'Header-From-Proxy', 'any-string', 0],
+            'Test 8' => [false, 'off', 'Header-From-Proxy', 'any-string', 1],
+            'Test 9' => [true, 'any-string', 'Header-From-Proxy', 'any-string', 0],
+            'blank HTTPS with proxy set https' => [true, '', 'Header-From-Proxy', 'https', 1],
+            'blank HTTPS with proxy set http' => [false, '', 'Header-From-Proxy', 'http', 1],
+            'HTTPS off with HTTP_ prefixed proxy set to https' => [true, 'off', 'HTTP_Header-From-Proxy', 'https', 1],
         ];
     }
 }

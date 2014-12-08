@@ -2326,6 +2326,7 @@ return array(
     ['Magento\BaseScopeInterface', 'Magento\Framework\App\ScopeInterface'],
     ['Magento\BaseScopeResolverInterface', 'Magento\Framework\App\ScopeResolverInterface'],
     ['Magento\Framework\Locale\ScopeConfigInterface'],
+    ['Magento\Framework\StoreManagerInterface', 'Magento\Store\Model\StoreManagerInterface'],
     ['Magento\Core\Model\Module\Output\Config', 'Magento\Framework\Module\Output\Config'],
     ['Magento\Core\Model\Resource\Setup\Context', 'Magento\Framework\Module\Setup\Context'],
     ['Magento\Core\Model\Resource\Setup\Migration', 'Magento\Framework\Module\Setup\Migration'],
