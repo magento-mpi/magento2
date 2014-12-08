@@ -25,7 +25,7 @@ angular.module('add-database', ['ngStorage'])
                 });
         }, 500);
 
-        $scope.$on('$destroy', function () { $interval.cancel(intervalPromise); });
+        $scope.$on('$destroy', function () {$interval.cancel(intervalPromise);});
 
         if ($localStorage.db) {
             $scope.db = $localStorage.db;
@@ -39,11 +39,6 @@ angular.module('add-database', ['ngStorage'])
         };
 
         $scope.$on('nextState', function () {
-            $localStorage.db = $scope.db;
-            $interval.cancel(intervalPromise);
-        });
-
-        $scope.$on('previousState', function () {
             $localStorage.db = $scope.db;
             $interval.cancel(intervalPromise);
         });
