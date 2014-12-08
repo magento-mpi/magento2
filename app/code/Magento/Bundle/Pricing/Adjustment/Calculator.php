@@ -285,7 +285,7 @@ class Calculator implements BundleCalculatorInterface
         $fullAmount = $basePriceValue;
         /** @var $option \Magento\Bundle\Model\Option */
         foreach ($selectionPriceList as $selectionPrice) {
-            $fullAmount += $selectionPrice->getValue();
+            $fullAmount += ($selectionPrice->getValue() * $selectionPrice->getQuantity());
         }
         return $this->calculator->getAmount($fullAmount, $bundleProduct, $exclude);
     }
