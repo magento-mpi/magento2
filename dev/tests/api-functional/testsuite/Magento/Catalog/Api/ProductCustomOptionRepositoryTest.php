@@ -15,7 +15,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 class ProductCustomOptionRepositoryTest extends WebapiAbstract
 {
     /**
-     * @var \Magento\Framework\ObjectManager
+     * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager;
 
@@ -70,8 +70,9 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
     public function testGet()
     {
         $productSku = 'simple';
+        /** @var \Magento\Catalog\Api\ProductCustomOptionRepositoryInterface $service */
         $service = Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface');
+            ->get('\Magento\Catalog\Api\ProductCustomOptionRepositoryInterface');
         $options = $service->getList('simple');
         $optionId = $options[0]->getOptionId();
         $serviceInfo = [
@@ -231,7 +232,7 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
     public function testUpdate()
     {
         $productSku = 'simple';
-        /** @var \Magento\Catalog\Service\V1\Product\CustomOptions\ReadServiceInterface $optionReadService */
+        /** @var \Magento\Catalog\Model\ProductRepository $optionReadService */
         $productRepository = $this->objectManager->create(
             'Magento\Catalog\Model\ProductRepository'
         );

@@ -41,7 +41,7 @@ class Rule implements SetupInterface
     protected $postInstaller;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface
+     * @var \Magento\Catalog\Api\CategoryManagementInterface
      */
     protected $categoryReadService;
 
@@ -54,7 +54,7 @@ class Rule implements SetupInterface
      * @param CsvReaderFactory $csvReaderFactory
      * @param FixtureHelper $fixtureHelper
      * @param RuleFactory $ruleFactory
-     * @param \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService
+     * @param \Magento\Catalog\Api\CategoryManagementInterface $categoryReadService
      * @param PostInstaller $postInstaller
      * @param \Magento\Tools\SampleData\Logger $logger
      */
@@ -62,7 +62,7 @@ class Rule implements SetupInterface
         CsvReaderFactory $csvReaderFactory,
         FixtureHelper $fixtureHelper,
         RuleFactory $ruleFactory,
-        \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService,
+        \Magento\Catalog\Api\CategoryManagementInterface $categoryReadService,
         PostInstaller $postInstaller,
         \Magento\Tools\SampleData\Logger $logger
     ) {
@@ -82,7 +82,7 @@ class Rule implements SetupInterface
     protected function getConditionFromCategory($categoryPath, $ruleType = 'Rule')
     {
         $categoryId = null;
-        $tree = $this->categoryReadService->tree();
+        $tree = $this->categoryReadService->getTree();
         foreach ($categoryPath as $categoryName) {
             $categoryId = null;
             foreach ($tree->getChildren() as $child) {
