@@ -8,6 +8,9 @@
 
 namespace Magento\Catalog\Api\Data;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ProductLinkSearchResults extends \Magento\Framework\Api\SearchResults
 {
     /**
