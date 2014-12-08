@@ -22,8 +22,6 @@ use Magento\Tax\Model\Calculation\AbstractCalculator;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Tax\Api\TaxCalculationInterface;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-
 class TaxCalculation implements TaxCalculationInterface
 {
     /**
@@ -74,16 +72,11 @@ class TaxCalculation implements TaxCalculationInterface
     private $keyedItems;
 
     /**
-     * parent item code to children item array.
+     * Parent item code to children item array.
      *
      * @var QuoteDetailsItemInterface[][]
      */
     private $parentToChildren;
-
-    /**
-     * @var CustomerAccountServiceInterface
-     */
-    protected $customerAccountService;
 
     /**
      * Tax Class Management
@@ -106,7 +99,6 @@ class TaxCalculation implements TaxCalculationInterface
      * @param TaxDetailsDataBuilder $taxDetailsBuilder
      * @param TaxDetailsItemDataBuilder $taxDetailsItemBuilder
      * @param StoreManagerInterface $storeManager
-     * @param CustomerAccountServiceInterface $customerAccountService
      * @param TaxClassManagementInterface $taxClassManagement
      */
     public function __construct(
@@ -116,7 +108,6 @@ class TaxCalculation implements TaxCalculationInterface
         TaxDetailsDataBuilder $taxDetailsBuilder,
         TaxDetailsItemDataBuilder $taxDetailsItemBuilder,
         StoreManagerInterface $storeManager,
-        CustomerAccountServiceInterface $customerAccountService,
         TaxClassManagementInterface $taxClassManagement
     ) {
         $this->calculationTool = $calculation;
@@ -125,7 +116,6 @@ class TaxCalculation implements TaxCalculationInterface
         $this->taxDetailsBuilder = $taxDetailsBuilder;
         $this->taxDetailsItemBuilder = $taxDetailsItemBuilder;
         $this->storeManager = $storeManager;
-        $this->customerAccountService = $customerAccountService;
         $this->taxClassManagement = $taxClassManagement;
     }
 

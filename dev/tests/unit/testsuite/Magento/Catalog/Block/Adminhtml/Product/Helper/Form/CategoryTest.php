@@ -10,38 +10,65 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param bool $isAllowed
-     * @param array $data
-     * @param bool $expected
-     * @dataProvider getNoDisplayDataProvider
+     * @var \Magento\Framework\AuthorizationInterface
      */
-    public function testGetNoDisplay($isAllowed, $data, $expected)
+    protected $authorization;
+
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectManager;
+
+    public function setUp()
     {
-        $authorizationMock = $this->getMockBuilder('Magento\Framework\AuthorizationInterface')
+        $this->authorization = $this->getMockBuilder('Magento\Framework\AuthorizationInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $authorizationMock->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue($isAllowed));
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        /** @var Category $element */
-        $element = $objectManager->getObject(
-            '\Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category',
-            ['authorization' => $authorizationMock, 'data' => $data]
-        );
-
-        $this->assertEquals($expected, $element->getNoDisplay());
+        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
-    public function getNoDisplayDataProvider()
+    /**
+     * @dataProvider isAllowedDataProvider
+     * @param $isAllowed
+     */
+    public function testIsAllowed($isAllowed)
+    {
+        $this->authorization->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue($isAllowed));
+        $model = $this->objectManager ->getObject(
+            '\Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category',
+            ['authorization' => $this->authorization]
+        );
+        switch ($isAllowed) {
+            case true:
+                $this->assertEquals('select', $model->getType());
+                $this->assertNull($model->getClass());
+                break;
+            case false:
+                $this->assertEquals('hidden', $model->getType());
+                $this->assertContains('hidden', $model->getClass());
+                break;
+        }
+    }
+
+    public function isAllowedDataProvider()
     {
         return [
-            [true, [], false],
-            [false, [], true],
-            [true, ['no_display' => false], false],
-            [true, ['no_display' => true], true],
-            [false, ['no_display' => false], true],
-            [false, ['no_display' => true], true],
+            [true],
+            [false],
         ];
+    }
+
+    public function testGetAfterElementHtml()
+    {
+        $model = $this->objectManager ->getObject(
+            '\Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category',
+            ['authorization' => $this->authorization]
+        );
+        $this->authorization->expects($this->any())
+            ->method('isAllowed')
+            ->will($this->returnValue(false));
+        $this->assertEmpty($model->getAfterElementHtml());
     }
 }
