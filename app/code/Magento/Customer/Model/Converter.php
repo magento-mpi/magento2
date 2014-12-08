@@ -58,34 +58,6 @@ class Converter
     }
 
     /**
-     * Retrieve customer model by his email.
-     *
-     * @param string $customerEmail
-     * @param int $websiteId
-     * @throws NoSuchEntityException If customer with the specified customer email not found.
-     * @throws \Magento\Framework\Model\Exception If website was not specified
-     * @return Customer
-     */
-    public function getCustomerModelByEmail($customerEmail, $websiteId = null)
-    {
-        $customer = $this->_customerFactory->create();
-        if (!isset($websiteId)) {
-            $websiteId = $this->storeManager->getDefaultStoreView()->getWebsiteId();
-        }
-        $customer->setWebsiteId($websiteId);
-
-        $customer->loadByEmail($customerEmail);
-        if (!$customer->getId()) {
-            throw new NoSuchEntityException(
-                NoSuchEntityException::MESSAGE_SINGLE_FIELD,
-                ['fieldName' => 'email', 'fieldValue' => $customerEmail]
-            );
-        } else {
-            return $customer;
-        }
-    }
-
-    /**
      * Creates a customer model from a customer entity.
      *
      * @param CustomerDataObject $customer
