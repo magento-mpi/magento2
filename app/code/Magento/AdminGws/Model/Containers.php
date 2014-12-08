@@ -37,21 +37,29 @@ class Containers implements CallbackProcessorInterface
     protected $categoryResource;
 
     /**
+     * @var \Magento\Framework\StoreManagerInterface
+     */
+    protected  $storeManager;
+
+    /**
      * @param Role $role
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Cms\Model\Resource\Page $cmsPageResource
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
+     * @param \Magento\Framework\StoreManagerInterface $storeManager
      */
     public function __construct(
         Role $role,
         \Magento\Framework\Registry $registry,
         \Magento\Cms\Model\Resource\Page $cmsPageResource,
-        \Magento\Catalog\Model\Resource\Category $categoryResource
+        \Magento\Catalog\Model\Resource\Category $categoryResource,
+        \Magento\Framework\StoreManagerInterface $storeManager
     ) {
         $this->_role = $role;
         $this->registry = $registry;
         $this->cmsPageResource = $cmsPageResource;
         $this->categoryResource = $categoryResource;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -370,8 +378,27 @@ class Containers implements CallbackProcessorInterface
      */
     public function removeCmsHierarchyFormButtons(ContainerInterface $container)
     {
+        $websiteId = null;
+        $storeId = null;
+
+        if ($container->getRequest()->getParam('website')) {
+            if ($website = $this->storeManager->getWebsite($container->getRequest()->getParam('website'))) {
+                $websiteId = $website->getId();
+            }
+        }
+        if ($container->getRequest()->getParam('store')) {
+            if ($store = $this->storeManager->getStore($container->getRequest()->getParam('store'))) {
+                $storeId = $store->getId();
+                $websiteId = $store->getWebsite()->getWebsiteId();
+            }
+        }
+
         if (!$this->_role->getIsAll()) {
-            $container->removeButton('save');
+            if (!$this->_role->hasExclusiveAccess(array($websiteId)) || is_null($websiteId)) {
+                if (!$this->_role->hasExclusiveStoreAccess(array($storeId)) || is_null($storeId)) {
+                    $container->removeButton('save');
+                }
+            }
         }
     }
 

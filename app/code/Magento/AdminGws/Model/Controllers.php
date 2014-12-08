@@ -1112,6 +1112,37 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     }
 
     /**
+     * Validates hierarchy actions for all GWS limited users.
+     *
+     * @return bool
+     */
+    public function validateCmsHierarchyAction()
+    {
+        $websiteId = null;
+        $storeId = null;
+        if ($this->_request->getPost('website')) {
+            if ($website = $this->_storeManager->getWebsite($this->_request->getPost('website'))) {
+                $websiteId = $website->getId();
+            }
+        }
+        if ($this->_request->getPost('store')) {
+            if ($store = $this->_storeManager->getStore($this->_request->getPost('store'))) {
+                $storeId = $store->getId();
+                $websiteId = $store->getWebsite()->getWebsiteId();
+            }
+        }
+        if (!$this->_role->getIsAll()) {
+            if (!$this->_role->hasExclusiveAccess(array($websiteId)) || is_null($websiteId)) {
+                if (!$this->_role->hasExclusiveStoreAccess(array($storeId)) || is_null($storeId)) {
+                    $this->_forward();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * Validate misc Manage Currency Rates requests
      *
      * @return bool
