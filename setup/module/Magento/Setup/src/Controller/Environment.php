@@ -7,6 +7,10 @@
  */
 namespace Magento\Setup\Controller;
 
+use Composer\Json\JsonFile;
+use Composer\Package\LinkConstraint\VersionConstraint;
+use Composer\Package\Version\VersionParser;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Magento\Setup\Model\PhpExtensions;
@@ -15,39 +19,65 @@ use Magento\Setup\Model\FilePermissions;
 class Environment extends AbstractActionController
 {
     /**
-     * The minimum required version of PHP
-     */
-    const PHP_VERSION_MIN = '5.4.0';
-
-    /**
+     * List of required php extensions.
+     *
      * @var \Magento\Setup\Model\PhpExtensions
      */
     protected $extensions;
 
     /**
+     * Directory List to read composer.json
+     *
+     * @var DirectoryList
+     */
+    protected $directoryList;
+
+    /**
+     * Version parser
+     *
+     * @var VersionParser
+     */
+    protected $versionParser;
+
+    /**
+     * Constructor
+     *
      * @param PhpExtensions $extensions
      * @param FilePermissions $permissions
+     * @param DirectoryList $directoryList
+     * @param VersionParser $versionParser
      */
-    public function __construct(PhpExtensions $extensions, FilePermissions $permissions)
-    {
+    public function __construct(
+        PhpExtensions $extensions,
+        FilePermissions $permissions,
+        DirectoryList $directoryList,
+        VersionParser $versionParser
+    ) {
         $this->extensions = $extensions;
         $this->permissions = $permissions;
+        $this->directoryList = $directoryList;
+        $this->versionParser = $versionParser;
     }
 
     /**
+     * Verifies php version
+     *
      * @return JsonModel
      */
     public function phpVersionAction()
     {
+        $jsonFile = (new JsonFile($this->directoryList->getRoot() . '/composer.json'))->read();
+        $multipleConstraints = $this->versionParser->parseConstraints($jsonFile['require']['php']);
+        $currentPhpVersion = new VersionConstraint('=', PHP_VERSION);
         $responseType = ResponseTypeInterface::RESPONSE_TYPE_SUCCESS;
-        if (version_compare(PHP_VERSION, self::PHP_VERSION_MIN, '<') === true) {
+        if (!$multipleConstraints->matches($currentPhpVersion)) {
             $responseType = ResponseTypeInterface::RESPONSE_TYPE_ERROR;
         }
 
         $data = [
             'responseType' => $responseType,
             'data' => [
-                'required' => self::PHP_VERSION_MIN,
+                'required' => $jsonFile['require']['php'],
                 'current' => PHP_VERSION,
             ],
         ];
@@ -55,6 +85,8 @@ class Environment extends AbstractActionController
     }
 
     /**
+     * Verifies php extensions
+     *
      * @return JsonModel
      */
     public function phpExtensionsAction()
@@ -80,6 +112,8 @@ class Environment extends AbstractActionController
     }
 
     /**
+     * Verifies file permissions
+     *
      * @return JsonModel
      */
     public function filePermissionsAction()
