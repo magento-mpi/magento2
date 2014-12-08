@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Controller\Login;
+namespace Magento\Customer\Controller\Ajax;
 
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Framework\Exception\EmailNotConfirmedException;
@@ -17,7 +17,7 @@ use Magento\Webapi\Exception;
 /**
  * Login controller
  */
-class Index extends \Magento\Framework\App\Action\Action
+class Login extends \Magento\Framework\App\Action\Action
 {
     /**
      * @var \Magento\Framework\Session\Generic
@@ -89,6 +89,6 @@ class Index extends \Magento\Framework\App\Action\Action
         } else {
             $responseText = __('Login successful.');
         }
-        $this->getResponse()->representJson($this->helper->jsonEncode(['loginMessage' => $responseText]));
+        $this->getResponse()->representJson($this->helper->jsonEncode(['message' => $responseText]));
     }
 }
