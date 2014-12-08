@@ -8,10 +8,25 @@
 namespace Magento\Bundle\Model\Option;
 
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Validator\NotEmpty;
+use Magento\Framework\Validator\NotEmptyFactory;
 use Zend_Validate_Exception;
 
 class Validator extends \Magento\Framework\Validator\AbstractValidator
 {
+    /**
+     * @var NotEmpty
+     */
+    private $notEmpty;
+
+    /**
+     * @param \Magento\Framework\Validator\NotEmptyFactory
+     */
+    function __construct(NotEmptyFactory $notEmptyFactory)
+    {
+        $this->notEmpty = $notEmptyFactory->create(['options' => NotEmpty::ALL]);
+    }
+
     /**
      * @param \Magento\Bundle\Model\Option $value
      * @return boolean
@@ -37,7 +52,7 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
             'type' => $value->getType()
         ];
         foreach ($requiredFields as $requiredField => $requiredValue) {
-            if (!\Zend_Validate::is(trim($requiredValue), 'NotEmpty')) {
+            if (!$this->notEmpty->isValid(trim($requiredValue))) {
                 $messages[$requiredField] = __(InputException::REQUIRED_FIELD, ['fieldName' => $requiredField]);
             }
         }

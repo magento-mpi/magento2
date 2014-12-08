@@ -7,6 +7,7 @@
  */
 namespace Magento\Bundle\Model\Option;
 
+use Magento\Framework\Validator\NotEmpty;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
@@ -22,7 +23,20 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new ObjectManager($this);
-        $this->validator = $helper->getObject('Magento\Bundle\Model\Option\Validator');
+        $validate = $helper->getObject('Magento\Framework\Validator\NotEmpty', ['options' => NotEmpty::ALL]);
+
+        $validateFactory = $this->getMockBuilder('Magento\Framework\Validator\NotEmptyFactory')
+            ->setMethods(['create'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $validateFactory->expects($this->once())
+            ->method('create')
+            ->willReturn($validate);
+
+        $this->validator = $helper->getObject(
+            'Magento\Bundle\Model\Option\Validator',
+            ['notEmptyFactory' => $validateFactory]
+        );
     }
 
     /**
