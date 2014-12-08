@@ -92,6 +92,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * @param mixed $value
      * @return $this
      */
@@ -166,6 +167,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
         $this->_product = $product;
         return $this;
     }
+    //@codeCoverageIgnoreEnd
 
     /**
      * @return Product
@@ -305,6 +307,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
      * Get option title
      *
      * @return string
+     * @codeCoverageIgnoreStart
      */
     public function getTitle()
     {
@@ -350,4 +353,5 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
     {
         return $this->_getData('option_type_id');
     }
+    //@codeCoverageIgnoreEnd
 }
